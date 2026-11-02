@@ -456,7 +456,7 @@ function gameRef(id){
 
 // ================= i18n =================
 const T = {
- en:{ brandName:'Nardy', tagline:'long backgammon for two', st_classic:'Felt', st_modern:'Sand', st_tri:'Classic', login:'Log in', loginT:'Welcome to Nardy', loginD:'', loginD2:'Pick a nickname and jump in as a guest — or use an account to keep your stats on any device.', orAcc:'or use an account', email:'Email', pass:'Password (6+ characters)', signIn:'Sign in', signUp:'Create account', signOut:'Sign out', needNick:'Enter a nickname first.', passShort:'Password must be at least 6 characters.', checkMail:'Check your email to confirm the account.', authErr:'Something went wrong. Try again.', guestAcc:'Guest account — stats are tied to this browser.', nick:'Nickname', nickPh:'e.g. Vlad', cont:'Continue', guest:'Play as guest', guestName:'Guest', profT:'Your profile', played:'Games', wins:'Wins', rate:'Win rate', saveN:'Save', logout:'Log out', accNote:'Full accounts (password, Google) arrive with the standalone site.', kicker:'Classic board game · for two', heroTitle:'Long nardy',
+ en:{ brandName:'Nardy', tagline:'long backgammon for two', st_classic:'Felt', st_modern:'Sand', st_tri:'Classic', login:'Log in', loginT:'Welcome to Nardy', loginD:'', loginD2:'Create an account with just a nickname and password to keep your rating on any device — or jump in as a guest.', orGuest:'or without an account', nickRule:'Nickname: 3–16 letters or digits.', nickTaken:'This nickname is taken — pick another or sign in.', badLogin:'Wrong nickname or password.', orAcc:'or use an account', email:'Email', pass:'Password (6+ characters)', signIn:'Sign in', signUp:'Create account', signOut:'Sign out', needNick:'Enter a nickname first.', passShort:'Password must be at least 6 characters.', checkMail:'Check your email to confirm the account.', authErr:'Something went wrong. Try again.', guestAcc:'Guest account — stats are tied to this browser.', nick:'Nickname', nickPh:'e.g. Vlad', cont:'Continue', guest:'Play as guest', guestName:'Guest', profT:'Your profile', played:'Games', wins:'Wins', rate:'Win rate', saveN:'Save', logout:'Log out', accNote:'Full accounts (password, Google) arrive with the standalone site.', kicker:'Classic board game · for two', heroTitle:'Long nardy',
   heroSub:'Play a friend by link, or two people on one device.',
   friendT:'Play a friend', friendD:'Get a link. Your friend opens it and sits down at the board.', friendB:'Create game link',
   localT:'Same device', localD:'Pass the phone or laptop back and forth.', localB:'Start a game',
@@ -472,7 +472,7 @@ const T = {
   notFound:'Game not found — the link may be outdated.', full:'This game already has two players — you are watching.', joined:'Your opponent joined!', saveErr:'Could not save the move', connErr:'Connection problem',
   keys:'<kbd>Space</kbd> roll · <kbd>Backspace</kbd> undo',
   rulesL:['Each player starts with 15 checkers on their “head”. Both move the same way round the board; the heads face each other.','No hitting. You cannot land on a point your opponent holds.','Only one checker may leave the head per turn — except on the very first turn with 6-6, 4-4 or 3-3, when two may.','Doubles are played four times. Use both dice if you can; if only one fits, play the higher.','You may not build a wall of 6 in a row unless at least one enemy checker is already ahead of it.','Bear off once all 15 are home. Winning before your opponent bears off any checker is a “mars” — 2 points.'] },
- uk:{ brandName:'Нарди', tagline:'довгі нарди на двох', st_classic:'Сукно', st_modern:'Пісок', st_tri:'Класика', login:'Увійти', loginT:'Вітаємо в Нардах', loginD:'', loginD2:'Оберіть нікнейм і грайте як гість — або увійдіть в акаунт, щоб статистика була на будь-якому пристрої.', orAcc:'або через акаунт', email:'Email', pass:'Пароль (від 6 символів)', signIn:'Увійти', signUp:'Створити акаунт', signOut:'Вийти з акаунта', needNick:'Спершу введіть нікнейм.', passShort:'Пароль має бути не коротший за 6 символів.', checkMail:'Підтвердіть акаунт через email.', authErr:'Щось пішло не так. Спробуйте ще раз.', guestAcc:'Гостьовий акаунт — статистика привʼязана до цього браузера.', nick:'Нікнейм', nickPh:'напр. Влад', cont:'Продовжити', guest:'Грати як гість', guestName:'Гість', profT:'Ваш профіль', played:'Партій', wins:'Перемог', rate:'Відсоток', saveN:'Зберегти', logout:'Вийти', accNote:'Повноцінні акаунти (пароль, Google) зʼявляться разом з окремим сайтом.', kicker:'Класична гра · для двох', heroTitle:'Довгі нарди',
+ uk:{ brandName:'Нарди', tagline:'довгі нарди на двох', st_classic:'Сукно', st_modern:'Пісок', st_tri:'Класика', login:'Увійти', loginT:'Вітаємо в Нардах', loginD:'', loginD2:'Створіть акаунт — лише нікнейм і пароль, і рейтинг буде з вами на будь-якому пристрої. Або грайте як гість.', orGuest:'або без акаунта', nickRule:'Нікнейм: 3–16 літер або цифр.', nickTaken:'Цей нікнейм уже зайнятий — оберіть інший або увійдіть.', badLogin:'Неправильний нікнейм або пароль.', orAcc:'або через акаунт', email:'Email', pass:'Пароль (від 6 символів)', signIn:'Увійти', signUp:'Створити акаунт', signOut:'Вийти з акаунта', needNick:'Спершу введіть нікнейм.', passShort:'Пароль має бути не коротший за 6 символів.', checkMail:'Підтвердіть акаунт через email.', authErr:'Щось пішло не так. Спробуйте ще раз.', guestAcc:'Гостьовий акаунт — статистика привʼязана до цього браузера.', nick:'Нікнейм', nickPh:'напр. Влад', cont:'Продовжити', guest:'Грати як гість', guestName:'Гість', profT:'Ваш профіль', played:'Партій', wins:'Перемог', rate:'Відсоток', saveN:'Зберегти', logout:'Вийти', accNote:'Повноцінні акаунти (пароль, Google) зʼявляться разом з окремим сайтом.', kicker:'Класична гра · для двох', heroTitle:'Довгі нарди',
   heroSub:'Грайте з другом за посиланням або вдвох на одному пристрої.',
   friendT:'Грати з другом', friendD:'Отримаєте посилання. Друг відкриває його — і сідає за дошку.', friendB:'Створити посилання',
   localT:'На одному пристрої', localD:'Передавайте телефон чи ноутбук одне одному.', localB:'Почати партію',
@@ -1180,6 +1180,11 @@ async function onSignedIn(u, wantedName){
   const h=location.hash.replace('#',''); if(h.startsWith('g-') && h.slice(2)!==gameId) joinGame(h.slice(2));
   if(!profile.name) openProfile();
 }
+// Accounts are nickname + password. Supabase needs an email, so the nickname is encoded into a
+// placeholder address on the reserved ".invalid" domain (never receives mail). Login is case-insensitive.
+const NICK_RE=/^[\p{L}\p{N}_.\- ]{3,16}$/u;
+function nickEmail(n){ const bytes=new TextEncoder().encode(n.trim().toLowerCase()); let bits=''; for(const x of bytes) bits+=x.toString(2).padStart(8,'0');
+  const A='abcdefghijklmnopqrstuvwxyz234567'; let out=''; for(let i=0;i<bits.length;i+=5) out+=A[parseInt(bits.slice(i,i+5).padEnd(5,'0'),2)]; return 'u'+out+'@nardy.invalid'; }
 function openProfile(){
   const box=$('profBox'); box.innerHTML='';
   const h=(tag,cls,txt)=>{ const e=document.createElement(tag); if(cls) e.className=cls; if(txt!=null) e.textContent=txt; return e; };
@@ -1189,21 +1194,25 @@ function openProfile(){
   if(!sb){ box.append(h('h2',null,t('loginT')), h('p',null,t('noOnline'))); const c=h('button',null,t('close')); c.onclick=()=>show('profOv',false); box.append(c); show('profOv',true); return; }
   if(!authUser){
     box.append(h('h2',null,t('loginT')), h('p',null,t('loginD2')), h('label',null,t('avatarT')), avatarPicker(), h('label',null,t('nick')), nick);
-    const gu=h('button','cta',t('guest')); gu.style.width='100%';
+    const pw=h('input','field'); pw.type='password'; pw.placeholder=t('pass'); pw.autocomplete='current-password';
+    const row=h('div','r'); const si=h('button',null,t('signIn')); const su=h('button','cta',t('signUp')); row.append(si,su);
+    const sep=h('div','orline',t('orGuest'));
+    const gu=h('button',null,t('guest')); gu.style.width='100%';
+    const nickOk=()=>{ const v=nick.value.trim(); if(!NICK_RE.test(v)){ msg.textContent=t('nickRule'); nick.focus(); return null; } return v; };
+    const authFail=e=>{ const m=(e&&e.message)||''; msg.textContent = /already registered|already exists/i.test(m) ? t('nickTaken') : /invalid login credentials/i.test(m) ? t('badLogin') : (m||t('authErr')); };
+    si.onclick=async()=>{ msg.textContent=''; const v=nickOk(); if(!v) return; if(!pw.value){ msg.textContent=t('passShort'); pw.focus(); return; }
+      si.disabled=true; const {data,error}=await sb.auth.signInWithPassword({email:nickEmail(v), password:pw.value}); si.disabled=false;
+      if(error) return authFail(error); show('profOv',false); await onSignedIn(data.user, v); };
+    su.onclick=async()=>{ msg.textContent=''; const v=nickOk(); if(!v) return; if(pw.value.length<6){ msg.textContent=t('passShort'); pw.focus(); return; }
+      su.disabled=true; const {data,error}=await sb.auth.signUp({email:nickEmail(v), password:pw.value, options:{data:{nick:v}}}); su.disabled=false;
+      if(error) return authFail(error); if(!data.session){ msg.textContent=t('authErr'); return; } show('profOv',false); await onSignedIn(data.user, v); };
     gu.onclick=async()=>{ const v=nick.value.trim(); if(!v){ msg.textContent=t('needNick'); nick.focus(); return; } gu.disabled=true;
       const {data,error}=await sb.auth.signInAnonymously(); gu.disabled=false; if(error) return fail(error); show('profOv',false); await onSignedIn(data.user, v); };
-    nick.onkeydown=e=>{ if(e.key==='Enter') gu.click(); };
-    const sep=h('div','orline',t('orAcc'));
-    const em=h('input','field'); em.type='email'; em.placeholder=t('email'); em.autocomplete='email';
-    const pw=h('input','field'); pw.type='password'; pw.placeholder=t('pass'); pw.autocomplete='current-password';
-    const row=h('div','r'); const si=h('button',null,t('signIn')); const su=h('button',null,t('signUp')); row.append(si,su);
-    si.onclick=async()=>{ msg.textContent=''; const {data,error}=await sb.auth.signInWithPassword({email:em.value.trim(), password:pw.value}); if(error) return fail(error); show('profOv',false); await onSignedIn(data.user, nick.value.trim()); };
-    su.onclick=async()=>{ msg.textContent=''; const v=nick.value.trim(); if(!v){ msg.textContent=t('needNick'); nick.focus(); return; } if(pw.value.length<6){ msg.textContent=t('passShort'); return; }
-      const {data,error}=await sb.auth.signUp({email:em.value.trim(), password:pw.value}); if(error) return fail(error);
-      if(!data.session){ msg.textContent=t('checkMail'); return; } show('profOv',false); await onSignedIn(data.user, v); };
-    box.append(gu, sep, em, pw, row, msg);
+    pw.onkeydown=e=>{ if(e.key==='Enter') si.click(); };
+    nick.onkeydown=e=>{ if(e.key==='Enter') pw.focus(); };
+    box.append(pw, row, msg, sep, gu);
   } else {
-    const av=h('div','av big'); avatarInto(av, profile.av, profile.name); box.append(framed(av, profile.rating||1000, 64), h('h2',null,profile.name||t('guestName')), h('p',null, profile.guest ? t('guestAcc') : (authUser.email||t('profT'))));
+    const av=h('div','av big'); avatarInto(av, profile.av, profile.name); box.append(framed(av, profile.rating||1000, 64), h('h2',null,profile.name||t('guestName')), h('p',null, profile.guest ? t('guestAcc') : (authUser.email && !/@nardy\.invalid$/.test(authUser.email) ? authUser.email : t('profT'))));
     const st=h('div','stats'); const rate = profile.played ? Math.round(profile.won/profile.played*100)+'%' : '—';
     [[profile.played,t('played')],[profile.won,t('wins')],[rate,t('rate')]].forEach(([v,l])=>{ const d=h('div'); d.append(h('b',null,String(v)), h('span',null,l)); st.appendChild(d); });
     box.append(rankBlock(), st, h('label',null,t('avatarT')), avatarPicker(()=>{ saveProfile(); avatarInto(av, profile.av, profile.name); const old=box.querySelector('.frl'); if(old) old.replaceWith(framed(av, profile.rating||1000, 64)); }), h('label',null,t('nick')), nick);
