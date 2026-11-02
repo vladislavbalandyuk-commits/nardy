@@ -420,7 +420,6 @@ kbd{font:11px var(--mono);padding:1px 5px;border-radius:4px;border:1px solid var
   <div class="sgroup">
     <div class="set"><span data-t="sound"></span><div class="tog" id="togSound"></div></div>
     <div class="set"><span data-t="flip"></span><div class="tog" id="togFlip"></div></div>
-    <div class="set"><span data-t="autoForcedT"></span><div class="tog" id="togForced"></div></div>
   </div>
 </div></div>
 <div id="lbOv" class="overlay hidden"><div class="modal wide lb">
@@ -572,7 +571,7 @@ function newGameState(white, black, score, starter){
 let db=null, user=null, uid=null, ref=null, unsub=null;
 let mode=null, gs=null, gameId=null, selected=null;
 let noFlight=false, pendingAnim=null, pendingOpen=null, passTimer=null, rollAnimUntil=0;
-const prefs={ sound:store.get('sound',true), flip:false, autoForced:store.get('autoForced',true) };
+const prefs={ sound:store.get('sound',true), flip:false, autoForced:false };
 const $=id=>document.getElementById(id);
 const show=(id,on)=>$(id).classList.toggle('hidden',!on);
 function toast(msg){ const el=$('toast'); el.textContent=msg; show('toast',true); clearTimeout(toast._t); toast._t=setTimeout(()=>show('toast',false),2600); }
@@ -705,7 +704,7 @@ function roll(){
   const noMoves = legalMoves(gs,c).length===0;
   save(); route();
   if(noMoves){ const seq=gs.seq; clearTimeout(passTimer); passTimer=setTimeout(()=>{ if(gs && gs.seq===seq && canPlay()) { passTurn(); save(); route(); } }, 1700); }
-  else if(prefs.autoForced){ const fp=forcedPath(gs,c); if(fp){ const seq=gs.seq; clearTimeout(passTimer); passTimer=setTimeout(()=>{ if(gs && gs.seq===seq && canPlay() && gs.rolled){ toast(t('forced')); playPath(fp); } }, 800); } }
+  else if(false){ const fp=forcedPath(gs,c); if(fp){ const seq=gs.seq; clearTimeout(passTimer); passTimer=setTimeout(()=>{ if(gs && gs.seq===seq && canPlay() && gs.rolled){ toast(t('forced')); playPath(fp); } }, 800); } }
 }
 function forcedPath(st,c){
   // returns the move list if every legal way to play leads to the same position, else null
@@ -1280,7 +1279,6 @@ $('btnCopy').onclick=copyLink; $('btnCopy2').onclick=copyLink;
 $('btnRoll').onclick=roll; $('btnUndo').onclick=undo;
 $('btnNew').onclick=newMatch; $('btnNew2').onclick=newMatch; $('btnCloseWin').onclick=()=>show('winOv',false);
 $('togSound').onclick=()=>{ prefs.sound=!prefs.sound; store.set('sound',prefs.sound); $('togSound').classList.toggle('on',prefs.sound); };
-$('togForced').onclick=()=>{ prefs.autoForced=!prefs.autoForced; store.set('autoForced',prefs.autoForced); $('togForced').classList.toggle('on',prefs.autoForced); };
 $('togFlip').onclick=()=>{ prefs.flip=!prefs.flip; $('togFlip').classList.toggle('on',prefs.flip); scene3d && scene3d.relayout(); route(); };
 document.querySelectorAll('#langSeg button').forEach(b=>b.onclick=()=>{ lang=b.dataset.l; store.set('lang',lang); applyLang(); renderMe(); scene3d && scene3d.applyTheme && scene3d.applyTheme(); bootNote(); if(gs) renderHud(); });
 document.addEventListener('keydown',e=>{
@@ -1293,7 +1291,7 @@ document.addEventListener('keydown',e=>{
 let bootState='pending';
 function bootNote(){ $('onlineNote').textContent = bootState==='ok' ? t('onlineOk') : bootState==='nologin' ? t('needLogin') : bootState==='none' ? t('noOnline') : ''; }
 async function boot(){
-  applyLang(); $('togSound').classList.toggle('on',prefs.sound); $('togForced').classList.toggle('on',prefs.autoForced);
+  applyLang(); $('togSound').classList.toggle('on',prefs.sound);
   renderMe();
   scene3d = build2D();
   route();
