@@ -42,3 +42,9 @@ alter table public.games replica identity full;
 do $$ begin
   alter publication supabase_realtime add table public.games;
 exception when duplicate_object then null; end $$;
+
+-- v2: avatar, rating and leaderboard
+alter table public.profiles add column if not exists av text not null default '';
+alter table public.profiles add column if not exists rating int not null default 1000;
+alter table public.profiles add column if not exists rgames int not null default 0;
+create index if not exists profiles_rating_idx on public.profiles(rating desc);
