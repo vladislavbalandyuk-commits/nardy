@@ -1697,7 +1697,6 @@ function onPoint(b){
   if(selected!==null){ const r=reachFrom(gs,c,selected); if(r.has(p)){ playPath(r.get(p)); return; } }
   const r=reachFrom(gs,c,p);
   if(r.size){
-    if(r.size===1 && selected!==p){ playPath([...r.values()][0]); return; }
     selected = selected===p ? null : p; route(); return;
   }
   if(selected!==null){ selected=null; route(); }
