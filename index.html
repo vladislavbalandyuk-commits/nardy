@@ -1064,21 +1064,22 @@ const BOT_R=1000, BOT_FACTOR=0.4;
 const GHOSTS=[
   {n:'olezhka_kyiv',av:'m1',r:1660},{n:'Marta L.',av:'n2',r:1490},{n:'Dmytro_77',av:'m4',r:1580},{n:'sanya.lviv',av:'m7',r:1420},
   {n:'Ira Koval',av:'n5',r:1350},{n:'nardist',av:'m9',r:1710},{n:'Bogdan V',av:'m2',r:1530},{n:'yulka_od',av:'n8',r:1390},
-  {n:'MaxPetrenko',av:'m11',r:1610},{n:'artem23',av:'m5',r:1460},{n:'Vika_Dnipro',av:'n11',r:1340},{n:'Serhii K',av:'m12',r:1550}];
+  {n:'MaxPetrenko',av:'m11',r:1610},{n:'artem23',av:'m5',r:1460},{n:'Vika_Dnipro',av:'n11',r:1340},{n:'Serhii K',av:'m12',r:1550},
+  {n:'kostya_zp',av:'n4',r:1488},{n:'Anya M.',av:'n11',r:1481},{n:'vovan',av:'m6',r:1480},{n:'Oksana_T',av:'n1',r:1435},{n:'Ruslan88',av:'n8',r:1451},{n:'lesia.k',av:'m3',r:1424},{n:'Nazar',av:'m10',r:1400},{n:'den_kharkiv',av:'n5',r:1394},{n:'Sofiia',av:'n12',r:1379},{n:'andriy_lutsk',av:'m7',r:1382},{n:'Yaroslav P',av:'n2',r:1377},{n:'katia_kyiv',av:'n9',r:1349},{n:'Mykhailo',av:'m4',r:1346},{n:'tolik_nardy',av:'m11',r:1343},{n:'Olena R.',av:'n6',r:1303},{n:'dima.ua',av:'m1',r:1320},{n:'Vitalik',av:'m8',r:1287},{n:'zhenya_rivne',av:'n3',r:1259},{n:'Halyna',av:'n10',r:1260},{n:'Pasha_K',av:'m5',r:1260},{n:'ivanko',av:'m12',r:1239},{n:'Liza V.',av:'n7',r:1220},{n:'Roma Shevchuk',av:'m2',r:1221},{n:'oleg_ternopil',av:'m9',r:1194},{n:'Natalka',av:'n4',r:1176},{n:'stas_1990',av:'n11',r:1167},{n:'Valentyn',av:'m6',r:1175},{n:'marichka',av:'n1',r:1142},{n:'Yurii Bondar',av:'n8',r:1130},{n:'kolia_poltava',av:'m3',r:1109},{n:'Tania',av:'m10',r:1097},{n:'igor.vn',av:'n5',r:1097},{n:'Nadiia_S',av:'n12',r:1085},{n:'borys',av:'m7',r:1069},{n:'Vlad_Kh',av:'n2',r:1057},{n:'Alina Moroz',av:'n9',r:1052},{n:'petro_ch',av:'m4',r:1042},{n:'Khrystyna',av:'m11',r:1021}];
 // labelled practice bots of different strength
 const LBOTS=[{k:'marta',av:'n9',r:900,noise:7},{k:'ostap',av:'m3',r:1000,noise:3},{k:'taras',av:'m6',r:1100,noise:.8},{k:'hryts',av:'m10',r:1250,noise:0}];
 function hrand(a){ let x=Math.imul(a^0x9e3779b9,0x85ebca6b); x^=x>>>13; x=Math.imul(x,0xc2b2ae35); x^=x>>>16; return (x>>>0)/4294967296; }
 function ghostInfo(i,now){
   const g=GHOSTS[i], day=Math.floor((now||Date.now())/864e5), d0=day-20380;
   const rating=Math.round(g.r + 38*Math.sin(day*0.53+i*1.7) + 22*Math.sin(day*0.19+i*2.3));
-  const played=40+i*9+Math.max(0,day-20727)*(1+i%3), won=Math.round(played*(0.56+0.025*(i%5)));
+  const played=25+(i%12)*7+Math.max(0,day-20727)*(1+i%3), won=Math.round(played*(0.56+0.025*(i%5)));
   return {id:'g'+i, name:g.n, av:g.av, rating, played, won, rgames:played};
 }
 function kyivHour(now){ return (new Date(now||Date.now()).getUTCHours()+2)%24; }
 function ghostsOnline(now){
   now=now||Date.now(); const h=kyivHour(now), slot=Math.floor(now/600000);
   const pr = h>=18&&h<24 ? .62 : h>=12 ? .46 : h<2 ? .34 : h<8 ? .14 : .36;
-  return GHOSTS.map((g,i)=>i).filter(i=>hrand(slot*131+i*7)<pr);
+  return GHOSTS.map((g,i)=>i).filter(i=>hrand(slot*131+i*7)<pr*(i<12?1:.3));
 }
 function botsWaiting(now){ now=now||Date.now(); return 1+Math.floor(hrand(Math.floor(now/600000)*17+3)*2.6); }
 function crowdOnline(now){ now=now||Date.now(); const h=kyivHour(now), slot=Math.floor(now/600000);
