@@ -265,38 +265,13 @@ body[data-card=aurora] .pc .hero{background:linear-gradient(140deg,#3b2a6e,#1f4f
 .confetti i{position:absolute;top:-12px;width:8px;height:12px;border-radius:2px;animation:cf linear forwards}
 @keyframes cf{to{transform:translate3d(var(--dx),110vh,0) rotate(var(--rot));}}
 
-.board[data-b=gold],.tray[data-b=gold],.mb[data-b=gold]{--frame:#1b1c1f;--frame2:#08090a;--field:#050506;--field2:#0b0b0d;--p1:#e3b448;--p2:#c79a35;--num:rgba(255,230,160,.92);--edge:rgba(0,0,0,.6);--bar:#121315;--trayIn:rgba(0,0,0,.6);--tc:#e3b448}
-.board[data-b=gold],.tray[data-b=gold]{background:linear-gradient(135deg,#6b6e74 0%,#3a3c41 18%,#24252a 45%,#1a1b1f 62%,#45474d 100%)!important;
-  box-shadow:inset 1.5px 1.5px 0 rgba(255,255,255,.38),inset -1.5px -1.5px 0 rgba(0,0,0,.7),0 30px 60px -18px rgba(0,0,0,.7)!important}
-.board[data-b=gold]::before,.tray[data-b=gold]::before{content:"";position:absolute;inset:calc(var(--cs)*.13);border-radius:calc(var(--cs)*.26);pointer-events:none;z-index:0;
-  box-shadow:inset 1.5px 1.5px 0 rgba(0,0,0,.65),inset -1.5px -1.5px 0 rgba(255,255,255,.22),0 0 0 1px rgba(255,255,255,.06);
-  background:repeating-linear-gradient(90deg,rgba(255,255,255,.025) 0 1px,transparent 1px 3px)}
-.tray[data-b=gold]{position:relative}
-.tray[data-b=gold] .tslot{position:relative;z-index:1}
-.board[data-b=gold] .half{background:
-   linear-gradient(115deg,rgba(255,255,255,.07) 0%,rgba(255,255,255,0) 28%,rgba(255,255,255,0) 70%,rgba(255,255,255,.04) 100%),
-   #050506!important;box-shadow:inset 0 0 0 1px rgba(227,180,72,.25),inset 0 2px 10px rgba(0,0,0,.9)!important}
-.board[data-b=gold] .half::before,.board[data-b=gold] .half::after{content:"";position:absolute;left:0;right:0;height:calc(var(--cs)*.42);z-index:0;
-   background:radial-gradient(circle at 50% 0,#1b1c1f 0 calc(var(--cs)*.34),transparent calc(var(--cs)*.355)) 0 0/calc(100%/6) 100% repeat-x}
-.board[data-b=gold] .half::before{top:0}
-.board[data-b=gold] .half::after{bottom:0;transform:scaleY(-1)}
-.board[data-shape=line] .pt::before{top:calc(var(--cs)*.5)!important;bottom:0!important;left:calc(50% - .75px)!important;right:calc(50% - .75px)!important;border-radius:1px!important;clip-path:none!important;
-   background:linear-gradient(180deg,var(--p1) 0%,var(--p1) 70%,transparent 100%)!important;box-shadow:0 0 6px rgba(227,180,72,.45)}
-.board[data-shape=line] .prow.bot .pt::before{top:0!important;bottom:calc(var(--cs)*.5)!important;background:linear-gradient(0deg,var(--p1) 0%,var(--p1) 70%,transparent 100%)!important}
-.board[data-shape=line] .pt.alt::before{opacity:.75}
-.board .medal{display:none;position:absolute;left:50%;top:50%;width:84%;transform:translate(-50%,-50%);z-index:0;pointer-events:none}
-.board .medal svg{display:block;width:100%;height:auto;filter:drop-shadow(0 0 6px rgba(227,180,72,.25))}
-.board[data-b=gold] .medal{display:block}
-.board[data-b=gold] .prow{position:relative;z-index:1}
-.mb[data-b=gold] .mf{background:#050506!important}
-.mb[data-shape=line] .mp{width:2px!important;background:#e3b448!important;border-radius:1px}
-#stage[data-b=gold]{background:radial-gradient(ellipse 70% 60% at 50% 50%,#26272b,#0d0d0f 70%,#050506)}
-#stage[data-b=gold] .bw{filter:drop-shadow(0 30px 34px rgba(0,0,0,.7))}
-[data-ck=crystal] .ck[data-n]{background-size:0 0,auto}
-[data-ck=crystal]{
-  --ckwBg:url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2060%2060'%3E%3Cpath%20d%3D'M25.3%208.7L23.6%209.4L22.0%2010.1L20.5%2010.8L19.1%2011.5L17.8%2012.3L16.5%2013.2L15.4%2014.2L14.4%2015.5L13.7%2017.2L13.4%2019.1L13.9%2021.0L14.8%2022.5L15.8%2023.6L17.0%2024.5L18.2%2025.2L19.5%2025.9L20.9%2026.5L22.4%2027.1L23.9%2027.7L25.6%2028.2L27.2%2028.8L28.8%2029.3L30.5%2029.9L32.1%2030.4L33.6%2030.9L35.1%2031.5L36.4%2032.0L37.6%2032.5L38.7%2033.0L39.5%2033.4L40.1%2033.8L40.5%2034.1L40.7%2034.2L40.7%2034.1L40.8%2033.9L40.9%2033.7L40.9%2033.8L40.7%2034.1L40.3%2034.6L39.7%2035.1L38.8%2035.7L37.8%2036.3L36.7%2036.9L35.4%2037.5L34.1%2038.1L32.6%2038.8L31.2%2039.4L29.7%2040.1L28.3%2040.8L26.9%2041.4L25.5%2042.1L24.2%2042.8L23.0%2043.4L22.0%2044.1L21.0%2044.8L20.2%2045.6L19.5%2046.4L19.0%2047.2L18.7%2048.1L18.7%2048.9L20.9%2049.1L21.0%2048.7L21.2%2048.4L21.5%2048.0L22.0%2047.6L22.7%2047.2L23.5%2046.7L24.5%2046.2L25.7%2045.6L26.9%2045.1L28.2%2044.6L29.7%2044.0L31.1%2043.5L32.6%2043.0L34.1%2042.4L35.6%2041.9L37.1%2041.3L38.5%2040.7L39.8%2040.1L41.0%2039.5L42.2%2038.9L43.2%2038.2L44.2%2037.5L45.0%2036.6L45.6%2035.5L46.0%2034.1L45.8%2032.7L45.3%2031.4L44.6%2030.3L43.7%2029.4L42.7%2028.6L41.5%2027.8L40.3%2027.1L38.9%2026.4L37.5%2025.7L36.0%2025.1L34.4%2024.4L32.8%2023.7L31.2%2023.1L29.6%2022.4L28.0%2021.8L26.6%2021.1L25.2%2020.5L24.0%2019.9L22.9%2019.3L22.1%2018.8L21.4%2018.3L21.1%2018.0L21.1%2017.9L21.3%2018.2L21.5%2018.9L21.4%2019.6L21.3%2020.1L21.3%2020.2L21.6%2020.0L22.2%2019.7L23.1%2019.3L24.1%2018.8L25.4%2018.3L26.9%2017.8L28.5%2017.3Z'%20fill%3D'%23d9a73e'%20stroke%3D'%238a5d10'%20stroke-width%3D'.8'%20stroke-linejoin%3D'round'%2F%3E%3Cpath%20d%3D'M20.9%2011.6Q20.5%2015.6%2023.8%2018.0'%20fill%3D'none'%20stroke%3D'%238a5d10'%20stroke-width%3D'.55'%2F%3E%3Cpath%20d%3D'M17.0%2013.9Q17.5%2017.8%2021.1%2019.3'%20fill%3D'none'%20stroke%3D'%238a5d10'%20stroke-width%3D'.55'%2F%3E%3Cpath%20d%3D'M14.4%2017.4Q16.9%2020.3%2020.7%2019.4'%20fill%3D'none'%20stroke%3D'%238a5d10'%20stroke-width%3D'.55'%2F%3E%3Cpath%20d%3D'M15.4%2022.1Q19.1%2021.8%2020.5%2018.3'%20fill%3D'none'%20stroke%3D'%238a5d10'%20stroke-width%3D'.55'%2F%3E%3Cpath%20d%3D'M18.6%2024.6Q21.8%2023.0%2021.7%2019.4'%20fill%3D'none'%20stroke%3D'%238a5d10'%20stroke-width%3D'.55'%2F%3E%3Cpath%20d%3D'M22.7%2026.4Q25.6%2024.6%2024.9%2021.2'%20fill%3D'none'%20stroke%3D'%238a5d10'%20stroke-width%3D'.55'%2F%3E%3Cpath%20d%3D'M27.4%2028.1Q30.3%2026.3%2029.3%2023.1'%20fill%3D'none'%20stroke%3D'%238a5d10'%20stroke-width%3D'.55'%2F%3E%3Cpath%20d%3D'M32.3%2029.8Q35.1%2028.1%2034.1%2025.0'%20fill%3D'none'%20stroke%3D'%238a5d10'%20stroke-width%3D'.55'%2F%3E%3Cpath%20d%3D'M36.7%2031.4Q39.5%2030.0%2038.7%2027.0'%20fill%3D'none'%20stroke%3D'%238a5d10'%20stroke-width%3D'.55'%2F%3E%3Cpath%20d%3D'M39.8%2032.9Q42.8%2032.1%2042.4%2029.1'%20fill%3D'none'%20stroke%3D'%238a5d10'%20stroke-width%3D'.55'%2F%3E%3Cpath%20d%3D'M41.2%2033.9Q44.1%2034.5%2044.9%2031.7'%20fill%3D'none'%20stroke%3D'%238a5d10'%20stroke-width%3D'.55'%2F%3E%3Cpath%20d%3D'M41.3%2033.9Q42.6%2036.5%2045.1%2035.3'%20fill%3D'none'%20stroke%3D'%238a5d10'%20stroke-width%3D'.55'%2F%3E%3Cpath%20d%3D'M40.6%2034.9Q40.2%2037.6%2042.9%2037.9'%20fill%3D'none'%20stroke%3D'%238a5d10'%20stroke-width%3D'.55'%2F%3E%3Cpath%20d%3D'M38.0%2036.6Q37.0%2039.1%2039.6%2039.8'%20fill%3D'none'%20stroke%3D'%238a5d10'%20stroke-width%3D'.55'%2F%3E%3Cpath%20d%3D'M34.2%2038.5Q33.0%2040.8%2035.5%2041.5'%20fill%3D'none'%20stroke%3D'%238a5d10'%20stroke-width%3D'.55'%2F%3E%3Cpath%20d%3D'M29.9%2040.4Q28.6%2042.6%2031.0%2043.2'%20fill%3D'none'%20stroke%3D'%238a5d10'%20stroke-width%3D'.55'%2F%3E%3Cpath%20d%3D'M25.6%2042.4Q24.4%2044.4%2026.8%2044.8'%20fill%3D'none'%20stroke%3D'%238a5d10'%20stroke-width%3D'.55'%2F%3E%3Cpath%20d%3D'M22.1%2044.4Q21.0%2046.5%2023.4%2046.4'%20fill%3D'none'%20stroke%3D'%238a5d10'%20stroke-width%3D'.55'%2F%3E%3Cpath%20d%3D'M24.1%2018.7L23.1%2022.6L22.0%2019.8'%20fill%3D'%23d9a73e'%2F%3E%3Cpath%20d%3D'M22.0%2019.1L22.9%2023.0L20.6%2021.1'%20fill%3D'%23d9a73e'%2F%3E%3Cpath%20d%3D'M20.4%2016.9L24.4%2017.3L21.8%2018.9'%20fill%3D'%23d9a73e'%2F%3E%3Cpath%20d%3D'M21.8%2018.8L25.6%2017.4L24.0%2019.9'%20fill%3D'%23d9a73e'%2F%3E%3Cpath%20d%3D'M26.9%2021.3L30.5%2019.5L29.1%2022.2'%20fill%3D'%23d9a73e'%2F%3E%3Cpath%20d%3D'M33.3%2024.0L36.8%2022.1L35.5%2024.8'%20fill%3D'%23d9a73e'%2F%3E%3Cpath%20d%3D'M39.2%2026.6L43.0%2025.1L41.4%2027.7'%20fill%3D'%23d9a73e'%2F%3E%3Cpath%20d%3D'M43.8%2029.4L47.8%2029.4L45.4%2031.2'%20fill%3D'%23d9a73e'%2F%3E%3Cpath%20d%3D'M46.0%2034.3L47.9%2037.9L45.2%2036.6'%20fill%3D'%23d9a73e'%2F%3E%3Cpath%20d%3D'M43.2%2038.3L42.6%2042.3L41.2%2039.6'%20fill%3D'%23d9a73e'%2F%3E%3Cpath%20d%3D'M38.2%2040.8L36.9%2044.6L36.0%2041.8'%20fill%3D'%23d9a73e'%2F%3E%3Cpath%20d%3D'M32.2%2043.1L30.9%2046.8L30.0%2044.0'%20fill%3D'%23d9a73e'%2F%3E%3Cpath%20d%3D'M26.7%2045.1L25.6%2049.0L24.6%2046.2'%20fill%3D'%23d9a73e'%2F%3E%3Cpath%20d%3D'M17.0%2024.5L13.0%2026.5l-2.0%20-1.5M13.0%2026.5l-1.2%201.6M13.0%2026.5l1.6%201.2'%20fill%3D'none'%20stroke%3D'%23d9a73e'%20stroke-width%3D'1'%20stroke-linecap%3D'round'%2F%3E%3Cpath%20d%3D'M40.5%2034.1L36.2%2035.3l-1.7%20-1.8M36.2%2035.3l-1.5%201.4M36.2%2035.3l1.4%201.5'%20fill%3D'none'%20stroke%3D'%23d9a73e'%20stroke-width%3D'1'%20stroke-linecap%3D'round'%2F%3E%3Cpath%20d%3D'M25.1%208.3L33.3%206.1L38.2%207.3L38.0%2010.7L32.6%2012.4L37.5%2013.5L31.3%2017.0Z'%20fill%3D'%23d9a73e'%20stroke%3D'%238a5d10'%20stroke-width%3D'.5'%2F%3E%3Ccircle%20cx%3D'30.3'%20cy%3D'9.3'%20r%3D'.8'%20fill%3D'%238a5d10'%2F%3E%3Cpath%20d%3D'M26.5%207.9Q22.2%204.3%2018.2%205.7M27.8%207.6Q24.3%202.0%2021.2%201.7'%20fill%3D'none'%20stroke%3D'%23d9a73e'%20stroke-width%3D'.9'%20stroke-linecap%3D'round'%2F%3E%3Cpath%20d%3D'M38.5%2010.2Q44.9%209.3%2045.5%2015.1M37.1%208.5Q43.0%204.1%2045.7%207.5'%20fill%3D'none'%20stroke%3D'%23d9a73e'%20stroke-width%3D'.6'%20stroke-linecap%3D'round'%2F%3E%3Cpath%20d%3D'M19.8%2049.0l-2.3%202.8M19.8%2049.0l1.7%203.2'%20stroke%3D'%23d9a73e'%20stroke-width%3D'.8'%20stroke-linecap%3D'round'%2F%3E%3C%2Fsvg%3E") center/66% no-repeat,radial-gradient(circle at 34% 28%,rgba(255,255,255,1) 0%,rgba(246,246,244,.95) 45%,rgba(214,214,210,.95) 100%); --ckwEdge:rgba(170,170,165,.95); --ckwRing:inset 0 0 0 1.5px rgba(255,255,255,.95),inset 0 0 0 3px rgba(0,0,0,.06); --ckwIn:transparent; --ckwTx:#8a5d10;
-  --ckbBg:url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2060%2060'%3E%3Cpath%20d%3D'M25.3%208.7L23.6%209.4L22.0%2010.1L20.5%2010.8L19.1%2011.5L17.8%2012.3L16.5%2013.2L15.4%2014.2L14.4%2015.5L13.7%2017.2L13.4%2019.1L13.9%2021.0L14.8%2022.5L15.8%2023.6L17.0%2024.5L18.2%2025.2L19.5%2025.9L20.9%2026.5L22.4%2027.1L23.9%2027.7L25.6%2028.2L27.2%2028.8L28.8%2029.3L30.5%2029.9L32.1%2030.4L33.6%2030.9L35.1%2031.5L36.4%2032.0L37.6%2032.5L38.7%2033.0L39.5%2033.4L40.1%2033.8L40.5%2034.1L40.7%2034.2L40.7%2034.1L40.8%2033.9L40.9%2033.7L40.9%2033.8L40.7%2034.1L40.3%2034.6L39.7%2035.1L38.8%2035.7L37.8%2036.3L36.7%2036.9L35.4%2037.5L34.1%2038.1L32.6%2038.8L31.2%2039.4L29.7%2040.1L28.3%2040.8L26.9%2041.4L25.5%2042.1L24.2%2042.8L23.0%2043.4L22.0%2044.1L21.0%2044.8L20.2%2045.6L19.5%2046.4L19.0%2047.2L18.7%2048.1L18.7%2048.9L20.9%2049.1L21.0%2048.7L21.2%2048.4L21.5%2048.0L22.0%2047.6L22.7%2047.2L23.5%2046.7L24.5%2046.2L25.7%2045.6L26.9%2045.1L28.2%2044.6L29.7%2044.0L31.1%2043.5L32.6%2043.0L34.1%2042.4L35.6%2041.9L37.1%2041.3L38.5%2040.7L39.8%2040.1L41.0%2039.5L42.2%2038.9L43.2%2038.2L44.2%2037.5L45.0%2036.6L45.6%2035.5L46.0%2034.1L45.8%2032.7L45.3%2031.4L44.6%2030.3L43.7%2029.4L42.7%2028.6L41.5%2027.8L40.3%2027.1L38.9%2026.4L37.5%2025.7L36.0%2025.1L34.4%2024.4L32.8%2023.7L31.2%2023.1L29.6%2022.4L28.0%2021.8L26.6%2021.1L25.2%2020.5L24.0%2019.9L22.9%2019.3L22.1%2018.8L21.4%2018.3L21.1%2018.0L21.1%2017.9L21.3%2018.2L21.5%2018.9L21.4%2019.6L21.3%2020.1L21.3%2020.2L21.6%2020.0L22.2%2019.7L23.1%2019.3L24.1%2018.8L25.4%2018.3L26.9%2017.8L28.5%2017.3Z'%20fill%3D'%23d9a73e'%20stroke%3D'%238a5d10'%20stroke-width%3D'.8'%20stroke-linejoin%3D'round'%2F%3E%3Cpath%20d%3D'M20.9%2011.6Q20.5%2015.6%2023.8%2018.0'%20fill%3D'none'%20stroke%3D'%238a5d10'%20stroke-width%3D'.55'%2F%3E%3Cpath%20d%3D'M17.0%2013.9Q17.5%2017.8%2021.1%2019.3'%20fill%3D'none'%20stroke%3D'%238a5d10'%20stroke-width%3D'.55'%2F%3E%3Cpath%20d%3D'M14.4%2017.4Q16.9%2020.3%2020.7%2019.4'%20fill%3D'none'%20stroke%3D'%238a5d10'%20stroke-width%3D'.55'%2F%3E%3Cpath%20d%3D'M15.4%2022.1Q19.1%2021.8%2020.5%2018.3'%20fill%3D'none'%20stroke%3D'%238a5d10'%20stroke-width%3D'.55'%2F%3E%3Cpath%20d%3D'M18.6%2024.6Q21.8%2023.0%2021.7%2019.4'%20fill%3D'none'%20stroke%3D'%238a5d10'%20stroke-width%3D'.55'%2F%3E%3Cpath%20d%3D'M22.7%2026.4Q25.6%2024.6%2024.9%2021.2'%20fill%3D'none'%20stroke%3D'%238a5d10'%20stroke-width%3D'.55'%2F%3E%3Cpath%20d%3D'M27.4%2028.1Q30.3%2026.3%2029.3%2023.1'%20fill%3D'none'%20stroke%3D'%238a5d10'%20stroke-width%3D'.55'%2F%3E%3Cpath%20d%3D'M32.3%2029.8Q35.1%2028.1%2034.1%2025.0'%20fill%3D'none'%20stroke%3D'%238a5d10'%20stroke-width%3D'.55'%2F%3E%3Cpath%20d%3D'M36.7%2031.4Q39.5%2030.0%2038.7%2027.0'%20fill%3D'none'%20stroke%3D'%238a5d10'%20stroke-width%3D'.55'%2F%3E%3Cpath%20d%3D'M39.8%2032.9Q42.8%2032.1%2042.4%2029.1'%20fill%3D'none'%20stroke%3D'%238a5d10'%20stroke-width%3D'.55'%2F%3E%3Cpath%20d%3D'M41.2%2033.9Q44.1%2034.5%2044.9%2031.7'%20fill%3D'none'%20stroke%3D'%238a5d10'%20stroke-width%3D'.55'%2F%3E%3Cpath%20d%3D'M41.3%2033.9Q42.6%2036.5%2045.1%2035.3'%20fill%3D'none'%20stroke%3D'%238a5d10'%20stroke-width%3D'.55'%2F%3E%3Cpath%20d%3D'M40.6%2034.9Q40.2%2037.6%2042.9%2037.9'%20fill%3D'none'%20stroke%3D'%238a5d10'%20stroke-width%3D'.55'%2F%3E%3Cpath%20d%3D'M38.0%2036.6Q37.0%2039.1%2039.6%2039.8'%20fill%3D'none'%20stroke%3D'%238a5d10'%20stroke-width%3D'.55'%2F%3E%3Cpath%20d%3D'M34.2%2038.5Q33.0%2040.8%2035.5%2041.5'%20fill%3D'none'%20stroke%3D'%238a5d10'%20stroke-width%3D'.55'%2F%3E%3Cpath%20d%3D'M29.9%2040.4Q28.6%2042.6%2031.0%2043.2'%20fill%3D'none'%20stroke%3D'%238a5d10'%20stroke-width%3D'.55'%2F%3E%3Cpath%20d%3D'M25.6%2042.4Q24.4%2044.4%2026.8%2044.8'%20fill%3D'none'%20stroke%3D'%238a5d10'%20stroke-width%3D'.55'%2F%3E%3Cpath%20d%3D'M22.1%2044.4Q21.0%2046.5%2023.4%2046.4'%20fill%3D'none'%20stroke%3D'%238a5d10'%20stroke-width%3D'.55'%2F%3E%3Cpath%20d%3D'M24.1%2018.7L23.1%2022.6L22.0%2019.8'%20fill%3D'%23d9a73e'%2F%3E%3Cpath%20d%3D'M22.0%2019.1L22.9%2023.0L20.6%2021.1'%20fill%3D'%23d9a73e'%2F%3E%3Cpath%20d%3D'M20.4%2016.9L24.4%2017.3L21.8%2018.9'%20fill%3D'%23d9a73e'%2F%3E%3Cpath%20d%3D'M21.8%2018.8L25.6%2017.4L24.0%2019.9'%20fill%3D'%23d9a73e'%2F%3E%3Cpath%20d%3D'M26.9%2021.3L30.5%2019.5L29.1%2022.2'%20fill%3D'%23d9a73e'%2F%3E%3Cpath%20d%3D'M33.3%2024.0L36.8%2022.1L35.5%2024.8'%20fill%3D'%23d9a73e'%2F%3E%3Cpath%20d%3D'M39.2%2026.6L43.0%2025.1L41.4%2027.7'%20fill%3D'%23d9a73e'%2F%3E%3Cpath%20d%3D'M43.8%2029.4L47.8%2029.4L45.4%2031.2'%20fill%3D'%23d9a73e'%2F%3E%3Cpath%20d%3D'M46.0%2034.3L47.9%2037.9L45.2%2036.6'%20fill%3D'%23d9a73e'%2F%3E%3Cpath%20d%3D'M43.2%2038.3L42.6%2042.3L41.2%2039.6'%20fill%3D'%23d9a73e'%2F%3E%3Cpath%20d%3D'M38.2%2040.8L36.9%2044.6L36.0%2041.8'%20fill%3D'%23d9a73e'%2F%3E%3Cpath%20d%3D'M32.2%2043.1L30.9%2046.8L30.0%2044.0'%20fill%3D'%23d9a73e'%2F%3E%3Cpath%20d%3D'M26.7%2045.1L25.6%2049.0L24.6%2046.2'%20fill%3D'%23d9a73e'%2F%3E%3Cpath%20d%3D'M17.0%2024.5L13.0%2026.5l-2.0%20-1.5M13.0%2026.5l-1.2%201.6M13.0%2026.5l1.6%201.2'%20fill%3D'none'%20stroke%3D'%23d9a73e'%20stroke-width%3D'1'%20stroke-linecap%3D'round'%2F%3E%3Cpath%20d%3D'M40.5%2034.1L36.2%2035.3l-1.7%20-1.8M36.2%2035.3l-1.5%201.4M36.2%2035.3l1.4%201.5'%20fill%3D'none'%20stroke%3D'%23d9a73e'%20stroke-width%3D'1'%20stroke-linecap%3D'round'%2F%3E%3Cpath%20d%3D'M25.1%208.3L33.3%206.1L38.2%207.3L38.0%2010.7L32.6%2012.4L37.5%2013.5L31.3%2017.0Z'%20fill%3D'%23d9a73e'%20stroke%3D'%238a5d10'%20stroke-width%3D'.5'%2F%3E%3Ccircle%20cx%3D'30.3'%20cy%3D'9.3'%20r%3D'.8'%20fill%3D'%238a5d10'%2F%3E%3Cpath%20d%3D'M26.5%207.9Q22.2%204.3%2018.2%205.7M27.8%207.6Q24.3%202.0%2021.2%201.7'%20fill%3D'none'%20stroke%3D'%23d9a73e'%20stroke-width%3D'.9'%20stroke-linecap%3D'round'%2F%3E%3Cpath%20d%3D'M38.5%2010.2Q44.9%209.3%2045.5%2015.1M37.1%208.5Q43.0%204.1%2045.7%207.5'%20fill%3D'none'%20stroke%3D'%23d9a73e'%20stroke-width%3D'.6'%20stroke-linecap%3D'round'%2F%3E%3Cpath%20d%3D'M19.8%2049.0l-2.3%202.8M19.8%2049.0l1.7%203.2'%20stroke%3D'%23d9a73e'%20stroke-width%3D'.8'%20stroke-linecap%3D'round'%2F%3E%3C%2Fsvg%3E") center/66% no-repeat,radial-gradient(circle at 34% 28%,rgba(150,150,155,.9) 0%,rgba(55,55,60,.85) 45%,rgba(18,18,20,.92) 100%); --ckbEdge:rgba(200,200,205,.55); --ckbRing:inset 0 0 0 1.5px rgba(255,255,255,.45),inset 0 0 0 3px rgba(255,255,255,.08); --ckbIn:transparent; --ckbTx:#e3b448; --ckIn:10%;
-}
+
+#btnVoice.von{background:#2fae6e;border-color:#2fae6e;color:#fff}
+#btnVoice.vwait{background:#e9a21a;border-color:#e9a21a;color:#fff;animation:vPulse 1.2s ease-in-out infinite alternate}
+@keyframes vPulse{to{opacity:.6}}
+#btnSpk.muted .w{display:none} #btnSpk.muted{color:var(--accent)}
+.pav.talk::after{content:"";position:absolute;inset:-6px;border-radius:50%;box-shadow:0 0 0 2px #2fae6e;animation:talkP .5s ease-in-out infinite alternate;pointer-events:none}
+@keyframes talkP{to{box-shadow:0 0 0 5px rgba(47,174,110,.35)}}
 /* ---- profile: player card ---- */
 #profBox.pc{max-width:860px;padding:0;display:grid;grid-template-columns:330px 1fr;overflow:hidden;position:relative}
 .pc .hero{position:relative;color:#f3eee5;padding:30px 28px 26px;display:flex;flex-direction:column;
@@ -724,7 +699,8 @@ kbd{font:11px var(--mono);padding:1px 5px;border-radius:4px;border:1px solid var
         <button class="cta hidden" id="btnNew" style="width:100%;margin-top:8px" data-t="newGame"></button>
       </div>
       <div class="sec" style="padding-top:12px;padding-bottom:12px">
-        <div class="share"><span id="shareLbl"></span><button id="btnCopy2" title="Copy link"><svg class="i"><use href="#i-link"/></svg></button><button id="btnResign" title="Resign"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 21V4"/><path d="M6 4h11l-2.5 4L17 12H6"/></svg></button><button id="btnLeave2" title="Leave"><svg class="i"><use href="#i-exit"/></svg></button></div>
+        <div class="share"><span id="shareLbl"></span><button id="btnCopy2" title="Copy link"><svg class="i"><use href="#i-link"/></svg></button><button id="btnVoice" title="Voice"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></svg></button><button id="btnSpk" class="hidden" title="Opponent sound"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path class="w" d="M16 9a4 4 0 0 1 0 6M18.5 6.5a7.5 7.5 0 0 1 0 11"/></svg></button><button id="btnChat" title="Emoji">😊</button><button id="btnResign" title="Resign"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 21V4"/><path d="M6 4h11l-2.5 4L17 12H6"/></svg></button><button id="btnLeave2" title="Leave"><svg class="i"><use href="#i-exit"/></svg></button></div>
+        <div class="chatbar hidden" id="chatBar"></div>
       </div>
       <div class="sec">
         <details class="rules hdet" id="histD"><summary id="histS"></summary><div class="hist" id="histList"></div></details>
@@ -763,7 +739,8 @@ kbd{font:11px var(--mono);padding:1px 5px;border-radius:4px;border:1px solid var
 </div></div>
 <div id="profOv" class="overlay hidden"><div class="modal" id="profBox"></div></div>
 <div id="resOv" class="overlay hidden"><div class="modal"><h2 data-t="resignQ"></h2><p id="resSub"></p><div class="r"><button id="btnResNo" data-t="cancel"></button><button class="cta" id="btnResYes" data-t="resignB"></button></div></div></div>
-<div id="winOv" class="overlay hidden"><div class="modal"><div class="rup" id="rankUp"></div><h2 id="winTitle"></h2><p id="winSub"></p><div class="r"><button class="cta" id="btnNew2" data-t="again"></button><button id="btnCloseWin" data-t="close"></button></div></div></div>
+<div id="winOv" class="overlay hidden"><div class="modal"><div class="rup" id="rankUp"></div><h2 id="winTitle"></h2><p id="winSub"></p><p class="rmt" id="rmNote"></p><div class="r"><button class="cta" id="btnNew2" data-t="again"></button><button id="btnCloseWin" data-t="close"></button></div><button class="linkbtn" id="btnReview" style="width:100%;margin-top:6px" data-t="review"></button></div></div>
+<div id="revOv" class="overlay hidden"><div class="modal wide rev"><div class="mhead"><h2 data-t="review"></h2><button class="xbtn" id="btnRevClose" aria-label="Close"><svg class="i"><use href="#i-x"/></svg></button></div><div id="revBody"></div></div></div>
 
 <script>
 
@@ -801,7 +778,7 @@ const T = {
   openYour:'Roll one die each — <b>higher roll plays White</b> and moves first.', openLocal:'<b>{n}</b>, roll for the first move.', openWait:'Waiting for your opponent to roll…', openTie:'Tie ({a} : {a}). Roll again.', openWon:'<b>{n}</b> rolled higher ({a} : {b}) and plays White.',
   yourRoll:'<b>Your turn.</b> Roll the dice.', localRoll:'<b>{c}</b> to move. Roll the dice.', pick:'Tap or drag a highlighted checker.', where:'Drop it on a marked spot — combined moves (e.g. 3+4) are shown too.', noMoves:'No legal moves — passing the turn.', oppTurn:'Opponent’s turn…', spectator:'You are watching. {c} to move.', won:'<b>{n}</b> won this game.',
   newGame:'New game', again:'Play again', close:'Close', gameOver:'Game over', link:'Game link', localGame:'Same-device game',
-  settingsT:'Settings', checkersT:'Checkers', diceT:'Dice', ck_classic:'Classic', ck_wood:'Wood', ck_stone:'Marble', ck_flat:'Flat', ck_metal:'Metal', ck_glass:'Glass', ck_retro:'Retro', ck_crystal:'Crystal', st_walnut:'Walnut', st_midnight:'Midnight', st_druzi:'Druzi', st_gold:'Зодіак', st_gold:'Zodiac', avatarT:'Avatar', tier_rookie:'Rookie', tier_regular:'Regular', tier_expert:'Expert', tier_master:'Master', tier_grandmaster:'Grandmaster', tier_khan:'Khan', tier_sultan:'Sultan', tier_legend:'Legend', toStar:'{n} to the next die', lbNotLegend:'You: {rank}. {n} rating to reach Legend.', topPos:'#{n} on the leaderboard', newStar:'Next die!', newRank:'New rank!', botsWait:'{n} bots waiting', searchInfo2:'Looking for a player close to your rating…', onlineGame:'Online game', oppNoMoves:'Your opponent has no moves', bot_marta:'Bot Marta', bot_ostap:'Bot Ostap', bot_taras:'Bot Taras', bot_hryts:'Bot Hryts', cardT:'Card background', cardLock:'Unlocks at {tier} rank', card_felt:'Felt', card_walnut:'Walnut', card_midnight:'Midnight', card_wine:'Wine', card_graphite:'Graphite', card_gold:'Gold', card_aurora:'Aurora', oddsT:'Win chances', oddsCap:'Winning chances — an estimate from 8,000 simulated games', oddsAfter:'Chance to win after this move', resignB:'Resign', resignQ:'Resign this game?', resignWait:'Resign becomes available after move 10 ({n} to go)', resignOne:'Your opponent gets 1 point.', resignMars:'You have not borne off any checker, so it counts as a mars — 2 points.', resignRated:'It counts as a loss for your rating.', resigned:'{n} resigned.', resignedYou:'You resigned.', cancel:'Cancel', setSub:'Changes apply right away and are saved in this browser.', pcRegistered:'Registered player', pcRanks:'Ranks', pcAccT:'Account', pcWhyT:'With an account you get:', pcWhy1:'a rating and a rank frame', pcWhy2:'a place on the leaderboard', pcWhy3:'your stats on any device', history:'Move history', histEmpty:'No moves yet', histNone:'no move', histOff:'off', noMovesT:'No moves', undo:'Undo', bnOpenT:'Who goes first?', bnOpenS:'Roll one die — higher plays White', bnOppOpen:'Waiting for the opponent', bnYour:'Your turn', bnRollS:'Roll the dice to move', bnColor:'{c} to move', bnOpp:'Opponent’s turn', bnBot:'Bot’s turn', findT:'Find an opponent', findD:'Play a random online opponent close to your rating.', findB:'Find opponent', botT:'Play the bot', botD:'Practice any time. A win against the bot gives less rating than against a person.', botB:'Play the bot', tutorB:'How to play', localB2:'Same device', onlineN:'{n} online', searchT:'Looking for an opponent', searchInfo:'Hang on — if nobody is free in {s} seconds, you will play the bot.', playBotNow:'Play the bot now', matchFound:'Opponent found!', matchWait:'Opponent found — connecting…', noOpp:'No free opponents — playing the bot', botName:'Bot Taras', botTurn:'The bot is thinking…', botThinking:'The bot is rolling…', botGame:'Game vs bot', botNoMoves:'The bot has no moves', botRated:'bot game: 40%', tutorGame:'Tutorial', coachOpp:'Coach', tutRoll:'Press “Roll dice”.', tutStepDone:'Well done! Press “Next”.', tutNice:'Well done!', tutStep:'Lesson {i} of {n}', tutNext:'Next', tutBack:'Back', tutExit:'Exit', tutPlayBot:'Play the bot', tutFind:'Find opponent',
+  settingsT:'Settings', checkersT:'Checkers', diceT:'Dice', ck_classic:'Classic', ck_wood:'Wood', ck_stone:'Marble', ck_flat:'Flat', ck_metal:'Metal', ck_glass:'Glass', ck_retro:'Retro', st_walnut:'Walnut', st_midnight:'Midnight', st_druzi:'Druzi', avatarT:'Avatar', vcOn:'Turn on voice chat', vcOff:'Turn off voice chat', vcWait:'Voice on — waiting for your opponent to turn it on too', vcLive:'Voice chat connected', vcEnded:'Voice chat off', vcNoMic:'No access to the microphone — allow it in the browser', vcFail:'Could not connect voice (your network blocks direct calls)', vcOppLeft:'Opponent turned voice off', vcNobody:'Your opponent has not turned voice on yet', vcOppOff:'Your opponent has voice chat turned off', srvErr:'Server did not accept the action — state reloaded', secShort:'s', offline:'offline', timeoutYou:'Time is up — turn skipped ({n}/{m})', timeoutOpp:'Opponent ran out of time ({n}/{m})', rematch:'Rematch', rmWait:'Waiting for the opponent to accept…', rmAsk:'Your opponent wants a rematch!', review:'Game review', revSub:'Your winning chances after every move. Red dots are the moves that cost you the most.', revClean:'No big mistakes — clean game!', revMove:'Move {n} · {d} · {m}', revBest:'best chance', revWorst:'worst chance', revDoubles:'your doubles', chHi:'Hi!', chNice:'Nice move', chOops:'Oops…', chLuck:'Good luck!', chThanks:'Thanks', chGG:'Good game', achT:'Achievements', achNew:'Achievement unlocked', ach_first:'First win', ach_ten:'10 wins', ach_mars:'Mars', ach_mars5:'5 mars', ach_streak3:'3 in a row', ach_streak5:'5 in a row', ach_comeback:'Comeback', ach_nodouble:'No doubles', ach_games50:'50 games', ach_giant:'Giant slayer', achD_first:'Win your first game', achD_ten:'Win 10 games', achD_mars:'Win with a mars', achD_mars5:'Win 5 games with a mars', achD_streak3:'Win 3 games in a row', achD_streak5:'Win 5 games in a row', achD_comeback:'Win after your chance fell to 20% or less', achD_nodouble:'Win without rolling a single double', achD_games50:'Play 50 games', achD_giant:'Beat a player rated 300+ above you', tier_rookie:'Rookie', tier_regular:'Regular', tier_expert:'Expert', tier_master:'Master', tier_grandmaster:'Grandmaster', tier_khan:'Khan', tier_sultan:'Sultan', tier_legend:'Legend', toStar:'{n} to the next die', lbNotLegend:'You: {rank}. {n} rating to reach Legend.', topPos:'#{n} on the leaderboard', newStar:'Next die!', newRank:'New rank!', botsWait:'{n} bots waiting', searchInfo2:'Looking for a player close to your rating…', onlineGame:'Online game', oppNoMoves:'Your opponent has no moves', bot_marta:'Bot Marta', bot_ostap:'Bot Ostap', bot_taras:'Bot Taras', bot_hryts:'Bot Hryts', cardT:'Card background', cardLock:'Unlocks at {tier} rank', card_felt:'Felt', card_walnut:'Walnut', card_midnight:'Midnight', card_wine:'Wine', card_graphite:'Graphite', card_gold:'Gold', card_aurora:'Aurora', oddsT:'Win chances', oddsCap:'Winning chances — an estimate from 8,000 simulated games', oddsAfter:'Chance to win after this move', resignB:'Resign', resignQ:'Resign this game?', resignWait:'Resign becomes available after move 10 ({n} to go)', resignOne:'Your opponent gets 1 point.', resignMars:'You have not borne off any checker, so it counts as a mars — 2 points.', resignRated:'It counts as a loss for your rating.', resigned:'{n} resigned.', resignedYou:'You resigned.', cancel:'Cancel', setSub:'Changes apply right away and are saved in this browser.', pcRegistered:'Registered player', pcRanks:'Ranks', pcAccT:'Account', pcWhyT:'With an account you get:', pcWhy1:'a rating and a rank frame', pcWhy2:'a place on the leaderboard', pcWhy3:'your stats on any device', history:'Move history', histEmpty:'No moves yet', histNone:'no move', histOff:'off', noMovesT:'No moves', undo:'Undo', bnOpenT:'Who goes first?', bnOpenS:'Roll one die — higher plays White', bnOppOpen:'Waiting for the opponent', bnYour:'Your turn', bnRollS:'Roll the dice to move', bnColor:'{c} to move', bnOpp:'Opponent’s turn', bnBot:'Bot’s turn', findT:'Find an opponent', findD:'Play a random online opponent close to your rating.', findB:'Find opponent', botT:'Play the bot', botD:'Practice any time. A win against the bot gives less rating than against a person.', botB:'Play the bot', tutorB:'How to play', localB2:'Same device', onlineN:'{n} online', searchT:'Looking for an opponent', searchInfo:'Hang on — if nobody is free in {s} seconds, you will play the bot.', playBotNow:'Play the bot now', matchFound:'Opponent found!', matchWait:'Opponent found — connecting…', noOpp:'No free opponents — playing the bot', botName:'Bot Taras', botTurn:'The bot is thinking…', botThinking:'The bot is rolling…', botGame:'Game vs bot', botNoMoves:'The bot has no moves', botRated:'bot game: 40%', tutorGame:'Tutorial', coachOpp:'Coach', tutRoll:'Press “Roll dice”.', tutStepDone:'Well done! Press “Next”.', tutNice:'Well done!', tutStep:'Lesson {i} of {n}', tutNext:'Next', tutBack:'Back', tutExit:'Exit', tutPlayBot:'Play the bot', tutFind:'Find opponent',
   tut1T:'The board and the goal', tut1D:'You play White. All 15 of your checkers start on the “head” — point 24, top right. Black starts on 12. Both sides move counter-clockwise: White goes right-to-left along the top, then left-to-right along the bottom. Bring all checkers home (points 1–6, bottom right) and bear them off before your opponent.',
   tut2T:'Your first move', tut2D:'Roll the dice — you will get 5 and 3. Each die is a separate move of that many points. Only one checker may leave the head per turn, so play both dice with the same checker: tap the checker on 24 — the gold spot is both dice together (5+3).',
   tut3T:'Doubles', tut3D:'Equal dice are played four times. Roll — you get 4 and 4: make four moves of 4 points with any checkers (still only one from the head).',
@@ -823,7 +800,7 @@ const T = {
   openYour:'Кожен кидає один кубик — <b>у кого більше, той грає білими</b> й ходить першим.', openLocal:'<b>{n}</b>, киньте на перший хід.', openWait:'Чекаємо, поки суперник кине…', openTie:'Нічия ({a} : {a}). Киньте ще раз.', openWon:'<b>{n}</b> викинув більше ({a} : {b}) і грає білими.',
   yourRoll:'<b>Ваш хід.</b> Киньте кубики.', localRoll:'Ходять <b>{c}</b>. Киньте кубики.', pick:'Натисніть або перетягніть підсвічену шашку.', where:'Поставте на позначене місце — показано й складені ходи (напр. 3+4).', noMoves:'Ходів немає — хід переходить.', oppTurn:'Хід суперника…', spectator:'Ви глядач. Ходять {c}.', won:'Партію виграли: <b>{n}</b>.',
   newGame:'Нова партія', again:'Ще партію', close:'Закрити', gameOver:'Кінець партії', link:'Посилання на гру', localGame:'Гра на одному пристрої',
-  settingsT:'Налаштування', checkersT:'Шашки', diceT:'Кубики', ck_classic:'Класичні', ck_wood:'Дерево', ck_stone:'Мармур', ck_flat:'Пласкі', ck_metal:'Метал', ck_glass:'Скло', ck_retro:'Ретро', ck_crystal:'Кришталь', st_walnut:'Горіх', st_midnight:'Північ', st_druzi:'Druzi', avatarT:'Аватар', tier_rookie:'Новачок', tier_regular:'Завсідник', tier_expert:'Знавець', tier_master:'Майстер', tier_grandmaster:'Гросмейстер', tier_khan:'Хан', tier_sultan:'Султан', tier_legend:'Легенда', toStar:'ще {n} до наступного кубика', lbNotLegend:'Ви: {rank}. До Легенди ще {n} рейтингу.', topPos:'#{n} у рейтингу', newStar:'Новий кубик!', newRank:'Новий ранг!', botsWait:'{n} ботів у черзі', searchInfo2:'Шукаємо гравця близького до вас за рейтингом…', onlineGame:'Онлайн-гра', oppNoMoves:'У суперника немає ходів', bot_marta:'Бот Марта', bot_ostap:'Бот Остап', bot_taras:'Бот Тарас', bot_hryts:'Бот Гриць', cardT:'Фон картки', cardLock:'Відкривається з рангом «{tier}»', card_felt:'Сукно', card_walnut:'Горіх', card_midnight:'Північ', card_wine:'Вино', card_graphite:'Графіт', card_gold:'Золото', card_aurora:'Аврора', oddsT:'Шанси на перемогу', oddsCap:'Шанси на перемогу — оцінка за 8000 зіграних партій', oddsAfter:'Шанс на перемогу після цього ходу', resignB:'Здатися', resignQ:'Здатися в цій партії?', resignWait:'Здатися можна після 10-го ходу (залишилось {n})', resignOne:'Суперник отримає 1 очко.', resignMars:'Ви не викинули жодної шашки, тому це марс — 2 очки.', resignRated:'Для рейтингу це зарахується як поразка.', resigned:'{n} здається.', resignedYou:'Ви здалися.', cancel:'Скасувати', setSub:'Зміни застосовуються одразу й зберігаються в цьому браузері.', pcRegistered:'Зареєстрований гравець', pcRanks:'Ранги', pcAccT:'Акаунт', pcWhyT:'З акаунтом у вас буде:', pcWhy1:'рейтинг і рамка рангу', pcWhy2:'місце в таблиці лідерів', pcWhy3:'статистика на будь-якому пристрої', history:'Історія ходів', histEmpty:'Ходів ще немає', histNone:'немає ходу', histOff:'винос', noMovesT:'Немає ходів', undo:'Скасувати хід', bnOpenT:'Хто ходить першим?', bnOpenS:'Киньте кубик — у кого більше, той грає білими', bnOppOpen:'Чекаємо на суперника', bnYour:'Ваш хід', bnRollS:'Киньте кубики, щоб походити', bnColor:'Ходять {c}', bnOpp:'Хід суперника', bnBot:'Хід бота', findT:'Знайти суперника', findD:'Гра з випадковим суперником онлайн, близьким до вас за рейтингом.', findB:'Знайти суперника', botT:'Грати з ботом', botD:'Тренуйтесь будь-коли. За перемогу над ботом рейтингу дається менше, ніж над людиною.', botB:'Грати з ботом', tutorB:'Як грати', localB2:'На одному пристрої', onlineN:'{n} онлайн', searchT:'Шукаємо суперника', searchInfo:'Зачекайте — якщо за {s} секунд ніхто не знайдеться, ви зіграєте з ботом.', playBotNow:'Грати з ботом зараз', matchFound:'Суперника знайдено!', matchWait:'Суперника знайдено — зʼєднуємо…', noOpp:'Вільних суперників немає — граємо з ботом', botName:'Бот Тарас', botTurn:'Бот думає…', botThinking:'Бот кидає кубик…', botGame:'Гра з ботом', botNoMoves:'У бота немає ходів', botRated:'гра з ботом: 40%', tutorGame:'Навчання', coachOpp:'Тренер', tutRoll:'Натисніть «Кинути кубики».', tutStepDone:'Чудово! Натисніть «Далі».', tutNice:'Чудово!', tutStep:'Урок {i} з {n}', tutNext:'Далі', tutBack:'Назад', tutExit:'Вийти', tutPlayBot:'Грати з ботом', tutFind:'Знайти суперника',
+  settingsT:'Налаштування', checkersT:'Шашки', diceT:'Кубики', ck_classic:'Класичні', ck_wood:'Дерево', ck_stone:'Мармур', ck_flat:'Пласкі', ck_metal:'Метал', ck_glass:'Скло', ck_retro:'Ретро', st_walnut:'Горіх', st_midnight:'Північ', st_druzi:'Druzi', avatarT:'Аватар', vcOn:'Увімкнути голосовий чат', vcOff:'Вимкнути голосовий чат', vcWait:'Голос увімкнено — чекаємо, поки суперник теж увімкне', vcLive:'Голосовий чат підключено', vcEnded:'Голосовий чат вимкнено', vcNoMic:'Немає доступу до мікрофона — дозвольте його в браузері', vcFail:'Не вдалося підключити голос (мережа блокує прямий зв’язок)', vcOppLeft:'Суперник вимкнув голос', vcNobody:'Суперник ще не увімкнув голос', vcOppOff:'У суперника вимкнено голосовий чат', srvErr:'Сервер не прийняв дію — стан оновлено', secShort:'с', offline:'офлайн', timeoutYou:'Час вийшов — хід пропущено ({n}/{m})', timeoutOpp:'У суперника вийшов час ({n}/{m})', rematch:'Реванш', rmWait:'Чекаємо, поки суперник погодиться…', rmAsk:'Суперник хоче реванш!', review:'Розбір партії', revSub:'Ваші шанси на перемогу після кожного ходу. Червоні точки — ходи, які коштували найбільше.', revClean:'Великих помилок немає — чиста партія!', revMove:'Хід {n} · {d} · {m}', revBest:'найкращий шанс', revWorst:'найгірший шанс', revDoubles:'ваших дублів', chHi:'Привіт!', chNice:'Гарний хід', chOops:'Ех…', chLuck:'Удачі!', chThanks:'Дякую', chGG:'Дякую за гру', achT:'Досягнення', achNew:'Нове досягнення', ach_first:'Перша перемога', ach_ten:'10 перемог', ach_mars:'Марс', ach_mars5:'5 марсів', ach_streak3:'3 поспіль', ach_streak5:'5 поспіль', ach_comeback:'Камбек', ach_nodouble:'Без дублів', ach_games50:'50 партій', ach_giant:'Гігант', achD_first:'Виграйте першу партію', achD_ten:'Виграйте 10 партій', achD_mars:'Виграйте марсом', achD_mars5:'Виграйте 5 партій марсом', achD_streak3:'Виграйте 3 партії поспіль', achD_streak5:'Виграйте 5 партій поспіль', achD_comeback:'Виграйте, коли шанс падав до 20% і нижче', achD_nodouble:'Виграйте без жодного дубля', achD_games50:'Зіграйте 50 партій', achD_giant:'Обіграйте гравця на 300+ рейтингу сильнішого', tier_rookie:'Новачок', tier_regular:'Завсідник', tier_expert:'Знавець', tier_master:'Майстер', tier_grandmaster:'Гросмейстер', tier_khan:'Хан', tier_sultan:'Султан', tier_legend:'Легенда', toStar:'ще {n} до наступного кубика', lbNotLegend:'Ви: {rank}. До Легенди ще {n} рейтингу.', topPos:'#{n} у рейтингу', newStar:'Новий кубик!', newRank:'Новий ранг!', botsWait:'{n} ботів у черзі', searchInfo2:'Шукаємо гравця близького до вас за рейтингом…', onlineGame:'Онлайн-гра', oppNoMoves:'У суперника немає ходів', bot_marta:'Бот Марта', bot_ostap:'Бот Остап', bot_taras:'Бот Тарас', bot_hryts:'Бот Гриць', cardT:'Фон картки', cardLock:'Відкривається з рангом «{tier}»', card_felt:'Сукно', card_walnut:'Горіх', card_midnight:'Північ', card_wine:'Вино', card_graphite:'Графіт', card_gold:'Золото', card_aurora:'Аврора', oddsT:'Шанси на перемогу', oddsCap:'Шанси на перемогу — оцінка за 8000 зіграних партій', oddsAfter:'Шанс на перемогу після цього ходу', resignB:'Здатися', resignQ:'Здатися в цій партії?', resignWait:'Здатися можна після 10-го ходу (залишилось {n})', resignOne:'Суперник отримає 1 очко.', resignMars:'Ви не викинули жодної шашки, тому це марс — 2 очки.', resignRated:'Для рейтингу це зарахується як поразка.', resigned:'{n} здається.', resignedYou:'Ви здалися.', cancel:'Скасувати', setSub:'Зміни застосовуються одразу й зберігаються в цьому браузері.', pcRegistered:'Зареєстрований гравець', pcRanks:'Ранги', pcAccT:'Акаунт', pcWhyT:'З акаунтом у вас буде:', pcWhy1:'рейтинг і рамка рангу', pcWhy2:'місце в таблиці лідерів', pcWhy3:'статистика на будь-якому пристрої', history:'Історія ходів', histEmpty:'Ходів ще немає', histNone:'немає ходу', histOff:'винос', noMovesT:'Немає ходів', undo:'Скасувати хід', bnOpenT:'Хто ходить першим?', bnOpenS:'Киньте кубик — у кого більше, той грає білими', bnOppOpen:'Чекаємо на суперника', bnYour:'Ваш хід', bnRollS:'Киньте кубики, щоб походити', bnColor:'Ходять {c}', bnOpp:'Хід суперника', bnBot:'Хід бота', findT:'Знайти суперника', findD:'Гра з випадковим суперником онлайн, близьким до вас за рейтингом.', findB:'Знайти суперника', botT:'Грати з ботом', botD:'Тренуйтесь будь-коли. За перемогу над ботом рейтингу дається менше, ніж над людиною.', botB:'Грати з ботом', tutorB:'Як грати', localB2:'На одному пристрої', onlineN:'{n} онлайн', searchT:'Шукаємо суперника', searchInfo:'Зачекайте — якщо за {s} секунд ніхто не знайдеться, ви зіграєте з ботом.', playBotNow:'Грати з ботом зараз', matchFound:'Суперника знайдено!', matchWait:'Суперника знайдено — зʼєднуємо…', noOpp:'Вільних суперників немає — граємо з ботом', botName:'Бот Тарас', botTurn:'Бот думає…', botThinking:'Бот кидає кубик…', botGame:'Гра з ботом', botNoMoves:'У бота немає ходів', botRated:'гра з ботом: 40%', tutorGame:'Навчання', coachOpp:'Тренер', tutRoll:'Натисніть «Кинути кубики».', tutStepDone:'Чудово! Натисніть «Далі».', tutNice:'Чудово!', tutStep:'Урок {i} з {n}', tutNext:'Далі', tutBack:'Назад', tutExit:'Вийти', tutPlayBot:'Грати з ботом', tutFind:'Знайти суперника',
   tut1T:'Дошка й мета', tut1D:'Ви граєте білими. Усі 15 шашок стоять на «голові» — пункт 24, вгорі праворуч. Чорні стоять на 12. Обидва гравці рухаються проти годинникової стрілки: білі — вгорі справа наліво, потім унизу зліва направо. Мета — привести всі шашки в дім (пункти 1–6, внизу праворуч) і викинути їх з дошки раніше за суперника.',
   tut2T:'Перший хід', tut2D:'Киньте кубики — випаде 5 і 3. Кожен кубик — окремий хід на стільки пунктів. З голови за хід можна зняти лише одну шашку, тож обидва кубики зіграйте однією шашкою: натисніть шашку на 24 — золота позначка означає обидва кубики разом (5+3).',
   tut3T:'Дубль', tut3D:'Однакові числа на кубиках граються чотири рази. Киньте — випаде 4 і 4: зробіть чотири ходи по 4 пункти будь-якими шашками (з голови — так само лише одна).',
@@ -926,7 +903,7 @@ function toast(msg){ const el=$('toast'); el.textContent=msg; show('toast',true)
 function newGame(p1,p2,score){
   return { v:2, p1, p2, white:'', black:'', phase:'opening', open:{p1:0,p2:0}, openRound:0, openLast:null,
     board:freshBoard(), off:{w:0,b:0}, turn:'w', dice:[], remaining:[], headMoved:0, headLimit:1, first:{w:true,b:true},
-    snap:null, trail:[], last:[], winner:'', score:score||{p1:0,p2:0}, seq:0, rolled:false, rollId:0 };
+    snap:null, trail:[], last:[], winner:'', score:score||{p1:0,p2:0}, seq:0, rolled:false, rollId:0, strikes:{p1:0,p2:0}, turnAt:0, rematch:{} };
 }
 const slotOfColor = c => (gs.white===gs.p1) === (c==='w') ? 'p1' : 'p2';
 const colorOfSlot = s => slotOfColor('w')===s ? 'w' : 'b';
@@ -988,15 +965,18 @@ function sfx(kind){
 // ================= persistence =================
 function snapData(s){ if(!s) return null; if(typeof s.data==='function'){ if(s.exists===false) return null; return s.data()||null; } return s; }
 async function save(){
+  if(viaServer()) return;
   gs.seq=(gs.seq||0)+1;
   if(mode==='online' && ref){ try{ await ref.set(JSON.parse(JSON.stringify(gs))); }catch(e){ toast(t('saveErr')); } }
 }
 function subscribe(){
   if(unsub) try{unsub()}catch(e){}
-  unsub = ref.onSnapshot(s=>{
+  unsub = ref.onSnapshot(applyRemote, ()=>toast(t('connErr')));
+}
+function applyRemote(s){
     const d=snapData(s); if(!d) return;
     if(gs && d.seq < gs.seq) return;
-    const prev=gs; gs=d;
+    const prev=gs; gs=d; if(prev && prev.server){ gs.server=true; if(prev.ghost!=null) gs.ghost=prev.ghost; }
     if(prev && !prev.p2 && gs.p2 && gs.p1===uid) toast(t('joined'));
     if(!gs.p2 && gs.p1!==uid){ gs.p2=uid; save(); }
     if(gs.phase!=='opening') pendingOpen=null;
@@ -1012,9 +992,23 @@ function subscribe(){
     }
     if(!prev || prev.seq!==gs.seq) selected=null;
     if(prev && prev.phase==='play' && gs.phase==='play' && prev.turn!==gs.turn && myColor()===gs.turn) sfx('turn');
-    route();
-  }, ()=>toast(t('connErr')));
+    route(); renderRematch(); chatJoin();
 }
+
+// ================= server-authoritative mode =================
+// With SECURE on, online and bot games are played through the "game" edge function:
+// it rolls the dice, checks every move and writes ratings. Off by default until the function is deployed.
+const SECURE = !/[?&]secure=0/.test(location.search);
+const viaServer = () => !!(SECURE && sb && gs && (mode==='online' || gs.server));
+async function srv(action,args){
+  try{
+    const {data,error}=await sb.functions.invoke('game',{body:{action,gameId,args:args||{}}});
+    if(error || !data || data.error){ toast(t('srvErr')); resync(); return null; }
+    if(data.state){ if(gs && data.state.seq<gs.seq) gs.seq=data.state.seq; applyRemote(data.state); }
+    return data.state;
+  }catch(e){ toast(t('srvErr')); resync(); return null; }
+}
+async function resync(){ if(!ref) return; try{ const d=await ref.get(); if(d){ gs.seq=-1; applyRemote(d); } }catch(e){} }
 
 // ================= flow =================
 let nameCache={};
@@ -1024,6 +1018,7 @@ const linkFor = id => location.origin + location.pathname + '#g-' + id;
 async function createGame(){
   if(!db){ openProfile(); return; }
   gameId=rid(); mode='online'; ref=db.doc('games/'+gameId);
+  if(SECURE){ gs=newGame(uid,null); gs.seq=-1; const st=await srv('create'); if(!st){ leave(); return; } setHash('g-'+gameId); subscribe(); route(); return; }
   gs=newGame(uid,null); gs.names={p1:profile.name||'',p2:''}; gs.avs={p1:profile.av||'',p2:''}; gs.ratings={p1:profile.rating||1000,p2:0}; await save(); setHash('g-'+gameId); subscribe(); route();
 }
 async function joinGame(code){
@@ -1034,12 +1029,13 @@ async function joinGame(code){
     if(!d || d.v!==2){ toast(t('notFound')); mode=null; ref=null; gs=null; setHash(''); route(); return; }
     gs=d;
     if(gs.p1!==uid && gs.p2 && gs.p2!==uid) toast(t('full'));
+    if(SECURE && !gs.p2 && gs.p1!==uid){ await srv('join'); subscribe(); route(); return; }
     if(!gs.p2 && gs.p1!==uid){ gs.p2=uid; gs.names=Object.assign({p1:'',p2:''},gs.names||{}); gs.names.p2=profile.name||''; gs.avs=Object.assign({p1:'',p2:''},gs.avs||{}); gs.avs.p2=profile.av||''; gs.ratings=Object.assign({p1:1000,p2:1000},gs.ratings||{}); gs.ratings.p2=profile.rating||1000; await save(); }
     subscribe(); route();
   }catch(e){ toast(t('notFound')); mode=null; gs=null; route(); }
 }
 function startLocal(){ mode='local'; gameId=null; gs=newGame('L1','L2'); route(); }
-function leave(){ botToken++; clearTimeout(botTimer); botBusy=false; matchHost=false; tut=null; if(unsub) try{unsub()}catch(e){} unsub=null; mode=null; gs=null; ref=null; selected=null; pendingOpen=null; setHash(''); route(); }
+function leave(){ voiceStop(true); botToken++; clearTimeout(botTimer); botBusy=false; matchHost=false; tut=null; if(unsub) try{unsub()}catch(e){} unsub=null; mode=null; gs=null; ref=null; selected=null; pendingOpen=null; setHash(''); route(); }
 async function copyLink(){ const l=linkFor(gameId); try{ await navigator.clipboard.writeText(l); toast(t('copied')); }catch(e){ toast(l); } }
 
 // ================= actions =================
@@ -1049,10 +1045,11 @@ function resolveOpening(){
   gs.openLast={p1:a,p2:b,tie:a===b};
   if(a===b){ gs.open={p1:0,p2:0}; gs.openRound++; pendingOpen=null; return; }
   const w = a>b ? 'p1' : 'p2';
-  gs.white=gs[w]; gs.black=gs[w==='p1'?'p2':'p1']; gs.phase='play'; gs.turn='w'; pendingOpen=null;
+  gs.white=gs[w]; gs.black=gs[w==='p1'?'p2':'p1']; gs.phase='play'; gs.turn='w'; gs.turnAt=Date.now(); pendingOpen=null;
 }
 function rollOpening(){
   const s=openSlotToRoll(); if(!s) return;
+  if(viaServer()){ srv('open_roll'); return; }
   const v=d6(); gs.open[s]=v; gs.rollId++;
   if(mode==='online') pendingOpen={slot:s,val:v,round:gs.openRound};
   rollAnimUntil=performance.now()+700; sfx('dice');
@@ -1062,6 +1059,7 @@ function roll(){
   if(gs && gs.phase==='opening') return rollOpening();
   if(!canPlay() || gs.rolled) return;
   if(mode==='tutor' && !(tut && TUT[tut.i].dice)) return;
+  if(viaServer()){ srv('roll'); return; }
   const c=gs.turn, d1=mode==='tutor'?TUT[tut.i].dice[0]:d6(), d2=mode==='tutor'?TUT[tut.i].dice[1]:d6();
   gs.dice=[d1,d2]; gs.remaining = d1===d2 ? [d1,d1,d1,d1] : [d1,d2];
   gs.headLimit = (gs.first[c] && d1===d2 && [3,4,6].includes(d1)) ? 2 : 1;
@@ -1070,7 +1068,7 @@ function roll(){
   selected=null; rollAnimUntil=performance.now()+700; sfx('dice');
   const noMoves = legalMoves(gs,c).length===0;
   save(); route();
-  if(noMoves){ const seq=gs.seq; clearTimeout(passTimer); passTimer=setTimeout(()=>{ if(gs && gs.seq===seq && canPlay()) { passTurn(); save(); route(); } }, 1700); }
+  if(noMoves && !viaServer()){ const seq=gs.seq; clearTimeout(passTimer); passTimer=setTimeout(()=>{ if(gs && gs.seq===seq && canPlay()) { passTurn(); save(); route(); } }, 1700); }
   else if(false){ const fp=forcedPath(gs,c); if(fp){ const seq=gs.seq; clearTimeout(passTimer); passTimer=setTimeout(()=>{ if(gs && gs.seq===seq && canPlay() && gs.rolled){ toast(t('forced')); playPath(fp); } }, 800); } }
 }
 function forcedPath(st,c){
@@ -1087,7 +1085,7 @@ function forcedPath(st,c){
 function passTurn(){
   pushHist();
   gs.last=gs.trail||[]; gs.trail=[];
-  gs.turn=OPP(gs.turn); gs.dice=[]; gs.remaining=[]; gs.rolled=false; gs.snap=null; gs.headMoved=0; selected=null;
+  gs.turn=OPP(gs.turn); gs.dice=[]; gs.remaining=[]; gs.rolled=false; gs.snap=null; gs.headMoved=0; gs.turnAt=Date.now(); selected=null;
 }
 // chance that the player on roll (c) wins; logistic fit on 8000 simulated games
 function winChanceOnRoll(st,c){
@@ -1114,6 +1112,7 @@ function pushHist(){
 }
 function playPath(path){
   const c=gs.turn; const trailLen=(gs.trail||[]).length;
+  if(viaServer() && !(gs.server && gs.turn===colorOfSlot('p2'))) srv('move',{path:path.map(m=>({from:m.from,to:m.to,die:m.die}))});
   for(const m of path){
     Object.assign(gs, applyMove(gs,c,m));
     gs.trail=(gs.trail||[]).concat([b2(c,m.from), m.to===24?-1:b2(c,m.to)]);
@@ -1132,7 +1131,7 @@ function undo(){
   if(!canPlay() || !gs.rolled || !gs.snap) return;
   const full = gs.dice[0]===gs.dice[1]?4:2; if(gs.remaining.length===full) return;
   gs.board=gs.snap.board.slice(); gs.off={...gs.snap.off}; gs.trail=[];
-  const [a,b]=gs.dice; gs.remaining = a===b?[a,a,a,a]:[a,b]; gs.headMoved=0; selected=null; save(); route();
+  const [a,b]=gs.dice; gs.remaining = a===b?[a,a,a,a]:[a,b]; gs.headMoved=0; selected=null; if(viaServer()) srv('undo'); save(); route();
 }
 const RESIGN_MIN=10;
 function resignColor(){ if(!gs || gs.phase!=='play') return null; if(mode==='local') return gs.turn; if(mode==='online' && !mySlot()) return null; return myColor(); }
@@ -1146,6 +1145,7 @@ function askResign(){
 function doResign(){
   show('resOv',false); if(!canResign()) return;
   const c=resignColor(); clearTimeout(passTimer); botToken++; botBusy=false;
+  if(viaServer()){ srv('resign'); return; }
   if(mode==='online') pendingResign={id:gameId, c};
   applyResign(c); sfx('dice'); save(); route();
 }
@@ -1157,7 +1157,7 @@ function applyResign(c){
 }
 function newMatch(){
   if(!gs || (mode==='online' && !mySlot())) return;
-  const ng=newGame(gs.p1, gs.p2, gs.score); ng.names=gs.names; ng.avs=gs.avs; ng.ratings=Object.assign({},gs.ratings||{}); if(mySlot()) ng.ratings[mySlot()]=profile.rating||1000; ng.seq=gs.seq; ng.rollId=gs.rollId; gs=ng; show('winOv',false); save(); route();
+  const ng=newGame(gs.p1, gs.p2, gs.score); ng.names=gs.names; ng.avs=gs.avs; ng.ratings=Object.assign({},gs.ratings||{}); if(mySlot()) ng.ratings[mySlot()]=profile.rating||1000; ng.seq=gs.seq; ng.rollId=gs.rollId; ['ghost','lbot','botNoise','server'].forEach(k=>{ if(gs[k]!=null) ng[k]=gs[k]; }); gs=ng; show('winOv',false); save(); route();
 }
 
 
@@ -1190,13 +1190,14 @@ function crowdOnline(now){ now=now||Date.now(); const h=kyivHour(now), slot=Math
   const [lo,hi] = h>=18 ? [34,58] : h>=12 ? [22,40] : h>=9 ? [14,26] : h<2 ? [12,24] : [5,11];
   return lo+Math.floor(hrand(slot*53+11)*(hi-lo+1)); }
 function pickGhost(){
-  let on=ghostsOnline(); if(!on.length) on=GHOSTS.map((g,i)=>i);
+  let on=ghostsOnline(); const myR=profile.rating||1000; if(!on.some(i=>Math.abs(ghostInfo(i).rating-myR)<300)) on=GHOSTS.map((g,i)=>i);
   const me=profile.rating||1000;
   on.sort((a,b)=>Math.abs(ghostInfo(a).rating-me)-Math.abs(ghostInfo(b).rating-me));
   return on[Math.floor(Math.random()*Math.min(3,on.length))];
 }
 function startGhost(i){
   stopSearch(true); leave();
+  if(SECURE && sb && uid){ return startServerBot(i); }
   const g=ghostInfo(i);
   mode='bot'; gameId='o'+rid(); gs=newGame('ME','BOT'); gs.ghost=i; gs.botNoise=0;
   gs.names={p1:profile.name||'',p2:g.name}; gs.avs={p1:profile.av||'',p2:g.av}; gs.ratings={p1:profile.rating||1000,p2:g.rating};
@@ -1206,6 +1207,7 @@ const isGhost=()=>!!(gs && mode==='bot' && gs.ghost!=null);
 let botTimer=null, botBusy=false, botToken=0;
 function startBot(){
   stopSearch(true); leave();
+  if(SECURE && sb && uid){ return startServerBot(null); }
   mode='bot'; gameId='bot'+rid(); gs=newGame('ME','BOT');
   const me=profile.rating||1000, cand=LBOTS.slice().sort((a,b)=>Math.abs(a.r-me)-Math.abs(b.r-me)).slice(0,2), lb=cand[Math.floor(Math.random()*cand.length)];
   gs.lbot=lb.k; gs.botNoise=lb.noise;
@@ -1238,6 +1240,7 @@ function botBestPath(st,c){
 const botWait=ms=>new Promise(r=>{ botTimer=setTimeout(r,ms); });
 function botTick(){
   if(mode!=='bot' || !gs || botBusy) return;
+  if(gs.server) return serverBotTick();
   const tok=botToken, stale=()=>tok!==botToken || mode!=='bot' || !gs;
   if(gs.phase==='opening'){
     if(gs.open.p1 && !gs.open.p2){ botBusy=true; botWait(isGhost() ? 1100+Math.random()*2200 : 850).then(()=>{ botBusy=false; if(stale()||gs.phase!=='opening') return; gs.open.p2=d6(); gs.rollId++; rollAnimUntil=performance.now()+700; sfx('dice'); resolveOpening(); route(); }); }
@@ -1284,6 +1287,8 @@ function lobbyStart(){
   lobby.subscribe(s=>{ if(s==='SUBSCRIBED'){ lobby._ready=true; lastTracked=''; lobbyTrack(); } });
 }
 function startSearch(){
+  if(!sb){ if(gs) leave(); searching=true; searchSince=Date.now(); route(); $('searchInfo').textContent=t('searchInfo2'); clearInterval(searchTimer); const at=3+Math.random()*3;
+    searchTimer=setInterval(()=>{ if(!searching){ clearInterval(searchTimer); return; } const sec=Math.floor((Date.now()-searchSince)/1000); $('searchTime').textContent='0:'+String(sec).padStart(2,'0'); if(sec>=at) startGhost(pickGhost()); },500); return; }
   if(!uid || !db){ openProfile(); return; }
   if(gs) leave();
   searching=true; searchSince=Date.now(); matchHost=false; lobbyStart(); route(); renderOnline();
@@ -1359,7 +1364,7 @@ function route(){
   if(inGame && gs.p2 && matchHost) matchHost=false;
   if(inGame && !waiting) renderHud();
   scene3d && scene3d.sync();
-  renderBanner();
+  renderBanner(); renderExtras(); voiceUI();
   renderCoach(); lobbyTrack(); botTick();
 }
 let autoRollKey='';
@@ -1540,6 +1545,9 @@ function plCard(el, s){
   const chip=document.createElement('div'); chip.className='pav';
   const face=document.createElement('span'); face.className='av'; avatarInto(face, avOf(s), slotName(s)); chip.appendChild(framed(face, ratingOf(s), 38));
   if(col){ const dot=document.createElement('span'); dot.className='chip mini '+col; chip.appendChild(dot); }
+  if(timedGame()){ const tm=document.createElement('span'); tm.className='tmr'; tm.dataset.slot=s; chip.appendChild(tm); }
+  const bub=document.createElement('span'); bub.className='bub hidden'; bub.dataset.slot=s; el.appendChild(bub);
+  if(mode==='online' && gs[s] && gs[s]!==uid && !oppOnline(gs[s])){ const off=document.createElement('span'); off.className='offl'; off.textContent=t('offline'); chip.appendChild(off); }
   const box=document.createElement('div');
   const nm=document.createElement('div'); nm.className='nm'; nm.textContent=slotName(s);
   const sub=document.createElement('div'); sub.className='sub';
@@ -1681,10 +1689,221 @@ function renderHud(){
     const ws=slotOfColor(gs.winner), mars = gs.resign ? gs.resign.mars : gs.off[OPP(gs.winner)]===0;
     $('winTitle').textContent = mode==='local' ? t('winN',{n:slotName(ws)}) : (ws===me ? t('winYou') : (me ? t('winLose') : t('winN',{n:slotName(ws)})));
     $('winSub').textContent = (gs.resign ? (mode!=='local' && slotOfColor(gs.resign.c)===me ? t('resignedYou') : t('resigned',{n: mode==='local' ? colorName(gs.resign.c) : slotName(slotOfColor(gs.resign.c)).split(' (')[0]}))+' ' : '')+(mars?t('mars'):t('one'))+' '+t('score',{a:gs.score.p1,b:gs.score.p2}) + (lastDelta!=null ? ' · '+t('ratingChange',{d:(lastDelta>=0?'+':'')+lastDelta, r:profile.rating}) + (mode==='bot' && !isGhost() ? ' ('+t('botRated')+')' : '') : '');
-    show('btnNew2', mode==='local' || !!me);
+    show('btnNew2', mode==='local' || !!me); $('btnNew2').textContent = mode==='local' ? t('again') : t('rematch'); renderRematch();
     setTimeout(()=>{ if(gs && gs.phase==='over'){ show('winOv',true); showRankUp(); } }, 600);
   } else if(gs.phase!=='over') show('winOv',false);
 }
+
+
+// ================= turn timer, emoji, rematch, review, achievements =================
+const TURN_MS=60000, MAX_STRIKES=3;
+function timedGame(){ return !!(gs && gs.phase==='play' && (mode==='online' || isGhost())); }
+let presIds=new Set();
+function oppOnline(id){ if(!lobby || !lobby._ready || !presIds.size) return true; return presIds.has(id); }
+function timeLeft(){ return gs && gs.turnAt ? Math.max(0, TURN_MS-(Date.now()-gs.turnAt)) : TURN_MS; }
+function applyTimeout(slot){
+  gs.strikes=gs.strikes||{p1:0,p2:0}; gs.strikes[slot]=(gs.strikes[slot]||0)+1;
+  const c=colorOfSlot(slot);
+  if(gs.strikes[slot]>=MAX_STRIKES){ const w=OPP(c); gs.resign={c,mars:false,timeout:true}; gs.winner=w; gs.phase='over'; gs.score[slotOfColor(w)]+=1; gs.dice=[]; gs.remaining=[]; gs.rolled=false; selected=null; }
+  else { if(gs.snap){ gs.board=gs.snap.board.slice(); gs.off={...gs.snap.off}; } gs.trail=[]; passTurn(); }
+  toast(slot===mySlot() ? t('timeoutYou',{n:gs.strikes[slot],m:MAX_STRIKES}) : t('timeoutOpp',{n:gs.strikes[slot],m:MAX_STRIKES}));
+}
+let claimBusy=false;
+function timerTick(){
+  if(!timedGame()) return;
+  const left=timeLeft(), frac=left/TURN_MS, turnSlot=slotOfColor(gs.turn);
+  document.querySelectorAll('.tmr').forEach(el=>{ const on=el.dataset.slot===turnSlot; el.classList.toggle('on',on); el.style.setProperty('--f',(on?frac*100:0)+'%'); el.classList.toggle('low',on && left<10000); });
+  const sec=Math.ceil(left/1000), bt=$('turnBanner'); if(bt && !bt.classList.contains('hidden')){ let e=bt.querySelector('.tbc'); if(!e){ e=document.createElement('div'); e.className='tbc'; bt.appendChild(e); } e.textContent=sec+' '+t('secShort'); e.classList.toggle('low',left<10000); }
+  if(left>0 || claimBusy) return;
+  const me=mySlot();
+  if(mode==='online' && me && turnSlot!==me && Date.now()-gs.turnAt>TURN_MS+1500){ claimBusy=true; if(viaServer()) srv('timeout').finally(()=>claimBusy=false); else { applyTimeout(turnSlot); save(); route(); claimBusy=false; } }
+  else if(isGhost() && turnSlot===me && !gs.server){ applyTimeout(me); botToken++; botBusy=false; route(); }
+}
+setInterval(timerTick, 250);
+
+function renderExtras(){
+  // tab title when it is your turn and the tab is in the background
+  const mine = gs && gs.phase==='play' && myColor()===gs.turn && !gs.rolled;
+  document.title = (mine && document.hidden ? '● '+t('bnYour')+' — ' : '') + 'Nardy — long backgammon';
+  if(lobby && lobby._ready){ try{ const st=lobby.presenceState(); presIds=new Set(Object.values(st).map(a=>(a[0]||{}).uid).filter(Boolean)); }catch(e){} }
+  timerTick();
+}
+document.addEventListener('visibilitychange', ()=>{ try{ renderExtras(); }catch(e){} });
+
+// ---- quick emoji & phrases ----
+const CHAT_E=['👋','👍','😮','😅','🔥','🎲'], CHAT_P=['chHi','chNice','chOops','chLuck','chThanks','chGG'];
+let chatCh=null, chatLast=0;
+function chatText(x){ return x.startsWith('ch') ? t(x) : x; }
+function showBubble(slot,x){ const b=document.querySelector('.bub[data-slot="'+slot+'"]'); if(!b) return; b.textContent=chatText(x); b.classList.remove('hidden'); b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop'); clearTimeout(b._t); b._t=setTimeout(()=>b.classList.add('hidden'),3600); sfx('turn'); }
+function chatJoin(){ if(mode!=='online' || !sb || !gameId) return; if(chatCh && chatCh._gid===gameId) return; if(chatCh) try{ sb.removeChannel(chatCh); }catch(e){}
+  chatCh=sb.channel('chat-'+gameId,{config:{broadcast:{self:false}}}); chatCh._gid=gameId; chatCh.on('broadcast',{event:'say'},({payload})=>{ if(payload && gs && (payload.from===gs.p1||payload.from===gs.p2)) showBubble(payload.from===gs.p1?'p1':'p2', String(payload.x).slice(0,4)==='ch'?payload.x:CHAT_E.includes(payload.x)?payload.x:'👋'); }).subscribe(); }
+function say(x){
+  if(!gs || Date.now()-chatLast<2000) return; chatLast=Date.now(); const me=mySlot()||'p1'; showBubble(me,x); show('chatBar',false);
+  if(mode==='online' && chatCh) chatCh.send({type:'broadcast',event:'say',payload:{from:uid,x}});
+  if(isGhost() && Math.random()<.6){ const r = x==='chGG'||x==='chThanks' ? 'chThanks' : x==='chNice' ? '😅' : x==='chHi'||x==='👋' ? 'chHi' : CHAT_E[Math.floor(Math.random()*CHAT_E.length)]; setTimeout(()=>{ if(isGhost()) showBubble('p2',r); }, 1200+Math.random()*1800); }
+}
+function toggleChat(){ const bar=$('chatBar'); if(!bar.childElementCount){ CHAT_E.concat(CHAT_P).forEach(x=>{ const b=document.createElement('button'); b.className=x.startsWith('ch')?'ph':'em'; b.textContent=chatText(x); b.onclick=()=>say(x); bar.appendChild(b); }); }
+  show('chatBar', bar.classList.contains('hidden')); }
+
+// ---- rematch: both players must agree ----
+function askRematch(){
+  if(!gs) return; if(mode==='local' || mode==='tutor' || (mode==='bot' && !isGhost())) return newMatch();
+  if(viaServer()){ srv('rematch'); renderRematch(); return; }
+  const me=mySlot(); gs.rematch=Object.assign({},gs.rematch||{}); gs.rematch[me]=true;
+  if(isGhost()){ renderRematch(); setTimeout(()=>{ if(isGhost() && gs.phase==='over'){ say_bot('chGG'); newMatch(); } }, 1400); return; }
+  if(gs.rematch.p1 && gs.rematch.p2) return newMatch();
+  save(); renderRematch();
+}
+function say_bot(x){ try{ showBubble('p2',x); }catch(e){} }
+function renderRematch(){
+  const el=$('rmNote'); if(!el || !gs) return; const me=mySlot(), op=me==='p1'?'p2':'p1', r=gs.rematch||{};
+  el.textContent = gs.phase!=='over' || mode==='local' ? '' : r[me] && !r[op] ? t('rmWait') : r[op] && !r[me] ? t('rmAsk') : '';
+  if(mode==='online' && r.p1 && r.p2 && gs.phase==='over' && mySlot()==='p1' && !viaServer()) newMatch();
+}
+
+// ---- review after the game ----
+function openReview(){
+  if(!gs || !(gs.hist||[]).length) return;
+  const me = mySlot() || 'p1', myC = gs.white ? colorOfSlot(me) : 'w';
+  const H = gs.hist.map((h,i)=>({i, c:h.c, d:h.d, t:h.t, p:h.p}));
+  const pts=[{x:0,y:50}].concat(H.map((h,i)=>({x:i+1, y: myC==='w' ? (h.c==='w'?h.p:100-h.p) : (h.c==='w'?100-h.p:h.p)})));
+  // biggest drops caused by my own moves
+  const drops=[]; let prev=50;
+  H.forEach((h,i)=>{ const yMine = myC==='w' ? (h.c==='w'?h.p:100-h.p) : (h.c==='w'?100-h.p:h.p); if(h.c===myC && prev-yMine>=6) drops.push({i, d:prev-yMine, h}); prev=yMine; });
+  drops.sort((a,b)=>b.d-a.d);
+  const W=560, Hh=170, n=pts.length-1||1;
+  const X=x=>(x/n*(W-20)+10).toFixed(1), Y=y=>(Hh-10-(y/100)*(Hh-20)).toFixed(1);
+  let svg='<svg viewBox="0 0 '+W+' '+Hh+'" class="revc"><rect x="10" y="'+Y(50)+'" width="'+(W-20)+'" height="1" fill="#d6ccbb"/>';
+  svg+='<path d="M'+pts.map(p=>X(p.x)+' '+Y(p.y)).join('L')+'" fill="none" stroke="#1d1915" stroke-width="2" stroke-linejoin="round"/>';
+  svg+='<path d="M'+X(0)+' '+Y(50)+'L'+pts.map(p=>X(p.x)+' '+Y(p.y)).join('L')+'L'+X(n)+' '+Y(50)+'Z" fill="rgba(233,162,26,.18)"/>';
+  drops.slice(0,3).forEach(dp=>{ svg+='<circle cx="'+X(dp.i+1)+'" cy="'+Y(pts[dp.i+1].y)+'" r="5" fill="#8e2f1f" stroke="#fff" stroke-width="1.5"/>'; });
+  svg+='<text x="12" y="16" font-size="11" fill="#7a7166">100%</text><text x="12" y="'+(Hh-4)+'" font-size="11" fill="#7a7166">0%</text></svg>';
+  const body=$('revBody'); body.innerHTML='<p class="note" style="margin:0 0 8px">'+t('revSub')+'</p>'+svg;
+  const list=document.createElement('div'); list.className='revl';
+  if(!drops.length){ list.innerHTML='<p class="note">'+t('revClean')+'</p>'; }
+  drops.slice(0,3).forEach((dp,k)=>{ const r=document.createElement('div'); r.className='revr';
+    r.innerHTML='<b>'+(k+1)+'</b><span></span><em>−'+dp.d+'%</em>'; r.querySelector('span').textContent=t('revMove',{n:dp.i+1,d:dp.h.d[0]+'-'+dp.h.d[1],m:histMoves(dp.h.t)}); list.appendChild(r); });
+  body.appendChild(list);
+  const best=Math.max(...pts.map(p=>p.y)), worst=Math.min(...pts.map(p=>p.y)), doubles=H.filter(h=>h.c===myC && h.d[0]===h.d[1]).length;
+  const st=document.createElement('div'); st.className='stats'; [[best+'%',t('revBest')],[worst+'%',t('revWorst')],[doubles,t('revDoubles')]].forEach(([v,l])=>{ const d=document.createElement('div'); d.innerHTML='<b></b><span></span>'; d.firstChild.textContent=v; d.lastChild.textContent=l; st.appendChild(d); });
+  body.appendChild(st); show('revOv',true);
+}
+
+// ---- achievements ----
+const ACH=[
+  {k:'first', ic:'🏁', test:c=>c.won>=1},
+  {k:'ten', ic:'🔟', test:c=>c.won>=10},
+  {k:'mars', ic:'⚡', test:c=>c.mars>=1},
+  {k:'mars5', ic:'🌩', test:c=>c.mars>=5},
+  {k:'streak3', ic:'🔥', test:c=>c.bestStreak>=3},
+  {k:'streak5', ic:'☄️', test:c=>c.bestStreak>=5},
+  {k:'comeback', ic:'🦅', test:c=>c.comeback>=1},
+  {k:'nodouble', ic:'🎯', test:c=>c.nodouble>=1},
+  {k:'games50', ic:'🎲', test:c=>c.games>=50},
+  {k:'giant', ic:'🗡', test:c=>c.giant>=1}];
+function achState(){ return store.get('ach2',{c:{won:0,mars:0,streak:0,bestStreak:0,comeback:0,nodouble:0,games:0,giant:0},got:{}}); }
+function checkAchievements(){
+  if(!gs || gs.phase!=='over' || !(mode==='online' || mode==='bot')) return;
+  const A=achState(), c=A.c, me=mySlot(), myC=colorOfSlot(me), won=slotOfColor(gs.winner)===me;
+  c.games++; if(won){ c.won++; c.streak++; c.bestStreak=Math.max(c.bestStreak,c.streak); } else c.streak=0;
+  if(won){ const mars = gs.resign ? gs.resign.mars : gs.off[OPP(gs.winner)]===0; if(mars) c.mars++;
+    const H=gs.hist||[]; const minMine=Math.min(...H.map(h=>h.c==='w'?h.p:100-h.p).map(pw=>myC==='w'?pw:100-pw)); if(minMine<=20) c.comeback++;
+    if(H.length && !H.some(h=>h.c===myC && h.d[0]===h.d[1])) c.nodouble++;
+    const op=me==='p1'?'p2':'p1'; if(((gs.ratings||{})[op]||0) >= (profile.rating||1000)+300) c.giant++; }
+  const fresh=ACH.filter(a=>!A.got[a.k] && a.test(c)); fresh.forEach(a=>A.got[a.k]=Date.now()); store.set('ach2',A);
+  fresh.forEach((a,i)=>setTimeout(()=>achToast(a), 1800+i*2200));
+}
+function achToast(a){ const el=document.createElement('div'); el.className='achT'; el.innerHTML='<i></i><div><small></small><b></b></div>'; el.querySelector('i').textContent=a.ic; el.querySelector('small').textContent=t('achNew'); el.querySelector('b').textContent=t('ach_'+a.k); document.body.appendChild(el); sfx('starup'); setTimeout(()=>el.classList.add('out'),3200); setTimeout(()=>el.remove(),3800); }
+function achBlock(){
+  const A=achState(), w=document.createElement('div'); w.className='achg';
+  ACH.forEach(a=>{ const d=document.createElement('div'); d.className='achi'+(A.got[a.k]?' on':''); d.title=t('achD_'+a.k); d.innerHTML='<i></i><span></span>'; d.firstChild.textContent=a.ic; d.lastChild.textContent=t('ach_'+a.k); w.appendChild(d); });
+  return w;
+}
+async function refreshProfile(){ if(!sb||!uid) return; try{ const {data}=await sb.from('profiles').select('rating,rgames,played,won').eq('id',uid).maybeSingle(); if(data){ const before=rankOf(profile.rating||1000); Object.assign(profile,data); const after=rankOf(profile.rating); rankUp = after.step>before.step ? {tier:after.ti>before.ti,before,after} : null; renderMe(); if(gs) renderHud(); } }catch(e){} }
+
+// ---- server-held bot games ----
+async function startServerBot(ghostIdx){
+  const me=profile.rating||1000;
+  let args;
+  if(ghostIdx!=null){ const g=ghostInfo(ghostIdx); args={bot:'ghost', name:g.name, av:g.av, rating:g.rating}; }
+  else { const cand=LBOTS.slice().sort((a,b)=>Math.abs(a.r-me)-Math.abs(b.r-me)).slice(0,2), lb=cand[Math.floor(Math.random()*cand.length)]; args={bot:lb.k, name:t('bot_'+lb.k), av:lb.av}; }
+  mode='bot'; gameId='b'+rid(); ref=db.doc('games/'+gameId); gs=newGame('ME','BOT'); gs.seq=-1; gs.server=true;
+  const st=await srv('create',args); if(!st){ leave(); return; }
+  gs.server=true; if(ghostIdx!=null){ gs.ghost=ghostIdx; toast(t('matchFound')); sfx('turn'); } route();
+}
+function serverBotTick(){
+  const botSlot='p2', needOpen = gs.phase==='opening' && gs.open.p1 && !gs.open.p2, botTurn = gs.phase==='play' && gs.turn===colorOfSlot(botSlot);
+  if(!needOpen && !botTurn) return;
+  const gh=isGhost(), J=(a,b)=>a+Math.random()*(b-a), tok=botToken;
+  const wait = needOpen ? (gh?J(1100,3000):850) : !gs.rolled ? (gh?J(900,3200):650) : (gh?J(450,1300):620);
+  botBusy=true; botWait(wait).then(async()=>{ if(tok!==botToken || !gs){ botBusy=false; return; } await srv('bot_step'); botBusy=false; route(); });
+}
+
+
+// ================= voice chat =================
+// Peer-to-peer audio (WebRTC). Signalling messages travel over a Supabase broadcast channel for the game.
+const ICE=[{urls:['stun:stun.l.google.com:19302','stun:stun1.l.google.com:19302']}];
+const V={on:false, ch:null, pc:null, mic:null, audio:null, spk:true, state:'off', gid:null, timer:null, an:null};
+function voiceUI(){
+  const b=$('btnVoice'); if(!b) return;
+  const avail = gs && (mode==='online' || isGhost()) && gs.p2;
+  show('btnVoice', !!avail); b.classList.toggle('von', V.on); b.classList.toggle('vwait', V.on && V.state!=='live');
+  b.title = !V.on ? t('vcOn') : V.state==='live' ? t('vcOff') : t('vcWait');
+  show('btnSpk', V.on && V.state==='live'); $('btnSpk').classList.toggle('muted', !V.spk);
+}
+async function toggleVoice(){ if(V.on){ voiceStop(); toast(t('vcEnded')); return; } await voiceStart(); }
+function toggleSpk(){ V.spk=!V.spk; if(V.audio) V.audio.muted=!V.spk; voiceUI(); }
+async function voiceStart(){
+  if(!gs) return;
+  try{ V.mic=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true}}); }
+  catch(e){ toast(t('vcNoMic')); return; }
+  V.on=true; V.state='wait'; V.gid=gameId; voiceUI(); toast(t('vcWait'));
+  if(isGhost()){ setTimeout(()=>{ if(V.on && isGhost()){ toast(t('vcOppOff')); } }, 2500); return; }
+  if(!sb){ return; }
+  V.ch=sb.channel('voice-'+gameId,{config:{broadcast:{self:false}}});
+  V.ch.on('broadcast',{event:'sig'},({payload})=>onSig(payload)).subscribe(st=>{ if(st==='SUBSCRIBED') sig({k:'hello'}); });
+  clearTimeout(V.timer); V.timer=setTimeout(()=>{ if(V.on && V.state!=='live') toast(t('vcNobody')); }, 20000);
+}
+function sig(m){ if(V.ch) V.ch.send({type:'broadcast',event:'sig',payload:Object.assign({from:uid},m)}); }
+function opponentId(){ return gs ? (gs.p1===uid ? gs.p2 : gs.p1) : null; }
+function makePC(){
+  const pc=new RTCPeerConnection({iceServers:ICE}); V.pc=pc;
+  V.mic.getTracks().forEach(tr=>pc.addTrack(tr,V.mic));
+  pc.onicecandidate=e=>{ if(e.candidate) sig({k:'ice',c:e.candidate.toJSON()}); };
+  pc.ontrack=e=>{ if(!V.audio){ V.audio=new Audio(); V.audio.autoplay=true; V.audio.playsInline=true; } V.audio.srcObject=e.streams[0]; V.audio.muted=!V.spk; V.audio.play().catch(()=>{}); watchTalk(e.streams[0]); };
+  pc.onconnectionstatechange=()=>{ const st=pc.connectionState;
+    if(st==='connected'){ V.state='live'; clearTimeout(V.timer); toast(t('vcLive')); sfx('turn'); }
+    if(st==='failed'){ toast(t('vcFail')); voiceReset(); }
+    if(st==='disconnected'||st==='closed'){ if(V.on){ V.state='wait'; } }
+    voiceUI(); };
+  return pc;
+}
+async function onSig(m){
+  if(!V.on || !m || m.from!==opponentId()) return;
+  try{
+    if(m.k==='hello'){ voiceReset(true); sig({k:'hello-ack'}); if(uid<m.from) await offer(); }
+    else if(m.k==='hello-ack'){ if(uid<m.from && !V.pc) await offer(); }
+    else if(m.k==='offer'){ voiceReset(true); const pc=makePC(); await pc.setRemoteDescription(m.d); const a=await pc.createAnswer(); await pc.setLocalDescription(a); sig({k:'answer',d:pc.localDescription.toJSON()}); }
+    else if(m.k==='answer'){ if(V.pc) await V.pc.setRemoteDescription(m.d); }
+    else if(m.k==='ice'){ if(V.pc) await V.pc.addIceCandidate(m.c); }
+    else if(m.k==='bye'){ voiceReset(); toast(t('vcOppLeft')); }
+  }catch(e){}
+}
+async function offer(){ const pc=makePC(); const o=await pc.createOffer(); await pc.setLocalDescription(o); sig({k:'offer',d:pc.localDescription.toJSON()}); }
+function voiceReset(keepOn){ if(V.pc){ try{ V.pc.close(); }catch(e){} V.pc=null; } if(V.an){ try{ V.an.ctx.close(); }catch(e){} V.an=null; } if(V.on) V.state='wait'; talkMark(false); voiceUI(); }
+function voiceStop(silent){
+  if(!V.on && !V.pc) return; if(!silent || V.ch) sig({k:'bye'});
+  voiceReset(); if(V.mic) V.mic.getTracks().forEach(tr=>tr.stop()); V.mic=null;
+  if(V.ch){ try{ sb.removeChannel(V.ch); }catch(e){} V.ch=null; }
+  if(V.audio){ V.audio.srcObject=null; } V.on=false; V.state='off'; clearTimeout(V.timer); voiceUI();
+}
+function watchTalk(stream){
+  try{ const ctx=new (window.AudioContext||window.webkitAudioContext)(), src=ctx.createMediaStreamSource(stream), an=ctx.createAnalyser(); an.fftSize=512; src.connect(an);
+    const buf=new Uint8Array(an.fftSize); V.an={ctx};
+    (function loop(){ if(!V.an || V.an.ctx!==ctx) return; an.getByteTimeDomainData(buf); let m=0; for(const v of buf) m=Math.max(m,Math.abs(v-128)); talkMark(m>10 && V.spk); requestAnimationFrame(loop); })();
+  }catch(e){}
+}
+function talkMark(on){ const op = gs ? (mySlot()==='p1'?'p2':'p1') : null; document.querySelectorAll('.pl .pav').forEach(el=>el.classList.remove('talk')); if(on && op){ const card = document.querySelector('.tmr[data-slot="'+op+'"]'); const pav=(card&&card.parentElement) || null; if(pav) pav.classList.add('talk'); else { const plTop=$('plTop').querySelector('.pav'); if(plTop) plTop.classList.add('talk'); } } }
 
 // ================= 2D board =================
 let scene3d=null;
@@ -1695,10 +1914,9 @@ const BOARDS={
   walnut:{name:'Walnut', sw:['#4a2e1b','#e6cfa6'], shape:'tri'},
   midnight:{name:'Midnight', sw:['#161c2e','#e3b26b']},
   druzi:{name:'Druzi', sw:['#0e0e0f','#eaf8ff']},
-  gold:{name:'Zodiac', sw:['#0b0b0c','#e3b448'], shape:'line'},
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
-const CKS=['classic','wood','stone','flat','metal','glass','retro','crystal'], DICES=['ivory','onyx','ruby'];
+const CKS=['classic','wood','stone','flat','metal','glass','retro'], DICES=['ivory','onyx','ruby'];
 prefs.ck = store.get('ck','classic'); if(!CKS.includes(prefs.ck)) prefs.ck='classic';
 prefs.dice = store.get('dice','ivory'); if(!DICES.includes(prefs.dice)) prefs.dice='ivory';
 function build2D(){
@@ -1706,9 +1924,9 @@ function build2D(){
   const wrap=document.createElement('div'); wrap.className='bw';
   wrap.innerHTML=
    '<div class="board" id="board">'+
-     '<div class="half" id="hL"><div class="medal"><svg viewBox="0 0 200 200"><defs><linearGradient id="gG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff1b8"/><stop offset=".45" stop-color="#e3b448"/><stop offset="1" stop-color="#9c6b16"/></linearGradient><radialGradient id="gS" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff4c2"/><stop offset=".6" stop-color="#f0c04e"/><stop offset="1" stop-color="#b07a1a"/></radialGradient></defs><circle cx="100" cy="100" r="96" fill="rgba(0,0,0,.55)"/><circle cx="100" cy="100" r="96" fill="none" stroke="url(#gG)" stroke-width="1.4"/><circle cx="100" cy="100" r="92.5" fill="none" stroke="url(#gG)" stroke-width="0.8"/><circle cx="100" cy="100" r="50" fill="none" stroke="url(#gG)" stroke-width="0.8"/><circle cx="100" cy="100" r="46" fill="none" stroke="url(#gG)" stroke-width="1.4"/><path d="M100.00 50.00L100.00 7.50" stroke="url(#gG)" stroke-width=".9"/><text x="118.38" y="31.42" text-anchor="middle" dominant-baseline="central" font-family="\'Segoe UI Symbol\',\'Noto Sans Symbols\',\'DejaVu Sans\',serif" font-size="17" fill="url(#gG)">♈&#xFE0E;</text><path d="M108.06 7.85L108.37 4.37" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M116.06 8.91L116.67 5.46" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M123.94 10.65L124.85 7.27" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M131.64 13.08L132.83 9.79" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M139.09 16.17L140.57 12.99" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M125.00 56.70L146.25 19.89" stroke="url(#gG)" stroke-width=".9"/><text x="150.20" y="49.80" text-anchor="middle" dominant-baseline="central" font-family="\'Segoe UI Symbol\',\'Noto Sans Symbols\',\'DejaVu Sans\',serif" font-size="17" fill="url(#gG)">♉&#xFE0E;</text><path d="M153.06 24.23L155.06 21.36" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M159.46 29.14L161.71 26.46" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M165.41 34.59L167.88 32.12" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M170.86 40.54L173.54 38.29" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M175.77 46.94L178.64 44.94" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M143.30 75.00L180.11 53.75" stroke="url(#gG)" stroke-width=".9"/><text x="168.58" y="81.62" text-anchor="middle" dominant-baseline="central" font-family="\'Segoe UI Symbol\',\'Noto Sans Symbols\',\'DejaVu Sans\',serif" font-size="17" fill="url(#gG)">♊&#xFE0E;</text><path d="M183.83 60.91L187.01 59.43" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M186.92 68.36L190.21 67.17" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M189.35 76.06L192.73 75.15" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M191.09 83.94L194.54 83.33" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M192.15 91.94L195.63 91.63" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M150.00 100.00L192.50 100.00" stroke="url(#gG)" stroke-width=".9"/><text x="168.58" y="118.38" text-anchor="middle" dominant-baseline="central" font-family="\'Segoe UI Symbol\',\'Noto Sans Symbols\',\'DejaVu Sans\',serif" font-size="17" fill="url(#gG)">♋&#xFE0E;</text><path d="M192.15 108.06L195.63 108.37" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M191.09 116.06L194.54 116.67" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M189.35 123.94L192.73 124.85" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M186.92 131.64L190.21 132.83" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M183.83 139.09L187.01 140.57" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M143.30 125.00L180.11 146.25" stroke="url(#gG)" stroke-width=".9"/><text x="150.20" y="150.20" text-anchor="middle" dominant-baseline="central" font-family="\'Segoe UI Symbol\',\'Noto Sans Symbols\',\'DejaVu Sans\',serif" font-size="17" fill="url(#gG)">♌&#xFE0E;</text><path d="M175.77 153.06L178.64 155.06" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M170.86 159.46L173.54 161.71" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M165.41 165.41L167.88 167.88" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M159.46 170.86L161.71 173.54" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M153.06 175.77L155.06 178.64" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M125.00 143.30L146.25 180.11" stroke="url(#gG)" stroke-width=".9"/><text x="118.38" y="168.58" text-anchor="middle" dominant-baseline="central" font-family="\'Segoe UI Symbol\',\'Noto Sans Symbols\',\'DejaVu Sans\',serif" font-size="17" fill="url(#gG)">♍&#xFE0E;</text><path d="M139.09 183.83L140.57 187.01" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M131.64 186.92L132.83 190.21" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M123.94 189.35L124.85 192.73" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M116.06 191.09L116.67 194.54" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M108.06 192.15L108.37 195.63" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M100.00 150.00L100.00 192.50" stroke="url(#gG)" stroke-width=".9"/><text x="81.62" y="168.58" text-anchor="middle" dominant-baseline="central" font-family="\'Segoe UI Symbol\',\'Noto Sans Symbols\',\'DejaVu Sans\',serif" font-size="17" fill="url(#gG)">♎&#xFE0E;</text><path d="M91.94 192.15L91.63 195.63" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M83.94 191.09L83.33 194.54" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M76.06 189.35L75.15 192.73" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M68.36 186.92L67.17 190.21" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M60.91 183.83L59.43 187.01" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M75.00 143.30L53.75 180.11" stroke="url(#gG)" stroke-width=".9"/><text x="49.80" y="150.20" text-anchor="middle" dominant-baseline="central" font-family="\'Segoe UI Symbol\',\'Noto Sans Symbols\',\'DejaVu Sans\',serif" font-size="17" fill="url(#gG)">♏&#xFE0E;</text><path d="M46.94 175.77L44.94 178.64" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M40.54 170.86L38.29 173.54" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M34.59 165.41L32.12 167.88" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M29.14 159.46L26.46 161.71" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M24.23 153.06L21.36 155.06" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M56.70 125.00L19.89 146.25" stroke="url(#gG)" stroke-width=".9"/><text x="31.42" y="118.38" text-anchor="middle" dominant-baseline="central" font-family="\'Segoe UI Symbol\',\'Noto Sans Symbols\',\'DejaVu Sans\',serif" font-size="17" fill="url(#gG)">♐&#xFE0E;</text><path d="M16.17 139.09L12.99 140.57" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M13.08 131.64L9.79 132.83" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M10.65 123.94L7.27 124.85" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M8.91 116.06L5.46 116.67" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M7.85 108.06L4.37 108.37" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M50.00 100.00L7.50 100.00" stroke="url(#gG)" stroke-width=".9"/><text x="31.42" y="81.62" text-anchor="middle" dominant-baseline="central" font-family="\'Segoe UI Symbol\',\'Noto Sans Symbols\',\'DejaVu Sans\',serif" font-size="17" fill="url(#gG)">♑&#xFE0E;</text><path d="M7.85 91.94L4.37 91.63" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M8.91 83.94L5.46 83.33" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M10.65 76.06L7.27 75.15" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M13.08 68.36L9.79 67.17" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M16.17 60.91L12.99 59.43" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M56.70 75.00L19.89 53.75" stroke="url(#gG)" stroke-width=".9"/><text x="49.80" y="49.80" text-anchor="middle" dominant-baseline="central" font-family="\'Segoe UI Symbol\',\'Noto Sans Symbols\',\'DejaVu Sans\',serif" font-size="17" fill="url(#gG)">♒&#xFE0E;</text><path d="M24.23 46.94L21.36 44.94" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M29.14 40.54L26.46 38.29" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M34.59 34.59L32.12 32.12" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M40.54 29.14L38.29 26.46" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M46.94 24.23L44.94 21.36" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M75.00 56.70L53.75 19.89" stroke="url(#gG)" stroke-width=".9"/><text x="81.62" y="31.42" text-anchor="middle" dominant-baseline="central" font-family="\'Segoe UI Symbol\',\'Noto Sans Symbols\',\'DejaVu Sans\',serif" font-size="17" fill="url(#gG)">♓&#xFE0E;</text><path d="M60.91 16.17L59.43 12.99" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M68.36 13.08L67.17 9.79" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M76.06 10.65L75.15 7.27" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M83.94 8.91L83.33 5.46" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M91.94 7.85L91.63 4.37" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M119.74 96.81Q130.99 94.36 141.95 102.10Q128.69 106.42 119.74 103.19ZM119.46 104.61Q126.39 105.70 132.53 115.42Q120.62 114.49 117.02 110.50ZM116.21 111.71Q125.90 117.93 128.18 131.15Q115.75 124.82 111.71 116.21ZM110.50 117.02Q114.63 122.69 112.10 133.91Q104.33 124.83 104.61 119.46ZM103.19 119.74Q105.64 130.99 97.90 141.95Q93.58 128.69 96.81 119.74ZM95.39 119.46Q94.30 126.39 84.58 132.53Q85.51 120.62 89.50 117.02ZM88.29 116.21Q82.07 125.90 68.85 128.18Q75.18 115.75 83.79 111.71ZM82.98 110.50Q77.31 114.63 66.09 112.10Q75.17 104.33 80.54 104.61ZM80.26 103.19Q69.01 105.64 58.05 97.90Q71.31 93.58 80.26 96.81ZM80.54 95.39Q73.61 94.30 67.47 84.58Q79.38 85.51 82.98 89.50ZM83.79 88.29Q74.10 82.07 71.82 68.85Q84.25 75.18 88.29 83.79ZM89.50 82.98Q85.37 77.31 87.90 66.09Q95.67 75.17 95.39 80.54ZM96.81 80.26Q94.36 69.01 102.10 58.05Q106.42 71.31 103.19 80.26ZM104.61 80.54Q105.70 73.61 115.42 67.47Q114.49 79.38 110.50 82.98ZM111.71 83.79Q117.93 74.10 131.15 71.82Q124.82 84.25 116.21 88.29ZM117.02 89.50Q122.69 85.37 133.91 87.90Q124.83 95.67 119.46 95.39Z" fill="url(#gS)" stroke="#8a5d10" stroke-width=".4"/><circle cx="100" cy="100" r="20" fill="url(#gS)" stroke="#8a5d10" stroke-width=".8"/><circle cx="100" cy="100" r="15" fill="none" stroke="#8a5d10" stroke-width=".6" opacity=".7"/><path d="M93 97q2-2 4 0M103 97q2-2 4 0M95 105q5 4 10 0" fill="none" stroke="#7a4f0c" stroke-width="1.2" stroke-linecap="round"/></svg></div><div class="neon"><svg viewBox="6 5 128 45" fill="none" stroke-linecap="round" stroke-linejoin="round"><defs><mask id="neonL" maskUnits="userSpaceOnUse" x="0" y="0" width="140" height="56"><g stroke="#fff" stroke-width="5.6"><path d="M19.2 12.3H22C32 12.3 37.7 19 37.7 27.5C37.7 36 32 42.8 22 42.8H19.2"/><path d="M49.5 43.2V26C49.5 21 53 19 58.6 19"/><path d="M70.2 21V36C70.2 41 74 43.3 78.4 43.3C83 43.3 86.2 41 86.2 36M86.2 21V43.4"/><path d="M98.6 21.8H111.6L99.2 43.2H116.4"/><path d="M125 21.6V43.4"/><path d="M126.6 11.4A3.1 3.1 0 1 0 124.2 16.2" stroke-width="4.3999999999999995"/></g><g stroke="#000" stroke-width="3.6999999999999997"><path d="M19.2 12.3H22C32 12.3 37.7 19 37.7 27.5C37.7 36 32 42.8 22 42.8H19.2"/><path d="M49.5 43.2V26C49.5 21 53 19 58.6 19"/><path d="M70.2 21V36C70.2 41 74 43.3 78.4 43.3C83 43.3 86.2 41 86.2 36M86.2 21V43.4"/><path d="M98.6 21.8H111.6L99.2 43.2H116.4"/><path d="M125 21.6V43.4"/><path d="M126.6 11.4A3.1 3.1 0 1 0 124.2 16.2" stroke-width="2.4999999999999996"/></g></mask><mask id="neonLs" maskUnits="userSpaceOnUse" x="0" y="0" width="140" height="56"><path d="M13.6 11.9V43.1" stroke="#fff" stroke-width="5.6"/><path d="M13.6 11.9V43.1" stroke="#000" stroke-width="3.6999999999999997"/></mask></defs><rect x="0" y="0" width="140" height="56" fill="#f3fbff" mask="url(#neonL)"/><rect x="0" y="0" width="140" height="56" fill="#f3fbff" mask="url(#neonLs)"/></svg></div><div class="prow top" id="rTL"></div><div class="prow bot" id="rBL"></div><div class="dice" id="diceL"></div></div>'+
+     '<div class="half" id="hL"><div class="neon"><svg viewBox="6 5 128 45" fill="none" stroke-linecap="round" stroke-linejoin="round"><defs><mask id="neonL" maskUnits="userSpaceOnUse" x="0" y="0" width="140" height="56"><g stroke="#fff" stroke-width="5.6"><path d="M19.2 12.3H22C32 12.3 37.7 19 37.7 27.5C37.7 36 32 42.8 22 42.8H19.2"/><path d="M49.5 43.2V26C49.5 21 53 19 58.6 19"/><path d="M70.2 21V36C70.2 41 74 43.3 78.4 43.3C83 43.3 86.2 41 86.2 36M86.2 21V43.4"/><path d="M98.6 21.8H111.6L99.2 43.2H116.4"/><path d="M125 21.6V43.4"/><path d="M126.6 11.4A3.1 3.1 0 1 0 124.2 16.2" stroke-width="4.3999999999999995"/></g><g stroke="#000" stroke-width="3.6999999999999997"><path d="M19.2 12.3H22C32 12.3 37.7 19 37.7 27.5C37.7 36 32 42.8 22 42.8H19.2"/><path d="M49.5 43.2V26C49.5 21 53 19 58.6 19"/><path d="M70.2 21V36C70.2 41 74 43.3 78.4 43.3C83 43.3 86.2 41 86.2 36M86.2 21V43.4"/><path d="M98.6 21.8H111.6L99.2 43.2H116.4"/><path d="M125 21.6V43.4"/><path d="M126.6 11.4A3.1 3.1 0 1 0 124.2 16.2" stroke-width="2.4999999999999996"/></g></mask><mask id="neonLs" maskUnits="userSpaceOnUse" x="0" y="0" width="140" height="56"><path d="M13.6 11.9V43.1" stroke="#fff" stroke-width="5.6"/><path d="M13.6 11.9V43.1" stroke="#000" stroke-width="3.6999999999999997"/></mask></defs><rect x="0" y="0" width="140" height="56" fill="#f3fbff" mask="url(#neonL)"/><rect x="0" y="0" width="140" height="56" fill="#f3fbff" mask="url(#neonLs)"/></svg></div><div class="prow top" id="rTL"></div><div class="prow bot" id="rBL"></div><div class="dice" id="diceL"></div></div>'+
      '<div class="bar"></div><div class="tb hidden" id="turnBanner"></div><button class="ub hidden" id="btnUndoB"><svg class="i"><use href="#i-undo"/></svg></button>'+
-     '<div class="half" id="hR"><div class="medal"><svg viewBox="0 0 200 200"><defs><linearGradient id="gG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff1b8"/><stop offset=".45" stop-color="#e3b448"/><stop offset="1" stop-color="#9c6b16"/></linearGradient><radialGradient id="gS" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff4c2"/><stop offset=".6" stop-color="#f0c04e"/><stop offset="1" stop-color="#b07a1a"/></radialGradient></defs><circle cx="100" cy="100" r="96" fill="rgba(0,0,0,.55)"/><circle cx="100" cy="100" r="96" fill="none" stroke="url(#gG)" stroke-width="1.4"/><circle cx="100" cy="100" r="92.5" fill="none" stroke="url(#gG)" stroke-width="0.8"/><circle cx="100" cy="100" r="50" fill="none" stroke="url(#gG)" stroke-width="0.8"/><circle cx="100" cy="100" r="46" fill="none" stroke="url(#gG)" stroke-width="1.4"/><path d="M100.00 50.00L100.00 7.50" stroke="url(#gG)" stroke-width=".9"/><text x="118.38" y="31.42" text-anchor="middle" dominant-baseline="central" font-family="\'Segoe UI Symbol\',\'Noto Sans Symbols\',\'DejaVu Sans\',serif" font-size="17" fill="url(#gG)">♈&#xFE0E;</text><path d="M108.06 7.85L108.37 4.37" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M116.06 8.91L116.67 5.46" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M123.94 10.65L124.85 7.27" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M131.64 13.08L132.83 9.79" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M139.09 16.17L140.57 12.99" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M125.00 56.70L146.25 19.89" stroke="url(#gG)" stroke-width=".9"/><text x="150.20" y="49.80" text-anchor="middle" dominant-baseline="central" font-family="\'Segoe UI Symbol\',\'Noto Sans Symbols\',\'DejaVu Sans\',serif" font-size="17" fill="url(#gG)">♉&#xFE0E;</text><path d="M153.06 24.23L155.06 21.36" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M159.46 29.14L161.71 26.46" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M165.41 34.59L167.88 32.12" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M170.86 40.54L173.54 38.29" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M175.77 46.94L178.64 44.94" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M143.30 75.00L180.11 53.75" stroke="url(#gG)" stroke-width=".9"/><text x="168.58" y="81.62" text-anchor="middle" dominant-baseline="central" font-family="\'Segoe UI Symbol\',\'Noto Sans Symbols\',\'DejaVu Sans\',serif" font-size="17" fill="url(#gG)">♊&#xFE0E;</text><path d="M183.83 60.91L187.01 59.43" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M186.92 68.36L190.21 67.17" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M189.35 76.06L192.73 75.15" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M191.09 83.94L194.54 83.33" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M192.15 91.94L195.63 91.63" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M150.00 100.00L192.50 100.00" stroke="url(#gG)" stroke-width=".9"/><text x="168.58" y="118.38" text-anchor="middle" dominant-baseline="central" font-family="\'Segoe UI Symbol\',\'Noto Sans Symbols\',\'DejaVu Sans\',serif" font-size="17" fill="url(#gG)">♋&#xFE0E;</text><path d="M192.15 108.06L195.63 108.37" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M191.09 116.06L194.54 116.67" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M189.35 123.94L192.73 124.85" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M186.92 131.64L190.21 132.83" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M183.83 139.09L187.01 140.57" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M143.30 125.00L180.11 146.25" stroke="url(#gG)" stroke-width=".9"/><text x="150.20" y="150.20" text-anchor="middle" dominant-baseline="central" font-family="\'Segoe UI Symbol\',\'Noto Sans Symbols\',\'DejaVu Sans\',serif" font-size="17" fill="url(#gG)">♌&#xFE0E;</text><path d="M175.77 153.06L178.64 155.06" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M170.86 159.46L173.54 161.71" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M165.41 165.41L167.88 167.88" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M159.46 170.86L161.71 173.54" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M153.06 175.77L155.06 178.64" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M125.00 143.30L146.25 180.11" stroke="url(#gG)" stroke-width=".9"/><text x="118.38" y="168.58" text-anchor="middle" dominant-baseline="central" font-family="\'Segoe UI Symbol\',\'Noto Sans Symbols\',\'DejaVu Sans\',serif" font-size="17" fill="url(#gG)">♍&#xFE0E;</text><path d="M139.09 183.83L140.57 187.01" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M131.64 186.92L132.83 190.21" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M123.94 189.35L124.85 192.73" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M116.06 191.09L116.67 194.54" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M108.06 192.15L108.37 195.63" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M100.00 150.00L100.00 192.50" stroke="url(#gG)" stroke-width=".9"/><text x="81.62" y="168.58" text-anchor="middle" dominant-baseline="central" font-family="\'Segoe UI Symbol\',\'Noto Sans Symbols\',\'DejaVu Sans\',serif" font-size="17" fill="url(#gG)">♎&#xFE0E;</text><path d="M91.94 192.15L91.63 195.63" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M83.94 191.09L83.33 194.54" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M76.06 189.35L75.15 192.73" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M68.36 186.92L67.17 190.21" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M60.91 183.83L59.43 187.01" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M75.00 143.30L53.75 180.11" stroke="url(#gG)" stroke-width=".9"/><text x="49.80" y="150.20" text-anchor="middle" dominant-baseline="central" font-family="\'Segoe UI Symbol\',\'Noto Sans Symbols\',\'DejaVu Sans\',serif" font-size="17" fill="url(#gG)">♏&#xFE0E;</text><path d="M46.94 175.77L44.94 178.64" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M40.54 170.86L38.29 173.54" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M34.59 165.41L32.12 167.88" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M29.14 159.46L26.46 161.71" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M24.23 153.06L21.36 155.06" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M56.70 125.00L19.89 146.25" stroke="url(#gG)" stroke-width=".9"/><text x="31.42" y="118.38" text-anchor="middle" dominant-baseline="central" font-family="\'Segoe UI Symbol\',\'Noto Sans Symbols\',\'DejaVu Sans\',serif" font-size="17" fill="url(#gG)">♐&#xFE0E;</text><path d="M16.17 139.09L12.99 140.57" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M13.08 131.64L9.79 132.83" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M10.65 123.94L7.27 124.85" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M8.91 116.06L5.46 116.67" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M7.85 108.06L4.37 108.37" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M50.00 100.00L7.50 100.00" stroke="url(#gG)" stroke-width=".9"/><text x="31.42" y="81.62" text-anchor="middle" dominant-baseline="central" font-family="\'Segoe UI Symbol\',\'Noto Sans Symbols\',\'DejaVu Sans\',serif" font-size="17" fill="url(#gG)">♑&#xFE0E;</text><path d="M7.85 91.94L4.37 91.63" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M8.91 83.94L5.46 83.33" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M10.65 76.06L7.27 75.15" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M13.08 68.36L9.79 67.17" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M16.17 60.91L12.99 59.43" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M56.70 75.00L19.89 53.75" stroke="url(#gG)" stroke-width=".9"/><text x="49.80" y="49.80" text-anchor="middle" dominant-baseline="central" font-family="\'Segoe UI Symbol\',\'Noto Sans Symbols\',\'DejaVu Sans\',serif" font-size="17" fill="url(#gG)">♒&#xFE0E;</text><path d="M24.23 46.94L21.36 44.94" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M29.14 40.54L26.46 38.29" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M34.59 34.59L32.12 32.12" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M40.54 29.14L38.29 26.46" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M46.94 24.23L44.94 21.36" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M75.00 56.70L53.75 19.89" stroke="url(#gG)" stroke-width=".9"/><text x="81.62" y="31.42" text-anchor="middle" dominant-baseline="central" font-family="\'Segoe UI Symbol\',\'Noto Sans Symbols\',\'DejaVu Sans\',serif" font-size="17" fill="url(#gG)">♓&#xFE0E;</text><path d="M60.91 16.17L59.43 12.99" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M68.36 13.08L67.17 9.79" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M76.06 10.65L75.15 7.27" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M83.94 8.91L83.33 5.46" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M91.94 7.85L91.63 4.37" stroke="#d9a73e" stroke-width=".5" opacity=".7"/><path d="M119.74 96.81Q130.99 94.36 141.95 102.10Q128.69 106.42 119.74 103.19ZM119.46 104.61Q126.39 105.70 132.53 115.42Q120.62 114.49 117.02 110.50ZM116.21 111.71Q125.90 117.93 128.18 131.15Q115.75 124.82 111.71 116.21ZM110.50 117.02Q114.63 122.69 112.10 133.91Q104.33 124.83 104.61 119.46ZM103.19 119.74Q105.64 130.99 97.90 141.95Q93.58 128.69 96.81 119.74ZM95.39 119.46Q94.30 126.39 84.58 132.53Q85.51 120.62 89.50 117.02ZM88.29 116.21Q82.07 125.90 68.85 128.18Q75.18 115.75 83.79 111.71ZM82.98 110.50Q77.31 114.63 66.09 112.10Q75.17 104.33 80.54 104.61ZM80.26 103.19Q69.01 105.64 58.05 97.90Q71.31 93.58 80.26 96.81ZM80.54 95.39Q73.61 94.30 67.47 84.58Q79.38 85.51 82.98 89.50ZM83.79 88.29Q74.10 82.07 71.82 68.85Q84.25 75.18 88.29 83.79ZM89.50 82.98Q85.37 77.31 87.90 66.09Q95.67 75.17 95.39 80.54ZM96.81 80.26Q94.36 69.01 102.10 58.05Q106.42 71.31 103.19 80.26ZM104.61 80.54Q105.70 73.61 115.42 67.47Q114.49 79.38 110.50 82.98ZM111.71 83.79Q117.93 74.10 131.15 71.82Q124.82 84.25 116.21 88.29ZM117.02 89.50Q122.69 85.37 133.91 87.90Q124.83 95.67 119.46 95.39Z" fill="url(#gS)" stroke="#8a5d10" stroke-width=".4"/><circle cx="100" cy="100" r="20" fill="url(#gS)" stroke="#8a5d10" stroke-width=".8"/><circle cx="100" cy="100" r="15" fill="none" stroke="#8a5d10" stroke-width=".6" opacity=".7"/><path d="M93 97q2-2 4 0M103 97q2-2 4 0M95 105q5 4 10 0" fill="none" stroke="#7a4f0c" stroke-width="1.2" stroke-linecap="round"/></svg></div><div class="neon"><svg viewBox="6 5 128 45" fill="none" stroke-linecap="round" stroke-linejoin="round"><defs><mask id="neonR" maskUnits="userSpaceOnUse" x="0" y="0" width="140" height="56"><g stroke="#fff" stroke-width="5.6"><path d="M19.2 12.3H22C32 12.3 37.7 19 37.7 27.5C37.7 36 32 42.8 22 42.8H19.2"/><path d="M49.5 43.2V26C49.5 21 53 19 58.6 19"/><path d="M70.2 21V36C70.2 41 74 43.3 78.4 43.3C83 43.3 86.2 41 86.2 36M86.2 21V43.4"/><path d="M98.6 21.8H111.6L99.2 43.2H116.4"/><path d="M125 21.6V43.4"/><path d="M126.6 11.4A3.1 3.1 0 1 0 124.2 16.2" stroke-width="4.3999999999999995"/></g><g stroke="#000" stroke-width="3.6999999999999997"><path d="M19.2 12.3H22C32 12.3 37.7 19 37.7 27.5C37.7 36 32 42.8 22 42.8H19.2"/><path d="M49.5 43.2V26C49.5 21 53 19 58.6 19"/><path d="M70.2 21V36C70.2 41 74 43.3 78.4 43.3C83 43.3 86.2 41 86.2 36M86.2 21V43.4"/><path d="M98.6 21.8H111.6L99.2 43.2H116.4"/><path d="M125 21.6V43.4"/><path d="M126.6 11.4A3.1 3.1 0 1 0 124.2 16.2" stroke-width="2.4999999999999996"/></g></mask><mask id="neonRs" maskUnits="userSpaceOnUse" x="0" y="0" width="140" height="56"><path d="M13.6 11.9V43.1" stroke="#fff" stroke-width="5.6"/><path d="M13.6 11.9V43.1" stroke="#000" stroke-width="3.6999999999999997"/></mask></defs><rect x="0" y="0" width="140" height="56" fill="#f3fbff" mask="url(#neonR)"/><rect x="0" y="0" width="140" height="56" fill="#f3fbff" mask="url(#neonRs)"/></svg></div><div class="prow top" id="rTR"></div><div class="prow bot" id="rBR"></div><div class="dice" id="diceR"></div></div>'+
+     '<div class="half" id="hR"><div class="neon"><svg viewBox="6 5 128 45" fill="none" stroke-linecap="round" stroke-linejoin="round"><defs><mask id="neonR" maskUnits="userSpaceOnUse" x="0" y="0" width="140" height="56"><g stroke="#fff" stroke-width="5.6"><path d="M19.2 12.3H22C32 12.3 37.7 19 37.7 27.5C37.7 36 32 42.8 22 42.8H19.2"/><path d="M49.5 43.2V26C49.5 21 53 19 58.6 19"/><path d="M70.2 21V36C70.2 41 74 43.3 78.4 43.3C83 43.3 86.2 41 86.2 36M86.2 21V43.4"/><path d="M98.6 21.8H111.6L99.2 43.2H116.4"/><path d="M125 21.6V43.4"/><path d="M126.6 11.4A3.1 3.1 0 1 0 124.2 16.2" stroke-width="4.3999999999999995"/></g><g stroke="#000" stroke-width="3.6999999999999997"><path d="M19.2 12.3H22C32 12.3 37.7 19 37.7 27.5C37.7 36 32 42.8 22 42.8H19.2"/><path d="M49.5 43.2V26C49.5 21 53 19 58.6 19"/><path d="M70.2 21V36C70.2 41 74 43.3 78.4 43.3C83 43.3 86.2 41 86.2 36M86.2 21V43.4"/><path d="M98.6 21.8H111.6L99.2 43.2H116.4"/><path d="M125 21.6V43.4"/><path d="M126.6 11.4A3.1 3.1 0 1 0 124.2 16.2" stroke-width="2.4999999999999996"/></g></mask><mask id="neonRs" maskUnits="userSpaceOnUse" x="0" y="0" width="140" height="56"><path d="M13.6 11.9V43.1" stroke="#fff" stroke-width="5.6"/><path d="M13.6 11.9V43.1" stroke="#000" stroke-width="3.6999999999999997"/></mask></defs><rect x="0" y="0" width="140" height="56" fill="#f3fbff" mask="url(#neonR)"/><rect x="0" y="0" width="140" height="56" fill="#f3fbff" mask="url(#neonRs)"/></svg></div><div class="prow top" id="rTR"></div><div class="prow bot" id="rBR"></div><div class="dice" id="diceR"></div></div>'+
    '</div>'+
    '<div class="tray" id="tray"><div class="tslot" id="trayTop"></div><div class="tslot bot" id="trayBot"></div></div>';
   stage.appendChild(wrap);
@@ -1859,6 +2077,7 @@ function build2D(){
       const steps={}; reach.forEach((path,to)=>steps[to]=path.length);
       const lastSet=new Set(gs ? ((gs.trail&&gs.trail.length)?gs.trail:(!gs.rolled?(gs.last||[]):[])) : []);
       const fresh=new Set(gs && gs.trail ? gs.trail.filter((x,i)=>i%2===1) : []);
+      const lastTo=new Set(gs && !gs.rolled && gs.phase==='play' && !(gs.trail&&gs.trail.length) ? (gs.last||[]).filter((x,i)=>i%2===1) : []);
       const rows={rTL:[11,10,9,8,7,6], rTR:[5,4,3,2,1,0], rBL:[12,13,14,15,16,17], rBR:[18,19,20,21,22,23]};
       const cs=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--cs'))||40;
       for(const [rid,vs] of Object.entries(rows)){
@@ -1866,7 +2085,7 @@ function build2D(){
         vs.forEach(v=>{
           const b=vToB(v), n=data.board[b], col=n>0?'w':n<0?'b':null, cnt=Math.abs(n), pp=p2(c,b);
           const pt=document.createElement('div'); pt.className='pt'+((v%2)?' alt':'');
-          if(lastSet.has(b)) pt.classList.add('last');
+          if(lastSet.has(b)) pt.classList.add('last'); if(lastTo.has(b)) pt.classList.add('lastTo');
           if(col===c && fromSet.has(pp)) pt.classList.add('can');
           if(col===c && selected===pp && playing) pt.classList.add('sel');
           const isT=tg.has(pp); if(isT){ pt.classList.add('tgt'); if(steps[pp]>1) pt.classList.add('combo'); if(Math.min(cnt,5)>=5) pt.classList.add('full'); }
@@ -1957,7 +2176,9 @@ function renderMe(){
 async function saveProfile(){
   renderMe(); if(gs) renderHud();
   if(!sb || !uid) return;
-  const {error}=await sb.from('profiles').upsert({id:uid, name:profile.name||'', av:profile.av||'', rating:profile.rating||1000, rgames:profile.rgames|0, played:profile.played|0, won:profile.won|0, updated_at:new Date().toISOString()});
+  const row = SECURE ? {id:uid, name:profile.name||'', av:profile.av||'', updated_at:new Date().toISOString()}
+                     : {id:uid, name:profile.name||'', av:profile.av||'', rating:profile.rating||1000, rgames:profile.rgames|0, played:profile.played|0, won:profile.won|0, updated_at:new Date().toISOString()};
+  const {error}=await sb.from('profiles').upsert(row);
   if(error) toast(t('saveErr'));
 }
 async function onSignedIn(u, wantedName){
@@ -1998,7 +2219,7 @@ function openProfile(){
   const msg=h('p','msg');
   const fail=e=>{ msg.textContent=(e&&e.message)||t('authErr'); };
   const nick=h('input','field'); nick.maxLength=20; nick.placeholder=t('nickPh'); nick.value=profile.name||'';
-  if(!sb){ box.append(h('h2',null,t('loginT')), h('p',null,t('noOnline'))); const c=h('button',null,t('close')); c.onclick=()=>show('profOv',false); box.append(c); show('profOv',true); return; }
+  if(!sb){ box.append(h('h2',null,t('loginT')), h('p',null,t('noOnline')), h('label',null,t('achT')), achBlock()); const c=h('button',null,t('close')); c.onclick=()=>show('profOv',false); box.append(c); show('profOv',true); return; }
   box.classList.add('pc');
   const x=h('button','x','×'); x.title=t('close'); x.onclick=()=>show('profOv',false);
   const r=profile.rating||1000, ti=tierIdx(r), nx=TIERS[ti+1];
@@ -2050,6 +2271,7 @@ function openProfile(){
     hero.append(rt,bar,st,cardPicker());
     const b1=h('div','blk'); b1.append(h('h3',null,t('avatarT')), avatarPicker(()=>{ saveProfile(); paint(); lad.querySelectorAll('.av').forEach(a=>avatarInto(a, profile.av, profile.name||'?')); lad.innerHTML=''; buildLad(); }));
     const b0=h('div','blk'); b0.append(h('h3',null,t('pcRanks')), lad);
+    const bA=h('div','blk'); bA.append(h('h3',null,t('achT')), achBlock());
     const b2=h('div','blk'); const nr=h('div','nickrow'); const sv=h('button','cta',t('saveN')); nr.append(nick,sv); b2.append(h('h3',null,t('nick')), nr, msg);
     const note=h('p',null,t('ratedNote')); note.style.cssText='font-size:13px;margin:10px 0 0';
     b2.append(note);
@@ -2059,7 +2281,7 @@ function openProfile(){
     const foot=h('div','foot'); const lo2=h('button','linkbtn',t('signOut')); const cl=h('button',null,t('close')); cl.onclick=()=>show('profOv',false);
     lo2.onclick=async()=>{ await sb.auth.signOut(); leave(); authUser=null; uid=null; db=null; user=null; profile={name:'',guest:true,played:0,won:0,av:'',rating:1000,rgames:0}; bootState='nologin'; bootNote(); renderMe(); openProfile(); };
     foot.append(lo2,cl);
-    body.append(b1,b2,b0,foot);
+    body.append(b1,b2,b0,bA,foot);
   }
   box.append(x,hero,body);
   show('profOv',true); if(!authUser || matchMedia('(min-width:761px)').matches) setTimeout(()=>nick.focus(),50);
@@ -2116,6 +2338,7 @@ function confetti(n){
 }
 function recordResult(){
   if(!(mode==='online' || mode==='bot') || !mySlot() || gs.phase!=='over') return;
+  if(viaServer()){ const me=mySlot(); lastDelta = gs.ratingDelta ? gs.ratingDelta[me] : null; checkAchievements(); refreshProfile(); return; }
   const key=gameId+':'+gs.score.p1+':'+gs.score.p2; const done=store.get('counted',[]);
   if(done.includes(key)) return; done.push(key); store.set('counted',done.slice(-80));
   const me=mySlot(), opp=me==='p1'?'p2':'p1', iWon=slotOfColor(gs.winner)===me, mars= gs.resign ? gs.resign.mars : gs.off[OPP(gs.winner)]===0;
@@ -2124,6 +2347,7 @@ function recordResult(){
   profile.rating=Math.max(100,(profile.rating||1000)+d); profile.rgames=(profile.rgames||0)+1; lastDelta=d;
   const after=rankOf(profile.rating); rankUp = after.step>before.step ? {tier: after.ti>before.ti, before, after} : null;
   profile.played++; if(iWon){ profile.won++; if(!rankUp) sfx('win'); }
+  checkAchievements();
   saveProfile();
 }
 $('btnMe').onclick=openProfile;
@@ -2142,10 +2366,10 @@ $('btnFind').onclick=startSearch; $('btnBot').onclick=startBot; $('btnTutor').on
 $('btnSearchBot').onclick=startBot; $('btnSearchCancel').onclick=()=>stopSearch(false);
 $('coachBack').onclick=()=>{ if(!tut) return; if(tut.i===TUT.length-1){ startBot(); return; } if(tut.i===0){ leave(); return; } tut.i--; tutLoad(); };
 $('coachNext').onclick=()=>{ if(!tut) return; if(tut.i===TUT.length-1){ startSearch(); return; } tut.i++; tutLoad(); };
-$('btnLeave1').onclick=leave; $('btnLeave2').onclick=leave; $('btnResign').onclick=askResign; $('btnResYes').onclick=doResign; $('btnResNo').onclick=()=>show('resOv',false); $('resOv').addEventListener('click',e=>{ if(e.target.id==='resOv') show('resOv',false); }); $('brand').onclick=()=>{ if(gs) leave(); };
+$('btnLeave1').onclick=leave; $('btnLeave2').onclick=leave; $('btnChat').onclick=toggleChat; $('btnVoice').onclick=toggleVoice; $('btnSpk').onclick=toggleSpk; $('btnResign').onclick=askResign; $('btnResYes').onclick=doResign; $('btnResNo').onclick=()=>show('resOv',false); $('resOv').addEventListener('click',e=>{ if(e.target.id==='resOv') show('resOv',false); }); $('brand').onclick=()=>{ if(gs) leave(); };
 $('btnCopy').onclick=copyLink; $('btnCopy2').onclick=copyLink;
 $('btnRoll').onclick=roll; $('btnUndo').onclick=undo;
-$('btnNew').onclick=newMatch; $('btnNew2').onclick=newMatch; $('btnCloseWin').onclick=()=>show('winOv',false);
+$('btnNew').onclick=askRematch; $('btnNew2').onclick=askRematch; $('btnReview').onclick=openReview; $('btnRevClose').onclick=()=>show('revOv',false); $('btnCloseWin').onclick=()=>show('winOv',false);
 $('togSound').onclick=()=>{ prefs.sound=!prefs.sound; store.set('sound',prefs.sound); $('togSound').classList.toggle('on',prefs.sound); };
 $('togOdds').onclick=()=>{ prefs.odds=!prefs.odds; store.set('odds',prefs.odds); $('togOdds').classList.toggle('on',prefs.odds); histSig=''; route(); };
 $('togFlip').onclick=()=>{ prefs.flip=!prefs.flip; $('togFlip').classList.toggle('on',prefs.flip); scene3d && scene3d.relayout(); route(); };
