@@ -1080,7 +1080,10 @@ function ghostsOnline(now){
   const pr = h>=18&&h<24 ? .62 : h>=12 ? .46 : h<2 ? .34 : h<8 ? .14 : .36;
   return GHOSTS.map((g,i)=>i).filter(i=>hrand(slot*131+i*7)<pr);
 }
-function botsWaiting(now){ now=now||Date.now(); return 3+Math.floor(hrand(Math.floor(now/600000)*17+3)*5); }
+function botsWaiting(now){ now=now||Date.now(); return 1+Math.floor(hrand(Math.floor(now/600000)*17+3)*2.6); }
+function crowdOnline(now){ now=now||Date.now(); const h=kyivHour(now), slot=Math.floor(now/600000);
+  const [lo,hi] = h>=18 ? [34,58] : h>=12 ? [22,40] : h>=9 ? [14,26] : h<2 ? [12,24] : [5,11];
+  return lo+Math.floor(hrand(slot*53+11)*(hi-lo+1)); }
 function pickGhost(){
   let on=ghostsOnline(); if(!on.length) on=GHOSTS.map((g,i)=>i);
   const me=profile.rating||1000;
@@ -1156,7 +1159,7 @@ const SEARCH_LIMIT=25;
 function presenceMeta(){ return {uid:uid||'', name:profile.name||'', av:profile.av||'', rating:profile.rating||1000, status: searching?'searching':(gs&&mode!=='tutor'?'playing':'idle'), since:searchSince}; }
 async function lobbyTrack(){ if(!lobby || !lobby._ready) return; const m=presenceMeta(), k=JSON.stringify(m); if(k===lastTracked) return; lastTracked=k; try{ await lobby.track(m); }catch(e){} }
 function renderOnline(){
-  const n=Math.max(1,onlineN)+ghostsOnline().length + (isGhost()?0:0);
+  const n=Math.max(1,onlineN)+ghostsOnline().length+crowdOnline();
   const txt=t('onlineN',{n}), bw=t('botsWait',{n:botsWaiting()});
   $('onlineCnt').textContent=txt; $('onlineHome').textContent=txt+' · '+bw;
   $('searchOnline').textContent=' · '+txt+' · '+bw;
@@ -1382,7 +1385,7 @@ function renderOdds(){
   const pb = bc==='w' ? pw : 1-pw;
   $('oddT').innerHTML=''; $('oddB').innerHTML='';
   const a=document.createElement('b'); a.textContent=Math.round(pb*100)+'%'; $('oddT').append(a, document.createTextNode(' '+slotName(bottomSlot).split(' (')[0]));
-  const b=document.createElement('b'); b.textContent=Math.round((1-pb)*100)+'%'; $('oddB').append(document.createTextNode(slotName(slotOfColor(oc)).split(' (')[0]+' '), b);
+  const b=document.createElement('b'); b.textContent=(100-Math.round(pb*100))+'%'; $('oddB').append(document.createTextNode(slotName(slotOfColor(oc)).split(' (')[0]+' '), b);
   const bar=document.querySelector('.odds .obar'); bar.style.background = oc==='w' ? '#ddd3c1' : '#2a2622';
   const f=$('oddFill'); f.style.background = bc==='w' ? '#ddd3c1' : '#2a2622'; f.style.width=(pb*100).toFixed(1)+'%';
 }
