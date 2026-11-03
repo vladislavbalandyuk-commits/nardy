@@ -1119,7 +1119,7 @@ function ghostsOnline(now){
   const pr = h>=18&&h<24 ? .62 : h>=12 ? .46 : h<2 ? .34 : h<8 ? .14 : .36;
   return GHOSTS.map((g,i)=>i).filter(i=>hrand(slot*131+i*7)<pr*(i<12?1:.3));
 }
-function botsWaiting(now){ now=now||Date.now(); return 1+Math.floor(hrand(Math.floor(now/600000)*17+3)*2.6); }
+function botsWaiting(total,now){ now=now||Date.now(); const k=0.10+0.05*hrand(Math.floor(now/600000)*17+3); return Math.max(1, Math.round((total||10)*k)); }
 function crowdOnline(now){ now=now||Date.now(); const h=kyivHour(now), slot=Math.floor(now/600000);
   const [lo,hi] = h>=18 ? [34,58] : h>=12 ? [22,40] : h>=9 ? [14,26] : h<2 ? [12,24] : [5,11];
   return lo+Math.floor(hrand(slot*53+11)*(hi-lo+1)); }
@@ -1199,7 +1199,7 @@ function presenceMeta(){ return {uid:uid||'', name:profile.name||'', av:profile.
 async function lobbyTrack(){ if(!lobby || !lobby._ready) return; const m=presenceMeta(), k=JSON.stringify(m); if(k===lastTracked) return; lastTracked=k; try{ await lobby.track(m); }catch(e){} }
 function renderOnline(){
   const n=Math.max(1,onlineN)+ghostsOnline().length+crowdOnline();
-  const txt=t('onlineN',{n}), bw=t('botsWait',{n:botsWaiting()});
+  const txt=t('onlineN',{n}), bw=t('botsWait',{n:botsWaiting(n)});
   $('onlineCnt').textContent=txt; $('onlineHome').textContent=txt+' · '+bw;
   $('searchOnline').textContent=' · '+txt+' · '+bw;
 }
