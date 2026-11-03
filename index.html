@@ -175,6 +175,58 @@ p{margin:0}
   background:rgba(246,242,234,.95)!important;color:var(--ink)!important;box-shadow:0 8px 20px -8px rgba(0,0,0,.6);border:0!important}
 .ub .i{width:18px;height:18px}
 @media (max-width:640px){.ub{width:34px;height:34px}.ub .i{width:14px;height:14px}}
+
+/* ---- profile: player card ---- */
+#profBox.pc{max-width:860px;padding:0;display:grid;grid-template-columns:330px 1fr;overflow:hidden;position:relative}
+.pc .hero{position:relative;color:#f3eee5;padding:30px 28px 26px;display:flex;flex-direction:column;
+  background:radial-gradient(120% 70% at 50% 0%,#2f4a3d 0%,#1f3329 55%,#18271f 100%)}
+.pc .hero::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background:repeating-linear-gradient(90deg,rgba(255,255,255,.025) 0 36px,rgba(0,0,0,.05) 36px 72px)}
+.pc .hero>*{position:relative}
+.pc .heroTop{display:flex;flex-direction:column;align-items:center;text-align:center}
+.pc .heroTop .frl{margin:-20px 0 0!important}
+.pc .hname{font-size:26px;font-weight:500;margin:4px 0 2px;letter-spacing:.005em;word-break:break-word}
+.pc .hsub{font-size:13px;opacity:.6}
+.pc .tierpill{display:inline-flex;align-items:center;gap:6px;margin-top:12px;padding:4px 12px;border-radius:99px;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;background:rgba(255,255,255,.08);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)}
+.pc .tierpill i{width:8px;height:8px;border-radius:50%;background:var(--tc)}
+.pc .rating{display:flex;align-items:baseline;justify-content:space-between;margin-top:22px}
+.pc .rating b{font-size:46px;font-weight:300;line-height:1;letter-spacing:-.02em}
+.pc .rating span{font-size:12.5px;opacity:.6;text-align:right;max-width:150px}
+.pc .hbar{height:5px;border-radius:3px;background:rgba(255,255,255,.12);margin:10px 0 0;overflow:hidden}
+.pc .hbar i{display:block;height:100%;border-radius:3px;background:var(--tc)}
+.pc .hstats{display:grid;grid-template-columns:repeat(3,1fr);margin-top:22px;border-top:1px solid rgba(255,255,255,.12);padding-top:16px}
+.pc .hstats div+div{border-left:1px solid rgba(255,255,255,.12);padding-left:14px}
+.pc .hstats b{display:block;font-size:24px;font-weight:300;line-height:1.1}
+.pc .hstats span{font-size:11.5px;opacity:.6;letter-spacing:.03em}
+.pc .ladder{display:flex;justify-content:space-between;gap:4px;padding:16px 10px 12px;border-radius:12px;background:#fff;box-shadow:inset 0 0 0 1px var(--line2)}
+.pc .ladder div{display:flex;flex-direction:column;align-items:center;gap:8px;font-size:12px;opacity:.4;text-align:center;line-height:1.25;color:var(--ink)}
+.pc .ladder div.got{opacity:.8} .pc .ladder div.cur{opacity:1;font-weight:600}
+.pc .ladder em{font-style:normal;color:var(--muted);font-weight:400;font-size:11px}
+.pc .body{padding:28px 30px 22px;display:flex;flex-direction:column;min-width:0;max-height:calc(100vh - 40px);overflow:auto}
+.pc .body h3{font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:0 0 12px}
+.pc .body h3+p{margin-top:-6px}
+.pc .body .blk{margin-bottom:24px}
+.pc .avpick{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin:0}
+.pc .avopt{padding:3px;aspect-ratio:1;transition:transform .15s}
+.pc .avopt:hover{transform:translateY(-2px)}
+.pc .avopt .av{width:100%!important;height:100%!important;font-size:18px}
+.pc .nickrow{display:grid;grid-template-columns:1fr auto;gap:8px}
+.pc .nickrow .field{margin:0}
+.pc .foot{margin-top:auto;display:flex;justify-content:space-between;align-items:center;padding-top:8px;border-top:1px solid var(--line2)}
+.pc .x{position:absolute;top:12px;right:12px;width:34px;height:34px;padding:0;border-radius:50%;border:0;background:transparent;color:var(--muted);font-size:20px;line-height:1;z-index:2}
+.pc .x:hover{background:var(--line2);color:var(--ink)}
+.pc .msg{color:var(--accent);font-size:13.5px;margin:8px 0 0;min-height:0}
+.pc .pitch{margin-top:22px;font-size:14px;line-height:1.55;opacity:.75}
+.pc .pitch li{margin:6px 0} .pc .pitch ul{padding-left:18px;margin:8px 0 0}
+.pc .formcol{display:flex;flex-direction:column;gap:8px}
+.pc .formcol .field{margin:0}
+@media (max-width:760px){
+  #profBox.pc{grid-template-columns:1fr;max-height:calc(100vh - 24px);overflow:auto}
+  .pc .body{max-height:none;overflow:visible;padding:22px 20px 18px}
+  .pc .hero{padding:24px 20px 20px}
+  .pc .avpick{grid-template-columns:repeat(6,1fr)}
+  .pc .x{color:#f3eee5} .pc .x:hover{background:rgba(255,255,255,.1);color:#fff}
+}
 .avpick{display:flex;gap:8px;margin:4px 0 14px;flex-wrap:wrap}
 .avopt{border:0;padding:3px;border-radius:50%;background:transparent}
 .avopt:hover{background:transparent}
@@ -540,7 +592,7 @@ const T = {
   openYour:'Roll one die each — <b>higher roll plays White</b> and moves first.', openLocal:'<b>{n}</b>, roll for the first move.', openWait:'Waiting for your opponent to roll…', openTie:'Tie ({a} : {a}). Roll again.', openWon:'<b>{n}</b> rolled higher ({a} : {b}) and plays White.',
   yourRoll:'<b>Your turn.</b> Roll the dice.', localRoll:'<b>{c}</b> to move. Roll the dice.', pick:'Tap or drag a highlighted checker.', where:'Drop it on a marked spot — combined moves (e.g. 3+4) are shown too.', noMoves:'No legal moves — passing the turn.', oppTurn:'Opponent’s turn…', spectator:'You are watching. {c} to move.', won:'<b>{n}</b> won this game.',
   newGame:'New game', again:'Play again', close:'Close', gameOver:'Game over', link:'Game link', localGame:'Same-device game',
-  settingsT:'Settings', checkersT:'Checkers', diceT:'Dice', ck_classic:'Classic', ck_wood:'Wood', ck_stone:'Marble', ck_flat:'Flat', ck_metal:'Metal', ck_glass:'Glass', ck_retro:'Retro', st_walnut:'Walnut', st_midnight:'Midnight', avatarT:'Avatar', history:'Move history', histEmpty:'No moves yet', histNone:'no move', histOff:'off', noMovesT:'No moves', undo:'Undo', bnOpenT:'Who goes first?', bnOpenS:'Roll one die — higher plays White', bnOppOpen:'Waiting for the opponent', bnYour:'Your turn', bnRollS:'Roll the dice to move', bnColor:'{c} to move', bnOpp:'Opponent’s turn', bnBot:'Bot’s turn', findT:'Find an opponent', findD:'Play a random online opponent. If nobody is free within 25 seconds, the bot steps in.', findB:'Find opponent', botT:'Play the bot', botD:'Practice any time. A win against the bot gives less rating than against a person.', botB:'Play the bot', tutorB:'How to play', localB2:'Same device', onlineN:'{n} online', searchT:'Looking for an opponent', searchInfo:'Hang on — if nobody is free in {s} seconds, you will play the bot.', playBotNow:'Play the bot now', matchFound:'Opponent found!', matchWait:'Opponent found — connecting…', noOpp:'No free opponents — playing the bot', botName:'Bot Taras', botTurn:'The bot is thinking…', botThinking:'The bot is rolling…', botGame:'Game vs bot', botNoMoves:'The bot has no moves', botRated:'bot game: 40%', tutorGame:'Tutorial', coachOpp:'Coach', tutRoll:'Press “Roll dice”.', tutStepDone:'Well done! Press “Next”.', tutNice:'Well done!', tutStep:'Lesson {i} of {n}', tutNext:'Next', tutBack:'Back', tutExit:'Exit', tutPlayBot:'Play the bot', tutFind:'Find opponent',
+  settingsT:'Settings', checkersT:'Checkers', diceT:'Dice', ck_classic:'Classic', ck_wood:'Wood', ck_stone:'Marble', ck_flat:'Flat', ck_metal:'Metal', ck_glass:'Glass', ck_retro:'Retro', st_walnut:'Walnut', st_midnight:'Midnight', avatarT:'Avatar', pcRegistered:'Registered player', pcRanks:'Ranks', pcAccT:'Account', pcWhyT:'With an account you get:', pcWhy1:'a rating and a rank frame', pcWhy2:'a place on the leaderboard', pcWhy3:'your stats on any device', history:'Move history', histEmpty:'No moves yet', histNone:'no move', histOff:'off', noMovesT:'No moves', undo:'Undo', bnOpenT:'Who goes first?', bnOpenS:'Roll one die — higher plays White', bnOppOpen:'Waiting for the opponent', bnYour:'Your turn', bnRollS:'Roll the dice to move', bnColor:'{c} to move', bnOpp:'Opponent’s turn', bnBot:'Bot’s turn', findT:'Find an opponent', findD:'Play a random online opponent. If nobody is free within 25 seconds, the bot steps in.', findB:'Find opponent', botT:'Play the bot', botD:'Practice any time. A win against the bot gives less rating than against a person.', botB:'Play the bot', tutorB:'How to play', localB2:'Same device', onlineN:'{n} online', searchT:'Looking for an opponent', searchInfo:'Hang on — if nobody is free in {s} seconds, you will play the bot.', playBotNow:'Play the bot now', matchFound:'Opponent found!', matchWait:'Opponent found — connecting…', noOpp:'No free opponents — playing the bot', botName:'Bot Taras', botTurn:'The bot is thinking…', botThinking:'The bot is rolling…', botGame:'Game vs bot', botNoMoves:'The bot has no moves', botRated:'bot game: 40%', tutorGame:'Tutorial', coachOpp:'Coach', tutRoll:'Press “Roll dice”.', tutStepDone:'Well done! Press “Next”.', tutNice:'Well done!', tutStep:'Lesson {i} of {n}', tutNext:'Next', tutBack:'Back', tutExit:'Exit', tutPlayBot:'Play the bot', tutFind:'Find opponent',
   tut1T:'The board and the goal', tut1D:'You play White. All 15 of your checkers start on the “head” — point 24, top right. Black starts on 12. Both sides move counter-clockwise: White goes right-to-left along the top, then left-to-right along the bottom. Bring all checkers home (points 1–6, bottom right) and bear them off before your opponent.',
   tut2T:'Your first move', tut2D:'Roll the dice — you will get 5 and 3. Each die is a separate move of that many points. Only one checker may leave the head per turn, so play both dice with the same checker: tap the checker on 24 — the gold spot is both dice together (5+3).',
   tut3T:'Doubles', tut3D:'Equal dice are played four times. Roll — you get 4 and 4: make four moves of 4 points with any checkers (still only one from the head).',
@@ -562,7 +614,7 @@ const T = {
   openYour:'Кожен кидає один кубик — <b>у кого більше, той грає білими</b> й ходить першим.', openLocal:'<b>{n}</b>, киньте на перший хід.', openWait:'Чекаємо, поки суперник кине…', openTie:'Нічия ({a} : {a}). Киньте ще раз.', openWon:'<b>{n}</b> викинув більше ({a} : {b}) і грає білими.',
   yourRoll:'<b>Ваш хід.</b> Киньте кубики.', localRoll:'Ходять <b>{c}</b>. Киньте кубики.', pick:'Натисніть або перетягніть підсвічену шашку.', where:'Поставте на позначене місце — показано й складені ходи (напр. 3+4).', noMoves:'Ходів немає — хід переходить.', oppTurn:'Хід суперника…', spectator:'Ви глядач. Ходять {c}.', won:'Партію виграли: <b>{n}</b>.',
   newGame:'Нова партія', again:'Ще партію', close:'Закрити', gameOver:'Кінець партії', link:'Посилання на гру', localGame:'Гра на одному пристрої',
-  settingsT:'Налаштування', checkersT:'Шашки', diceT:'Кубики', ck_classic:'Класичні', ck_wood:'Дерево', ck_stone:'Мармур', ck_flat:'Пласкі', ck_metal:'Метал', ck_glass:'Скло', ck_retro:'Ретро', st_walnut:'Горіх', st_midnight:'Північ', avatarT:'Аватар', history:'Історія ходів', histEmpty:'Ходів ще немає', histNone:'немає ходу', histOff:'винос', noMovesT:'Немає ходів', undo:'Скасувати хід', bnOpenT:'Хто ходить першим?', bnOpenS:'Киньте кубик — у кого більше, той грає білими', bnOppOpen:'Чекаємо на суперника', bnYour:'Ваш хід', bnRollS:'Киньте кубики, щоб походити', bnColor:'Ходять {c}', bnOpp:'Хід суперника', bnBot:'Хід бота', findT:'Знайти суперника', findD:'Гра з випадковим суперником онлайн. Якщо за 25 секунд ніхто не знайдеться, грає бот.', findB:'Знайти суперника', botT:'Грати з ботом', botD:'Тренуйтесь будь-коли. За перемогу над ботом рейтингу дається менше, ніж над людиною.', botB:'Грати з ботом', tutorB:'Як грати', localB2:'На одному пристрої', onlineN:'{n} онлайн', searchT:'Шукаємо суперника', searchInfo:'Зачекайте — якщо за {s} секунд ніхто не знайдеться, ви зіграєте з ботом.', playBotNow:'Грати з ботом зараз', matchFound:'Суперника знайдено!', matchWait:'Суперника знайдено — зʼєднуємо…', noOpp:'Вільних суперників немає — граємо з ботом', botName:'Бот Тарас', botTurn:'Бот думає…', botThinking:'Бот кидає кубик…', botGame:'Гра з ботом', botNoMoves:'У бота немає ходів', botRated:'гра з ботом: 40%', tutorGame:'Навчання', coachOpp:'Тренер', tutRoll:'Натисніть «Кинути кубики».', tutStepDone:'Чудово! Натисніть «Далі».', tutNice:'Чудово!', tutStep:'Урок {i} з {n}', tutNext:'Далі', tutBack:'Назад', tutExit:'Вийти', tutPlayBot:'Грати з ботом', tutFind:'Знайти суперника',
+  settingsT:'Налаштування', checkersT:'Шашки', diceT:'Кубики', ck_classic:'Класичні', ck_wood:'Дерево', ck_stone:'Мармур', ck_flat:'Пласкі', ck_metal:'Метал', ck_glass:'Скло', ck_retro:'Ретро', st_walnut:'Горіх', st_midnight:'Північ', avatarT:'Аватар', pcRegistered:'Зареєстрований гравець', pcRanks:'Ранги', pcAccT:'Акаунт', pcWhyT:'З акаунтом у вас буде:', pcWhy1:'рейтинг і рамка рангу', pcWhy2:'місце в таблиці лідерів', pcWhy3:'статистика на будь-якому пристрої', history:'Історія ходів', histEmpty:'Ходів ще немає', histNone:'немає ходу', histOff:'винос', noMovesT:'Немає ходів', undo:'Скасувати хід', bnOpenT:'Хто ходить першим?', bnOpenS:'Киньте кубик — у кого більше, той грає білими', bnOppOpen:'Чекаємо на суперника', bnYour:'Ваш хід', bnRollS:'Киньте кубики, щоб походити', bnColor:'Ходять {c}', bnOpp:'Хід суперника', bnBot:'Хід бота', findT:'Знайти суперника', findD:'Гра з випадковим суперником онлайн. Якщо за 25 секунд ніхто не знайдеться, грає бот.', findB:'Знайти суперника', botT:'Грати з ботом', botD:'Тренуйтесь будь-коли. За перемогу над ботом рейтингу дається менше, ніж над людиною.', botB:'Грати з ботом', tutorB:'Як грати', localB2:'На одному пристрої', onlineN:'{n} онлайн', searchT:'Шукаємо суперника', searchInfo:'Зачекайте — якщо за {s} секунд ніхто не знайдеться, ви зіграєте з ботом.', playBotNow:'Грати з ботом зараз', matchFound:'Суперника знайдено!', matchWait:'Суперника знайдено — зʼєднуємо…', noOpp:'Вільних суперників немає — граємо з ботом', botName:'Бот Тарас', botTurn:'Бот думає…', botThinking:'Бот кидає кубик…', botGame:'Гра з ботом', botNoMoves:'У бота немає ходів', botRated:'гра з ботом: 40%', tutorGame:'Навчання', coachOpp:'Тренер', tutRoll:'Натисніть «Кинути кубики».', tutStepDone:'Чудово! Натисніть «Далі».', tutNice:'Чудово!', tutStep:'Урок {i} з {n}', tutNext:'Далі', tutBack:'Назад', tutExit:'Вийти', tutPlayBot:'Грати з ботом', tutFind:'Знайти суперника',
   tut1T:'Дошка й мета', tut1D:'Ви граєте білими. Усі 15 шашок стоять на «голові» — пункт 24, вгорі праворуч. Чорні стоять на 12. Обидва гравці рухаються проти годинникової стрілки: білі — вгорі справа наліво, потім унизу зліва направо. Мета — привести всі шашки в дім (пункти 1–6, внизу праворуч) і викинути їх з дошки раніше за суперника.',
   tut2T:'Перший хід', tut2D:'Киньте кубики — випаде 5 і 3. Кожен кубик — окремий хід на стільки пунктів. З голови за хід можна зняти лише одну шашку, тож обидва кубики зіграйте однією шашкою: натисніть шашку на 24 — золота позначка означає обидва кубики разом (5+3).',
   tut3T:'Дубль', tut3D:'Однакові числа на кубиках граються чотири рази. Киньте — випаде 4 і 4: зробіть чотири ходи по 4 пункти будь-якими шашками (з голови — так само лише одна).',
@@ -1494,17 +1546,32 @@ async function onSignedIn(u, wantedName){
 const NICK_RE=/^[\p{L}\p{N}_.\- ]{3,16}$/u;
 function nickEmail(n){ const bytes=new TextEncoder().encode(n.trim().toLowerCase()); let bits=''; for(const x of bytes) bits+=x.toString(2).padStart(8,'0');
   const A='abcdefghijklmnopqrstuvwxyz234567'; let out=''; for(let i=0;i<bits.length;i+=5) out+=A[parseInt(bits.slice(i,i+5).padEnd(5,'0'),2)]; return 'u'+out+'@nardy.invalid'; }
+const TIER_COL=['#c98b55','#c9ced6','#e2b84a','#6cc4b4','#a99cf0'];
 function openProfile(){
-  const box=$('profBox'); box.innerHTML='';
+  const box=$('profBox'); box.innerHTML=''; box.className='modal';
   const h=(tag,cls,txt)=>{ const e=document.createElement(tag); if(cls) e.className=cls; if(txt!=null) e.textContent=txt; return e; };
-  const msg=h('p','note'); msg.style.color='var(--accent)'; msg.style.minHeight='0';
+  const msg=h('p','msg');
   const fail=e=>{ msg.textContent=(e&&e.message)||t('authErr'); };
   const nick=h('input','field'); nick.maxLength=20; nick.placeholder=t('nickPh'); nick.value=profile.name||'';
   if(!sb){ box.append(h('h2',null,t('loginT')), h('p',null,t('noOnline'))); const c=h('button',null,t('close')); c.onclick=()=>show('profOv',false); box.append(c); show('profOv',true); return; }
+  box.classList.add('pc');
+  const x=h('button','x','×'); x.title=t('close'); x.onclick=()=>show('profOv',false);
+  const r=profile.rating||1000, ti=tierIdx(r), nx=TIERS[ti+1];
+  // ---- left: player card ----
+  const hero=h('div','hero'); hero.style.setProperty('--tc', TIER_COL[ti]);
+  const top=h('div','heroTop'); const av=h('div','av big');
+  const nm=h('div','hname', profile.name || (authUser ? t('guestName') : t('loginT')));
+  const paint=()=>{ avatarInto(av, profile.av, nick.value.trim()||profile.name||'?'); const f=framed(av, r, 92); const old=top.querySelector('.frl'); if(old) old.replaceWith(f); else top.prepend(f); };
+  top.append(nm);
+  hero.append(top);
+  // ---- right: settings / form ----
+  const body=h('div','body');
   if(!authUser){
-    box.append(h('h2',null,t('loginT')), h('p',null,t('loginD2')), h('label',null,t('avatarT')), avatarPicker(), h('label',null,t('nick')), nick);
+    paint(); nick.oninput=()=>{ nm.textContent=nick.value.trim()||t('loginT'); paint(); };
+    const pitch=h('div','pitch'); const ul=h('ul'); [t('pcWhy1'),t('pcWhy2'),t('pcWhy3')].forEach(v=>ul.appendChild(h('li',null,v))); pitch.append(h('div',null,t('pcWhyT')), ul);
+    hero.append(pitch);
     const pw=h('input','field'); pw.type='password'; pw.placeholder=t('pass'); pw.autocomplete='current-password';
-    const row=h('div','r'); const si=h('button',null,t('signIn')); const su=h('button','cta',t('signUp')); row.append(si,su);
+    const row=h('div','r'); row.style.display='flex'; row.style.gap='8px'; const si=h('button',null,t('signIn')); const su=h('button','cta',t('signUp')); si.style.flex=su.style.flex='1'; row.append(si,su);
     const sep=h('div','orline',t('orGuest'));
     const gu=h('button',null,t('guest')); gu.style.width='100%';
     const nickOk=()=>{ const v=nick.value.trim(); if(!NICK_RE.test(v)){ msg.textContent=t('nickRule'); nick.focus(); return null; } return v; };
@@ -1519,20 +1586,37 @@ function openProfile(){
       const {data,error}=await sb.auth.signInAnonymously(); gu.disabled=false; if(error) return fail(error); show('profOv',false); await onSignedIn(data.user, v); };
     pw.onkeydown=e=>{ if(e.key==='Enter') si.click(); };
     nick.onkeydown=e=>{ if(e.key==='Enter') pw.focus(); };
-    box.append(pw, row, msg, sep, gu);
+    const b1=h('div','blk'); b1.append(h('h3',null,t('pcAccT')), h('p',null,t('loginD2')));
+    const fc=h('div','formcol'); fc.append(nick,pw,row,msg); b1.append(fc);
+    const b2=h('div','blk'); b2.append(h('h3',null,t('avatarT')), avatarPicker(()=>paint()));
+    const b3=h('div','blk'); b3.style.marginBottom='0'; b3.append(sep,gu);
+    body.append(b1,b2,b3);
   } else {
-    const av=h('div','av big'); avatarInto(av, profile.av, profile.name); box.append(framed(av, profile.rating||1000, 64), h('h2',null,profile.name||t('guestName')), h('p',null, profile.guest ? t('guestAcc') : (authUser.email && !/@nardy\.invalid$/.test(authUser.email) ? authUser.email : t('profT'))));
-    const st=h('div','stats'); const rate = profile.played ? Math.round(profile.won/profile.played*100)+'%' : '—';
+    paint();
+    top.append(h('div','hsub', profile.guest ? t('guestAcc') : t('pcRegistered')));
+    const pill=h('div','tierpill'); pill.append(h('i'), document.createTextNode(t('tier_'+TIERS[ti].k))); top.append(pill);
+    const rt=h('div','rating'); rt.append(h('b',null,String(r)), h('span',null, nx ? t('toNext',{n:nx.min-r,tier:t('tier_'+nx.k)}) : t('topTier')));
+    const bar=h('div','hbar'); const fill=h('i'); const lo=TIERS[ti].min||800, hi=nx?nx.min:lo+200; fill.style.width=(nx? Math.max(4,Math.min(100,(r-lo)/(hi-lo)*100)) : 100)+'%'; bar.append(fill);
+    const st=h('div','hstats'); const rate = profile.played ? Math.round(profile.won/profile.played*100)+'%' : '—';
     [[profile.played,t('played')],[profile.won,t('wins')],[rate,t('rate')]].forEach(([v,l])=>{ const d=h('div'); d.append(h('b',null,String(v)), h('span',null,l)); st.appendChild(d); });
-    box.append(rankBlock(), st, h('label',null,t('avatarT')), avatarPicker(()=>{ saveProfile(); avatarInto(av, profile.av, profile.name); const old=box.querySelector('.frl'); if(old) old.replaceWith(framed(av, profile.rating||1000, 64)); }), h('label',null,t('nick')), nick);
-    const col=h('div','col'); const sv=h('button','cta',t('saveN')); const cl=h('button',null,t('close')); const lo=h('button','linkbtn',t('signOut'));
-    sv.onclick=async()=>{ const v=nick.value.trim(); if(!v){ msg.textContent=t('needNick'); return; } profile.name=v; await saveProfile(); show('profOv',false); };
+    const lad=h('div','ladder'); const buildLad=()=>TIERS.forEach((tt,j)=>{ const d=h('div', j===ti?'cur':(j<ti?'got':'')); const a=h('span','av'); avatarInto(a, profile.av, profile.name||'?');
+      d.append(framed(a, tt.min||1000, 40), h('span',null,t('tier_'+tt.k))); const th=h('em',null, j===0?'<1100':tt.min+'+'); d.lastChild.append(document.createElement('br'), th); lad.appendChild(d); }); buildLad();
+    hero.append(rt,bar,st);
+    const b1=h('div','blk'); b1.append(h('h3',null,t('avatarT')), avatarPicker(()=>{ saveProfile(); paint(); lad.querySelectorAll('.av').forEach(a=>avatarInto(a, profile.av, profile.name||'?')); lad.innerHTML=''; buildLad(); }));
+    const b0=h('div','blk'); b0.append(h('h3',null,t('pcRanks')), lad);
+    const b2=h('div','blk'); const nr=h('div','nickrow'); const sv=h('button','cta',t('saveN')); nr.append(nick,sv); b2.append(h('h3',null,t('nick')), nr, msg);
+    const note=h('p',null,t('ratedNote')); note.style.cssText='font-size:13px;margin:10px 0 0';
+    b2.append(note);
+    sv.onclick=async()=>{ const v=nick.value.trim(); if(!v){ msg.textContent=t('needNick'); return; } profile.name=v; nm.textContent=v; await saveProfile(); renderMe&&renderMe(); show('profOv',false); };
     nick.onkeydown=e=>{ if(e.key==='Enter') sv.click(); };
-    cl.onclick=()=>show('profOv',false);
-    lo.onclick=async()=>{ await sb.auth.signOut(); leave(); authUser=null; uid=null; db=null; user=null; profile={name:'',guest:true,played:0,won:0,av:'',rating:1000,rgames:0}; bootState='nologin'; bootNote(); renderMe(); openProfile(); };
-    col.append(sv,cl,lo); box.append(col,msg);
+    nick.oninput=()=>{ nm.textContent=nick.value.trim()||profile.name||''; };
+    const foot=h('div','foot'); const lo2=h('button','linkbtn',t('signOut')); const cl=h('button',null,t('close')); cl.onclick=()=>show('profOv',false);
+    lo2.onclick=async()=>{ await sb.auth.signOut(); leave(); authUser=null; uid=null; db=null; user=null; profile={name:'',guest:true,played:0,won:0,av:'',rating:1000,rgames:0}; bootState='nologin'; bootNote(); renderMe(); openProfile(); };
+    foot.append(lo2,cl);
+    body.append(b1,b2,b0,foot);
   }
-  show('profOv',true); setTimeout(()=>nick.focus(),50);
+  box.append(x,hero,body);
+  show('profOv',true); if(!authUser || matchMedia('(min-width:761px)').matches) setTimeout(()=>nick.focus(),50);
 }
 
 // ---- leaderboard ----
