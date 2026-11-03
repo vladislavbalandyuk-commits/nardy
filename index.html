@@ -497,6 +497,17 @@ kbd{font:11px var(--mono);padding:1px 5px;border-radius:4px;border:1px solid var
   #vHome .sec{padding-top:11px;padding-bottom:11px}
 }
 @media (max-width:860px){
+  .bw{flex-direction:column;gap:calc(var(--cs)*.18);align-items:center}
+  .tray{width:100%;height:calc(var(--cs)*1.0);flex-direction:row;padding:calc(var(--cs)*.16) calc(var(--cs)*.3);gap:calc(var(--cs)*.3)}
+  .tslot{flex-direction:row;justify-content:flex-start;padding:0 calc(var(--cs)*.12)}
+  .tslot.bot{flex-direction:row-reverse}
+  .tslot i{width:calc(var(--cs)*.15);height:72%}
+  .tslot .tc{margin:0 6px}
+  .seg button{white-space:nowrap;padding:4px 4px;letter-spacing:.06em}
+  .seg button + button::before{margin-right:5px}
+  .seg{flex-wrap:nowrap}
+}
+@media (max-width:860px){
   html,body{overflow:auto}
   .app{grid-template-columns:1fr;grid-template-rows:auto auto auto;height:auto;min-height:100vh}
   #stage{height:auto;padding:8px 6px 14px}
@@ -1445,7 +1456,7 @@ function build2D(){
   stage.appendChild(wrap);
   function fit(){
     const r=stage.getBoundingClientRect(), narrow=innerWidth<=860;
-    const cs = narrow ? Math.min((r.width-20)/15.2, 46) : Math.max(24, Math.min((r.width-40)/15.2, (r.height-30)/12.6, 62));
+    const cs = narrow ? Math.min((r.width-8)/13.95, 56) : Math.max(24, Math.min((r.width-40)/15.2, (r.height-30)/12.6, 62));
     document.documentElement.style.setProperty('--cs', cs.toFixed(2)+'px');
   }
   new ResizeObserver(fit).observe(stage); addEventListener('resize',fit); fit();
