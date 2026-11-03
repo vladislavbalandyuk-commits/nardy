@@ -2178,7 +2178,10 @@ async function saveProfile(){
   if(!sb || !uid) return;
   const row = SECURE ? {id:uid, name:profile.name||'', av:profile.av||'', updated_at:new Date().toISOString()}
                      : {id:uid, name:profile.name||'', av:profile.av||'', rating:profile.rating||1000, rgames:profile.rgames|0, played:profile.played|0, won:profile.won|0, updated_at:new Date().toISOString()};
-  const {error}=await sb.from('profiles').upsert(row);
+  let error=null;
+  if(SECURE){ const u=await sb.from('profiles').update({name:row.name, av:row.av, updated_at:row.updated_at}).eq('id',uid).select('id'); error=u.error;
+    if(!error && !(u.data||[]).length){ const ins=await sb.from('profiles').insert(row); error=ins.error; } }
+  else { const up=await sb.from('profiles').upsert(row); error=up.error; }
   if(error) toast(t('saveErr'));
 }
 async function onSignedIn(u, wantedName){
