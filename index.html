@@ -242,10 +242,10 @@ body[data-card=aurora] .pc .hero{background:linear-gradient(140deg,#3b2a6e,#1f4f
 .cardpick button.on{box-shadow:0 0 0 2px #f3eee5, 0 0 0 4px rgba(0,0,0,.35)}
 .cardpick button.lock{cursor:not-allowed;opacity:.5}
 .cardpick button.lock::after{content:"";position:absolute;inset:0;margin:auto;width:11px;height:11px;background:no-repeat center/contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.4'%3E%3Crect x='5' y='11' width='14' height='10' rx='2'/%3E%3Cpath d='M8 11V8a4 4 0 0 1 8 0v3'/%3E%3C/svg%3E")}
-.stars{display:inline-flex;gap:1px;margin-left:6px;letter-spacing:0;font-size:.95em;line-height:1}
+.stars{display:inline-flex;gap:2px;margin-left:6px;letter-spacing:0;font-size:1.15em;line-height:1}
 .stars.pos{font-weight:700;color:var(--tc,#a99cf0)} .stars i{font-style:normal;opacity:.28} .stars i.on{opacity:1;color:var(--tc,#e9a21a);text-shadow:0 0 6px rgba(255,210,120,.35)}
 .pc .tierpill .stars{margin-left:4px} .pc .tierpill .stars i{width:auto;height:auto;border-radius:0;background:none}
-.pc .hbar.seg{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;background:transparent;overflow:visible}
+.pc .hbar.seg{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;background:transparent;overflow:visible}
 .pc .hbar.seg i{position:relative;height:5px;border-radius:3px;background:rgba(255,255,255,.14);overflow:hidden}
 .pc .hbar.seg i::after{content:"";position:absolute;inset:0;width:var(--f);background:var(--tc);border-radius:3px}
 .pc .ladder{grid-template-columns:repeat(4,1fr)!important;row-gap:12px!important}
@@ -735,7 +735,7 @@ const T = {
   openYour:'Roll one die each — <b>higher roll plays White</b> and moves first.', openLocal:'<b>{n}</b>, roll for the first move.', openWait:'Waiting for your opponent to roll…', openTie:'Tie ({a} : {a}). Roll again.', openWon:'<b>{n}</b> rolled higher ({a} : {b}) and plays White.',
   yourRoll:'<b>Your turn.</b> Roll the dice.', localRoll:'<b>{c}</b> to move. Roll the dice.', pick:'Tap or drag a highlighted checker.', where:'Drop it on a marked spot — combined moves (e.g. 3+4) are shown too.', noMoves:'No legal moves — passing the turn.', oppTurn:'Opponent’s turn…', spectator:'You are watching. {c} to move.', won:'<b>{n}</b> won this game.',
   newGame:'New game', again:'Play again', close:'Close', gameOver:'Game over', link:'Game link', localGame:'Same-device game',
-  settingsT:'Settings', checkersT:'Checkers', diceT:'Dice', ck_classic:'Classic', ck_wood:'Wood', ck_stone:'Marble', ck_flat:'Flat', ck_metal:'Metal', ck_glass:'Glass', ck_retro:'Retro', st_walnut:'Walnut', st_midnight:'Midnight', st_druzi:'Druzi', avatarT:'Avatar', tier_rookie:'Rookie', tier_regular:'Regular', tier_expert:'Expert', tier_master:'Master', tier_grandmaster:'Grandmaster', tier_khan:'Khan', tier_sultan:'Sultan', tier_legend:'Legend', toStar:'{n} to the next star', lbNotLegend:'You: {rank}. {n} rating to reach Legend.', topPos:'#{n} on the leaderboard', newStar:'New star!', newRank:'New rank!', botsWait:'{n} bots waiting', searchInfo2:'Looking for a player close to your rating…', onlineGame:'Online game', oppNoMoves:'Your opponent has no moves', bot_marta:'Bot Marta', bot_ostap:'Bot Ostap', bot_taras:'Bot Taras', bot_hryts:'Bot Hryts', cardT:'Card background', cardLock:'Unlocks at {tier} rank', card_felt:'Felt', card_walnut:'Walnut', card_midnight:'Midnight', card_wine:'Wine', card_graphite:'Graphite', card_gold:'Gold', card_aurora:'Aurora', oddsT:'Win chances', oddsCap:'Winning chances — an estimate from 8,000 simulated games', oddsAfter:'Chance to win after this move', resignB:'Resign', resignQ:'Resign this game?', resignWait:'Resign becomes available after move 10 ({n} to go)', resignOne:'Your opponent gets 1 point.', resignMars:'You have not borne off any checker, so it counts as a mars — 2 points.', resignRated:'It counts as a loss for your rating.', resigned:'{n} resigned.', resignedYou:'You resigned.', cancel:'Cancel', setSub:'Changes apply right away and are saved in this browser.', pcRegistered:'Registered player', pcRanks:'Ranks', pcAccT:'Account', pcWhyT:'With an account you get:', pcWhy1:'a rating and a rank frame', pcWhy2:'a place on the leaderboard', pcWhy3:'your stats on any device', history:'Move history', histEmpty:'No moves yet', histNone:'no move', histOff:'off', noMovesT:'No moves', undo:'Undo', bnOpenT:'Who goes first?', bnOpenS:'Roll one die — higher plays White', bnOppOpen:'Waiting for the opponent', bnYour:'Your turn', bnRollS:'Roll the dice to move', bnColor:'{c} to move', bnOpp:'Opponent’s turn', bnBot:'Bot’s turn', findT:'Find an opponent', findD:'Play a random online opponent close to your rating.', findB:'Find opponent', botT:'Play the bot', botD:'Practice any time. A win against the bot gives less rating than against a person.', botB:'Play the bot', tutorB:'How to play', localB2:'Same device', onlineN:'{n} online', searchT:'Looking for an opponent', searchInfo:'Hang on — if nobody is free in {s} seconds, you will play the bot.', playBotNow:'Play the bot now', matchFound:'Opponent found!', matchWait:'Opponent found — connecting…', noOpp:'No free opponents — playing the bot', botName:'Bot Taras', botTurn:'The bot is thinking…', botThinking:'The bot is rolling…', botGame:'Game vs bot', botNoMoves:'The bot has no moves', botRated:'bot game: 40%', tutorGame:'Tutorial', coachOpp:'Coach', tutRoll:'Press “Roll dice”.', tutStepDone:'Well done! Press “Next”.', tutNice:'Well done!', tutStep:'Lesson {i} of {n}', tutNext:'Next', tutBack:'Back', tutExit:'Exit', tutPlayBot:'Play the bot', tutFind:'Find opponent',
+  settingsT:'Settings', checkersT:'Checkers', diceT:'Dice', ck_classic:'Classic', ck_wood:'Wood', ck_stone:'Marble', ck_flat:'Flat', ck_metal:'Metal', ck_glass:'Glass', ck_retro:'Retro', st_walnut:'Walnut', st_midnight:'Midnight', st_druzi:'Druzi', avatarT:'Avatar', tier_rookie:'Rookie', tier_regular:'Regular', tier_expert:'Expert', tier_master:'Master', tier_grandmaster:'Grandmaster', tier_khan:'Khan', tier_sultan:'Sultan', tier_legend:'Legend', toStar:'{n} to the next die', lbNotLegend:'You: {rank}. {n} rating to reach Legend.', topPos:'#{n} on the leaderboard', newStar:'Next die!', newRank:'New rank!', botsWait:'{n} bots waiting', searchInfo2:'Looking for a player close to your rating…', onlineGame:'Online game', oppNoMoves:'Your opponent has no moves', bot_marta:'Bot Marta', bot_ostap:'Bot Ostap', bot_taras:'Bot Taras', bot_hryts:'Bot Hryts', cardT:'Card background', cardLock:'Unlocks at {tier} rank', card_felt:'Felt', card_walnut:'Walnut', card_midnight:'Midnight', card_wine:'Wine', card_graphite:'Graphite', card_gold:'Gold', card_aurora:'Aurora', oddsT:'Win chances', oddsCap:'Winning chances — an estimate from 8,000 simulated games', oddsAfter:'Chance to win after this move', resignB:'Resign', resignQ:'Resign this game?', resignWait:'Resign becomes available after move 10 ({n} to go)', resignOne:'Your opponent gets 1 point.', resignMars:'You have not borne off any checker, so it counts as a mars — 2 points.', resignRated:'It counts as a loss for your rating.', resigned:'{n} resigned.', resignedYou:'You resigned.', cancel:'Cancel', setSub:'Changes apply right away and are saved in this browser.', pcRegistered:'Registered player', pcRanks:'Ranks', pcAccT:'Account', pcWhyT:'With an account you get:', pcWhy1:'a rating and a rank frame', pcWhy2:'a place on the leaderboard', pcWhy3:'your stats on any device', history:'Move history', histEmpty:'No moves yet', histNone:'no move', histOff:'off', noMovesT:'No moves', undo:'Undo', bnOpenT:'Who goes first?', bnOpenS:'Roll one die — higher plays White', bnOppOpen:'Waiting for the opponent', bnYour:'Your turn', bnRollS:'Roll the dice to move', bnColor:'{c} to move', bnOpp:'Opponent’s turn', bnBot:'Bot’s turn', findT:'Find an opponent', findD:'Play a random online opponent close to your rating.', findB:'Find opponent', botT:'Play the bot', botD:'Practice any time. A win against the bot gives less rating than against a person.', botB:'Play the bot', tutorB:'How to play', localB2:'Same device', onlineN:'{n} online', searchT:'Looking for an opponent', searchInfo:'Hang on — if nobody is free in {s} seconds, you will play the bot.', playBotNow:'Play the bot now', matchFound:'Opponent found!', matchWait:'Opponent found — connecting…', noOpp:'No free opponents — playing the bot', botName:'Bot Taras', botTurn:'The bot is thinking…', botThinking:'The bot is rolling…', botGame:'Game vs bot', botNoMoves:'The bot has no moves', botRated:'bot game: 40%', tutorGame:'Tutorial', coachOpp:'Coach', tutRoll:'Press “Roll dice”.', tutStepDone:'Well done! Press “Next”.', tutNice:'Well done!', tutStep:'Lesson {i} of {n}', tutNext:'Next', tutBack:'Back', tutExit:'Exit', tutPlayBot:'Play the bot', tutFind:'Find opponent',
   tut1T:'The board and the goal', tut1D:'You play White. All 15 of your checkers start on the “head” — point 24, top right. Black starts on 12. Both sides move counter-clockwise: White goes right-to-left along the top, then left-to-right along the bottom. Bring all checkers home (points 1–6, bottom right) and bear them off before your opponent.',
   tut2T:'Your first move', tut2D:'Roll the dice — you will get 5 and 3. Each die is a separate move of that many points. Only one checker may leave the head per turn, so play both dice with the same checker: tap the checker on 24 — the gold spot is both dice together (5+3).',
   tut3T:'Doubles', tut3D:'Equal dice are played four times. Roll — you get 4 and 4: make four moves of 4 points with any checkers (still only one from the head).',
@@ -757,7 +757,7 @@ const T = {
   openYour:'Кожен кидає один кубик — <b>у кого більше, той грає білими</b> й ходить першим.', openLocal:'<b>{n}</b>, киньте на перший хід.', openWait:'Чекаємо, поки суперник кине…', openTie:'Нічия ({a} : {a}). Киньте ще раз.', openWon:'<b>{n}</b> викинув більше ({a} : {b}) і грає білими.',
   yourRoll:'<b>Ваш хід.</b> Киньте кубики.', localRoll:'Ходять <b>{c}</b>. Киньте кубики.', pick:'Натисніть або перетягніть підсвічену шашку.', where:'Поставте на позначене місце — показано й складені ходи (напр. 3+4).', noMoves:'Ходів немає — хід переходить.', oppTurn:'Хід суперника…', spectator:'Ви глядач. Ходять {c}.', won:'Партію виграли: <b>{n}</b>.',
   newGame:'Нова партія', again:'Ще партію', close:'Закрити', gameOver:'Кінець партії', link:'Посилання на гру', localGame:'Гра на одному пристрої',
-  settingsT:'Налаштування', checkersT:'Шашки', diceT:'Кубики', ck_classic:'Класичні', ck_wood:'Дерево', ck_stone:'Мармур', ck_flat:'Пласкі', ck_metal:'Метал', ck_glass:'Скло', ck_retro:'Ретро', st_walnut:'Горіх', st_midnight:'Північ', st_druzi:'Druzi', avatarT:'Аватар', tier_rookie:'Новачок', tier_regular:'Завсідник', tier_expert:'Знавець', tier_master:'Майстер', tier_grandmaster:'Гросмейстер', tier_khan:'Хан', tier_sultan:'Султан', tier_legend:'Легенда', toStar:'ще {n} до зірки', lbNotLegend:'Ви: {rank}. До Легенди ще {n} рейтингу.', topPos:'#{n} у рейтингу', newStar:'Нова зірка!', newRank:'Новий ранг!', botsWait:'{n} ботів у черзі', searchInfo2:'Шукаємо гравця близького до вас за рейтингом…', onlineGame:'Онлайн-гра', oppNoMoves:'У суперника немає ходів', bot_marta:'Бот Марта', bot_ostap:'Бот Остап', bot_taras:'Бот Тарас', bot_hryts:'Бот Гриць', cardT:'Фон картки', cardLock:'Відкривається з рангом «{tier}»', card_felt:'Сукно', card_walnut:'Горіх', card_midnight:'Північ', card_wine:'Вино', card_graphite:'Графіт', card_gold:'Золото', card_aurora:'Аврора', oddsT:'Шанси на перемогу', oddsCap:'Шанси на перемогу — оцінка за 8000 зіграних партій', oddsAfter:'Шанс на перемогу після цього ходу', resignB:'Здатися', resignQ:'Здатися в цій партії?', resignWait:'Здатися можна після 10-го ходу (залишилось {n})', resignOne:'Суперник отримає 1 очко.', resignMars:'Ви не викинули жодної шашки, тому це марс — 2 очки.', resignRated:'Для рейтингу це зарахується як поразка.', resigned:'{n} здається.', resignedYou:'Ви здалися.', cancel:'Скасувати', setSub:'Зміни застосовуються одразу й зберігаються в цьому браузері.', pcRegistered:'Зареєстрований гравець', pcRanks:'Ранги', pcAccT:'Акаунт', pcWhyT:'З акаунтом у вас буде:', pcWhy1:'рейтинг і рамка рангу', pcWhy2:'місце в таблиці лідерів', pcWhy3:'статистика на будь-якому пристрої', history:'Історія ходів', histEmpty:'Ходів ще немає', histNone:'немає ходу', histOff:'винос', noMovesT:'Немає ходів', undo:'Скасувати хід', bnOpenT:'Хто ходить першим?', bnOpenS:'Киньте кубик — у кого більше, той грає білими', bnOppOpen:'Чекаємо на суперника', bnYour:'Ваш хід', bnRollS:'Киньте кубики, щоб походити', bnColor:'Ходять {c}', bnOpp:'Хід суперника', bnBot:'Хід бота', findT:'Знайти суперника', findD:'Гра з випадковим суперником онлайн, близьким до вас за рейтингом.', findB:'Знайти суперника', botT:'Грати з ботом', botD:'Тренуйтесь будь-коли. За перемогу над ботом рейтингу дається менше, ніж над людиною.', botB:'Грати з ботом', tutorB:'Як грати', localB2:'На одному пристрої', onlineN:'{n} онлайн', searchT:'Шукаємо суперника', searchInfo:'Зачекайте — якщо за {s} секунд ніхто не знайдеться, ви зіграєте з ботом.', playBotNow:'Грати з ботом зараз', matchFound:'Суперника знайдено!', matchWait:'Суперника знайдено — зʼєднуємо…', noOpp:'Вільних суперників немає — граємо з ботом', botName:'Бот Тарас', botTurn:'Бот думає…', botThinking:'Бот кидає кубик…', botGame:'Гра з ботом', botNoMoves:'У бота немає ходів', botRated:'гра з ботом: 40%', tutorGame:'Навчання', coachOpp:'Тренер', tutRoll:'Натисніть «Кинути кубики».', tutStepDone:'Чудово! Натисніть «Далі».', tutNice:'Чудово!', tutStep:'Урок {i} з {n}', tutNext:'Далі', tutBack:'Назад', tutExit:'Вийти', tutPlayBot:'Грати з ботом', tutFind:'Знайти суперника',
+  settingsT:'Налаштування', checkersT:'Шашки', diceT:'Кубики', ck_classic:'Класичні', ck_wood:'Дерево', ck_stone:'Мармур', ck_flat:'Пласкі', ck_metal:'Метал', ck_glass:'Скло', ck_retro:'Ретро', st_walnut:'Горіх', st_midnight:'Північ', st_druzi:'Druzi', avatarT:'Аватар', tier_rookie:'Новачок', tier_regular:'Завсідник', tier_expert:'Знавець', tier_master:'Майстер', tier_grandmaster:'Гросмейстер', tier_khan:'Хан', tier_sultan:'Султан', tier_legend:'Легенда', toStar:'ще {n} до наступного кубика', lbNotLegend:'Ви: {rank}. До Легенди ще {n} рейтингу.', topPos:'#{n} у рейтингу', newStar:'Новий кубик!', newRank:'Новий ранг!', botsWait:'{n} ботів у черзі', searchInfo2:'Шукаємо гравця близького до вас за рейтингом…', onlineGame:'Онлайн-гра', oppNoMoves:'У суперника немає ходів', bot_marta:'Бот Марта', bot_ostap:'Бот Остап', bot_taras:'Бот Тарас', bot_hryts:'Бот Гриць', cardT:'Фон картки', cardLock:'Відкривається з рангом «{tier}»', card_felt:'Сукно', card_walnut:'Горіх', card_midnight:'Північ', card_wine:'Вино', card_graphite:'Графіт', card_gold:'Золото', card_aurora:'Аврора', oddsT:'Шанси на перемогу', oddsCap:'Шанси на перемогу — оцінка за 8000 зіграних партій', oddsAfter:'Шанс на перемогу після цього ходу', resignB:'Здатися', resignQ:'Здатися в цій партії?', resignWait:'Здатися можна після 10-го ходу (залишилось {n})', resignOne:'Суперник отримає 1 очко.', resignMars:'Ви не викинули жодної шашки, тому це марс — 2 очки.', resignRated:'Для рейтингу це зарахується як поразка.', resigned:'{n} здається.', resignedYou:'Ви здалися.', cancel:'Скасувати', setSub:'Зміни застосовуються одразу й зберігаються в цьому браузері.', pcRegistered:'Зареєстрований гравець', pcRanks:'Ранги', pcAccT:'Акаунт', pcWhyT:'З акаунтом у вас буде:', pcWhy1:'рейтинг і рамка рангу', pcWhy2:'місце в таблиці лідерів', pcWhy3:'статистика на будь-якому пристрої', history:'Історія ходів', histEmpty:'Ходів ще немає', histNone:'немає ходу', histOff:'винос', noMovesT:'Немає ходів', undo:'Скасувати хід', bnOpenT:'Хто ходить першим?', bnOpenS:'Киньте кубик — у кого більше, той грає білими', bnOppOpen:'Чекаємо на суперника', bnYour:'Ваш хід', bnRollS:'Киньте кубики, щоб походити', bnColor:'Ходять {c}', bnOpp:'Хід суперника', bnBot:'Хід бота', findT:'Знайти суперника', findD:'Гра з випадковим суперником онлайн, близьким до вас за рейтингом.', findB:'Знайти суперника', botT:'Грати з ботом', botD:'Тренуйтесь будь-коли. За перемогу над ботом рейтингу дається менше, ніж над людиною.', botB:'Грати з ботом', tutorB:'Як грати', localB2:'На одному пристрої', onlineN:'{n} онлайн', searchT:'Шукаємо суперника', searchInfo:'Зачекайте — якщо за {s} секунд ніхто не знайдеться, ви зіграєте з ботом.', playBotNow:'Грати з ботом зараз', matchFound:'Суперника знайдено!', matchWait:'Суперника знайдено — зʼєднуємо…', noOpp:'Вільних суперників немає — граємо з ботом', botName:'Бот Тарас', botTurn:'Бот думає…', botThinking:'Бот кидає кубик…', botGame:'Гра з ботом', botNoMoves:'У бота немає ходів', botRated:'гра з ботом: 40%', tutorGame:'Навчання', coachOpp:'Тренер', tutRoll:'Натисніть «Кинути кубики».', tutStepDone:'Чудово! Натисніть «Далі».', tutNice:'Чудово!', tutStep:'Урок {i} з {n}', tutNext:'Далі', tutBack:'Назад', tutExit:'Вийти', tutPlayBot:'Грати з ботом', tutFind:'Знайти суперника',
   tut1T:'Дошка й мета', tut1D:'Ви граєте білими. Усі 15 шашок стоять на «голові» — пункт 24, вгорі праворуч. Чорні стоять на 12. Обидва гравці рухаються проти годинникової стрілки: білі — вгорі справа наліво, потім унизу зліва направо. Мета — привести всі шашки в дім (пункти 1–6, внизу праворуч) і викинути їх з дошки раніше за суперника.',
   tut2T:'Перший хід', tut2D:'Киньте кубики — випаде 5 і 3. Кожен кубик — окремий хід на стільки пунктів. З голови за хід можна зняти лише одну шашку, тож обидва кубики зіграйте однією шашкою: натисніть шашку на 24 — золота позначка означає обидва кубики разом (5+3).',
   tut3T:'Дубль', tut3D:'Однакові числа на кубиках граються чотири рази. Киньте — випаде 4 і 4: зробіть чотири ходи по 4 пункти будь-якими шашками (з голови — так само лише одна).',
@@ -1326,50 +1326,84 @@ function avatarPicker(onPick){
 // ---- rating (Elo) & rank frames ----
 const RANK0=1000;
 // star width grows with the rank: 40 at Rookie ... 100 at Sultan
-const RTH=(()=>{ const a=[RANK0]; for(let ti=0;ti<7;ti++) for(let k=0;k<5;k++) a.push(a[a.length-1]+40+10*ti); return a; })(); // RTH[35] = Legend
-const TIERS=['rookie','regular','expert','master','grandmaster','khan','sultan','legend'].map((k,i)=>({k, min: i===0 ? 0 : RTH[i*5]}));
+const LV=6, LEG=7*LV; // 6 dice per rank
+const RTH=(()=>{ const a=[RANK0]; for(let ti=0;ti<7;ti++) for(let k=0;k<LV;k++) a.push(a[a.length-1]+34+8*ti); return a; })(); // RTH[LEG] = Legend
+const TIERS=['rookie','regular','expert','master','grandmaster','khan','sultan','legend'].map((k,i)=>({k, min: i===0 ? 0 : RTH[i*LV]}));
 let lbCache=[];
 function topPos(r, selfId){ return 1 + GHOSTS.map((g,i)=>ghostInfo(i)).filter(x=>x.rating>r).length + lbCache.filter(x=>x.id!==selfId && (x.rating||1000)>r).length; }
 // 0..35: every star of every rank; 35 = legend
-function rankStep(r){ r=r||RANK0; let n=0; for(let i=1;i<=35;i++) if(r>=RTH[i]) n=i; return n; }
-function rankOf(r){ const st=rankStep(r), ti=Math.min(7,Math.floor(st/5)); return {ti, star: ti===7 ? 0 : st%5+1, step:st}; }
-function rankName(r,pos){ const k=rankOf(r); return t('tier_'+TIERS[k.ti].k)+(k.star ? ' '+'★'.repeat(k.star) : ' #'+(pos||topPos(r,uid))); }
+function rankStep(r){ r=r||RANK0; let n=0; for(let i=1;i<=LEG;i++) if(r>=RTH[i]) n=i; return n; }
+function rankOf(r){ const st=rankStep(r), ti=Math.min(7,Math.floor(st/LV)); return {ti, star: ti===7 ? 0 : st%LV+1, step:st}; }
+const DIE=['','⚀','⚁','⚂','⚃','⚄','⚅'];
+function rankName(r,pos){ const k=rankOf(r); return t('tier_'+TIERS[k.ti].k)+(k.star ? ' '+DIE[k.star] : ' #'+(pos||topPos(r,uid))); }
 function starsEl(r, cls){ const k=rankOf(r), e=document.createElement('span'); e.className='stars'+(cls?' '+cls:'');
   if(k.ti===7){ e.textContent='#'+(cls && /^\d+$/.test(cls) ? cls : topPos(r, uid)); e.className='stars pos'; return e; }
-  for(let i=1;i<=5;i++){ const s=document.createElement('i'); s.textContent='★'; if(i<=k.star) s.className='on'; e.appendChild(s); } return e; }
+  for(let i=1;i<=LV;i++){ const s=document.createElement('i'); s.textContent=DIE[i]; if(i<=k.star) s.className='on'; e.appendChild(s); } return e; }
 function tierIdx(r){ let i=0; TIERS.forEach((x,j)=>{ if(r>=x.min) i=j; }); return i; }
 function baseGain(r){ const lo=1000, hi=1600; if(r<=lo) return 50; if(r>=hi) return 25; return 50-25*(r-lo)/(hi-lo); }
 
 // ---- rank frames: laurel wreath that grows with the rank ----
-const FPAL={1:['#e2c3a2','#8a5a34','#4a2c14'],2:['#f0b47c','#a8622e','#5b2e12'],3:['#ffffff','#b8c0c9','#666e78'],4:['#fff2b3','#e3ab33','#86590c'],5:['#e9fff1','#4fbf86','#1e6b45'],6:['#ffe3e6','#e0566a','#7a1426'],7:['#e8f0ff','#5b8cff','#22357a'],8:['#f2fcff','#8fd3ff','#7b6cff']};
-let _fid=0;
-function laurelSVG(t, avSvg){
-  const id='f'+(++_fid), g=id+'g', p=FPAL[t];
-  const defs = t===8 ? '<linearGradient id="'+g+'" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e9fbff"/><stop offset=".35" stop-color="#8fd3ff"/><stop offset=".65" stop-color="#b394ff"/><stop offset="1" stop-color="#ff9fd8"/></linearGradient>'
-                     : '<linearGradient id="'+g+'" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="'+p[0]+'"/><stop offset=".5" stop-color="'+p[1]+'"/><stop offset="1" stop-color="'+p[2]+'"/></linearGradient>';
-  const inner = avSvg.replace(/^<svg[^>]*?>/, m=>m.replace(/ (width|height)="[^"]*"/g,'')).replace(/^<svg /,'<svg x="22" y="22" width="76" height="76" ');
-  let out='';
-  const n=[0,0,3,5,7,9,10,11,11][t];
-  for(const side of [1,-1]) for(let i=0;i<n;i++){
-    const phi = side>0 ? 78-i*15 : 102+i*15, R=48.5+(i%2?2.2:-0.6), rad=phi*Math.PI/180;
-    const x=60+R*Math.cos(rad), y=60+R*Math.sin(rad), L=7.2-i*.18;
-    const ang = side>0 ? phi-90+(i%2?28:-22) : phi+90-(i%2?28:-22);
-    out+='<ellipse cx="0" cy="0" rx="'+L+'" ry="'+(L*.42)+'" fill="url(#'+g+')" stroke="'+p[2]+'" stroke-width=".8" transform="translate('+x.toFixed(1)+' '+y.toFixed(1)+') rotate('+ang.toFixed(1)+')"/>';
-  }
-  out+='<circle cx="60" cy="60" r="41.5" fill="none" stroke="url(#'+g+')" stroke-width="'+(t>=4?5:4)+'"/>';
-  if(t===1) out+='<path d="M48 98 L60 104 L72 98 L68 106 L60 109 L52 106Z" fill="url(#'+g+')"/>';
-  if(t>=2) out+='<path d="M44 99 C52 104 68 104 76 99 L73 107 C64 110 56 110 47 107Z" fill="url(#'+g+')" stroke="'+p[2]+'" stroke-width=".8"/>';
-  if(t===5||t===6){ let d=''; for(let i=0;i<10;i++){ const a=-Math.PI/2+i*Math.PI/5, rr=i%2?3.2:7; d+=(i?'L':'M')+(60+rr*Math.cos(a)).toFixed(1)+' '+(13+rr*Math.sin(a)).toFixed(1); } out+='<path d="'+d+'Z" fill="url(#'+g+')" stroke="rgba(0,0,0,.25)" stroke-width=".6"/>'; }
-  if(t>=7){ out+='<path d="M47 18 L47 4 L53.5 11.5 L60 2 L66.5 11.5 L73 4 L73 18 Z" fill="url(#'+g+')" stroke="rgba(0,0,0,.3)" stroke-width=".8"/><path d="M60 99 L64 104 L60 109 L56 104 Z" fill="url(#'+g+')" stroke="#fff" stroke-width="1"/>'; }
-  return '<svg viewBox="0 0 120 120"><defs>'+defs+'</defs><clipPath id="'+id+'c"><circle cx="60" cy="60" r="38"/></clipPath><circle cx="60" cy="60" r="38" fill="#efe7da"/><g clip-path="url(#'+id+'c)">'+inner+'</g>'+out+'</svg>';
+// faceted "gem cut" frames + 3D die badge (face = level 1..6)
+const BASE=[null,'#a87545','#7c858c','#c27a3a','#d3dbe6','#e2a92e','#2fae6e','#d23c56','#3a2f63'];
+const NAME=['','wood','stone','bronze','silver','gold','emerald','ruby','legend'];
+const FACETS=[0,0,8,10,12,14,16,18,24];
+function hx(c){ return [1,3,5].map(i=>parseInt(c.slice(i,i+2),16)); }
+function mix(c,l){ const [r,g,b]=hx(c); const f=l>=0?[255,255,255]:[0,0,0], k=Math.abs(l); return 'rgb('+[r,g,b].map((v,i)=>Math.round(v+(f[i]-v)*k)).join(',')+')'; }
+let _zid=0;
+const fpt=(r,a)=>[60+r*Math.cos(a),60+r*Math.sin(a)];
+const f1=v=>v.toFixed(2);
+const PIPS={1:[[0,0]],2:[[-1,-1],[1,1]],3:[[-1,-1],[0,0],[1,1]],4:[[-1,-1],[1,-1],[-1,1],[1,1]],5:[[-1,-1],[1,-1],[0,0],[-1,1],[1,1]],6:[[-1,-1],[1,-1],[-1,0],[1,0],[-1,1],[1,1]]};
+function dieBadge(t,face,id){
+  const b=BASE[t], s=21, x=60, y=101;
+  let o='<g transform="translate('+x+' '+y+')">';
+  o+='<rect x="'+(-s/2)+'" y="'+(-s/2+2.2)+'" width="'+s+'" height="'+s+'" rx="6" fill="'+mix(b,-.45)+'"/>';           // side
+  o+='<rect x="'+(-s/2)+'" y="'+(-s/2)+'" width="'+s+'" height="'+s+'" rx="6" fill="url(#'+id+'df)" stroke="'+mix(b,-.25)+'" stroke-width="1"/>';
+  o+='<rect x="'+(-s/2+2)+'" y="'+(-s/2+1.5)+'" width="'+(s-4)+'" height="6" rx="3" fill="#fff" opacity=".35"/>';  // gloss
+  if(t===8){ o+='<path d="M-6.5 4L-7-4.5L-3-.8L0-6.2L3-.8L7-4.5L6.5 4Z" fill="#ffd66b" stroke="#a8761c" stroke-width=".8"/>'; }
+  else (PIPS[face]||[]).forEach(([px,py])=>{ o+='<circle cx="'+(px*5)+'" cy="'+(py*5)+'" r="2.05" fill="'+(t===2?'#3b4045':mix(b,-.55))+'"/>'; });
+  return o+'</g>';
 }
+function frame(t, face, avSvg){
+  const id='z'+(++_zid), b=BASE[t]; let defs='', out='', under='';
+  defs+='<linearGradient id="'+id+'df" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fffdf8"/><stop offset="1" stop-color="#ece4d6"/></linearGradient>';
+  if(t===8){ defs+='<linearGradient id="'+id+'ir" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9ff3ff"/><stop offset=".35" stop-color="#b48cff"/><stop offset=".7" stop-color="#ff8fd2"/><stop offset="1" stop-color="#ffe08a"/></linearGradient>'; }
+  const R1=49, R0=41.2, N=FACETS[t];
+  // crown points behind the ring on high ranks (board points, alternating colours)
+  if(t>=5){ const n=t>=7?16:t===6?12:8;
+    for(let i=0;i<n;i++){ const a=-Math.PI/2+(i+.5)*2*Math.PI/n; const deg=((a*180/Math.PI)+360)%360; if(deg>50&&deg<130) continue;
+      const w=Math.PI/n*.55, [x1,y1]=fpt(R1-2,a-w), [x2,y2]=fpt(R1-2,a+w), [x3,y3]=fpt(t>=7?57.5:55.5,a);
+      under+='<path d="M'+f1(x1)+' '+f1(y1)+'L'+f1(x3)+' '+f1(y3)+'L'+f1(x2)+' '+f1(y2)+'Z" fill="'+(t===8?(i%2?'url(#'+id+'ir)':'#2a2440'):(i%2?mix(b,.25):mix(b,-.35)))+'"/>'; } }
+  if(N===0){ // wood: smooth ring with grain
+    defs+='<linearGradient id="'+id+'w" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="'+mix(b,.35)+'"/><stop offset=".5" stop-color="'+b+'"/><stop offset="1" stop-color="'+mix(b,-.45)+'"/></linearGradient>';
+    out+='<circle cx="60" cy="60" r="'+((R0+R1)/2-1)+'" fill="none" stroke="url(#'+id+'w)" stroke-width="'+(R1-R0-1)+'"/>';
+    for(let k=0;k<3;k++) out+='<circle cx="60" cy="60" r="'+(R0+1.6+k*2.1)+'" fill="none" stroke="'+mix(b,-.3)+'" stroke-opacity=".35" stroke-width=".5" stroke-dasharray="'+(9+k*4)+' '+(5+k*3)+'"/>';
+  } else { // faceted gem ring, lit from the top-left
+    for(let i=0;i<N;i++){
+      const a0=-Math.PI/2+i*2*Math.PI/N, a1=a0+2*Math.PI/N, am=(a0+a1)/2;
+      const light=Math.cos(am-(-2.35)); // 1 = facing light
+      const [ox0,oy0]=fpt(R1,a0),[ox1,oy1]=fpt(R1,a1),[ix1,iy1]=fpt(R0,a1),[ix0,iy0]=fpt(R0,a0),[mx0,my0]=fpt((R0+R1)/2,a0),[mx1,my1]=fpt((R0+R1)/2,a1);
+      const outer = t===8 ? (i%3===0?'url(#'+id+'ir)':mix(b,light*.35)) : mix(b,light*.42);
+      const inner = t===8 ? mix(b,light*.5-.1) : mix(b,light*.18-.22);
+      out+='<path d="M'+f1(ox0)+' '+f1(oy0)+'L'+f1(ox1)+' '+f1(oy1)+'L'+f1(mx1)+' '+f1(my1)+'L'+f1(mx0)+' '+f1(my0)+'Z" fill="'+outer+'"/>';
+      out+='<path d="M'+f1(mx0)+' '+f1(my0)+'L'+f1(mx1)+' '+f1(my1)+'L'+f1(ix1)+' '+f1(iy1)+'L'+f1(ix0)+' '+f1(iy0)+'Z" fill="'+inner+'"/>';
+    }
+    out+='<path d="'+Array.from({length:N},(_,i)=>{const[x,y]=fpt(R1,-Math.PI/2+i*2*Math.PI/N);return (i?'L':'M')+f1(x)+' '+f1(y);}).join('')+'Z" fill="none" stroke="'+mix(b,-.55)+'" stroke-width=".8" stroke-linejoin="round"/>';
+    // glints
+    const g=t===8?3:t>=5?2:1; for(let k=0;k<g;k++){ const a=-2.35+k*2.1, [gx,gy]=fpt(R1-2.5,a); out+='<path d="M'+f1(gx)+' '+f1(gy-3.2)+'L'+f1(gx+.9)+' '+f1(gy)+'L'+f1(gx)+' '+f1(gy+3.2)+'L'+f1(gx-.9)+' '+f1(gy)+'Z" fill="#fff" opacity=".9"/><path d="M'+f1(gx-3.2)+' '+f1(gy)+'L'+f1(gx)+' '+f1(gy+.9)+'L'+f1(gx+3.2)+' '+f1(gy)+'L'+f1(gx)+' '+f1(gy-.9)+'Z" fill="#fff" opacity=".9"/>'; }
+  }
+  out+='<circle cx="60" cy="60" r="'+(R0-.4)+'" fill="none" stroke="rgba(0,0,0,.25)" stroke-width=".9"/>';
+  out+=dieBadge(t,face,id);
+  const inner=avSvg.replace(/^<svg[^>]*?>/, m=>m.replace(/ (width|height)="[^"]*"/g,'')).replace(/^<svg /,'<svg x="22" y="22" width="76" height="76" ');
+  return '<svg viewBox="0 0 120 120" overflow="visible"><defs>'+defs+'</defs>'+under+'<clipPath id="'+id+'c"><circle cx="60" cy="60" r="41"/></clipPath><circle cx="60" cy="60" r="41" fill="#efe7da"/><g clip-path="url(#'+id+'c)">'+inner.replace('x="22" y="22" width="76" height="76"','x="19" y="19" width="82" height="82"')+'</g>'+out+'</svg>';
+}
+
 function framed(el, rating, px){
   if(rating==null) return el;
   const size=px||parseFloat(el.style.width)||38, t=tierIdx(rating)+1;
   const w=document.createElement('span'); w.className='frl'; w.style.width=w.style.height=(size/0.633).toFixed(1)+'px';
   w.style.margin=(-(size/0.633-size)/2).toFixed(1)+'px';
   w.title=t_('tier_'+TIERS[t-1].k)+' · '+rating;
-  const raw=el.innerHTML.trim(); w.innerHTML=laurelSVG(t, raw.startsWith('<svg') ? raw : avatarSVG(el.dataset.av, el.dataset.nm||el.textContent));
+  const raw=el.innerHTML.trim(); w.innerHTML=frame(t, rankOf(rating).star, raw.startsWith('<svg') ? raw : avatarSVG(el.dataset.av, el.dataset.nm||el.textContent));
   return w;
 }
 
@@ -1837,14 +1871,15 @@ const NICK_RE=/^[\p{L}\p{N}_.\- ]{3,16}$/u;
 function nickEmail(n){ const bytes=new TextEncoder().encode(n.trim().toLowerCase()); let bits=''; for(const x of bytes) bits+=x.toString(2).padStart(8,'0');
   const A='abcdefghijklmnopqrstuvwxyz234567'; let out=''; for(let i=0;i<bits.length;i+=5) out+=A[parseInt(bits.slice(i,i+5).padEnd(5,'0'),2)]; return 'u'+out+'@nardy.invalid'; }
 const TIER_COL=['#b08560','#c98b55','#c9ced6','#e2b84a','#5cc28f','#e46a7c','#6f97ff','#a99cf0'];
-const CARDS=[{k:'felt',c:'#27392f',min:0},{k:'walnut',c:'#5a3820',min:0},{k:'midnight',c:'#202b4d',min:0},{k:'wine',c:'#5a1d2b',min:0},{k:'graphite',c:'#36322e',min:0},{k:'gold',c:'linear-gradient(135deg,#d8b24a,#7a5a16)',min:1750},{k:'aurora',c:'linear-gradient(135deg,#5a43a8,#2a7a8a,#3f9b74)',min:2500}];
-function cardOk(k){ const c=CARDS.find(x=>x.k===k); return c && (profile.rating||1000)>=c.min && (c.min===0 || !!authUser); }
+const CARDS=[{k:'felt',c:'#27392f',min:0},{k:'walnut',c:'#5a3820',min:0},{k:'midnight',c:'#202b4d',min:0},{k:'wine',c:'#5a1d2b',min:0},{k:'graphite',c:'#36322e',min:0},{k:'gold',c:'linear-gradient(135deg,#d8b24a,#7a5a16)',min:-3},{k:'aurora',c:'linear-gradient(135deg,#5a43a8,#2a7a8a,#3f9b74)',min:-5}];
+function cardMin(c){ return c.min<0 ? TIERS[-c.min].min : c.min; }
+function cardOk(k){ const c=CARDS.find(x=>x.k===k); return c && (profile.rating||1000)>=cardMin(c) && (c.min===0 || !!authUser); }
 function applyCard(){ let k=store.get('card','felt'); if(!cardOk(k)) k='felt'; document.body.dataset.card=k; }
 function cardPicker(){
   const w=document.createElement('div'); w.className='cardpick';
   const l=document.createElement('div'); l.className='cl'; l.textContent=t('cardT'); const row=document.createElement('div'); row.className='cs';
   CARDS.forEach(c=>{ const b=document.createElement('button'); b.type='button'; b.style.background=c.c; const ok=cardOk(c.k);
-    b.title = ok ? t('card_'+c.k) : t('cardLock',{tier:t('tier_'+TIERS[tierIdx(c.min)].k)});
+    b.title = ok ? t('card_'+c.k) : t('cardLock',{tier:t('tier_'+TIERS[tierIdx(cardMin(c))].k)});
     if(!ok) b.classList.add('lock'); if(document.body.dataset.card===c.k) b.classList.add('on');
     b.onclick=()=>{ if(!cardOk(c.k)) return; store.set('card',c.k); applyCard(); row.querySelectorAll('button').forEach(x=>x.classList.remove('on')); b.classList.add('on'); };
     row.appendChild(b); });
@@ -1901,7 +1936,7 @@ function openProfile(){
     const pill=h('div','tierpill'); pill.append(h('i'), document.createTextNode(t('tier_'+TIERS[ti].k)), starsEl(r)); top.append(pill);
     const rk=rankOf(r), nextAt = rk.ti===7 ? null : RTH[rk.step+1];
     const rt=h('div','rating'); rt.append(h('b',null,String(r)), h('span',null, nextAt==null ? t('topPos',{n:topPos(r,uid)}) : (rk.star===5 ? t('toNext',{n:nextAt-r,tier:t('tier_'+TIERS[rk.ti+1].k)}) : t('toStar',{n:nextAt-r}))));
-    const bar=h('div','hbar seg'); for(let i=1;i<=5;i++){ const sg=h('i'); const lo=RTH[Math.min(34,ti*5+i-1)], hi=RTH[Math.min(35,ti*5+i)]; sg.style.setProperty('--f', rk.ti===7 ? '100%' : Math.max(0,Math.min(100,(Math.max(r,RANK0)-lo)/(hi-lo)*100))+'%'); bar.append(sg); }
+    const bar=h('div','hbar seg'); for(let i=1;i<=LV;i++){ const sg=h('i'); const lo=RTH[Math.min(LEG-1,ti*LV+i-1)], hi=RTH[Math.min(LEG,ti*LV+i)]; sg.style.setProperty('--f', rk.ti===7 ? '100%' : Math.max(0,Math.min(100,(Math.max(r,RANK0)-lo)/(hi-lo)*100))+'%'); bar.append(sg); }
     const st=h('div','hstats'); const rate = profile.played ? Math.round(profile.won/profile.played*100)+'%' : '—';
     [[profile.played,t('played')],[profile.won,t('wins')],[rate,t('rate')]].forEach(([v,l])=>{ const d=h('div'); d.append(h('b',null,String(v)), h('span',null,l)); st.appendChild(d); });
     const lad=h('div','ladder'); const buildLad=()=>TIERS.forEach((tt,j)=>{ const d=h('div', j===ti?'cur':(j<ti?'got':'')); const a=h('span','av'); avatarInto(a, profile.av, profile.name||'?');
@@ -1929,7 +1964,7 @@ async function openLeaderboard(){
   show('lbOv',true); const list=$('lbList'); list.innerHTML='<div class="empty">'+t('lbLoading')+'</div>';
   let rows=null; try{ rows=await Promise.race([lbFetch(), new Promise(r=>setTimeout(()=>r(null),5000))]); }catch(e){ rows=null; }
   if(rows) lbCache=rows.slice();
-  rows=(rows||[]).concat(GHOSTS.map((g,i)=>ghostInfo(i))).filter(r=>(r.rating||0)>=RTH[35]).sort((a,b)=>(b.rating||1000)-(a.rating||1000)).slice(0,100);
+  rows=(rows||[]).concat(GHOSTS.map((g,i)=>ghostInfo(i))).filter(r=>(r.rating||0)>=RTH[LEG]).sort((a,b)=>(b.rating||1000)-(a.rating||1000)).slice(0,100);
   list.innerHTML='';
   if(rows===null){ list.innerHTML='<div class="empty"></div>'; list.firstChild.textContent=t('lbErr'); return; }
   if(!rows.length){ const e=document.createElement('div'); e.className='empty'; e.textContent=t('lbEmpty'); list.appendChild(e); return; }
@@ -1943,12 +1978,12 @@ async function openLeaderboard(){
     const rt=document.createElement('div'); rt.className='rt'; rt.textContent=r.rating||1000;
     row.append(pos,avw,who,rt); list.appendChild(row);
   });
-  if(!rows.some(r=>r.id===uid)){ const e=document.createElement('div'); e.className='empty'; e.style.padding='14px 6px 2px'; const my=profile.rating||1000; e.textContent=t('lbNotLegend',{rank:rankName(my), n:Math.max(0,RTH[35]-my)}); list.appendChild(e); }
+  if(!rows.some(r=>r.id===uid)){ const e=document.createElement('div'); e.className='empty'; e.style.padding='14px 6px 2px'; const my=profile.rating||1000; e.textContent=t('lbNotLegend',{rank:rankName(my), n:Math.max(0,RTH[LEG]-my)}); list.appendChild(e); }
 }
 
 async function lbFetch(){
   if(!sb || !uid) return null;
-  const {data,error}=await sb.from('profiles').select('id,name,av,rating,won,played,rgames').gt('rgames',0).gte('rating',RTH[35]).order('rating',{ascending:false}).limit(100);
+  const {data,error}=await sb.from('profiles').select('id,name,av,rating,won,played,rgames').gt('rgames',0).gte('rating',RTH[LEG]).order('rating',{ascending:false}).limit(100);
   if(error) return null; return data||[];
 }
 
