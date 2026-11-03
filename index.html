@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Nardy — long backgammon</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icon-180.png">
@@ -551,7 +551,34 @@ kbd{font:11px var(--mono);padding:1px 5px;border-radius:4px;border:1px solid var
   .seg button + button::before{margin-right:5px}
   .seg{flex-wrap:nowrap}
 }
+@media (max-width:420px){
+  header{padding:12px 12px 8px}
+  .hdr-r{gap:6px}
+  .brand b{font-size:19px;margin-right:4px} .brand .bmark{width:27px;height:19px}
+  .seg button{padding:4px 2px;font-size:12px}
+  .seg button + button::before{margin-right:3px}
+  .me .nmx{display:none}
+  .me.out .nmx{display:inline;max-width:none}
+  .me.out .av.ghost{display:none}
+  .lb .lbrow{grid-template-columns:24px 50px 1fr auto;gap:8px;padding:8px 2px}
+  .lb .pos{font-size:15px}
+  .lb .who b{font-size:15px}
+  .lb .who span{display:block;font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .lb .rt{font-size:19px}
+  .modal.wide{padding:18px 14px}
+}
+@media (max-width:860px) and (orientation:landscape){
+  .bw{flex-direction:row!important;align-items:stretch}
+  .tray{width:calc(var(--cs)*1.12)!important;height:auto!important;flex-direction:column!important;padding:calc(var(--cs)*.36) calc(var(--cs)*.16)!important}
+  .tslot{flex-direction:column!important;padding:calc(var(--cs)*.12) 0!important}
+  .tslot.bot{flex-direction:column-reverse!important}
+  .tslot i{width:78%!important;height:calc(var(--cs)*.15)!important}
+  #stage{padding:6px!important}
+  header{padding-top:6px!important;padding-bottom:6px!important}
+}
 @media (max-width:860px){
+  header{padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}
+  .hud{padding-bottom:env(safe-area-inset-bottom)}
   html,body{overflow:auto}
   .app{grid-template-columns:1fr;grid-template-rows:auto auto auto;height:auto;min-height:100vh}
   #stage{height:auto;padding:8px 6px 14px}
@@ -560,6 +587,12 @@ kbd{font:11px var(--mono);padding:1px 5px;border-radius:4px;border:1px solid var
   .brand small{display:none}
   .brand b{font-size:21px;margin-right:10px} .brand .bmark{width:31px;height:22px} .brand{gap:7px}
   #btnMe{white-space:nowrap}
+  html,body{overflow-x:hidden}
+  .app{grid-template-columns:minmax(0,1fr)}
+  header{min-width:0;gap:8px;align-items:center}
+  .hdr-r{gap:10px;min-width:0}
+  .hdr-r .gear{padding:6px}
+  .me .nmx{max-width:84px;overflow:hidden;text-overflow:ellipsis}
   .sec{padding:16px 18px}
   .pl.turn::before{left:-18px}
   h1{font-size:28px}
@@ -1634,7 +1667,8 @@ function build2D(){
   stage.appendChild(wrap);
   function fit(){
     const r=stage.getBoundingClientRect(), narrow=innerWidth<=860;
-    const cs = narrow ? Math.min((r.width-8)/13.95, 56) : Math.max(24, Math.min((r.width-28)/14.35, (r.height-22)/12.15, 96));
+    const land = narrow && innerWidth>innerHeight;
+    const cs = land ? Math.max(18, Math.min((r.width-20)/14.35, (innerHeight-$("stage").getBoundingClientRect().top-14)/12.2)) : narrow ? Math.min((r.width-8)/13.95, 56) : Math.max(24, Math.min((r.width-28)/14.35, (r.height-22)/12.15, 96));
     document.documentElement.style.setProperty('--cs', cs.toFixed(2)+'px');
   }
   new ResizeObserver(fit).observe(stage); addEventListener('resize',fit); fit();
@@ -1870,6 +1904,7 @@ function renderMe(){
   else b.innerHTML='<span class="av ghost">?</span><span class="nmx"></span>';
   if(authUser && profile.name) b.querySelector('.av').textContent=initials(profile.name);
   b.querySelector('.nmx').textContent = (authUser && profile.name) ? profile.name : t('login');
+  b.classList.toggle('out', !(authUser && profile.name));
   renderMeAvatar();
 }
 async function saveProfile(){
