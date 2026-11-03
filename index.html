@@ -176,6 +176,39 @@ p{margin:0}
 .ub .i{width:18px;height:18px}
 @media (max-width:640px){.ub{width:34px;height:34px}.ub .i{width:14px;height:14px}}
 
+.modal.setm{max-width:880px;padding:0;display:grid;grid-template-columns:320px 1fr;overflow:hidden;position:relative;max-height:calc(100vh - 40px)}
+.spv .mp{width:6.5%!important}
+@media (max-width:760px){.modal.setm{grid-template-columns:1fr;overflow:auto;max-height:calc(100vh - 24px)}}
+.setm .hero{gap:0}
+.setm .hsub{margin-top:2px}
+.spv{position:relative;height:auto!important;aspect-ratio:1.45;margin:22px 0 0;padding:7px!important;box-shadow:0 18px 34px -16px rgba(0,0,0,.7)}
+.spv .mf{position:relative;display:flex;flex-direction:column;justify-content:space-between;padding:0}
+.spv .mrow{display:flex;justify-content:space-around;height:44%;padding:0 4px}
+.spv .mrow.b{transform:rotate(180deg)}
+.spv .mp{height:100%!important}
+.spv .bar{position:absolute;left:50%;top:0;bottom:0;width:6px;margin-left:-3px;background:var(--bar,rgba(0,0,0,.35))}
+.spv .stk{position:absolute;display:flex;flex-direction:column;gap:1px;--cs:26px}
+.spv .stk.w{right:5%;top:4%} .spv .stk.b{left:5%;bottom:4%;flex-direction:column-reverse}
+.spv .dz{position:absolute;left:72%;top:50%;transform:translate(-50%,-50%);display:flex;gap:6px;--cs:30px}
+.spv .dz .die{width:28px;height:28px}
+.snames{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.snames span{font-size:12px;padding:3px 10px;border-radius:99px;background:rgba(255,255,255,.08);box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);opacity:.85}
+.stogs{margin-top:auto;padding-top:20px;border-top:1px solid rgba(255,255,255,.12)}
+.stogs .set{color:#f3eee5;font-size:15px}
+.stogs .tog{background:rgba(255,255,255,.18)} .stogs .tog.on{background:var(--hl)}
+.setm .body .picks{gap:8px}
+.setm .pick{padding:8px 6px 8px;gap:6px;font-size:12.5px;border-width:1px;border-radius:10px}
+.setm .pv{height:44px}
+.setm .pb5{grid-template-columns:repeat(5,1fr)} .setm .pb5 .mb{height:44px;padding:4px}
+.setm .pc7{grid-template-columns:repeat(4,1fr)}
+.setm .pc7 .pv .ck{width:28px;height:28px}
+.setm .pd3{grid-template-columns:repeat(4,1fr)}
+.setm .pd3 .pv .die{width:30px;height:30px}
+@media (max-width:760px){
+  .setm .pb5{grid-template-columns:repeat(3,1fr)} .setm .pc7,.setm .pd3{grid-template-columns:repeat(3,1fr)}
+  .spv{max-width:300px;width:100%;margin:16px auto 0}
+  .stogs{margin-top:16px}
+}
 /* ---- profile: player card ---- */
 #profBox.pc{max-width:860px;padding:0;display:grid;grid-template-columns:330px 1fr;overflow:hidden;position:relative}
 .pc .hero{position:relative;color:#f3eee5;padding:30px 28px 26px;display:flex;flex-direction:column;
@@ -553,14 +586,22 @@ kbd{font:11px var(--mono);padding:1px 5px;border-radius:4px;border:1px solid var
   </aside>
 </div>
 
-<div id="setOv" class="overlay hidden"><div class="modal wide">
-  <div class="mhead"><h2 data-t="settingsT"></h2><button class="xbtn" id="btnSetClose" aria-label="Close"><svg class="i"><use href="#i-x"/></svg></button></div>
-  <div class="sgroup"><div class="slabel" data-t="boardT"></div><div class="picks" id="pickBoard"></div></div>
-  <div class="sgroup"><div class="slabel" data-t="checkersT"></div><div class="picks four" id="pickCk"></div></div>
-  <div class="sgroup"><div class="slabel" data-t="diceT"></div><div class="picks" id="pickDice"></div></div>
-  <div class="sgroup">
-    <div class="set"><span data-t="sound"></span><div class="tog" id="togSound"></div></div>
-    <div class="set"><span data-t="flip"></span><div class="tog" id="togFlip"></div></div>
+<div id="setOv" class="overlay hidden"><div class="modal pc setm">
+  <button class="x" id="btnSetClose" aria-label="Close">×</button>
+  <div class="hero">
+    <div class="hname" data-t="settingsT"></div>
+    <div class="hsub" data-t="setSub"></div>
+    <div class="spv mb" id="setPrev"></div>
+    <div class="snames" id="setNames"></div>
+    <div class="stogs">
+      <div class="set"><span data-t="sound"></span><div class="tog" id="togSound"></div></div>
+      <div class="set"><span data-t="flip"></span><div class="tog" id="togFlip"></div></div>
+    </div>
+  </div>
+  <div class="body">
+    <div class="blk"><h3 data-t="boardT"></h3><div class="picks pb5" id="pickBoard"></div></div>
+    <div class="blk"><h3 data-t="checkersT"></h3><div class="picks pc7" id="pickCk"></div></div>
+    <div class="blk" style="margin-bottom:0"><h3 data-t="diceT"></h3><div class="picks pd3" id="pickDice"></div></div>
   </div>
 </div></div>
 <div id="lbOv" class="overlay hidden"><div class="modal wide lb">
@@ -607,7 +648,7 @@ const T = {
   openYour:'Roll one die each — <b>higher roll plays White</b> and moves first.', openLocal:'<b>{n}</b>, roll for the first move.', openWait:'Waiting for your opponent to roll…', openTie:'Tie ({a} : {a}). Roll again.', openWon:'<b>{n}</b> rolled higher ({a} : {b}) and plays White.',
   yourRoll:'<b>Your turn.</b> Roll the dice.', localRoll:'<b>{c}</b> to move. Roll the dice.', pick:'Tap or drag a highlighted checker.', where:'Drop it on a marked spot — combined moves (e.g. 3+4) are shown too.', noMoves:'No legal moves — passing the turn.', oppTurn:'Opponent’s turn…', spectator:'You are watching. {c} to move.', won:'<b>{n}</b> won this game.',
   newGame:'New game', again:'Play again', close:'Close', gameOver:'Game over', link:'Game link', localGame:'Same-device game',
-  settingsT:'Settings', checkersT:'Checkers', diceT:'Dice', ck_classic:'Classic', ck_wood:'Wood', ck_stone:'Marble', ck_flat:'Flat', ck_metal:'Metal', ck_glass:'Glass', ck_retro:'Retro', st_walnut:'Walnut', st_midnight:'Midnight', avatarT:'Avatar', pcRegistered:'Registered player', pcRanks:'Ranks', pcAccT:'Account', pcWhyT:'With an account you get:', pcWhy1:'a rating and a rank frame', pcWhy2:'a place on the leaderboard', pcWhy3:'your stats on any device', history:'Move history', histEmpty:'No moves yet', histNone:'no move', histOff:'off', noMovesT:'No moves', undo:'Undo', bnOpenT:'Who goes first?', bnOpenS:'Roll one die — higher plays White', bnOppOpen:'Waiting for the opponent', bnYour:'Your turn', bnRollS:'Roll the dice to move', bnColor:'{c} to move', bnOpp:'Opponent’s turn', bnBot:'Bot’s turn', findT:'Find an opponent', findD:'Play a random online opponent. If nobody is free within 25 seconds, the bot steps in.', findB:'Find opponent', botT:'Play the bot', botD:'Practice any time. A win against the bot gives less rating than against a person.', botB:'Play the bot', tutorB:'How to play', localB2:'Same device', onlineN:'{n} online', searchT:'Looking for an opponent', searchInfo:'Hang on — if nobody is free in {s} seconds, you will play the bot.', playBotNow:'Play the bot now', matchFound:'Opponent found!', matchWait:'Opponent found — connecting…', noOpp:'No free opponents — playing the bot', botName:'Bot Taras', botTurn:'The bot is thinking…', botThinking:'The bot is rolling…', botGame:'Game vs bot', botNoMoves:'The bot has no moves', botRated:'bot game: 40%', tutorGame:'Tutorial', coachOpp:'Coach', tutRoll:'Press “Roll dice”.', tutStepDone:'Well done! Press “Next”.', tutNice:'Well done!', tutStep:'Lesson {i} of {n}', tutNext:'Next', tutBack:'Back', tutExit:'Exit', tutPlayBot:'Play the bot', tutFind:'Find opponent',
+  settingsT:'Settings', checkersT:'Checkers', diceT:'Dice', ck_classic:'Classic', ck_wood:'Wood', ck_stone:'Marble', ck_flat:'Flat', ck_metal:'Metal', ck_glass:'Glass', ck_retro:'Retro', st_walnut:'Walnut', st_midnight:'Midnight', avatarT:'Avatar', setSub:'Changes apply right away and are saved in this browser.', pcRegistered:'Registered player', pcRanks:'Ranks', pcAccT:'Account', pcWhyT:'With an account you get:', pcWhy1:'a rating and a rank frame', pcWhy2:'a place on the leaderboard', pcWhy3:'your stats on any device', history:'Move history', histEmpty:'No moves yet', histNone:'no move', histOff:'off', noMovesT:'No moves', undo:'Undo', bnOpenT:'Who goes first?', bnOpenS:'Roll one die — higher plays White', bnOppOpen:'Waiting for the opponent', bnYour:'Your turn', bnRollS:'Roll the dice to move', bnColor:'{c} to move', bnOpp:'Opponent’s turn', bnBot:'Bot’s turn', findT:'Find an opponent', findD:'Play a random online opponent. If nobody is free within 25 seconds, the bot steps in.', findB:'Find opponent', botT:'Play the bot', botD:'Practice any time. A win against the bot gives less rating than against a person.', botB:'Play the bot', tutorB:'How to play', localB2:'Same device', onlineN:'{n} online', searchT:'Looking for an opponent', searchInfo:'Hang on — if nobody is free in {s} seconds, you will play the bot.', playBotNow:'Play the bot now', matchFound:'Opponent found!', matchWait:'Opponent found — connecting…', noOpp:'No free opponents — playing the bot', botName:'Bot Taras', botTurn:'The bot is thinking…', botThinking:'The bot is rolling…', botGame:'Game vs bot', botNoMoves:'The bot has no moves', botRated:'bot game: 40%', tutorGame:'Tutorial', coachOpp:'Coach', tutRoll:'Press “Roll dice”.', tutStepDone:'Well done! Press “Next”.', tutNice:'Well done!', tutStep:'Lesson {i} of {n}', tutNext:'Next', tutBack:'Back', tutExit:'Exit', tutPlayBot:'Play the bot', tutFind:'Find opponent',
   tut1T:'The board and the goal', tut1D:'You play White. All 15 of your checkers start on the “head” — point 24, top right. Black starts on 12. Both sides move counter-clockwise: White goes right-to-left along the top, then left-to-right along the bottom. Bring all checkers home (points 1–6, bottom right) and bear them off before your opponent.',
   tut2T:'Your first move', tut2D:'Roll the dice — you will get 5 and 3. Each die is a separate move of that many points. Only one checker may leave the head per turn, so play both dice with the same checker: tap the checker on 24 — the gold spot is both dice together (5+3).',
   tut3T:'Doubles', tut3D:'Equal dice are played four times. Roll — you get 4 and 4: make four moves of 4 points with any checkers (still only one from the head).',
@@ -629,7 +670,7 @@ const T = {
   openYour:'Кожен кидає один кубик — <b>у кого більше, той грає білими</b> й ходить першим.', openLocal:'<b>{n}</b>, киньте на перший хід.', openWait:'Чекаємо, поки суперник кине…', openTie:'Нічия ({a} : {a}). Киньте ще раз.', openWon:'<b>{n}</b> викинув більше ({a} : {b}) і грає білими.',
   yourRoll:'<b>Ваш хід.</b> Киньте кубики.', localRoll:'Ходять <b>{c}</b>. Киньте кубики.', pick:'Натисніть або перетягніть підсвічену шашку.', where:'Поставте на позначене місце — показано й складені ходи (напр. 3+4).', noMoves:'Ходів немає — хід переходить.', oppTurn:'Хід суперника…', spectator:'Ви глядач. Ходять {c}.', won:'Партію виграли: <b>{n}</b>.',
   newGame:'Нова партія', again:'Ще партію', close:'Закрити', gameOver:'Кінець партії', link:'Посилання на гру', localGame:'Гра на одному пристрої',
-  settingsT:'Налаштування', checkersT:'Шашки', diceT:'Кубики', ck_classic:'Класичні', ck_wood:'Дерево', ck_stone:'Мармур', ck_flat:'Пласкі', ck_metal:'Метал', ck_glass:'Скло', ck_retro:'Ретро', st_walnut:'Горіх', st_midnight:'Північ', avatarT:'Аватар', pcRegistered:'Зареєстрований гравець', pcRanks:'Ранги', pcAccT:'Акаунт', pcWhyT:'З акаунтом у вас буде:', pcWhy1:'рейтинг і рамка рангу', pcWhy2:'місце в таблиці лідерів', pcWhy3:'статистика на будь-якому пристрої', history:'Історія ходів', histEmpty:'Ходів ще немає', histNone:'немає ходу', histOff:'винос', noMovesT:'Немає ходів', undo:'Скасувати хід', bnOpenT:'Хто ходить першим?', bnOpenS:'Киньте кубик — у кого більше, той грає білими', bnOppOpen:'Чекаємо на суперника', bnYour:'Ваш хід', bnRollS:'Киньте кубики, щоб походити', bnColor:'Ходять {c}', bnOpp:'Хід суперника', bnBot:'Хід бота', findT:'Знайти суперника', findD:'Гра з випадковим суперником онлайн. Якщо за 25 секунд ніхто не знайдеться, грає бот.', findB:'Знайти суперника', botT:'Грати з ботом', botD:'Тренуйтесь будь-коли. За перемогу над ботом рейтингу дається менше, ніж над людиною.', botB:'Грати з ботом', tutorB:'Як грати', localB2:'На одному пристрої', onlineN:'{n} онлайн', searchT:'Шукаємо суперника', searchInfo:'Зачекайте — якщо за {s} секунд ніхто не знайдеться, ви зіграєте з ботом.', playBotNow:'Грати з ботом зараз', matchFound:'Суперника знайдено!', matchWait:'Суперника знайдено — зʼєднуємо…', noOpp:'Вільних суперників немає — граємо з ботом', botName:'Бот Тарас', botTurn:'Бот думає…', botThinking:'Бот кидає кубик…', botGame:'Гра з ботом', botNoMoves:'У бота немає ходів', botRated:'гра з ботом: 40%', tutorGame:'Навчання', coachOpp:'Тренер', tutRoll:'Натисніть «Кинути кубики».', tutStepDone:'Чудово! Натисніть «Далі».', tutNice:'Чудово!', tutStep:'Урок {i} з {n}', tutNext:'Далі', tutBack:'Назад', tutExit:'Вийти', tutPlayBot:'Грати з ботом', tutFind:'Знайти суперника',
+  settingsT:'Налаштування', checkersT:'Шашки', diceT:'Кубики', ck_classic:'Класичні', ck_wood:'Дерево', ck_stone:'Мармур', ck_flat:'Пласкі', ck_metal:'Метал', ck_glass:'Скло', ck_retro:'Ретро', st_walnut:'Горіх', st_midnight:'Північ', avatarT:'Аватар', setSub:'Зміни застосовуються одразу й зберігаються в цьому браузері.', pcRegistered:'Зареєстрований гравець', pcRanks:'Ранги', pcAccT:'Акаунт', pcWhyT:'З акаунтом у вас буде:', pcWhy1:'рейтинг і рамка рангу', pcWhy2:'місце в таблиці лідерів', pcWhy3:'статистика на будь-якому пристрої', history:'Історія ходів', histEmpty:'Ходів ще немає', histNone:'немає ходу', histOff:'винос', noMovesT:'Немає ходів', undo:'Скасувати хід', bnOpenT:'Хто ходить першим?', bnOpenS:'Киньте кубик — у кого більше, той грає білими', bnOppOpen:'Чекаємо на суперника', bnYour:'Ваш хід', bnRollS:'Киньте кубики, щоб походити', bnColor:'Ходять {c}', bnOpp:'Хід суперника', bnBot:'Хід бота', findT:'Знайти суперника', findD:'Гра з випадковим суперником онлайн. Якщо за 25 секунд ніхто не знайдеться, грає бот.', findB:'Знайти суперника', botT:'Грати з ботом', botD:'Тренуйтесь будь-коли. За перемогу над ботом рейтингу дається менше, ніж над людиною.', botB:'Грати з ботом', tutorB:'Як грати', localB2:'На одному пристрої', onlineN:'{n} онлайн', searchT:'Шукаємо суперника', searchInfo:'Зачекайте — якщо за {s} секунд ніхто не знайдеться, ви зіграєте з ботом.', playBotNow:'Грати з ботом зараз', matchFound:'Суперника знайдено!', matchWait:'Суперника знайдено — зʼєднуємо…', noOpp:'Вільних суперників немає — граємо з ботом', botName:'Бот Тарас', botTurn:'Бот думає…', botThinking:'Бот кидає кубик…', botGame:'Гра з ботом', botNoMoves:'У бота немає ходів', botRated:'гра з ботом: 40%', tutorGame:'Навчання', coachOpp:'Тренер', tutRoll:'Натисніть «Кинути кубики».', tutStepDone:'Чудово! Натисніть «Далі».', tutNice:'Чудово!', tutStep:'Урок {i} з {n}', tutNext:'Далі', tutBack:'Назад', tutExit:'Вийти', tutPlayBot:'Грати з ботом', tutFind:'Знайти суперника',
   tut1T:'Дошка й мета', tut1D:'Ви граєте білими. Усі 15 шашок стоять на «голові» — пункт 24, вгорі праворуч. Чорні стоять на 12. Обидва гравці рухаються проти годинникової стрілки: білі — вгорі справа наліво, потім унизу зліва направо. Мета — привести всі шашки в дім (пункти 1–6, внизу праворуч) і викинути їх з дошки раніше за суперника.',
   tut2T:'Перший хід', tut2D:'Киньте кубики — випаде 5 і 3. Кожен кубик — окремий хід на стільки пунктів. З голови за хід можна зняти лише одну шашку, тож обидва кубики зіграйте однією шашкою: натисніть шашку на 24 — золота позначка означає обидва кубики разом (5+3).',
   tut3T:'Дубль', tut3D:'Однакові числа на кубиках граються чотири рази. Киньте — випаде 4 і 4: зробіть чотири ходи по 4 пункти будь-якими шашками (з голови — так само лише одна).',
@@ -1323,7 +1364,18 @@ function build2D(){
     buildPickers();
   }
   function pickBtn(on,label,preview,onclick){ const e=document.createElement('button'); e.className='pick'+(on?' on':''); const pv=document.createElement('div'); pv.className='pv'; pv.appendChild(preview); const l=document.createElement('span'); l.textContent=label; e.append(pv,l); e.onclick=onclick; return e; }
+  function buildPreview(){
+    const pv=$('setPrev'); if(!pv) return; pv.innerHTML=''; pv.dataset.b=prefs.board; pv.dataset.shape=BOARDS[prefs.board].shape||'lane';
+    const mf=document.createElement('div'); mf.className='mf';
+    ['t','b'].forEach(r=>{ const row=document.createElement('div'); row.className='mrow '+r; for(let i=0;i<12;i++){ const p=document.createElement('span'); p.className='mp'+((i+(r==='b'?1:0))%2?' alt':''); row.appendChild(p); } mf.appendChild(row); });
+    const bar=document.createElement('div'); bar.className='bar'; mf.appendChild(bar);
+    ['w','b'].forEach(c=>{ const st=document.createElement('div'); st.className='stk '+c; for(let i=0;i<3;i++){ const ck=document.createElement('div'); ck.className='ck '+c; st.appendChild(ck); } mf.appendChild(st); });
+    const dz=document.createElement('div'); dz.className='dz'; [5,3].forEach(v=>dz.appendChild(dieEl(v,false,false,0))); mf.appendChild(dz);
+    pv.appendChild(mf);
+    const nm=$('setNames'); if(nm){ nm.innerHTML=''; [t('st_'+prefs.board), t('ck_'+prefs.ck), t('dice_'+prefs.dice)].forEach(v=>{ const sp=document.createElement('span'); sp.textContent=v; nm.appendChild(sp); }); }
+  }
   function buildPickers(){
+    buildPreview();
     const pb=$('pickBoard'); if(!pb) return; pb.innerHTML='';
     for(const k of Object.keys(BOARDS)){
       const mb=document.createElement('div'); mb.className='mb'; mb.dataset.b=k; mb.dataset.shape=BOARDS[k].shape||'lane'; const mf=document.createElement('div'); mf.className='mf';
@@ -1332,13 +1384,13 @@ function build2D(){
     }
     const pc=$('pickCk'); pc.innerHTML='';
     for(const k of CKS){
-      const w=document.createElement('div'); w.dataset.ck=k; w.style.cssText='display:flex;gap:4px;--cs:37px';
+      const w=document.createElement('div'); w.dataset.ck=k; w.style.cssText='display:flex;gap:4px;--cs:31px';
       ['w','b'].forEach(c=>{ const ck=document.createElement('div'); ck.className='ck '+c; w.appendChild(ck); });
       pc.appendChild(pickBtn(prefs.ck===k, t('ck_'+k), w, ()=>{ prefs.ck=k; store.set('ck',k); applyTheme(); }));
     }
     const pd=$('pickDice'); pd.innerHTML='';
     for(const k of DICES){
-      const w=document.createElement('div'); w.dataset.dice=k; w.style.cssText='display:flex;gap:6px;--cs:40px';
+      const w=document.createElement('div'); w.dataset.dice=k; w.style.cssText='display:flex;gap:5px;--cs:32px';
       [5,1].forEach(v=>w.appendChild(dieEl(v,false,false,0)));
       pd.appendChild(pickBtn(prefs.dice===k, t('dice_'+k), w, ()=>{ prefs.dice=k; store.set('dice',k); applyTheme(); }));
     }
