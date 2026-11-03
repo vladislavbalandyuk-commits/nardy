@@ -209,6 +209,18 @@ p{margin:0}
   .spv{max-width:300px;width:100%;margin:16px auto 0}
   .stogs{margin-top:16px}
 }
+.odds{margin-top:12px}
+.odds .ol{display:flex;justify-content:space-between;font-size:13px;font-variant-numeric:tabular-nums;color:var(--ink2)}
+.odds .ol b{font-weight:600}
+.odds .obar{position:relative;height:10px;border-radius:5px;margin-top:6px;overflow:hidden;background:#2a2622;box-shadow:inset 0 0 0 1px rgba(0,0,0,.3)}
+.odds .obar i{position:absolute;left:0;top:0;bottom:0;background:#f4efe6;transition:width .6s cubic-bezier(.2,.8,.2,1)}
+.odds .obar::after{content:"";position:absolute;left:50%;top:-2px;bottom:-2px;width:1px;background:rgba(142,47,31,.6)}
+.odds .ocap{font-size:11px;color:var(--muted);margin-top:4px}
+.hist .hr{grid-template-columns:26px 14px 34px 1fr 36px!important}
+.hist .hp{text-align:right;font-size:12px;color:var(--muted)}
+.hist .hp.up{color:#3c7a4e} .hist .hp.dn{color:var(--accent)}
+.rsv{display:flex;align-items:center;gap:6px}
+#btnResign[disabled]{opacity:.35}
 /* ---- profile: player card ---- */
 #profBox.pc{max-width:860px;padding:0;display:grid;grid-template-columns:330px 1fr;overflow:hidden;position:relative}
 .pc .hero{position:relative;color:#f3eee5;padding:30px 28px 26px;display:flex;flex-direction:column;
@@ -557,6 +569,7 @@ kbd{font:11px var(--mono);padding:1px 5px;border-radius:4px;border:1px solid var
       <div class="sec" style="padding-top:12px;padding-bottom:12px">
         <div class="pl" id="plTop"></div>
         <div class="pl" id="plBot"></div>
+        <div class="odds hidden" id="odds"><div class="ol"><span id="oddT"></span><span id="oddB"></span></div><div class="obar"><i id="oddFill"></i></div><div class="ocap" data-t="oddsCap"></div></div>
       </div>
       <div class="sec coach hidden" id="coach">
         <div class="coachstep" id="coachStep"></div>
@@ -573,7 +586,7 @@ kbd{font:11px var(--mono);padding:1px 5px;border-radius:4px;border:1px solid var
         <button class="cta hidden" id="btnNew" style="width:100%;margin-top:8px" data-t="newGame"></button>
       </div>
       <div class="sec" style="padding-top:12px;padding-bottom:12px">
-        <div class="share"><span id="shareLbl"></span><button id="btnCopy2" title="Copy link"><svg class="i"><use href="#i-link"/></svg></button><button id="btnLeave2" title="Leave"><svg class="i"><use href="#i-exit"/></svg></button></div>
+        <div class="share"><span id="shareLbl"></span><button id="btnCopy2" title="Copy link"><svg class="i"><use href="#i-link"/></svg></button><button id="btnResign" title="Resign"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 21V4"/><path d="M6 4h11l-2.5 4L17 12H6"/></svg></button><button id="btnLeave2" title="Leave"><svg class="i"><use href="#i-exit"/></svg></button></div>
       </div>
       <div class="sec">
         <details class="rules hdet" id="histD"><summary id="histS"></summary><div class="hist" id="histList"></div></details>
@@ -596,6 +609,7 @@ kbd{font:11px var(--mono);padding:1px 5px;border-radius:4px;border:1px solid var
     <div class="stogs">
       <div class="set"><span data-t="sound"></span><div class="tog" id="togSound"></div></div>
       <div class="set"><span data-t="flip"></span><div class="tog" id="togFlip"></div></div>
+      <div class="set"><span data-t="oddsT"></span><div class="tog" id="togOdds"></div></div>
     </div>
   </div>
   <div class="body">
@@ -610,6 +624,7 @@ kbd{font:11px var(--mono);padding:1px 5px;border-radius:4px;border:1px solid var
   <div id="lbList"></div>
 </div></div>
 <div id="profOv" class="overlay hidden"><div class="modal" id="profBox"></div></div>
+<div id="resOv" class="overlay hidden"><div class="modal"><h2 data-t="resignQ"></h2><p id="resSub"></p><div class="r"><button id="btnResNo" data-t="cancel"></button><button class="cta" id="btnResYes" data-t="resignB"></button></div></div></div>
 <div id="winOv" class="overlay hidden"><div class="modal"><h2 id="winTitle"></h2><p id="winSub"></p><div class="r"><button class="cta" id="btnNew2" data-t="again"></button><button id="btnCloseWin" data-t="close"></button></div></div></div>
 
 <script>
@@ -648,7 +663,7 @@ const T = {
   openYour:'Roll one die each — <b>higher roll plays White</b> and moves first.', openLocal:'<b>{n}</b>, roll for the first move.', openWait:'Waiting for your opponent to roll…', openTie:'Tie ({a} : {a}). Roll again.', openWon:'<b>{n}</b> rolled higher ({a} : {b}) and plays White.',
   yourRoll:'<b>Your turn.</b> Roll the dice.', localRoll:'<b>{c}</b> to move. Roll the dice.', pick:'Tap or drag a highlighted checker.', where:'Drop it on a marked spot — combined moves (e.g. 3+4) are shown too.', noMoves:'No legal moves — passing the turn.', oppTurn:'Opponent’s turn…', spectator:'You are watching. {c} to move.', won:'<b>{n}</b> won this game.',
   newGame:'New game', again:'Play again', close:'Close', gameOver:'Game over', link:'Game link', localGame:'Same-device game',
-  settingsT:'Settings', checkersT:'Checkers', diceT:'Dice', ck_classic:'Classic', ck_wood:'Wood', ck_stone:'Marble', ck_flat:'Flat', ck_metal:'Metal', ck_glass:'Glass', ck_retro:'Retro', st_walnut:'Walnut', st_midnight:'Midnight', avatarT:'Avatar', setSub:'Changes apply right away and are saved in this browser.', pcRegistered:'Registered player', pcRanks:'Ranks', pcAccT:'Account', pcWhyT:'With an account you get:', pcWhy1:'a rating and a rank frame', pcWhy2:'a place on the leaderboard', pcWhy3:'your stats on any device', history:'Move history', histEmpty:'No moves yet', histNone:'no move', histOff:'off', noMovesT:'No moves', undo:'Undo', bnOpenT:'Who goes first?', bnOpenS:'Roll one die — higher plays White', bnOppOpen:'Waiting for the opponent', bnYour:'Your turn', bnRollS:'Roll the dice to move', bnColor:'{c} to move', bnOpp:'Opponent’s turn', bnBot:'Bot’s turn', findT:'Find an opponent', findD:'Play a random online opponent. If nobody is free within 25 seconds, the bot steps in.', findB:'Find opponent', botT:'Play the bot', botD:'Practice any time. A win against the bot gives less rating than against a person.', botB:'Play the bot', tutorB:'How to play', localB2:'Same device', onlineN:'{n} online', searchT:'Looking for an opponent', searchInfo:'Hang on — if nobody is free in {s} seconds, you will play the bot.', playBotNow:'Play the bot now', matchFound:'Opponent found!', matchWait:'Opponent found — connecting…', noOpp:'No free opponents — playing the bot', botName:'Bot Taras', botTurn:'The bot is thinking…', botThinking:'The bot is rolling…', botGame:'Game vs bot', botNoMoves:'The bot has no moves', botRated:'bot game: 40%', tutorGame:'Tutorial', coachOpp:'Coach', tutRoll:'Press “Roll dice”.', tutStepDone:'Well done! Press “Next”.', tutNice:'Well done!', tutStep:'Lesson {i} of {n}', tutNext:'Next', tutBack:'Back', tutExit:'Exit', tutPlayBot:'Play the bot', tutFind:'Find opponent',
+  settingsT:'Settings', checkersT:'Checkers', diceT:'Dice', ck_classic:'Classic', ck_wood:'Wood', ck_stone:'Marble', ck_flat:'Flat', ck_metal:'Metal', ck_glass:'Glass', ck_retro:'Retro', st_walnut:'Walnut', st_midnight:'Midnight', avatarT:'Avatar', oddsT:'Win chances', oddsCap:'Winning chances — an estimate from 8,000 simulated games', oddsAfter:'Chance to win after this move', resignB:'Resign', resignQ:'Resign this game?', resignWait:'Resign becomes available after move 10 ({n} to go)', resignOne:'Your opponent gets 1 point.', resignMars:'You have not borne off any checker, so it counts as a mars — 2 points.', resignRated:'It counts as a loss for your rating.', resigned:'{n} resigned.', resignedYou:'You resigned.', cancel:'Cancel', setSub:'Changes apply right away and are saved in this browser.', pcRegistered:'Registered player', pcRanks:'Ranks', pcAccT:'Account', pcWhyT:'With an account you get:', pcWhy1:'a rating and a rank frame', pcWhy2:'a place on the leaderboard', pcWhy3:'your stats on any device', history:'Move history', histEmpty:'No moves yet', histNone:'no move', histOff:'off', noMovesT:'No moves', undo:'Undo', bnOpenT:'Who goes first?', bnOpenS:'Roll one die — higher plays White', bnOppOpen:'Waiting for the opponent', bnYour:'Your turn', bnRollS:'Roll the dice to move', bnColor:'{c} to move', bnOpp:'Opponent’s turn', bnBot:'Bot’s turn', findT:'Find an opponent', findD:'Play a random online opponent. If nobody is free within 25 seconds, the bot steps in.', findB:'Find opponent', botT:'Play the bot', botD:'Practice any time. A win against the bot gives less rating than against a person.', botB:'Play the bot', tutorB:'How to play', localB2:'Same device', onlineN:'{n} online', searchT:'Looking for an opponent', searchInfo:'Hang on — if nobody is free in {s} seconds, you will play the bot.', playBotNow:'Play the bot now', matchFound:'Opponent found!', matchWait:'Opponent found — connecting…', noOpp:'No free opponents — playing the bot', botName:'Bot Taras', botTurn:'The bot is thinking…', botThinking:'The bot is rolling…', botGame:'Game vs bot', botNoMoves:'The bot has no moves', botRated:'bot game: 40%', tutorGame:'Tutorial', coachOpp:'Coach', tutRoll:'Press “Roll dice”.', tutStepDone:'Well done! Press “Next”.', tutNice:'Well done!', tutStep:'Lesson {i} of {n}', tutNext:'Next', tutBack:'Back', tutExit:'Exit', tutPlayBot:'Play the bot', tutFind:'Find opponent',
   tut1T:'The board and the goal', tut1D:'You play White. All 15 of your checkers start on the “head” — point 24, top right. Black starts on 12. Both sides move counter-clockwise: White goes right-to-left along the top, then left-to-right along the bottom. Bring all checkers home (points 1–6, bottom right) and bear them off before your opponent.',
   tut2T:'Your first move', tut2D:'Roll the dice — you will get 5 and 3. Each die is a separate move of that many points. Only one checker may leave the head per turn, so play both dice with the same checker: tap the checker on 24 — the gold spot is both dice together (5+3).',
   tut3T:'Doubles', tut3D:'Equal dice are played four times. Roll — you get 4 and 4: make four moves of 4 points with any checkers (still only one from the head).',
@@ -670,7 +685,7 @@ const T = {
   openYour:'Кожен кидає один кубик — <b>у кого більше, той грає білими</b> й ходить першим.', openLocal:'<b>{n}</b>, киньте на перший хід.', openWait:'Чекаємо, поки суперник кине…', openTie:'Нічия ({a} : {a}). Киньте ще раз.', openWon:'<b>{n}</b> викинув більше ({a} : {b}) і грає білими.',
   yourRoll:'<b>Ваш хід.</b> Киньте кубики.', localRoll:'Ходять <b>{c}</b>. Киньте кубики.', pick:'Натисніть або перетягніть підсвічену шашку.', where:'Поставте на позначене місце — показано й складені ходи (напр. 3+4).', noMoves:'Ходів немає — хід переходить.', oppTurn:'Хід суперника…', spectator:'Ви глядач. Ходять {c}.', won:'Партію виграли: <b>{n}</b>.',
   newGame:'Нова партія', again:'Ще партію', close:'Закрити', gameOver:'Кінець партії', link:'Посилання на гру', localGame:'Гра на одному пристрої',
-  settingsT:'Налаштування', checkersT:'Шашки', diceT:'Кубики', ck_classic:'Класичні', ck_wood:'Дерево', ck_stone:'Мармур', ck_flat:'Пласкі', ck_metal:'Метал', ck_glass:'Скло', ck_retro:'Ретро', st_walnut:'Горіх', st_midnight:'Північ', avatarT:'Аватар', setSub:'Зміни застосовуються одразу й зберігаються в цьому браузері.', pcRegistered:'Зареєстрований гравець', pcRanks:'Ранги', pcAccT:'Акаунт', pcWhyT:'З акаунтом у вас буде:', pcWhy1:'рейтинг і рамка рангу', pcWhy2:'місце в таблиці лідерів', pcWhy3:'статистика на будь-якому пристрої', history:'Історія ходів', histEmpty:'Ходів ще немає', histNone:'немає ходу', histOff:'винос', noMovesT:'Немає ходів', undo:'Скасувати хід', bnOpenT:'Хто ходить першим?', bnOpenS:'Киньте кубик — у кого більше, той грає білими', bnOppOpen:'Чекаємо на суперника', bnYour:'Ваш хід', bnRollS:'Киньте кубики, щоб походити', bnColor:'Ходять {c}', bnOpp:'Хід суперника', bnBot:'Хід бота', findT:'Знайти суперника', findD:'Гра з випадковим суперником онлайн. Якщо за 25 секунд ніхто не знайдеться, грає бот.', findB:'Знайти суперника', botT:'Грати з ботом', botD:'Тренуйтесь будь-коли. За перемогу над ботом рейтингу дається менше, ніж над людиною.', botB:'Грати з ботом', tutorB:'Як грати', localB2:'На одному пристрої', onlineN:'{n} онлайн', searchT:'Шукаємо суперника', searchInfo:'Зачекайте — якщо за {s} секунд ніхто не знайдеться, ви зіграєте з ботом.', playBotNow:'Грати з ботом зараз', matchFound:'Суперника знайдено!', matchWait:'Суперника знайдено — зʼєднуємо…', noOpp:'Вільних суперників немає — граємо з ботом', botName:'Бот Тарас', botTurn:'Бот думає…', botThinking:'Бот кидає кубик…', botGame:'Гра з ботом', botNoMoves:'У бота немає ходів', botRated:'гра з ботом: 40%', tutorGame:'Навчання', coachOpp:'Тренер', tutRoll:'Натисніть «Кинути кубики».', tutStepDone:'Чудово! Натисніть «Далі».', tutNice:'Чудово!', tutStep:'Урок {i} з {n}', tutNext:'Далі', tutBack:'Назад', tutExit:'Вийти', tutPlayBot:'Грати з ботом', tutFind:'Знайти суперника',
+  settingsT:'Налаштування', checkersT:'Шашки', diceT:'Кубики', ck_classic:'Класичні', ck_wood:'Дерево', ck_stone:'Мармур', ck_flat:'Пласкі', ck_metal:'Метал', ck_glass:'Скло', ck_retro:'Ретро', st_walnut:'Горіх', st_midnight:'Північ', avatarT:'Аватар', oddsT:'Шанси на перемогу', oddsCap:'Шанси на перемогу — оцінка за 8000 зіграних партій', oddsAfter:'Шанс на перемогу після цього ходу', resignB:'Здатися', resignQ:'Здатися в цій партії?', resignWait:'Здатися можна після 10-го ходу (залишилось {n})', resignOne:'Суперник отримає 1 очко.', resignMars:'Ви не викинули жодної шашки, тому це марс — 2 очки.', resignRated:'Для рейтингу це зарахується як поразка.', resigned:'{n} здається.', resignedYou:'Ви здалися.', cancel:'Скасувати', setSub:'Зміни застосовуються одразу й зберігаються в цьому браузері.', pcRegistered:'Зареєстрований гравець', pcRanks:'Ранги', pcAccT:'Акаунт', pcWhyT:'З акаунтом у вас буде:', pcWhy1:'рейтинг і рамка рангу', pcWhy2:'місце в таблиці лідерів', pcWhy3:'статистика на будь-якому пристрої', history:'Історія ходів', histEmpty:'Ходів ще немає', histNone:'немає ходу', histOff:'винос', noMovesT:'Немає ходів', undo:'Скасувати хід', bnOpenT:'Хто ходить першим?', bnOpenS:'Киньте кубик — у кого більше, той грає білими', bnOppOpen:'Чекаємо на суперника', bnYour:'Ваш хід', bnRollS:'Киньте кубики, щоб походити', bnColor:'Ходять {c}', bnOpp:'Хід суперника', bnBot:'Хід бота', findT:'Знайти суперника', findD:'Гра з випадковим суперником онлайн. Якщо за 25 секунд ніхто не знайдеться, грає бот.', findB:'Знайти суперника', botT:'Грати з ботом', botD:'Тренуйтесь будь-коли. За перемогу над ботом рейтингу дається менше, ніж над людиною.', botB:'Грати з ботом', tutorB:'Як грати', localB2:'На одному пристрої', onlineN:'{n} онлайн', searchT:'Шукаємо суперника', searchInfo:'Зачекайте — якщо за {s} секунд ніхто не знайдеться, ви зіграєте з ботом.', playBotNow:'Грати з ботом зараз', matchFound:'Суперника знайдено!', matchWait:'Суперника знайдено — зʼєднуємо…', noOpp:'Вільних суперників немає — граємо з ботом', botName:'Бот Тарас', botTurn:'Бот думає…', botThinking:'Бот кидає кубик…', botGame:'Гра з ботом', botNoMoves:'У бота немає ходів', botRated:'гра з ботом: 40%', tutorGame:'Навчання', coachOpp:'Тренер', tutRoll:'Натисніть «Кинути кубики».', tutStepDone:'Чудово! Натисніть «Далі».', tutNice:'Чудово!', tutStep:'Урок {i} з {n}', tutNext:'Далі', tutBack:'Назад', tutExit:'Вийти', tutPlayBot:'Грати з ботом', tutFind:'Знайти суперника',
   tut1T:'Дошка й мета', tut1D:'Ви граєте білими. Усі 15 шашок стоять на «голові» — пункт 24, вгорі праворуч. Чорні стоять на 12. Обидва гравці рухаються проти годинникової стрілки: білі — вгорі справа наліво, потім унизу зліва направо. Мета — привести всі шашки в дім (пункти 1–6, внизу праворуч) і викинути їх з дошки раніше за суперника.',
   tut2T:'Перший хід', tut2D:'Киньте кубики — випаде 5 і 3. Кожен кубик — окремий хід на стільки пунктів. З голови за хід можна зняти лише одну шашку, тож обидва кубики зіграйте однією шашкою: натисніть шашку на 24 — золота позначка означає обидва кубики разом (5+3).',
   tut3T:'Дубль', tut3D:'Однакові числа на кубиках граються чотири рази. Киньте — випаде 4 і 4: зробіть чотири ходи по 4 пункти будь-якими шашками (з голови — так само лише одна).',
@@ -765,7 +780,7 @@ function newGameState(white, black, score, starter){
 let db=null, user=null, uid=null, ref=null, unsub=null;
 let mode=null, gs=null, gameId=null, selected=null;
 let noFlight=false, pendingAnim=null, pendingOpen=null, passTimer=null, rollAnimUntil=0;
-const prefs={ sound:store.get('sound',true), flip:false, autoForced:false };
+const prefs={ sound:store.get('sound',true), flip:false, autoForced:false, odds:store.get('odds',true) };
 const $=id=>document.getElementById(id);
 const show=(id,on)=>$(id).classList.toggle('hidden',!on);
 function toast(msg){ const el=$('toast'); el.textContent=msg; show('toast',true); clearTimeout(toast._t); toast._t=setTimeout(()=>show('toast',false),2600); }
@@ -832,6 +847,7 @@ function subscribe(){
     if(prev && !prev.p2 && gs.p2 && gs.p1===uid) toast(t('joined'));
     if(!gs.p2 && gs.p1!==uid){ gs.p2=uid; save(); }
     if(gs.phase!=='opening') pendingOpen=null;
+    if(pendingResign){ if(pendingResign.id!==gameId || gs.phase==='over') pendingResign=null; else if(gs.phase==='play'){ applyResign(pendingResign.c); pendingResign=null; save(); } }
     // re-apply my opening roll if it was lost in a race
     if(gs.phase==='opening' && pendingOpen && pendingOpen.round===gs.openRound && !gs.open[pendingOpen.slot]){ gs.open[pendingOpen.slot]=pendingOpen.val; resolveOpening(); save(); }
     else if(gs.phase==='opening' && gs.open.p1 && gs.open.p2 && mySlot()==='p1'){ resolveOpening(); save(); }
@@ -920,9 +936,28 @@ function passTurn(){
   gs.last=gs.trail||[]; gs.trail=[];
   gs.turn=OPP(gs.turn); gs.dice=[]; gs.remaining=[]; gs.rolled=false; gs.snap=null; gs.headMoved=0; selected=null;
 }
+// chance that the player on roll (c) wins; logistic fit on 8000 simulated games
+function winChanceOnRoll(st,c){
+  const o=OPP(c); let pm=0,po=0;
+  for(let q=0;q<24;q++){ const a=mine(st.board,c,q); if(a>0) pm+=a*(24-q); const b=mine(st.board,o,q); if(b>0) po+=b*(24-q); }
+  if(st.off[c]===15) return 1; if(st.off[o]===15) return 0;
+  const S=Math.sqrt(pm+po+1), hm=Math.max(0,mine(st.board,c,0)), ho=Math.max(0,mine(st.board,o,0));
+  const z=0.1702 + 0.5114*(po-pm)/S - 6.3696*hm/S + 6.4309*ho/S + 4.7955*(st.off[c]-st.off[o])/S;
+  return 1/(1+Math.exp(-z));
+}
+function whiteChance(st){
+  if(!st || st.phase==='opening') return 0.5;
+  if(st.phase==='over') return st.winner==='w'?1:0;
+  // during a turn: value the position as if the mover had finished (i.e. opponent on roll next)
+  const pw = st.turn==='w' ? (st.rolled ? 1-winChanceOnRoll(st,'b') : winChanceOnRoll(st,'w'))
+                           : (st.rolled ? winChanceOnRoll(st,'w') : 1-winChanceOnRoll(st,'b'));
+  return Math.min(0.995, Math.max(0.005, pw));
+}
 function pushHist(){
   if(!gs || gs.phase!=='play' || !gs.dice || !gs.dice.length) return;
-  gs.hist=(gs.hist||[]).concat([{c:gs.turn, d:gs.dice.slice(), t:(gs.trail||[]).slice()}]);
+  const pw = gs.off[gs.turn]===15 ? (gs.turn==='w'?1:0) : 1-winChanceOnRoll(gs, OPP(gs.turn));
+  const wc = gs.turn==='w' ? pw : 1-pw;
+  gs.hist=(gs.hist||[]).concat([{c:gs.turn, d:gs.dice.slice(), t:(gs.trail||[]).slice(), p:Math.round(Math.min(.995,Math.max(.005,wc))*100)}]);
 }
 function playPath(path){
   const c=gs.turn; const trailLen=(gs.trail||[]).length;
@@ -945,6 +980,27 @@ function undo(){
   const full = gs.dice[0]===gs.dice[1]?4:2; if(gs.remaining.length===full) return;
   gs.board=gs.snap.board.slice(); gs.off={...gs.snap.off}; gs.trail=[];
   const [a,b]=gs.dice; gs.remaining = a===b?[a,a,a,a]:[a,b]; gs.headMoved=0; selected=null; save(); route();
+}
+const RESIGN_MIN=10;
+function resignColor(){ if(!gs || gs.phase!=='play') return null; if(mode==='local') return gs.turn; if(mode==='online' && !mySlot()) return null; return myColor(); }
+function canResign(){ return !!resignColor() && (gs.hist||[]).length>=RESIGN_MIN; }
+function resignMars(c){ const w=OPP(c); return gs.off[c]===0 && (gs.off[w]>0 || allHome(gs,w)); }
+function askResign(){
+  if(!canResign()) return; const c=resignColor();
+  $('resSub').textContent = (resignMars(c) ? t('resignMars') : t('resignOne')) + (mode==='online' ? ' '+t('resignRated') : '');
+  show('resOv',true);
+}
+function doResign(){
+  show('resOv',false); if(!canResign()) return;
+  const c=resignColor(); clearTimeout(passTimer); botToken++; botBusy=false;
+  if(mode==='online') pendingResign={id:gameId, c};
+  applyResign(c); sfx('dice'); save(); route();
+}
+let pendingResign=null;
+function applyResign(c){
+  const w=OPP(c), mars=resignMars(c);
+  gs.resign={c, mars}; gs.winner=w; gs.phase='over'; gs.score[slotOfColor(w)] += mars ? 2 : 1;
+  gs.dice=[]; gs.remaining=[]; gs.rolled=false; selected=null;
 }
 function newMatch(){
   if(!gs || (mode==='online' && !mySlot())) return;
@@ -1225,12 +1281,27 @@ function histMoves(tr){
   return chains.map(ch=>ch.map(histLabel).join('→')).join('  ');
 }
 let histSig='';
+function renderOdds(){
+  const el=$('odds'); if(!el) return;
+  const on = prefs.odds && gs && gs.phase!=='opening' && mode!=='tutor';
+  el.classList.toggle('hidden', !on); if(!on) return;
+  const pw=whiteChance(gs); const top=$('plTop'), me=mySlot();
+  // left label = player shown in the bottom card (you), right = opponent
+  const bottomSlot = mode==='online' ? (me||'p1') : 'p1', bc=colorOfSlot(bottomSlot), oc=OPP(bc);
+  const pb = bc==='w' ? pw : 1-pw;
+  $('oddT').innerHTML=''; $('oddB').innerHTML='';
+  const a=document.createElement('b'); a.textContent=Math.round(pb*100)+'%'; $('oddT').append(a, document.createTextNode(' '+slotName(bottomSlot).split(' (')[0]));
+  const b=document.createElement('b'); b.textContent=Math.round((1-pb)*100)+'%'; $('oddB').append(document.createTextNode(slotName(slotOfColor(oc)).split(' (')[0]+' '), b);
+  const bar=document.querySelector('.odds .obar'); bar.style.background = oc==='w' ? '#ddd3c1' : '#2a2622';
+  const f=$('oddFill'); f.style.background = bc==='w' ? '#ddd3c1' : '#2a2622'; f.style.width=(pb*100).toFixed(1)+'%';
+}
 function renderHistory(){
+  renderOdds();
   const list=$('histList'); if(!list || !gs) return;
   const rows=(gs.hist||[]).slice();
   if(gs.phase==='play' && gs.rolled && gs.dice && gs.dice.length) rows.push({c:gs.turn, d:gs.dice, t:gs.trail||[], cur:true});
   $('histS').textContent = t('history') + (rows.length ? ' · '+rows.length : '');
-  const sig=JSON.stringify(rows)+lang+viewColor(); if(sig===histSig) return; histSig=sig;
+  const sig=JSON.stringify(rows)+lang+viewColor()+prefs.odds; if(sig===histSig) return; histSig=sig;
   list.innerHTML='';
   if(!rows.length){ const e=document.createElement('div'); e.className='empty'; e.textContent=t('histEmpty'); list.appendChild(e); return; }
   rows.forEach((r,i)=>{
@@ -1239,7 +1310,10 @@ function renderHistory(){
     const dot=document.createElement('span'); dot.className='hd '+r.c; dot.title=colorName(r.c);
     const dx=document.createElement('span'); dx.className='hx'; dx.textContent=r.d[0]+'-'+r.d[1];
     const m=document.createElement('span'); m.className='hm'; m.textContent=histMoves(r.t)+(r.cur?' …':'');
-    row.append(n,dot,dx,m); list.appendChild(row);
+    const hp=document.createElement('span'); hp.className='hp';
+    if(prefs.odds && r.p!=null){ const mine = r.c==='w' ? r.p : 100-r.p; const prev = i>0 && rows[i-1].p!=null ? (r.c==='w'?rows[i-1].p:100-rows[i-1].p) : 50;
+      hp.textContent=mine+'%'; if(mine>prev) hp.classList.add('up'); else if(mine<prev) hp.classList.add('dn'); hp.title=t('oddsAfter'); }
+    row.append(n,dot,dx,m,hp); list.appendChild(row);
   });
   list.scrollTop=list.scrollHeight;
 }
@@ -1314,14 +1388,17 @@ function renderHud(){
   show('ctlSec', gs.phase==='over' && (mode==='local' || !!me));
   renderHistory();
   show('btnCopy2', mode==='online');
+  { const rc=resignColor(); const can=canResign(); const rb=$('btnResign');
+    show('btnResign', gs.phase==='play' && !!rc && mode!=='tutor'); rb.disabled=!can;
+    const left=Math.max(0, 10-(gs.hist||[]).length); rb.title = can ? t('resignB') : t('resignWait',{n:left}); }
   $('shareLbl').textContent = mode==='online' ? t('link') : mode==='bot' ? t('botGame') : mode==='tutor' ? t('tutorGame') : t('localGame');
 
   if(gs.phase==='over' && lastWinShown!==gameId+':'+gs.seq+':'+gs.winner){
     lastWinShown=gameId+':'+gs.seq+':'+gs.winner;
     lastDelta=null; recordResult(); renderMe(); if(mode==='local') sfx('win');
-    const ws=slotOfColor(gs.winner), mars = gs.off[OPP(gs.winner)]===0;
+    const ws=slotOfColor(gs.winner), mars = gs.resign ? gs.resign.mars : gs.off[OPP(gs.winner)]===0;
     $('winTitle').textContent = mode==='local' ? t('winN',{n:slotName(ws)}) : (ws===me ? t('winYou') : (me ? t('winLose') : t('winN',{n:slotName(ws)})));
-    $('winSub').textContent = (mars?t('mars'):t('one'))+' '+t('score',{a:gs.score.p1,b:gs.score.p2}) + (lastDelta!=null ? ' · '+t('ratingChange',{d:(lastDelta>=0?'+':'')+lastDelta, r:profile.rating}) + (mode==='bot' ? ' ('+t('botRated')+')' : '') : '');
+    $('winSub').textContent = (gs.resign ? (mode!=='local' && slotOfColor(gs.resign.c)===me ? t('resignedYou') : t('resigned',{n: mode==='local' ? colorName(gs.resign.c) : slotName(slotOfColor(gs.resign.c)).split(' (')[0]}))+' ' : '')+(mars?t('mars'):t('one'))+' '+t('score',{a:gs.score.p1,b:gs.score.p2}) + (lastDelta!=null ? ' · '+t('ratingChange',{d:(lastDelta>=0?'+':'')+lastDelta, r:profile.rating}) + (mode==='bot' ? ' ('+t('botRated')+')' : '') : '');
     show('btnNew2', mode==='local' || !!me);
     setTimeout(()=>{ if(gs && gs.phase==='over') show('winOv',true); }, 600);
   } else if(gs.phase!=='over') show('winOv',false);
@@ -1717,7 +1794,7 @@ function recordResult(){
   if(!(mode==='online' || mode==='bot') || !mySlot() || gs.phase!=='over') return;
   const key=gameId+':'+gs.score.p1+':'+gs.score.p2; const done=store.get('counted',[]);
   if(done.includes(key)) return; done.push(key); store.set('counted',done.slice(-80));
-  const me=mySlot(), opp=me==='p1'?'p2':'p1', iWon=slotOfColor(gs.winner)===me, mars=gs.off[OPP(gs.winner)]===0;
+  const me=mySlot(), opp=me==='p1'?'p2':'p1', iWon=slotOfColor(gs.winner)===me, mars= gs.resign ? gs.resign.mars : gs.off[OPP(gs.winner)]===0;
   const oppR=(gs.ratings&&gs.ratings[opp])||1000, d=Math.round(eloDelta(profile.rating||1000, oppR, iWon?1:0, profile.rgames||0, mars) * (mode==='bot' ? BOT_FACTOR : 1));
   profile.rating=Math.max(100,(profile.rating||1000)+d); profile.rgames=(profile.rgames||0)+1; lastDelta=d;
   profile.played++; if(iWon){ profile.won++; sfx('win'); }
@@ -1730,7 +1807,7 @@ $('lbOv').addEventListener('click',e=>{ if(e.target.id==='lbOv') show('lbOv',fal
 $('btnSet').onclick=()=>{ scene3d && scene3d.applyTheme(); show('setOv',true); };
 $('btnSetClose').onclick=()=>show('setOv',false);
 $('setOv').addEventListener('click',e=>{ if(e.target.id==='setOv') show('setOv',false); });
-document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ show('setOv',false); show('profOv',false); show('lbOv',false); } });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ show('setOv',false); show('profOv',false); show('lbOv',false); show('resOv',false); } });
 $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profOv',false); });
 
 // ================= wiring =================
@@ -1739,11 +1816,12 @@ $('btnFind').onclick=startSearch; $('btnBot').onclick=startBot; $('btnTutor').on
 $('btnSearchBot').onclick=startBot; $('btnSearchCancel').onclick=()=>stopSearch(false);
 $('coachBack').onclick=()=>{ if(!tut) return; if(tut.i===TUT.length-1){ startBot(); return; } if(tut.i===0){ leave(); return; } tut.i--; tutLoad(); };
 $('coachNext').onclick=()=>{ if(!tut) return; if(tut.i===TUT.length-1){ startSearch(); return; } tut.i++; tutLoad(); };
-$('btnLeave1').onclick=leave; $('btnLeave2').onclick=leave; $('brand').onclick=()=>{ if(gs) leave(); };
+$('btnLeave1').onclick=leave; $('btnLeave2').onclick=leave; $('btnResign').onclick=askResign; $('btnResYes').onclick=doResign; $('btnResNo').onclick=()=>show('resOv',false); $('resOv').addEventListener('click',e=>{ if(e.target.id==='resOv') show('resOv',false); }); $('brand').onclick=()=>{ if(gs) leave(); };
 $('btnCopy').onclick=copyLink; $('btnCopy2').onclick=copyLink;
 $('btnRoll').onclick=roll; $('btnUndo').onclick=undo;
 $('btnNew').onclick=newMatch; $('btnNew2').onclick=newMatch; $('btnCloseWin').onclick=()=>show('winOv',false);
 $('togSound').onclick=()=>{ prefs.sound=!prefs.sound; store.set('sound',prefs.sound); $('togSound').classList.toggle('on',prefs.sound); };
+$('togOdds').onclick=()=>{ prefs.odds=!prefs.odds; store.set('odds',prefs.odds); $('togOdds').classList.toggle('on',prefs.odds); histSig=''; route(); };
 $('togFlip').onclick=()=>{ prefs.flip=!prefs.flip; $('togFlip').classList.toggle('on',prefs.flip); scene3d && scene3d.relayout(); route(); };
 document.querySelectorAll('#langSeg button').forEach(b=>b.onclick=()=>{ lang=b.dataset.l; store.set('lang',lang); applyLang(); renderMe(); scene3d && scene3d.applyTheme && scene3d.applyTheme(); bootNote(); if(gs) renderHud(); });
 document.addEventListener('keydown',e=>{
@@ -1756,7 +1834,7 @@ document.addEventListener('keydown',e=>{
 let bootState='pending';
 function bootNote(){ $('onlineNote').textContent = bootState==='ok' ? t('onlineOk') : bootState==='nologin' ? t('needLogin') : bootState==='none' ? t('noOnline') : ''; }
 async function boot(){
-  applyLang(); $('togSound').classList.toggle('on',prefs.sound);
+  applyLang(); $('togSound').classList.toggle('on',prefs.sound); $('togOdds').classList.toggle('on',prefs.odds);
   renderMe();
   scene3d = build2D();
   route();
