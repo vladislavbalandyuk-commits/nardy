@@ -130,6 +130,26 @@ p{margin:0}
 .me .frl{margin:-8px -2px -8px -8px!important}
 .me{gap:10px}
 .modal > .frl{margin:0 0 10px!important}
+.onl{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--muted);margin-top:12px}
+.onl i{width:8px;height:8px;border-radius:50%;background:#3fa463;box-shadow:0 0 0 3px rgba(63,164,99,.18)}
+.onl.hdr{margin:0;white-space:nowrap}
+.onl.hdr::before{content:"";width:8px;height:8px;border-radius:50%;background:#3fa463;box-shadow:0 0 0 3px rgba(63,164,99,.18)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.searchbox{display:flex;align-items:center;gap:14px;margin-top:16px}
+.searchbox b{display:block;font-size:28px;font-weight:300}
+.searchbox span{font-size:13px;color:var(--muted)}
+.spin{width:38px;height:38px;border-radius:50%;border:3px solid var(--line);border-top-color:var(--ink);animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.coach{background:#fff;border-left:3px solid var(--hl)}
+.coachstep{font-size:12.5px;color:var(--muted);margin-bottom:4px}
+.coach h3{font-size:19px;margin-bottom:6px}
+.coach p{font-size:15px;line-height:1.55;color:var(--ink2);margin-bottom:14px}
+@media (max-width:860px){ .onl.hdr{display:none} }
+.onl.hdr:empty{display:none}
+.onl:has(span:empty){display:none}
+.pav{position:relative;width:58px;height:58px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.pav .frl{margin:0!important}
+.pav .chip.mini{right:2px;bottom:2px;z-index:3}
 .avpick{display:flex;gap:8px;margin:4px 0 14px;flex-wrap:wrap}
 .avopt{border:0;padding:3px;border-radius:50%;background:transparent}
 .avopt:hover{background:transparent}
@@ -350,7 +370,7 @@ kbd{font:11px var(--mono);padding:1px 5px;border-radius:4px;border:1px solid var
 <div class="app">
   <header>
     <div class="brand" id="brand"><b data-t="brandName"></b><small data-t="tagline"></small></div>
-    <div class="hdr-r">
+    <div class="hdr-r"><span class="onl hdr" id="onlineCnt"></span>
       <div class="seg" id="langSeg"><button data-l="en">EN</button><button data-l="uk">UA</button></div>
       <button class="gear" id="btnLb" title="Leaderboard"><svg class="i"><use href="#i-trophy"/></svg></button><button class="gear" id="btnSet" title="Settings"><svg class="i"><use href="#i-gear"/></svg></button><button class="me" id="btnMe"></button>
     </div>
@@ -363,19 +383,39 @@ kbd{font:11px var(--mono);padding:1px 5px;border-radius:4px;border:1px solid var
       <div class="sec">
         <h1 data-t="heroTitle"></h1>
         <p class="muted" data-t="heroSub"></p>
+        <div class="onl"><i></i><span id="onlineHome"></span></div>
+      </div>
+      <div class="sec opt">
+        <h3 data-t="findT"></h3>
+        <p data-t="findD"></p>
+        <button class="cta" id="btnFind" data-t="findB"></button>
+      </div>
+      <div class="sec opt">
+        <h3 data-t="botT"></h3>
+        <p data-t="botD"></p>
+        <button id="btnBot" data-t="botB"></button>
       </div>
       <div class="sec opt">
         <h3 data-t="friendT"></h3>
         <p data-t="friendD"></p>
-        <button class="cta" id="btnCreate" data-t="friendB"></button>
+        <button id="btnCreate" data-t="friendB"></button>
       </div>
       <div class="sec opt">
-        <h3 data-t="localT"></h3>
-        <p data-t="localD"></p>
-        <button id="btnLocal" data-t="localB"></button>
+        <div class="two"><button id="btnTutor" data-t="tutorB"></button><button id="btnLocal" data-t="localB2"></button></div>
       </div>
       <div class="sec"><button id="btnLb2" style="width:100%" data-t="lbOpen"></button></div>
       <div class="sec"><p class="note" id="onlineNote"></p></div>
+    </div>
+
+    <div id="vSearch" class="hud-v hidden">
+      <div class="sec">
+        <h2 data-t="searchT"></h2>
+        <p class="note" id="searchInfo"></p>
+        <div class="searchbox"><div class="spin"></div><div><b id="searchTime">0:00</b><span id="searchOnline"></span></div></div>
+      </div>
+      <div class="sec">
+        <div class="two"><button id="btnSearchBot" data-t="playBotNow"></button><button id="btnSearchCancel" data-t="cancel"></button></div>
+      </div>
     </div>
 
     <div id="vWait" class="hud-v hidden">
@@ -392,6 +432,12 @@ kbd{font:11px var(--mono);padding:1px 5px;border-radius:4px;border:1px solid var
       <div class="sec" style="padding-top:12px;padding-bottom:12px">
         <div class="pl" id="plTop"></div>
         <div class="pl" id="plBot"></div>
+      </div>
+      <div class="sec coach hidden" id="coach">
+        <div class="coachstep" id="coachStep"></div>
+        <h3 id="coachT"></h3>
+        <p id="coachD"></p>
+        <div class="two" id="coachBtns"><button id="coachBack"></button><button class="cta" id="coachNext"></button></div>
       </div>
       <div class="sec">
         <div class="status" id="status"></div>
@@ -466,7 +512,13 @@ const T = {
   openYour:'Roll one die each — <b>higher roll plays White</b> and moves first.', openLocal:'<b>{n}</b>, roll for the first move.', openWait:'Waiting for your opponent to roll…', openTie:'Tie ({a} : {a}). Roll again.', openWon:'<b>{n}</b> rolled higher ({a} : {b}) and plays White.',
   yourRoll:'<b>Your turn.</b> Roll the dice.', localRoll:'<b>{c}</b> to move. Roll the dice.', pick:'Tap or drag a highlighted checker.', where:'Drop it on a marked spot — combined moves (e.g. 3+4) are shown too.', noMoves:'No legal moves — passing the turn.', oppTurn:'Opponent’s turn…', spectator:'You are watching. {c} to move.', won:'<b>{n}</b> won this game.',
   newGame:'New game', again:'Play again', close:'Close', gameOver:'Game over', link:'Game link', localGame:'Same-device game',
-  settingsT:'Settings', checkersT:'Checkers', diceT:'Dice', ck_classic:'Classic', ck_wood:'Wood', ck_stone:'Marble', ck_flat:'Flat', ck_metal:'Metal', ck_glass:'Glass', ck_retro:'Retro', st_walnut:'Walnut', st_midnight:'Midnight', avatarT:'Avatar', lbT:'Leaderboard', lbOpen:'Leaderboard', lbSub:'Top players by rating. Only online games count.', lbLoading:'Loading…', lbErr:'Could not load the leaderboard — sign in to see it.', lbEmpty:'No rated games yet — play an online game to get on the board.', lbYou:'you', lbNotYou:'You will appear here after your first online game.', tier_bronze:'Bronze', tier_silver:'Silver', tier_gold:'Gold', tier_platinum:'Platinum', tier_diamond:'Diamond', toNext:'{n} to {tier}', topTier:'Top rank', ratedNote:'only online games are rated', ratingChange:'Rating {d} → {r}', av_none:'Initials', av_dice:'Dice', av_crown:'Crown', av_fox:'Fox', av_tea:'Tea', dice_ivory:'Ivory', dice_onyx:'Onyx', dice_ruby:'Ruby', boardT:'Board', sound:'Sound', flip:'Flip board', autoForcedT:'Play forced moves', autoRollT:'Auto-roll dice', pips:'pips', forced:'Only one way to play — moved automatically', rules:'Rules',
+  settingsT:'Settings', checkersT:'Checkers', diceT:'Dice', ck_classic:'Classic', ck_wood:'Wood', ck_stone:'Marble', ck_flat:'Flat', ck_metal:'Metal', ck_glass:'Glass', ck_retro:'Retro', st_walnut:'Walnut', st_midnight:'Midnight', avatarT:'Avatar', findT:'Find an opponent', findD:'Play a random online opponent. If nobody is free within 25 seconds, the bot steps in.', findB:'Find opponent', botT:'Play the bot', botD:'Practice any time. A win against the bot gives less rating than against a person.', botB:'Play the bot', tutorB:'How to play', localB2:'Same device', onlineN:'{n} online', searchT:'Looking for an opponent', searchInfo:'Hang on — if nobody is free in {s} seconds, you will play the bot.', playBotNow:'Play the bot now', matchFound:'Opponent found!', matchWait:'Opponent found — connecting…', noOpp:'No free opponents — playing the bot', botName:'Bot Taras', botTurn:'The bot is thinking…', botThinking:'The bot is rolling…', botGame:'Game vs bot', botNoMoves:'The bot has no moves', botRated:'bot game: 40%', tutorGame:'Tutorial', coachOpp:'Coach', tutRoll:'Press “Roll dice”.', tutStepDone:'Well done! Press “Next”.', tutNice:'Well done!', tutStep:'Lesson {i} of {n}', tutNext:'Next', tutBack:'Back', tutExit:'Exit', tutPlayBot:'Play the bot', tutFind:'Find opponent',
+  tut1T:'The board and the goal', tut1D:'You play White. All 15 of your checkers start on the “head” — point 24, top right. Black starts on 12. Both sides move counter-clockwise: White goes right-to-left along the top, then left-to-right along the bottom. Bring all checkers home (points 1–6, bottom right) and bear them off before your opponent.',
+  tut2T:'Your first move', tut2D:'Roll the dice — you will get 5 and 3. Each die is a separate move of that many points. Only one checker may leave the head per turn, so play both dice with the same checker: tap the checker on 24 — the gold spot is both dice together (5+3).',
+  tut3T:'Doubles', tut3D:'Equal dice are played four times. Roll — you get 4 and 4: make four moves of 4 points with any checkers (still only one from the head).',
+  tut4T:'Taken points', tut4D:'There is no hitting in long nardy, and you cannot land on a point your opponent holds. Roll 3 and 1: the checkers on point 18 cannot move — points 17 and 15 are taken by Black. Play with other checkers.',
+  tut5T:'Bearing off', tut5D:'Once all 15 checkers are home (points 1–6) you bear them off. Roll 6 and 2: tap the checker on 6 and then the tray on the right, then do the same with a checker on 2.',
+  tut6T:'You are ready!', tut6D:'Whoever bears off all 15 checkers first wins. If the opponent has not borne off a single one, it is a “mars” — 2 points. One more rule: you may not build a wall of 6 points in a row unless an enemy checker is already ahead of it. Now try the bot or find an online opponent.', lbT:'Leaderboard', lbOpen:'Leaderboard', lbSub:'Top players by rating. Only online games count.', lbLoading:'Loading…', lbErr:'Could not load the leaderboard — sign in to see it.', lbEmpty:'No rated games yet — play an online game to get on the board.', lbYou:'you', lbNotYou:'You will appear here after your first online game.', tier_bronze:'Bronze', tier_silver:'Silver', tier_gold:'Gold', tier_platinum:'Platinum', tier_diamond:'Diamond', toNext:'{n} to {tier}', topTier:'Top rank', ratedNote:'only online games are rated', ratingChange:'Rating {d} → {r}', av_none:'Initials', av_dice:'Dice', av_crown:'Crown', av_fox:'Fox', av_tea:'Tea', dice_ivory:'Ivory', dice_onyx:'Onyx', dice_ruby:'Ruby', boardT:'Board', sound:'Sound', flip:'Flip board', autoForcedT:'Play forced moves', autoRollT:'Auto-roll dice', pips:'pips', forced:'Only one way to play — moved automatically', rules:'Rules',
   winYou:'You win', winLose:'Not this time', winN:'{n} wins', mars:'Mars — 2 points.', one:'1 point.', score:'Score {a} : {b}',
   notFound:'Game not found — the link may be outdated.', full:'This game already has two players — you are watching.', joined:'Your opponent joined!', saveErr:'Could not save the move', connErr:'Connection problem',
   keys:'<kbd>Space</kbd> roll · <kbd>Backspace</kbd> undo',
@@ -482,7 +534,13 @@ const T = {
   openYour:'Кожен кидає один кубик — <b>у кого більше, той грає білими</b> й ходить першим.', openLocal:'<b>{n}</b>, киньте на перший хід.', openWait:'Чекаємо, поки суперник кине…', openTie:'Нічия ({a} : {a}). Киньте ще раз.', openWon:'<b>{n}</b> викинув більше ({a} : {b}) і грає білими.',
   yourRoll:'<b>Ваш хід.</b> Киньте кубики.', localRoll:'Ходять <b>{c}</b>. Киньте кубики.', pick:'Натисніть або перетягніть підсвічену шашку.', where:'Поставте на позначене місце — показано й складені ходи (напр. 3+4).', noMoves:'Ходів немає — хід переходить.', oppTurn:'Хід суперника…', spectator:'Ви глядач. Ходять {c}.', won:'Партію виграли: <b>{n}</b>.',
   newGame:'Нова партія', again:'Ще партію', close:'Закрити', gameOver:'Кінець партії', link:'Посилання на гру', localGame:'Гра на одному пристрої',
-  settingsT:'Налаштування', checkersT:'Шашки', diceT:'Кубики', ck_classic:'Класичні', ck_wood:'Дерево', ck_stone:'Мармур', ck_flat:'Пласкі', ck_metal:'Метал', ck_glass:'Скло', ck_retro:'Ретро', st_walnut:'Горіх', st_midnight:'Північ', avatarT:'Аватар', lbT:'Таблиця лідерів', lbOpen:'Таблиця лідерів', lbSub:'Найкращі гравці за рейтингом. Рахуються лише онлайн-ігри.', lbLoading:'Завантаження…', lbErr:'Не вдалося завантажити таблицю — увійдіть, щоб її побачити.', lbEmpty:'Ще немає рейтингових ігор — зіграйте онлайн, щоб потрапити в таблицю.', lbYou:'ви', lbNotYou:'Ви зʼявитесь тут після першої онлайн-гри.', tier_bronze:'Бронза', tier_silver:'Срібло', tier_gold:'Золото', tier_platinum:'Платина', tier_diamond:'Діамант', toNext:'ще {n} до рангу «{tier}»', topTier:'Найвищий ранг', ratedNote:'рейтинг рахується лише в онлайн-іграх', ratingChange:'Рейтинг {d} → {r}', av_none:'Ініціали', av_dice:'Кубик', av_crown:'Корона', av_fox:'Лис', av_tea:'Чай', dice_ivory:'Слонова кістка', dice_onyx:'Онікс', dice_ruby:'Рубін', boardT:'Дошка', sound:'Звук', flip:'Перевернути дошку', autoForcedT:'Вимушені ходи сам', autoRollT:'Кидати кубики сам', pips:'піпів', forced:'Хід лише один — зіграно автоматично', rules:'Правила',
+  settingsT:'Налаштування', checkersT:'Шашки', diceT:'Кубики', ck_classic:'Класичні', ck_wood:'Дерево', ck_stone:'Мармур', ck_flat:'Пласкі', ck_metal:'Метал', ck_glass:'Скло', ck_retro:'Ретро', st_walnut:'Горіх', st_midnight:'Північ', avatarT:'Аватар', findT:'Знайти суперника', findD:'Гра з випадковим суперником онлайн. Якщо за 25 секунд ніхто не знайдеться, грає бот.', findB:'Знайти суперника', botT:'Грати з ботом', botD:'Тренуйтесь будь-коли. За перемогу над ботом рейтингу дається менше, ніж над людиною.', botB:'Грати з ботом', tutorB:'Як грати', localB2:'На одному пристрої', onlineN:'{n} онлайн', searchT:'Шукаємо суперника', searchInfo:'Зачекайте — якщо за {s} секунд ніхто не знайдеться, ви зіграєте з ботом.', playBotNow:'Грати з ботом зараз', matchFound:'Суперника знайдено!', matchWait:'Суперника знайдено — зʼєднуємо…', noOpp:'Вільних суперників немає — граємо з ботом', botName:'Бот Тарас', botTurn:'Бот думає…', botThinking:'Бот кидає кубик…', botGame:'Гра з ботом', botNoMoves:'У бота немає ходів', botRated:'гра з ботом: 40%', tutorGame:'Навчання', coachOpp:'Тренер', tutRoll:'Натисніть «Кинути кубики».', tutStepDone:'Чудово! Натисніть «Далі».', tutNice:'Чудово!', tutStep:'Урок {i} з {n}', tutNext:'Далі', tutBack:'Назад', tutExit:'Вийти', tutPlayBot:'Грати з ботом', tutFind:'Знайти суперника',
+  tut1T:'Дошка й мета', tut1D:'Ви граєте білими. Усі 15 шашок стоять на «голові» — пункт 24, вгорі праворуч. Чорні стоять на 12. Обидва гравці рухаються проти годинникової стрілки: білі — вгорі справа наліво, потім унизу зліва направо. Мета — привести всі шашки в дім (пункти 1–6, внизу праворуч) і викинути їх з дошки раніше за суперника.',
+  tut2T:'Перший хід', tut2D:'Киньте кубики — випаде 5 і 3. Кожен кубик — окремий хід на стільки пунктів. З голови за хід можна зняти лише одну шашку, тож обидва кубики зіграйте однією шашкою: натисніть шашку на 24 — золота позначка означає обидва кубики разом (5+3).',
+  tut3T:'Дубль', tut3D:'Однакові числа на кубиках граються чотири рази. Киньте — випаде 4 і 4: зробіть чотири ходи по 4 пункти будь-якими шашками (з голови — так само лише одна).',
+  tut4T:'Зайняті пункти', tut4D:'Бити шашки в довгих нардах не можна, і не можна ставати на пункт, де стоїть суперник. Випаде 3 і 1: шашки на пункті 18 піти не можуть — пункти 17 і 15 зайняті чорними. Зіграйте іншими шашками.',
+  tut5T:'Виведення шашок', tut5D:'Коли всі 15 шашок у домі (пункти 1–6), їх можна викидати з дошки. Випаде 6 і 2: натисніть шашку на пункті 6, а потім лоток праворуч; так само зробіть із шашкою на пункті 2.',
+  tut6T:'Ви готові!', tut6D:'Хто першим викине всі 15 шашок — перемагає. Якщо суперник не встиг викинути жодної — це «марс», 2 очки. Ще одне правило: не можна ставити 6 своїх шашок поспіль, якщо попереду немає жодної шашки суперника. Тепер спробуйте зіграти з ботом або знайдіть суперника онлайн.', lbT:'Таблиця лідерів', lbOpen:'Таблиця лідерів', lbSub:'Найкращі гравці за рейтингом. Рахуються лише онлайн-ігри.', lbLoading:'Завантаження…', lbErr:'Не вдалося завантажити таблицю — увійдіть, щоб її побачити.', lbEmpty:'Ще немає рейтингових ігор — зіграйте онлайн, щоб потрапити в таблицю.', lbYou:'ви', lbNotYou:'Ви зʼявитесь тут після першої онлайн-гри.', tier_bronze:'Бронза', tier_silver:'Срібло', tier_gold:'Золото', tier_platinum:'Платина', tier_diamond:'Діамант', toNext:'ще {n} до рангу «{tier}»', topTier:'Найвищий ранг', ratedNote:'рейтинг рахується лише в онлайн-іграх', ratingChange:'Рейтинг {d} → {r}', av_none:'Ініціали', av_dice:'Кубик', av_crown:'Корона', av_fox:'Лис', av_tea:'Чай', dice_ivory:'Слонова кістка', dice_onyx:'Онікс', dice_ruby:'Рубін', boardT:'Дошка', sound:'Звук', flip:'Перевернути дошку', autoForcedT:'Вимушені ходи сам', autoRollT:'Кидати кубики сам', pips:'піпів', forced:'Хід лише один — зіграно автоматично', rules:'Правила',
   winYou:'Перемога', winLose:'Цього разу — ні', winN:'Переміг: {n}', mars:'Марс — 2 очки.', one:'1 очко.', score:'Рахунок {a} : {b}',
   notFound:'Гру не знайдено — можливо, посилання застаріло.', full:'У цій грі вже двоє гравців — ви глядач.', joined:'Суперник приєднався!', saveErr:'Не вдалося зберегти хід', connErr:'Проблема зі зʼєднанням',
   keys:'<kbd>Пробіл</kbd> кинути · <kbd>Backspace</kbd> скасувати',
@@ -583,15 +641,18 @@ function newGame(p1,p2,score){
 }
 const slotOfColor = c => (gs.white===gs.p1) === (c==='w') ? 'p1' : 'p2';
 const colorOfSlot = s => slotOfColor('w')===s ? 'w' : 'b';
-function mySlot(){ if(!gs||mode!=='online') return null; return gs.p1===uid?'p1':gs.p2===uid?'p2':null; }
+function mySlot(){ if(!gs) return null; if(mode==='bot') return 'p1'; if(mode!=='online') return null; return gs.p1===uid?'p1':gs.p2===uid?'p2':null; }
 function myColor(){ if(!gs) return null; if(mode==='local') return gs.phase==='play'?gs.turn:null; const s=mySlot(); return s && gs.phase!=='opening' ? colorOfSlot(s) : null; }
-function canPlay(){ return gs && gs.phase==='play' && (mode==='local' || myColor()===gs.turn); }
+function canPlay(){ return gs && gs.phase==='play' && (mode==='local' || mode==='tutor' || myColor()===gs.turn); }
 function openSlotToRoll(){
   if(!gs || gs.phase!=='opening' || !gs.p2) return null;
   if(mode==='local') return !gs.open.p1 ? 'p1' : (!gs.open.p2 ? 'p2' : null);
+  if(mode==='bot') return !gs.open.p1 ? 'p1' : null;
   const s=mySlot(); return s && !gs.open[s] ? s : null;
 }
 function slotName(s){
+  if(mode==='bot') return s==='p1' ? (profile.name||t('you')) : t('botName');
+  if(mode==='tutor') return s==='p1' ? (profile.name||t('you')) : t('coachOpp');
   if(mode==='local') return s==='p1' && profile.name ? profile.name : t(s);
   const id=gs[s]; if(!id) return t('waitingP');
   const nm = gs.names && gs.names[s];
@@ -599,7 +660,7 @@ function slotName(s){
   return nm || nameCache[id] || t('opp');
 }
 const colorName = c => t(c==='w'?'white':'black');
-function viewColor(){ let v='w'; const me = mode==='online' ? (mySlot() && gs.phase!=='opening' ? colorOfSlot(mySlot()) : (mySlot()==='p2'?'b':'w')) : 'w'; v=me; return prefs.flip ? OPP(v) : v; }
+function viewColor(){ let v='w'; const me = (mode==='online' || mode==='bot') ? (mySlot() && gs.phase!=='opening' ? colorOfSlot(mySlot()) : (mySlot()==='p2'?'b':'w')) : 'w'; v=me; return prefs.flip ? OPP(v) : v; }
 
 // ================= sound =================
 let actx=null;
@@ -673,7 +734,7 @@ async function joinGame(code){
   }catch(e){ toast(t('notFound')); mode=null; gs=null; route(); }
 }
 function startLocal(){ mode='local'; gameId=null; gs=newGame('L1','L2'); route(); }
-function leave(){ if(unsub) try{unsub()}catch(e){} unsub=null; mode=null; gs=null; ref=null; selected=null; pendingOpen=null; setHash(''); route(); }
+function leave(){ botToken++; clearTimeout(botTimer); botBusy=false; matchHost=false; tut=null; if(unsub) try{unsub()}catch(e){} unsub=null; mode=null; gs=null; ref=null; selected=null; pendingOpen=null; setHash(''); route(); }
 async function copyLink(){ const l=linkFor(gameId); try{ await navigator.clipboard.writeText(l); toast(t('copied')); }catch(e){ toast(l); } }
 
 // ================= actions =================
@@ -695,7 +756,8 @@ function rollOpening(){
 function roll(){
   if(gs && gs.phase==='opening') return rollOpening();
   if(!canPlay() || gs.rolled) return;
-  const c=gs.turn, d1=d6(), d2=d6();
+  if(mode==='tutor' && !(tut && TUT[tut.i].dice)) return;
+  const c=gs.turn, d1=mode==='tutor'?TUT[tut.i].dice[0]:d6(), d2=mode==='tutor'?TUT[tut.i].dice[1]:d6();
   gs.dice=[d1,d2]; gs.remaining = d1===d2 ? [d1,d1,d1,d1] : [d1,d2];
   gs.headLimit = (gs.first[c] && d1===d2 && [3,4,6].includes(d1)) ? 2 : 1;
   gs.first[c]=false; gs.headMoved=0; gs.rolled=true; gs.trail=[]; gs.rollId++;
@@ -732,7 +794,8 @@ function playPath(path){
   if(gs.off[c]===15){
     gs.winner=c; gs.phase='over'; const s=slotOfColor(c); gs.score[s]+= gs.off[OPP(c)]===0 ? 2 : 1;
     gs.dice=[]; gs.remaining=[]; gs.rolled=false;
-  } else if(!legalMoves(gs,c).length){ passTurn(); }   // turn passes automatically
+  } else if(mode==='tutor'){ if(!legalMoves(gs,c).length){ gs.rolled=false; tut.done=true; gs.dice=gs.dice; toast(t('tutNice')); sfx('win'); } }
+  else if(!legalMoves(gs,c).length){ passTurn(); }   // turn passes automatically
   const tr=(gs.trail&&gs.trail.length)?gs.trail:(gs.last||[]); pendingAnim={col:c, flat:tr.slice(trailLen)};
   save(); route();
 }
@@ -747,14 +810,160 @@ function newMatch(){
   const ng=newGame(gs.p1, gs.p2, gs.score); ng.names=gs.names; ng.avs=gs.avs; ng.ratings=Object.assign({},gs.ratings||{}); if(mySlot()) ng.ratings[mySlot()]=profile.rating||1000; ng.seq=gs.seq; ng.rollId=gs.rollId; gs=ng; show('winOv',false); save(); route();
 }
 
+
+// ================= bot =================
+const BOT_R=1000, BOT_FACTOR=0.4;
+let botTimer=null, botBusy=false, botToken=0;
+function startBot(){
+  stopSearch(true); leave();
+  mode='bot'; gameId='bot'+rid(); gs=newGame('ME','BOT');
+  gs.names={p1:profile.name||'',p2:t('botName')}; gs.avs={p1:profile.av||'',p2:'n6'}; gs.ratings={p1:profile.rating||1000,p2:BOT_R};
+  route();
+}
+function botEval(st,c){
+  const o=OPP(c); let made=0, run=0, best=0, stack=0, back=0;
+  for(let p=0;p<24;p++){
+    const k=mine(st.board,c,p);
+    if(k>0){ made++; run++; if(run>best) best=run; if(k>3) stack+=k-3; if(p<12) back+=k; } else run=0;
+  }
+  let oppPips=0; for(let p=0;p<24;p++){ const k=mine(st.board,o,p); if(k>0) oppPips+=k*(24-p); }
+  const head=Math.max(0,mine(st.board,c,0)-1);
+  return 22*st.off[c] + 3*made + 5*Math.min(best,5) - 1.2*stack - 0.25*back - 0.6*head + 0.02*oppPips;
+}
+function botBestPath(st,c){
+  const total=maxUse(st,c); if(!total) return null;
+  let best=null, bestV=-1e9, nodes=0; const seen=new Set();
+  const roots=legalMoves(st,c);
+  (function dfs(s,path,first){
+    if(nodes++>6000) return;
+    if(path.length===total){ const v=botEval(s,c)+Math.random()*0.8; if(v>bestV){ bestV=v; best=path; } return; }
+    const key=s.board.join()+'|'+s.off[c]+'|'+s.remaining.join()+'|'+s.headMoved; if(seen.has(key)) return; seen.add(key);
+    const cand = first ? roots : [].concat(...[...new Set(s.remaining)].map(d=>genSingles(s,c,d)));
+    for(const m of cand) dfs(applyMove(s,c,m), path.concat([m]), false);
+  })(st,[],true);
+  return best;
+}
+const botWait=ms=>new Promise(r=>{ botTimer=setTimeout(r,ms); });
+function botTick(){
+  if(mode!=='bot' || !gs || botBusy) return;
+  const tok=botToken, stale=()=>tok!==botToken || mode!=='bot' || !gs;
+  if(gs.phase==='opening'){
+    if(gs.open.p1 && !gs.open.p2){ botBusy=true; botWait(850).then(()=>{ botBusy=false; if(stale()||gs.phase!=='opening') return; gs.open.p2=d6(); gs.rollId++; rollAnimUntil=performance.now()+700; sfx('dice'); resolveOpening(); route(); }); }
+    return;
+  }
+  if(gs.phase!=='play' || gs.turn!==colorOfSlot('p2')) return;
+  botBusy=true;
+  (async()=>{
+    await botWait(650); if(stale()) return;
+    const c=gs.turn;
+    if(!gs.rolled){ const d1=d6(), d2=d6(); gs.dice=[d1,d2]; gs.remaining=d1===d2?[d1,d1,d1,d1]:[d1,d2]; gs.headLimit=(gs.first[c]&&d1===d2&&[3,4,6].includes(d1))?2:1; gs.first[c]=false; gs.headMoved=0; gs.rolled=true; gs.trail=[]; gs.rollId++; gs.snap=null; rollAnimUntil=performance.now()+700; sfx('dice'); botBusy=true; scene3d&&scene3d.sync(); renderHud(); }
+    await botWait(900); if(stale()) return;
+    const path=botBestPath(gs,c);
+    if(!path || !path.length){ toast(t('botNoMoves')); await botWait(900); if(stale()) return; passTurn(); botBusy=false; route(); return; }
+    for(let i=0;i<path.length;i++){ if(stale()) return; playPath([path[i]]); if(i<path.length-1) await botWait(620); }
+    botBusy=false; route();
+  })();
+}
+
+// ================= online presence & matchmaking =================
+let lobby=null, lobbyKey='k'+rid()+rid(), searching=false, searchSince=0, matchHost=false, matching=false, onlineN=0, lastTracked='', searchTimer=null;
+const SEARCH_LIMIT=25;
+function presenceMeta(){ return {uid:uid||'', name:profile.name||'', av:profile.av||'', rating:profile.rating||1000, status: searching?'searching':(gs&&mode!=='tutor'?'playing':'idle'), since:searchSince}; }
+async function lobbyTrack(){ if(!lobby || !lobby._ready) return; const m=presenceMeta(), k=JSON.stringify(m); if(k===lastTracked) return; lastTracked=k; try{ await lobby.track(m); }catch(e){} }
+function renderOnline(){
+  const txt=t('onlineN',{n:Math.max(1,onlineN)});
+  $('onlineCnt').textContent=txt; $('onlineHome').textContent=txt;
+  $('searchOnline').textContent=' · '+txt;
+}
+function lobbyStart(){
+  if(!sb || lobby) return;
+  lobby=sb.channel('lobby',{config:{presence:{key:lobbyKey},broadcast:{self:false}}});
+  lobby.on('presence',{event:'sync'},()=>{
+    const st=lobby.presenceState(), ids=new Set();
+    Object.entries(st).forEach(([k,arr])=>{ const m=arr[0]||{}; ids.add(m.uid||k); });
+    onlineN=ids.size; renderOnline(); if(searching) tryMatch(st);
+  });
+  lobby.on('broadcast',{event:'match'},({payload})=>{
+    if(payload && payload.to===uid && searching){ stopSearch(true); toast(t('matchFound')); setHash('g-'+payload.gameId); joinGame(payload.gameId); }
+  });
+  lobby.subscribe(s=>{ if(s==='SUBSCRIBED'){ lobby._ready=true; lastTracked=''; lobbyTrack(); } });
+}
+function startSearch(){
+  if(!uid || !db){ openProfile(); return; }
+  if(gs) leave();
+  searching=true; searchSince=Date.now(); matchHost=false; lobbyStart(); route();
+  $('searchInfo').textContent=t('searchInfo',{s:SEARCH_LIMIT});
+  clearInterval(searchTimer);
+  searchTimer=setInterval(()=>{
+    if(!searching){ clearInterval(searchTimer); return; }
+    const sec=Math.floor((Date.now()-searchSince)/1000); $('searchTime').textContent=Math.floor(sec/60)+':'+String(sec%60).padStart(2,'0');
+    if(sec>=SEARCH_LIMIT){ toast(t('noOpp')); startBot(); }
+  },500);
+  if(lobby && lobby._ready) tryMatch(lobby.presenceState());
+}
+function stopSearch(silent){ searching=false; clearInterval(searchTimer); if(!silent) route(); else lobbyTrack(); }
+async function tryMatch(st){
+  if(!searching || matching || !uid) return;
+  const seen=new Map();
+  Object.values(st).forEach(arr=>arr.forEach(m=>{ if(m.status==='searching' && m.uid && !seen.has(m.uid)) seen.set(m.uid,m); }));
+  const list=[...seen.values()].sort((a,b)=>(a.since-b.since)||(a.uid<b.uid?-1:1));
+  const i=list.findIndex(m=>m.uid===uid);
+  if(i<0 || i%2===1) return;             // odd places wait for the invite from the player before them
+  const partner=list[i+1]; if(!partner) return;
+  matching=true; stopSearch(true); matchHost=true;
+  gameId=rid(); mode='online'; ref=db.doc('games/'+gameId);
+  gs=newGame(uid,null); gs.names={p1:profile.name||'',p2:''}; gs.avs={p1:profile.av||'',p2:''}; gs.ratings={p1:profile.rating||1000,p2:0};
+  await save(); setHash('g-'+gameId); subscribe(); route();
+  const gid=gameId;
+  for(let k=0;k<5;k++){ if(!gs || gameId!==gid || gs.p2) break; try{ lobby.send({type:'broadcast',event:'match',payload:{to:partner.uid,from:uid,gameId:gid}}); }catch(e){} await new Promise(r=>setTimeout(r,1500)); }
+  matching=false;
+  setTimeout(()=>{ if(gs && gameId===gid && mode==='online' && !gs.p2 && matchHost){ leave(); startSearch(); } }, 6000);
+}
+
+// ================= tutorial =================
+const TUT=[
+  {k:1, setup:'start'},
+  {k:2, setup:'start', dice:[5,3]},
+  {k:3, setup:'doubles', dice:[4,4]},
+  {k:4, setup:'blocked', dice:[3,1]},
+  {k:5, setup:'bearoff', dice:[6,2]},
+  {k:6, setup:null}
+];
+let tut=null;
+function tutBoard(kind){
+  const B=new Array(24).fill(0);
+  if(kind==='start') return freshBoard();
+  if(kind==='doubles'){ B[0]=10; B[3]=2; B[5]=1; B[7]=1; B[10]=1; B[12]=-13; B[14]=-1; B[16]=-1; }
+  if(kind==='blocked'){ B[0]=10; B[2]=2; B[6]=3; B[7]=-2; B[9]=-2; B[12]=-11; }
+  if(kind==='bearoff'){ B[18]=3; B[19]=3; B[20]=3; B[21]=2; B[22]=2; B[23]=2; B[12]=-15; }
+  return B;
+}
+function startTutor(){ stopSearch(true); leave(); mode='tutor'; gameId='tutor'; tut={i:0,done:false}; tutLoad(); }
+function tutLoad(){
+  const st=TUT[tut.i]; tut.done=false;
+  if(st.setup){ gs=newGame('ME','COACH'); gs.phase='play'; gs.white='ME'; gs.black='COACH'; gs.turn='w'; gs.board=tutBoard(st.setup); gs.first={w:st.setup==='start', b:false}; gs.names={p1:profile.name||'',p2:t('coachOpp')}; }
+  selected=null; route();
+}
+function renderCoach(){
+  const on = mode==='tutor' && !!tut; show('coach',on); if(!on) return;
+  const st=TUT[tut.i], n=TUT.length;
+  $('coachStep').textContent=t('tutStep',{i:tut.i+1,n});
+  $('coachT').textContent=t('tut'+st.k+'T'); $('coachD').textContent=t('tut'+st.k+'D');
+  const back=$('coachBack'), next=$('coachNext');
+  if(tut.i===n-1){ back.textContent=t('tutPlayBot'); next.textContent=t('tutFind'); back.disabled=false; next.disabled=false; }
+  else { back.textContent= tut.i===0 ? t('tutExit') : t('tutBack'); next.textContent=t('tutNext'); next.disabled = !!st.dice && !tut.done; back.disabled=false; }
+}
+
 // ================= HUD =================
 let lastWinShown='';
 function route(){
   const inGame=!!gs, waiting = inGame && mode==='online' && !gs.p2 && gs.p1===uid;
-  show('vHome',!inGame); show('vWait',waiting); show('vGame',inGame && !waiting);
-  if(waiting) $('waitLink').textContent=linkFor(gameId);
+  show('vHome',!inGame && !searching); show('vSearch',!inGame && searching); show('vWait',waiting); show('vGame',inGame && !waiting);
+  if(waiting){ $('waitLink').textContent=linkFor(gameId); document.querySelector('#vWait h2').textContent = matchHost ? t('matchWait') : t('waitT'); }
+  if(inGame && gs.p2 && matchHost) matchHost=false;
   if(inGame && !waiting) renderHud();
   scene3d && scene3d.sync();
+  renderCoach(); lobbyTrack(); botTick();
 }
 let autoRollKey='';
 async function resolveNames(){
@@ -828,7 +1037,7 @@ function eloDelta(my, opp, score, games, mars){
   if(mars) d*=1.2;
   return Math.round(d);
 }
-function ratingOf(s){ if(!gs) return null; if(mode==='local') return s==='p1' ? (profile.rating||1000) : null; if(gs[s]===uid) return profile.rating||1000; return (gs.ratings&&gs.ratings[s]) || null; }
+function ratingOf(s){ if(!gs) return null; if(mode==='bot') return s==='p1' ? (profile.rating||1000) : BOT_R; if(mode==='tutor') return null; if(mode==='local') return s==='p1' ? (profile.rating||1000) : null; if(gs[s]===uid) return profile.rating||1000; return (gs.ratings&&gs.ratings[s]) || null; }
 function rankBlock(){
   const r=profile.rating||1000, i=tierIdx(r), nx=TIERS[i+1];
   const box=document.createElement('div'); box.className='rank';
@@ -842,7 +1051,7 @@ function rankBlock(){
   box.append(top,bar,nt,legend); return box;
 }
 
-function avOf(s){ if(!gs) return ''; if(mode==='local') return s==='p1'?(profile.av||''):''; if(gs[s]===uid) return profile.av||''; return (gs.avs&&gs.avs[s])||''; }
+function avOf(s){ if(!gs) return ''; if(mode==='bot') return s==='p1' ? (profile.av||'') : 'n6'; if(mode==='tutor') return s==='p1' ? (profile.av||'') : ''; if(mode==='local') return s==='p1'?(profile.av||''):''; if(gs[s]===uid) return profile.av||''; return (gs.avs&&gs.avs[s])||''; }
 
 function plCard(el, s){
   const col = gs.phase==='opening' ? null : colorOfSlot(s);
@@ -876,6 +1085,7 @@ function renderHud(){
     if(gs.openLast && gs.openLast.tie && !gs.open.p1 && !gs.open.p2) st=t('openTie',{a:gs.openLast.p1});
     else if(mode==='local' && s) st=t('openLocal',{n:slotName(s)});
     else if(s) st=t('openYour');
+    else if(mode==='bot') st=t('botThinking');
     else if(mode==='online' && me) st=t('openWait');
     else st=t('openYour');
   } else if(gs.phase==='over'){
@@ -883,7 +1093,8 @@ function renderHud(){
   } else {
     const justOpened = gs.openLast && !gs.openLast.tie && gs.first.w && !gs.rolled;
     if(mode==='online' && !me) st=t('spectator',{c:colorName(c)});
-    else if(!playing) st=t('oppTurn');
+    else if(!playing) st= mode==='bot' ? t('botTurn') : t('oppTurn');
+    else if(mode==='tutor' && !gs.rolled){ st = tut && tut.done ? t('tutStepDone') : (TUT[tut.i].dice ? t('tutRoll') : ''); rollOn = !!(tut && !tut.done && TUT[tut.i].dice); }
     else if(!gs.rolled){ st = mode==='local' ? t('localRoll',{c:colorName(c)}) : t('yourRoll'); rollOn=true; }
     else if(!moves.length) st=t('noMoves');
     else if(selected===null) st=t('pick'); else st=t('where');
@@ -897,14 +1108,14 @@ function renderHud(){
   show('btnRoll', gs.phase!=='over'); show('btnUndo', gs.phase==='play');
   show('btnNew', gs.phase==='over' && (mode==='local' || !!me));
   show('btnCopy2', mode==='online');
-  $('shareLbl').textContent = mode==='online' ? t('link') : t('localGame');
+  $('shareLbl').textContent = mode==='online' ? t('link') : mode==='bot' ? t('botGame') : mode==='tutor' ? t('tutorGame') : t('localGame');
 
   if(gs.phase==='over' && lastWinShown!==gameId+':'+gs.seq+':'+gs.winner){
     lastWinShown=gameId+':'+gs.seq+':'+gs.winner;
     lastDelta=null; recordResult(); renderMe(); if(mode==='local') sfx('win');
     const ws=slotOfColor(gs.winner), mars = gs.off[OPP(gs.winner)]===0;
     $('winTitle').textContent = mode==='local' ? t('winN',{n:slotName(ws)}) : (ws===me ? t('winYou') : (me ? t('winLose') : t('winN',{n:slotName(ws)})));
-    $('winSub').textContent = (mars?t('mars'):t('one'))+' '+t('score',{a:gs.score.p1,b:gs.score.p2}) + (lastDelta!=null ? ' · '+t('ratingChange',{d:(lastDelta>=0?'+':'')+lastDelta, r:profile.rating}) : '');
+    $('winSub').textContent = (mars?t('mars'):t('one'))+' '+t('score',{a:gs.score.p1,b:gs.score.p2}) + (lastDelta!=null ? ' · '+t('ratingChange',{d:(lastDelta>=0?'+':'')+lastDelta, r:profile.rating}) + (mode==='bot' ? ' ('+t('botRated')+')' : '') : '');
     show('btnNew2', mode==='local' || !!me);
     setTimeout(()=>{ if(gs && gs.phase==='over') show('winOv',true); }, 600);
   } else if(gs.phase!=='over') show('winOv',false);
@@ -1175,7 +1386,7 @@ async function onSignedIn(u, wantedName){
   const {data}=await sb.from('profiles').select('name,played,won,av,rating,rgames').eq('id',uid).maybeSingle();
   const pickedAv=profile.av||''; profile={ name:(data&&data.name)||wantedName||'', played:(data&&data.played)||0, won:(data&&data.won)||0, av:(data&&data.av)||pickedAv, rating:(data&&data.rating)||1000, rgames:(data&&data.rgames)||0, guest:!!u.is_anonymous };
   if(!data || (wantedName && !data.name) || (pickedAv && !data.av)) await saveProfile();
-  bootState='ok'; bootNote(); renderMe(); $('btnCreate').disabled=false;
+  bootState='ok'; bootNote(); renderMe(); $('btnCreate').disabled=false; lastTracked=''; lobbyTrack();
   const h=location.hash.replace('#',''); if(h.startsWith('g-') && h.slice(2)!==gameId) joinGame(h.slice(2));
   if(!profile.name) openProfile();
 }
@@ -1253,11 +1464,11 @@ async function lbFetch(){
 
 let lastDelta=null;
 function recordResult(){
-  if(mode!=='online' || !mySlot() || gs.phase!=='over') return;
+  if(!(mode==='online' || mode==='bot') || !mySlot() || gs.phase!=='over') return;
   const key=gameId+':'+gs.score.p1+':'+gs.score.p2; const done=store.get('counted',[]);
   if(done.includes(key)) return; done.push(key); store.set('counted',done.slice(-80));
   const me=mySlot(), opp=me==='p1'?'p2':'p1', iWon=slotOfColor(gs.winner)===me, mars=gs.off[OPP(gs.winner)]===0;
-  const oppR=(gs.ratings&&gs.ratings[opp])||1000, d=eloDelta(profile.rating||1000, oppR, iWon?1:0, profile.rgames||0, mars);
+  const oppR=(gs.ratings&&gs.ratings[opp])||1000, d=Math.round(eloDelta(profile.rating||1000, oppR, iWon?1:0, profile.rgames||0, mars) * (mode==='bot' ? BOT_FACTOR : 1));
   profile.rating=Math.max(100,(profile.rating||1000)+d); profile.rgames=(profile.rgames||0)+1; lastDelta=d;
   profile.played++; if(iWon){ profile.won++; sfx('win'); }
   saveProfile();
@@ -1274,6 +1485,10 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 
 // ================= wiring =================
 $('btnCreate').onclick=createGame; $('btnLocal').onclick=startLocal;
+$('btnFind').onclick=startSearch; $('btnBot').onclick=startBot; $('btnTutor').onclick=startTutor;
+$('btnSearchBot').onclick=startBot; $('btnSearchCancel').onclick=()=>stopSearch(false);
+$('coachBack').onclick=()=>{ if(!tut) return; if(tut.i===TUT.length-1){ startBot(); return; } if(tut.i===0){ leave(); return; } tut.i--; tutLoad(); };
+$('coachNext').onclick=()=>{ if(!tut) return; if(tut.i===TUT.length-1){ startSearch(); return; } tut.i++; tutLoad(); };
 $('btnLeave1').onclick=leave; $('btnLeave2').onclick=leave; $('brand').onclick=()=>{ if(gs) leave(); };
 $('btnCopy').onclick=copyLink; $('btnCopy2').onclick=copyLink;
 $('btnRoll').onclick=roll; $('btnUndo').onclick=undo;
@@ -1297,6 +1512,7 @@ async function boot(){
   route();
   if(!window.supabase){ bootState='none'; bootNote(); $('btnCreate').disabled=true; return; }
   sb = window.supabase.createClient(SB_URL, SB_KEY, { auth:{ persistSession:true, autoRefreshToken:true } });
+  lobbyStart();
   const {data:{session}} = await sb.auth.getSession();
   if(session && session.user) await onSignedIn(session.user);
   else { bootState='nologin'; bootNote(); $('btnCreate').disabled=false; setTimeout(openProfile, 300); }
