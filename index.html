@@ -356,10 +356,14 @@ kbd{font:11px var(--mono);padding:1px 5px;border-radius:4px;border:1px solid var
 .pt.sel .ck.tip{box-shadow:0 0 0 calc(var(--cs)*.08) #fff, 0 0 0 calc(var(--cs)*.13) var(--hl), 0 calc(var(--cs)*.22) calc(var(--cs)*.3) rgba(0,0,0,.35)}
 .ck.pop{animation:pop .35s cubic-bezier(.2,.9,.3,1.4)}
 @keyframes pop{0%{transform:scale(.6);opacity:.3}100%{transform:none;opacity:1}}
-.gh{width:calc(var(--cs)*.92);height:calc(var(--cs)*.92);border-radius:50%;flex-shrink:0;border:2px dashed var(--hl);background:var(--hlSoft);animation:gh 1.1s ease-in-out infinite alternate;box-sizing:border-box}
-.gh.combo{border-style:dotted;background:rgba(233,162,26,.14)}
+.gh{width:calc(var(--cs)*.92);height:calc(var(--cs)*.92);border-radius:50%;flex-shrink:0;box-sizing:border-box;position:relative;
+  background:radial-gradient(circle,rgba(255,255,255,.95) 0 calc(var(--cs)*.07),transparent calc(var(--cs)*.075)),rgba(18,14,10,.5);
+  border:calc(var(--cs)*.06) solid var(--hl);
+  box-shadow:0 0 0 calc(var(--cs)*.03) rgba(0,0,0,.45),inset 0 0 0 calc(var(--cs)*.03) rgba(255,255,255,.6),0 0 calc(var(--cs)*.3) rgba(233,162,26,.65);
+  animation:gh 1.1s ease-in-out infinite alternate}
+.gh.combo{border-style:dashed;background:radial-gradient(circle,rgba(255,255,255,.75) 0 calc(var(--cs)*.06),transparent calc(var(--cs)*.065)),rgba(18,14,10,.5)}
 .pt.tgt.full .ck.tip{box-shadow:0 0 0 calc(var(--cs)*.06) var(--hl) , 0 0 calc(var(--cs)*.4) rgba(233,162,26,.55)}
-@keyframes gh{from{opacity:.55;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
+@keyframes gh{from{opacity:.8;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
 .drag{position:fixed;z-index:60;pointer-events:none;transform:translate(-50%,-50%) scale(1.12);filter:drop-shadow(0 14px 10px rgba(0,0,0,.35))}
 .board{touch-action:none}
 @keyframes tg{from{transform:scale(.78)}to{transform:scale(1)}}
