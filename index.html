@@ -150,6 +150,16 @@ p{margin:0}
 .pav{position:relative;width:58px;height:58px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .pav .frl{margin:0!important}
 .pav .chip.mini{right:2px;bottom:2px;z-index:3}
+.tb{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:6;min-width:230px;max-width:80%;padding:16px 22px 18px;border-radius:16px;text-align:center;
+  background:rgba(246,242,234,.97);color:var(--ink);box-shadow:0 18px 40px -12px rgba(0,0,0,.55),0 0 0 1px rgba(0,0,0,.06);animation:tbIn .32s cubic-bezier(.2,.9,.3,1.2)}
+.tb.wait{background:rgba(22,20,18,.78);color:#f3eee5;box-shadow:0 14px 30px -14px rgba(0,0,0,.6);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.tb .tbt{font-size:22px;font-weight:500;line-height:1.2}
+.tb .tbs{font-size:13.5px;opacity:.7;margin-top:4px}
+.tb button{margin-top:12px;min-width:170px}
+.tb .dots::after{content:"";display:inline-block;width:1.2em;text-align:left;animation:dots 1.2s steps(4) infinite}
+@keyframes dots{0%{content:""}25%{content:"."}50%{content:".."}75%{content:"..."}}
+@keyframes tbIn{from{opacity:0;transform:translate(-50%,-50%) scale(.92)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+@media (max-width:640px){.tb{min-width:0;padding:9px 14px 11px;border-radius:12px}.tb .tbt{font-size:16px}.tb .tbs{font-size:11.5px;margin-top:2px}.tb button{min-width:0;margin-top:8px;padding:8px 16px;font-size:13.5px;height:auto}}
 .avpick{display:flex;gap:8px;margin:4px 0 14px;flex-wrap:wrap}
 .avopt{border:0;padding:3px;border-radius:50%;background:transparent}
 .avopt:hover{background:transparent}
@@ -512,7 +522,7 @@ const T = {
   openYour:'Roll one die each — <b>higher roll plays White</b> and moves first.', openLocal:'<b>{n}</b>, roll for the first move.', openWait:'Waiting for your opponent to roll…', openTie:'Tie ({a} : {a}). Roll again.', openWon:'<b>{n}</b> rolled higher ({a} : {b}) and plays White.',
   yourRoll:'<b>Your turn.</b> Roll the dice.', localRoll:'<b>{c}</b> to move. Roll the dice.', pick:'Tap or drag a highlighted checker.', where:'Drop it on a marked spot — combined moves (e.g. 3+4) are shown too.', noMoves:'No legal moves — passing the turn.', oppTurn:'Opponent’s turn…', spectator:'You are watching. {c} to move.', won:'<b>{n}</b> won this game.',
   newGame:'New game', again:'Play again', close:'Close', gameOver:'Game over', link:'Game link', localGame:'Same-device game',
-  settingsT:'Settings', checkersT:'Checkers', diceT:'Dice', ck_classic:'Classic', ck_wood:'Wood', ck_stone:'Marble', ck_flat:'Flat', ck_metal:'Metal', ck_glass:'Glass', ck_retro:'Retro', st_walnut:'Walnut', st_midnight:'Midnight', avatarT:'Avatar', findT:'Find an opponent', findD:'Play a random online opponent. If nobody is free within 25 seconds, the bot steps in.', findB:'Find opponent', botT:'Play the bot', botD:'Practice any time. A win against the bot gives less rating than against a person.', botB:'Play the bot', tutorB:'How to play', localB2:'Same device', onlineN:'{n} online', searchT:'Looking for an opponent', searchInfo:'Hang on — if nobody is free in {s} seconds, you will play the bot.', playBotNow:'Play the bot now', matchFound:'Opponent found!', matchWait:'Opponent found — connecting…', noOpp:'No free opponents — playing the bot', botName:'Bot Taras', botTurn:'The bot is thinking…', botThinking:'The bot is rolling…', botGame:'Game vs bot', botNoMoves:'The bot has no moves', botRated:'bot game: 40%', tutorGame:'Tutorial', coachOpp:'Coach', tutRoll:'Press “Roll dice”.', tutStepDone:'Well done! Press “Next”.', tutNice:'Well done!', tutStep:'Lesson {i} of {n}', tutNext:'Next', tutBack:'Back', tutExit:'Exit', tutPlayBot:'Play the bot', tutFind:'Find opponent',
+  settingsT:'Settings', checkersT:'Checkers', diceT:'Dice', ck_classic:'Classic', ck_wood:'Wood', ck_stone:'Marble', ck_flat:'Flat', ck_metal:'Metal', ck_glass:'Glass', ck_retro:'Retro', st_walnut:'Walnut', st_midnight:'Midnight', avatarT:'Avatar', bnOpenT:'Who goes first?', bnOpenS:'Roll one die — higher plays White', bnOppOpen:'Waiting for the opponent', bnYour:'Your turn', bnRollS:'Roll the dice to move', bnColor:'{c} to move', bnOpp:'Opponent’s turn', bnBot:'Bot’s turn', findT:'Find an opponent', findD:'Play a random online opponent. If nobody is free within 25 seconds, the bot steps in.', findB:'Find opponent', botT:'Play the bot', botD:'Practice any time. A win against the bot gives less rating than against a person.', botB:'Play the bot', tutorB:'How to play', localB2:'Same device', onlineN:'{n} online', searchT:'Looking for an opponent', searchInfo:'Hang on — if nobody is free in {s} seconds, you will play the bot.', playBotNow:'Play the bot now', matchFound:'Opponent found!', matchWait:'Opponent found — connecting…', noOpp:'No free opponents — playing the bot', botName:'Bot Taras', botTurn:'The bot is thinking…', botThinking:'The bot is rolling…', botGame:'Game vs bot', botNoMoves:'The bot has no moves', botRated:'bot game: 40%', tutorGame:'Tutorial', coachOpp:'Coach', tutRoll:'Press “Roll dice”.', tutStepDone:'Well done! Press “Next”.', tutNice:'Well done!', tutStep:'Lesson {i} of {n}', tutNext:'Next', tutBack:'Back', tutExit:'Exit', tutPlayBot:'Play the bot', tutFind:'Find opponent',
   tut1T:'The board and the goal', tut1D:'You play White. All 15 of your checkers start on the “head” — point 24, top right. Black starts on 12. Both sides move counter-clockwise: White goes right-to-left along the top, then left-to-right along the bottom. Bring all checkers home (points 1–6, bottom right) and bear them off before your opponent.',
   tut2T:'Your first move', tut2D:'Roll the dice — you will get 5 and 3. Each die is a separate move of that many points. Only one checker may leave the head per turn, so play both dice with the same checker: tap the checker on 24 — the gold spot is both dice together (5+3).',
   tut3T:'Doubles', tut3D:'Equal dice are played four times. Roll — you get 4 and 4: make four moves of 4 points with any checkers (still only one from the head).',
@@ -534,7 +544,7 @@ const T = {
   openYour:'Кожен кидає один кубик — <b>у кого більше, той грає білими</b> й ходить першим.', openLocal:'<b>{n}</b>, киньте на перший хід.', openWait:'Чекаємо, поки суперник кине…', openTie:'Нічия ({a} : {a}). Киньте ще раз.', openWon:'<b>{n}</b> викинув більше ({a} : {b}) і грає білими.',
   yourRoll:'<b>Ваш хід.</b> Киньте кубики.', localRoll:'Ходять <b>{c}</b>. Киньте кубики.', pick:'Натисніть або перетягніть підсвічену шашку.', where:'Поставте на позначене місце — показано й складені ходи (напр. 3+4).', noMoves:'Ходів немає — хід переходить.', oppTurn:'Хід суперника…', spectator:'Ви глядач. Ходять {c}.', won:'Партію виграли: <b>{n}</b>.',
   newGame:'Нова партія', again:'Ще партію', close:'Закрити', gameOver:'Кінець партії', link:'Посилання на гру', localGame:'Гра на одному пристрої',
-  settingsT:'Налаштування', checkersT:'Шашки', diceT:'Кубики', ck_classic:'Класичні', ck_wood:'Дерево', ck_stone:'Мармур', ck_flat:'Пласкі', ck_metal:'Метал', ck_glass:'Скло', ck_retro:'Ретро', st_walnut:'Горіх', st_midnight:'Північ', avatarT:'Аватар', findT:'Знайти суперника', findD:'Гра з випадковим суперником онлайн. Якщо за 25 секунд ніхто не знайдеться, грає бот.', findB:'Знайти суперника', botT:'Грати з ботом', botD:'Тренуйтесь будь-коли. За перемогу над ботом рейтингу дається менше, ніж над людиною.', botB:'Грати з ботом', tutorB:'Як грати', localB2:'На одному пристрої', onlineN:'{n} онлайн', searchT:'Шукаємо суперника', searchInfo:'Зачекайте — якщо за {s} секунд ніхто не знайдеться, ви зіграєте з ботом.', playBotNow:'Грати з ботом зараз', matchFound:'Суперника знайдено!', matchWait:'Суперника знайдено — зʼєднуємо…', noOpp:'Вільних суперників немає — граємо з ботом', botName:'Бот Тарас', botTurn:'Бот думає…', botThinking:'Бот кидає кубик…', botGame:'Гра з ботом', botNoMoves:'У бота немає ходів', botRated:'гра з ботом: 40%', tutorGame:'Навчання', coachOpp:'Тренер', tutRoll:'Натисніть «Кинути кубики».', tutStepDone:'Чудово! Натисніть «Далі».', tutNice:'Чудово!', tutStep:'Урок {i} з {n}', tutNext:'Далі', tutBack:'Назад', tutExit:'Вийти', tutPlayBot:'Грати з ботом', tutFind:'Знайти суперника',
+  settingsT:'Налаштування', checkersT:'Шашки', diceT:'Кубики', ck_classic:'Класичні', ck_wood:'Дерево', ck_stone:'Мармур', ck_flat:'Пласкі', ck_metal:'Метал', ck_glass:'Скло', ck_retro:'Ретро', st_walnut:'Горіх', st_midnight:'Північ', avatarT:'Аватар', bnOpenT:'Хто ходить першим?', bnOpenS:'Киньте кубик — у кого більше, той грає білими', bnOppOpen:'Чекаємо на суперника', bnYour:'Ваш хід', bnRollS:'Киньте кубики, щоб походити', bnColor:'Ходять {c}', bnOpp:'Хід суперника', bnBot:'Хід бота', findT:'Знайти суперника', findD:'Гра з випадковим суперником онлайн. Якщо за 25 секунд ніхто не знайдеться, грає бот.', findB:'Знайти суперника', botT:'Грати з ботом', botD:'Тренуйтесь будь-коли. За перемогу над ботом рейтингу дається менше, ніж над людиною.', botB:'Грати з ботом', tutorB:'Як грати', localB2:'На одному пристрої', onlineN:'{n} онлайн', searchT:'Шукаємо суперника', searchInfo:'Зачекайте — якщо за {s} секунд ніхто не знайдеться, ви зіграєте з ботом.', playBotNow:'Грати з ботом зараз', matchFound:'Суперника знайдено!', matchWait:'Суперника знайдено — зʼєднуємо…', noOpp:'Вільних суперників немає — граємо з ботом', botName:'Бот Тарас', botTurn:'Бот думає…', botThinking:'Бот кидає кубик…', botGame:'Гра з ботом', botNoMoves:'У бота немає ходів', botRated:'гра з ботом: 40%', tutorGame:'Навчання', coachOpp:'Тренер', tutRoll:'Натисніть «Кинути кубики».', tutStepDone:'Чудово! Натисніть «Далі».', tutNice:'Чудово!', tutStep:'Урок {i} з {n}', tutNext:'Далі', tutBack:'Назад', tutExit:'Вийти', tutPlayBot:'Грати з ботом', tutFind:'Знайти суперника',
   tut1T:'Дошка й мета', tut1D:'Ви граєте білими. Усі 15 шашок стоять на «голові» — пункт 24, вгорі праворуч. Чорні стоять на 12. Обидва гравці рухаються проти годинникової стрілки: білі — вгорі справа наліво, потім унизу зліва направо. Мета — привести всі шашки в дім (пункти 1–6, внизу праворуч) і викинути їх з дошки раніше за суперника.',
   tut2T:'Перший хід', tut2D:'Киньте кубики — випаде 5 і 3. Кожен кубик — окремий хід на стільки пунктів. З голови за хід можна зняти лише одну шашку, тож обидва кубики зіграйте однією шашкою: натисніть шашку на 24 — золота позначка означає обидва кубики разом (5+3).',
   tut3T:'Дубль', tut3D:'Однакові числа на кубиках граються чотири рази. Киньте — випаде 4 і 4: зробіть чотири ходи по 4 пункти будь-якими шашками (з голови — так само лише одна).',
@@ -963,6 +973,7 @@ function route(){
   if(inGame && gs.p2 && matchHost) matchHost=false;
   if(inGame && !waiting) renderHud();
   scene3d && scene3d.sync();
+  renderBanner();
   renderCoach(); lobbyTrack(); botTick();
 }
 let autoRollKey='';
@@ -1070,6 +1081,32 @@ function plCard(el, s){
   const sc=document.createElement('div'); sc.className='sc'; sc.textContent=gs.score[s];
   el.append(chip,box,sc);
 }
+
+// ---- turn banner in the middle of the board ----
+let lastBannerKey='';
+function renderBanner(){
+  const el=$('turnBanner'); if(!el) return;
+  const hide=()=>{ el.classList.add('hidden'); lastBannerKey=''; };
+  if(!gs || gs.phase==='over') return hide();
+  let title='', sub='', btn=null, wait=false;
+  const tutorMode = typeof tut!=='undefined' && mode==='tutor';
+  if(gs.phase==='opening'){
+    const s=openSlotToRoll();
+    if(s){ title=t('bnOpenT'); sub = mode==='local' ? slotName(s) : t('bnOpenS'); if(gs.openLast && gs.openLast.tie && !gs.open.p1 && !gs.open.p2) sub=t('openTie',{a:gs.openLast.p1}); btn=t('rollFirst'); }
+    else { title = mode==='bot' ? t('botThinking') : t('bnOppOpen'); wait=true; }
+  } else if(gs.phase==='play' && !gs.rolled){
+    if(tutorMode){ if(tut && !tut.done && TUT[tut.i].dice){ title=t('bnYour'); btn=t('roll'); } else return hide(); }
+    else if(canPlay()){ title = mode==='local' ? t('bnColor',{c:colorName(gs.turn)}) : t('bnYour'); sub=t('bnRollS'); btn=t('roll'); }
+    else { title = mode==='bot' ? t('bnBot') : t('bnOpp'); sub = slotName(slotOfColor(gs.turn)).split(' (')[0]; wait=true; }
+  } else return hide();
+  const key=[title,sub,btn,wait,gs.turn,gs.rollId].join('|');
+  if(key===lastBannerKey) return; lastBannerKey=key;
+  el.className='tb'+(wait?' wait':''); el.innerHTML='';
+  const h=document.createElement('div'); h.className='tbt'+(wait?' dots':''); h.textContent=title; el.appendChild(h);
+  if(sub){ const p=document.createElement('div'); p.className='tbs'; p.textContent=sub; el.appendChild(p); }
+  if(btn){ const b=document.createElement('button'); b.className='cta'; b.textContent=btn; b.onclick=e=>{ e.stopPropagation(); roll(); }; el.appendChild(b); }
+}
+
 function renderHud(){
   if(!gs) return; resolveNames();
   const me=mySlot();
@@ -1140,7 +1177,7 @@ function build2D(){
   wrap.innerHTML=
    '<div class="board" id="board">'+
      '<div class="half" id="hL"><div class="prow top" id="rTL"></div><div class="prow bot" id="rBL"></div><div class="dice" id="diceL"></div></div>'+
-     '<div class="bar"></div>'+
+     '<div class="bar"></div><div class="tb hidden" id="turnBanner"></div>'+
      '<div class="half" id="hR"><div class="prow top" id="rTR"></div><div class="prow bot" id="rBR"></div><div class="dice" id="diceR"></div></div>'+
    '</div>'+
    '<div class="tray" id="tray"><div class="tslot" id="trayTop"></div><div class="tslot bot" id="trayBot"></div></div>';
@@ -1197,6 +1234,7 @@ function build2D(){
   const boardEl=$('board');
   function ptFromEvent(ev){ const el=document.elementFromPoint(ev.clientX,ev.clientY); if(!el) return null; const tr=el.closest('.tslot'); if(tr) return {tray:true}; const pt=el.closest('.pt'); return pt?{b:+pt.dataset.b}:null; }
   boardEl.addEventListener('pointerdown',ev=>{
+    if(ev.target.closest('#turnBanner')) return;
     const pt=ev.target.closest('.pt'); if(!pt) return;
     const b=+pt.dataset.b; drag={b, x:ev.clientX, y:ev.clientY, moved:false, ghost:null, src:null};
     try{ boardEl.setPointerCapture(ev.pointerId); }catch(e){}
