@@ -146,7 +146,7 @@ Deno.serve(async (req) => {
         }
         st.rated = true; st.ratingDelta = d;
       }
-      const { data: upd, error } = await db.from('games').update({ p2: st.p2 || null, state: st, updated_at: new Date().toISOString() }).eq('id', gameId).eq('updated_at', row.updated_at).select('id');
+      const { data: upd, error } = await db.from('games').update({ p2: st.p2 && !C.isBotId(st.p2) ? st.p2 : null, state: st, updated_at: new Date().toISOString() }).eq('id', gameId).eq('updated_at', row.updated_at).select('id');
       if (error) return json({ error: 'db' }, 500);
       if (upd && upd.length) return json({ state: st });
     }
