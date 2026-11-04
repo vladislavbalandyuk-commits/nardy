@@ -10,3 +10,7 @@
 - Effect sprites (`fx/star_*`, `fx/flare_01`, `fx/light_*`, `fx/smoke_07`, `fx/spark_05`, `fx/magic_05`, `fx/circle_05`): Kenney Particle Pack, CC0 — https://kenney.nl/assets/particle-pack
 - Effect images (`fx/pumpkin`, `fx/bat`, `fx/ghost`, `fx/snowflake`, `fx/spider`, `fx/coin`, `fx/confetti`): Microsoft Fluent Emoji 3D, MIT
 - Board, checker and dice materials: photos from Unsplash (Unsplash License), loaded from images.unsplash.com
+- Case sounds (`sfx/case_*.mp3`), CC0, by Kenney (kenney.nl): Interface Sounds (tick), Casino Audio (card pack open), Interface Sounds (confirmation), Music Jingles (hit, pizzicato), Digital Audio (power up), RPG Audio (coins)
+- Board patterns (`fx/pat_*`): Kenney Pattern Pack, CC0
+- `fx/gift`, `fx/crystal`, `fx/chest`: Microsoft Fluent Emoji 3D, MIT
+- Loaded from Freesound (CC0): Witch's Laugh https://freesound.org/s/348142/ , TINKLE https://freesound.org/s/707825/
