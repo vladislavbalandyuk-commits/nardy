@@ -2304,7 +2304,8 @@ function opponentId(){ return gs ? (gs.p1===uid ? gs.p2 : gs.p1) : null; }
 function makePC(){
   const pc=new RTCPeerConnection({iceServers:ICE_EXTRA?ICE.concat(ICE_EXTRA):ICE}); V.pc=pc;
   V.mic.getTracks().forEach(tr=>pc.addTrack(tr,V.mic));
-  pc.onicecandidate=e=>{ if(e.candidate) sig({k:'ice',c:e.candidate.toJSON()}); };
+  V.lc={}; V.rc={};
+  pc.onicecandidate=e=>{ if(e.candidate){ const ty=(e.candidate.candidate.match(/ typ (\w+)/)||[])[1]||'?'; V.lc[ty]=(V.lc[ty]||0)+1; sig({k:'ice',c:e.candidate.toJSON()}); } };
   pc.ontrack=e=>{ if(!V.audio){ V.audio=new Audio(); V.audio.autoplay=true; V.audio.playsInline=true; document.body.appendChild(V.audio); } V.audio.srcObject=e.streams[0]; V.audio.muted=!V.spk; V.audio.play().catch(()=>{}); watchTalk(e.streams[0]); };
   pc.onconnectionstatechange=()=>{ const st=pc.connectionState;
     if(st==='connected'){ V.state='live'; V.retry=0; clearTimeout(V.timer); clearTimeout(V.ct); toast(t('vcLive')); sfx('turn'); }
@@ -2314,11 +2315,11 @@ function makePC(){
   return pc;
 }
 // ICE candidates that arrive before the remote description are kept and added afterwards
-async function addCand(c){ if(V.pc && V.pc.remoteDescription){ try{ await V.pc.addIceCandidate(c); }catch(e){} } else V.q.push(c); }
+async function addCand(c){ try{ const ty=((c&&c.candidate||'').match(/ typ (\w+)/)||[])[1]||'?'; if(V.rc) V.rc[ty]=(V.rc[ty]||0)+1; }catch(e){} if(V.pc && V.pc.remoteDescription){ try{ await V.pc.addIceCandidate(c); }catch(e){} } else V.q.push(c); }
 async function flushCands(){ const q=V.q; V.q=[]; for(const c of q){ try{ await V.pc.addIceCandidate(c); }catch(e){} } }
 function voiceFailed(why){
   const pc=V.pc; let info=why;
-  try{ info+=' ice='+(pc&&pc.iceConnectionState)+' turn='+(ICE_EXTRA?'yes':'no'); }catch(e){}
+  try{ info+=' ice='+(pc&&pc.iceConnectionState)+' turn='+(ICE_EXTRA?'yes':'no')+' local='+JSON.stringify(V.lc||{})+' remote='+JSON.stringify(V.rc||{})+' game='+gameId; }catch(e){}
   try{ reportError('voice: '+info, navigator.userAgent); }catch(e){}
   if(V.on && V.retry<1 && opponentId() && uid<opponentId()){ V.retry++; voiceReset(true); offer(); return; }
   toast(t('vcFail')); voiceReset();
