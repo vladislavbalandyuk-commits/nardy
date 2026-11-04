@@ -7,3 +7,6 @@
   - Success Fanfare Trumpets (FunWithSound): https://freesound.org/s/456966/
   - Woman laugh: https://freesound.org/s/433921/
   - santa - ho ho ho #2 (canucklovingbrit): https://freesound.org/s/110642/
+- Effect sprites (`fx/star_*`, `fx/flare_01`, `fx/light_*`, `fx/smoke_07`, `fx/spark_05`, `fx/magic_05`, `fx/circle_05`): Kenney Particle Pack, CC0 — https://kenney.nl/assets/particle-pack
+- Effect images (`fx/pumpkin`, `fx/bat`, `fx/ghost`, `fx/snowflake`, `fx/spider`, `fx/coin`, `fx/confetti`): Microsoft Fluent Emoji 3D, MIT
+- Board, checker and dice materials: photos from Unsplash (Unsplash License), loaded from images.unsplash.com
