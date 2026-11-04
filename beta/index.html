@@ -1264,6 +1264,17 @@ body[data-table=winter] #stage::before{background:radial-gradient(circle,rgba(25
 .av.avpv{border-radius:50%;overflow:hidden;display:block;box-shadow:0 4px 12px rgba(0,0,0,.3)}
 .av.avpv svg{width:100%;height:100%;display:block}
 #chatBar .em.vo{position:relative} #chatBar .em.vo::after{content:"";position:absolute;right:2px;bottom:2px;width:7px;height:7px;border-radius:50%;background:#5fc8ff}
+
+/* emoji images */
+img.emo{width:1.3em;height:1.3em;vertical-align:-.3em;display:inline-block;object-fit:contain;pointer-events:none}
+.bub.only img.emo{width:34px;height:34px;vertical-align:middle}
+#chatBar .em img.emo{width:26px;height:26px;vertical-align:middle}
+#chatBar .ph img.emo{width:18px;height:18px}
+.pv.emopv img.emo{width:38px;height:38px} .det .pv.big.emopv img.emo{width:84px;height:84px}
+.pv.vopv>span img.emo{width:36px;height:36px} .det .pv.big.vopv>span img.emo{width:80px;height:80px}
+.pv.fxpv>span img.emo{width:24px;height:24px} .det .pv.big.fxpv>span img.emo{width:48px;height:48px}
+.fxl .fall img.emo{width:1.4em;height:1.4em}
+.fxl .ghostup img.emo{width:44px;height:44px}
 </style>
 </head>
 <body>
@@ -2249,7 +2260,7 @@ const V7I={find:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d
 
 // ================= coins, shop, winter pass and inventory =================
 // (beta: the wallet lives in this browser; on the live site it will be kept on the server)
-const ECON={start:200, daily:50, win:20, loss:5, botWin:8, botLoss:2, sale:.25};
+const ECON={start:500, daily:100, win:150, loss:50, botWin:40, botLoss:10, sale:.25};
 // rarity: c common, r rare, e epic, l legendary, v event, p winter pass, x exclusive
 const RAR={c:'#9aa3ad', r:'#4d8dff', e:'#a46bff', l:'#f0b43c', v:'#ff7a2f', p:'#5fc8ff', x:'#ff5c8a'};
 const RAR_ORDER='crelvpx';
@@ -2297,7 +2308,23 @@ function voiceSyl(t0,f0,f1,dur,formants,gain){ const o=actx.createOscillator(); 
   const g=actx.createGain(); g.gain.setValueAtTime(0.0001,t0); g.gain.exponentialRampToValueAtTime(gain,t0+.03); g.gain.exponentialRampToValueAtTime(0.0001,t0+dur);
   formants.forEach(([fr,q,gg])=>{ const bp=actx.createBiquadFilter(); bp.type='bandpass'; bp.frequency.value=fr; bp.Q.value=q; const fg=actx.createGain(); fg.gain.value=gg; o.connect(bp).connect(fg).connect(g); });
   g.connect(actx.destination); o.start(t0); o.stop(t0+dur+.05); knock(t0,1800,.7,gain*.5,.06); }
+
+// emoji drawn as images (Microsoft Fluent Emoji 3D, MIT licence) so they look the same on every phone
+const EMOJI_IMG={"👋": "1f44b", "👍": "1f44d", "😮": "1f62e", "😅": "1f605", "🔥": "1f525", "🎲": "1f3b2", "😎": "1f60e", "💪": "1f4aa", "😬": "1f62c", "🙈": "1f648", "🤔": "1f914", "👀": "1f440", "🎃": "1f383", "👻": "1f47b", "🦇": "1f987", "❄️": "2744", "🎄": "1f384", "☃️": "2603", "🎅": "1f385", "🔔": "1f514", "👏": "1f44f", "🎺": "1f3ba", "😂": "1f602", "🎁": "1f381", "⏳": "23f3", "⚡": "26a1", "🎯": "1f3af", "🏁": "1f3c1", "☄️": "2604", "🌩": "1f329", "🗡": "1f5e1", "🔟": "1f51f", "🦅": "1f985", "✨": "2728", "🎆": "1f386", "🎉": "1f389"};
+const EMOJI_RE=new RegExp('('+Object.keys(EMOJI_IMG).sort((a,b)=>b.length-a.length).map(e=>e.replace(/\uFE0F/g,'')).map(e=>e.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|')+')\uFE0F?','gu');
+function emojiImg(e){ const k=EMOJI_IMG[e]||EMOJI_IMG[e+'\uFE0F']; if(!k) return null; const im=document.createElement('img'); im.className='emo'; im.alt=e; im.src='emoji/'+k+'.webp'; im.draggable=false; im.decoding='async'; return im; }
+function emojify(el, text){ el.textContent=''; let last=0; String(text).replace(EMOJI_RE,(m,e,off)=>{ if(off>last) el.append(text.slice(last,off)); el.append(emojiImg(e)||m); last=off+m.length; return m; }); if(last<String(text).length) el.append(String(text).slice(last)); return el; }
+// voice emoji: real recordings (CC0). Freesound previews are loaded from freesound.org; applause is stored with the site
+const VO_SRC={bells:'https://cdn.freesound.org/previews/453/453202_487933-hq.mp3', clap:'sfx/applause.mp3', fanfare:'https://cdn.freesound.org/previews/456/456966_6456158-hq.mp3', laugh:'https://cdn.freesound.org/previews/433/433921_3618969-hq.mp3', hoho:'https://cdn.freesound.org/previews/110/110642_1903175-hq.mp3'};
+const VO_BUF={};
+function loadVo(k){ if(VO_BUF[k]) return VO_BUF[k]; voCtx(); return VO_BUF[k]=fetch(VO_SRC[k]).then(r=>{ if(!r.ok) throw 0; return r.arrayBuffer(); }).then(ab=>new Promise((res,rej)=>actx.decodeAudioData(ab,res,rej))).catch(e=>{ delete VO_BUF[k]; throw e; }); }
+function preloadVoices(){ try{ myVoices().forEach(x=>loadVo(x.slice(3)).catch(()=>{})); }catch(e){} }
 function playVoice(k){
+  if(!prefs.sound) return; try{ voCtx(); }catch(e){ return; }
+  loadVo(k).then(buf=>{ const t0=actx.currentTime+.02, len=Math.min(buf.duration,3.4); const src=actx.createBufferSource(); src.buffer=buf; const g=actx.createGain();
+    g.gain.setValueAtTime(.95,t0); g.gain.setValueAtTime(.95,t0+len-.35); g.gain.linearRampToValueAtTime(0.0001,t0+len); src.connect(g).connect(actx.destination); src.start(t0); src.stop(t0+len+.05); })
+  .catch(()=>synthVoice(k)); }
+function synthVoice(k){
   if(!prefs.sound) return; try{ voCtx(); const t0=actx.currentTime+.02;
   if(k==='bells'){ const E=659,G=784,C=523,D=587; [[E,0],[E,.18],[E,.36],[E,.72],[E,.9],[E,1.08],[E,1.44],[G,1.62],[C,1.8],[D,1.98],[E,2.16]].forEach(([f,d],i)=>bell(t0+d,f,i===10?.22:.16,i===10?1.2:.5)); for(let i=0;i<14;i++) knock(t0+i*.16,7000,4,.05,.05); }
   if(k==='clap'){ for(let i=0;i<34;i++){ const d=Math.random()*1.6; knock(t0+d,1100+Math.random()*900,1.2,.35*(1-d/2),.07); } }
@@ -2387,7 +2414,7 @@ function playWinFx(k){
   if(k==='bats') return flyBats(7);
   const l=fxLayer();
   if(k==='snow' || k==='pumpkins'){ const ch = k==='snow' ? ['❄','❅','❆','•'] : ['🎃','🎃','🍂']; const n = k==='snow' ? 60 : 22;
-    for(let i=0;i<n;i++){ const s=document.createElement('span'); s.className='fall'+(k==='snow'?' sn':''); s.textContent=ch[i%ch.length];
+    for(let i=0;i<n;i++){ const s=document.createElement('span'); s.className='fall'+(k==='snow'?' sn':''); if(k==='snow') s.textContent=ch[i%ch.length]; else emojify(s, ch[i%ch.length]);
       s.style.left=(Math.random()*100)+'vw'; s.style.fontSize=(k==='snow'?10+Math.random()*16:20+Math.random()*18)+'px'; s.style.animationDuration=(3+Math.random()*3)+'s'; s.style.animationDelay=(Math.random()*1.8)+'s'; s.style.setProperty('--sw',(Math.random()*80-40)+'px'); s.style.setProperty('--rot',(Math.random()*720-360)+'deg'); l.appendChild(s); } }
   if(k==='fireworks'){ const pal=['#ff5c8a','#ffd34d','#5fc8ff','#7dff9e','#c58bff','#fff'];
     for(let b=0;b<6;b++){ const x=12+Math.random()*76, y=12+Math.random()*38, c=pal[b%pal.length];
@@ -2397,7 +2424,7 @@ function rollFx(el, k, force){
   k = k || store.get('rollfx',''); if(!k || !el || noMotion()) return;
   if(!force){ try{ if(mode!=='local' && gs && gs.phase==='play' && colorOfSlot(mySlot())!==gs.turn) return; }catch(e){} }
   const r=el.getBoundingClientRect(); if(!r.width) return; const l=fxLayer(2500), cx=r.left+r.width/2, cy=r.top+r.height/2;
-  if(k==='ghost'){ const s=document.createElement('span'); s.className='ghostup'; s.textContent='👻'; s.style.left=cx+'px'; s.style.top=cy+'px'; l.appendChild(s); }
+  if(k==='ghost'){ const s=document.createElement('span'); s.className='ghostup'; emojify(s,'👻'); s.style.left=cx+'px'; s.style.top=cy+'px'; l.appendChild(s); }
   if(k==='sparkle'){ for(let i=0;i<12;i++){ const s=document.createElement('span'); s.className='spk'; s.textContent=i%3?'✦':'✧'; const a=Math.random()*Math.PI*2, R=30+Math.random()*40; s.style.left=cx+'px'; s.style.top=cy+'px'; s.style.color=i%2?'#ffe08a':'#fff'; s.style.setProperty('--dx',(Math.cos(a)*R).toFixed(1)+'px'); s.style.setProperty('--dy',(Math.sin(a)*R).toFixed(1)+'px'); s.style.animationDelay=(Math.random()*.25)+'s'; l.appendChild(s); } }
 }
 window.rollFx=rollFx;
@@ -2422,12 +2449,12 @@ function itemPreview(cat,k,big){
   if(cat==='dice') pv.appendChild(dicePair(k,big?48:34));
   if(cat==='table'){ pv.classList.add('fill'); pv.style.background=TABLE_SW[k]||'#222'; if(/url\(/.test(TABLE_SW[k]||'')) pv.style.backgroundSize='cover'; }
   if(cat==='card'){ const c=CARDS.find(x=>x.k===k); pv.classList.add('fill'); pv.style.background=c?c.c:'#222'; }
-  if(cat==='fx'){ pv.classList.add('fxpv'); pv.dataset.fx=k; const s=document.createElement('span'); s.textContent=FX_ICON[k]||'✦'; pv.appendChild(s); if(FX_SLOT[k]==='roll'){ const d=dicePair(prefs.dice, big?40:26); d.classList.add('fxd'); pv.appendChild(d); } }
-  if(cat==='emo'){ pv.classList.add('emopv'); pv.textContent=EMO[k].join(' '); }
+  if(cat==='fx'){ pv.classList.add('fxpv'); pv.dataset.fx=k; const s=document.createElement('span'); emojify(s, FX_ICON[k]||'✦'); pv.appendChild(s); if(FX_SLOT[k]==='roll'){ const d=dicePair(prefs.dice, big?40:26); d.classList.add('fxd'); pv.appendChild(d); } }
+  if(cat==='emo'){ pv.classList.add('emopv'); emojify(pv, EMO[k].join(' ')); }
   if(cat==='ph'){ const b=document.createElement('span'); b.className='phpv'; b.textContent=t('chX_'+k); pv.appendChild(b); }
   if(cat==='frame') pv.appendChild(frameAv(k, big?70:40));
   if(cat==='av'){ const a=document.createElement('span'); a.className='av avpv'; const z=big?110:52; a.style.width=a.style.height=z+'px'; avatarInto(a, 'sk:'+k+':'+(AVATARS[selfAv()]?selfAv():'m1'), profile.name||'?'); pv.appendChild(a); }
-  if(cat==='vo'){ pv.classList.add('vopv'); const e=document.createElement('span'); e.textContent=VO[k]; const w=document.createElement('i'); w.className='wave'; w.innerHTML='<b></b><b></b><b></b><b></b><b></b>'; pv.append(e,w); }
+  if(cat==='vo'){ pv.classList.add('vopv'); const e=document.createElement('span'); emojify(e, VO[k]); const w=document.createElement('i'); w.className='wave'; w.innerHTML='<b></b><b></b><b></b><b></b><b></b>'; pv.append(e,w); }
   return pv;
 }
 // a little table scene: board with checkers and dice on it (used for sets and "try on")
@@ -2489,7 +2516,7 @@ function itemTile(it, opts){
   if(isDeal){ const tg=document.createElement('span'); tg.className='stag'; tg.textContent='−'+Math.round(ECON.sale*100)+'%'; d.appendChild(tg); }
   if(on && it.cat!=='emo' && it.cat!=='ph' && it.cat!=='vo'){ const ck=document.createElement('span'); ck.className='onmark'; ck.innerHTML=CHECK; d.appendChild(ck); }
   d.appendChild(itemPreview(it.cat,it.k));
-  const ft=document.createElement('div'); ft.className='ift'; const nm=document.createElement('span'); nm.className='nm'; nm.textContent=itemName(it.cat,it.k); ft.appendChild(nm);
+  const ft=document.createElement('div'); ft.className='ift'; const nm=document.createElement('span'); nm.className='nm'; emojify(nm, itemName(it.cat,it.k)); ft.appendChild(nm);
   if(!opts.shop && (W.fresh||[]).includes(it.id)){ const nw=document.createElement('span'); nw.className='newtag'; nw.textContent=t('newBadge'); ft.appendChild(nw); }
   if(!own){ if(it.pass){ const s=document.createElement('span'); s.className='have pass'; s.textContent=t('passLvl',{n:it.pass}); ft.appendChild(s); } else ft.appendChild(priceBtn(price, isDeal?it.price:0)); }
   else if(opts.shop) { const s=document.createElement('span'); s.className='have'; s.textContent=on?t('equipped'):t('owned'); ft.appendChild(s); }
@@ -2568,8 +2595,8 @@ function addXp(x){ if(!passLeft()) return; W.xp=(W.xp||0)+x; let last=null;
   while(W.xp>=XP.level && passLeft()){ W.xp-=XP.level; last=grantLevel(); }
   saveW(); if(last){ sfx('win'); setTimeout(()=>levelToast(last), 1600); } }
 // ---- daily quests: three a day, new ones at local midnight ----
-const QUESTS=[{k:'play2',ev:'game',n:2,r:30},{k:'play3',ev:'game',n:3,r:45},{k:'win1',ev:'win',n:1,r:30},{k:'win2',ev:'win',n:2,r:55},
-  {k:'dbl3',ev:'dbl',n:3,r:25},{k:'human1',ev:'human',n:1,r:40},{k:'off30',ev:'off',n:30,r:30},{k:'mars1',ev:'mars',n:1,r:60}];
+const QUESTS=[{k:'play2',ev:'game',n:2,r:100},{k:'play3',ev:'game',n:3,r:150},{k:'win1',ev:'win',n:1,r:120},{k:'win2',ev:'win',n:2,r:200},
+  {k:'dbl3',ev:'dbl',n:3,r:80},{k:'human1',ev:'human',n:1,r:120},{k:'off30',ev:'off',n:30,r:100},{k:'mars1',ev:'mars',n:1,r:200}];
 const QICON={game:'🎲',win:'🏆',dbl:'🎯',human:'🤝',off:'🏁',mars:'🔥'};
 function qToday(){
   const d=today(); if(W.q && W.q.day===d) return W.q;
@@ -2588,7 +2615,7 @@ let lastDblRoll=null;
 window.onRollAnim=function(){ try{ if(!gs || gs.phase!=='play' || mode==='local' || mode==='tutor') return; if(myColor()!==gs.turn || !gs.dice || gs.dice.length!==2) return;
   const key=gameId+':'+gs.rollId; if(key===lastDblRoll) return; lastDblRoll=key; if(gs.dice[0]===gs.dice[1]) questEv('dbl',1); }catch(e){} };
 // ---- daily bonus streak: 7 days in a row, the bonus grows ----
-const STREAK=[50,60,70,80,100,120,150];
+const STREAK=[100,120,150,180,220,260,300];
 function streakDay(){ const y=new Date(); y.setDate(y.getDate()-1); const yd=y.getFullYear()+'-'+String(y.getMonth()+1).padStart(2,'0')+'-'+String(y.getDate()).padStart(2,'0');
   if(!dailyReady()) return W.streak||1; return W.daily===yd ? ((W.streak||0)%7)+1 : 1; }
 function claimDaily(){ if(!dailyReady()) return; const n=streakDay(); W.streak=n; W.daily=today(); addCoins(STREAK[n-1]); sfx('win'); renderShop(); }
@@ -2939,7 +2966,7 @@ document.addEventListener('visibilitychange', ()=>{ try{ renderExtras(); }catch(
 const CHAT_E=['👋','👍','😮','😅','🔥','🎲'], CHAT_P=['chHi','chNice','chOops','chLuck','chThanks','chGG'];
 let chatCh=null, chatLast=0;
 function chatText(x){ return x.startsWith('vo:') ? (VO[x.slice(3)]||'')+' 🔊' : x.startsWith('ch') ? t(x) : x; }
-function showBubble(slot,x){ const b=document.querySelector('.bub[data-slot="'+slot+'"]'); if(!b) return; b.textContent=chatText(x); b.classList.remove('hidden'); b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop'); clearTimeout(b._t); b._t=setTimeout(()=>b.classList.add('hidden'),3600); if(x.startsWith('vo:')) playVoice(x.slice(3)); else sfx('turn'); }
+function showBubble(slot,x){ const b=document.querySelector('.bub[data-slot="'+slot+'"]'); if(!b) return; emojify(b, chatText(x)); b.classList.toggle('only', !/[A-Za-zА-Яа-яІіЇїЄєҐґ]/.test(chatText(x))); b.classList.remove('hidden'); b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop'); clearTimeout(b._t); b._t=setTimeout(()=>b.classList.add('hidden'),3600); if(x.startsWith('vo:')) playVoice(x.slice(3)); else sfx('turn'); }
 function chatJoin(){ if(mode!=='online' || !sb || !gameId) return; if(chatCh && chatCh._gid===gameId) return; if(chatCh) try{ sb.removeChannel(chatCh); }catch(e){}
   chatCh=sb.channel('chat-'+gameId,{config:{broadcast:{self:false}}}); chatCh._gid=gameId; chatCh.on('broadcast',{event:'say'},({payload})=>{ if(payload && gs && (payload.from===gs.p1||payload.from===gs.p2)) showBubble(payload.from===gs.p1?'p1':'p2', (String(payload.x).slice(0,2)==='ch' && (payload.x in T.en))?payload.x:(String(payload.x).slice(0,3)==='vo:' && VO[String(payload.x).slice(3)])?payload.x:ALL_E.includes(payload.x)?payload.x:'👋'); }).subscribe(); }
 function say(x){
@@ -2947,7 +2974,7 @@ function say(x){
   if(mode==='online' && chatCh) chatCh.send({type:'broadcast',event:'say',payload:{from:uid,x}});
   if(isGhost() && Math.random()<.6){ const r = x==='chGG'||x==='chThanks' ? 'chThanks' : x==='chNice' ? '😅' : x==='chHi'||x==='👋' ? 'chHi' : CHAT_E[Math.floor(Math.random()*CHAT_E.length)]; setTimeout(()=>{ if(isGhost()) showBubble('p2',r); }, 1200+Math.random()*1800); }
 }
-function toggleChat(){ const bar=$('chatBar'); if(bar.classList.contains('hidden')){ bar.innerHTML=''; CHAT_E.concat(myEmoji(), myVoices(), CHAT_P, myPhrases()).forEach(x=>{ const b=document.createElement('button'); b.className=x.startsWith('ch')?'ph':x.startsWith('vo:')?'em vo':'em'; b.textContent=chatText(x); b.onclick=()=>say(x); bar.appendChild(b); }); }
+function toggleChat(){ const bar=$('chatBar'); if(bar.classList.contains('hidden')){ bar.innerHTML=''; CHAT_E.concat(myEmoji(), myVoices(), CHAT_P, myPhrases()).forEach(x=>{ const b=document.createElement('button'); b.className=x.startsWith('ch')?'ph':x.startsWith('vo:')?'em vo':'em'; emojify(b, x.startsWith('vo:') ? VO[x.slice(3)] : chatText(x)); b.onclick=()=>say(x); bar.appendChild(b); }); preloadVoices(); }
   show('chatBar', bar.classList.contains('hidden')); }
 
 // ---- rematch: both players must agree ----
