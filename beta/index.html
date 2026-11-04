@@ -1223,6 +1223,9 @@ body[data-table=winter] #stage::before{background:radial-gradient(circle,rgba(25
 }
 @media (max-width:380px){ .brand b{font-size:18px!important;margin-right:2px!important} .brand .bmark{width:24px!important;height:17px!important} }
 @media (max-width:350px){ .brand b{font-size:0!important;margin:0!important} body.beta .brand b::after{font-size:11px} .hdr-r .coinpill{padding:5px 7px!important} }
+
+/* menus opened from the header stay above the game result window */
+#setOv,#invOv,#shopOv,#lbOv,#profOv{z-index:12} #detOv{z-index:13}
 </style>
 </head>
 <body>
@@ -2264,10 +2267,12 @@ const setRarity=x=>x.pass?'p':x.ev?'v':setItems(x).map(i=>shopItem(i).r).sort((a
 const W=(()=>{ const w=store.get('wallet',null); return Object.assign({coins:ECON.start, owned:[], daily:'', paid:[], pass:0}, w||{}); })();
 function saveW(){ store.set('wallet',W); paintCoins(); }
 const owns=(cat,k)=>{ const it=SHOP.find(x=>x.cat===cat&&x.k===k); return !it || W.owned.includes(it.id); };
-const today=()=>new Date().toISOString().slice(0,10);
+// days change at local midnight (for Kyiv that is 00:00, not 02:00)
+const dayNum=()=>Math.floor((Date.now()-new Date().getTimezoneOffset()*60000)/864e5);
+const today=()=>{ const d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); };
 const dailyReady=()=>W.daily!==today();
-function untilMidnight(){ const n=new Date(), m=Date.UTC(n.getUTCFullYear(),n.getUTCMonth(),n.getUTCDate()+1); const s=Math.max(0,Math.floor((m-n)/1000)); return [Math.floor(s/3600),Math.floor(s%3600/60),s%60].map((v,i)=>i?String(v).padStart(2,'0'):v).join(':'); }
-function dealOfDay(){ const left=SHOP.filter(x=>!W.owned.includes(x.id) && !x.pass && ['board','ck','dice'].includes(x.cat)); if(!left.length) return null; const d=Math.floor(Date.now()/864e5); return left[(d*7)%left.length]; }
+function untilMidnight(){ const n=new Date(), m=new Date(n.getFullYear(),n.getMonth(),n.getDate()+1).getTime(); const s=Math.max(0,Math.floor((m-n)/1000)); return [Math.floor(s/3600),Math.floor(s%3600/60),s%60].map((v,i)=>i?String(v).padStart(2,'0'):v).join(':'); }
+function dealOfDay(){ const left=SHOP.filter(x=>!W.owned.includes(x.id) && !x.pass && ['board','ck','dice'].includes(x.cat)); if(!left.length) return null; const d=dayNum(); return left[(d*7)%left.length]; }
 function priceOf(it){ const deal=dealOfDay(); return deal && deal.id===it.id ? Math.round(it.price*(1-ECON.sale)/10)*10 : it.price; }
 function paintCoins(){ const n=W.coins; const e=$('coinN'); if(e) e.textContent=n; document.querySelectorAll('.coinN2').forEach(x=>x.textContent=n); const b=$('btnCoins'); if(b) b.classList.toggle('bonus', dailyReady()); }
 function coinFly(n, el){ const b=el||$('btnCoins'); if(!b) return; const r=b.getBoundingClientRect(); const f=document.createElement('div'); f.className='coinfly'; f.textContent=(n>0?'+':'')+n; f.style.left=(r.left+r.width/2-14)+'px'; f.style.top=(r.top+r.height)+'px'; document.body.appendChild(f); setTimeout(()=>f.remove(),1500); b.classList.remove('bump'); void b.offsetWidth; b.classList.add('bump'); }
@@ -2789,7 +2794,7 @@ let chatCh=null, chatLast=0;
 function chatText(x){ return x.startsWith('ch') ? t(x) : x; }
 function showBubble(slot,x){ const b=document.querySelector('.bub[data-slot="'+slot+'"]'); if(!b) return; b.textContent=chatText(x); b.classList.remove('hidden'); b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop'); clearTimeout(b._t); b._t=setTimeout(()=>b.classList.add('hidden'),3600); sfx('turn'); }
 function chatJoin(){ if(mode!=='online' || !sb || !gameId) return; if(chatCh && chatCh._gid===gameId) return; if(chatCh) try{ sb.removeChannel(chatCh); }catch(e){}
-  chatCh=sb.channel('chat-'+gameId,{config:{broadcast:{self:false}}}); chatCh._gid=gameId; chatCh.on('broadcast',{event:'say'},({payload})=>{ if(payload && gs && (payload.from===gs.p1||payload.from===gs.p2)) showBubble(payload.from===gs.p1?'p1':'p2', String(payload.x).slice(0,2)==='ch'?payload.x:ALL_E.includes(payload.x)?payload.x:'👋'); }).subscribe(); }
+  chatCh=sb.channel('chat-'+gameId,{config:{broadcast:{self:false}}}); chatCh._gid=gameId; chatCh.on('broadcast',{event:'say'},({payload})=>{ if(payload && gs && (payload.from===gs.p1||payload.from===gs.p2)) showBubble(payload.from===gs.p1?'p1':'p2', (String(payload.x).slice(0,2)==='ch' && (payload.x in T.en))?payload.x:ALL_E.includes(payload.x)?payload.x:'👋'); }).subscribe(); }
 function say(x){
   if(!gs || Date.now()-chatLast<2000) return; chatLast=Date.now(); const me=mySlot()||'p1'; showBubble(me,x); show('chatBar',false);
   if(mode==='online' && chatCh) chatCh.send({type:'broadcast',event:'say',payload:{from:uid,x}});
@@ -3511,7 +3516,7 @@ $('btnCoins').onclick=()=>openShop('home'); $('btnToShop').onclick=()=>openShop(
 paintCoins();
 $('btnSetClose').onclick=()=>show('setOv',false);
 $('setOv').addEventListener('click',e=>{ if(e.target.id==='setOv') show('setOv',false); });
-document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ show('setOv',false); show('profOv',false); show('lbOv',false); show('resOv',false); } });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape' && !$('detOv').classList.contains('hidden')){ show('detOv',false); return; } if(e.key==='Escape'){ show('invOv',false); show('shopOv',false); show('setOv',false); show('profOv',false); show('lbOv',false); show('resOv',false); } });
 $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profOv',false); });
 
 // ================= wiring =================
