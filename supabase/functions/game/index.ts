@@ -42,7 +42,7 @@ function botBestPath(st,c,noise,rnd){ const total=maxUse(st,c); if(!total) retur
   return best; }
 const isBotId=id=>typeof id==='string'&&id.startsWith('bot:');
 
-const TURN_MS=60000, MAX_STRIKES=3, RESIGN_MIN=10;
+const TURN_MS=60000, MAX_STRIKES=3, RESIGN_MIN=10, CLAIM_MS=45000;
 function newGame(p1,p2,score){ return { v:2, p1, p2, white:'', black:'', phase:'opening', open:{p1:0,p2:0}, openRound:0, openLast:null,
   board:(()=>{const B=new Array(24).fill(0); B[0]=15; B[12]=-15; return B;})(), off:{w:0,b:0}, turn:'w', dice:[], remaining:[], headMoved:0, headLimit:1, first:{w:true,b:true},
   snap:null, trail:[], last:[], winner:'', score:score||{p1:0,p2:0}, seq:0, rolled:false, rollId:0, hist:[], strikes:{p1:0,p2:0}, turnAt:0, rematch:{}, secure:1 }; }
@@ -79,6 +79,11 @@ function act(state, uid, action, args, env){
     st.strikes=st.strikes||{p1:0,p2:0}; st.strikes[opp]++;
     if(st.strikes[opp]>=MAX_STRIKES){ const w=colorOfSlot(st,me); finish(st,w,st.off[OPP(w)]===0&&false,{c:OPP(w),mars:false,timeout:true}); return st; }
     st.trail=[]; if(st.snap){ st.board=st.snap.board; st.off=st.snap.off; } passTurn(st,now); return st; }
+  // leaving a started game counts as a loss (no minimum number of moves)
+  if(action==='abandon'){ if(st.phase!=='play') err('bad_phase'); const c=colorOfSlot(st,me), w=OPP(c), mars=st.off[c]===0&&(st.off[w]>0||allHome(st,w)); finish(st,w,mars,{c,mars,abandon:true}); return st; }
+  // the opponent has gone quiet on their own turn: take the win without waiting for three timeouts
+  if(action==='claim'){ if(st.phase!=='play') err('bad_phase'); const opp=me==='p1'?'p2':'p1'; if(colorOfSlot(st,opp)!==st.turn) err('not_their_turn'); if(now-(st.turnAt||0)<CLAIM_MS) err('too_early');
+    const w=colorOfSlot(st,me); finish(st,w,false,{c:OPP(w),mars:false,abandon:true}); return st; }
   if(action==='resign'){ if(st.phase!=='play') err('bad_phase'); if((st.hist||[]).length<RESIGN_MIN) err('too_early'); const c=colorOfSlot(st,me), w=OPP(c), mars=st.off[c]===0&&(st.off[w]>0||allHome(st,w)); finish(st,w,mars,{c,mars}); return st; }
   // turn actions
   if(st.phase!=='play') err('bad_phase'); const c=colorOfSlot(st,me); if(st.turn!==c) err('not_your_turn');
@@ -95,13 +100,30 @@ function act(state, uid, action, args, env){
 // rating change for a finished game, from the server-held ratings
 function ratingChanges(st, rA, rB){ const r=st.result; if(!r) return null; const w=r.winner, l=w==='p1'?'p2':'p1'; const R={p1:rA,p2:rB};
   return { [w]: eloDelta(R[w],R[l],1,r.mars), [l]: eloDelta(R[l],R[w],0,r.mars) }; }
-const api={BOTS,isBotId,botBestPath,act,newGame,legalMoves,applyMove,ratingChanges,colorOfSlot,slotOfColor,TURN_MS,MAX_STRIKES};
+// achievement counters, updated once per rated game for a human player
+function achUpdate(prev, st, slot, myR, oppR){ const A={c:{won:0,mars:0,streak:0,bestStreak:0,comeback:0,nodouble:0,games:0,giant:0},got:{},...(prev||{})}; A.c={...{won:0,mars:0,streak:0,bestStreak:0,comeback:0,nodouble:0,games:0,giant:0},...(A.c||{})}; A.got={...(A.got||{})};
+  const c=A.c, myC=colorOfSlot(st,slot), won=st.result.winner===slot; c.games++;
+  if(won){ c.won++; c.streak++; c.bestStreak=Math.max(c.bestStreak,c.streak); if(st.result.mars) c.mars++;
+    const H=st.hist||[]; if(H.length){ const minMine=Math.min(...H.map(h=>myC==='w'?h.p:100-h.p)); if(minMine<=20) c.comeback++; if(!H.some(h=>h.c===myC&&h.d[0]===h.d[1])) c.nodouble++; }
+    if(oppR>=myR+300) c.giant++; } else c.streak=0;
+  const T={first:c.won>=1,ten:c.won>=10,mars:c.mars>=1,mars5:c.mars>=5,streak3:c.bestStreak>=3,streak5:c.bestStreak>=5,comeback:c.comeback>=1,nodouble:c.nodouble>=1,games50:c.games>=50,giant:c.giant>=1};
+  const fresh=[]; for(const k in T) if(T[k]&&!A.got[k]){ A.got[k]=Date.now(); fresh.push(k); } return {A,fresh}; }
+const api={BOTS,isBotId,botBestPath,act,newGame,legalMoves,applyMove,ratingChanges,colorOfSlot,slotOfColor,achUpdate,TURN_MS,MAX_STRIKES,CLAIM_MS};
 (globalThis as any).NardyCore=api;
 
 const C = (globalThis as any).NardyCore;
 const cors = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type', 'Access-Control-Allow-Methods': 'POST, OPTIONS' };
 const json = (b: unknown, s = 200) => new Response(JSON.stringify(b), { status: s, headers: { ...cors, 'Content-Type': 'application/json' } });
 const d6 = () => { const a = new Uint32Array(1); for (;;) { crypto.getRandomValues(a); if (a[0] < 4294967292) return 1 + (a[0] % 6); } };
+
+let iceCache: any = null, iceAt = 0;
+async function iceServers() {
+  const key = Deno.env.get('METERED_API_KEY'), dom = Deno.env.get('METERED_DOMAIN');
+  if (!key || !dom) return null;
+  if (iceCache && Date.now() - iceAt < 3600_000) return iceCache;
+  const r = await fetch(`https://${dom}/api/v1/turn/credentials?apiKey=${encodeURIComponent(key)}`);
+  if (!r.ok) return null; iceCache = await r.json(); iceAt = Date.now(); return iceCache;
+}
 
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: cors });
@@ -111,16 +133,50 @@ Deno.serve(async (req) => {
     const token = (req.headers.get('Authorization') ?? '').replace(/^Bearer\s+/i, '');
     const { data: { user } } = await db.auth.getUser(token); if (!user) return json({ error: 'auth' }, 401);
     const { action, gameId, args } = await req.json();
+    if (action === 'ice') return json({ ice: await iceServers().catch(() => null) });
     if (typeof gameId !== 'string' || !/^[a-z0-9]{4,16}$/.test(gameId)) return json({ error: 'bad_id' }, 400);
-    const prof = async (id: string) => (await db.from('profiles').select('name,av,rating,rgames,played,won').eq('id', id).maybeSingle()).data;
+    const prof = async (id: string) => (await db.from('profiles').select('name,av,rating,rgames,played,won,ach').eq('id', id).maybeSingle()).data;
+    const ghostRow = async (gid: number) => (await db.from('ghosts').select('id,name,av,rating,played,won').eq('id', gid).maybeSingle()).data;
+
+    // rating for a finished game; called only after the game row was saved with rated=true (so it runs once)
+    const rate = async (st: any) => {
+      const vsBot = C.isBotId(st.p2), gh = vsBot && st.ghost != null ? await ghostRow(st.ghost) : null;
+      const [a, b] = await Promise.all([prof(st.p1), vsBot ? Promise.resolve(null) : prof(st.p2)]);
+      const oppR = vsBot ? (gh ? gh.rating : st.ratings.p2) : (b?.rating ?? 1000);
+      const d = C.ratingChanges(st, a?.rating ?? 1000, oppR);
+      const dGhost = d.p2;
+      if (vsBot) { const f = (C.BOTS[st.p2.split(':')[1]] || C.BOTS.ghost).factor; d.p1 = Math.round(d.p1 * f); }
+      const fresh: any = {};
+      for (const [s, p] of (vsBot ? [['p1', a]] : [['p1', a], ['p2', b]]) as any) {
+        const id = st[s]; const won = st.result.winner === s; const myR = p?.rating ?? 1000, opR = s === 'p1' ? oppR : (a?.rating ?? 1000);
+        const ach = C.achUpdate(p?.ach, st, s, myR, opR); fresh[s] = ach.fresh;
+        await db.from('profiles').update({ rating: Math.max(100, myR + d[s]), rgames: (p?.rgames ?? 0) + 1, played: (p?.played ?? 0) + 1, won: (p?.won ?? 0) + (won ? 1 : 0), ach: ach.A, updated_at: new Date().toISOString() }).eq('id', id);
+      }
+      if (gh) { const gw = st.result.winner === 'p2'; await db.from('ghosts').update({ rating: Math.max(100, gh.rating + dGhost), played: gh.played + 1, won: gh.won + (gw ? 1 : 0), updated_at: new Date().toISOString() }).eq('id', gh.id); }
+      st.ratingDelta = d; st.achNew = fresh;
+    };
+    // save with an optimistic lock; if this save finishes the game, apply the rating once and store the result
+    const commit = async (id: string, prevAt: string, st: any) => {
+      const finishing = st.phase === 'over' && !st.rated; if (finishing) st.rated = true;
+      const { data: upd, error } = await db.from('games').update({ p2: st.p2 && !C.isBotId(st.p2) ? st.p2 : null, state: st, updated_at: new Date().toISOString() }).eq('id', id).eq('updated_at', prevAt).select('id');
+      if (error) return 'error'; if (!upd || !upd.length) return 'conflict';
+      if (finishing) { await rate(st); await db.from('games').update({ state: st }).eq('id', id); }
+      return 'ok';
+    };
 
     if (action === 'create') {
+      // a bot game left unfinished counts as a loss before a new one starts
+      const { data: stale } = await db.from('games').select('id,state,updated_at').eq('p1', user.id).is('p2', null).eq('state->>phase', 'play').like('state->>p2', 'bot:%').limit(5);
+      for (const row of stale || []) {
+        try { const st = C.act(row.state, user.id, 'abandon', {}, { now: Date.now(), d6 }); st.seq = (row.state.seq || 0) + 1; await commit(row.id, row.updated_at, st); } catch (_) { /* already over */ }
+      }
       const me = await prof(user.id); const bot = args?.bot && C.BOTS[args.bot] ? args.bot : null;
+      let gh = null; if (bot === 'ghost') { gh = await ghostRow(Number(args?.ghost)); if (!gh) return json({ error: 'bad_ghost' }, 400); }
       const st = C.newGame(user.id, bot ? 'bot:' + bot : null);
       const myR = me?.rating ?? 1000;
-      const botR = bot === 'ghost' ? Math.max(myR - 350, Math.min(myR + 350, Number(args?.rating) || myR)) : bot ? C.BOTS[bot].r : 0;
-      st.names = { p1: me?.name ?? '', p2: bot ? String(args?.name ?? '').slice(0, 24) : '' }; st.avs = { p1: me?.av ?? '', p2: bot ? String(args?.av ?? '').slice(0, 8) : '' };
-      st.ratings = { p1: myR, p2: botR };
+      const botR = gh ? gh.rating : bot ? C.BOTS[bot].r : 0;
+      st.names = { p1: me?.name ?? '', p2: gh ? gh.name : bot ? String(args?.name ?? '').slice(0, 24) : '' }; st.avs = { p1: me?.av ?? '', p2: gh ? gh.av : bot ? String(args?.av ?? '').slice(0, 8) : '' };
+      st.ratings = { p1: myR, p2: botR }; if (gh) st.ghost = gh.id;
       const { error } = await db.from('games').insert({ id: gameId, p1: user.id, p2: null, state: st, updated_at: new Date().toISOString() });
       if (error) return json({ error: error.code === '23505' ? 'exists' : 'db' }, 409);
       return json({ state: st });
@@ -134,21 +190,9 @@ Deno.serve(async (req) => {
         const me = await prof(user.id); st.names = { ...(st.names || {}), p2: me?.name ?? '' }; st.avs = { ...(st.avs || {}), p2: me?.av ?? '' }; st.ratings = { ...(st.ratings || {}), p2: me?.rating ?? 1000 };
       }
       st.seq = (row.state.seq || 0) + 1;
-      // rate a finished game exactly once, from the ratings stored in the database
-      if (st.phase === 'over' && !st.rated) {
-        const vsBot = C.isBotId(st.p2);
-        const [a, b] = await Promise.all([prof(st.p1), vsBot ? Promise.resolve(null) : prof(st.p2)]);
-        const d = C.ratingChanges(st, a?.rating ?? 1000, vsBot ? st.ratings.p2 : (b?.rating ?? 1000));
-        if (vsBot) { const f = (C.BOTS[st.p2.split(':')[1]] || C.BOTS.ghost).factor; d.p1 = Math.round(d.p1 * f); }
-        for (const [s, p] of (vsBot ? [['p1', a]] : [['p1', a], ['p2', b]]) as any) {
-          const id = st[s]; const won = st.result.winner === s;
-          await db.from('profiles').update({ rating: Math.max(100, (p?.rating ?? 1000) + d[s]), rgames: (p?.rgames ?? 0) + 1, played: (p?.played ?? 0) + 1, won: (p?.won ?? 0) + (won ? 1 : 0), updated_at: new Date().toISOString() }).eq('id', id);
-        }
-        st.rated = true; st.ratingDelta = d;
-      }
-      const { data: upd, error } = await db.from('games').update({ p2: st.p2 && !C.isBotId(st.p2) ? st.p2 : null, state: st, updated_at: new Date().toISOString() }).eq('id', gameId).eq('updated_at', row.updated_at).select('id');
-      if (error) return json({ error: 'db' }, 500);
-      if (upd && upd.length) return json({ state: st });
+      const r = await commit(gameId, row.updated_at, st);
+      if (r === 'error') return json({ error: 'db' }, 500);
+      if (r === 'ok') return json({ state: st });
     }
     return json({ error: 'busy' }, 409);
   } catch (e) { return json({ error: 'server', detail: String(e) }, 500); }

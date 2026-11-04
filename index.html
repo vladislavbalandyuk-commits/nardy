@@ -6,11 +6,24 @@
 <title>Nardy — long backgammon</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icon-180.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="description" content="Довгі нарди онлайн: грай з другом за посиланням або знайди суперника. Рейтинг, ранги, голосовий чат.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Нарди">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://nardy-nine.vercel.app/">
+<meta property="og:title" content="Нарди — довгі нарди онлайн">
+<meta property="og:description" content="Грай з другом за посиланням або знайди суперника. Рейтинг, ранги, голосовий чат.">
+<meta property="og:image" content="https://nardy-nine.vercel.app/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#ebe5d9">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0/dist/umd/supabase.js"></script>
 <style>
 :root{
   --paper:#ebe5d9; --panel:#f6f2ea; --ink:#1d1915; --ink2:#3a332b; --muted:#7a7166; --line:#d6ccbb; --line2:#e3dbcd;
@@ -304,6 +317,10 @@ body[data-card=aurora] .pc .hero{background:linear-gradient(140deg,#3b2a6e,#1f4f
 #btnVoice.vwait{background:#e9a21a;border-color:#e9a21a;color:#fff;animation:vPulse 1.2s ease-in-out infinite alternate}
 @keyframes vPulse{to{opacity:.6}}
 #btnSpk.muted .w{display:none} #btnSpk.muted{color:var(--accent)}
+.claimbar{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:60;display:flex;align-items:center;gap:12px;padding:10px 10px 10px 16px;border-radius:16px;background:#1d1915;color:#fff;box-shadow:0 18px 40px -12px rgba(0,0,0,.6);font-size:14px;max-width:calc(100vw - 24px)}
+.claimbar span{flex:1;min-width:0;line-height:1.3}
+.claimbar .cta{white-space:nowrap;padding:10px 14px;background:#f6f2ea;color:#1d1915;border-color:#f6f2ea}
+@media (max-width:560px){.claimbar{left:12px;right:12px;transform:none;max-width:none;bottom:calc(12px + env(safe-area-inset-bottom))}}
 .pav.talk::after{content:"";position:absolute;inset:-6px;border-radius:50%;box-shadow:0 0 0 2px #2fae6e;animation:talkP .5s ease-in-out infinite alternate;pointer-events:none}
 @keyframes talkP{to{box-shadow:0 0 0 5px rgba(47,174,110,.35)}}
 /* ---- profile: player card ---- */
@@ -727,6 +744,38 @@ kbd{font:11px var(--mono);padding:1px 5px;border-radius:4px;border:1px solid var
   .pl.turn::before{left:-18px}
   h1{font-size:28px}
 }
+
+/* ---------- phone in landscape: board on the left, panel on the right ---------- */
+@media (orientation:landscape) and (max-height:540px){
+  html,body{overflow:hidden!important}
+  .app{grid-template-columns:minmax(0,1.55fr) minmax(250px,1fr)!important;grid-template-rows:auto minmax(0,1fr)!important;height:100vh!important;height:100dvh!important;min-height:0!important}
+  header{padding:6px max(14px,env(safe-area-inset-right)) 6px max(14px,env(safe-area-inset-left))!important;align-items:center}
+  #stage{height:auto!important;min-height:0;padding:6px 4px 6px max(6px,env(safe-area-inset-left))!important;overflow:hidden}
+  .hud{border-top:0!important;border-left:1px solid var(--line)!important;overflow:auto!important;min-height:0;padding-right:env(safe-area-inset-right)}
+  .bw{flex-direction:row!important;align-items:stretch}
+  .tray{width:calc(var(--cs)*1.12)!important;height:auto!important;flex-direction:column!important;padding:calc(var(--cs)*.36) calc(var(--cs)*.16)!important}
+  .tslot{flex-direction:column!important;padding:calc(var(--cs)*.12) 0!important}
+  .tslot.bot{flex-direction:column-reverse!important}
+  .tslot i{width:78%!important;height:calc(var(--cs)*.15)!important}
+  .sec{padding:10px 14px!important}
+  .pl{padding:6px 0}
+  #vHome .opt p{display:none}
+  h1{font-size:22px!important}
+}
+/* ---------- touch screens: tap targets of at least 44px ---------- */
+@media (pointer:coarse){
+  .hdr-r .gear{min-width:44px;min-height:44px;display:inline-flex;align-items:center;justify-content:center}
+  .seg button{min-height:44px;min-width:36px}
+  #btnMe{min-height:44px}
+  .share button{min-width:44px;min-height:44px}
+  .xbtn{min-width:44px;min-height:44px}
+}
+@media (max-width:420px){
+  .tb{padding:7px 12px 9px}
+  .tb .tbt{font-size:15px}
+  .tb .tbs{display:none}
+  .tb .tbc{margin-top:3px;font-size:11.5px}
+}
 </style>
 </head>
 <body>
@@ -860,12 +909,20 @@ kbd{font:11px var(--mono);padding:1px 5px;border-radius:4px;border:1px solid var
   <div id="lbList"></div>
 </div></div>
 <div id="profOv" class="overlay hidden"><div class="modal" id="profBox"></div></div>
+<div id="leaveOv" class="overlay hidden"><div class="modal"><h2 data-t="leaveQ"></h2><p data-t="leaveSub"></p><div class="r"><button id="btnLeaveNo" data-t="cancel"></button><button class="cta" id="btnLeaveYes" data-t="leaveB"></button></div></div></div>
+<div id="claimBar" class="claimbar hidden"><span data-t="claimT"></span><button class="cta" id="btnClaim" data-t="claimB"></button></div>
 <div id="resOv" class="overlay hidden"><div class="modal"><h2 data-t="resignQ"></h2><p id="resSub"></p><div class="r"><button id="btnResNo" data-t="cancel"></button><button class="cta" id="btnResYes" data-t="resignB"></button></div></div></div>
 <div id="winOv" class="overlay hidden"><div class="modal"><div class="rup" id="rankUp"></div><h2 id="winTitle"></h2><p id="winSub"></p><p class="rmt" id="rmNote"></p><div class="r"><button class="cta" id="btnNew2" data-t="again"></button><button id="btnCloseWin" data-t="close"></button></div><button class="linkbtn" id="btnReview" style="width:100%;margin-top:6px" data-t="review"></button></div></div>
 <div id="revOv" class="overlay hidden"><div class="modal wide rev"><div class="mhead"><h2 data-t="review"></h2><button class="xbtn" id="btnRevClose" aria-label="Close"><svg class="i"><use href="#i-x"/></svg></button></div><div id="revBody"></div></div></div>
 
 <script>
 
+// ---- error log: the first few errors of a session go to the client_errors table ----
+let errSent=0;
+function reportError(msg, stack){ try{ if(errSent>=5 || typeof sb==='undefined' || !sb || !uid) return; errSent++;
+  sb.from('client_errors').insert({msg:String(msg||'').slice(0,500), stack:String(stack||'').slice(0,2000), url:location.href.slice(0,300), ua:navigator.userAgent.slice(0,300)}).then(()=>{},()=>{}); }catch(e){} }
+window.addEventListener('error',e=>reportError(e.message, e.error&&e.error.stack));
+window.addEventListener('unhandledrejection',e=>{ const r=e.reason; reportError(r&&r.message||String(r), r&&r.stack); });
 // ---- Supabase (public, browser-safe publishable key; access is protected by Row Level Security) ----
 const SB_URL='https://zndzvicklrkxkrpmkybg.supabase.co';
 const SB_KEY='sb_publishable_RN7RCyueFTrdIUyOllJKWA_wxMp2Bpz';
@@ -900,7 +957,7 @@ const T = {
   openYour:'Roll one die each — <b>higher roll plays White</b> and moves first.', openLocal:'<b>{n}</b>, roll for the first move.', openWait:'Waiting for your opponent to roll…', openTie:'Tie ({a} : {a}). Roll again.', openWon:'<b>{n}</b> rolled higher ({a} : {b}) and plays White.',
   yourRoll:'<b>Your turn.</b> Roll the dice.', localRoll:'<b>{c}</b> to move. Roll the dice.', pick:'Tap or drag a highlighted checker.', where:'Drop it on a marked spot — combined moves (e.g. 3+4) are shown too.', noMoves:'No legal moves — passing the turn.', oppTurn:'Opponent’s turn…', spectator:'You are watching. {c} to move.', won:'<b>{n}</b> won this game.',
   newGame:'New game', again:'Play again', close:'Close', gameOver:'Game over', link:'Game link', localGame:'Same-device game',
-  settingsT:'Settings', checkersT:'Checkers', diceT:'Dice', ck_classic:'Classic', ck_wood:'Wood', ck_stone:'Marble', ck_flat:'Flat', ck_metal:'Metal', ck_glass:'Glass', ck_retro:'Retro', ck_pearl:'Pearl', ck_amber:'Amber', ck_jade:'Jade', ck_neon:'Neon', ck_vyshyvanka:'Vyshyvanka', st_marble:'Marble', st_sage:'Sage', st_oak:'Oak', st_ocean:'Ocean', st_carbon:'Carbon', st_walnut:'Walnut', st_midnight:'Midnight', st_druzi:'Druzi', avatarT:'Avatar', vcOn:'Turn on voice chat', vcOff:'Turn off voice chat', vcWait:'Voice on — waiting for your opponent to turn it on too', vcLive:'Voice chat connected', vcEnded:'Voice chat off', vcNoMic:'No access to the microphone — allow it in the browser', vcFail:'Could not connect voice (your network blocks direct calls)', vcOppLeft:'Opponent turned voice off', vcNobody:'Your opponent has not turned voice on yet', vcOppOff:'Your opponent has voice chat turned off', srvErr:'Server did not accept the action — state reloaded', secShort:'s', offline:'offline', timeoutYou:'Time is up — turn skipped ({n}/{m})', timeoutOpp:'Opponent ran out of time ({n}/{m})', rematch:'Rematch', rmWait:'Waiting for the opponent to accept…', rmAsk:'Your opponent wants a rematch!', review:'Game review', revSub:'Your winning chances after every move. Red dots are the moves that cost you the most.', revClean:'No big mistakes — clean game!', revMove:'Move {n} · {d} · {m}', revBest:'best chance', revWorst:'worst chance', revDoubles:'your doubles', chHi:'Hi!', chNice:'Nice move', chOops:'Oops…', chLuck:'Good luck!', chThanks:'Thanks', chGG:'Good game', achT:'Achievements', achNew:'Achievement unlocked', ach_first:'First win', ach_ten:'10 wins', ach_mars:'Mars', ach_mars5:'5 mars', ach_streak3:'3 in a row', ach_streak5:'5 in a row', ach_comeback:'Comeback', ach_nodouble:'No doubles', ach_games50:'50 games', ach_giant:'Giant slayer', achD_first:'Win your first game', achD_ten:'Win 10 games', achD_mars:'Win with a mars', achD_mars5:'Win 5 games with a mars', achD_streak3:'Win 3 games in a row', achD_streak5:'Win 5 games in a row', achD_comeback:'Win after your chance fell to 20% or less', achD_nodouble:'Win without rolling a single double', achD_games50:'Play 50 games', achD_giant:'Beat a player rated 300+ above you', tier_rookie:'Rookie', tier_regular:'Regular', tier_expert:'Expert', tier_master:'Master', tier_grandmaster:'Grandmaster', tier_khan:'Khan', tier_sultan:'Sultan', tier_legend:'Legend', toStar:'{n} to the next die', lbNotLegend:'You: {rank}. {n} rating to reach Legend.', topPos:'#{n} on the leaderboard', newStar:'Next die!', newRank:'New rank!', botsWait:'{n} bots waiting', searchInfo2:'Looking for a player close to your rating…', onlineGame:'Online game', oppNoMoves:'Your opponent has no moves', bot_marta:'Bot Marta', bot_ostap:'Bot Ostap', bot_taras:'Bot Taras', bot_hryts:'Bot Hryts', cardT:'Card background', cardLock:'Unlocks at {tier} rank', card_felt:'Felt', card_walnut:'Walnut', card_midnight:'Midnight', card_wine:'Wine', card_graphite:'Graphite', card_gold:'Gold', card_aurora:'Aurora', oddsT:'Win chances', oddsCap:'Winning chances — an estimate from 8,000 simulated games', oddsAfter:'Chance to win after this move', resignB:'Resign', resignQ:'Resign this game?', resignWait:'Resign becomes available after move 10 ({n} to go)', resignOne:'Your opponent gets 1 point.', resignMars:'You have not borne off any checker, so it counts as a mars — 2 points.', resignRated:'It counts as a loss for your rating.', resigned:'{n} resigned.', resignedYou:'You resigned.', cancel:'Cancel', setSub:'Changes apply right away and are saved in this browser.', pcRegistered:'Registered player', pcRanks:'Ranks', pcAccT:'Account', pcWhyT:'With an account you get:', pcWhy1:'a rating and a rank frame', pcWhy2:'a place on the leaderboard', pcWhy3:'your stats on any device', history:'Move history', histEmpty:'No moves yet', histNone:'no move', histOff:'off', noMovesT:'No moves', undo:'Undo', bnOpenT:'Who goes first?', bnOpenS:'Roll one die — higher plays White', bnOppOpen:'Waiting for the opponent', bnYour:'Your turn', bnRollS:'Roll the dice to move', bnColor:'{c} to move', bnOpp:'Opponent’s turn', bnBot:'Bot’s turn', findT:'Find an opponent', findD:'Play a random online opponent close to your rating.', findB:'Find opponent', botT:'Play the bot', botD:'Practice any time. A win against the bot gives less rating than against a person.', botB:'Play the bot', tutorB:'How to play', localB2:'Same device', onlineN:'{n} online', searchT:'Looking for an opponent', searchInfo:'Hang on — if nobody is free in {s} seconds, you will play the bot.', playBotNow:'Play the bot now', matchFound:'Opponent found!', matchWait:'Opponent found — connecting…', noOpp:'No free opponents — playing the bot', botName:'Bot Taras', botTurn:'The bot is thinking…', botThinking:'The bot is rolling…', botGame:'Game vs bot', botNoMoves:'The bot has no moves', botRated:'bot game: 40%', tutorGame:'Tutorial', coachOpp:'Coach', tutRoll:'Press “Roll dice”.', tutStepDone:'Well done! Press “Next”.', tutNice:'Well done!', tutStep:'Lesson {i} of {n}', tutNext:'Next', tutBack:'Back', tutExit:'Exit', tutPlayBot:'Play the bot', tutFind:'Find opponent',
+  settingsT:'Settings', checkersT:'Checkers', diceT:'Dice', ck_classic:'Classic', ck_wood:'Wood', ck_stone:'Marble', ck_flat:'Flat', ck_metal:'Metal', ck_glass:'Glass', ck_retro:'Retro', ck_pearl:'Pearl', ck_amber:'Amber', ck_jade:'Jade', ck_neon:'Neon', ck_vyshyvanka:'Vyshyvanka', st_marble:'Marble', st_sage:'Sage', st_oak:'Oak', st_ocean:'Ocean', st_carbon:'Carbon', st_walnut:'Walnut', st_midnight:'Midnight', st_druzi:'Druzi', avatarT:'Avatar', vcOn:'Turn on voice chat', vcOff:'Turn off voice chat', vcWait:'Voice on — waiting for your opponent to turn it on too', vcLive:'Voice chat connected', vcEnded:'Voice chat off', vcNoMic:'No access to the microphone — allow it in the browser', vcFail:'Could not connect voice (your network blocks direct calls)', vcOppLeft:'Opponent turned voice off', vcNobody:'Your opponent has not turned voice on yet', vcOppOff:'Your opponent has voice chat turned off', srvErr:'Server did not accept the action — state reloaded', leaveQ:'Leave the game?', spkB:'Opponent sound', emojiB:'Emoji', leaveSub:'The game has started, so leaving counts as a loss.', leaveB:'Leave', leftLoss:'Game left — counted as a loss.', claimT:'Your opponent seems to have left', claimB:'Claim the win', claimDone:'Win claimed.', secShort:'s', offline:'offline', timeoutYou:'Time is up — turn skipped ({n}/{m})', timeoutOpp:'Opponent ran out of time ({n}/{m})', rematch:'Rematch', rmWait:'Waiting for the opponent to accept…', rmAsk:'Your opponent wants a rematch!', review:'Game review', revSub:'Your winning chances after every move. Red dots are the moves that cost you the most.', revClean:'No big mistakes — clean game!', revMove:'Move {n} · {d} · {m}', revBest:'best chance', revWorst:'worst chance', revDoubles:'your doubles', chHi:'Hi!', chNice:'Nice move', chOops:'Oops…', chLuck:'Good luck!', chThanks:'Thanks', chGG:'Good game', achT:'Achievements', achNew:'Achievement unlocked', ach_first:'First win', ach_ten:'10 wins', ach_mars:'Mars', ach_mars5:'5 mars', ach_streak3:'3 in a row', ach_streak5:'5 in a row', ach_comeback:'Comeback', ach_nodouble:'No doubles', ach_games50:'50 games', ach_giant:'Giant slayer', achD_first:'Win your first game', achD_ten:'Win 10 games', achD_mars:'Win with a mars', achD_mars5:'Win 5 games with a mars', achD_streak3:'Win 3 games in a row', achD_streak5:'Win 5 games in a row', achD_comeback:'Win after your chance fell to 20% or less', achD_nodouble:'Win without rolling a single double', achD_games50:'Play 50 games', achD_giant:'Beat a player rated 300+ above you', tier_rookie:'Rookie', tier_regular:'Regular', tier_expert:'Expert', tier_master:'Master', tier_grandmaster:'Grandmaster', tier_khan:'Khan', tier_sultan:'Sultan', tier_legend:'Legend', toStar:'{n} to the next die', lbNotLegend:'You: {rank}. {n} rating to reach Legend.', topPos:'#{n} on the leaderboard', newStar:'Next die!', newRank:'New rank!', botsWait:'{n} bots waiting', searchInfo2:'Looking for a player close to your rating…', onlineGame:'Online game', oppNoMoves:'Your opponent has no moves', bot_marta:'Bot Marta', bot_ostap:'Bot Ostap', bot_taras:'Bot Taras', bot_hryts:'Bot Hryts', cardT:'Card background', cardLock:'Unlocks at {tier} rank', card_felt:'Felt', card_walnut:'Walnut', card_midnight:'Midnight', card_wine:'Wine', card_graphite:'Graphite', card_gold:'Gold', card_aurora:'Aurora', oddsT:'Win chances', oddsCap:'Winning chances — an estimate from 8,000 simulated games', oddsAfter:'Chance to win after this move', resignB:'Resign', resignQ:'Resign this game?', resignWait:'Resign becomes available after move 10 ({n} to go)', resignOne:'Your opponent gets 1 point.', resignMars:'You have not borne off any checker, so it counts as a mars — 2 points.', resignRated:'It counts as a loss for your rating.', resigned:'{n} resigned.', resignedYou:'You resigned.', cancel:'Cancel', setSub:'Changes apply right away and are saved in this browser.', pcRegistered:'Registered player', pcRanks:'Ranks', pcAccT:'Account', pcWhyT:'With an account you get:', pcWhy1:'a rating and a rank frame', pcWhy2:'a place on the leaderboard', pcWhy3:'your stats on any device', history:'Move history', histEmpty:'No moves yet', histNone:'no move', histOff:'off', noMovesT:'No moves', undo:'Undo', bnOpenT:'Who goes first?', bnOpenS:'Roll one die — higher plays White', bnOppOpen:'Waiting for the opponent', bnYour:'Your turn', bnRollS:'Roll the dice to move', bnColor:'{c} to move', bnOpp:'Opponent’s turn', bnBot:'Bot’s turn', findT:'Find an opponent', findD:'Play a random online opponent close to your rating.', findB:'Find opponent', botT:'Play the bot', botD:'Practice any time. A win against the bot gives less rating than against a person.', botB:'Play the bot', tutorB:'How to play', localB2:'Same device', onlineN:'{n} online', searchT:'Looking for an opponent', searchInfo:'Hang on — if nobody is free in {s} seconds, you will play the bot.', playBotNow:'Play the bot now', matchFound:'Opponent found!', matchWait:'Opponent found — connecting…', noOpp:'No free opponents — playing the bot', botName:'Bot Taras', botTurn:'The bot is thinking…', botThinking:'The bot is rolling…', botGame:'Game vs bot', botNoMoves:'The bot has no moves', botRated:'bot game: 40%', tutorGame:'Tutorial', coachOpp:'Coach', tutRoll:'Press “Roll dice”.', tutStepDone:'Well done! Press “Next”.', tutNice:'Well done!', tutStep:'Lesson {i} of {n}', tutNext:'Next', tutBack:'Back', tutExit:'Exit', tutPlayBot:'Play the bot', tutFind:'Find opponent',
   tut1T:'The board and the goal', tut1D:'You play White. All 15 of your checkers start on the “head” — point 24, top right. Black starts on 12. Both sides move counter-clockwise: White goes right-to-left along the top, then left-to-right along the bottom. Bring all checkers home (points 1–6, bottom right) and bear them off before your opponent.',
   tut2T:'Your first move', tut2D:'Roll the dice — you will get 5 and 3. Each die is a separate move of that many points. Only one checker may leave the head per turn, so play both dice with the same checker: tap the checker on 24 — the gold spot is both dice together (5+3).',
   tut3T:'Doubles', tut3D:'Equal dice are played four times. Roll — you get 4 and 4: make four moves of 4 points with any checkers (still only one from the head).',
@@ -922,7 +979,7 @@ const T = {
   openYour:'Кожен кидає один кубик — <b>у кого більше, той грає білими</b> й ходить першим.', openLocal:'<b>{n}</b>, киньте на перший хід.', openWait:'Чекаємо, поки суперник кине…', openTie:'Нічия ({a} : {a}). Киньте ще раз.', openWon:'<b>{n}</b> викинув більше ({a} : {b}) і грає білими.',
   yourRoll:'<b>Ваш хід.</b> Киньте кубики.', localRoll:'Ходять <b>{c}</b>. Киньте кубики.', pick:'Натисніть або перетягніть підсвічену шашку.', where:'Поставте на позначене місце — показано й складені ходи (напр. 3+4).', noMoves:'Ходів немає — хід переходить.', oppTurn:'Хід суперника…', spectator:'Ви глядач. Ходять {c}.', won:'Партію виграли: <b>{n}</b>.',
   newGame:'Нова партія', again:'Ще партію', close:'Закрити', gameOver:'Кінець партії', link:'Посилання на гру', localGame:'Гра на одному пристрої',
-  settingsT:'Налаштування', checkersT:'Шашки', diceT:'Кубики', ck_classic:'Класичні', ck_wood:'Дерево', ck_stone:'Мармур', ck_flat:'Пласкі', ck_metal:'Метал', ck_glass:'Скло', ck_retro:'Ретро', ck_pearl:'Перли', ck_amber:'Бурштин', ck_jade:'Нефрит', ck_neon:'Неон', ck_vyshyvanka:'Вишиванка', st_marble:'Мармур', st_sage:'Шавлія', st_oak:'Дуб', st_ocean:'Океан', st_carbon:'Карбон', st_walnut:'Горіх', st_midnight:'Північ', st_druzi:'Druzi', avatarT:'Аватар', vcOn:'Увімкнути голосовий чат', vcOff:'Вимкнути голосовий чат', vcWait:'Голос увімкнено — чекаємо, поки суперник теж увімкне', vcLive:'Голосовий чат підключено', vcEnded:'Голосовий чат вимкнено', vcNoMic:'Немає доступу до мікрофона — дозвольте його в браузері', vcFail:'Не вдалося підключити голос (мережа блокує прямий зв’язок)', vcOppLeft:'Суперник вимкнув голос', vcNobody:'Суперник ще не увімкнув голос', vcOppOff:'У суперника вимкнено голосовий чат', srvErr:'Сервер не прийняв дію — стан оновлено', secShort:'с', offline:'офлайн', timeoutYou:'Час вийшов — хід пропущено ({n}/{m})', timeoutOpp:'У суперника вийшов час ({n}/{m})', rematch:'Реванш', rmWait:'Чекаємо, поки суперник погодиться…', rmAsk:'Суперник хоче реванш!', review:'Розбір партії', revSub:'Ваші шанси на перемогу після кожного ходу. Червоні точки — ходи, які коштували найбільше.', revClean:'Великих помилок немає — чиста партія!', revMove:'Хід {n} · {d} · {m}', revBest:'найкращий шанс', revWorst:'найгірший шанс', revDoubles:'ваших дублів', chHi:'Привіт!', chNice:'Гарний хід', chOops:'Ех…', chLuck:'Удачі!', chThanks:'Дякую', chGG:'Дякую за гру', achT:'Досягнення', achNew:'Нове досягнення', ach_first:'Перша перемога', ach_ten:'10 перемог', ach_mars:'Марс', ach_mars5:'5 марсів', ach_streak3:'3 поспіль', ach_streak5:'5 поспіль', ach_comeback:'Камбек', ach_nodouble:'Без дублів', ach_games50:'50 партій', ach_giant:'Гігант', achD_first:'Виграйте першу партію', achD_ten:'Виграйте 10 партій', achD_mars:'Виграйте марсом', achD_mars5:'Виграйте 5 партій марсом', achD_streak3:'Виграйте 3 партії поспіль', achD_streak5:'Виграйте 5 партій поспіль', achD_comeback:'Виграйте, коли шанс падав до 20% і нижче', achD_nodouble:'Виграйте без жодного дубля', achD_games50:'Зіграйте 50 партій', achD_giant:'Обіграйте гравця на 300+ рейтингу сильнішого', tier_rookie:'Новачок', tier_regular:'Завсідник', tier_expert:'Знавець', tier_master:'Майстер', tier_grandmaster:'Гросмейстер', tier_khan:'Хан', tier_sultan:'Султан', tier_legend:'Легенда', toStar:'ще {n} до наступного кубика', lbNotLegend:'Ви: {rank}. До Легенди ще {n} рейтингу.', topPos:'#{n} у рейтингу', newStar:'Новий кубик!', newRank:'Новий ранг!', botsWait:'{n} ботів у черзі', searchInfo2:'Шукаємо гравця близького до вас за рейтингом…', onlineGame:'Онлайн-гра', oppNoMoves:'У суперника немає ходів', bot_marta:'Бот Марта', bot_ostap:'Бот Остап', bot_taras:'Бот Тарас', bot_hryts:'Бот Гриць', cardT:'Фон картки', cardLock:'Відкривається з рангом «{tier}»', card_felt:'Сукно', card_walnut:'Горіх', card_midnight:'Північ', card_wine:'Вино', card_graphite:'Графіт', card_gold:'Золото', card_aurora:'Аврора', oddsT:'Шанси на перемогу', oddsCap:'Шанси на перемогу — оцінка за 8000 зіграних партій', oddsAfter:'Шанс на перемогу після цього ходу', resignB:'Здатися', resignQ:'Здатися в цій партії?', resignWait:'Здатися можна після 10-го ходу (залишилось {n})', resignOne:'Суперник отримає 1 очко.', resignMars:'Ви не викинули жодної шашки, тому це марс — 2 очки.', resignRated:'Для рейтингу це зарахується як поразка.', resigned:'{n} здається.', resignedYou:'Ви здалися.', cancel:'Скасувати', setSub:'Зміни застосовуються одразу й зберігаються в цьому браузері.', pcRegistered:'Зареєстрований гравець', pcRanks:'Ранги', pcAccT:'Акаунт', pcWhyT:'З акаунтом у вас буде:', pcWhy1:'рейтинг і рамка рангу', pcWhy2:'місце в таблиці лідерів', pcWhy3:'статистика на будь-якому пристрої', history:'Історія ходів', histEmpty:'Ходів ще немає', histNone:'немає ходу', histOff:'винос', noMovesT:'Немає ходів', undo:'Скасувати хід', bnOpenT:'Хто ходить першим?', bnOpenS:'Киньте кубик — у кого більше, той грає білими', bnOppOpen:'Чекаємо на суперника', bnYour:'Ваш хід', bnRollS:'Киньте кубики, щоб походити', bnColor:'Ходять {c}', bnOpp:'Хід суперника', bnBot:'Хід бота', findT:'Знайти суперника', findD:'Гра з випадковим суперником онлайн, близьким до вас за рейтингом.', findB:'Знайти суперника', botT:'Грати з ботом', botD:'Тренуйтесь будь-коли. За перемогу над ботом рейтингу дається менше, ніж над людиною.', botB:'Грати з ботом', tutorB:'Як грати', localB2:'На одному пристрої', onlineN:'{n} онлайн', searchT:'Шукаємо суперника', searchInfo:'Зачекайте — якщо за {s} секунд ніхто не знайдеться, ви зіграєте з ботом.', playBotNow:'Грати з ботом зараз', matchFound:'Суперника знайдено!', matchWait:'Суперника знайдено — зʼєднуємо…', noOpp:'Вільних суперників немає — граємо з ботом', botName:'Бот Тарас', botTurn:'Бот думає…', botThinking:'Бот кидає кубик…', botGame:'Гра з ботом', botNoMoves:'У бота немає ходів', botRated:'гра з ботом: 40%', tutorGame:'Навчання', coachOpp:'Тренер', tutRoll:'Натисніть «Кинути кубики».', tutStepDone:'Чудово! Натисніть «Далі».', tutNice:'Чудово!', tutStep:'Урок {i} з {n}', tutNext:'Далі', tutBack:'Назад', tutExit:'Вийти', tutPlayBot:'Грати з ботом', tutFind:'Знайти суперника',
+  settingsT:'Налаштування', checkersT:'Шашки', diceT:'Кубики', ck_classic:'Класичні', ck_wood:'Дерево', ck_stone:'Мармур', ck_flat:'Пласкі', ck_metal:'Метал', ck_glass:'Скло', ck_retro:'Ретро', ck_pearl:'Перли', ck_amber:'Бурштин', ck_jade:'Нефрит', ck_neon:'Неон', ck_vyshyvanka:'Вишиванка', st_marble:'Мармур', st_sage:'Шавлія', st_oak:'Дуб', st_ocean:'Океан', st_carbon:'Карбон', st_walnut:'Горіх', st_midnight:'Північ', st_druzi:'Druzi', avatarT:'Аватар', vcOn:'Увімкнути голосовий чат', vcOff:'Вимкнути голосовий чат', vcWait:'Голос увімкнено — чекаємо, поки суперник теж увімкне', vcLive:'Голосовий чат підключено', vcEnded:'Голосовий чат вимкнено', vcNoMic:'Немає доступу до мікрофона — дозвольте його в браузері', vcFail:'Не вдалося підключити голос (мережа блокує прямий зв’язок)', vcOppLeft:'Суперник вимкнув голос', vcNobody:'Суперник ще не увімкнув голос', vcOppOff:'У суперника вимкнено голосовий чат', srvErr:'Сервер не прийняв дію — стан оновлено', leaveQ:'Вийти з партії?', spkB:'Звук суперника', emojiB:'Емодзі', leaveSub:'Партія вже почалась, тому вихід зарахується як поразка.', leaveB:'Вийти', leftLoss:'Ви вийшли — зараховано поразку.', claimT:'Схоже, суперник вийшов', claimB:'Забрати перемогу', claimDone:'Перемогу зараховано.', secShort:'с', offline:'офлайн', timeoutYou:'Час вийшов — хід пропущено ({n}/{m})', timeoutOpp:'У суперника вийшов час ({n}/{m})', rematch:'Реванш', rmWait:'Чекаємо, поки суперник погодиться…', rmAsk:'Суперник хоче реванш!', review:'Розбір партії', revSub:'Ваші шанси на перемогу після кожного ходу. Червоні точки — ходи, які коштували найбільше.', revClean:'Великих помилок немає — чиста партія!', revMove:'Хід {n} · {d} · {m}', revBest:'найкращий шанс', revWorst:'найгірший шанс', revDoubles:'ваших дублів', chHi:'Привіт!', chNice:'Гарний хід', chOops:'Ех…', chLuck:'Удачі!', chThanks:'Дякую', chGG:'Дякую за гру', achT:'Досягнення', achNew:'Нове досягнення', ach_first:'Перша перемога', ach_ten:'10 перемог', ach_mars:'Марс', ach_mars5:'5 марсів', ach_streak3:'3 поспіль', ach_streak5:'5 поспіль', ach_comeback:'Камбек', ach_nodouble:'Без дублів', ach_games50:'50 партій', ach_giant:'Гігант', achD_first:'Виграйте першу партію', achD_ten:'Виграйте 10 партій', achD_mars:'Виграйте марсом', achD_mars5:'Виграйте 5 партій марсом', achD_streak3:'Виграйте 3 партії поспіль', achD_streak5:'Виграйте 5 партій поспіль', achD_comeback:'Виграйте, коли шанс падав до 20% і нижче', achD_nodouble:'Виграйте без жодного дубля', achD_games50:'Зіграйте 50 партій', achD_giant:'Обіграйте гравця на 300+ рейтингу сильнішого', tier_rookie:'Новачок', tier_regular:'Завсідник', tier_expert:'Знавець', tier_master:'Майстер', tier_grandmaster:'Гросмейстер', tier_khan:'Хан', tier_sultan:'Султан', tier_legend:'Легенда', toStar:'ще {n} до наступного кубика', lbNotLegend:'Ви: {rank}. До Легенди ще {n} рейтингу.', topPos:'#{n} у рейтингу', newStar:'Новий кубик!', newRank:'Новий ранг!', botsWait:'{n} ботів у черзі', searchInfo2:'Шукаємо гравця близького до вас за рейтингом…', onlineGame:'Онлайн-гра', oppNoMoves:'У суперника немає ходів', bot_marta:'Бот Марта', bot_ostap:'Бот Остап', bot_taras:'Бот Тарас', bot_hryts:'Бот Гриць', cardT:'Фон картки', cardLock:'Відкривається з рангом «{tier}»', card_felt:'Сукно', card_walnut:'Горіх', card_midnight:'Північ', card_wine:'Вино', card_graphite:'Графіт', card_gold:'Золото', card_aurora:'Аврора', oddsT:'Шанси на перемогу', oddsCap:'Шанси на перемогу — оцінка за 8000 зіграних партій', oddsAfter:'Шанс на перемогу після цього ходу', resignB:'Здатися', resignQ:'Здатися в цій партії?', resignWait:'Здатися можна після 10-го ходу (залишилось {n})', resignOne:'Суперник отримає 1 очко.', resignMars:'Ви не викинули жодної шашки, тому це марс — 2 очки.', resignRated:'Для рейтингу це зарахується як поразка.', resigned:'{n} здається.', resignedYou:'Ви здалися.', cancel:'Скасувати', setSub:'Зміни застосовуються одразу й зберігаються в цьому браузері.', pcRegistered:'Зареєстрований гравець', pcRanks:'Ранги', pcAccT:'Акаунт', pcWhyT:'З акаунтом у вас буде:', pcWhy1:'рейтинг і рамка рангу', pcWhy2:'місце в таблиці лідерів', pcWhy3:'статистика на будь-якому пристрої', history:'Історія ходів', histEmpty:'Ходів ще немає', histNone:'немає ходу', histOff:'винос', noMovesT:'Немає ходів', undo:'Скасувати хід', bnOpenT:'Хто ходить першим?', bnOpenS:'Киньте кубик — у кого більше, той грає білими', bnOppOpen:'Чекаємо на суперника', bnYour:'Ваш хід', bnRollS:'Киньте кубики, щоб походити', bnColor:'Ходять {c}', bnOpp:'Хід суперника', bnBot:'Хід бота', findT:'Знайти суперника', findD:'Гра з випадковим суперником онлайн, близьким до вас за рейтингом.', findB:'Знайти суперника', botT:'Грати з ботом', botD:'Тренуйтесь будь-коли. За перемогу над ботом рейтингу дається менше, ніж над людиною.', botB:'Грати з ботом', tutorB:'Як грати', localB2:'На одному пристрої', onlineN:'{n} онлайн', searchT:'Шукаємо суперника', searchInfo:'Зачекайте — якщо за {s} секунд ніхто не знайдеться, ви зіграєте з ботом.', playBotNow:'Грати з ботом зараз', matchFound:'Суперника знайдено!', matchWait:'Суперника знайдено — зʼєднуємо…', noOpp:'Вільних суперників немає — граємо з ботом', botName:'Бот Тарас', botTurn:'Бот думає…', botThinking:'Бот кидає кубик…', botGame:'Гра з ботом', botNoMoves:'У бота немає ходів', botRated:'гра з ботом: 40%', tutorGame:'Навчання', coachOpp:'Тренер', tutRoll:'Натисніть «Кинути кубики».', tutStepDone:'Чудово! Натисніть «Далі».', tutNice:'Чудово!', tutStep:'Урок {i} з {n}', tutNext:'Далі', tutBack:'Назад', tutExit:'Вийти', tutPlayBot:'Грати з ботом', tutFind:'Знайти суперника',
   tut1T:'Дошка й мета', tut1D:'Ви граєте білими. Усі 15 шашок стоять на «голові» — пункт 24, вгорі праворуч. Чорні стоять на 12. Обидва гравці рухаються проти годинникової стрілки: білі — вгорі справа наліво, потім унизу зліва направо. Мета — привести всі шашки в дім (пункти 1–6, внизу праворуч) і викинути їх з дошки раніше за суперника.',
   tut2T:'Перший хід', tut2D:'Киньте кубики — випаде 5 і 3. Кожен кубик — окремий хід на стільки пунктів. З голови за хід можна зняти лише одну шашку, тож обидва кубики зіграйте однією шашкою: натисніть шашку на 24 — золота позначка означає обидва кубики разом (5+3).',
   tut3T:'Дубль', tut3D:'Однакові числа на кубиках граються чотири рази. Киньте — випаде 4 і 4: зробіть чотири ходи по 4 пункти будь-якими шашками (з голови — так само лише одна).',
@@ -943,6 +1000,10 @@ function applyLang(){ setTimeout(()=>{ try{ renderOnline(); }catch(e){} },0);
   document.querySelectorAll('[data-t]').forEach(el=>el.textContent=t(el.dataset.t));
   document.querySelectorAll('[data-th]').forEach(el=>el.innerHTML=t(el.dataset.th));
   document.querySelectorAll('#langSeg button').forEach(b=>b.classList.toggle('on', b.dataset.l===lang));
+  const lbl={btnLb:'lbOpen',btnSet:'settingsT',btnCopy2:'copy',btnVoice:'vcOn',btnSpk:'spkB',btnChat:'emojiB',btnResign:'resignB',btnUndoB:'undo'};
+  for(const id in lbl){ const e=document.getElementById(id); if(e){ e.setAttribute('aria-label',t(lbl[id])); e.title=t(lbl[id]); } }
+  document.querySelectorAll('.xbtn').forEach(e=>e.setAttribute('aria-label',t('close')));
+  const lv=document.getElementById('btnLeave2'); if(lv && !lv.textContent.trim()){ lv.setAttribute('aria-label',t('leaveB')); lv.title=t('leaveB'); }
   const ul=document.getElementById('rulesList'); ul.innerHTML=''; T[lang].rulesL.forEach(r=>{ const li=document.createElement('li'); li.textContent=r; ul.appendChild(li); });
   document.title = lang==='uk' ? 'Довгі нарди — гра з другом' : 'Long Nardy — play with a friend';
 }
@@ -1264,6 +1325,16 @@ function askResign(){
   $('resSub').textContent = (resignMars(c) ? t('resignMars') : t('resignOne')) + (mode==='online' ? ' '+t('resignRated') : '');
   show('resOv',true);
 }
+// leaving a started rated game counts as a loss (the server records it)
+const leaveCosts=()=>!!(gs && gs.phase==='play' && viaServer() && (mode==='online' || gs.server) && !(mode==='online' && !gs.p2));
+function askLeave(){ if(leaveCosts()) show('leaveOv',true); else leave(); }
+async function doLeave(){ show('leaveOv',false); if(leaveCosts()){ clearTimeout(passTimer); botToken++; botBusy=false; const st=await srv('abandon'); if(st){ recordResult(); toast(t('leftLoss')); } } leave(); }
+async function doClaim(){ $('claimBar').classList.add('hidden'); if(claimBusy) return; claimBusy=true; try{ const st=await srv('claim'); if(st) toast(t('claimDone')); } finally{ claimBusy=false; } }
+const CLAIM_MS=45000;
+function claimTick(){ const bar=$('claimBar'); if(!bar) return; let on=false;
+  if(gs && mode==='online' && viaServer() && gs.phase==='play' && gs.p2){ const me=mySlot(), op=me==='p1'?'p2':'p1'; on = me && slotOfColor(gs.turn)===op && !oppOnline(gs[op]) && Date.now()-(gs.turnAt||0)>CLAIM_MS; }
+  bar.classList.toggle('hidden',!on); }
+setInterval(claimTick, 1000);
 function doResign(){
   show('resOv',false); if(!canResign()) return;
   const c=resignColor(); clearTimeout(passTimer); botToken++; botBusy=false;
@@ -1295,7 +1366,10 @@ const GHOSTS=[
 // labelled practice bots of different strength
 const LBOTS=[{k:'marta',av:'n9',r:900,noise:7},{k:'ostap',av:'m3',r:1000,noise:3},{k:'taras',av:'m6',r:1100,noise:.8},{k:'hryts',av:'m10',r:1250,noise:0}];
 function hrand(a){ let x=Math.imul(a^0x9e3779b9,0x85ebca6b); x^=x>>>13; x=Math.imul(x,0xc2b2ae35); x^=x>>>16; return (x>>>0)/4294967296; }
+let GH_DB={};
+async function loadGhosts(){ if(!sb) return; try{ const {data}=await sb.from('ghosts').select('id,name,av,rating,played,won'); if(data&&data.length){ GH_DB={}; data.forEach(r=>GH_DB[r.id]=r); } }catch(e){} }
 function ghostInfo(i,now){
+  const r=GH_DB[i]; if(r) return {id:'g'+i, name:r.name, av:r.av, rating:r.rating, played:r.played, won:r.won, rgames:r.played};
   const g=GHOSTS[i], day=Math.floor((now||Date.now())/864e5), d0=day-20380;
   const rating=Math.round(g.r + 80*Math.sin(day*0.53+i*1.7) + 45*Math.sin(day*0.19+i*2.3));
   const played=25+(i%12)*7+Math.max(0,day-20727)*(1+i%3), won=Math.round(played*(0.56+0.025*(i%5)));
@@ -1479,8 +1553,12 @@ function renderCoach(){
 
 // ================= HUD =================
 let lastWinShown='';
+let wasInGame=false;
 function route(){
-  const inGame=!!gs, waiting = inGame && mode==='online' && !gs.p2 && gs.p1===uid;
+  const inGame=!!gs;
+  if(inGame && !wasInGame){ try{ window.scrollTo(0,0); document.body.scrollTop=0; document.documentElement.scrollTop=0; }catch(e){} }
+  wasInGame=inGame;
+  const waiting = inGame && mode==='online' && !gs.p2 && gs.p1===uid;
   show('vHome',!inGame && !searching); show('vSearch',!inGame && searching); show('vWait',waiting); show('vGame',inGame && !waiting);
   if(waiting){ $('waitLink').textContent=linkFor(gameId); document.querySelector('#vWait h2').textContent = matchHost ? t('matchWait') : t('waitT'); }
   if(inGame && gs.p2 && matchHost) matchHost=false;
@@ -1658,7 +1736,8 @@ function rankBlock(){
   box.append(top,bar,nt,legend); return box;
 }
 
-function avOf(s){ if(!gs) return ''; if(mode==='bot') return s==='p1' ? (profile.av||'') : ((gs.avs&&gs.avs.p2)||'n6'); if(mode==='tutor') return s==='p1' ? (profile.av||'') : ''; if(mode==='local') return s==='p1'?(profile.av||''):''; if(gs[s]===uid) return profile.av||''; return (gs.avs&&gs.avs[s])||''; }
+function selfAv(){ if(profile.av) return profile.av; let a=store.get('guestAv',''); if(!a){ a=AV_KEYS[Math.floor(Math.random()*AV_KEYS.length)]; store.set('guestAv',a); } return profile.guest||!sb ? a : ''; }
+function avOf(s){ if(!gs) return ''; if(mode==='bot') return s==='p1' ? selfAv() : ((gs.avs&&gs.avs.p2)||'n6'); if(mode==='tutor') return s==='p1' ? (profile.av||'') : ''; if(mode==='local') return s==='p1'?selfAv():''; if(gs[s]===uid) return selfAv(); return (gs.avs&&gs.avs[s])||''; }
 
 function plCard(el, s){
   const col = gs.phase==='opening' ? null : colorOfSlot(s);
@@ -1674,7 +1753,7 @@ function plCard(el, s){
   const nm=document.createElement('div'); nm.className='nm'; nm.textContent=slotName(s);
   const sub=document.createElement('div'); sub.className='sub';
   const rr=ratingOf(s);
-  if(col){ sub.textContent=(rr!=null?rr+' · ':'')+colorName(col)+' · '+t('pips')+' '+pipCount(col)+' · '+t('off')+' '+gs.off[col]+'/15'; }
+  if(col){ const nrw=innerWidth<=420; sub.textContent=(rr!=null?rr+' · ':'')+(nrw?'':colorName(col)+' · ')+t('pips')+' '+pipCount(col)+' · '+(nrw?'':t('off')+' ')+gs.off[col]+'/15'; sub.title=colorName(col); }
   else { const v=gs.open[s]; sub.textContent = v ? t('rolledN',{n:v}) : t('undecided'); }
   box.append(nm,sub);
   const sc=document.createElement('div'); sc.className='sc'; sc.textContent=gs.score[s];
@@ -1924,9 +2003,10 @@ const ACH=[
   {k:'nodouble', ic:'🎯', test:c=>c.nodouble>=1},
   {k:'games50', ic:'🎲', test:c=>c.games>=50},
   {k:'giant', ic:'🗡', test:c=>c.giant>=1}];
-function achState(){ return store.get('ach2',{c:{won:0,mars:0,streak:0,bestStreak:0,comeback:0,nodouble:0,games:0,giant:0},got:{}}); }
+function achState(){ if(SECURE && sb && profile.ach && profile.ach.c) return {c:profile.ach.c, got:profile.ach.got||{}}; return store.get('ach2',{c:{won:0,mars:0,streak:0,bestStreak:0,comeback:0,nodouble:0,games:0,giant:0},got:{}}); }
 function checkAchievements(){
   if(!gs || gs.phase!=='over' || !(mode==='online' || mode==='bot')) return;
+  if(gs.secure || gs.server){ const fresh=((gs.achNew||{})[mySlot()]||[]).map(k=>ACH.find(a=>a.k===k)).filter(Boolean); fresh.forEach((a,i)=>setTimeout(()=>achToast(a), 1800+i*2200)); return; }
   const A=achState(), c=A.c, me=mySlot(), myC=colorOfSlot(me), won=slotOfColor(gs.winner)===me;
   c.games++; if(won){ c.won++; c.streak++; c.bestStreak=Math.max(c.bestStreak,c.streak); } else c.streak=0;
   if(won){ const mars = gs.resign ? gs.resign.mars : gs.off[OPP(gs.winner)]===0; if(mars) c.mars++;
@@ -1942,13 +2022,13 @@ function achBlock(){
   ACH.forEach(a=>{ const d=document.createElement('div'); d.className='achi'+(A.got[a.k]?' on':''); d.title=t('achD_'+a.k); d.innerHTML='<i></i><span></span>'; d.firstChild.textContent=a.ic; d.lastChild.textContent=t('ach_'+a.k); w.appendChild(d); });
   return w;
 }
-async function refreshProfile(){ if(!sb||!uid) return; try{ const {data}=await sb.from('profiles').select('rating,rgames,played,won').eq('id',uid).maybeSingle(); if(data){ const before=rankOf(profile.rating||1000); Object.assign(profile,data); const after=rankOf(profile.rating); rankUp = after.step>before.step ? {tier:after.ti>before.ti,before,after} : null; renderMe(); if(gs) renderHud(); } }catch(e){} }
+async function refreshProfile(){ if(!sb||!uid) return; try{ const {data}=await sb.from('profiles').select('rating,rgames,played,won,ach').eq('id',uid).maybeSingle(); if(data){ const before=rankOf(profile.rating||1000); Object.assign(profile,data); const after=rankOf(profile.rating); rankUp = after.step>before.step ? {tier:after.ti>before.ti,before,after} : null; renderMe(); if(gs) renderHud(); } }catch(e){} }
 
 // ---- server-held bot games ----
 async function startServerBot(ghostIdx){
   const me=profile.rating||1000;
   let args;
-  if(ghostIdx!=null){ const g=ghostInfo(ghostIdx); args={bot:'ghost', name:g.name, av:g.av, rating:g.rating}; }
+  if(ghostIdx!=null){ args={bot:'ghost', ghost:ghostIdx}; }
   else { const cand=LBOTS.slice().sort((a,b)=>Math.abs(a.r-me)-Math.abs(b.r-me)).slice(0,2), lb=cand[Math.floor(Math.random()*cand.length)]; args={bot:lb.k, name:t('bot_'+lb.k), av:lb.av}; }
   mode='bot'; gameId='b'+rid(); ref=db.doc('games/'+gameId); gs=newGame('ME','BOT'); gs.seq=-1; gs.server=true;
   const st=await srv('create',args); if(!st){ leave(); return; }
@@ -1966,6 +2046,8 @@ function serverBotTick(){
 // ================= voice chat =================
 // Peer-to-peer audio (WebRTC). Signalling messages travel over a Supabase broadcast channel for the game.
 const ICE=[{urls:['stun:stun.l.google.com:19302','stun:stun1.l.google.com:19302']}];
+let ICE_EXTRA=null; // relay (TURN) servers handed out by the server when configured
+async function loadIce(){ if(ICE_EXTRA||!sb) return; try{ const {data}=await sb.functions.invoke('game',{body:{action:'ice'}}); if(data&&Array.isArray(data.ice)&&data.ice.length) ICE_EXTRA=data.ice; }catch(e){} }
 const V={on:false, ch:null, pc:null, mic:null, audio:null, spk:true, state:'off', gid:null, timer:null, an:null};
 function voiceUI(){
   const b=$('btnVoice'); if(!b) return;
@@ -1978,6 +2060,7 @@ async function toggleVoice(){ if(V.on){ voiceStop(); toast(t('vcEnded')); return
 function toggleSpk(){ V.spk=!V.spk; if(V.audio) V.audio.muted=!V.spk; voiceUI(); }
 async function voiceStart(){
   if(!gs) return;
+  loadIce();
   try{ V.mic=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true}}); }
   catch(e){ toast(t('vcNoMic')); return; }
   V.on=true; V.state='wait'; V.gid=gameId; voiceUI(); toast(t('vcWait'));
@@ -1990,7 +2073,7 @@ async function voiceStart(){
 function sig(m){ if(V.ch) V.ch.send({type:'broadcast',event:'sig',payload:Object.assign({from:uid},m)}); }
 function opponentId(){ return gs ? (gs.p1===uid ? gs.p2 : gs.p1) : null; }
 function makePC(){
-  const pc=new RTCPeerConnection({iceServers:ICE}); V.pc=pc;
+  const pc=new RTCPeerConnection({iceServers:ICE_EXTRA?ICE.concat(ICE_EXTRA):ICE}); V.pc=pc;
   V.mic.getTracks().forEach(tr=>pc.addTrack(tr,V.mic));
   pc.onicecandidate=e=>{ if(e.candidate) sig({k:'ice',c:e.candidate.toJSON()}); };
   pc.ontrack=e=>{ if(!V.audio){ V.audio=new Audio(); V.audio.autoplay=true; V.audio.playsInline=true; } V.audio.srcObject=e.streams[0]; V.audio.muted=!V.spk; V.audio.play().catch(()=>{}); watchTalk(e.streams[0]); };
@@ -2059,9 +2142,9 @@ function build2D(){
    '<div class="tray" id="tray"><div class="tslot" id="trayTop"></div><div class="tslot bot" id="trayBot"></div></div>';
   stage.appendChild(wrap);
   function fit(){
-    const r=stage.getBoundingClientRect(), narrow=innerWidth<=860;
-    const land = narrow && innerWidth>innerHeight;
-    const cs = land ? Math.max(18, Math.min((r.width-20)/14.35, (innerHeight-$("stage").getBoundingClientRect().top-14)/12.2)) : narrow ? Math.min((r.width-8)/13.95, 56) : Math.max(24, Math.min((r.width-28)/14.35, (r.height-22)/12.15, 96));
+    const r=stage.getBoundingClientRect(), phoneLand = innerWidth>innerHeight && innerHeight<=540, narrow=innerWidth<=860 && !phoneLand;
+    const land = phoneLand;
+    const cs = land ? Math.max(16, Math.min((r.width-14)/14.35, (innerHeight-r.top-12)/12.15)) : narrow ? Math.min((r.width-8)/13.95, 56, Math.max(20,(innerHeight-70-170)/13.4)) : Math.max(24, Math.min((r.width-28)/14.35, (r.height-22)/12.15, 96));
     document.documentElement.style.setProperty('--cs', cs.toFixed(2)+'px');
   }
   new ResizeObserver(fit).observe(stage); addEventListener('resize',fit); fit();
@@ -2314,7 +2397,7 @@ async function saveProfile(){
                      : {id:uid, name:profile.name||'', av:profile.av||'', rating:profile.rating||1000, rgames:profile.rgames|0, played:profile.played|0, won:profile.won|0, updated_at:new Date().toISOString()};
   let error=null;
   if(SECURE){ const u=await sb.from('profiles').update({name:row.name, av:row.av, updated_at:row.updated_at}).eq('id',uid).select('id'); error=u.error;
-    if(!error && !(u.data||[]).length){ const ins=await sb.from('profiles').insert(row); error=ins.error; } }
+    if(!error && !(u.data||[]).length){ if(!row.av){ row.av=AV_KEYS[Math.floor(Math.random()*AV_KEYS.length)]; profile.av=row.av; } const ins=await sb.from('profiles').insert(row); error=ins.error; } }
   else { const up=await sb.from('profiles').upsert(row); error=up.error; }
   if(error) toast(t('saveErr'));
 }
@@ -2427,6 +2510,7 @@ function openProfile(){
 // ---- leaderboard ----
 async function openLeaderboard(){
   show('lbOv',true); const list=$('lbList'); list.innerHTML='<div class="empty">'+t('lbLoading')+'</div>';
+  await Promise.race([loadGhosts(), new Promise(r=>setTimeout(r,3000))]);
   let rows=null; try{ rows=await Promise.race([lbFetch(), new Promise(r=>setTimeout(()=>r(null),5000))]); }catch(e){ rows=null; }
   if(rows) lbCache=rows.slice();
   rows=(rows||[]).concat(GHOSTS.map((g,i)=>ghostInfo(i))).filter(r=>(r.rating||0)>=RTH[LEG]).sort((a,b)=>(b.rating||1000)-(a.rating||1000)).slice(0,100);
@@ -2503,7 +2587,7 @@ $('btnFind').onclick=startSearch; $('btnBot').onclick=startBot; $('btnTutor').on
 $('btnSearchBot').onclick=startBot; $('btnSearchCancel').onclick=()=>stopSearch(false);
 $('coachBack').onclick=()=>{ if(!tut) return; if(tut.i===TUT.length-1){ startBot(); return; } if(tut.i===0){ leave(); return; } tut.i--; tutLoad(); };
 $('coachNext').onclick=()=>{ if(!tut) return; if(tut.i===TUT.length-1){ startSearch(); return; } tut.i++; tutLoad(); };
-$('btnLeave1').onclick=leave; $('btnLeave2').onclick=leave; $('btnChat').onclick=toggleChat; $('btnVoice').onclick=toggleVoice; $('btnSpk').onclick=toggleSpk; $('btnResign').onclick=askResign; $('btnResYes').onclick=doResign; $('btnResNo').onclick=()=>show('resOv',false); $('resOv').addEventListener('click',e=>{ if(e.target.id==='resOv') show('resOv',false); }); $('brand').onclick=()=>{ if(gs) leave(); };
+$('btnLeave1').onclick=askLeave; $('btnLeave2').onclick=askLeave; $('btnLeaveNo').onclick=()=>show('leaveOv',false); $('btnLeaveYes').onclick=doLeave; $('btnClaim').onclick=doClaim; $('btnChat').onclick=toggleChat; $('btnVoice').onclick=toggleVoice; $('btnSpk').onclick=toggleSpk; $('btnResign').onclick=askResign; $('btnResYes').onclick=doResign; $('btnResNo').onclick=()=>show('resOv',false); $('resOv').addEventListener('click',e=>{ if(e.target.id==='resOv') show('resOv',false); }); $('brand').onclick=()=>{ if(gs) askLeave(); };
 $('btnCopy').onclick=copyLink; $('btnCopy2').onclick=copyLink;
 $('btnRoll').onclick=roll; $('btnUndo').onclick=undo;
 $('btnNew').onclick=askRematch; $('btnNew2').onclick=askRematch; $('btnReview').onclick=openReview; $('btnRevClose').onclick=()=>show('revOv',false); $('btnCloseWin').onclick=()=>show('winOv',false);
@@ -2527,7 +2611,7 @@ async function boot(){
   route();
   if(!window.supabase){ bootState='none'; bootNote(); $('btnCreate').disabled=true; return; }
   sb = window.supabase.createClient(SB_URL, SB_KEY, { auth:{ persistSession:true, autoRefreshToken:true } });
-  lobbyStart();
+  lobbyStart(); loadGhosts(); setInterval(loadGhosts, 300000);
   const {data:{session}} = await sb.auth.getSession();
   if(session && session.user) await onSignedIn(session.user);
   else { bootState='nologin'; bootNote(); $('btnCreate').disabled=false; setTimeout(openProfile, 300); }
