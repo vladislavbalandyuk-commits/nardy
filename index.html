@@ -901,6 +901,25 @@ body.dark .pt .num{opacity:.9}
 .share button{padding:0;min-width:40px;min-height:40px;line-height:1}
 .share button svg.i{margin:0}
 #btnChat{font-size:19px;line-height:1}
+
+/* ---- v8: calmer, monochrome accents instead of amber ---- */
+body.dark{--accent:#f3efe7;--hl:#e9a21a;--hl2:#e9a21a;--hlSoft:rgba(233,162,26,.28);--glow:rgba(255,255,255,.05)}
+body.v7:not(.dark){--accent:#1d1915;--glow:rgba(29,25,21,.05)}
+body.v7 button.cta{background:var(--ink);color:var(--paper);border:1px solid var(--ink);box-shadow:none;font-weight:600;letter-spacing:.01em}
+body.v7 button.cta:hover{background:var(--ink);opacity:.88;box-shadow:none}
+body.v7 button.cta:disabled{background:var(--surf2);color:var(--muted);border-color:transparent;opacity:1}
+body.v7 #vHome .sec.opt.v7find{background:var(--surf);border-color:var(--line)}
+body.v7 .ico{color:var(--ink2)}
+body.v7 .rkcard .rkbar i{background:var(--ink)}
+body.v7 .topcard .tr b{color:var(--muted)}
+body.v7 .pl.turn::before{background:var(--ink);box-shadow:none}
+body.v7 .odds .obar::after{background:var(--muted);width:1px}
+body.v7 .tog.on{background:#34c27a}
+body.dark .pick.on{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink) inset}
+body.dark .avopt.on{box-shadow:0 0 0 2px var(--ink)}
+body.dark .lb .lbrow.me{background:rgba(255,255,255,.06)}
+body.dark .claimbar{background:#f3efe7;color:#15161b} body.dark .claimbar .cta{background:#15161b;color:#f3efe7;border-color:#15161b}
+.claimbar .cta{background:#f6f2ea;color:#1d1915;border-color:#f6f2ea}
 </style>
 </head>
 <body>
