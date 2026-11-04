@@ -1820,6 +1820,7 @@ function openReview(){
 }
 
 // ---- achievements ----
+const ACH_ON=false; // achievements hidden for now; progress is still counted
 const ACH=[
   {k:'first', ic:'🏁', test:c=>c.won>=1},
   {k:'ten', ic:'🔟', test:c=>c.won>=10},
@@ -1843,7 +1844,7 @@ function checkAchievements(){
   const fresh=ACH.filter(a=>!A.got[a.k] && a.test(c)); fresh.forEach(a=>A.got[a.k]=Date.now()); store.set('ach2',A);
   fresh.forEach((a,i)=>setTimeout(()=>achToast(a), 1800+i*2200));
 }
-function achToast(a){ const el=document.createElement('div'); el.className='achT'; el.innerHTML='<i></i><div><small></small><b></b></div>'; el.querySelector('i').textContent=a.ic; el.querySelector('small').textContent=t('achNew'); el.querySelector('b').textContent=t('ach_'+a.k); document.body.appendChild(el); sfx('starup'); setTimeout(()=>el.classList.add('out'),3200); setTimeout(()=>el.remove(),3800); }
+function achToast(a){ if(!ACH_ON) return;  const el=document.createElement('div'); el.className='achT'; el.innerHTML='<i></i><div><small></small><b></b></div>'; el.querySelector('i').textContent=a.ic; el.querySelector('small').textContent=t('achNew'); el.querySelector('b').textContent=t('ach_'+a.k); document.body.appendChild(el); sfx('starup'); setTimeout(()=>el.classList.add('out'),3200); setTimeout(()=>el.remove(),3800); }
 function achBlock(){
   const A=achState(), w=document.createElement('div'); w.className='achg';
   ACH.forEach(a=>{ const d=document.createElement('div'); d.className='achi'+(A.got[a.k]?' on':''); d.title=t('achD_'+a.k); d.innerHTML='<i></i><span></span>'; d.firstChild.textContent=a.ic; d.lastChild.textContent=t('ach_'+a.k); w.appendChild(d); });
@@ -2252,7 +2253,7 @@ function openProfile(){
   const msg=h('p','msg');
   const fail=e=>{ msg.textContent=(e&&e.message)||t('authErr'); };
   const nick=h('input','field'); nick.maxLength=20; nick.placeholder=t('nickPh'); nick.value=profile.name||'';
-  if(!sb){ box.append(h('h2',null,t('loginT')), h('p',null,t('noOnline')), h('label',null,t('achT')), achBlock()); const c=h('button',null,t('close')); c.onclick=()=>show('profOv',false); box.append(c); show('profOv',true); return; }
+  if(!sb){ box.append(h('h2',null,t('loginT')), h('p',null,t('noOnline'))); if(ACH_ON) box.append(h('label',null,t('achT')), achBlock()); const c=h('button',null,t('close')); c.onclick=()=>show('profOv',false); box.append(c); show('profOv',true); return; }
   box.classList.add('pc');
   const x=h('button','x','×'); x.title=t('close'); x.onclick=()=>show('profOv',false);
   const r=profile.rating||1000, ti=tierIdx(r), nx=TIERS[ti+1];
@@ -2314,7 +2315,7 @@ function openProfile(){
     const foot=h('div','foot'); const lo2=h('button','linkbtn',t('signOut')); const cl=h('button',null,t('close')); cl.onclick=()=>show('profOv',false);
     lo2.onclick=async()=>{ await sb.auth.signOut(); leave(); authUser=null; uid=null; db=null; user=null; profile={name:'',guest:true,played:0,won:0,av:'',rating:1000,rgames:0}; bootState='nologin'; bootNote(); renderMe(); openProfile(); };
     foot.append(lo2,cl);
-    body.append(b1,b2,b0,bA,foot);
+    body.append(b1,b2,b0); if(ACH_ON) body.append(bA); body.append(foot);
   }
   box.append(x,hero,body);
   show('profOv',true); if(!authUser || matchMedia('(min-width:761px)').matches) setTimeout(()=>nick.focus(),50);
