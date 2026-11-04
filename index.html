@@ -960,6 +960,7 @@ body[data-table=night] #stage::before{background:radial-gradient(circle at 82% 1
 
 /* ready-made sets in settings */
 .setm .psets{grid-template-columns:repeat(4,1fr)}
+.setm .psets .pick{grid-column:span 1}
 @media (max-width:760px){.setm .psets{grid-template-columns:repeat(2,1fr)}}
 .setpv{position:relative;width:100%;padding:6px;border-radius:10px;background:var(--tbg,transparent) center/cover}
 .setpv .mb{height:50px;padding:4px}
@@ -967,6 +968,49 @@ body[data-table=night] #stage::before{background:radial-gradient(circle at 82% 1
 .setpv .setck .ck{width:20px;height:20px}
 .setpv .setdie{position:absolute;right:10px;bottom:4px;--cs:20px}
 .setpv .setdie .die{width:18px!important;height:18px!important;padding:1px}
+
+/* ---- shop items ---- */
+.board[data-b=velvet],.tray[data-b=velvet],.mb[data-b=velvet]{--frame:#2b1418;--frame2:#160a0c;--field:#5a1622;--field2:#43101a;--p1:#d9b25e;--p2:#f1e6cf;--num:rgba(255,226,180,.7);--edge:rgba(0,0,0,.45);--bar:#160a0c;--trayIn:rgba(0,0,0,.4);--tc:rgba(255,226,180,.8)}
+.board[data-b=velvet] .half{background:repeating-linear-gradient(90deg,rgba(255,255,255,.025) 0 2px,transparent 2px 5px),radial-gradient(120% 90% at 50% 45%,#6a1a28,#3a0d16)!important}
+.board[data-b=velvet],.tray[data-b=velvet]{background:linear-gradient(165deg,#3a1d22,#120708)}
+[data-ck=royal]{
+  --ckwBg:radial-gradient(circle at 50% 50%,transparent 0 58%,#d9b25e 60% 66%,transparent 68%),radial-gradient(circle at 34% 28%,#ffffff 0%,#f3eee6 50%,#cfc6b6 100%); --ckwEdge:#8a6a2a; --ckwRing:inset 0 0 0 1.5px rgba(217,178,94,.9); --ckwIn:transparent; --ckwTx:#6a4f17;
+  --ckbBg:radial-gradient(circle at 50% 50%,transparent 0 58%,#d9b25e 60% 66%,transparent 68%),radial-gradient(circle at 34% 28%,#4a4a52 0%,#1c1c21 50%,#08080a 100%); --ckbEdge:#000; --ckbRing:inset 0 0 0 1.5px rgba(217,178,94,.8); --ckbIn:transparent; --ckbTx:#f0d79a; --ckIn:10%;
+}
+[data-dice=sapphire]{--dieBg:linear-gradient(145deg,rgba(90,140,255,.95),rgba(24,52,150,.95) 60%,rgba(12,26,90,1));--dieEdge:#0a1440;--dieHi:rgba(200,220,255,.7);--pip:#fff;--pip1:#fff}
+[data-dice=emerald]{--dieBg:linear-gradient(145deg,rgba(80,220,150,.95),rgba(16,120,80,.95) 60%,rgba(8,70,46,1));--dieEdge:#053222;--dieHi:rgba(200,255,225,.7);--pip:#fff;--pip1:#fff}
+[data-dice=sapphire] .die svg,[data-dice=emerald] .die svg{filter:drop-shadow(0 1px 1px rgba(0,0,0,.4))}
+/* ---- coins, inventory and shop ---- */
+.coinpill{display:inline-flex;align-items:center;gap:6px;border-radius:99px!important;padding:6px 12px!important;border:1px solid var(--line)!important;font-weight:600;font-size:14px;position:relative;white-space:nowrap}
+.coinpill .coin,.coin{display:inline-block;width:16px;height:16px;border-radius:50%;flex-shrink:0;background:radial-gradient(circle at 35% 30%,#ffe9a6,#f0b93a 55%,#b9821a);box-shadow:inset 0 0 0 1.5px rgba(120,80,10,.35),0 1px 2px rgba(0,0,0,.25)}
+.coinpill.bonus::after{content:"";position:absolute;top:2px;right:2px;width:8px;height:8px;border-radius:50%;background:#34c27a;box-shadow:0 0 0 2px var(--paper)}
+.coinpill.bump{animation:cbump .5s cubic-bezier(.3,1.6,.5,1)} @keyframes cbump{40%{transform:scale(1.18)}}
+.coinfly{position:fixed;z-index:80;pointer-events:none;font-weight:700;font-size:15px;color:#f0b93a;text-shadow:0 1px 2px rgba(0,0,0,.5);animation:cfly 1.4s ease-out forwards}
+@keyframes cfly{from{transform:translateY(0);opacity:1}to{transform:translateY(-46px);opacity:0}}
+.setm.small{max-width:440px!important;grid-template-columns:1fr!important}
+.setm.small .hero{padding-bottom:22px}
+.setm.small .stogs{margin-top:18px}
+.invbar{display:flex;align-items:center;gap:10px;margin-top:16px;flex-wrap:wrap}
+.invbar .coinpill{background:rgba(255,255,255,.08);color:#f3eee5;border-color:rgba(255,255,255,.15)!important}
+.invbar .shopbtn{background:#f3eee5;color:#15161b;border:0;border-radius:12px;padding:9px 14px;font-weight:600}
+.shop .shead{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.shop .shead h2{margin:0;flex:1}
+.shop .daily{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:16px;border:1px solid var(--line2);background:var(--surf,rgba(0,0,0,.03));margin-bottom:16px}
+.shop .daily b{display:block;font-size:15px} .shop .daily small{color:var(--muted);font-size:12.5px}
+.shop .daily button{margin-left:auto;white-space:nowrap}
+.shop h3{font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px}
+.shop .sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.sitem{display:flex;flex-direction:column;gap:8px;padding:10px;border-radius:16px;border:1px solid var(--line2);background:var(--surf,rgba(0,0,0,.03));position:relative}
+.sitem .pv{height:76px;border-radius:10px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:var(--surf2,rgba(0,0,0,.04))}
+.sitem .pv .mb{height:62px;width:92%}
+.sitem .nm{font-size:14px;font-weight:600;line-height:1.2} .sitem .cat{font-size:11.5px;color:var(--muted)}
+.sitem .buy{display:flex;align-items:center;justify-content:center;gap:6px;padding:9px 10px;font-size:14px;font-weight:600}
+.sitem .old{text-decoration:line-through;opacity:.5;font-weight:400;font-size:12.5px}
+.sitem.own .buy{opacity:.7}
+.sitem .tag{position:absolute;top:8px;left:8px;z-index:2;font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;background:#34c27a;color:#fff}
+.sitem.big{grid-column:1/-1}
+.sitem.big .pv{height:110px;gap:10px}
+@media (max-width:560px){ .shop .sgrid{grid-template-columns:repeat(2,minmax(0,1fr))} .sitem.big{grid-column:1/-1} .hdr-r .coinpill{padding:5px 9px!important;font-size:13px} }
 </style>
 </head>
 <body>
@@ -984,7 +1028,7 @@ body[data-table=night] #stage::before{background:radial-gradient(circle at 82% 1
     <div class="brand" id="brand"><svg class="bmark" viewBox="6 14 62 44" aria-hidden="true"><circle cx="28" cy="36" r="19" fill="#fff" stroke="#1d1915" stroke-width="2.6"/><circle cx="28" cy="36" r="12" fill="none" stroke="#d6ccbb" stroke-width="1.6"/><circle cx="46" cy="36" r="19" fill="#1d1915" stroke="var(--paper)" stroke-width="3"/><circle cx="46" cy="36" r="12" fill="none" stroke="#4a423a" stroke-width="1.6"/></svg><b data-t="brandName"></b><small data-t="tagline"></small></div>
     <div class="hdr-r"><span class="onl hdr" id="onlineCnt"></span>
       <div class="seg" id="langSeg"><button data-l="en">EN</button><button data-l="uk">UA</button></div>
-      <button class="gear" id="btnLb" title="Leaderboard"><svg class="i"><use href="#i-trophy"/></svg></button><button class="gear" id="btnSet" title="Settings"><svg class="i"><use href="#i-gear"/></svg></button><button class="me" id="btnMe"></button>
+      <button class="gear" id="btnLb" title="Leaderboard"><svg class="i"><use href="#i-trophy"/></svg></button><button class="coinpill" id="btnCoins" title="Shop"><i class="coin"></i><span id="coinN">0</span></button><button class="gear" id="btnInv" title="My table"><svg class="i" viewBox="0 0 24 24"><rect x="3.5" y="7" width="17" height="12.5" rx="2.5"/><path d="M8.5 7V5.5A1.5 1.5 0 0 1 10 4h4a1.5 1.5 0 0 1 1.5 1.5V7M3.5 12h17"/></svg></button><button class="gear" id="btnSet" title="Settings"><svg class="i"><use href="#i-gear"/></svg></button><button class="me" id="btnMe"></button>
     </div>
   </header>
 
@@ -1097,6 +1141,12 @@ body[data-table=night] #stage::before{background:radial-gradient(circle at 82% 1
     <div class="blk" style="margin-bottom:0"><h3 data-t="tableT"></h3><div class="picks pt7" id="pickTable"></div></div>
   </div>
 </div></div>
+<div id="invOv" class="overlay hidden"><div class="modal pc setm" id="invBox">
+  <button class="x" id="btnInvClose" aria-label="Close">×</button>
+  <div class="hero" id="invHero"><div class="hname" data-t="invT"></div><div class="hsub" data-t="invSub"></div>
+    <div class="invbar"><span class="coinpill"><i class="coin"></i><span class="coinN2">0</span></span><button class="shopbtn" id="btnToShop" data-t="shopT"></button></div></div>
+</div></div>
+<div id="shopOv" class="overlay hidden"><div class="modal wide shop" id="shopBox"></div></div>
 <div id="lbOv" class="overlay hidden"><div class="modal wide lb">
   <div class="mhead"><h2 data-t="lbT"></h2><button class="xbtn" id="btnLbClose" aria-label="Close"><svg class="i"><use href="#i-x"/></svg></button></div>
   <p class="note" data-t="lbSub" style="margin:0 0 10px"></p>
@@ -1151,7 +1201,7 @@ const T = {
   openYour:'Roll one die each — <b>higher roll plays White</b> and moves first.', openLocal:'<b>{n}</b>, roll for the first move.', openWait:'Waiting for your opponent to roll…', openTie:'Tie ({a} : {a}). Roll again.', openWon:'<b>{n}</b> rolled higher ({a} : {b}) and plays White.',
   yourRoll:'<b>Your turn.</b> Roll the dice.', localRoll:'<b>{c}</b> to move. Roll the dice.', pick:'Tap or drag a highlighted checker.', where:'Drop it on a marked spot — combined moves (e.g. 3+4) are shown too.', noMoves:'No legal moves — passing the turn.', oppTurn:'Opponent’s turn…', spectator:'You are watching. {c} to move.', won:'<b>{n}</b> won this game.',
   newGame:'New game', again:'Play again', close:'Close', gameOver:'Game over', link:'Game link', localGame:'Same-device game',
-  settingsT:'Settings', checkersT:'Checkers', diceT:'Dice', ck_classic:'Classic', ck_wood:'Wood', ck_stone:'Marble', ck_flat:'Flat', ck_metal:'Metal', ck_glass:'Glass', ck_retro:'Retro', ck_pearl:'Pearl', ck_amber:'Amber', ck_jade:'Jade', ck_neon:'Neon', ck_vyshyvanka:'Vyshyvanka', ck_spooky:'Ghosts & pumpkins', dice_lantern:'Lantern', st_halloween:'Halloween', tb_night:'Moonlit night', card_pumpkin:'Pumpkin night', setsT:'Ready-made sets', set_classic:'Classic', set_halloween:'Halloween', set_marble:'Marble & pearls', set_oak:'Oak & amber', set_druzi:'Druzi neon', set_ocean:'Ocean', set_sage:'Sage & jade', set_carbon:'Carbon', st_marble:'Marble', st_sage:'Sage', st_oak:'Oak', st_ocean:'Ocean', st_carbon:'Carbon', st_walnut:'Walnut', st_midnight:'Midnight', st_druzi:'Druzi', avatarT:'Avatar', vcOn:'Turn on voice chat', vcOff:'Turn off voice chat', vcWait:'Voice on — waiting for your opponent to turn it on too', vcLive:'Voice chat connected', vcEnded:'Voice chat off', vcNoMic:'No access to the microphone — allow it in the browser', vcFail:'Could not connect voice (your network blocks direct calls)', vcOppLeft:'Opponent turned voice off', vcNobody:'Your opponent has not turned voice on yet', vcOppOff:'Your opponent has voice chat turned off', srvErr:'Server did not accept the action — state reloaded', leaveQ:'Leave the game?', tableT:'Table', tb_auto:'To match the board', tb_wood:'Old wood', tb_felt:'Game felt', tb_carpet:'Persian carpet', tb_marble:'Black marble', tb_cafe:'Evening café', tb_stone:'Rock', tb_leather:'Leather', darkT:'Dark theme', topT:'Hall of Legends', rkSee:'Your rank', homePlay:'Play online', playersNow:'{n} playing now', spkB:'Opponent sound', emojiB:'Emoji', leaveSub:'The game has started, so leaving counts as a loss.', leaveB:'Leave', leftLoss:'Game left — counted as a loss.', claimT:'Your opponent seems to have left', claimB:'Claim the win', claimDone:'Win claimed.', secShort:'s', offline:'offline', timeoutYou:'Time is up — turn skipped ({n}/{m})', timeoutOpp:'Opponent ran out of time ({n}/{m})', rematch:'Rematch', rmWait:'Waiting for the opponent to accept…', rmAsk:'Your opponent wants a rematch!', review:'Game review', revSub:'Your winning chances after every move. Red dots are the moves that cost you the most.', revClean:'No big mistakes — clean game!', revMove:'Move {n} · {d} · {m}', revBest:'best chance', revWorst:'worst chance', revDoubles:'your doubles', chHi:'Hi!', chNice:'Nice move', chOops:'Oops…', chLuck:'Good luck!', chThanks:'Thanks', chGG:'Good game', achT:'Achievements', achNew:'Achievement unlocked', ach_first:'First win', ach_ten:'10 wins', ach_mars:'Mars', ach_mars5:'5 mars', ach_streak3:'3 in a row', ach_streak5:'5 in a row', ach_comeback:'Comeback', ach_nodouble:'No doubles', ach_games50:'50 games', ach_giant:'Giant slayer', achD_first:'Win your first game', achD_ten:'Win 10 games', achD_mars:'Win with a mars', achD_mars5:'Win 5 games with a mars', achD_streak3:'Win 3 games in a row', achD_streak5:'Win 5 games in a row', achD_comeback:'Win after your chance fell to 20% or less', achD_nodouble:'Win without rolling a single double', achD_games50:'Play 50 games', achD_giant:'Beat a player rated 300+ above you', tier_rookie:'Rookie', tier_regular:'Regular', tier_expert:'Expert', tier_master:'Master', tier_grandmaster:'Grandmaster', tier_khan:'Khan', tier_sultan:'Sultan', tier_legend:'Legend', toStar:'{n} to the next die', lbNotLegend:'You: {rank}. {n} rating to reach Legend.', topPos:'#{n} on the leaderboard', newStar:'Next die!', newRank:'New rank!', botsWait:'{n} bots waiting', searchInfo2:'Looking for a player close to your rating…', onlineGame:'Online game', oppNoMoves:'Your opponent has no moves', bot_marta:'Bot Marta', bot_ostap:'Bot Ostap', bot_taras:'Bot Taras', bot_hryts:'Bot Hryts', cardT:'Card background', cardLock:'Unlocks at {tier} rank', card_felt:'Felt', card_mesh:'Dusk', card_grain:'Grain', card_dots:'Dots', card_lines:'Lines', card_topo:'Contours', card_nardy:'Points', card_ember:'Ember', card_holo:'Hologram', card_walnut:'Walnut', card_midnight:'Midnight', card_wine:'Wine', card_graphite:'Graphite', card_gold:'Gold', card_aurora:'Aurora', oddsT:'Win chances', oddsCap:'Winning chances — an estimate from 8,000 simulated games', oddsAfter:'Chance to win after this move', resignB:'Resign', resignQ:'Resign this game?', resignWait:'Resign becomes available after move 10 ({n} to go)', resignOne:'Your opponent gets 1 point.', resignMars:'You have not borne off any checker, so it counts as a mars — 2 points.', resignRated:'It counts as a loss for your rating.', resigned:'{n} resigned.', resignedYou:'You resigned.', cancel:'Cancel', setSub:'Changes apply right away and are saved in this browser.', pcRegistered:'Registered player', pcRanks:'Ranks', pcAccT:'Account', pcWhyT:'With an account you get:', pcWhy1:'a rating and a rank frame', pcWhy2:'a place on the leaderboard', pcWhy3:'your stats on any device', history:'Move history', histEmpty:'No moves yet', histNone:'no move', histOff:'off', noMovesT:'No moves', undo:'Undo', bnOpenT:'Who goes first?', bnOpenS:'Roll one die — higher plays White', bnOppOpen:'Waiting for the opponent', bnYour:'Your turn', bnRollS:'Roll the dice to move', bnColor:'{c} to move', bnOpp:'Opponent’s turn', bnBot:'Bot’s turn', findT:'Find an opponent', findD:'Play a random online opponent close to your rating.', findB:'Find opponent', botT:'Play the bot', botD:'Practice any time. A win against the bot gives less rating than against a person.', botB:'Play the bot', tutorB:'How to play', localB2:'Same device', onlineN:'{n} online', searchT:'Looking for an opponent', searchInfo:'Hang on — if nobody is free in {s} seconds, you will play the bot.', playBotNow:'Play the bot now', matchFound:'Opponent found!', matchWait:'Opponent found — connecting…', noOpp:'No free opponents — playing the bot', botName:'Bot Taras', botTurn:'The bot is thinking…', botThinking:'The bot is rolling…', botGame:'Game vs bot', botNoMoves:'The bot has no moves', botRated:'bot game: 40%', tutorGame:'Tutorial', coachOpp:'Coach', tutRoll:'Press “Roll dice”.', tutStepDone:'Well done! Press “Next”.', tutNice:'Well done!', tutStep:'Lesson {i} of {n}', tutNext:'Next', tutBack:'Back', tutExit:'Exit', tutPlayBot:'Play the bot', tutFind:'Find opponent',
+  settingsT:'Settings', checkersT:'Checkers', diceT:'Dice', ck_classic:'Classic', ck_wood:'Wood', ck_stone:'Marble', ck_flat:'Flat', ck_metal:'Metal', ck_glass:'Glass', ck_retro:'Retro', ck_pearl:'Pearl', ck_amber:'Amber', ck_jade:'Jade', ck_neon:'Neon', ck_vyshyvanka:'Vyshyvanka', ck_spooky:'Ghosts & pumpkins', dice_lantern:'Lantern', st_halloween:'Halloween', tb_night:'Moonlit night', card_pumpkin:'Pumpkin night', setsT:'Ready-made sets', invT:'My table', invSub:'Everything you own. Tap to put it on.', shopT:'Shop', dailyT:'Daily bonus', dailyB:'Collect +{n}', dailyDone:'Come back tomorrow', earnHow:'Win +{w}, loss +{l} coins per game', dealT:'Deal of the day', bundlesT:'Bundles', bundleSub:'{n} items, cheaper together', equip:'Put on', equipped:'In use', bought:'{n} is yours!', noCoins:'Not enough coins: {n} more', coinsGot:'+{n} coins', st_velvet:'Velvet', ck_royal:'Royal', dice_sapphire:'Sapphire', dice_emerald:'Emerald', set_classic:'Classic', set_halloween:'Halloween', set_marble:'Marble & pearls', set_oak:'Oak & amber', set_druzi:'Druzi neon', set_ocean:'Ocean', set_sage:'Sage & jade', set_carbon:'Carbon', st_marble:'Marble', st_sage:'Sage', st_oak:'Oak', st_ocean:'Ocean', st_carbon:'Carbon', st_walnut:'Walnut', st_midnight:'Midnight', st_druzi:'Druzi', avatarT:'Avatar', vcOn:'Turn on voice chat', vcOff:'Turn off voice chat', vcWait:'Voice on — waiting for your opponent to turn it on too', vcLive:'Voice chat connected', vcEnded:'Voice chat off', vcNoMic:'No access to the microphone — allow it in the browser', vcFail:'Could not connect voice (your network blocks direct calls)', vcOppLeft:'Opponent turned voice off', vcNobody:'Your opponent has not turned voice on yet', vcOppOff:'Your opponent has voice chat turned off', srvErr:'Server did not accept the action — state reloaded', leaveQ:'Leave the game?', tableT:'Table', tb_auto:'To match the board', tb_wood:'Old wood', tb_felt:'Game felt', tb_carpet:'Persian carpet', tb_marble:'Black marble', tb_cafe:'Evening café', tb_stone:'Rock', tb_leather:'Leather', darkT:'Dark theme', topT:'Hall of Legends', rkSee:'Your rank', homePlay:'Play online', playersNow:'{n} playing now', spkB:'Opponent sound', emojiB:'Emoji', leaveSub:'The game has started, so leaving counts as a loss.', leaveB:'Leave', leftLoss:'Game left — counted as a loss.', claimT:'Your opponent seems to have left', claimB:'Claim the win', claimDone:'Win claimed.', secShort:'s', offline:'offline', timeoutYou:'Time is up — turn skipped ({n}/{m})', timeoutOpp:'Opponent ran out of time ({n}/{m})', rematch:'Rematch', rmWait:'Waiting for the opponent to accept…', rmAsk:'Your opponent wants a rematch!', review:'Game review', revSub:'Your winning chances after every move. Red dots are the moves that cost you the most.', revClean:'No big mistakes — clean game!', revMove:'Move {n} · {d} · {m}', revBest:'best chance', revWorst:'worst chance', revDoubles:'your doubles', chHi:'Hi!', chNice:'Nice move', chOops:'Oops…', chLuck:'Good luck!', chThanks:'Thanks', chGG:'Good game', achT:'Achievements', achNew:'Achievement unlocked', ach_first:'First win', ach_ten:'10 wins', ach_mars:'Mars', ach_mars5:'5 mars', ach_streak3:'3 in a row', ach_streak5:'5 in a row', ach_comeback:'Comeback', ach_nodouble:'No doubles', ach_games50:'50 games', ach_giant:'Giant slayer', achD_first:'Win your first game', achD_ten:'Win 10 games', achD_mars:'Win with a mars', achD_mars5:'Win 5 games with a mars', achD_streak3:'Win 3 games in a row', achD_streak5:'Win 5 games in a row', achD_comeback:'Win after your chance fell to 20% or less', achD_nodouble:'Win without rolling a single double', achD_games50:'Play 50 games', achD_giant:'Beat a player rated 300+ above you', tier_rookie:'Rookie', tier_regular:'Regular', tier_expert:'Expert', tier_master:'Master', tier_grandmaster:'Grandmaster', tier_khan:'Khan', tier_sultan:'Sultan', tier_legend:'Legend', toStar:'{n} to the next die', lbNotLegend:'You: {rank}. {n} rating to reach Legend.', topPos:'#{n} on the leaderboard', newStar:'Next die!', newRank:'New rank!', botsWait:'{n} bots waiting', searchInfo2:'Looking for a player close to your rating…', onlineGame:'Online game', oppNoMoves:'Your opponent has no moves', bot_marta:'Bot Marta', bot_ostap:'Bot Ostap', bot_taras:'Bot Taras', bot_hryts:'Bot Hryts', cardT:'Card background', cardLock:'Unlocks at {tier} rank', card_felt:'Felt', card_mesh:'Dusk', card_grain:'Grain', card_dots:'Dots', card_lines:'Lines', card_topo:'Contours', card_nardy:'Points', card_ember:'Ember', card_holo:'Hologram', card_walnut:'Walnut', card_midnight:'Midnight', card_wine:'Wine', card_graphite:'Graphite', card_gold:'Gold', card_aurora:'Aurora', oddsT:'Win chances', oddsCap:'Winning chances — an estimate from 8,000 simulated games', oddsAfter:'Chance to win after this move', resignB:'Resign', resignQ:'Resign this game?', resignWait:'Resign becomes available after move 10 ({n} to go)', resignOne:'Your opponent gets 1 point.', resignMars:'You have not borne off any checker, so it counts as a mars — 2 points.', resignRated:'It counts as a loss for your rating.', resigned:'{n} resigned.', resignedYou:'You resigned.', cancel:'Cancel', setSub:'Changes apply right away and are saved in this browser.', pcRegistered:'Registered player', pcRanks:'Ranks', pcAccT:'Account', pcWhyT:'With an account you get:', pcWhy1:'a rating and a rank frame', pcWhy2:'a place on the leaderboard', pcWhy3:'your stats on any device', history:'Move history', histEmpty:'No moves yet', histNone:'no move', histOff:'off', noMovesT:'No moves', undo:'Undo', bnOpenT:'Who goes first?', bnOpenS:'Roll one die — higher plays White', bnOppOpen:'Waiting for the opponent', bnYour:'Your turn', bnRollS:'Roll the dice to move', bnColor:'{c} to move', bnOpp:'Opponent’s turn', bnBot:'Bot’s turn', findT:'Find an opponent', findD:'Play a random online opponent close to your rating.', findB:'Find opponent', botT:'Play the bot', botD:'Practice any time. A win against the bot gives less rating than against a person.', botB:'Play the bot', tutorB:'How to play', localB2:'Same device', onlineN:'{n} online', searchT:'Looking for an opponent', searchInfo:'Hang on — if nobody is free in {s} seconds, you will play the bot.', playBotNow:'Play the bot now', matchFound:'Opponent found!', matchWait:'Opponent found — connecting…', noOpp:'No free opponents — playing the bot', botName:'Bot Taras', botTurn:'The bot is thinking…', botThinking:'The bot is rolling…', botGame:'Game vs bot', botNoMoves:'The bot has no moves', botRated:'bot game: 40%', tutorGame:'Tutorial', coachOpp:'Coach', tutRoll:'Press “Roll dice”.', tutStepDone:'Well done! Press “Next”.', tutNice:'Well done!', tutStep:'Lesson {i} of {n}', tutNext:'Next', tutBack:'Back', tutExit:'Exit', tutPlayBot:'Play the bot', tutFind:'Find opponent',
   tut1T:'The board and the goal', tut1D:'You play White. All 15 of your checkers start on the “head” — point 24, top right. Black starts on 12. Both sides move counter-clockwise: White goes right-to-left along the top, then left-to-right along the bottom. Bring all checkers home (points 1–6, bottom right) and bear them off before your opponent.',
   tut2T:'Your first move', tut2D:'Roll the dice — you will get 5 and 3. Each die is a separate move of that many points. Only one checker may leave the head per turn, so play both dice with the same checker: tap the checker on 24 — the gold spot is both dice together (5+3).',
   tut3T:'Doubles', tut3D:'Equal dice are played four times. Roll — you get 4 and 4: make four moves of 4 points with any checkers (still only one from the head).',
@@ -1173,7 +1223,7 @@ const T = {
   openYour:'Кожен кидає один кубик — <b>у кого більше, той грає білими</b> й ходить першим.', openLocal:'<b>{n}</b>, киньте на перший хід.', openWait:'Чекаємо, поки суперник кине…', openTie:'Нічия ({a} : {a}). Киньте ще раз.', openWon:'<b>{n}</b> викинув більше ({a} : {b}) і грає білими.',
   yourRoll:'<b>Ваш хід.</b> Киньте кубики.', localRoll:'Ходять <b>{c}</b>. Киньте кубики.', pick:'Натисніть або перетягніть підсвічену шашку.', where:'Поставте на позначене місце — показано й складені ходи (напр. 3+4).', noMoves:'Ходів немає — хід переходить.', oppTurn:'Хід суперника…', spectator:'Ви глядач. Ходять {c}.', won:'Партію виграли: <b>{n}</b>.',
   newGame:'Нова партія', again:'Ще партію', close:'Закрити', gameOver:'Кінець партії', link:'Посилання на гру', localGame:'Гра на одному пристрої',
-  settingsT:'Налаштування', checkersT:'Шашки', diceT:'Кубики', ck_classic:'Класичні', ck_wood:'Дерево', ck_stone:'Мармур', ck_flat:'Пласкі', ck_metal:'Метал', ck_glass:'Скло', ck_retro:'Ретро', ck_pearl:'Перли', ck_amber:'Бурштин', ck_jade:'Нефрит', ck_neon:'Неон', ck_vyshyvanka:'Вишиванка', ck_spooky:'Привиди й гарбузи', dice_lantern:'Ліхтар', st_halloween:'Хелловін', tb_night:'Місячна ніч', card_pumpkin:'Гарбузова ніч', setsT:'Готові сети', set_classic:'Класика', set_halloween:'Хелловін', set_marble:'Мармур і перли', set_oak:'Дуб і бурштин', set_druzi:'Druzi неон', set_ocean:'Океан', set_sage:'Шавлія й нефрит', set_carbon:'Карбон', st_marble:'Мармур', st_sage:'Шавлія', st_oak:'Дуб', st_ocean:'Океан', st_carbon:'Карбон', st_walnut:'Горіх', st_midnight:'Північ', st_druzi:'Druzi', avatarT:'Аватар', vcOn:'Увімкнути голосовий чат', vcOff:'Вимкнути голосовий чат', vcWait:'Голос увімкнено — чекаємо, поки суперник теж увімкне', vcLive:'Голосовий чат підключено', vcEnded:'Голосовий чат вимкнено', vcNoMic:'Немає доступу до мікрофона — дозвольте його в браузері', vcFail:'Не вдалося підключити голос (мережа блокує прямий зв’язок)', vcOppLeft:'Суперник вимкнув голос', vcNobody:'Суперник ще не увімкнув голос', vcOppOff:'У суперника вимкнено голосовий чат', srvErr:'Сервер не прийняв дію — стан оновлено', leaveQ:'Вийти з партії?', tableT:'Стіл', tb_auto:'Під дошку', tb_wood:'Старе дерево', tb_felt:'Ігрове сукно', tb_carpet:'Перський килим', tb_marble:'Чорний мармур', tb_cafe:'Вечірня кав’ярня', tb_stone:'Скеля', tb_leather:'Шкіра', darkT:'Темна тема', topT:'Зала Легенд', rkSee:'Ваш ранг', homePlay:'Грати онлайн', playersNow:'{n} грають зараз', spkB:'Звук суперника', emojiB:'Емодзі', leaveSub:'Партія вже почалась, тому вихід зарахується як поразка.', leaveB:'Вийти', leftLoss:'Ви вийшли — зараховано поразку.', claimT:'Схоже, суперник вийшов', claimB:'Забрати перемогу', claimDone:'Перемогу зараховано.', secShort:'с', offline:'офлайн', timeoutYou:'Час вийшов — хід пропущено ({n}/{m})', timeoutOpp:'У суперника вийшов час ({n}/{m})', rematch:'Реванш', rmWait:'Чекаємо, поки суперник погодиться…', rmAsk:'Суперник хоче реванш!', review:'Розбір партії', revSub:'Ваші шанси на перемогу після кожного ходу. Червоні точки — ходи, які коштували найбільше.', revClean:'Великих помилок немає — чиста партія!', revMove:'Хід {n} · {d} · {m}', revBest:'найкращий шанс', revWorst:'найгірший шанс', revDoubles:'ваших дублів', chHi:'Привіт!', chNice:'Гарний хід', chOops:'Ех…', chLuck:'Удачі!', chThanks:'Дякую', chGG:'Дякую за гру', achT:'Досягнення', achNew:'Нове досягнення', ach_first:'Перша перемога', ach_ten:'10 перемог', ach_mars:'Марс', ach_mars5:'5 марсів', ach_streak3:'3 поспіль', ach_streak5:'5 поспіль', ach_comeback:'Камбек', ach_nodouble:'Без дублів', ach_games50:'50 партій', ach_giant:'Гігант', achD_first:'Виграйте першу партію', achD_ten:'Виграйте 10 партій', achD_mars:'Виграйте марсом', achD_mars5:'Виграйте 5 партій марсом', achD_streak3:'Виграйте 3 партії поспіль', achD_streak5:'Виграйте 5 партій поспіль', achD_comeback:'Виграйте, коли шанс падав до 20% і нижче', achD_nodouble:'Виграйте без жодного дубля', achD_games50:'Зіграйте 50 партій', achD_giant:'Обіграйте гравця на 300+ рейтингу сильнішого', tier_rookie:'Новачок', tier_regular:'Завсідник', tier_expert:'Знавець', tier_master:'Майстер', tier_grandmaster:'Гросмейстер', tier_khan:'Хан', tier_sultan:'Султан', tier_legend:'Легенда', toStar:'ще {n} до наступного кубика', lbNotLegend:'Ви: {rank}. До Легенди ще {n} рейтингу.', topPos:'#{n} у рейтингу', newStar:'Новий кубик!', newRank:'Новий ранг!', botsWait:'{n} ботів у черзі', searchInfo2:'Шукаємо гравця близького до вас за рейтингом…', onlineGame:'Онлайн-гра', oppNoMoves:'У суперника немає ходів', bot_marta:'Бот Марта', bot_ostap:'Бот Остап', bot_taras:'Бот Тарас', bot_hryts:'Бот Гриць', cardT:'Фон картки', cardLock:'Відкривається з рангом «{tier}»', card_felt:'Сукно', card_mesh:'Сутінки', card_grain:'Зерно', card_dots:'Точки', card_lines:'Лінії', card_topo:'Рельєф', card_nardy:'Пункти', card_ember:'Жар', card_holo:'Голограма', card_walnut:'Горіх', card_midnight:'Північ', card_wine:'Вино', card_graphite:'Графіт', card_gold:'Золото', card_aurora:'Аврора', oddsT:'Шанси на перемогу', oddsCap:'Шанси на перемогу — оцінка за 8000 зіграних партій', oddsAfter:'Шанс на перемогу після цього ходу', resignB:'Здатися', resignQ:'Здатися в цій партії?', resignWait:'Здатися можна після 10-го ходу (залишилось {n})', resignOne:'Суперник отримає 1 очко.', resignMars:'Ви не викинули жодної шашки, тому це марс — 2 очки.', resignRated:'Для рейтингу це зарахується як поразка.', resigned:'{n} здається.', resignedYou:'Ви здалися.', cancel:'Скасувати', setSub:'Зміни застосовуються одразу й зберігаються в цьому браузері.', pcRegistered:'Зареєстрований гравець', pcRanks:'Ранги', pcAccT:'Акаунт', pcWhyT:'З акаунтом у вас буде:', pcWhy1:'рейтинг і рамка рангу', pcWhy2:'місце в таблиці лідерів', pcWhy3:'статистика на будь-якому пристрої', history:'Історія ходів', histEmpty:'Ходів ще немає', histNone:'немає ходу', histOff:'винос', noMovesT:'Немає ходів', undo:'Скасувати хід', bnOpenT:'Хто ходить першим?', bnOpenS:'Киньте кубик — у кого більше, той грає білими', bnOppOpen:'Чекаємо на суперника', bnYour:'Ваш хід', bnRollS:'Киньте кубики, щоб походити', bnColor:'Ходять {c}', bnOpp:'Хід суперника', bnBot:'Хід бота', findT:'Знайти суперника', findD:'Гра з випадковим суперником онлайн, близьким до вас за рейтингом.', findB:'Знайти суперника', botT:'Грати з ботом', botD:'Тренуйтесь будь-коли. За перемогу над ботом рейтингу дається менше, ніж над людиною.', botB:'Грати з ботом', tutorB:'Як грати', localB2:'На одному пристрої', onlineN:'{n} онлайн', searchT:'Шукаємо суперника', searchInfo:'Зачекайте — якщо за {s} секунд ніхто не знайдеться, ви зіграєте з ботом.', playBotNow:'Грати з ботом зараз', matchFound:'Суперника знайдено!', matchWait:'Суперника знайдено — зʼєднуємо…', noOpp:'Вільних суперників немає — граємо з ботом', botName:'Бот Тарас', botTurn:'Бот думає…', botThinking:'Бот кидає кубик…', botGame:'Гра з ботом', botNoMoves:'У бота немає ходів', botRated:'гра з ботом: 40%', tutorGame:'Навчання', coachOpp:'Тренер', tutRoll:'Натисніть «Кинути кубики».', tutStepDone:'Чудово! Натисніть «Далі».', tutNice:'Чудово!', tutStep:'Урок {i} з {n}', tutNext:'Далі', tutBack:'Назад', tutExit:'Вийти', tutPlayBot:'Грати з ботом', tutFind:'Знайти суперника',
+  settingsT:'Налаштування', checkersT:'Шашки', diceT:'Кубики', ck_classic:'Класичні', ck_wood:'Дерево', ck_stone:'Мармур', ck_flat:'Пласкі', ck_metal:'Метал', ck_glass:'Скло', ck_retro:'Ретро', ck_pearl:'Перли', ck_amber:'Бурштин', ck_jade:'Нефрит', ck_neon:'Неон', ck_vyshyvanka:'Вишиванка', ck_spooky:'Привиди й гарбузи', dice_lantern:'Ліхтар', st_halloween:'Хелловін', tb_night:'Місячна ніч', card_pumpkin:'Гарбузова ніч', setsT:'Готові сети', invT:'Мій стіл', invSub:'Усе, що у вас є. Натисніть, щоб поставити.', shopT:'Магазин', dailyT:'Щоденний бонус', dailyB:'Забрати +{n}', dailyDone:'Приходьте завтра', earnHow:'Перемога +{w}, поразка +{l} монет за партію', dealT:'Товар дня', bundlesT:'Набори', bundleSub:'{n} речей, разом дешевше', equip:'Поставити', equipped:'Використовується', bought:'{n} — тепер ваше!', noCoins:'Не вистачає монет: ще {n}', coinsGot:'+{n} монет', st_velvet:'Оксамит', ck_royal:'Королівські', dice_sapphire:'Сапфір', dice_emerald:'Смарагд', set_classic:'Класика', set_halloween:'Хелловін', set_marble:'Мармур і перли', set_oak:'Дуб і бурштин', set_druzi:'Druzi неон', set_ocean:'Океан', set_sage:'Шавлія й нефрит', set_carbon:'Карбон', st_marble:'Мармур', st_sage:'Шавлія', st_oak:'Дуб', st_ocean:'Океан', st_carbon:'Карбон', st_walnut:'Горіх', st_midnight:'Північ', st_druzi:'Druzi', avatarT:'Аватар', vcOn:'Увімкнути голосовий чат', vcOff:'Вимкнути голосовий чат', vcWait:'Голос увімкнено — чекаємо, поки суперник теж увімкне', vcLive:'Голосовий чат підключено', vcEnded:'Голосовий чат вимкнено', vcNoMic:'Немає доступу до мікрофона — дозвольте його в браузері', vcFail:'Не вдалося підключити голос (мережа блокує прямий зв’язок)', vcOppLeft:'Суперник вимкнув голос', vcNobody:'Суперник ще не увімкнув голос', vcOppOff:'У суперника вимкнено голосовий чат', srvErr:'Сервер не прийняв дію — стан оновлено', leaveQ:'Вийти з партії?', tableT:'Стіл', tb_auto:'Під дошку', tb_wood:'Старе дерево', tb_felt:'Ігрове сукно', tb_carpet:'Перський килим', tb_marble:'Чорний мармур', tb_cafe:'Вечірня кав’ярня', tb_stone:'Скеля', tb_leather:'Шкіра', darkT:'Темна тема', topT:'Зала Легенд', rkSee:'Ваш ранг', homePlay:'Грати онлайн', playersNow:'{n} грають зараз', spkB:'Звук суперника', emojiB:'Емодзі', leaveSub:'Партія вже почалась, тому вихід зарахується як поразка.', leaveB:'Вийти', leftLoss:'Ви вийшли — зараховано поразку.', claimT:'Схоже, суперник вийшов', claimB:'Забрати перемогу', claimDone:'Перемогу зараховано.', secShort:'с', offline:'офлайн', timeoutYou:'Час вийшов — хід пропущено ({n}/{m})', timeoutOpp:'У суперника вийшов час ({n}/{m})', rematch:'Реванш', rmWait:'Чекаємо, поки суперник погодиться…', rmAsk:'Суперник хоче реванш!', review:'Розбір партії', revSub:'Ваші шанси на перемогу після кожного ходу. Червоні точки — ходи, які коштували найбільше.', revClean:'Великих помилок немає — чиста партія!', revMove:'Хід {n} · {d} · {m}', revBest:'найкращий шанс', revWorst:'найгірший шанс', revDoubles:'ваших дублів', chHi:'Привіт!', chNice:'Гарний хід', chOops:'Ех…', chLuck:'Удачі!', chThanks:'Дякую', chGG:'Дякую за гру', achT:'Досягнення', achNew:'Нове досягнення', ach_first:'Перша перемога', ach_ten:'10 перемог', ach_mars:'Марс', ach_mars5:'5 марсів', ach_streak3:'3 поспіль', ach_streak5:'5 поспіль', ach_comeback:'Камбек', ach_nodouble:'Без дублів', ach_games50:'50 партій', ach_giant:'Гігант', achD_first:'Виграйте першу партію', achD_ten:'Виграйте 10 партій', achD_mars:'Виграйте марсом', achD_mars5:'Виграйте 5 партій марсом', achD_streak3:'Виграйте 3 партії поспіль', achD_streak5:'Виграйте 5 партій поспіль', achD_comeback:'Виграйте, коли шанс падав до 20% і нижче', achD_nodouble:'Виграйте без жодного дубля', achD_games50:'Зіграйте 50 партій', achD_giant:'Обіграйте гравця на 300+ рейтингу сильнішого', tier_rookie:'Новачок', tier_regular:'Завсідник', tier_expert:'Знавець', tier_master:'Майстер', tier_grandmaster:'Гросмейстер', tier_khan:'Хан', tier_sultan:'Султан', tier_legend:'Легенда', toStar:'ще {n} до наступного кубика', lbNotLegend:'Ви: {rank}. До Легенди ще {n} рейтингу.', topPos:'#{n} у рейтингу', newStar:'Новий кубик!', newRank:'Новий ранг!', botsWait:'{n} ботів у черзі', searchInfo2:'Шукаємо гравця близького до вас за рейтингом…', onlineGame:'Онлайн-гра', oppNoMoves:'У суперника немає ходів', bot_marta:'Бот Марта', bot_ostap:'Бот Остап', bot_taras:'Бот Тарас', bot_hryts:'Бот Гриць', cardT:'Фон картки', cardLock:'Відкривається з рангом «{tier}»', card_felt:'Сукно', card_mesh:'Сутінки', card_grain:'Зерно', card_dots:'Точки', card_lines:'Лінії', card_topo:'Рельєф', card_nardy:'Пункти', card_ember:'Жар', card_holo:'Голограма', card_walnut:'Горіх', card_midnight:'Північ', card_wine:'Вино', card_graphite:'Графіт', card_gold:'Золото', card_aurora:'Аврора', oddsT:'Шанси на перемогу', oddsCap:'Шанси на перемогу — оцінка за 8000 зіграних партій', oddsAfter:'Шанс на перемогу після цього ходу', resignB:'Здатися', resignQ:'Здатися в цій партії?', resignWait:'Здатися можна після 10-го ходу (залишилось {n})', resignOne:'Суперник отримає 1 очко.', resignMars:'Ви не викинули жодної шашки, тому це марс — 2 очки.', resignRated:'Для рейтингу це зарахується як поразка.', resigned:'{n} здається.', resignedYou:'Ви здалися.', cancel:'Скасувати', setSub:'Зміни застосовуються одразу й зберігаються в цьому браузері.', pcRegistered:'Зареєстрований гравець', pcRanks:'Ранги', pcAccT:'Акаунт', pcWhyT:'З акаунтом у вас буде:', pcWhy1:'рейтинг і рамка рангу', pcWhy2:'місце в таблиці лідерів', pcWhy3:'статистика на будь-якому пристрої', history:'Історія ходів', histEmpty:'Ходів ще немає', histNone:'немає ходу', histOff:'винос', noMovesT:'Немає ходів', undo:'Скасувати хід', bnOpenT:'Хто ходить першим?', bnOpenS:'Киньте кубик — у кого більше, той грає білими', bnOppOpen:'Чекаємо на суперника', bnYour:'Ваш хід', bnRollS:'Киньте кубики, щоб походити', bnColor:'Ходять {c}', bnOpp:'Хід суперника', bnBot:'Хід бота', findT:'Знайти суперника', findD:'Гра з випадковим суперником онлайн, близьким до вас за рейтингом.', findB:'Знайти суперника', botT:'Грати з ботом', botD:'Тренуйтесь будь-коли. За перемогу над ботом рейтингу дається менше, ніж над людиною.', botB:'Грати з ботом', tutorB:'Як грати', localB2:'На одному пристрої', onlineN:'{n} онлайн', searchT:'Шукаємо суперника', searchInfo:'Зачекайте — якщо за {s} секунд ніхто не знайдеться, ви зіграєте з ботом.', playBotNow:'Грати з ботом зараз', matchFound:'Суперника знайдено!', matchWait:'Суперника знайдено — зʼєднуємо…', noOpp:'Вільних суперників немає — граємо з ботом', botName:'Бот Тарас', botTurn:'Бот думає…', botThinking:'Бот кидає кубик…', botGame:'Гра з ботом', botNoMoves:'У бота немає ходів', botRated:'гра з ботом: 40%', tutorGame:'Навчання', coachOpp:'Тренер', tutRoll:'Натисніть «Кинути кубики».', tutStepDone:'Чудово! Натисніть «Далі».', tutNice:'Чудово!', tutStep:'Урок {i} з {n}', tutNext:'Далі', tutBack:'Назад', tutExit:'Вийти', tutPlayBot:'Грати з ботом', tutFind:'Знайти суперника',
   tut1T:'Дошка й мета', tut1D:'Ви граєте білими. Усі 15 шашок стоять на «голові» — пункт 24, вгорі праворуч. Чорні стоять на 12. Обидва гравці рухаються проти годинникової стрілки: білі — вгорі справа наліво, потім унизу зліва направо. Мета — привести всі шашки в дім (пункти 1–6, внизу праворуч) і викинути їх з дошки раніше за суперника.',
   tut2T:'Перший хід', tut2D:'Киньте кубики — випаде 5 і 3. Кожен кубик — окремий хід на стільки пунктів. З голови за хід можна зняти лише одну шашку, тож обидва кубики зіграйте однією шашкою: натисніть шашку на 24 — золота позначка означає обидва кубики разом (5+3).',
   tut3T:'Дубль', tut3D:'Однакові числа на кубиках граються чотири рази. Киньте — випаде 4 і 4: зробіть чотири ходи по 4 пункти будь-якими шашками (з голови — так само лише одна).',
@@ -1937,16 +1987,108 @@ function selfAv(){ if(profile.av) return profile.av; let a=store.get('guestAv','
 const V7I={find:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3.5 12h17M12 3c2.6 2.6 3.8 5.6 3.8 9s-1.2 6.4-3.8 9c-2.6-2.6-3.8-5.6-3.8-9S9.4 5.6 12 3z"/></svg>',
   bot:'<svg viewBox="0 0 24 24"><rect x="4" y="7" width="16" height="12" rx="4"/><path d="M12 7V4M9 13h.01M15 13h.01M9.5 16.5h5"/></svg>',
   friend:'<svg viewBox="0 0 24 24"><path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1.2 1.2"/><path d="M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1.2-1.2"/></svg>'};
+
+// ================= coins, shop and inventory =================
+// (prototype: the wallet lives in this browser; on the live site it will be kept on the server)
+const ECON={start:200, daily:50, win:20, loss:5, botWin:8, botLoss:2, sale:.25};
+const SHOP=[
+  {id:'board:halloween', cat:'board', k:'halloween', price:600},
+  {id:'ck:spooky', cat:'ck', k:'spooky', price:450},
+  {id:'dice:lantern', cat:'dice', k:'lantern', price:250},
+  {id:'table:night', cat:'table', k:'night', price:300},
+  {id:'card:pumpkin', cat:'card', k:'pumpkin', price:200},
+  {id:'board:velvet', cat:'board', k:'velvet', price:700},
+  {id:'ck:royal', cat:'ck', k:'royal', price:500},
+  {id:'dice:sapphire', cat:'dice', k:'sapphire', price:300},
+  {id:'dice:emerald', cat:'dice', k:'emerald', price:300}];
+const BUNDLES=[{id:'set:halloween', k:'halloween', items:['board:halloween','ck:spooky','dice:lantern','table:night','card:pumpkin'], price:1300}];
+const W=(()=>{ const w=store.get('wallet',null); return w || {coins:ECON.start, owned:[], daily:'', paid:[]}; })();
+function saveW(){ store.set('wallet',W); paintCoins(); }
+const owns=(cat,k)=>{ const it=SHOP.find(x=>x.cat===cat&&x.k===k); return !it || W.owned.includes(it.id); };
+const today=()=>new Date().toISOString().slice(0,10);
+const dailyReady=()=>W.daily!==today();
+function dealOfDay(){ const left=SHOP.filter(x=>!W.owned.includes(x.id)); if(!left.length) return null; const d=Math.floor(Date.now()/864e5); return left[d%left.length]; }
+function priceOf(it){ const deal=dealOfDay(); return deal && deal.id===it.id ? Math.round(it.price*(1-ECON.sale)/10)*10 : it.price; }
+function bundlePrice(b){ const left=b.items.filter(i=>!W.owned.includes(i)); const full=b.items.reduce((a,i)=>a+SHOP.find(x=>x.id===i).price,0); return Math.max(0, b.price - (full-left.reduce((a,i)=>a+SHOP.find(x=>x.id===i).price,0))); }
+function paintCoins(){ const n=W.coins; const e=$('coinN'); if(e) e.textContent=n; document.querySelectorAll('.coinN2').forEach(x=>x.textContent=n); const b=$('btnCoins'); if(b) b.classList.toggle('bonus', dailyReady()); }
+function coinFly(n, el){ const b=el||$('btnCoins'); if(!b) return; const r=b.getBoundingClientRect(); const f=document.createElement('div'); f.className='coinfly'; f.textContent=(n>0?'+':'')+n; f.style.left=(r.left+r.width/2-14)+'px'; f.style.top=(r.top+r.height)+'px'; document.body.appendChild(f); setTimeout(()=>f.remove(),1500); b.classList.remove('bump'); void b.offsetWidth; b.classList.add('bump'); }
+function addCoins(n){ W.coins+=n; saveW(); coinFly(n); }
+// coins for a finished game (once per game)
+function payGame(){
+  if(!gs || gs.phase!=='over' || !(mode==='online'||mode==='bot') || !mySlot()) return;
+  const key=gameId+':'+gs.score.p1+':'+gs.score.p2; if(W.paid.includes(key)) return; W.paid.push(key); W.paid=W.paid.slice(-80);
+  const won=slotOfColor(gs.winner)===mySlot(), practice = mode==='bot' && !isGhost();
+  const n = won ? (practice?ECON.botWin:ECON.win) : (practice?ECON.botLoss:ECON.loss);
+  addCoins(n); toast(t('coinsGot',{n}));
+}
+// make sure nothing unowned stays selected
+function fixPrefs(){ if(!owns('board',prefs.board)) prefs.board='classic'; if(!owns('ck',prefs.ck)) prefs.ck='classic'; if(!owns('dice',prefs.dice)) prefs.dice='ivory'; if(!owns('table',prefs.table)) prefs.table='auto'; const c=store.get('card','felt'); if(!owns('card',c)) store.set('card','felt'); }
+// previews for shop tiles
+function itemPreview(cat,k){
+  const pv=document.createElement('div'); pv.className='pv';
+  if(cat==='board'){ const mb=document.createElement('div'); mb.className='mb'; mb.dataset.b=k; mb.dataset.shape=BOARDS[k].shape||'lane'; const mf=document.createElement('div'); mf.className='mf'; for(let i=0;i<6;i++){ const p=document.createElement('span'); p.className='mp'+(i%2?' alt':''); mf.appendChild(p); } mb.appendChild(mf); pv.appendChild(mb); }
+  if(cat==='ck'){ const w=document.createElement('div'); w.dataset.ck=k; w.style.cssText='display:flex;gap:6px;--cs:44px'; ['w','b'].forEach(c=>{ const ck=document.createElement('div'); ck.className='ck '+c; w.appendChild(ck); }); pv.appendChild(w); }
+  if(cat==='dice'){ const w=document.createElement('div'); w.dataset.dice=k; w.style.cssText='display:flex;gap:6px;--cs:40px'; [5,3].forEach(v=>w.appendChild(window.__dieEl(v,false,false,0))); pv.appendChild(w); }
+  if(cat==='table'){ pv.style.background=TABLE_SW[k]||'#222'; pv.style.backgroundSize='cover'; }
+  if(cat==='card'){ const c=CARDS.find(x=>x.k===k); pv.style.background=c?c.c:'#222'; }
+  return pv;
+}
+const catName=c=>t({board:'boardT',ck:'checkersT',dice:'diceT',table:'tableT',card:'cardT'}[c]);
+const itemName=(cat,k)=>t({board:'st_',ck:'ck_',dice:'dice_',table:'tb_',card:'card_'}[cat]+k);
+function buy(it, price){
+  if(W.owned.includes(it.id)) return equip(it);
+  if(W.coins<price){ toast(t('noCoins',{n:price-W.coins})); return; }
+  W.coins-=price; W.owned.push(it.id); saveW(); coinFly(-price); sfx('win'); toast(t('bought',{n:itemName(it.cat,it.k)})); equip(it); renderShop();
+}
+function equip(it){
+  if(it.cat==='board'){ prefs.board=it.k; store.set('board2',it.k); }
+  if(it.cat==='ck'){ prefs.ck=it.k; store.set('ck',it.k); }
+  if(it.cat==='dice'){ prefs.dice=it.k; store.set('dice',it.k); }
+  if(it.cat==='table'){ prefs.table=it.k; store.set('table',it.k); }
+  if(it.cat==='card'){ store.set('card',it.k); applyCard(); }
+  try{ scene3d && scene3d.applyTheme(); }catch(e){}
+}
+const isOn=it=> it.cat==='board'?prefs.board===it.k : it.cat==='ck'?prefs.ck===it.k : it.cat==='dice'?prefs.dice===it.k : it.cat==='table'?prefs.table===it.k : store.get('card','felt')===it.k;
+function shopTile(it, big){
+  const own=W.owned.includes(it.id), price=priceOf(it), deal=dealOfDay(), isDeal=deal&&deal.id===it.id&&!own;
+  const d=document.createElement('div'); d.className='sitem'+(own?' own':'')+(big?' big':'');
+  if(isDeal){ const tg=document.createElement('span'); tg.className='tag'; tg.textContent='−'+Math.round(ECON.sale*100)+'%'; d.appendChild(tg); }
+  d.appendChild(itemPreview(it.cat,it.k));
+  const nm=document.createElement('div'); nm.innerHTML='<div class="nm"></div><div class="cat"></div>'; nm.firstChild.textContent=itemName(it.cat,it.k); nm.lastChild.textContent=catName(it.cat); d.appendChild(nm);
+  const b=document.createElement('button'); b.className='buy'+(own?'':' cta');
+  if(own) b.textContent = isOn(it) ? t('equipped') : t('equip');
+  else { b.innerHTML='<i class="coin"></i><span></span>'; b.lastChild.textContent=price; if(isDeal){ const o=document.createElement('span'); o.className='old'; o.textContent=it.price; b.appendChild(o); } }
+  b.onclick=()=>{ buy(it, price); renderShop(); };
+  d.appendChild(b); return d;
+}
+function renderShop(){
+  const box=$('shopBox'); if(!box) return; box.innerHTML='';
+  const hd=document.createElement('div'); hd.className='shead'; hd.innerHTML='<h2></h2><span class="coinpill"><i class="coin"></i><span class="coinN2"></span></span><button class="xbtn" aria-label="Close"><svg class="i"><use href="#i-x"/></svg></button>';
+  hd.querySelector('h2').textContent=t('shopT'); hd.querySelector('.coinN2').textContent=W.coins; hd.querySelector('.xbtn').onclick=()=>show('shopOv',false); box.appendChild(hd);
+  const dl=document.createElement('div'); dl.className='daily'; dl.innerHTML='<i class="coin" style="width:30px;height:30px"></i><div><b></b><small></small></div><button></button>';
+  dl.querySelector('b').textContent=t('dailyT'); dl.querySelector('small').textContent=t('earnHow',{w:ECON.win,l:ECON.loss});
+  const db=dl.querySelector('button'); db.className = dailyReady() ? 'cta' : ''; db.disabled=!dailyReady(); db.textContent = dailyReady() ? t('dailyB',{n:ECON.daily}) : t('dailyDone');
+  db.onclick=()=>{ if(!dailyReady()) return; W.daily=today(); addCoins(ECON.daily); renderShop(); }; box.appendChild(dl);
+  const deal=dealOfDay(); if(deal){ const h=document.createElement('h3'); h.textContent=t('dealT'); box.appendChild(h); const g=document.createElement('div'); g.className='sgrid'; g.appendChild(shopTile(deal,true)); box.appendChild(g); }
+  BUNDLES.forEach(bd=>{ const left=bd.items.filter(i=>!W.owned.includes(i)); if(!left.length) return;
+    const h=document.createElement('h3'); h.textContent=t('bundlesT'); box.appendChild(h);
+    const g=document.createElement('div'); g.className='sgrid'; const d=document.createElement('div'); d.className='sitem big';
+    const pv=document.createElement('div'); pv.className='pv'; pv.style.background='linear-gradient(135deg,#2a1738,#140c1c)';
+    ['board','ck','dice'].forEach(c=>{ const it=SHOP.find(x=>bd.items.includes(x.id)&&x.cat===c); const p=itemPreview(c,it.k); p.style.background='transparent'; p.style.flex='1'; pv.appendChild(p); }); d.appendChild(pv);
+    const full=bd.items.reduce((a,i)=>a+SHOP.find(x=>x.id===i).price,0), price=bundlePrice(bd);
+    const nm=document.createElement('div'); nm.innerHTML='<div class="nm"></div><div class="cat"></div>'; nm.firstChild.textContent=t('set_'+bd.k); nm.lastChild.textContent=t('bundleSub',{n:bd.items.length}); d.appendChild(nm);
+    const b=document.createElement('button'); b.className='buy cta'; b.innerHTML='<i class="coin"></i><span></span><span class="old"></span>'; b.children[1].textContent=price; b.children[2].textContent=full;
+    b.onclick=()=>{ if(W.coins<price){ toast(t('noCoins',{n:price-W.coins})); return; } W.coins-=price; left.forEach(i=>W.owned.push(i)); saveW(); coinFly(-price); sfx('win'); const P=PRESETS.find(x=>x.k===bd.k); if(P) applyPreset(P); store.set('card','pumpkin'); applyCard(); toast(t('bought',{n:t('set_'+bd.k)})); renderShop(); };
+    d.appendChild(b); g.appendChild(d); box.appendChild(g); });
+  ['board','ck','dice','table','card'].forEach(c=>{ const items=SHOP.filter(x=>x.cat===c); if(!items.length) return; const h=document.createElement('h3'); h.textContent=catName(c); box.appendChild(h); const g=document.createElement('div'); g.className='sgrid'; items.forEach(it=>g.appendChild(shopTile(it))); box.appendChild(g); });
+  paintCoins();
+}
+function openShop(){ renderShop(); show('invOv',false); show('setOv',false); show('shopOv',true); }
+function openInv(){ try{ scene3d && scene3d.applyTheme(); }catch(e){} paintCoins(); show('invOv',true); }
+
 // ---- ready-made sets: board + checkers + dice + table in one tap ----
 const PRESETS=[
-  {k:'classic', b:'tri', ck:'classic', d:'ivory', t:'wood'},
-  {k:'halloween', b:'halloween', ck:'spooky', d:'lantern', t:'night'},
-  {k:'marble', b:'marble', ck:'pearl', d:'marble', t:'marble'},
-  {k:'oak', b:'oak', ck:'amber', d:'wood', t:'leather'},
-  {k:'druzi', b:'druzi', ck:'neon', d:'neon', t:'auto'},
-  {k:'ocean', b:'ocean', ck:'vyshyvanka', d:'glass', t:'stone'},
-  {k:'sage', b:'sage', ck:'jade', d:'marble', t:'felt'},
-  {k:'carbon', b:'carbon', ck:'metal', d:'onyx', t:'cafe'}];
+  {k:'halloween', b:'halloween', ck:'spooky', d:'lantern', t:'night'}];
 const presetOn=x=>prefs.board===x.b && prefs.ck===x.ck && prefs.dice===x.d && prefs.table===x.t;
 function applyPreset(x){ prefs.board=x.b; prefs.ck=x.ck; prefs.dice=x.d; prefs.table=x.t; store.set('board2',x.b); store.set('ck',x.ck); store.set('dice',x.d); store.set('table',x.t);
   try{ scene3d && scene3d.applyTheme(); }catch(e){} if(x.k==='halloween') flyBats(4); }
@@ -2415,13 +2557,15 @@ const BOARDS={
   ocean:{name:'Ocean', sw:['#0f2f3a','#e0765a'], shape:'spear'},
   carbon:{name:'Carbon', sw:['#1c1d20','#ff6a2b'], shape:'line'},
   halloween:{name:'Halloween', sw:['#2a1a2e','#e8772e'], shape:'tri'},
+  velvet:{name:'Velvet', sw:['#5a1622','#d9b25e'], shape:'tri'},
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
-const CKS=['classic','wood','stone','flat','metal','glass','retro','pearl','amber','jade','neon','vyshyvanka','spooky'], DICES=['ivory','onyx','ruby','gold','wood','marble','glass','neon','lantern'];
+const CKS=['classic','wood','stone','flat','metal','glass','retro','pearl','amber','jade','neon','vyshyvanka','spooky','royal'], DICES=['ivory','onyx','ruby','gold','wood','marble','glass','neon','lantern','sapphire','emerald'];
 prefs.ck = store.get('ck','classic'); if(!CKS.includes(prefs.ck)) prefs.ck='classic';
 const TABLES=['auto','night','wood','felt','carpet','marble','cafe','stone','leather'], TABLE_SW={"night":"radial-gradient(circle at 80% 22%,#fff8e1 0 7%,rgba(255,240,200,.3) 9%,transparent 30%),linear-gradient(180deg,#0b0a1c,#2a1838)","wood": "url(\"https://images.unsplash.com/photo-1546484396-fb3fc6f95f98?w=320&q=50&auto=format&fit=crop\") center/cover", "felt": "url(\"https://images.unsplash.com/photo-1601370690183-1c7796ecec61?w=320&q=50&auto=format&fit=crop\") center/cover", "carpet": "url(\"https://images.unsplash.com/photo-1572123979839-3749e9973aba?w=320&q=50&auto=format&fit=crop\") center/cover", "marble": "url(\"https://images.unsplash.com/photo-1738664926458-d8ca7f56549f?w=320&q=50&auto=format&fit=crop\") center/cover", "cafe": "url(\"https://images.unsplash.com/photo-1721579381696-15deace92c81?w=320&q=50&auto=format&fit=crop\") center/cover", "stone": "url(\"https://images.unsplash.com/photo-1701105040869-40cb9a5bbe6c?w=320&q=50&auto=format&fit=crop\") center/cover", "leather": "url(\"https://images.unsplash.com/photo-1564842505181-8862a3b9b173?w=320&q=50&auto=format&fit=crop\") center/cover"};
 prefs.table=store.get('table','auto'); if(!TABLES.includes(prefs.table)) prefs.table='auto';
 prefs.dice = store.get('dice','ivory'); if(!DICES.includes(prefs.dice)) prefs.dice='ivory';
+try{ fixPrefs(); }catch(e){}
 function build2D(){
   const stage=$('stage');
   const wrap=document.createElement('div'); wrap.className='bw';
@@ -2467,7 +2611,7 @@ function build2D(){
   function buildPickers(){
     buildPreview();
     const ps=$('pickSet'); if(ps){ ps.innerHTML='';
-      for(const x of PRESETS){ const w=document.createElement('div'); w.className='setpv';
+      for(const x of PRESETS.filter(x=>owns('board',x.b)&&owns('ck',x.ck)&&owns('dice',x.d)&&owns('table',x.t))){ const w=document.createElement('div'); w.className='setpv';
         const mb=document.createElement('div'); mb.className='mb'; mb.dataset.b=x.b; mb.dataset.shape=BOARDS[x.b].shape||'lane'; const mf=document.createElement('div'); mf.className='mf';
         for(let i=0;i<6;i++){ const pp=document.createElement('span'); pp.className='mp'+(i%2?' alt':''); mf.appendChild(pp); } mb.appendChild(mf);
         const cks=document.createElement('div'); cks.className='setck'; cks.dataset.ck=x.ck; ['w','b'].forEach(c=>{ const ck=document.createElement('div'); ck.className='ck '+c; cks.appendChild(ck); });
@@ -2475,22 +2619,22 @@ function build2D(){
         w.append(mb,cks,dz); if(x.t!=='auto') w.style.setProperty('--tbg', TABLE_SW[x.t]||'transparent');
         ps.appendChild(pickBtn(presetOn(x), t('set_'+x.k), w, ()=>applyPreset(x))); } }
     const pb=$('pickBoard'); if(!pb) return; pb.innerHTML='';
-    for(const k of Object.keys(BOARDS)){
+    for(const k of Object.keys(BOARDS).filter(k=>owns('board',k))){
       const mb=document.createElement('div'); mb.className='mb'; mb.dataset.b=k; mb.dataset.shape=BOARDS[k].shape||'lane'; const mf=document.createElement('div'); mf.className='mf';
       for(let i=0;i<6;i++){ const p=document.createElement('span'); p.className='mp'+(i%2?' alt':''); mf.appendChild(p); } mb.appendChild(mf);
       pb.appendChild(pickBtn(prefs.board===k, t('st_'+k), mb, ()=>{ prefs.board=k; store.set('board2',k); applyTheme(); }));
     }
     const pc=$('pickCk'); pc.innerHTML='';
-    for(const k of CKS){
+    for(const k of CKS.filter(k=>owns('ck',k))){
       const w=document.createElement('div'); w.dataset.ck=k; w.style.cssText='display:flex;gap:4px;--cs:31px';
       ['w','b'].forEach(c=>{ const ck=document.createElement('div'); ck.className='ck '+c; w.appendChild(ck); });
       pc.appendChild(pickBtn(prefs.ck===k, t('ck_'+k), w, ()=>{ prefs.ck=k; store.set('ck',k); applyTheme(); }));
     }
     const ptb=$('pickTable'); if(ptb){ ptb.innerHTML='';
-      for(const k of TABLES){ const d=document.createElement('div'); d.className='tbl'; d.style.background = k==='auto' ? 'repeating-linear-gradient(135deg,rgba(0,0,0,.06) 0 6px,transparent 6px 12px),var(--line2)' : TABLE_SW[k];
+      for(const k of TABLES.filter(k=>owns('table',k))){ const d=document.createElement('div'); d.className='tbl'; d.style.background = k==='auto' ? 'repeating-linear-gradient(135deg,rgba(0,0,0,.06) 0 6px,transparent 6px 12px),var(--line2)' : TABLE_SW[k];
         ptb.appendChild(pickBtn(prefs.table===k, t('tb_'+k), d, ()=>{ prefs.table=k; store.set('table',k); applyTheme(); })); } }
     const pd=$('pickDice'); pd.innerHTML='';
-    for(const k of DICES){
+    for(const k of DICES.filter(k=>owns('dice',k))){
       const w=document.createElement('div'); w.dataset.dice=k; w.style.cssText='display:flex;gap:5px;--cs:32px';
       [5,1].forEach(v=>w.appendChild(dieEl(v,false,false,0)));
       pd.appendChild(pickBtn(prefs.dice===k, t('dice_'+k), w, ()=>{ prefs.dice=k; store.set('dice',k); applyTheme(); }));
@@ -2499,6 +2643,7 @@ function build2D(){
 
   const PIPS={1:[[50,50]],2:[[28,28],[72,72]],3:[[26,26],[50,50],[74,74]],4:[[28,28],[72,28],[28,72],[72,72]],5:[[26,26],[74,26],[50,50],[26,74],[74,74]],6:[[28,24],[72,24],[28,50],[72,50],[28,76],[72,76]]};
   let lastDiceKey='';
+  window.__dieEl=(...a)=>dieEl(...a);
   function dieEl(v, used, anim, i){
     const d=document.createElement('div'); d.className='die'+(used?' used':'')+(anim?' roll':'');
     if(anim) d.style.animationDelay=(i*60)+'ms';
@@ -2730,7 +2875,7 @@ function applyCard(){ let k=store.get('card','felt'); if(!cardOk(k)) k='felt'; d
 function cardPicker(){
   const w=document.createElement('div'); w.className='cardpick';
   const l=document.createElement('div'); l.className='cl'; l.textContent=t('cardT'); const row=document.createElement('div'); row.className='cs';
-  CARDS.slice().sort((x,y)=>cardMin(x)-cardMin(y)).forEach(c=>{ const b=document.createElement('button'); b.type='button'; b.style.background=c.c; const ok=cardOk(c.k);
+  CARDS.filter(c=>owns('card',c.k)).sort((x,y)=>cardMin(x)-cardMin(y)).forEach(c=>{ const b=document.createElement('button'); b.type='button'; b.style.background=c.c; const ok=cardOk(c.k);
     b.title = ok ? t('card_'+c.k) : t('cardLock',{tier:t('tier_'+TIERS[tierIdx(cardMin(c))].k)});
     if(!ok) b.classList.add('lock'); if(document.body.dataset.card===c.k) b.classList.add('on');
     b.onclick=()=>{ if(!cardOk(c.k)) return; store.set('card',c.k); applyCard(); row.querySelectorAll('button').forEach(x=>x.classList.remove('on')); b.classList.add('on'); };
@@ -2864,6 +3009,7 @@ function confetti(n){
 }
 function recordResult(){
   if(!(mode==='online' || mode==='bot') || !mySlot() || gs.phase!=='over') return;
+  try{ payGame(); }catch(e){}
   if(viaServer()){ const me=mySlot(); lastDelta = gs.ratingDelta ? gs.ratingDelta[me] : null; checkAchievements(); refreshProfile(); return; }
   const key=gameId+':'+gs.score.p1+':'+gs.score.p2; const done=store.get('counted',[]);
   if(done.includes(key)) return; done.push(key); store.set('counted',done.slice(-80));
@@ -2880,7 +3026,12 @@ $('btnMe').onclick=openProfile;
 $('btnLb').onclick=openLeaderboard; $('btnLb2').onclick=openLeaderboard;
 $('btnLbClose').onclick=()=>show('lbOv',false);
 $('lbOv').addEventListener('click',e=>{ if(e.target.id==='lbOv') show('lbOv',false); });
-$('btnSet').onclick=()=>{ scene3d && scene3d.applyTheme(); show('setOv',true); };
+(function(){ const sm=document.querySelector('#setOv .modal'), ib=$('invBox'), ih=$('invHero');
+  ih.insertBefore($('setPrev'), ih.querySelector('.invbar')); ih.insertBefore($('setNames'), ih.querySelector('.invbar')); ib.appendChild(sm.querySelector('.body')); sm.classList.add('small'); })();
+$('btnSet').onclick=()=>{ show('setOv',true); };
+$('btnInv').onclick=openInv; $('btnInvClose').onclick=()=>show('invOv',false); $('invOv').addEventListener('click',e=>{ if(e.target.id==='invOv') show('invOv',false); });
+$('btnCoins').onclick=openShop; $('btnToShop').onclick=openShop; $('shopOv').addEventListener('click',e=>{ if(e.target.id==='shopOv') show('shopOv',false); });
+paintCoins();
 $('btnSetClose').onclick=()=>show('setOv',false);
 $('setOv').addEventListener('click',e=>{ if(e.target.id==='setOv') show('setOv',false); });
 document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ show('setOv',false); show('profOv',false); show('lbOv',false); show('resOv',false); } });
