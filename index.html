@@ -1565,7 +1565,7 @@ function route(){
   if(inGame && !waiting) renderHud();
   scene3d && scene3d.sync();
   renderBanner(); renderExtras(); voiceUI();
-  renderCoach(); lobbyTrack(); botTick();
+  renderCoach(); lobbyTrack(); botTick(); botChatTick();
 }
 let autoRollKey='';
 async function resolveNames(){
@@ -1956,6 +1956,43 @@ function askRematch(){
   save(); renderRematch();
 }
 function say_bot(x){ try{ showBubble('p2',x); }catch(e){} }
+// ---- bots react with emoji now and then, like people do (persona bots more often than practice bots) ----
+const BC={key:'',last:0,n:0,once:{},prev:null,idleTurn:''};
+function botSay(event, opts, p){
+  if(!gs || mode!=='bot' || mode==='tutor') return;
+  const ghost=isGhost(), prob=(p||.3)*(ghost?1:.35);
+  if(BC.once[event] || BC.n>=(ghost?7:3) || Date.now()-BC.last<9000 || Math.random()>prob) return;
+  BC.once[event]=true; BC.n++; BC.last=Date.now();
+  const x=opts[Math.floor(Math.random()*opts.length)], wait=900+Math.random()*1800, key=BC.key;
+  setTimeout(()=>{ if(gs && BC.key===key) say_bot(x); }, wait);
+}
+function botChatTick(){
+  if(!gs || mode!=='bot') { BC.prev=null; return; }
+  const key=gameId+'|'+((gs.score&&gs.score.p1)||0)+'|'+((gs.score&&gs.score.p2)||0);
+  if(key!==BC.key){ BC.key=key; BC.n=0; BC.once={}; BC.prev=null; BC.idleTurn=''; BC.last=Date.now()-6000;
+    botSay('hello',['chHi','chLuck','👋','chHi'],.45); }
+  const bc=gs.phase==='opening'?null:colorOfSlot('p2'), pv=BC.prev;
+  const cur={phase:gs.phase,rollId:gs.rollId,turn:gs.turn,dice:(gs.dice||[]).join(),off:bc?gs.off[bc]:0};
+  if(pv && gs.phase==='play' && bc){
+    if(cur.rollId!==pv.rollId && gs.dice && gs.dice.length===2){
+      const dbl=gs.dice[0]===gs.dice[1];
+      if(gs.turn===bc){ if(dbl) botSay('dbl'+gs.rollId,['🔥','😎','🎲','💪'],.35); }
+      else if(dbl && gs.dice[0]>=4) botSay('oppdbl',['😮','😬','chNice','🙈'],.35);
+    }
+    if(gs.turn===bc && gs.rolled && !legalMoves(gs,bc).length) botSay('nomove',['chOops','😅','🙈'],.5);
+    if(cur.off>0 && pv.off===0) botSay('firstoff',['💪','😎'],.25);
+    const w=whiteChance(gs), mine=bc==='w'?w:1-w;
+    if(mine<.22) botSay('losing',['😬','🙈','chOops','🤔'],.35);
+    if(mine>.85) botSay('winning',['😎','🔥'],.2);
+    if(gs.turn!==bc && !gs.rolled && Date.now()-(gs.turnAt||Date.now())>32000 && BC.idleTurn!==String(gs.rollId)){ BC.idleTurn=String(gs.rollId); botSay('idle'+gs.rollId,['🤔','⏳','👀'],.3); }
+  }
+  if(pv && pv.phase!=='over' && gs.phase==='over'){
+    const botWon=slotOfColor(gs.winner)==='p2'; BC.last=0; BC.n=Math.min(BC.n,2);
+    botSay('end', botWon ? ['chGG','chThanks','😎','chGG'] : ['chGG','chNice','👍','chGG','😅'], botWon?.55:.7);
+  }
+  BC.prev=cur;
+}
+setInterval(botChatTick, 1000);
 function renderRematch(){
   const el=$('rmNote'); if(!el || !gs) return; const me=mySlot(), op=me==='p1'?'p2':'p1', r=gs.rematch||{};
   el.textContent = gs.phase!=='over' || mode==='local' ? '' : r[me] && !r[op] ? t('rmWait') : r[op] && !r[me] ? t('rmAsk') : '';
