@@ -2275,7 +2275,7 @@ function serverBotTick(){
 const ICE=[{urls:['stun:stun.l.google.com:19302','stun:stun1.l.google.com:19302']}];
 let ICE_EXTRA=null; // relay (TURN) servers handed out by the server when configured
 async function loadIce(){ if(ICE_EXTRA||!sb) return; try{ const {data}=await sb.functions.invoke('game',{body:{action:'ice'}}); if(data&&Array.isArray(data.ice)&&data.ice.length) ICE_EXTRA=data.ice; }catch(e){} }
-const V={on:false, ch:null, pc:null, mic:null, audio:null, spk:true, state:'off', gid:null, timer:null, an:null};
+const V={on:false, ch:null, pc:null, mic:null, audio:null, spk:true, state:'off', gid:null, timer:null, an:null, q:[], retry:0, ct:null};
 function voiceUI(){
   const b=$('btnVoice'); if(!b) return;
   const avail = gs && (mode==='online' || isGhost()) && gs.p2;
@@ -2288,6 +2288,8 @@ function toggleSpk(){ V.spk=!V.spk; if(V.audio) V.audio.muted=!V.spk; voiceUI();
 async function voiceStart(){
   if(!gs) return;
   loadIce();
+  if(!V.audio){ V.audio=new Audio(); V.audio.autoplay=true; V.audio.playsInline=true; V.audio.setAttribute('playsinline',''); document.body.appendChild(V.audio); }
+  try{ V.audio.muted=true; V.audio.play().catch(()=>{}); }catch(e){}
   try{ V.mic=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true}}); }
   catch(e){ toast(t('vcNoMic')); return; }
   V.on=true; V.state='wait'; V.gid=gameId; voiceUI(); toast(t('vcWait'));
@@ -2303,27 +2305,38 @@ function makePC(){
   const pc=new RTCPeerConnection({iceServers:ICE_EXTRA?ICE.concat(ICE_EXTRA):ICE}); V.pc=pc;
   V.mic.getTracks().forEach(tr=>pc.addTrack(tr,V.mic));
   pc.onicecandidate=e=>{ if(e.candidate) sig({k:'ice',c:e.candidate.toJSON()}); };
-  pc.ontrack=e=>{ if(!V.audio){ V.audio=new Audio(); V.audio.autoplay=true; V.audio.playsInline=true; } V.audio.srcObject=e.streams[0]; V.audio.muted=!V.spk; V.audio.play().catch(()=>{}); watchTalk(e.streams[0]); };
+  pc.ontrack=e=>{ if(!V.audio){ V.audio=new Audio(); V.audio.autoplay=true; V.audio.playsInline=true; document.body.appendChild(V.audio); } V.audio.srcObject=e.streams[0]; V.audio.muted=!V.spk; V.audio.play().catch(()=>{}); watchTalk(e.streams[0]); };
   pc.onconnectionstatechange=()=>{ const st=pc.connectionState;
-    if(st==='connected'){ V.state='live'; clearTimeout(V.timer); toast(t('vcLive')); sfx('turn'); }
-    if(st==='failed'){ toast(t('vcFail')); voiceReset(); }
+    if(st==='connected'){ V.state='live'; V.retry=0; clearTimeout(V.timer); clearTimeout(V.ct); toast(t('vcLive')); sfx('turn'); }
+    if(st==='failed'){ voiceFailed('failed'); }
     if(st==='disconnected'||st==='closed'){ if(V.on){ V.state='wait'; } }
     voiceUI(); };
   return pc;
 }
+// ICE candidates that arrive before the remote description are kept and added afterwards
+async function addCand(c){ if(V.pc && V.pc.remoteDescription){ try{ await V.pc.addIceCandidate(c); }catch(e){} } else V.q.push(c); }
+async function flushCands(){ const q=V.q; V.q=[]; for(const c of q){ try{ await V.pc.addIceCandidate(c); }catch(e){} } }
+function voiceFailed(why){
+  const pc=V.pc; let info=why;
+  try{ info+=' ice='+(pc&&pc.iceConnectionState)+' turn='+(ICE_EXTRA?'yes':'no'); }catch(e){}
+  try{ reportError('voice: '+info, navigator.userAgent); }catch(e){}
+  if(V.on && V.retry<1 && opponentId() && uid<opponentId()){ V.retry++; voiceReset(true); offer(); return; }
+  toast(t('vcFail')); voiceReset();
+}
+function armConnectTimer(){ clearTimeout(V.ct); V.ct=setTimeout(()=>{ if(V.on && V.pc && V.state!=='live') voiceFailed('timeout'); }, 15000); }
 async function onSig(m){
   if(!V.on || !m || m.from!==opponentId()) return;
   try{
-    if(m.k==='hello'){ voiceReset(true); sig({k:'hello-ack'}); if(uid<m.from) await offer(); }
+    if(m.k==='hello'){ voiceReset(true); V.retry=0; sig({k:'hello-ack'}); if(uid<m.from) await offer(); }
     else if(m.k==='hello-ack'){ if(uid<m.from && !V.pc) await offer(); }
-    else if(m.k==='offer'){ voiceReset(true); const pc=makePC(); await pc.setRemoteDescription(m.d); const a=await pc.createAnswer(); await pc.setLocalDescription(a); sig({k:'answer',d:pc.localDescription.toJSON()}); }
-    else if(m.k==='answer'){ if(V.pc) await V.pc.setRemoteDescription(m.d); }
-    else if(m.k==='ice'){ if(V.pc) await V.pc.addIceCandidate(m.c); }
+    else if(m.k==='offer'){ const keep=V.q; voiceReset(true); V.q=keep; const pc=makePC(); await pc.setRemoteDescription(m.d); await flushCands(); const a=await pc.createAnswer(); await pc.setLocalDescription(a); sig({k:'answer',d:pc.localDescription.toJSON()}); armConnectTimer(); }
+    else if(m.k==='answer'){ if(V.pc && !V.pc.remoteDescription){ await V.pc.setRemoteDescription(m.d); await flushCands(); } }
+    else if(m.k==='ice'){ await addCand(m.c); }
     else if(m.k==='bye'){ voiceReset(); toast(t('vcOppLeft')); }
   }catch(e){}
 }
-async function offer(){ const pc=makePC(); const o=await pc.createOffer(); await pc.setLocalDescription(o); sig({k:'offer',d:pc.localDescription.toJSON()}); }
-function voiceReset(keepOn){ if(V.pc){ try{ V.pc.close(); }catch(e){} V.pc=null; } if(V.an){ try{ V.an.ctx.close(); }catch(e){} V.an=null; } if(V.on) V.state='wait'; talkMark(false); voiceUI(); }
+async function offer(){ V.q=[]; const pc=makePC(); const o=await pc.createOffer(); await pc.setLocalDescription(o); sig({k:'offer',d:pc.localDescription.toJSON()}); armConnectTimer(); }
+function voiceReset(keepOn){ clearTimeout(V.ct); V.q=[]; if(V.pc){ try{ V.pc.close(); }catch(e){} V.pc=null; } if(V.an){ try{ V.an.ctx.close(); }catch(e){} V.an=null; } if(V.on) V.state='wait'; talkMark(false); voiceUI(); }
 function voiceStop(silent){
   if(!V.on && !V.pc) return; if(!silent || V.ch) sig({k:'bye'});
   voiceReset(); if(V.mic) V.mic.getTracks().forEach(tr=>tr.stop()); V.mic=null;
