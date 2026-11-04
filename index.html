@@ -803,7 +803,9 @@ body.dark .tog{background:rgba(255,255,255,.14)} body.dark .tog.on{background:va
 body.dark .toastbar{background:#f3efe7;color:#15161b}
 body.dark .overlay{background:rgba(5,5,7,.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
 body.v7 .modal{border-radius:22px;border:1px solid var(--line);box-shadow:0 40px 80px -30px rgba(0,0,0,.7)}
-body.dark .pick,body.dark .revr,body.dark .achi{background:var(--surf);border-color:var(--line)}
+body.dark .pick,body.dark .revr,body.dark .achi,body.dark .pc .ladder,body.dark .rank,body.dark .coach,body.dark .linkbox,body.dark .field{background:var(--surf);border-color:var(--line);color:var(--ink)}
+body.dark .pick:hover{background:var(--surf2)}
+body.dark .pc .ladder{box-shadow:inset 0 0 0 1px var(--line)}
 body.dark .pick.on{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}
 body.dark .avopt.on{box-shadow:0 0 0 2px var(--accent)}
 body.dark .lb .lbrow.me{background:rgba(242,179,61,.08)}
@@ -882,6 +884,23 @@ body.dark .pt .num{opacity:.9}
   body.v7 #vGame{padding:10px}
 }
 @media (orientation:landscape) and (max-height:540px){ body.v7 #vHome{grid-template-columns:1fr 1fr} body.v7 #vHome .sec.opt p{display:none} }
+
+/* ---- mobile modal fixes: close button always visible, avatars fit, dynamic viewport height ---- */
+@media (max-width:760px){
+  #profBox.pc,.modal.setm{max-height:calc(100vh - 24px);max-height:calc(100dvh - 24px)}
+  .pc .x{position:fixed;top:max(20px,calc(env(safe-area-inset-top) + 12px));right:20px;width:40px;height:40px;z-index:30;
+    background:rgba(18,18,22,.62)!important;color:#fff!important;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 6px 18px -6px rgba(0,0,0,.6);font-size:22px}
+  .pc .avpick{grid-template-columns:repeat(6,minmax(0,1fr))!important;gap:6px}
+  .pc .avopt{width:100%;min-width:0;padding:2px}
+  .pc .avopt .av{width:100%;height:auto;aspect-ratio:1/1}
+}
+@media (max-width:380px){ .pc .avpick{grid-template-columns:repeat(5,minmax(0,1fr))!important} }
+.overlay{padding:max(12px,env(safe-area-inset-top)) 12px max(12px,env(safe-area-inset-bottom))}
+/* ---- icon buttons: content always centred ---- */
+.share button,#btnChat,.hdr-r .gear{display:inline-flex;align-items:center;justify-content:center}
+.share button{padding:0;min-width:40px;min-height:40px;line-height:1}
+.share button svg.i{margin:0}
+#btnChat{font-size:19px;line-height:1}
 </style>
 </head>
 <body>
