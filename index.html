@@ -51,6 +51,8 @@ header{grid-column:1/-1;display:flex;align-items:baseline;justify-content:space-
 .brand b{font:600 25px/1 var(--serif);letter-spacing:-.01em;text-transform:lowercase;margin-right:6px}
 .brand small{align-self:center;padding-top:3px}
 .brand small{color:var(--muted);font-size:14px;font-weight:400}
+.brand .ver{align-self:center;padding:2px 7px 1px;margin-top:2px;border-radius:99px;border:1px solid var(--line2);color:var(--muted);font:500 11.5px/1.4 var(--sans);letter-spacing:.02em;white-space:nowrap}
+@media (max-width:560px){ .brand .ver{font-size:10px;padding:1px 6px 0} }
 .hdr-r{display:flex;align-items:center;gap:18px;font-size:14px}
 .seg{display:flex;gap:2px;align-items:center}
 .seg button{border:0;padding:4px 6px;border-radius:4px;color:var(--muted);font-size:13px;font-weight:500;letter-spacing:.12em}
@@ -960,7 +962,7 @@ body[data-table]:not([data-table=auto]) #stage .bw{filter:drop-shadow(0 30px 36p
 
 <div class="app">
   <header>
-    <div class="brand" id="brand"><svg class="bmark" viewBox="6 14 62 44" aria-hidden="true"><circle cx="28" cy="36" r="19" fill="#fff" stroke="#1d1915" stroke-width="2.6"/><circle cx="28" cy="36" r="12" fill="none" stroke="#d6ccbb" stroke-width="1.6"/><circle cx="46" cy="36" r="19" fill="#1d1915" stroke="var(--paper)" stroke-width="3"/><circle cx="46" cy="36" r="12" fill="none" stroke="#4a423a" stroke-width="1.6"/></svg><b data-t="brandName"></b><small data-t="tagline"></small></div>
+    <div class="brand" id="brand"><svg class="bmark" viewBox="6 14 62 44" aria-hidden="true"><circle cx="28" cy="36" r="19" fill="#fff" stroke="#1d1915" stroke-width="2.6"/><circle cx="28" cy="36" r="12" fill="none" stroke="#d6ccbb" stroke-width="1.6"/><circle cx="46" cy="36" r="19" fill="#1d1915" stroke="var(--paper)" stroke-width="3"/><circle cx="46" cy="36" r="12" fill="none" stroke="#4a423a" stroke-width="1.6"/></svg><b data-t="brandName"></b><small data-t="tagline"></small><span class="ver" id="appVer"></span></div>
     <div class="hdr-r"><span class="onl hdr" id="onlineCnt"></span>
       <div class="seg" id="langSeg"><button data-l="en">EN</button><button data-l="uk">UA</button></div>
       <button class="gear" id="btnLb" title="Leaderboard"><svg class="i"><use href="#i-trophy"/></svg></button><button class="gear" id="btnSet" title="Settings"><svg class="i"><use href="#i-gear"/></svg></button><button class="me" id="btnMe"></button>
@@ -2378,6 +2380,8 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
+const APP_VERSION='0.13.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+{ const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=>(RAR3[cat]||{})[k]||'r';
 const CKS=['classic','wood','stone','flat','metal','glass','retro','pearl','amber','jade','neon','vyshyvanka'], DICES=['ivory','onyx','ruby','gold','wood','marble','glass','neon'];
