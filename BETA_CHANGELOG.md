@@ -3,6 +3,9 @@
 Beta versions are `<next main-site version>-beta.<build>`: the beta is heading for 0.14.0, and every deploy to /beta adds one to the build number (0.14.0-beta.2, -beta.3 …).
 When features move to the main site they get a normal version there (see CHANGELOG.md), and the beta moves on to the next one.
 
+## 0.14.0-beta.2 — 5 Nov 2026
+- Invite a friend: the link button opens a window with a QR code — copy the link, share it (phone share sheet, with the QR picture) or save the QR as a picture.
+
 ## 0.14.0-beta.1 — 5 Nov 2026 (everything in the beta so far)
 **Speed and look**
 - Faster loading (FCP ~1.0 s → ~0.4 s on a slow phone), lazy previews, no idle animations, lighter effects on phones.
