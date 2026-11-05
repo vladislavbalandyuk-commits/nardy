@@ -4161,7 +4161,7 @@ function ghostGames(i,n){
   return out.sort((a,b)=>b.end-a.end).slice(0,n);
 }
 function agoTxt(ms){ const m=Math.max(1,Math.round(ms/60000)); return m<60 ? t('agoM',{n:m}) : t('agoH',{n:Math.round(m/60)}); }
-function openPlayer(r){
+function openPlayer(r,pos){
   if(!r) return; if(r.id && r.id===uid) return openProfile();
   const box=$('plBox'); box.innerHTML=''; const h=(tag,cls,txt)=>{ const e=document.createElement(tag); if(cls) e.className=cls; if(txt!=null) e.textContent=txt; return e; };
   const gi = typeof r.id==='string' && /^g\d+$/.test(r.id) ? +r.id.slice(1) : null;
@@ -4173,8 +4173,9 @@ function openPlayer(r){
   let status='';
   if(gi!=null){ const live=botMatches().live.find(m=>m.a===gi||m.b===gi), lg=ghostGames(gi,1)[0], seen=Math.min(((gi*7919)%300+20)*60000, lg?Date.now()-lg.end:1e12); status = live ? t('plPlaying',{n:ghostInfo(live.a===gi?live.b:live.a).name}) : ghostsOnline().includes(gi) ? t('plOnline') : t('plSeen',{n:agoTxt(seen)}); }
   if(status){ const st=h('div','hsub plst'); if(/^(●)/.test(status)) st.classList.add('on'); st.textContent=status; top.append(st); }
-  const pill=h('div','tierpill'); pill.append(h('i'), document.createTextNode(t('tier_'+TIERS[ti].k)), starsEl(rating)); top.append(pill);
-  const rt=h('div','rating'); rt.append(h('b',null,String(rating)), h('span',null,t('topPos',{n:topPos(rating,r.id)})));
+  const pill=h('div','tierpill'); pill.append(h('i'), document.createTextNode(t('tier_'+TIERS[ti].k))); top.append(pill);
+  if(!pos){ const k=(lbRows||[]).findIndex(x=>x.id===r.id); pos = k>=0 ? k+1 : topPos(rating,r.id); }
+  const rt=h('div','rating'); rt.append(h('b',null,String(rating)), h('span',null,t('topPos',{n:pos})));
   const played=r.played||0, won=r.won||0, rate=played?Math.round(won/played*100)+'%':'—';
   const st=h('div','hstats'); [[played,t('played')],[won,t('wins')],[rate,t('rate')]].forEach(([v,l])=>{ const d=h('div'); d.append(h('b',null,String(v)), h('span',null,l)); st.appendChild(d); });
   hero.append(x,top,rt,st);
@@ -4358,7 +4359,7 @@ function lbMore(){
     const sub=document.createElement('span'); sub.textContent=rankName(r.rating||1000, i+1)+' · '+(r.won||0)+'–'+Math.max(0,(r.played||0)-(r.won||0)); who.append(nm,sub);
     const rt=document.createElement('div'); rt.className='rt'; rt.textContent=r.rating||1000;
     if(r.hour){ const d=document.createElement('small'); d.className='dl '+(r.hour>0?'up':'dn'); d.textContent=(r.hour>0?'+':'−')+Math.abs(r.hour); d.title=t('lbHour'); rt.appendChild(d); }
-    row.append(pos,avw,who,rt); row.onclick=()=>openPlayer(r); list.appendChild(row); });
+    row.append(pos,avw,who,rt); row.onclick=()=>openPlayer(r,i+1); list.appendChild(row); });
   lbShown=Math.min(lbRows.length, lbShown+20);
   if(lbShown<lbRows.length){ const b=document.createElement('button'); b.type='button'; b.className='lbmore'; b.textContent=t('lbMore',{n:Math.min(20,lbRows.length-lbShown)}); b.onclick=()=>{ lbMore(); }; list.after(b); }
 }
