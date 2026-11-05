@@ -2,6 +2,8 @@
 // Supabase Edge Function "game": the only writer of online games and ratings.
 // Clients call it with { action, gameId, args }; it validates the move with the same rules as the client.
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import CAT from './catalog.json' with { type: 'json' };
+import { walletOp, gameReward, normalize, freshWallet, WalletError } from './wallet.ts';
 // ---- rules (same as the client) ----
 // Authoritative long-nardy rules for the server. Pure functions, no I/O.
 // The same rules as the client (index.html): every action is validated here.
@@ -134,12 +136,34 @@ Deno.serve(async (req) => {
     const { data: { user } } = await db.auth.getUser(token); if (!user) return json({ error: 'auth' }, 401);
     const { action, gameId, args } = await req.json();
     if (action === 'ice') return json({ ice: await iceServers().catch(() => null) });
+    // ---- wallet (beta): the server holds coins and items; optimistic lock on a version number ----
+    const loadWallet = async (id: string) => { const { data } = await db.from('wallets').select('w,v').eq('uid', id).maybeSingle(); return data; };
+    if (action === 'wallet') {
+      for (let attempt = 0; attempt < 3; attempt++) {
+        const row = await loadWallet(user.id), cur = row ? normalize(row.w, CAT) : freshWallet(CAT);
+        let out; try { out = walletOp(cur, String(args?.op || 'get'), args || {}, CAT, Date.now(), Math.random); }
+        catch (e) { if (e instanceof WalletError) return json({ error: e.code, wallet: cur }, 400); throw e; }
+        if (!row) { const { error } = await db.from('wallets').insert({ uid: user.id, w: out.w, v: 1 }); if (error) continue; }
+        else if (args?.op && args.op !== 'get') { const { data: upd } = await db.from('wallets').update({ w: out.w, v: row.v + 1, updated_at: new Date().toISOString() }).eq('uid', user.id).eq('v', row.v).select('uid'); if (!upd || !upd.length) continue; }
+        return json({ wallet: out.w, res: out.res, got: out.got });
+      }
+      return json({ error: 'busy' }, 409);
+    }
+    const payWallet = async (id: string, key: string, won: boolean, full: boolean) => {
+      for (let attempt = 0; attempt < 3; attempt++) {
+        const row = await loadWallet(id); if (!row) return null;   // only players who use the new wallet
+        const r = gameReward(normalize(row.w, CAT), CAT, key, won, full);
+        const { data: upd } = await db.from('wallets').update({ w: r.w, v: row.v + 1, updated_at: new Date().toISOString() }).eq('uid', id).eq('v', row.v).select('uid');
+        if (upd && upd.length) return { coins: r.coins, xp: r.xp, got: r.got };
+      }
+      return null;
+    };
     if (typeof gameId !== 'string' || !/^[a-z0-9]{4,16}$/.test(gameId)) return json({ error: 'bad_id' }, 400);
     const prof = async (id: string) => (await db.from('profiles').select('name,av,rating,rgames,played,won,ach').eq('id', id).maybeSingle()).data;
     const ghostRow = async (gid: number) => (await db.from('ghosts').select('id,name,av,rating,played,won').eq('id', gid).maybeSingle()).data;
 
     // rating for a finished game; called only after the game row was saved with rated=true (so it runs once)
-    const rate = async (st: any) => {
+    const rate = async (st: any, gid: string) => {
       const vsBot = C.isBotId(st.p2), gh = vsBot && st.ghost != null ? await ghostRow(st.ghost) : null;
       const [a, b] = await Promise.all([prof(st.p1), vsBot ? Promise.resolve(null) : prof(st.p2)]);
       const oppR = vsBot ? (gh ? gh.rating : st.ratings.p2) : (b?.rating ?? 1000);
@@ -153,6 +177,10 @@ Deno.serve(async (req) => {
         await db.from('profiles').update({ rating: Math.max(100, myR + d[s]), rgames: (p?.rgames ?? 0) + 1, played: (p?.played ?? 0) + 1, won: (p?.won ?? 0) + (won ? 1 : 0), ach: ach.A, updated_at: new Date().toISOString() }).eq('id', id);
       }
       if (gh) { const gw = st.result.winner === 'p2'; await db.from('ghosts').update({ rating: Math.max(100, gh.rating + dGhost), played: gh.played + 1, won: gh.won + (gw ? 1 : 0), updated_at: new Date().toISOString() }).eq('id', gh.id); }
+      // coins and pass XP for players on the server wallet
+      const full = !vsBot || st.ghost != null || !!st.mbot, paid: any = {};
+      for (const s of (vsBot ? ['p1'] : ['p1', 'p2'])) { const r = await payWallet(st[s], gid + ':' + (st.seq || 0), st.result.winner === s, full).catch(() => null); if (r) paid[s] = r; }
+      st.paid = paid;
       st.ratingDelta = d; st.achNew = fresh;
     };
     // save with an optimistic lock; if this save finishes the game, apply the rating once and store the result
@@ -160,7 +188,7 @@ Deno.serve(async (req) => {
       const finishing = st.phase === 'over' && !st.rated; if (finishing) st.rated = true;
       const { data: upd, error } = await db.from('games').update({ p2: st.p2 && !C.isBotId(st.p2) ? st.p2 : null, state: st, updated_at: new Date().toISOString() }).eq('id', id).eq('updated_at', prevAt).select('id');
       if (error) return 'error'; if (!upd || !upd.length) return 'conflict';
-      if (finishing) { await rate(st); await db.from('games').update({ state: st }).eq('id', id); }
+      if (finishing) { await rate(st, id); await db.from('games').update({ state: st }).eq('id', id); }
       return 'ok';
     };
 
@@ -176,7 +204,7 @@ Deno.serve(async (req) => {
       const myR = me?.rating ?? 1000;
       const botR = gh ? gh.rating : bot ? C.BOTS[bot].r : 0;
       st.names = { p1: me?.name ?? '', p2: gh ? gh.name : bot ? String(args?.name ?? '').slice(0, 24) : '' }; st.avs = { p1: me?.av ?? '', p2: gh ? gh.av : bot ? String(args?.av ?? '').slice(0, 8) : '' };
-      st.ratings = { p1: myR, p2: botR }; if (gh) st.ghost = gh.id;
+      st.ratings = { p1: myR, p2: botR }; if (gh) st.ghost = gh.id; if (bot && !gh && args?.mb) st.mbot = true;
       const { error } = await db.from('games').insert({ id: gameId, p1: user.id, p2: null, state: st, updated_at: new Date().toISOString() });
       if (error) return json({ error: error.code === '23505' ? 'exists' : 'db' }, 409);
       return json({ state: st });

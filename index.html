@@ -1232,7 +1232,7 @@ body[data-table=winter] #stage::before{background:radial-gradient(circle,rgba(25
 @media (max-width:350px){ .brand b{font-size:0!important;margin:0!important} body.beta .brand b::after{font-size:11px} .hdr-r .coinpill{padding:5px 7px!important} }
 
 /* menus opened from the header stay above the game result window */
-#setOv,#invOv,#shopOv,#lbOv,#profOv{z-index:12} #detOv{z-index:13}
+#setOv,#invOv,#shopOv,#lbOv,#profOv{z-index:12} #plOv{z-index:14} #detOv{z-index:13}
 
 /* streak, quests, pass XP, "new" badges */
 .shop .daily{flex-wrap:wrap}
@@ -1487,6 +1487,41 @@ img.emo{width:1.3em;height:1.3em;vertical-align:-.3em;display:inline-block;objec
 .lb .rt{display:flex;flex-direction:column;align-items:flex-end;line-height:1.15}
 .lb .rt .dl{font-size:11px;font-weight:600}
 .lb .rt .dl.up{color:#3fb873} .lb .rt .dl.dn{color:#e0645a}
+
+/* someone else's player card */
+#plBox.pc{max-width:380px;padding:0;overflow:hidden;position:relative;max-height:calc(100dvh - 24px);overflow-y:auto}
+#plBox .hero{padding:30px 24px 22px}
+#plBox .x{position:absolute;top:10px;right:12px;z-index:2;background:rgba(0,0,0,.35);color:#fff;border:0;width:32px;height:32px;border-radius:50%;font-size:20px;line-height:1;cursor:pointer}
+#plBox .plst{margin-top:2px} #plBox .plst.on{color:#6fe0a0;opacity:1}
+#plBox .plgames{margin-top:20px;border-top:1px solid rgba(255,255,255,.12);padding-top:14px}
+#plBox .plgames .cl{font-size:11px;letter-spacing:.09em;text-transform:uppercase;opacity:.55;margin-bottom:6px}
+#plBox .plg{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;padding:6px 0}
+#plBox .plg .av{width:28px;height:28px}
+#plBox .plg .pn{display:block;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#plBox .plg small{font-size:11.5px;opacity:.6}
+#plBox .plg b{font-weight:600;font-size:13.5px} #plBox .plg.w b{color:#6fe0a0} #plBox .plg.l b{color:#ff8f86}
+#plBox .plnone{opacity:.6;font-size:13px;margin:4px 0}
+.lb .lbrow{cursor:pointer} .lb .lbrow:hover{background:rgba(127,127,127,.07);border-radius:10px}
+body.v7 .livecard .lp{cursor:pointer}
+
+/* puzzle of the day card */
+body.v7 .pzcard{grid-column:1/-1;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;background:var(--surf);border:1px solid var(--line2);border-radius:22px;padding:12px 16px;cursor:pointer;transition:border-color .2s}
+body.v7 .pzcard:hover{border-color:var(--line)}
+body.v7 .pzcard .pzi{font-size:26px;line-height:1} body.v7 .pzcard .pzi img.emo{width:30px;height:30px}
+body.v7 .pzcard b{display:block;font-weight:600;font-size:14.5px} body.v7 .pzcard small{color:var(--muted);font-size:12.5px}
+body.v7 .pzcard .pzgo{padding:7px 14px;border-radius:99px;background:var(--ink,#f3eee5);color:var(--bg,#111);font-weight:600;font-size:13px;white-space:nowrap}
+body.v7 .pzcard .pzgo.done{background:rgba(63,184,115,.15);color:#3fb873;padding:7px 12px}
+
+/* seasons */
+#lbSeason:empty{display:none}
+#lbSeason{margin:0 0 12px;padding:12px 14px;border-radius:14px;background:linear-gradient(135deg,rgba(124,92,255,.14),rgba(63,184,115,.10));border:1px solid var(--line2)}
+#lbSeason .sstop{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+#lbSeason .sstop b{font-weight:600;font-size:15px} #lbSeason .sstop span{font-size:12.5px;color:var(--muted)}
+#lbSeason .sspr{display:flex;flex-wrap:wrap;gap:6px;margin:9px 0 7px}
+.ssb{display:inline-flex;align-items:center;padding:3px 9px;border-radius:99px;font-size:11.5px;font-weight:600;white-space:nowrap}
+.ssb.gold{background:rgba(232,190,80,.18);color:#e8be50} .ssb.silver{background:rgba(190,200,215,.18);color:#c3cbd8} .ssb.bronze{background:rgba(205,127,70,.18);color:#d9925c}
+#lbSeason .ssme{font-size:12.5px;color:var(--muted)}
+.pc .sbadges{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:10px}
 /* bots playing each other (home) */
 body.v7 .livecard{grid-column:1/-1;background:var(--surf);border:1px solid var(--line2);border-radius:22px;padding:14px 16px}
 body.v7 .livecard .tch{display:flex;justify-content:space-between;align-items:center;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
@@ -1653,9 +1688,11 @@ body.v7 .livecard .lvres b{font-weight:600;color:var(--ink2,inherit)}
 <div id="lbOv" class="overlay hidden"><div class="modal wide lb">
   <div class="mhead"><h2 data-t="lbT"></h2><button class="xbtn" id="btnLbClose" aria-label="Close"><svg class="i"><use href="#i-x"/></svg></button></div>
   <p class="note" data-t="lbSub" style="margin:0 0 10px"></p>
+  <div id="lbSeason"></div>
   <div id="lbList"></div>
 </div></div>
 <div id="profOv" class="overlay hidden"><div class="modal" id="profBox"></div></div>
+<div id="plOv" class="overlay hidden"><div class="modal pc" id="plBox"></div></div>
 <div id="leaveOv" class="overlay hidden"><div class="modal"><h2 data-t="leaveQ"></h2><p data-t="leaveSub"></p><div class="r"><button id="btnLeaveNo" data-t="cancel"></button><button class="cta" id="btnLeaveYes" data-t="leaveB"></button></div></div></div>
 <div id="claimBar" class="claimbar hidden"><span data-t="claimT"></span><button class="cta" id="btnClaim" data-t="claimB"></button></div>
 <div id="resOv" class="overlay hidden"><div class="modal"><h2 data-t="resignQ"></h2><p id="resSub"></p><div class="r"><button id="btnResNo" data-t="cancel"></button><button class="cta" id="btnResYes" data-t="resignB"></button></div></div></div>
@@ -1710,7 +1747,7 @@ const T = {
   tut3T:'Doubles', tut3D:'Equal dice are played four times. Roll — you get 4 and 4: make four moves of 4 points with any checkers (still only one from the head).',
   tut4T:'Taken points', tut4D:'There is no hitting in long nardy, and you cannot land on a point your opponent holds. Roll 3 and 1: the checkers on point 18 cannot move — points 17 and 15 are taken by Black. Play with other checkers.',
   tut5T:'Bearing off', tut5D:'Once all 15 checkers are home (points 1–6) you bear them off. Roll 6 and 2: tap the checker on 6 and then the tray on the right, then do the same with a checker on 2.',
-  tut6T:'You are ready!', tut6D:'Whoever bears off all 15 checkers first wins. If the opponent has not borne off a single one, it is a “mars” — 2 points. One more rule: you may not build a wall of 6 points in a row unless an enemy checker is already ahead of it. Now try the bot or find an online opponent.', lbT:'Leaderboard', lbMore:'Show {n} more', lbHour:'Change in the last hour', lbNotTop:'You: {rank} · {r}. Not in the top 100 yet.', lbOpen:'Leaderboard', lbSub:'Top 100 players. Ratings change after every game.', lbLoading:'Loading…', lbErr:'Could not load the leaderboard — sign in to see it.', lbEmpty:'No rated games yet — play an online game to get on the board.', lbYou:'you', lbNotYou:'You will appear here after your first online game.', tier_bronze:'Bronze', tier_silver:'Silver', tier_gold:'Gold', tier_platinum:'Platinum', tier_diamond:'Diamond', toNext:'{n} to {tier}', topTier:'Top rank', ratedNote:'only online games are rated', ratingChange:'Rating {d} → {r}', av_none:'Initials', av_dice:'Dice', av_crown:'Crown', av_fox:'Fox', av_tea:'Tea', dice_ivory:'Ivory', dice_onyx:'Onyx', dice_ruby:'Ruby', dice_gold:'Gold', dice_wood:'Wood', dice_marble:'Marble', dice_glass:'Glass', dice_neon:'Neon', boardT:'Board', sound:'Sound', flip:'Flip board', autoForcedT:'Play forced moves', autoRollT:'Auto-roll dice', pips:'pips', forced:'Only one way to play — moved automatically', rules:'Rules',
+  tut6T:'You are ready!', tut6D:'Whoever bears off all 15 checkers first wins. If the opponent has not borne off a single one, it is a “mars” — 2 points. One more rule: you may not build a wall of 6 points in a row unless an enemy checker is already ahead of it. Now try the bot or find an online opponent.', pzT:'Puzzle of the day', pzTask:'White to move · {a}–{b}', pzHint:'Roll the dice and find the best way to play. Best move: +{n} coins.', pzAgain:'Already solved today — practice only, no coins.', pzReset:'Start over', pzExit:'Exit', pzOpp:'Puzzle', pzR_best:'Best move! 🎯', pzR_good:'Good move', pzR_miss:'Not quite', pzBestD:'That is exactly what the engine plays.', pzRankD:'Your move is #{r} of {n}.', pzBestIs:'Best: {m}.', pzOff:'off', pzPrize:'+{n} coins.', pzStreak:'Streak: {n} days.', pzShow:'Show the best move', pzShown:'Best move shown', pzNone:'No puzzle today', pzSub:'Find the best move · +{n}', pzStreakKeep:'Keep your streak: {n} days', pzGo:'Solve', pzDone_best:'Solved — best move', pzDone_good:'Solved — good move', pzDone_miss:'Tried today · new one tomorrow', seasonT:'Season · {s}', seasonLeftD:'{d} d {h} h left', seasonLeftH:'{h} h left', seasonTop1:'#1', seasonTopN:'Top {n}', seasonBest:'Your best place this season: #{n}', seasonOnTrack:'in the prizes', seasonNot:'Get into the top 10 by the end of the month to win a prize.', seasonWon:'Season {s} is over: you finished #{n} — +{c} coins and a badge!', walletErr:'The server did not confirm — wallet reloaded', walletSrv:'Coins live on the server now — this button is off', lbT:'Leaderboard', plLast:'Recent games', plNone:'No game history yet', plWin:'win', plLoss:'loss', plOnline:'● Online', plPlaying:'● Playing {n}', plSeen:'Last online {n}', agoM:'{n} min ago', agoH:'{n} h ago', lbMore:'Show {n} more', lbHour:'Change in the last hour', lbNotTop:'You: {rank} · {r}. Not in the top 100 yet.', lbOpen:'Leaderboard', lbSub:'Top 100 players. Ratings change after every game.', lbLoading:'Loading…', lbErr:'Could not load the leaderboard — sign in to see it.', lbEmpty:'No rated games yet — play an online game to get on the board.', lbYou:'you', lbNotYou:'You will appear here after your first online game.', tier_bronze:'Bronze', tier_silver:'Silver', tier_gold:'Gold', tier_platinum:'Platinum', tier_diamond:'Diamond', toNext:'{n} to {tier}', topTier:'Top rank', ratedNote:'only online games are rated', ratingChange:'Rating {d} → {r}', av_none:'Initials', av_dice:'Dice', av_crown:'Crown', av_fox:'Fox', av_tea:'Tea', dice_ivory:'Ivory', dice_onyx:'Onyx', dice_ruby:'Ruby', dice_gold:'Gold', dice_wood:'Wood', dice_marble:'Marble', dice_glass:'Glass', dice_neon:'Neon', boardT:'Board', sound:'Sound', flip:'Flip board', autoForcedT:'Play forced moves', autoRollT:'Auto-roll dice', pips:'pips', forced:'Only one way to play — moved automatically', rules:'Rules',
   winYou:'You win', winLose:'Not this time', winN:'{n} wins', mars:'Mars — 2 points.', one:'1 point.', score:'Score {a} : {b}',
   notFound:'Game not found — the link may be outdated.', full:'This game already has two players — you are watching.', joined:'Your opponent joined!', saveErr:'Could not save the move', connErr:'Connection problem',
   keys:'<kbd>Space</kbd> roll · <kbd>Backspace</kbd> undo',
@@ -1732,7 +1769,7 @@ const T = {
   tut3T:'Дубль', tut3D:'Однакові числа на кубиках граються чотири рази. Киньте — випаде 4 і 4: зробіть чотири ходи по 4 пункти будь-якими шашками (з голови — так само лише одна).',
   tut4T:'Зайняті пункти', tut4D:'Бити шашки в довгих нардах не можна, і не можна ставати на пункт, де стоїть суперник. Випаде 3 і 1: шашки на пункті 18 піти не можуть — пункти 17 і 15 зайняті чорними. Зіграйте іншими шашками.',
   tut5T:'Виведення шашок', tut5D:'Коли всі 15 шашок у домі (пункти 1–6), їх можна викидати з дошки. Випаде 6 і 2: натисніть шашку на пункті 6, а потім лоток праворуч; так само зробіть із шашкою на пункті 2.',
-  tut6T:'Ви готові!', tut6D:'Хто першим викине всі 15 шашок — перемагає. Якщо суперник не встиг викинути жодної — це «марс», 2 очки. Ще одне правило: не можна ставити 6 своїх шашок поспіль, якщо попереду немає жодної шашки суперника. Тепер спробуйте зіграти з ботом або знайдіть суперника онлайн.', lbT:'Таблиця лідерів', lbMore:'Показати ще {n}', lbHour:'Зміна за останню годину', lbNotTop:'Ви: {rank} · {r}. У топ-100 ще не потрапили.', lbOpen:'Таблиця лідерів', lbSub:'Топ-100 гравців. Рейтинг змінюється після кожної гри.', lbLoading:'Завантаження…', lbErr:'Не вдалося завантажити таблицю — увійдіть, щоб її побачити.', lbEmpty:'Ще немає рейтингових ігор — зіграйте онлайн, щоб потрапити в таблицю.', lbYou:'ви', lbNotYou:'Ви зʼявитесь тут після першої онлайн-гри.', tier_bronze:'Бронза', tier_silver:'Срібло', tier_gold:'Золото', tier_platinum:'Платина', tier_diamond:'Діамант', toNext:'ще {n} до рангу «{tier}»', topTier:'Найвищий ранг', ratedNote:'рейтинг рахується лише в онлайн-іграх', ratingChange:'Рейтинг {d} → {r}', av_none:'Ініціали', av_dice:'Кубик', av_crown:'Корона', av_fox:'Лис', av_tea:'Чай', dice_ivory:'Слонова кістка', dice_onyx:'Онікс', dice_ruby:'Рубін', dice_gold:'Золото', dice_wood:'Дерево', dice_marble:'Мармур', dice_glass:'Скло', dice_neon:'Неон', boardT:'Дошка', sound:'Звук', flip:'Перевернути дошку', autoForcedT:'Вимушені ходи сам', autoRollT:'Кидати кубики сам', pips:'піпів', forced:'Хід лише один — зіграно автоматично', rules:'Правила',
+  tut6T:'Ви готові!', tut6D:'Хто першим викине всі 15 шашок — перемагає. Якщо суперник не встиг викинути жодної — це «марс», 2 очки. Ще одне правило: не можна ставити 6 своїх шашок поспіль, якщо попереду немає жодної шашки суперника. Тепер спробуйте зіграти з ботом або знайдіть суперника онлайн.', pzT:'Задача дня', pzTask:'Хід білих · {a}–{b}', pzHint:'Киньте кубики й знайдіть найкращий хід. За найкращий: +{n} монет.', pzAgain:'Сьогодні вже розв’язано — тепер лише для тренування, без монет.', pzReset:'Почати знову', pzExit:'Вийти', pzOpp:'Задача', pzR_best:'Найкращий хід! 🎯', pzR_good:'Добрий хід', pzR_miss:'Не зовсім', pzBestD:'Саме так зіграв би рушій.', pzRankD:'Ваш хід — №{r} з {n}.', pzBestIs:'Найкращий: {m}.', pzOff:'винос', pzPrize:'+{n} монет.', pzStreak:'Серія: {n} дн.', pzShow:'Показати найкращий хід', pzShown:'Найкращий хід показано', pzNone:'Сьогодні задачі немає', pzSub:'Знайдіть найкращий хід · +{n}', pzStreakKeep:'Не перервіть серію: {n} дн.', pzGo:'Розв’язати', pzDone_best:'Розв’язано — найкращий хід', pzDone_good:'Розв’язано — добрий хід', pzDone_miss:'Спроба була · нова завтра', seasonT:'Сезон · {s}', seasonLeftD:'Залишилось {d} дн {h} год', seasonLeftH:'Залишилось {h} год', seasonTop1:'№1', seasonTopN:'Топ-{n}', seasonBest:'Ваше найкраще місце в сезоні: №{n}', seasonOnTrack:'у призах', seasonNot:'Потрапте в топ-10 до кінця місяця, щоб отримати приз.', seasonWon:'Сезон {s} завершився: ви №{n} — +{c} монет і значок!', walletErr:'Сервер не підтвердив — гаманець оновлено', walletSrv:'Монети тепер на сервері — ця кнопка вимкнена', lbT:'Таблиця лідерів', plLast:'Останні ігри', plNone:'Історії ігор поки немає', plWin:'перемога', plLoss:'поразка', plOnline:'● Онлайн', plPlaying:'● Грає з {n}', plSeen:'Востаннє онлайн {n}', agoM:'{n} хв тому', agoH:'{n} год тому', lbMore:'Показати ще {n}', lbHour:'Зміна за останню годину', lbNotTop:'Ви: {rank} · {r}. У топ-100 ще не потрапили.', lbOpen:'Таблиця лідерів', lbSub:'Топ-100 гравців. Рейтинг змінюється після кожної гри.', lbLoading:'Завантаження…', lbErr:'Не вдалося завантажити таблицю — увійдіть, щоб її побачити.', lbEmpty:'Ще немає рейтингових ігор — зіграйте онлайн, щоб потрапити в таблицю.', lbYou:'ви', lbNotYou:'Ви зʼявитесь тут після першої онлайн-гри.', tier_bronze:'Бронза', tier_silver:'Срібло', tier_gold:'Золото', tier_platinum:'Платина', tier_diamond:'Діамант', toNext:'ще {n} до рангу «{tier}»', topTier:'Найвищий ранг', ratedNote:'рейтинг рахується лише в онлайн-іграх', ratingChange:'Рейтинг {d} → {r}', av_none:'Ініціали', av_dice:'Кубик', av_crown:'Корона', av_fox:'Лис', av_tea:'Чай', dice_ivory:'Слонова кістка', dice_onyx:'Онікс', dice_ruby:'Рубін', dice_gold:'Золото', dice_wood:'Дерево', dice_marble:'Мармур', dice_glass:'Скло', dice_neon:'Неон', boardT:'Дошка', sound:'Звук', flip:'Перевернути дошку', autoForcedT:'Вимушені ходи сам', autoRollT:'Кидати кубики сам', pips:'піпів', forced:'Хід лише один — зіграно автоматично', rules:'Правила',
   winYou:'Перемога', winLose:'Цього разу — ні', winN:'Переміг: {n}', mars:'Марс — 2 очки.', one:'1 очко.', score:'Рахунок {a} : {b}',
   notFound:'Гру не знайдено — можливо, посилання застаріло.', full:'У цій грі вже двоє гравців — ви глядач.', joined:'Суперник приєднався!', saveErr:'Не вдалося зберегти хід', connErr:'Проблема зі зʼєднанням',
   keys:'<kbd>Пробіл</kbd> кинути · <kbd>Backspace</kbd> скасувати',
@@ -1852,7 +1889,7 @@ function openSlotToRoll(){
 }
 function slotName(s){
   if(mode==='bot') return s==='p1' ? (profile.name||t('you')) : ((gs.names&&gs.names.p2)||t('botName'));
-  if(mode==='tutor') return s==='p1' ? (profile.name||t('you')) : t('coachOpp');
+  if(mode==='tutor') return s==='p1' ? (profile.name||t('you')) : (tut&&tut.pz ? t('pzOpp') : t('coachOpp'));
   if(mode==='local') return s==='p1' && profile.name ? profile.name : t(s);
   const id=gs[s]; if(!id) return t('waitingP');
   const nm = gs.names && gs.names[s];
@@ -1992,9 +2029,9 @@ function rollOpening(){
 function roll(){
   if(gs && gs.phase==='opening') return rollOpening();
   if(!canPlay() || gs.rolled) return;
-  if(mode==='tutor' && !(tut && TUT[tut.i].dice)) return;
+  if(mode==='tutor' && !(tut && tutCur().dice)) return;
   if(viaServer()){ srv('roll'); return; }
-  const c=gs.turn, d1=mode==='tutor'?TUT[tut.i].dice[0]:d6(), d2=mode==='tutor'?TUT[tut.i].dice[1]:d6();
+  const c=gs.turn, d1=mode==='tutor'?tutCur().dice[0]:d6(), d2=mode==='tutor'?tutCur().dice[1]:d6();
   gs.dice=[d1,d2]; gs.remaining = d1===d2 ? [d1,d1,d1,d1] : [d1,d2];
   gs.headLimit = (gs.first[c] && d1===d2 && [3,4,6].includes(d1)) ? 2 : 1;
   gs.first[c]=false; gs.headMoved=0; gs.rolled=true; gs.trail=[]; gs.rollId++;
@@ -2056,7 +2093,7 @@ function playPath(path){
   if(gs.off[c]===15){
     pushHist(); gs.winner=c; gs.phase='over'; const s=slotOfColor(c); gs.score[s]+= gs.off[OPP(c)]===0 ? 2 : 1;
     gs.dice=[]; gs.remaining=[]; gs.rolled=false;
-  } else if(mode==='tutor'){ if(!legalMoves(gs,c).length){ gs.rolled=false; tut.done=true; gs.dice=gs.dice; toast(t('tutNice')); sfx('win'); } }
+  } else if(mode==='tutor'){ if(!legalMoves(gs,c).length){ gs.rolled=false; tut.done=true; gs.dice=gs.dice; if(tut.pz) pzJudge(); else { toast(t('tutNice')); sfx('win'); } } }
   else if(!legalMoves(gs,c).length){ passTurn(); }   // turn passes automatically
   const tr=(gs.trail&&gs.trail.length)?gs.trail:(gs.last||[]); pendingAnim={col:c, flat:tr.slice(trailLen)};
   save(); route();
@@ -2213,7 +2250,7 @@ async function startMatchBot(){
   const me=profile.rating||1000, cand=LBOTS.slice().sort((a,b)=>Math.abs(a.r-me)-Math.abs(b.r-me)).slice(0,2), lb=cand[Math.floor(Math.random()*cand.length)];
   if(SECURE && sb && uid){
     mode='bot'; gameId='b'+rid(); ref=db.doc('games/'+gameId); gs=newGame('ME','BOT'); gs.seq=-1; gs.server=true;
-    const st=await srv('create',{bot:lb.k, name, av}); if(!st){ leave(); return; }
+    const st=await srv('create',{bot:lb.k, name, av, mb:1}); if(!st){ leave(); return; }
     gs.server=true; gs.mbot=1;
   } else {
     mode='bot'; gameId='bot'+rid(); gs=newGame('ME','BOT'); gs.lbot=lb.k; gs.botNoise=lb.noise; gs.mbot=1;
@@ -2350,6 +2387,7 @@ const TUT=[
   {k:6, setup:null}
 ];
 let tut=null;
+const tutCur=()=>tut && tut.pz ? tut.pz : TUT[tut.i];
 function tutBoard(kind){
   const B=new Array(24).fill(0);
   if(kind==='start') return freshBoard();
@@ -2360,12 +2398,14 @@ function tutBoard(kind){
 }
 function startTutor(){ stopSearch(true); leave(); mode='tutor'; gameId='tutor'; tut={i:0,done:false}; tutLoad(); }
 function tutLoad(){
+  if(tut.pz) return pzLoad();
   const st=TUT[tut.i]; tut.done=false;
   if(st.setup){ gs=newGame('ME','COACH'); gs.phase='play'; gs.white='ME'; gs.black='COACH'; gs.turn='w'; gs.board=tutBoard(st.setup); gs.first={w:st.setup==='start', b:false}; gs.names={p1:profile.name||'',p2:t('coachOpp')}; }
   selected=null; route();
 }
 function renderCoach(){
   const on = mode==='tutor' && !!tut; show('coach',on); if(!on) return;
+  if(tut.pz) return pzCoach();
   const st=TUT[tut.i], n=TUT.length;
   $('coachStep').textContent=t('tutStep',{i:tut.i+1,n});
   $('coachT').textContent=t('tut'+st.k+'T'); $('coachD').textContent=t('tut'+st.k+'D');
@@ -2710,11 +2750,11 @@ function payGame(){
   const key=gameId+':'+gs.score.p1+':'+gs.score.p2; if(W.paid.includes(key)) return; W.paid.push(key); W.paid=W.paid.slice(-80);
   const won=slotOfColor(gs.winner)===mySlot(), practice = mode==='bot' && !isGhost() && !gs.mbot;
   const n = won ? (practice?ECON.botWin:ECON.win) : (practice?ECON.botLoss:ECON.loss);
-  addCoins(n);
-  // winter pass XP and daily quests
   const xp = passLeft() ? (won ? (practice?XP.botWin:XP.win) : (practice?XP.botLoss:XP.loss)) : 0;
+  if(SW && (gs.server || mode==='online')){ coinFly(n); setTimeout(()=>walletSync(),1800); }   // the server pays and levels the pass
+  else { addCoins(n); if(xp) addXp(xp); }
+  // winter pass XP and daily quests
   toast(xp ? t('coinsXp',{n, x:xp}) : t('coinsGot',{n}));
-  if(xp) addXp(xp);
   const me=myColor(), loser=OPP(gs.winner), mars = gs.resign ? gs.resign.mars : gs.off[loser]===0;
   questEv('game',1); if(won) questEv('win',1); if(won && mars) questEv('mars',1); if(!practice && !gs.mbot) questEv('human',1); if(me) questEv('off', gs.off[me]||0);
   if(won) setTimeout(()=>playWinFx(), 500);
@@ -3054,11 +3094,14 @@ function caseTier(){ const x=Math.random(); let acc=0; for(const r of ['l','e','
 function caseRoll(){ const P=casePool(); let r=caseTier(); if((W.casePity||0)>=CASE.pity-1 && (r==='c'||r==='r')) r='e';
   const list=P[r]; return {r, it:list[Math.floor(Math.random()*list.length)]}; }
 function caseTile(it, eager){ const d=document.createElement('div'); d.className='ctile'; d.style.setProperty('--rc',RAR[it.r]); d.appendChild(eager ? itemPreview(it.cat,it.k) : lazy(()=>itemPreview(it.cat,it.k),'pv')); const n=document.createElement('span'); n.textContent=itemName(it.cat,it.k); d.appendChild(n); return d; }
-function openCase(){
+function openCase(pre){
+  if(!(pre && pre.res)) pre=null;
   if(W.coins<CASE.price){ toast(t('noCoins',{n:CASE.price-W.coins})); return; }
-  const res=caseRoll(); const it=res.it, dup=W.owned.includes(it.id), refund=dup?CASE.dupe[res.r]:0;
-  W.coins-=CASE.price; W.casePity=(res.r==='e'||res.r==='l')?0:(W.casePity||0)+1; W.cases=(W.cases||0)+1;
-  if(dup) W.coins+=refund; else { W.owned.push(it.id); W.fresh=(W.fresh||[]).concat(it.id); }
+  if(SW && !pre){ if(openCase._busy) return; openCase._busy=true; const coins0=W.coins; srvW('case').then(r=>{ openCase._busy=false; if(r && r.res && r.res.id){ W.coins=coins0; openCase(r); } }); return; }
+  const res= pre ? {r:pre.res.r, it:shopItem(pre.res.id)} : caseRoll(); const it=res.it, dup= pre ? pre.res.refund>0 : W.owned.includes(it.id), refund= pre ? pre.res.refund : (dup?CASE.dupe[res.r]:0);
+  if(pre){ walletApply(pre.wallet, pre.got); }
+  else { W.coins-=CASE.price; W.casePity=(res.r==='e'||res.r==='l')?0:(W.casePity||0)+1; W.cases=(W.cases||0)+1;
+  if(dup) W.coins+=refund; else { W.owned.push(it.id); W.fresh=(W.fresh||[]).concat(it.id); } }
   saveW(); coinFly(-CASE.price); ['c_tick','c_open','c_common','c_rare','c_epic','c_legend','c_coins'].forEach(k=>loadVo(k).catch(()=>{})); playVoice('c_open');
   // the strip: random fillers by odds, the prize sits at index 40
   const P=casePool(); const tiles=[]; for(let i=0;i<48;i++){ if(i===40){ tiles.push(it); continue; } const r=caseTier(); const L=P[r]; tiles.push(L[Math.floor(Math.random()*L.length)]); }
@@ -3169,8 +3212,8 @@ function renderShop(){
   }
   if(BETA){ const bt=document.createElement('div'); bt.className='betatools'; bt.innerHTML='<span>β</span><button data-a="add"></button><button data-a="reset"></button>';
     bt.querySelector('[data-a=add]').textContent=t('betaAdd'); bt.querySelector('[data-a=reset]').textContent=t('betaReset');
-    bt.querySelector('[data-a=add]').onclick=()=>{ addCoins(1000); renderShop(); };
-    bt.querySelector('[data-a=reset]').onclick=()=>{ W.coins=ECON.start; W.owned=[]; W.daily=''; W.paid=[]; W.pass=0; W.xp=0; W.streak=0; W.q=null; W.fresh=[]; W.casePity=0; saveW(); fixPrefs(); try{ scene3d && scene3d.applyTheme(); renderHomeV7(); }catch(e){} applyCard(); renderShop(); renderInv(); };
+    bt.querySelector('[data-a=add]').onclick=()=>{ if(SW){ toast(t('walletSrv')); return; } addCoins(1000); renderShop(); };
+    bt.querySelector('[data-a=reset]').onclick=()=>{ if(SW) srvW('reset'); W.coins=ECON.start; W.owned=[]; W.daily=''; W.paid=[]; W.pass=0; W.xp=0; W.streak=0; W.q=null; W.fresh=[]; W.casePity=0; saveW(); fixPrefs(); try{ scene3d && scene3d.applyTheme(); renderHomeV7(); }catch(e){} applyCard(); renderShop(); renderInv(); };
     box.appendChild(bt); }
   paintCoins(); box.scrollTop=keepScroll;
 }
@@ -3232,7 +3275,7 @@ function renderBotLive(){
   if(!c){ c=document.createElement('div'); c.className='livecard'; tc.after(c); }
   const {live,done}=botMatches(), now=Date.now(); c.innerHTML='';
   const hd=document.createElement('div'); hd.className='tch'; const h1=document.createElement('span'); h1.textContent=t('liveT'); const h2=document.createElement('span'); h2.className='lvn'; h2.textContent=plural(Math.max(live.length, Math.round(crowdPeople()*.3/2)),'game'); hd.append(h1,h2); c.appendChild(hd);
-  const pl=(i)=>{ const g=ghostInfo(i), w=document.createElement('span'); w.className='lp'; const a=document.createElement('span'); a.className='av'; avatarInto(a,g.av,g.name); const n=document.createElement('span'); n.className='nm'; n.textContent=g.name; const r=document.createElement('small'); r.textContent=g.rating; w.append(a,n,r); return w; };
+  const pl=(i)=>{ const g=ghostInfo(i), w=document.createElement('span'); w.className='lp'; w.onclick=e=>{ e.stopPropagation(); openPlayer(g); }; const a=document.createElement('span'); a.className='av'; avatarInto(a,g.av,g.name); const n=document.createElement('span'); n.className='nm'; n.textContent=g.name; const r=document.createElement('small'); r.textContent=g.rating; w.append(a,n,r); return w; };
   if(!live.length){ const e=document.createElement('p'); e.className='lvempty'; e.textContent=t('liveNone'); c.appendChild(e); }
   live.slice(0,4).forEach(m=>{ const st=botMatchState(m,now), row=document.createElement('div'); row.className='lvr';
     const A=pl(m.a), B=pl(m.b); (st.lead===m.a?A:B).classList.add('lead');
@@ -3335,7 +3378,7 @@ function renderBanner(){
     if(s){ title=t('bnOpenT'); sub = mode==='local' ? slotName(s) : t('bnOpenS'); if(gs.openLast && gs.openLast.tie && !gs.open.p1 && !gs.open.p2) sub=t('openTie',{a:gs.openLast.p1}); btn=t('rollFirst'); }
     else { title = mode==='bot' && !isGhost() ? t('botThinking') : t('bnOppOpen'); wait=true; }
   } else if(gs.phase==='play' && !gs.rolled){
-    if(tutorMode){ if(tut && !tut.done && TUT[tut.i].dice){ title=t('bnYour'); btn=t('roll'); } else return hide(); }
+    if(tutorMode){ if(tut && !tut.done && tutCur().dice){ title=t('bnYour'); btn=t('roll'); } else return hide(); }
     else if(canPlay()){ title = mode==='local' ? t('bnColor',{c:colorName(gs.turn)}) : t('bnYour'); sub=t('bnRollS'); btn=t('roll'); }
     else { title = mode==='bot' && !isGhost() ? t('bnBot') : t('bnOpp'); sub = slotName(slotOfColor(gs.turn)).split(' (')[0]; wait=true; }
   } else if(gs.phase==='play' && gs.rolled && canPlay() && mode!=='tutor' && !legalMoves(gs,gs.turn).length){ title=t('noMovesT'); wait=true; }
@@ -3372,7 +3415,7 @@ function renderHud(){
     const justOpened = gs.openLast && !gs.openLast.tie && gs.first.w && !gs.rolled;
     if(mode==='online' && !me) st=t('spectator',{c:colorName(c)});
     else if(!playing) st= mode==='bot' && !isGhost() ? t('botTurn') : t('oppTurn');
-    else if(mode==='tutor' && !gs.rolled){ st = tut && tut.done ? t('tutStepDone') : (TUT[tut.i].dice ? t('tutRoll') : ''); rollOn = !!(tut && !tut.done && TUT[tut.i].dice); }
+    else if(mode==='tutor' && !gs.rolled){ st = tut && tut.done ? (tut.pz?'':t('tutStepDone')) : (tutCur().dice ? t('tutRoll') : ''); rollOn = !!(tut && !tut.done && tutCur().dice); }
     else if(!gs.rolled){ st = mode==='local' ? t('localRoll',{c:colorName(c)}) : t('yourRoll'); rollOn=true; }
     else if(!moves.length) st=t('noMoves');
     else if(selected===null) st=t('pick'); else st=t('where');
@@ -4083,6 +4126,7 @@ function openProfile(){
     paint();
     top.append(h('div','hsub', profile.guest ? t('guestAcc') : t('pcRegistered')));
     const pill=h('div','tierpill'); pill.append(h('i'), document.createTextNode(t('tier_'+TIERS[ti].k)), starsEl(r)); top.append(pill);
+    { const bg=BETA&&badgesEl(); if(bg) top.append(bg); }
     const rk=rankOf(r), nextAt = rk.ti===7 ? null : RTH[rk.step+1];
     const rt=h('div','rating'); rt.append(h('b',null,String(r)), h('span',null, nextAt==null ? t('topPos',{n:topPos(r,uid)}) : (rk.star===5 ? t('toNext',{n:nextAt-r,tier:t('tier_'+TIERS[rk.ti+1].k)}) : t('toStar',{n:nextAt-r}))));
     const bar=h('div','hbar seg'); for(let i=1;i<=LV;i++){ const sg=h('i'); const lo=RTH[Math.min(LEG-1,ti*LV+i-1)], hi=RTH[Math.min(LEG,ti*LV+i)]; sg.style.setProperty('--f', rk.ti===7 ? '100%' : Math.max(0,Math.min(100,(Math.max(r,RANK0)-lo)/(hi-lo)*100))+'%'); bar.append(sg); }
@@ -4109,6 +4153,186 @@ function openProfile(){
   show('profOv',true); if(!authUser || matchMedia('(min-width:761px)').matches) setTimeout(()=>nick.focus(),50);
 }
 
+// ---- someone else's player card (from the leaderboard or the live games) ----
+function ghostCard(i,r){ const ok=CARDS.filter(c=>!SHOP.some(x=>x.cat==='card'&&x.k===c.k) && cardMin(c)<=r); return ok[Math.floor(hrand(i*131+7)*ok.length)] || CARDS[0]; }
+function ghostGames(i,n){
+  const now=Date.now(), slot=Math.floor(now/600000), out=[];
+  for(let sl=slot; sl>=slot-144 && out.length<n; sl--){ const ms=slotMatchesM(sl).filter(m=>m.end<=now && (m.win===i||m.lose===i)).sort((a,b)=>b.end-a.end); for(const m of ms){ if(out.length<n) out.push(m); } }
+  return out.sort((a,b)=>b.end-a.end).slice(0,n);
+}
+function agoTxt(ms){ const m=Math.max(1,Math.round(ms/60000)); return m<60 ? t('agoM',{n:m}) : t('agoH',{n:Math.round(m/60)}); }
+function openPlayer(r){
+  if(!r) return; if(r.id && r.id===uid) return openProfile();
+  const box=$('plBox'); box.innerHTML=''; const h=(tag,cls,txt)=>{ const e=document.createElement(tag); if(cls) e.className=cls; if(txt!=null) e.textContent=txt; return e; };
+  const gi = typeof r.id==='string' && /^g\d+$/.test(r.id) ? +r.id.slice(1) : null;
+  const rating=r.rating||1000, ti=tierIdx(rating);
+  const hero=h('div','hero'); hero.style.setProperty('--tc', TIER_COL[ti]);
+  const card = gi!=null ? ghostCard(gi,rating) : CARDS[0]; hero.style.background=card.c; hero.style.animation='none';
+  const x=h('button','x','×'); x.title=t('close'); x.onclick=()=>show('plOv',false);
+  const top=h('div','heroTop'); const av=h('div','av big'); avatarInto(av, r.av, r.name||'?'); top.append(framed(av, rating, 92), h('div','hname', r.name||t('guestName')));
+  let status='';
+  if(gi!=null){ const live=botMatches().live.find(m=>m.a===gi||m.b===gi), lg=ghostGames(gi,1)[0], seen=Math.min(((gi*7919)%300+20)*60000, lg?Date.now()-lg.end:1e12); status = live ? t('plPlaying',{n:ghostInfo(live.a===gi?live.b:live.a).name}) : ghostsOnline().includes(gi) ? t('plOnline') : t('plSeen',{n:agoTxt(seen)}); }
+  if(status){ const st=h('div','hsub plst'); if(/^(●)/.test(status)) st.classList.add('on'); st.textContent=status; top.append(st); }
+  const pill=h('div','tierpill'); pill.append(h('i'), document.createTextNode(t('tier_'+TIERS[ti].k)), starsEl(rating)); top.append(pill);
+  const rt=h('div','rating'); rt.append(h('b',null,String(rating)), h('span',null,t('topPos',{n:topPos(rating,r.id)})));
+  const played=r.played||0, won=r.won||0, rate=played?Math.round(won/played*100)+'%':'—';
+  const st=h('div','hstats'); [[played,t('played')],[won,t('wins')],[rate,t('rate')]].forEach(([v,l])=>{ const d=h('div'); d.append(h('b',null,String(v)), h('span',null,l)); st.appendChild(d); });
+  hero.append(x,top,rt,st);
+  const games=h('div','plgames'); games.append(h('div','cl',t('plLast')));
+  if(gi!=null){ const gs5=ghostGames(gi,5), now=Date.now();
+    if(!gs5.length) games.append(h('p','plnone',t('plNone')));
+    gs5.forEach(m=>{ const w=m.win===gi, opp=ghostInfo(w?m.lose:m.win), row=h('div','plg '+(w?'w':'l'));
+      const a=h('span','av'); avatarInto(a,opp.av,opp.name); const nm=h('span','pn',opp.name); const res=h('b',null,(w?'+':'−')+m.d); const sub=h('small',null,(w?t('plWin'):t('plLoss'))+(m.mars?' · '+t('liveMars'):'')+' · '+agoTxt(now-m.end));
+      const mid=h('div'); mid.append(nm,sub); row.append(a,mid,res); games.append(row); });
+  } else games.append(h('p','plnone',t('plNone')));
+  hero.append(games);
+  box.append(hero); show('plOv',true);
+}
+$('plOv').addEventListener('click',e=>{ if(e.target.id==='plOv') show('plOv',false); });
+
+// ================= daily puzzle =================
+// One position a day, the same for everyone: white to move with a fixed roll; find the best way to play it.
+// Positions come from a seeded bot-vs-bot game; answers are scored by the bot's own evaluation.
+const PZ_PRIZE={best:60, good:20};
+function kyivDay(now){ return new Date((now||Date.now())+2*3600e3).toISOString().slice(0,10); }
+function seededRng(seed){ let a=seed>>>0; return ()=>{ a=(a+0x6D2B79F5)>>>0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+function pzOutcomes(st,c){
+  const total=maxUse(st,c), out=new Map(); if(!total) return [];
+  (function dfs(s,path){ if(path.length===total){ const k=s.board.join()+'|'+s.off[c]; if(!out.has(k)) out.set(k,{k, path, v:botEval(s,c)}); return; }
+    if(out.size>400) return; for(const m of legalMoves(s,c)) dfs(applyMove(s,c,m), path.concat([m])); })(st,[]);
+  return [...out.values()].sort((a,b)=>b.v-a.v);
+}
+function pzMake(day){
+  const base=[...day].reduce((h,ch)=>Math.imul(h^ch.charCodeAt(0),16777619)>>>0,2166136261);
+  const R=Math.random, G=gs; gs=null;
+  try{
+    for(let tryN=0; tryN<40; tryN++){
+      const rng=seededRng(base+tryN*7919); Math.random=rng; const d6r=()=>1+Math.floor(rng()*6);
+      let st={board:freshBoard(), off:{w:0,b:0}, remaining:[], headMoved:0, headLimit:1, first:{w:true,b:true}};
+      const turns=16+Math.floor(rng()*22); let c='w', ok=true;
+      for(let k=0;k<turns;k++){ const d1=d6r(), d2=d6r(); st.remaining=d1===d2?[d1,d1,d1,d1]:[d1,d2]; st.headLimit=(st.first[c]&&d1===d2&&[3,4,6].includes(d1))?2:1; st.first={...st.first,[c]:false}; st.headMoved=0;
+        const path=botBestPath(st,c)||[]; for(const m of path) st=applyMove(st,c,m); if(st.off.w>=13||st.off.b>=13){ ok=false; break; } c=OPP(c); }
+      if(!ok) continue;
+      if(c!=='w'){ const d1=d6r(), d2=d6r(); st.remaining=d1===d2?[d1,d1,d1,d1]:[d1,d2]; st.headLimit=1; st.headMoved=0; st.first={...st.first,b:false}; const path=botBestPath(st,'b')||[]; for(const m of path) st=applyMove(st,'b',m); }
+      let d1=d6r(), d2=d6r(); if(d1===d2 && rng()<.6) d2=1+(d1%6);
+      const test={...st, remaining:d1===d2?[d1,d1,d1,d1]:[d1,d2], headMoved:0, headLimit:1, first:{w:false,b:false}};
+      const outs=pzOutcomes(test,'w'); if(outs.length<5) continue;
+      if(outs[0].v-outs[1].v<.35 || outs[0].v-outs[outs.length-1].v<4) continue;
+      return {day, board:st.board, off:st.off, dice:[d1,d2], outs:outs.length, best:outs[0], keys:outs.map(o=>o.k), vals:outs.map(o=>o.v)};
+    }
+  } finally { Math.random=R; gs=G; }
+  return null;
+}
+let pzCache=null;
+function pzToday(){ const d=kyivDay(); if(!pzCache||pzCache.day!==d) pzCache=pzMake(d); return pzCache; }
+function pzState(){ W.pz=W.pz||{}; return W.pz; }
+function pzSolvedToday(){ const p=pzState(); return p.day===kyivDay(); }
+function startPuzzle(){
+  const pz=pzToday(); if(!pz){ toast(t('pzNone')); return; }
+  stopSearch(true); leave(); mode='tutor'; gameId='puzzle'; tut={i:0, done:false, pz:{k:'pz', dice:pz.dice, data:pz, res:null}}; pzLoad();
+}
+function pzLoad(){
+  const pz=tut.pz.data; tut.done=false; tut.pz.res=null;
+  gs=newGame('ME','COACH'); gs.phase='play'; gs.white='ME'; gs.black='COACH'; gs.turn='w'; gs.board=pz.board.slice(); gs.off={...pz.off}; gs.first={w:false,b:false}; gs.names={p1:profile.name||'',p2:t('pzOpp')};
+  selected=null; route();
+}
+function pzJudge(){
+  const pz=tut.pz.data, k=gs.board.join()+'|'+gs.off.w, rank=pz.keys.indexOf(k), v=rank<0?null:pz.vals[rank];
+  const res = rank===0 ? 'best' : (rank>0 && pz.vals[0]-v<=0.8) ? 'good' : 'miss';
+  tut.pz.res={res, rank:rank+1, n:pz.outs};
+  const p=pzState(), today=kyivDay();
+  if(p.day!==today){
+    const y=kyivDay(Date.now()-864e5); p.streak = res==='miss' ? 0 : (p.last===y ? (p.streak||0)+1 : 1); if(res!=='miss') p.last=today; p.day=today; p.res=res;
+    tut.pz.prize=PZ_PRIZE[res]||0; if(tut.pz.prize){ addCoins(tut.pz.prize); if(SW) srvW('claim',{kind:'pz',n:tut.pz.prize}); } else saveW();
+  } else tut.pz.prize=0;
+  sfx(res==='miss'?'turn':'win'); if(res==='best') try{ playWinFx('confetti'); }catch(e){}
+  renderCoach();
+}
+function pzNext(){
+  if(!tut.done){ pzLoad(); return; }
+  // show the best line on the board
+  const pz=tut.pz.data; gs.board=pz.board.slice(); gs.off={...pz.off}; gs.remaining=pz.dice[0]===pz.dice[1]?Array(4).fill(pz.dice[0]):pz.dice.slice(); gs.headMoved=0; gs.headLimit=1; gs.trail=[];
+  const keep=tut.pz.res; tut.done=false; tut.pz.showing=true;
+  for(const m of pz.best.path){ Object.assign(gs, applyMove(gs,'w',m)); gs.trail=gs.trail.concat([b2('w',m.from), m.to===24?-1:b2('w',m.to)]); }
+  gs.rolled=false; tut.done=true; tut.pz.res=keep; pendingAnim={col:'w', flat:gs.trail.slice()}; route();
+}
+const pzLine=path=>path.map(m=>(24-m.from)+'/'+(m.to===24?t('pzOff'):24-m.to)).join('  ');
+function pzCoach(){
+  const pz=tut.pz.data, r=tut.pz.res, p=pzState();
+  $('coachStep').textContent=t('pzT')+' · '+new Date(pz.day+'T12:00:00Z').toLocaleDateString(lang==='uk'?'uk-UA':'en-GB',{day:'numeric',month:'long'});
+  const back=$('coachBack'), next=$('coachNext'); back.textContent=t('pzExit'); back.disabled=false;
+  if(!r){ $('coachT').textContent=t('pzTask',{a:pz.dice[0],b:pz.dice[1]}); $('coachD').textContent=pzSolvedToday() ? t('pzAgain') : t('pzHint',{n:PZ_PRIZE.best}); next.textContent=t('pzReset'); next.disabled=!gs.rolled; return; }
+  $('coachT').textContent=t('pzR_'+r.res); 
+  $('coachD').textContent=(r.res==='best' ? t('pzBestD') : t('pzRankD',{r:r.rank,n:r.n})+' '+t('pzBestIs',{m:pzLine(pz.best.path)})) + (tut.pz.prize ? ' '+t('pzPrize',{n:tut.pz.prize}) : '') + (p.streak>1 && p.day===kyivDay() && r.res!=='miss' ? ' '+t('pzStreak',{n:p.streak}) : '');
+  next.textContent=tut.pz.showing ? t('pzShown') : t('pzShow'); next.disabled=!!tut.pz.showing || r.res==='best';
+}
+function pzCard(home){
+  if(!BETA) return; let c=home.querySelector('.pzcard'); const rk=home.querySelector('.rkcard'); if(!rk) return;
+  if(!c){ c=document.createElement('div'); c.className='pzcard'; c.onclick=()=>startPuzzle(); rk.before(c); }
+  const p=pzState(), done=pzSolvedToday(); c.innerHTML='';
+  const ic=document.createElement('span'); ic.className='pzi'; ic.textContent='🧩'; emojify(ic,'🧩');
+  const mid=document.createElement('div'); const b=document.createElement('b'); b.textContent=t('pzT'); const sm=document.createElement('small');
+  sm.textContent = done ? t('pzDone_'+(p.res||'miss')) : (p.streak && p.last===kyivDay(Date.now()-864e5) ? t('pzStreakKeep',{n:p.streak}) : t('pzSub',{n:PZ_PRIZE.best})); mid.append(b,sm);
+  const go=document.createElement('span'); go.className='pzgo'+(done?' done':''); go.textContent=done?'✓':t('pzGo'); c.append(ic,mid,go);
+}
+setTimeout(()=>{ try{ seasonCheck(null); }catch(e){} }, 1500);
+{ const _rh2=renderHomeV7; renderHomeV7=function(){ _rh2.apply(this,arguments); try{ pzCard($('vHome')); }catch(e){} }; }
+
+// ================= seasons =================
+// A season is a calendar month (Kyiv time). Your best place in the top while the season runs is remembered;
+// when a new month starts, top-10 finishers get coins and a season badge.
+const SEASON_PRIZE=[[1,2000,'gold'],[3,1000,'silver'],[10,500,'bronze']];
+function seasonId(now){ return kyivDay(now).slice(0,7); }
+function seasonName(id){ const [y,m]=id.split('-').map(Number); const n=new Date(Date.UTC(y,m-1,15)).toLocaleDateString(lang==='uk'?'uk-UA':'en-GB',{month:'long'}); return n.charAt(0).toUpperCase()+n.slice(1)+' '+y; }
+function seasonEnds(now){ const [y,m]=seasonId(now).split('-').map(Number); return Date.UTC(y,m,1)-2*3600e3; }
+function seasonPrize(pos){ return pos ? SEASON_PRIZE.find(p=>pos<=p[0]) : null; }
+function seasonCheck(pos){
+  if(!BETA) return; const cur=seasonId(); W.season=W.season||{id:cur,best:null}; W.badges=W.badges||[];
+  if(W.season.id!==cur){ const pr=seasonPrize(W.season.best);
+    if(pr && !W.badges.some(b=>b.id===W.season.id)){ W.badges.push({id:W.season.id, pos:W.season.best, tier:pr[2]}); W.coins+=pr[1]; if(SW) srvW('claim',{kind:'season',season:W.season.id,n:pr[1]}); setTimeout(()=>toast(t('seasonWon',{n:W.season.best, s:seasonName(W.season.id), c:pr[1]})),1200); }
+    W.season={id:cur,best:null}; }
+  if(pos && (W.season.best==null || pos<W.season.best)) W.season.best=pos;
+  saveW();
+}
+function renderSeason(myPos){
+  const el=$('lbSeason'); if(!el) return; el.innerHTML=''; if(!BETA) return;
+  const left=Math.max(0,seasonEnds()-Date.now()), d=Math.floor(left/864e5), h=Math.floor(left%864e5/3600e3);
+  const top=document.createElement('div'); top.className='sstop';
+  const b=document.createElement('b'); b.textContent=t('seasonT',{s:seasonName(seasonId())}); const sm=document.createElement('span'); sm.textContent=d ? t('seasonLeftD',{d,h}) : t('seasonLeftH',{h}); top.append(b,sm);
+  const pz=document.createElement('div'); pz.className='sspr';
+  SEASON_PRIZE.forEach(([n,c,tier],j)=>{ const x=document.createElement('span'); x.className='ssb '+tier; x.textContent=(j===0?t('seasonTop1'):t('seasonTopN',{n}))+' · +'+c; pz.appendChild(x); });
+  const me=document.createElement('small'); me.className='ssme'; const best=W.season&&W.season.best;
+  me.textContent = best ? t('seasonBest',{n:best}) + (seasonPrize(best) ? ' · '+t('seasonOnTrack') : '') : t('seasonNot');
+  el.append(top,pz,me);
+}
+function badgesEl(){ const bs=(W.badges||[]).slice(-6); if(!bs.length) return null; const w=document.createElement('div'); w.className='sbadges';
+  bs.forEach(b=>{ const x=document.createElement('span'); x.className='ssb '+b.tier; x.textContent='🏅 '+seasonName(b.id)+' · #'+b.pos; w.appendChild(x); }); return w; }
+
+// ================= server wallet (beta) =================
+// When the "game" function knows the 'wallet' action, coins and items live on the server and the local W is only a cache.
+// Purchases are shown at once and confirmed by the server; if it refuses, the wallet is reloaded from the server.
+let SW=false;
+function walletApply(sw, got){
+  if(!sw) return; ['coins','owned','pass','xp','streak','daily','casePity','cases'].forEach(k=>{ if(sw[k]!=null) W[k]=Array.isArray(sw[k])?sw[k].slice():sw[k]; });
+  if(got && got.length) W.fresh=(W.fresh||[]).concat(got.filter(i=>!(W.fresh||[]).includes(i)));
+  saveW(); try{ if(!$('shopOv').classList.contains('hidden')) renderShop(); }catch(e){}
+}
+async function srvW(op,args){
+  if(!sb || !uid) return null;
+  try{ const {data,error}=await sb.functions.invoke('game',{body:{action:'wallet',args:Object.assign({op},args||{})}});
+    if(error || !data || data.error || !data.wallet){ if(SW && op!=='get'){ toast(t('walletErr')); walletSync(); } return null; }
+    walletApply(data.wallet, data.got); return data;
+  }catch(e){ if(SW && op!=='get'){ toast(t('walletErr')); walletSync(); } return null; }
+}
+async function walletSync(){ const r=await srvW('get'); return !!r; }
+async function walletInit(){ if(!BETA || !sb || !uid || SW) return; const r=await srvW('get'); if(r){ SW=true; try{ renderHomeV7(); }catch(e){} } }
+let _wTry=0; setInterval(()=>{ if(!SW && BETA && uid && Date.now()-_wTry>300000){ _wTry=Date.now(); walletInit(); } }, 4000);
+{ const _b=buy; buy=function(it,price){ const had=W.owned.includes(it.id); const ok=_b(it,price); if(ok && !had && SW) srvW('buy',{id:it.id}); return ok; }; }
+{ const _s=buySet; buySet=function(x){ const had=setOwned(x); const ok=_s(x); if(ok && !had && SW) srvW('set',{k:x.k}); return ok; }; }
+{ const _l=buyLevels; buyLevels=function(n){ const p0=W.pass; _l(n); if(SW && W.pass>p0) srvW('pass',{n:W.pass-p0}); }; }
+{ const _d=claimDaily; claimDaily=function(){ const d0=W.daily; _d(); if(SW && W.daily!==d0) srvW('daily'); }; }
+{ const _q=claimQuest; claimQuest=function(k){ const q=qToday(), had=q.got.includes(k); _q(k); const Q=QUESTS.find(x=>x.k===k); if(SW && !had && q.got.includes(k) && Q) srvW('claim',{kind:'quest',n:Q.r}); }; }
+
 // ---- leaderboard ----
 async function openLeaderboard(){
   show('lbOv',true); const list=$('lbList'); list.parentNode.querySelectorAll('.lbmore,.lbme').forEach(x=>x.remove()); list.innerHTML='<div class="empty">'+t('lbLoading')+'</div>';
@@ -4117,6 +4341,7 @@ async function openLeaderboard(){
   if(rows) lbCache=rows.slice();
   rows=(rows||[]).concat(GHOSTS.map((g,i)=>ghostInfo(i))).sort((a,b)=>(b.rating||1000)-(a.rating||1000)).slice(0,100);
   list.innerHTML=''; lbRows=rows; lbShown=0;
+  { const mp=rows.findIndex(r=>r.id===uid)+1; seasonCheck(mp||null); renderSeason(mp); }
   if(rows===null){ list.innerHTML='<div class="empty"></div>'; list.firstChild.textContent=t('lbErr'); return; }
   if(!rows.length){ const e=document.createElement('div'); e.className='empty'; e.textContent=t('lbEmpty'); list.appendChild(e); return; }
   lbMore(); if(!rows.some(r=>r.id===uid)){ const e=document.createElement('div'); e.className='empty lbme'; e.style.padding='14px 6px 2px'; const my=profile.rating||1000; e.textContent=t('lbNotTop',{rank:rankName(my), r:my}); list.after(e); }
@@ -4133,7 +4358,7 @@ function lbMore(){
     const sub=document.createElement('span'); sub.textContent=rankName(r.rating||1000, i+1)+' · '+(r.won||0)+'–'+Math.max(0,(r.played||0)-(r.won||0)); who.append(nm,sub);
     const rt=document.createElement('div'); rt.className='rt'; rt.textContent=r.rating||1000;
     if(r.hour){ const d=document.createElement('small'); d.className='dl '+(r.hour>0?'up':'dn'); d.textContent=(r.hour>0?'+':'−')+Math.abs(r.hour); d.title=t('lbHour'); rt.appendChild(d); }
-    row.append(pos,avw,who,rt); list.appendChild(row); });
+    row.append(pos,avw,who,rt); row.onclick=()=>openPlayer(r); list.appendChild(row); });
   lbShown=Math.min(lbRows.length, lbShown+20);
   if(lbShown<lbRows.length){ const b=document.createElement('button'); b.type='button'; b.className='lbmore'; b.textContent=t('lbMore',{n:Math.min(20,lbRows.length-lbShown)}); b.onclick=()=>{ lbMore(); }; list.after(b); }
 }
@@ -4200,8 +4425,8 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=createGame; $('btnLocal').onclick=startLocal;
 $('btnFind').onclick=startSearch; $('btnBot').onclick=startBot; $('btnTutor').onclick=startTutor;
 $('btnSearchBot').onclick=startBot; $('btnSearchCancel').onclick=()=>stopSearch(false);
-$('coachBack').onclick=()=>{ if(!tut) return; if(tut.i===TUT.length-1){ startBot(); return; } if(tut.i===0){ leave(); return; } tut.i--; tutLoad(); };
-$('coachNext').onclick=()=>{ if(!tut) return; if(tut.i===TUT.length-1){ startSearch(); return; } tut.i++; tutLoad(); };
+$('coachBack').onclick=()=>{ if(!tut) return; if(tut.pz){ leave(); route(); return; } if(tut.i===TUT.length-1){ startBot(); return; } if(tut.i===0){ leave(); return; } tut.i--; tutLoad(); };
+$('coachNext').onclick=()=>{ if(!tut) return; if(tut.pz){ pzNext(); return; } if(tut.i===TUT.length-1){ startSearch(); return; } tut.i++; tutLoad(); };
 $('btnLeave1').onclick=askLeave; $('btnLeave2').onclick=askLeave; $('btnLeaveNo').onclick=()=>show('leaveOv',false); $('btnLeaveYes').onclick=doLeave; $('btnClaim').onclick=doClaim; $('btnChat').onclick=toggleChat; $('btnVoice').onclick=toggleVoice; $('btnSpk').onclick=toggleSpk; $('btnResign').onclick=askResign; $('btnResYes').onclick=doResign; $('btnResNo').onclick=()=>show('resOv',false); $('resOv').addEventListener('click',e=>{ if(e.target.id==='resOv') show('resOv',false); }); $('brand').onclick=()=>{ if(gs) askLeave(); };
 $('btnCopy').onclick=copyLink; $('btnCopy2').onclick=copyLink;
 $('btnRoll').onclick=roll; $('btnUndo').onclick=undo;
