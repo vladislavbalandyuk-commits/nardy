@@ -20,3 +20,6 @@
 - Board, table and card textures: photo of the Druzi bar's own nardy board, provided by the site owner.
 - Sounds (Freesound, CC0): hookah bubbling https://freesound.org/s/417603/ · dice roll https://freesound.org/s/94031/ · wine glass https://freesound.org/s/176588/ · opening a bottle https://freesound.org/s/377991/ · burp https://freesound.org/s/12730/
 - Season prize voice: crowd cheer by FoolBoyMedia (CC0) https://freesound.org/s/397434/
+
+## QR codes
+- qrcode-generator by Kazuhiko Arase (MIT) — beta/qr.js — https://github.com/kazuhikoarase/qrcode-generator
