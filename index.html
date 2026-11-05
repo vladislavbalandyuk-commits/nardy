@@ -4388,7 +4388,8 @@ function seasonName(id){ const [y,m]=id.split('-').map(Number); const n=new Date
 function seasonEnds(now){ const [y,m]=seasonId(now).split('-').map(Number); return Date.UTC(y,m,1)-2*3600e3; }
 function seasonPrize(pos){ return pos ? SEASON_PRIZE.find(p=>pos<=p[0]) : null; }
 function seasonCheck(pos){
-  if(!BETA) return; const cur=seasonId(); W.season=W.season||{id:cur,best:null}; W.badges=W.badges||[];
+  if(!BETA) return; const cur=seasonId(); W.season=W.season||{id:cur,best:null,v:2}; W.badges=W.badges||[];
+  if(W.season.v!==2){ W.season.best=null; W.season.v=2; }   // places used to come from the global table; now from the season table
   if(W.season.id!==cur){ const pr=seasonPrize(W.season.best);
     if(pr && !W.badges.some(b=>b.id===W.season.id)){ W.badges.push({id:W.season.id, pos:W.season.best, tier:pr[2]}); W.coins+=pr[1]; pr[3].forEach(id=>{ if(!W.owned.includes(id)){ W.owned.push(id); W.fresh=(W.fresh||[]).concat(id); } }); if(SW) srvW('claim',{kind:'season',season:W.season.id,n:pr[1],items:pr[3]}); setTimeout(()=>toast(t('seasonWon',{n:W.season.best, s:seasonName(W.season.id), c:pr[1]})),1200); }
     W.season={id:cur,best:null}; }
