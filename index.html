@@ -55,6 +55,10 @@ header{grid-column:1/-1;display:flex;align-items:baseline;justify-content:space-
 .brand b{font:600 25px/1 var(--serif);letter-spacing:-.01em;text-transform:lowercase;margin-right:6px}
 .brand small{align-self:center;padding-top:3px}
 .brand small{color:var(--muted);font-size:14px;font-weight:400}
+.brand .ver{align-self:center;padding:2px 7px 1px;margin-top:2px;border-radius:99px;border:1px solid var(--line2);color:var(--muted);font:500 11.5px/1.4 var(--sans);letter-spacing:.02em;white-space:nowrap}
+.brand .ver .vs{display:none}
+@media (max-width:560px){ .brand .ver{font-size:10px;padding:1px 6px 0} .brand .ver .vl{display:none} .brand .ver .vs{display:inline} }
+@media (max-width:380px){ .brand .ver{display:none} }
 .hdr-r{display:flex;align-items:center;gap:18px;font-size:14px}
 .seg{display:flex;gap:2px;align-items:center}
 .seg button{border:0;padding:4px 6px;border-radius:4px;color:var(--muted);font-size:13px;font-weight:500;letter-spacing:.12em}
@@ -1613,7 +1617,7 @@ body.v7 .livecard .lvres b{font-weight:600;color:var(--ink2,inherit)}
 
 <div class="app">
   <header>
-    <div class="brand" id="brand"><svg class="bmark" viewBox="6 14 62 44" aria-hidden="true"><circle cx="28" cy="36" r="19" fill="#fff" stroke="#1d1915" stroke-width="2.6"/><circle cx="28" cy="36" r="12" fill="none" stroke="#d6ccbb" stroke-width="1.6"/><circle cx="46" cy="36" r="19" fill="#1d1915" stroke="var(--paper)" stroke-width="3"/><circle cx="46" cy="36" r="12" fill="none" stroke="#4a423a" stroke-width="1.6"/></svg><b data-t="brandName"></b><small data-t="tagline"></small></div>
+    <div class="brand" id="brand"><svg class="bmark" viewBox="6 14 62 44" aria-hidden="true"><circle cx="28" cy="36" r="19" fill="#fff" stroke="#1d1915" stroke-width="2.6"/><circle cx="28" cy="36" r="12" fill="none" stroke="#d6ccbb" stroke-width="1.6"/><circle cx="46" cy="36" r="19" fill="#1d1915" stroke="var(--paper)" stroke-width="3"/><circle cx="46" cy="36" r="12" fill="none" stroke="#4a423a" stroke-width="1.6"/></svg><b data-t="brandName"></b><small data-t="tagline"></small><span class="ver" id="appVer"></span></div>
     <div class="hdr-r"><span class="onl hdr" id="onlineCnt"></span>
       <div class="seg" id="langSeg"><button data-l="en">EN</button><button data-l="uk">UA</button></div>
       <button class="gear" id="btnLb" title="Leaderboard"><svg class="i"><use href="#i-trophy"/></svg></button><button class="coinpill" id="btnCoins" title="Shop"><i class="coin"></i><span id="coinN">0</span></button><button class="gear" id="btnInv" title="My table"><svg class="i" viewBox="0 0 24 24"><rect x="3.5" y="7" width="17" height="12.5" rx="2.5"/><path d="M8.5 7V5.5A1.5 1.5 0 0 1 10 4h4a1.5 1.5 0 0 1 1.5 1.5V7M3.5 12h17"/></svg></button><button class="gear" id="btnSet" title="Settings"><svg class="i"><use href="#i-gear"/></svg></button><button class="me" id="btnMe"></button>
@@ -4419,6 +4423,8 @@ function badgesEl(list){ const bs=(list||W.badges||[]).slice(-6); if(!bs.length)
 // ================= server wallet (beta) =================
 // When the "game" function knows the 'wallet' action, coins and items live on the server and the local W is only a cache.
 // Purchases are shown at once and confirmed by the server; if it refuses, the wallet is reloaded from the server.
+const APP_VERSION='0.14.0-beta.1';
+{ const v=document.getElementById('appVer'); if(v){ const m=APP_VERSION.match(/-beta\.(\d+)$/); v.innerHTML='<span class="vl"></span><span class="vs"></span>'; v.firstChild.textContent='v'+APP_VERSION; v.lastChild.textContent=m?'b.'+m[1]:'v'+APP_VERSION; v.title='v'+APP_VERSION; } }
 let SW=false;
 function walletApply(sw, got){
   if(!sw) return; ['coins','owned','pass','xp','streak','daily','casePity','pity','cases'].forEach(k=>{ if(sw[k]!=null) W[k]=Array.isArray(sw[k])?sw[k].slice():sw[k]; });
