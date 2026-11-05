@@ -15,3 +15,8 @@
 - `fx/gift`, `fx/crystal`, `fx/chest`: Microsoft Fluent Emoji 3D, MIT
 - Loaded from Freesound (CC0): Witch's Laugh https://freesound.org/s/348142/ , TINKLE https://freesound.org/s/707825/
 - Case voice emoji loaded from Freesound (CC0): Ba Dum Tss https://freesound.org/s/431812/ , wah wah sad trombone https://freesound.org/s/175409/ , Airhorn https://freesound.org/s/414208/ , Cricket https://freesound.org/s/543965/ , Cha Ching https://freesound.org/s/351304/ , Musical Snow Globe – We Wish You a Merry Christmas https://freesound.org/s/260556/ , Deck The Halls jingle https://freesound.org/s/411420/
+
+## Druzi Case (Nov 2026)
+- Board, table and card textures: photo of the Druzi bar's own nardy board, provided by the site owner.
+- Sounds (Freesound, CC0): hookah bubbling https://freesound.org/s/417603/ · dice roll https://freesound.org/s/94031/ · wine glass https://freesound.org/s/176588/ · opening a bottle https://freesound.org/s/377991/ · burp https://freesound.org/s/12730/
+- Season prize voice: crowd cheer by FoolBoyMedia (CC0) https://freesound.org/s/397434/
