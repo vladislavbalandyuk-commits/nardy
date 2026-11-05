@@ -5,7 +5,7 @@
 // deno-lint-ignore-file no-explicit-any
 export type Wallet = {
   coins: number; owned: string[]; pass: number; xp: number; streak: number; daily: string;
-  casePity: number; cases: number; claims: { day: string; n: number }; seasons: string[]; paid: string[];
+  casePity: number; pity: Record<string, number>; cases: number; claims: { day: string; n: number }; seasons: string[]; paid: string[];
 };
 
 export class WalletError extends Error { code: string; constructor(code: string) { super(code); this.code = code; } }
@@ -16,14 +16,14 @@ export function kyivDay(now: number): string {
 }
 
 export function freshWallet(cat: any): Wallet {
-  return { coins: cat.econ.start, owned: [], pass: 0, xp: 0, streak: 0, daily: '', casePity: 0, cases: 0, claims: { day: '', n: 0 }, seasons: [], paid: [] };
+  return { coins: cat.econ.start, owned: [], pass: 0, xp: 0, streak: 0, daily: '', casePity: 0, pity: {}, cases: 0, claims: { day: '', n: 0 }, seasons: [], paid: [] };
 }
 
 export function normalize(w: any, cat: any): Wallet {
   const f = freshWallet(cat), x = { ...f, ...(w || {}) };
   x.owned = Array.isArray(x.owned) ? x.owned.filter((s: any) => typeof s === 'string') : [];
   x.claims = x.claims && typeof x.claims === 'object' ? x.claims : f.claims;
-  x.seasons = Array.isArray(x.seasons) ? x.seasons : []; x.paid = Array.isArray(x.paid) ? x.paid : [];
+  x.seasons = Array.isArray(x.seasons) ? x.seasons : []; x.pity = x.pity && typeof x.pity === 'object' ? x.pity : {}; x.paid = Array.isArray(x.paid) ? x.paid : [];
   return x;
 }
 
@@ -62,14 +62,16 @@ export function walletOp(w0: Wallet, op: string, args: any, cat: any, now: numbe
       w.coins -= cost; for (let i = 0; i < n; i++) grantLevel(w, cat, got); break;
     }
     case 'case': {
-      const C = cat.case; if (w.coins < C.price) fail('no_coins');
+      const kind = cat.cases && cat.cases[args?.kind] ? String(args.kind) : 'main', C = cat.cases ? cat.cases[kind] : cat.case; if (w.coins < C.price) fail('no_coins');
+      const pity = kind === 'main' ? w.casePity : (w.pity[kind] || 0);
       const x = rnd(); let acc = 0, r = 'c'; for (const k of ['l', 'e', 'r', 'c']) { acc += C.odds[k]; if (x < acc) { r = k; break; } }
-      if (w.casePity >= C.pity - 1 && (r === 'c' || r === 'r')) r = 'e';
+      if (pity >= C.pity - 1 && (r === 'c' || r === 'r')) r = 'e';
       const list = C.pool[r]; const id = list[Math.floor(rnd() * list.length)];
       const dup = w.owned.includes(id), refund = dup ? C.dupe[r] : 0;
-      w.coins -= C.price; w.casePity = (r === 'e' || r === 'l') ? 0 : w.casePity + 1; w.cases++;
+      const np = (r === 'e' || r === 'l') ? 0 : pity + 1; if (kind === 'main') w.casePity = np; else w.pity = { ...w.pity, [kind]: np }; w.cases++;
+      w.coins -= C.price;
       if (dup) w.coins += refund; else { w.owned.push(id); got.push(id); }
-      res = { id, r, refund }; break;
+      res = { id, r, refund, kind }; break;
     }
     case 'daily': {
       if (w.daily === today) fail('daily_done');
@@ -81,7 +83,9 @@ export function walletOp(w0: Wallet, op: string, args: any, cat: any, now: numbe
       if (kind === 'season') {
         const id = String(args?.season || ''); const max = cat.season[0][1];
         if (!/^\d{4}-\d{2}$/.test(id) || id >= today.slice(0, 7) || w.seasons.includes(id) || n <= 0 || n > max) fail('bad_claim');
-        w.seasons.push(id); w.coins += n; res = { n }; break;
+        w.seasons.push(id); w.coins += n;
+        const prize = cat.season.find((p: any) => p[1] === n); if (prize && Array.isArray(prize[3])) for (const it of prize[3]) if (!w.owned.includes(it)) { w.owned.push(it); got.push(it); }
+        res = { n }; break;
       }
       const cap = CLAIM_MAX[kind]; if (!cap || n <= 0 || n > cap) fail('bad_claim');
       if (w.claims.day !== today) w.claims = { day: today, n: 0 };
