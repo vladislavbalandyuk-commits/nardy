@@ -1589,6 +1589,45 @@ body[data-table=druzi] #stage::before{background-image:url(fx/druzi_table.webp);
 .shm .shbtns{display:grid;gap:8px} .shm .shbtns button{width:100%}
 .shm .shbtns .ghost{padding:11px;border-radius:12px;border:1px solid var(--line2);background:transparent;color:inherit;font:inherit;font-weight:600;cursor:pointer}
 .shm .shbtns [hidden]{display:none}
+
+.frl.fr-cup::before{content:"";position:absolute;inset:-8%;pointer-events:none;background:no-repeat center/100% 100% url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23ffffff'/%3E%3Cstop offset='.5' stop-color='%23a9c7ff'/%3E%3Cstop offset='1' stop-color='%236c7cf0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='60' cy='60' r='55' fill='none' stroke='url(%23g)' stroke-width='3'/%3E%3Ccircle cx='60' cy='60' r='50.5' fill='none' stroke='url(%23g)' stroke-width='1' opacity='.7'/%3E%3Ccircle cx='76.7' cy='8.6' r='2.6' fill='%23e9e6ff'/%3E%3Ccircle cx='103.7' cy='28.3' r='2.6' fill='%23e9e6ff'/%3E%3Ccircle cx='114.0' cy='60.0' r='2.6' fill='%23e9e6ff'/%3E%3Ccircle cx='103.7' cy='91.7' r='2.6' fill='%23e9e6ff'/%3E%3Ccircle cx='76.7' cy='111.4' r='2.6' fill='%23e9e6ff'/%3E%3Ccircle cx='43.3' cy='111.4' r='2.6' fill='%23e9e6ff'/%3E%3Ccircle cx='16.3' cy='91.7' r='2.6' fill='%23e9e6ff'/%3E%3Ccircle cx='6.0' cy='60.0' r='2.6' fill='%23e9e6ff'/%3E%3Ccircle cx='16.3' cy='28.3' r='2.6' fill='%23e9e6ff'/%3E%3Ccircle cx='43.3' cy='8.6' r='2.6' fill='%23e9e6ff'/%3E%3Cg transform='translate(60 4)'%3E%3Cpath d='M-9 -1 h18 v5 a9 9 0 0 1 -18 0z' fill='url(%23g)' stroke='%233b3f8f' stroke-width='1.2'/%3E%3Cpath d='M-9 1 h-4 a4 4 0 0 0 4 6 M9 1 h4 a4 4 0 0 1 -4 6' fill='none' stroke='%233b3f8f' stroke-width='1.4'/%3E%3Crect x='-2' y='13' width='4' height='4' fill='%233b3f8f'/%3E%3Crect x='-6' y='17' width='12' height='3' rx='1' fill='%233b3f8f'/%3E%3C/g%3E%3C/svg%3E");z-index:2;filter:drop-shadow(0 0 6px rgba(120,150,255,.55))}
+.pc .hname .ptitle{display:block;margin-top:4px;font-size:12px;font-weight:600;letter-spacing:.04em;color:#c9c2ff;text-transform:uppercase}
+/* ---- weekend tournament ---- */
+#tourOv{z-index:13}
+.tov{max-width:760px;width:min(760px,96vw)}
+.tov .thd{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.tov .thd h2{margin:0} .tov .thd .tst{color:var(--muted);font-size:13px;margin-top:4px}
+.tov .tact{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 10px} .tov .tact button{flex:1 1 auto}
+.tov .tact .tnext{font-size:13px;color:var(--muted);width:100%}
+.tov .ttabs{display:flex;gap:4px;padding:4px;border-radius:12px;background:var(--surf2,rgba(127,127,127,.1));border:1px solid var(--line2);margin-bottom:12px;overflow-x:auto}
+.tov .ttabs button{flex:1;padding:8px 10px;border:0;border-radius:9px;background:transparent;color:var(--muted);font:inherit;font-weight:600;cursor:pointer;white-space:nowrap}
+.tov .ttabs button.on{background:var(--surf);color:inherit;box-shadow:0 1px 3px rgba(0,0,0,.18)}
+.tov .tbody{max-height:min(58vh,560px);overflow-y:auto}
+.tov .tgrps{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px}
+.tov .tgrp{border:1px solid var(--line2);border-radius:14px;padding:10px 12px;background:var(--surf)}
+.tov .tgrp h4{margin:0 0 6px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.tov .trow{display:grid;grid-template-columns:18px 26px 1fr 30px 24px;gap:8px;align-items:center;padding:4px 0;font-size:13.5px}
+.tov .trow .av{width:26px;height:26px} .tov .trow .nm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tov .trow.q .pos{color:#3fae74;font-weight:700} .tov .trow.me{font-weight:700} .tov .trow .pts{font-weight:700;text-align:right} .tov .trow .gw{color:var(--muted);text-align:right;font-size:12px}
+.tov .tres{margin-top:6px;border-top:1px solid var(--line);padding-top:6px;font-size:12px;color:var(--muted);display:grid;gap:2px}
+.tov .tres .mine{color:inherit;font-weight:600}
+.tov .brk{display:grid;grid-template-columns:repeat(3,minmax(170px,1fr));gap:14px;align-items:center;min-width:560px}
+.tov .bcol{display:grid;gap:10px} .tov .bcol h4{margin:0;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.tov .bm{border:1px solid var(--line2);border-radius:12px;background:var(--surf);overflow:hidden}
+.tov .bm .bp{display:grid;grid-template-columns:22px 1fr auto;gap:8px;align-items:center;padding:6px 10px;font-size:13px}
+.tov .bm .bp+.bp{border-top:1px solid var(--line)} .tov .bm .bp .av{width:22px;height:22px} .tov .bm .bp .nm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tov .bm .bp.w{font-weight:700} .tov .bm .bp.l{opacity:.55} .tov .bm .bp b{font-variant-numeric:tabular-nums} .tov .bm.mym{border-color:#8f7cff;box-shadow:0 0 0 1px rgba(143,124,255,.4)}
+.tov .bm .bo{font-size:10.5px;color:var(--muted);padding:3px 10px;background:rgba(127,127,127,.08)}
+.tov .prz{display:grid;gap:6px} .tov .prz div{display:grid;grid-template-columns:70px 1fr auto;gap:10px;align-items:center;padding:8px 12px;border:1px solid var(--line2);border-radius:12px;background:var(--surf);font-size:13.5px}
+.tov .prz b{font-weight:700} .tov .prz span{color:var(--muted);font-size:12.5px}
+.tov .pod{display:grid;grid-template-columns:1fr 1.15fr 1fr;align-items:end;gap:10px;margin:6px 0 14px;text-align:center}
+.tov .pod div{display:grid;justify-items:center;gap:6px;font-size:13px} .tov .pod .av{width:52px;height:52px} .tov .pod i{display:block;width:100%;border-radius:10px 10px 0 0;background:linear-gradient(180deg,rgba(143,124,255,.35),rgba(143,124,255,.08));font-style:normal;font-weight:800;padding-top:6px}
+.tov .pod .p1 i{height:70px} .tov .pod .p2 i{height:48px} .tov .pod .p3 i{height:34px}
+.tov .tpl{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:6px} .tov .tpl div{display:grid;grid-template-columns:28px 1fr auto;gap:8px;align-items:center;padding:6px 10px;border:1px solid var(--line2);border-radius:12px;font-size:13px} .tov .tpl .av{width:28px;height:28px} .tov .tpl small{color:var(--muted)}
+body.v7 .tourcard{grid-column:1/-1;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;border-radius:22px;padding:12px 16px;cursor:pointer;border:1px solid rgba(143,124,255,.35);background:linear-gradient(120deg,rgba(143,124,255,.16),rgba(62,180,255,.08)),var(--surf)}
+body.v7 .tourcard .ti{font-size:26px} body.v7 .tourcard b{display:block;font-weight:600;font-size:14.5px} body.v7 .tourcard small{color:var(--muted);font-size:12.5px}
+body.v7 .tourcard .tgo{padding:7px 14px;border-radius:99px;background:#8f7cff;color:#fff;font-weight:600;font-size:13px;white-space:nowrap}
+@media (max-width:560px){ .tov .ttabs{gap:2px} .tov .ttabs button{padding:8px 4px;font-size:12.5px;letter-spacing:0} .tov .prz div{grid-template-columns:44px 1fr auto} .tov .thd h2{font-size:24px} .tov .tbody{max-height:none} }
 /* bots playing each other (home) */
 body.v7 .livecard{grid-column:1/-1;background:var(--surf);border:1px solid var(--line2);border-radius:22px;padding:14px 16px}
 body.v7 .livecard .tch{display:flex;justify-content:space-between;align-items:center;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
@@ -1767,6 +1806,7 @@ body.v7 .livecard .lvres b{font-weight:600;color:var(--ink2,inherit)}
   <code class="shlink" id="shareLink"></code>
   <div class="shbtns"><button class="cta" id="shareCopy" data-t="shareCopy"></button><button class="ghost" id="shareSend" data-t="shareSend"></button><button class="ghost" id="shareSave" data-t="shareSave"></button></div>
 </div></div>
+<div id="tourOv" class="overlay hidden"><div class="modal tov" id="tourBox"></div></div>
 <div id="plOv" class="overlay hidden"><div class="modal pc" id="plBox"></div></div>
 <div id="leaveOv" class="overlay hidden"><div class="modal"><h2 data-t="leaveQ"></h2><p data-t="leaveSub"></p><div class="r"><button id="btnLeaveNo" data-t="cancel"></button><button class="cta" id="btnLeaveYes" data-t="leaveB"></button></div></div></div>
 <div id="claimBar" class="claimbar hidden"><span data-t="claimT"></span><button class="cta" id="btnClaim" data-t="claimB"></button></div>
@@ -1822,7 +1862,7 @@ const T = {
   tut3T:'Doubles', tut3D:'Equal dice are played four times. Roll — you get 4 and 4: make four moves of 4 points with any checkers (still only one from the head).',
   tut4T:'Taken points', tut4D:'There is no hitting in long nardy, and you cannot land on a point your opponent holds. Roll 3 and 1: the checkers on point 18 cannot move — points 17 and 15 are taken by Black. Play with other checkers.',
   tut5T:'Bearing off', tut5D:'Once all 15 checkers are home (points 1–6) you bear them off. Roll 6 and 2: tap the checker on 6 and then the tray on the right, then do the same with a checker on 2.',
-  tut6T:'You are ready!', tut6D:'Whoever bears off all 15 checkers first wins. If the opponent has not borne off a single one, it is a “mars” — 2 points. One more rule: you may not build a wall of 6 points in a row unless an enemy checker is already ahead of it. Now try the bot or find an online opponent.', pzT:'Puzzle of the day', pzTask:'White to move · {a}–{b}', pzHint:'Roll the dice and find the best way to play. Best move: +{n} coins.', pzAgain:'Already solved today — practice only, no coins.', pzReset:'Start over', pzExit:'Exit', pzOpp:'Puzzle', pzR_best:'Best move! 🎯', pzR_good:'Good move', pzR_miss:'Not quite', pzBestD:'That is exactly what the engine plays.', pzRankD:'Your move is #{r} of {n}.', pzBestIs:'Best: {m}.', pzOff:'off', pzPrize:'+{n} coins.', pzStreak:'Streak: {n} days.', pzShow:'Show the best move', pzShown:'Best move shown', pzNone:'No puzzle today', pzSub:'Find the best move · +{n}', pzStreakKeep:'Keep your streak: {n} days', pzGo:'Solve', pzDone_best:'Solved — best move', pzDone_good:'Solved — good move', pzDone_miss:'Tried today · new one tomorrow', seasonT:'Season · {s}', seasonLeftD:'{d} d {h} h left', seasonLeftH:'{h} h left', seasonTop1:'#1', seasonTopN:'Top {n}', seasonBest:'Your best place this season: #{n}', seasonOnTrack:'in the prizes', seasonNot:'Finish the month in the top 100 to win a prize.', seasonWon:'Season {s} is over: you finished #{n} — +{c} coins, prizes and a badge!', walletErr:'The server did not confirm — wallet reloaded', walletSrv:'Coins live on the server now — this button is off', ck_season:'Season laurels', vo_champ:'Champion (stadium cheer)', fr_champ:'Champion’s laurel', fromSeason:'Season prize · top {n}', seasonOnly:'Season prize only — finish in the top {n}', seasonVo:'voice “Champion”', seasonCk:'season checkers', achSeason:'Seasons', dzT:'Druzi Case', dzSub:'From the Druzi hookah bar: cocktail-coloured checkers, dice, staff avatars, the bar’s own board and table, the neon Druzi board and sounds of a good evening.', dzGo:'Only from the Druzi Case — open it', cardDruzi:'From the Druzi Case', dice_dzred:'Red glass', dice_dzcoal:'Hot coals', dice_dzskull:'Burned skull', avs_hookah:'Hookah master', avs_waiter:'Waiter', avs_admin:'Administrator', st_druzibar:'Druzi bar board', tb_druzi:'Druzi bar table', vo_hookah:'Hookah bubbling', vo_dice:'Dice on wood', vo_clink:'Cheers!', vo_bottle:'Bottle open', vo_burp:'Burp', dice_dzlime:'Lime', dice_dzberry:'Berry', dice_dzlagoon:'Lagoon', dice_dzcoconut:'Coconut', ck_dzmint:'Mint', ck_dzcherry:'Cherry', ck_dzlavender:'Lavender', ck_dzpeach:'Peach', ck_dzbluelagoon:'Blue Lagoon', ck_dzmojito:'Mojito', ck_dzcosmo:'Cosmopolitan', ck_dzsunrise:'Tequila Sunrise', lbGlobal:'Global', lbSeasonTab:'Season', lbSubSeason:'Points won in {s}. Everyone starts the month at 1000.', shareT:'Invite a friend', shareSub:'Send the link or let them scan the QR code with a phone camera.', shareCopy:'Copy link', shareSend:'Share', shareSave:'Save QR', shareText:'Join me for a game of long nardy:', lbT:'Leaderboard', plLast:'Recent games', plNone:'No game history yet', plWin:'win', plLoss:'loss', plOnline:'● Online', plPlaying:'● Playing {n}', plSeen:'Last online {n}', agoM:'{n} min ago', agoH:'{n} h ago', lbMore:'Show {n} more', lbHour:'Change in the last hour', lbNotTop:'You: {rank} · {r}. Not in the top 100 yet.', lbOpen:'Leaderboard', lbSub:'Top 100 players. Ratings change after every game.', lbLoading:'Loading…', lbErr:'Could not load the leaderboard — sign in to see it.', lbEmpty:'No rated games yet — play an online game to get on the board.', lbYou:'you', lbNotYou:'You will appear here after your first online game.', tier_bronze:'Bronze', tier_silver:'Silver', tier_gold:'Gold', tier_platinum:'Platinum', tier_diamond:'Diamond', toNext:'{n} to {tier}', topTier:'Top rank', ratedNote:'only online games are rated', ratingChange:'Rating {d} → {r}', av_none:'Initials', av_dice:'Dice', av_crown:'Crown', av_fox:'Fox', av_tea:'Tea', dice_ivory:'Ivory', dice_onyx:'Onyx', dice_ruby:'Ruby', dice_gold:'Gold', dice_wood:'Wood', dice_marble:'Marble', dice_glass:'Glass', dice_neon:'Neon', boardT:'Board', sound:'Sound', flip:'Flip board', autoForcedT:'Play forced moves', autoRollT:'Auto-roll dice', pips:'pips', forced:'Only one way to play — moved automatically', rules:'Rules',
+  tut6T:'You are ready!', tut6D:'Whoever bears off all 15 checkers first wins. If the opponent has not borne off a single one, it is a “mars” — 2 points. One more rule: you may not build a wall of 6 points in a row unless an enemy checker is already ahead of it. Now try the bot or find an online opponent.', pzT:'Puzzle of the day', pzTask:'White to move · {a}–{b}', pzHint:'Roll the dice and find the best way to play. Best move: +{n} coins.', pzAgain:'Already solved today — practice only, no coins.', pzReset:'Start over', pzExit:'Exit', pzOpp:'Puzzle', pzR_best:'Best move! 🎯', pzR_good:'Good move', pzR_miss:'Not quite', pzBestD:'That is exactly what the engine plays.', pzRankD:'Your move is #{r} of {n}.', pzBestIs:'Best: {m}.', pzOff:'off', pzPrize:'+{n} coins.', pzStreak:'Streak: {n} days.', pzShow:'Show the best move', pzShown:'Best move shown', pzNone:'No puzzle today', pzSub:'Find the best move · +{n}', pzStreakKeep:'Keep your streak: {n} days', pzGo:'Solve', pzDone_best:'Solved — best move', pzDone_good:'Solved — good move', pzDone_miss:'Tried today · new one tomorrow', seasonT:'Season · {s}', seasonLeftD:'{d} d {h} h left', seasonLeftH:'{h} h left', seasonTop1:'#1', seasonTopN:'Top {n}', seasonBest:'Your best place this season: #{n}', seasonOnTrack:'in the prizes', seasonNot:'Finish the month in the top 100 to win a prize.', seasonWon:'Season {s} is over: you finished #{n} — +{c} coins, prizes and a badge!', walletErr:'The server did not confirm — wallet reloaded', walletSrv:'Coins live on the server now — this button is off', ck_season:'Season laurels', vo_champ:'Champion (stadium cheer)', fr_champ:'Champion’s laurel', fromSeason:'Season prize · top {n}', seasonOnly:'Season prize only — finish in the top {n}', seasonVo:'voice “Champion”', seasonCk:'season checkers', achSeason:'Seasons', dzT:'Druzi Case', dzSub:'From the Druzi hookah bar: cocktail-coloured checkers, dice, staff avatars, the bar’s own board and table, the neon Druzi board and sounds of a good evening.', dzGo:'Only from the Druzi Case — open it', cardDruzi:'From the Druzi Case', dice_dzred:'Red glass', dice_dzcoal:'Hot coals', dice_dzskull:'Burned skull', avs_hookah:'Hookah master', avs_waiter:'Waiter', avs_admin:'Administrator', st_druzibar:'Druzi bar board', tb_druzi:'Druzi bar table', vo_hookah:'Hookah bubbling', vo_dice:'Dice on wood', vo_clink:'Cheers!', vo_bottle:'Bottle open', vo_burp:'Burp', dice_dzlime:'Lime', dice_dzberry:'Berry', dice_dzlagoon:'Lagoon', dice_dzcoconut:'Coconut', ck_dzmint:'Mint', ck_dzcherry:'Cherry', ck_dzlavender:'Lavender', ck_dzpeach:'Peach', ck_dzbluelagoon:'Blue Lagoon', ck_dzmojito:'Mojito', ck_dzcosmo:'Cosmopolitan', ck_dzsunrise:'Tequila Sunrise', lbGlobal:'Global', lbSeasonTab:'Season', lbSubSeason:'Points won in {s}. Everyone starts the month at 1000.', shareT:'Invite a friend', shareSub:'Send the link or let them scan the QR code with a phone camera.', shareCopy:'Copy link', shareSend:'Share', shareSave:'Save QR', shareText:'Join me for a game of long nardy:', tourT:'Weekend tournament', tourIntro:'16 players: 4 groups of 4, two games against each opponent, the top two go to the play-off. Quarter- and semi-finals are best of 3, the final best of 5. Prize pool 10,000 coins.', tourTest:'Start a test tournament now', tourTestNote:'Test mode: the other 15 places are grandmaster bots; their games are decided at once, yours are played on the board.', tourLive:'In progress', tourDone:'Finished', tourPool:'pool {n} 🪙', tourNextOn:'Next: {d}', tourGroupR:'Group {g} · round {r}', tourSt_qf:'Quarter-finals', tourSt_sf:'Semi-finals', tourSt_f:'Final', tourSt_3:'3rd place', tourGameStart:'{s} · game {n} (best of {bo})', tourMatchScore:'match {a}:{b}', tourMatchWon:'match won', tourMatchLost:'match lost', tourMatchDraw:'match drawn', tourNextGame:'game {n} next', tourNextBtn:'Next game', tourBack:'Back to the tournament', tourYouPlace:'Your place: #{n}', tourClaim:'Collect prize', tourAgain:'New test tournament', tourPlayVs:'Play vs {n}', tourBo:'best of {n}', tourOut:'You are out — watch the rest', tourSimAll:'Play out the rest', tourTabG:'Groups', tourTabB:'Play-off', tourTabP:'Prizes', tourTabU:'Players', tourP1:'title “Weekend champion”, Cup frame, badge', tourP2:'title “Finalist”, badge', tourP3:'title “Podium”, badge', tourFormat:'Groups: 1 point for each game won; ties go to head-to-head, then marses. Bots never take prize money — it goes to the next person.', tourGroup:'Group {g}', tourG:'g', tourBrkWait:'The play-off opens when the groups are finished.', tourGot:'+{n} coins — well played!', tourThanks:'Thanks for playing!', tourCardSub:'Pool {n} 🪙 · 16 players · try it now', tourCardDone:'Finished · your place #{n}', tourVs:'vs {n}', tourOpen:'Open', tourPlay:'Play', fromTour:'Tournament prize', tourOnly:'Only for winning a weekend tournament', fr_cup:'Weekend Cup', tourBadge:'Tournament {d} · #{n}', title_champ:'Weekend champion', title_final:'Finalist', title_podium:'Podium', tourFinish:'Finish', lbT:'Leaderboard', plLast:'Recent games', plNone:'No game history yet', plWin:'win', plLoss:'loss', plOnline:'● Online', plPlaying:'● Playing {n}', plSeen:'Last online {n}', agoM:'{n} min ago', agoH:'{n} h ago', lbMore:'Show {n} more', lbHour:'Change in the last hour', lbNotTop:'You: {rank} · {r}. Not in the top 100 yet.', lbOpen:'Leaderboard', lbSub:'Top 100 players. Ratings change after every game.', lbLoading:'Loading…', lbErr:'Could not load the leaderboard — sign in to see it.', lbEmpty:'No rated games yet — play an online game to get on the board.', lbYou:'you', lbNotYou:'You will appear here after your first online game.', tier_bronze:'Bronze', tier_silver:'Silver', tier_gold:'Gold', tier_platinum:'Platinum', tier_diamond:'Diamond', toNext:'{n} to {tier}', topTier:'Top rank', ratedNote:'only online games are rated', ratingChange:'Rating {d} → {r}', av_none:'Initials', av_dice:'Dice', av_crown:'Crown', av_fox:'Fox', av_tea:'Tea', dice_ivory:'Ivory', dice_onyx:'Onyx', dice_ruby:'Ruby', dice_gold:'Gold', dice_wood:'Wood', dice_marble:'Marble', dice_glass:'Glass', dice_neon:'Neon', boardT:'Board', sound:'Sound', flip:'Flip board', autoForcedT:'Play forced moves', autoRollT:'Auto-roll dice', pips:'pips', forced:'Only one way to play — moved automatically', rules:'Rules',
   winYou:'You win', winLose:'Not this time', winN:'{n} wins', mars:'Mars — 2 points.', one:'1 point.', score:'Score {a} : {b}',
   notFound:'Game not found — the link may be outdated.', full:'This game already has two players — you are watching.', joined:'Your opponent joined!', saveErr:'Could not save the move', connErr:'Connection problem',
   keys:'<kbd>Space</kbd> roll · <kbd>Backspace</kbd> undo',
@@ -1844,7 +1884,7 @@ const T = {
   tut3T:'Дубль', tut3D:'Однакові числа на кубиках граються чотири рази. Киньте — випаде 4 і 4: зробіть чотири ходи по 4 пункти будь-якими шашками (з голови — так само лише одна).',
   tut4T:'Зайняті пункти', tut4D:'Бити шашки в довгих нардах не можна, і не можна ставати на пункт, де стоїть суперник. Випаде 3 і 1: шашки на пункті 18 піти не можуть — пункти 17 і 15 зайняті чорними. Зіграйте іншими шашками.',
   tut5T:'Виведення шашок', tut5D:'Коли всі 15 шашок у домі (пункти 1–6), їх можна викидати з дошки. Випаде 6 і 2: натисніть шашку на пункті 6, а потім лоток праворуч; так само зробіть із шашкою на пункті 2.',
-  tut6T:'Ви готові!', tut6D:'Хто першим викине всі 15 шашок — перемагає. Якщо суперник не встиг викинути жодної — це «марс», 2 очки. Ще одне правило: не можна ставити 6 своїх шашок поспіль, якщо попереду немає жодної шашки суперника. Тепер спробуйте зіграти з ботом або знайдіть суперника онлайн.', pzT:'Задача дня', pzTask:'Хід білих · {a}–{b}', pzHint:'Киньте кубики й знайдіть найкращий хід. За найкращий: +{n} монет.', pzAgain:'Сьогодні вже розв’язано — тепер лише для тренування, без монет.', pzReset:'Почати знову', pzExit:'Вийти', pzOpp:'Задача', pzR_best:'Найкращий хід! 🎯', pzR_good:'Добрий хід', pzR_miss:'Не зовсім', pzBestD:'Саме так зіграв би рушій.', pzRankD:'Ваш хід — №{r} з {n}.', pzBestIs:'Найкращий: {m}.', pzOff:'винос', pzPrize:'+{n} монет.', pzStreak:'Серія: {n} дн.', pzShow:'Показати найкращий хід', pzShown:'Найкращий хід показано', pzNone:'Сьогодні задачі немає', pzSub:'Знайдіть найкращий хід · +{n}', pzStreakKeep:'Не перервіть серію: {n} дн.', pzGo:'Розв’язати', pzDone_best:'Розв’язано — найкращий хід', pzDone_good:'Розв’язано — добрий хід', pzDone_miss:'Спроба була · нова завтра', seasonT:'Сезон · {s}', seasonLeftD:'Залишилось {d} дн {h} год', seasonLeftH:'Залишилось {h} год', seasonTop1:'№1', seasonTopN:'Топ-{n}', seasonBest:'Ваше найкраще місце в сезоні: №{n}', seasonOnTrack:'у призах', seasonNot:'Закінчіть місяць у топ-100, щоб отримати приз.', seasonWon:'Сезон {s} завершився: ви №{n} — +{c} монет, призи й значок!', walletErr:'Сервер не підтвердив — гаманець оновлено', walletSrv:'Монети тепер на сервері — ця кнопка вимкнена', ck_season:'Сезонні лаври', vo_champ:'Чемпіон (оплески стадіону)', fr_champ:'Лавровий вінок чемпіона', fromSeason:'Приз сезону · топ-{n}', seasonOnly:'Лише приз сезону — потрапте в топ-{n}', seasonVo:'голосове «Чемпіон»', seasonCk:'сезонні фішки', achSeason:'Сезони', dzT:'Druzi Case', dzSub:'Кейс кальян-бару «Друзі»: шашки в кольорах коктейлів, кубики, аватарки команди, справжня дошка й стіл бару, неонова дошка Druzi та звуки гарного вечора.', dzGo:'Тільки з Druzi Case — відкрити кейс', cardDruzi:'З Druzi Case', dice_dzred:'Червоне скло', dice_dzcoal:'Жар', dice_dzskull:'Випалений череп', avs_hookah:'Кальянщик', avs_waiter:'Офіціант', avs_admin:'Адміністратор', st_druzibar:'Дошка бару Druzi', tb_druzi:'Стіл бару Druzi', vo_hookah:'Бульк кальяну', vo_dice:'Кидок кубиків', vo_clink:'Будьмо!', vo_bottle:'Відкрили пляшку', vo_burp:'Відрижка', dice_dzlime:'Лайм', dice_dzberry:'Ягідні', dice_dzlagoon:'Лагуна', dice_dzcoconut:'Кокос', ck_dzmint:'М’ятні', ck_dzcherry:'Вишневі', ck_dzlavender:'Лавандові', ck_dzpeach:'Персикові', ck_dzbluelagoon:'Блакитна лагуна', ck_dzmojito:'Мохіто', ck_dzcosmo:'Космополітен', ck_dzsunrise:'Текіла Санрайз', lbGlobal:'Глобальний', lbSeasonTab:'Сезонний', lbSubSeason:'Очки за {s}. Кожен починає місяць з 1000.', shareT:'Запросити друга', shareSub:'Надішліть посилання або дайте відсканувати QR-код камерою телефона.', shareCopy:'Скопіювати посилання', shareSend:'Поділитися', shareSave:'Зберегти QR', shareText:'Зіграймо в довгі нарди:', lbT:'Таблиця лідерів', plLast:'Останні ігри', plNone:'Історії ігор поки немає', plWin:'перемога', plLoss:'поразка', plOnline:'● Онлайн', plPlaying:'● Грає з {n}', plSeen:'Востаннє онлайн {n}', agoM:'{n} хв тому', agoH:'{n} год тому', lbMore:'Показати ще {n}', lbHour:'Зміна за останню годину', lbNotTop:'Ви: {rank} · {r}. У топ-100 ще не потрапили.', lbOpen:'Таблиця лідерів', lbSub:'Топ-100 гравців. Рейтинг змінюється після кожної гри.', lbLoading:'Завантаження…', lbErr:'Не вдалося завантажити таблицю — увійдіть, щоб її побачити.', lbEmpty:'Ще немає рейтингових ігор — зіграйте онлайн, щоб потрапити в таблицю.', lbYou:'ви', lbNotYou:'Ви зʼявитесь тут після першої онлайн-гри.', tier_bronze:'Бронза', tier_silver:'Срібло', tier_gold:'Золото', tier_platinum:'Платина', tier_diamond:'Діамант', toNext:'ще {n} до рангу «{tier}»', topTier:'Найвищий ранг', ratedNote:'рейтинг рахується лише в онлайн-іграх', ratingChange:'Рейтинг {d} → {r}', av_none:'Ініціали', av_dice:'Кубик', av_crown:'Корона', av_fox:'Лис', av_tea:'Чай', dice_ivory:'Слонова кістка', dice_onyx:'Онікс', dice_ruby:'Рубін', dice_gold:'Золото', dice_wood:'Дерево', dice_marble:'Мармур', dice_glass:'Скло', dice_neon:'Неон', boardT:'Дошка', sound:'Звук', flip:'Перевернути дошку', autoForcedT:'Вимушені ходи сам', autoRollT:'Кидати кубики сам', pips:'піпів', forced:'Хід лише один — зіграно автоматично', rules:'Правила',
+  tut6T:'Ви готові!', tut6D:'Хто першим викине всі 15 шашок — перемагає. Якщо суперник не встиг викинути жодної — це «марс», 2 очки. Ще одне правило: не можна ставити 6 своїх шашок поспіль, якщо попереду немає жодної шашки суперника. Тепер спробуйте зіграти з ботом або знайдіть суперника онлайн.', pzT:'Задача дня', pzTask:'Хід білих · {a}–{b}', pzHint:'Киньте кубики й знайдіть найкращий хід. За найкращий: +{n} монет.', pzAgain:'Сьогодні вже розв’язано — тепер лише для тренування, без монет.', pzReset:'Почати знову', pzExit:'Вийти', pzOpp:'Задача', pzR_best:'Найкращий хід! 🎯', pzR_good:'Добрий хід', pzR_miss:'Не зовсім', pzBestD:'Саме так зіграв би рушій.', pzRankD:'Ваш хід — №{r} з {n}.', pzBestIs:'Найкращий: {m}.', pzOff:'винос', pzPrize:'+{n} монет.', pzStreak:'Серія: {n} дн.', pzShow:'Показати найкращий хід', pzShown:'Найкращий хід показано', pzNone:'Сьогодні задачі немає', pzSub:'Знайдіть найкращий хід · +{n}', pzStreakKeep:'Не перервіть серію: {n} дн.', pzGo:'Розв’язати', pzDone_best:'Розв’язано — найкращий хід', pzDone_good:'Розв’язано — добрий хід', pzDone_miss:'Спроба була · нова завтра', seasonT:'Сезон · {s}', seasonLeftD:'Залишилось {d} дн {h} год', seasonLeftH:'Залишилось {h} год', seasonTop1:'№1', seasonTopN:'Топ-{n}', seasonBest:'Ваше найкраще місце в сезоні: №{n}', seasonOnTrack:'у призах', seasonNot:'Закінчіть місяць у топ-100, щоб отримати приз.', seasonWon:'Сезон {s} завершився: ви №{n} — +{c} монет, призи й значок!', walletErr:'Сервер не підтвердив — гаманець оновлено', walletSrv:'Монети тепер на сервері — ця кнопка вимкнена', ck_season:'Сезонні лаври', vo_champ:'Чемпіон (оплески стадіону)', fr_champ:'Лавровий вінок чемпіона', fromSeason:'Приз сезону · топ-{n}', seasonOnly:'Лише приз сезону — потрапте в топ-{n}', seasonVo:'голосове «Чемпіон»', seasonCk:'сезонні фішки', achSeason:'Сезони', dzT:'Druzi Case', dzSub:'Кейс кальян-бару «Друзі»: шашки в кольорах коктейлів, кубики, аватарки команди, справжня дошка й стіл бару, неонова дошка Druzi та звуки гарного вечора.', dzGo:'Тільки з Druzi Case — відкрити кейс', cardDruzi:'З Druzi Case', dice_dzred:'Червоне скло', dice_dzcoal:'Жар', dice_dzskull:'Випалений череп', avs_hookah:'Кальянщик', avs_waiter:'Офіціант', avs_admin:'Адміністратор', st_druzibar:'Дошка бару Druzi', tb_druzi:'Стіл бару Druzi', vo_hookah:'Бульк кальяну', vo_dice:'Кидок кубиків', vo_clink:'Будьмо!', vo_bottle:'Відкрили пляшку', vo_burp:'Відрижка', dice_dzlime:'Лайм', dice_dzberry:'Ягідні', dice_dzlagoon:'Лагуна', dice_dzcoconut:'Кокос', ck_dzmint:'М’ятні', ck_dzcherry:'Вишневі', ck_dzlavender:'Лавандові', ck_dzpeach:'Персикові', ck_dzbluelagoon:'Блакитна лагуна', ck_dzmojito:'Мохіто', ck_dzcosmo:'Космополітен', ck_dzsunrise:'Текіла Санрайз', lbGlobal:'Глобальний', lbSeasonTab:'Сезонний', lbSubSeason:'Очки за {s}. Кожен починає місяць з 1000.', shareT:'Запросити друга', shareSub:'Надішліть посилання або дайте відсканувати QR-код камерою телефона.', shareCopy:'Скопіювати посилання', shareSend:'Поділитися', shareSave:'Зберегти QR', shareText:'Зіграймо в довгі нарди:', tourT:'Турнір вихідного дня', tourIntro:'16 гравців: 4 групи по 4, по дві гри з кожним суперником, двоє найкращих виходять у плей-оф. 1/4 і півфінали — до 2 перемог, фінал — до 3. Призовий пул 10 000 монет.', tourTest:'Почати тестовий турнір зараз', tourTestNote:'Тестовий режим: решту 15 місць займають боти-гросмейстери; їхні ігри між собою вирішуються одразу, свої ви граєте на дошці.', tourLive:'Триває', tourDone:'Завершено', tourPool:'пул {n} 🪙', tourNextOn:'Наступний: {d}', tourGroupR:'Група {g} · тур {r}', tourSt_qf:'1/4 фіналу', tourSt_sf:'Півфінал', tourSt_f:'Фінал', tourSt_3:'За 3-тє місце', tourGameStart:'{s} · гра {n} (до {bo})', tourMatchScore:'матч {a}:{b}', tourMatchWon:'матч виграно', tourMatchLost:'матч програно', tourMatchDraw:'нічия в парі', tourNextGame:'далі гра {n}', tourNextBtn:'Наступна гра', tourBack:'До турніру', tourYouPlace:'Ваше місце: №{n}', tourClaim:'Забрати приз', tourAgain:'Новий тестовий турнір', tourPlayVs:'Грати з {n}', tourBo:'Bo{n}', tourOut:'Ви вибули — подивіться, хто переможе', tourSimAll:'Дограти турнір', tourTabG:'Групи', tourTabB:'Плей-оф', tourTabP:'Призи', tourTabU:'Учасники', tourP1:'звання «Чемпіон вихідних», рамка «Кубок вихідних», значок', tourP2:'звання «Фіналіст», значок', tourP3:'звання «Призер», значок', tourFormat:'Групи: 1 очко за кожну виграну гру; при рівності — особиста зустріч, потім марси. Боти призів не забирають — приз іде наступній людині.', tourGroup:'Група {g}', tourG:'ігор', tourBrkWait:'Плей-оф відкриється, коли завершаться групи.', tourGot:'+{n} монет — гарна гра!', tourThanks:'Дякуємо за гру!', tourCardSub:'Пул {n} 🪙 · 16 гравців · спробуйте зараз', tourCardDone:'Завершено · ваше місце №{n}', tourVs:'з {n}', tourOpen:'Відкрити', tourPlay:'Грати', fromTour:'Приз турніру', tourOnly:'Лише за перемогу в турнірі вихідного дня', fr_cup:'Кубок вихідних', tourBadge:'Турнір {d} · №{n}', title_champ:'Чемпіон вихідних', title_final:'Фіналіст', title_podium:'Призер', tourFinish:'Завершити', lbT:'Таблиця лідерів', plLast:'Останні ігри', plNone:'Історії ігор поки немає', plWin:'перемога', plLoss:'поразка', plOnline:'● Онлайн', plPlaying:'● Грає з {n}', plSeen:'Востаннє онлайн {n}', agoM:'{n} хв тому', agoH:'{n} год тому', lbMore:'Показати ще {n}', lbHour:'Зміна за останню годину', lbNotTop:'Ви: {rank} · {r}. У топ-100 ще не потрапили.', lbOpen:'Таблиця лідерів', lbSub:'Топ-100 гравців. Рейтинг змінюється після кожної гри.', lbLoading:'Завантаження…', lbErr:'Не вдалося завантажити таблицю — увійдіть, щоб її побачити.', lbEmpty:'Ще немає рейтингових ігор — зіграйте онлайн, щоб потрапити в таблицю.', lbYou:'ви', lbNotYou:'Ви зʼявитесь тут після першої онлайн-гри.', tier_bronze:'Бронза', tier_silver:'Срібло', tier_gold:'Золото', tier_platinum:'Платина', tier_diamond:'Діамант', toNext:'ще {n} до рангу «{tier}»', topTier:'Найвищий ранг', ratedNote:'рейтинг рахується лише в онлайн-іграх', ratingChange:'Рейтинг {d} → {r}', av_none:'Ініціали', av_dice:'Кубик', av_crown:'Корона', av_fox:'Лис', av_tea:'Чай', dice_ivory:'Слонова кістка', dice_onyx:'Онікс', dice_ruby:'Рубін', dice_gold:'Золото', dice_wood:'Дерево', dice_marble:'Мармур', dice_glass:'Скло', dice_neon:'Неон', boardT:'Дошка', sound:'Звук', flip:'Перевернути дошку', autoForcedT:'Вимушені ходи сам', autoRollT:'Кидати кубики сам', pips:'піпів', forced:'Хід лише один — зіграно автоматично', rules:'Правила',
   winYou:'Перемога', winLose:'Цього разу — ні', winN:'Переміг: {n}', mars:'Марс — 2 очки.', one:'1 очко.', score:'Рахунок {a} : {b}',
   notFound:'Гру не знайдено — можливо, посилання застаріло.', full:'У цій грі вже двоє гравців — ви глядач.', joined:'Суперник приєднався!', saveErr:'Не вдалося зберегти хід', connErr:'Проблема зі зʼєднанням',
   keys:'<kbd>Пробіл</kbd> кинути · <kbd>Backspace</kbd> скасувати',
@@ -2367,6 +2407,34 @@ function botBestPath(st,c){
   })(st,[],true);
   return best;
 }
+// ---- grandmaster bot (tournaments): plays the position out ----
+// Take the 5 best ways to play by the usual evaluation, then play each one out to the end of the game 16 times
+// with the normal strong bot on both sides, using the same dice for every candidate, and pick the one that wins most.
+function gmRng(seed){ let a=seed>>>0; return ()=>{ a=(a+0x6D2B79F5)>>>0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+function gmRollout(s0,c,seed){
+  const rng=gmRng(seed); let s=s0, turn=OPP(c), n=0;
+  while(s.off.w<15 && s.off.b<15 && n++<200){
+    const d1=1+Math.floor(rng()*6), d2=1+Math.floor(rng()*6);
+    s={...s, remaining:d1===d2?[d1,d1,d1,d1]:[d1,d2], headMoved:0, headLimit:(s.first&&s.first[turn]&&d1===d2&&[3,4,6].includes(d1))?2:1, first:{...(s.first||{}),[turn]:false}};
+    const p=botBestPath(s,turn); if(p) for(const m of p){ s=applyMove(s,turn,m); if(s.off[turn]>=15) break; }
+    turn=OPP(turn);
+  }
+  if(s.off[c]>=15) return s.off[OPP(c)]===0 ? 2 : 1;
+  if(s.off[OPP(c)]>=15) return s.off[c]===0 ? -2 : -1;
+  return 0;
+}
+function botBestPathGM(st,c){
+  const total=maxUse(st,c); if(!total) return null;
+  const outs=new Map(); let nodes=0;
+  (function dfs(s,path){ if(nodes++>4000) return; if(path.length===total){ const k=s.board.join()+'|'+s.off[c]; if(!outs.has(k)) outs.set(k,{path,s,v:botEval(s,c)}); return; }
+    for(const m of legalMoves(s,c)) dfs(applyMove(s,c,m), path.concat([m])); })(st,[]);
+  const cand=[...outs.values()].sort((a,b)=>b.v-a.v).slice(0,5); if(cand.length===1) return cand[0].path;
+  const keep=gs?gs.botNoise:undefined; if(gs) gs.botNoise=-0.05;
+  const base=Math.floor(Math.random()*1e9); let best=cand[0], bestE=-1e9;
+  try{ for(const x of cand){ if(x.s.off[c]>=15) return x.path; let e=0; for(let k=0;k<16;k++) e+=gmRollout(x.s,c,base+k*7919); if(e>bestE){ bestE=e; best=x; } } }
+  finally{ if(gs) gs.botNoise=keep; }
+  return best.path;
+}
 const botWait=ms=>new Promise(r=>{ botTimer=setTimeout(r,ms); });
 function botTick(){
   if(mode!=='bot' || !gs || botBusy) return;
@@ -2384,7 +2452,7 @@ function botTick(){
     const c=gs.turn;
     if(!gs.rolled){ const d1=d6(), d2=d6(); gs.dice=[d1,d2]; gs.remaining=d1===d2?[d1,d1,d1,d1]:[d1,d2]; gs.headLimit=(gs.first[c]&&d1===d2&&[3,4,6].includes(d1))?2:1; gs.first[c]=false; gs.headMoved=0; gs.rolled=true; gs.trail=[]; gs.rollId++; gs.snap=null; rollAnimUntil=performance.now()+700; sfx('dice'); botBusy=true; scene3d&&scene3d.sync(); renderHud(); }
     await botWait(gh ? J(1300,4200) : 900); if(stale()) return;
-    const path=botBestPath(gs,c);
+    const path=gs.gm ? botBestPathGM(gs,c) : botBestPath(gs,c);
     if(!path || !path.length){ toast(gh ? t('oppNoMoves') : t('botNoMoves')); await botWait(900); if(stale()) return; passTurn(); botBusy=false; route(); return; }
     for(let i=0;i<path.length;i++){ if(stale()) return; playPath([path[i]]); if(i<path.length-1) await botWait(gh ? J(450,1300) : 620); }
     botBusy=false; route();
@@ -2800,7 +2868,7 @@ SHOP.push(...DZ_CD.map(k=>({id:'dice:'+k,cat:'dice',k,r:'c',price:0,caseOnly:1,d
   ...['hookah','dice','clink','bottle','burp'].map(k=>({id:'vo:'+k,cat:'vo',k,r:'l',price:0,caseOnly:1,druzi:1})));
 { const nb=SHOP.find(x=>x.id==='board:druzi'); if(nb) Object.assign(nb,{r:'e',price:0,caseOnly:1,druzi:1}); }
 // season prizes: not sold, not in cases
-SHOP.push({id:'ck:season',cat:'ck',k:'season',r:'x',price:0,caseOnly:1,season:100},{id:'vo:champ',cat:'vo',k:'champ',r:'x',price:0,caseOnly:1,season:10},{id:'frame:champ',cat:'frame',k:'champ',r:'x',price:0,caseOnly:1,season:1});
+SHOP.push({id:'frame:cup',cat:'frame',k:'cup',r:'x',price:0,caseOnly:1,season:0,tour:1},{id:'ck:season',cat:'ck',k:'season',r:'x',price:0,caseOnly:1,season:100},{id:'vo:champ',cat:'vo',k:'champ',r:'x',price:0,caseOnly:1,season:10},{id:'frame:champ',cat:'frame',k:'champ',r:'x',price:0,caseOnly:1,season:1});
 // winter pass: 20 levels, 200 coins each; the boring stuff first, the best at the end
 const PASS_PRICE=200;
 const PASS=[
@@ -3055,7 +3123,7 @@ function itemTile(it, opts){
   d.appendChild(lazy(()=>itemPreview(it.cat,it.k), 'pv'+(['table','card'].includes(it.cat)?' fill':'')));
   const ft=document.createElement('div'); ft.className='ift'; const nm=document.createElement('span'); nm.className='nm'; emojify(nm, itemName(it.cat,it.k)); ft.appendChild(nm);
   if(!opts.shop && (W.fresh||[]).includes(it.id)){ const nw=document.createElement('span'); nw.className='newtag'; nw.textContent=t('newBadge'); ft.appendChild(nw); }
-  if(!own){ if(it.caseOnly){ const s=document.createElement('span'); s.className='have pass'; s.textContent=it.season ? t('fromSeason',{n:it.season}) : t('fromCase'); ft.appendChild(s); } else if(it.pass){ const s=document.createElement('span'); s.className='have pass'; s.textContent=t('passLvl',{n:it.pass}); ft.appendChild(s); } else ft.appendChild(priceBtn(price, isDeal?it.price:0)); }
+  if(!own){ if(it.caseOnly){ const s=document.createElement('span'); s.className='have pass'; s.textContent=it.tour ? t('fromTour') : it.season ? t('fromSeason',{n:it.season}) : t('fromCase'); ft.appendChild(s); } else if(it.pass){ const s=document.createElement('span'); s.className='have pass'; s.textContent=t('passLvl',{n:it.pass}); ft.appendChild(s); } else ft.appendChild(priceBtn(price, isDeal?it.price:0)); }
   else if(opts.shop) { const s=document.createElement('span'); s.className='have'; s.textContent=on?t('equipped'):t('owned'); ft.appendChild(s); }
   d.appendChild(ft);
   d.onclick=()=> own && !opts.shop ? (equip(it), renderInv()) : openDetail({item:it});
@@ -3097,7 +3165,7 @@ function openDetail(o){
   if(it && it.cat==='fx'){ const pb=document.createElement('button'); pb.className='dprev'; pb.textContent='▶ '+t('previewFx'); pb.onclick=()=>{ previewFx(it.k); const v=box.querySelector('.pv.fxpv'); if(v){ v.classList.remove('playing'); void v.offsetWidth; v.classList.add('playing'); } }; box.appendChild(pb); }
   if(it && it.cat==='vo'){ const pb=document.createElement('button'); pb.className='dprev'; pb.textContent='🔊 '+t('previewVo'); pb.onclick=()=>{ const was=prefs.sound; prefs.sound=true; playVoice(it.k); prefs.sound=was; }; box.appendChild(pb); }
   const own = x? setOwned(x) : (W.owned.includes(it.id)||(!it.price&&!it.pass&&!it.caseOnly));
-  if(it && it.season && !own){ const btn=document.createElement('button'); btn.className='dbuy'; btn.disabled=true; btn.textContent=t('seasonOnly',{n:it.season}); box.appendChild(btn); }
+  if(it && (it.season||it.tour) && !own){ const btn=document.createElement('button'); btn.className='dbuy'; btn.disabled=true; btn.textContent=it.tour ? t('tourOnly') : t('seasonOnly',{n:it.season}); box.appendChild(btn); }
   else if(it && it.caseOnly && !own){ const btn=document.createElement('button'); btn.className='cta dbuy'; btn.textContent=t(it.druzi?'dzGo':'caseGo'); btn.onclick=()=>{ show('detOv',false); setCase(it.druzi?'druzi':'main'); openShop('case'); }; box.appendChild(btn); show('detOv',true); return; }
   const isPass = x? x.pass : it.pass;
   const price = x? setPrice(x) : priceOf(it);
@@ -3559,6 +3627,7 @@ function renderHud(){
     $('winTitle').textContent = mode==='local' ? t('winN',{n:slotName(ws)}) : (ws===me ? t('winYou') : (me ? t('winLose') : t('winN',{n:slotName(ws)})));
     $('winSub').textContent = (gs.resign ? (mode!=='local' && slotOfColor(gs.resign.c)===me ? t('resignedYou') : t('resigned',{n: mode==='local' ? colorName(gs.resign.c) : slotName(slotOfColor(gs.resign.c)).split(' (')[0]}))+' ' : '')+(mars?t('mars'):t('one'))+' '+t('score',{a:gs.score.p1,b:gs.score.p2}) + (lastDelta!=null ? ' · '+t('ratingChange',{d:(lastDelta>=0?'+':'')+lastDelta, r:profile.rating}) + (mode==='bot' && !isGhost() ? ' ('+t('botRated')+')' : '') : '');
     show('btnNew2', mode==='local' || !!me); $('btnNew2').textContent = mode==='local' ? t('again') : t('rematch'); renderRematch();
+    if(gs.tour){ $('winSub').textContent=tourWinText(); const T=tourState(), tm=T&&tourFindMatch(T,gs.tour); $('btnNew2').textContent = tm && !mDone(tm) ? t('tourNextBtn') : t('tourBack'); }
     setTimeout(()=>{ if(gs && gs.phase==='over'){ show('winOv',true); showRankUp(); } }, 600);
   } else if(gs.phase!=='over') show('winOv',false);
 }
@@ -4209,6 +4278,7 @@ function openProfile(){
   const hero=h('div','hero'); hero.style.setProperty('--tc', TIER_COL[ti]);
   const top=h('div','heroTop'); const av=h('div','av big');
   const nm=h('div','hname', profile.name || (authUser ? t('guestName') : t('loginT')));
+  { const tt=BETA&&myTitle(); if(tt){ const e=h('span','ptitle',t('title_'+tt)); nm.appendChild(e); } }
   const paint=()=>{ avatarInto(av, profile.av, nick.value.trim()||profile.name||'?'); const f=myFr(framed(av, r, 92)); const old=top.querySelector('.frl'); if(old) old.replaceWith(f); else top.prepend(f); };
   top.append(nm);
   hero.append(top);
@@ -4435,12 +4505,12 @@ function ghostSeasonBadges(gi){ return pastSeasons().map(id=>{ let tbl=_ghostSea
       tbl=GHOSTS.map((g,i)=>[i,ghostInfo(i,end).rating]).sort((a,b)=>b[1]-a[1]).map(x=>x[0]); _gdrift.at=-1; _ghostSeason.set(id,tbl); }
     const pos=tbl.indexOf(gi)+1, pr=seasonPrize(pos); return pr ? {id,pos,tier:pr[2]} : null; }).filter(Boolean); }
 function badgesEl(list){ const bs=(list||W.badges||[]).slice(-6); if(!bs.length) return null; const w=document.createElement('div'); w.className='sbadges';
-  bs.forEach(b=>{ const x=document.createElement('span'); x.className='ssb '+b.tier; x.textContent=(b.pos===1?'🏆 ':'🏅 ')+seasonName(b.id)+' · '+(lang==='uk'?'топ-':'top ')+b.pos; w.appendChild(x); }); return w; }
+  bs.forEach(b=>{ const x=document.createElement('span'); x.className='ssb '+b.tier; x.textContent = b.tour ? '🏆 '+t('tourBadge',{d:new Date(b.day+'T12:00:00Z').toLocaleDateString(lang==='uk'?'uk-UA':'en-GB',{day:'numeric',month:'long'}),n:b.pos}) : (b.pos===1?'🏆 ':'🏅 ')+seasonName(b.id)+' · '+(lang==='uk'?'топ-':'top ')+b.pos; w.appendChild(x); }); return w; }
 
 // ================= server wallet (beta) =================
 // When the "game" function knows the 'wallet' action, coins and items live on the server and the local W is only a cache.
 // Purchases are shown at once and confirmed by the server; if it refuses, the wallet is reloaded from the server.
-const APP_VERSION='0.14.0-beta.2';
+const APP_VERSION='0.14.0-beta.3';
 { const v=document.getElementById('appVer'); if(v){ const m=APP_VERSION.match(/-beta\.(\d+)$/); v.innerHTML='<span class="vl"></span><span class="vs"></span>'; v.firstChild.textContent='v'+APP_VERSION; v.lastChild.textContent=m?'b.'+m[1]:'v'+APP_VERSION; v.title='v'+APP_VERSION; } }
 let SW=false;
 function walletApply(sw, got){
@@ -4463,6 +4533,159 @@ let _wTry=0; setInterval(()=>{ if(!SW && BETA && uid && Date.now()-_wTry>300000)
 { const _l=buyLevels; buyLevels=function(n){ const p0=W.pass; _l(n); if(SW && W.pass>p0) srvW('pass',{n:W.pass-p0}); }; }
 { const _d=claimDaily; claimDaily=function(){ const d0=W.daily; _d(); if(SW && W.daily!==d0) srvW('daily'); }; }
 { const _q=claimQuest; claimQuest=function(k){ const q=qToday(), had=q.got.includes(k); _q(k); const Q=QUESTS.find(x=>x.k===k); if(SW && !had && q.got.includes(k) && Q) srvW('claim',{kind:'quest',n:Q.r}); }; }
+
+// ================= weekend tournament (local test version) =================
+// 16 players: 4 groups of 4 (round robin, 2 games per pair, 1 point per game won), top 2 go through;
+// quarter- and semi-finals and the 3rd-place match are best of 3, the final is best of 5.
+// Everyone else is a grandmaster bot. Bot-vs-bot games are decided by rating; your games are played on the board.
+const TOUR_POOL=10000, TOUR_PRIZE=[[1,4000],[2,2500],[3,1500],[4,1000],[8,250]];
+const RR=[[0,1],[2,3],[0,2],[1,3],[0,3],[1,2]];   // round robin of 4: three rounds of two pairs
+function tourPrize(place){ const p=TOUR_PRIZE.find(x=>place<=x[0]); return p?p[1]:0; }
+function nextSat(now){ const d=new Date((now||Date.now())+2*3600e3); const add=(6-d.getUTCDay()+7)%7; const t=Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate()+add,18,0)-2*3600e3; return t<=(now||Date.now()) ? t+7*864e5 : t; }
+function tourState(){ return W.tour||null; }
+function tourNew(){
+  const gh=GHOSTS.map((g,i)=>ghostInfo(i)).sort((a,b)=>b.rating-a.rating).slice(0,40);
+  for(let i=gh.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [gh[i],gh[j]]=[gh[j],gh[i]]; }
+  const bots=gh.slice(0,15).map(g=>({id:g.id, name:g.name, av:g.av, r:Math.max(2600,g.rating)}));
+  const me={id:'me', name:profile.name||t('you'), av:profile.av||'', r:profile.rating||1000, me:1};
+  // seeded draw: pots by rating, you go into a random group
+  const P=bots.sort((a,b)=>b.r-a.r); const groups=[[],[],[],[]];
+  const myG=Math.floor(Math.random()*4); groups[myG].push(me);
+  let gi=0; for(const b of P){ while(groups[gi%4].length>=4) gi++; groups[gi%4].push(b); gi++; }
+  const players=[].concat(...groups); const idx=p=>players.indexOf(p);
+  const gm=[]; groups.forEach((g,G)=>RR.forEach(([x,y],k)=>gm.push({st:'g', G, rd:Math.floor(k/2), a:idx(g[x]), b:idx(g[y]), bo:2, g:[]})));
+  W.tour={ id:'t'+Date.now(), at:nextSat(), status:'run', players, gm, po:[], places:null, paid:false };
+  saveW(); return W.tour;
+}
+const mDone=m=>{ const need=m.bo===2?2:(m.bo+1)/2, wa=m.g.filter(x=>x.w==='a').length, wb=m.g.length-wa; return m.bo===2 ? m.g.length>=2 : (wa>=need||wb>=need); };
+const mScore=m=>{ const wa=m.g.filter(x=>x.w==='a').length; return [wa, m.g.length-wa]; };
+const mWin=m=>{ const [a,b]=mScore(m); return a>b?m.a:m.b; }, mLose=m=>{ const [a,b]=mScore(m); return a>b?m.b:m.a; };
+function simGame(T,m){ const A=T.players[m.a], B=T.players[m.b], pa=1/(1+Math.pow(10,(B.r-A.r)/400)); m.g.push({w:Math.random()<pa?'a':'b', mars:Math.random()<.15}); }
+function groupTable(T,G){
+  const ids=[...new Set(T.gm.filter(m=>m.G===G).flatMap(m=>[m.a,m.b]))];
+  const row=i=>{ let pts=0, mars=0, gp=0; T.gm.filter(m=>m.G===G&&(m.a===i||m.b===i)).forEach(m=>m.g.forEach(x=>{ const mine=(x.w==='a')===(m.a===i); gp++; if(mine){ pts++; if(x.mars) mars++; } })); return {i, pts, mars, gp}; };
+  const rows=ids.map(row);
+  const h2h=(x,y)=>{ let s=0; T.gm.filter(m=>m.G===G&&((m.a===x&&m.b===y)||(m.a===y&&m.b===x))).forEach(m=>m.g.forEach(g=>{ s+=((g.w==='a')===(m.a===x))?1:-1; })); return s; };
+  return rows.sort((p,q)=>q.pts-p.pts || h2h(q.i,p.i) || q.mars-p.mars || T.players[q.i].r-T.players[p.i].r);
+}
+const meIdx=T=>T.players.findIndex(p=>p.me);
+function myMatch(T){ const me=meIdx(T); return [...T.gm, ...T.po].find(m=>!mDone(m) && (m.a===me||m.b===me) && tourMatchReady(T,m)); }
+function tourMatchReady(T,m){ if(m.st==='g') return T.gm.filter(x=>x.rd<m.rd).every(mDone); return true; }
+// advance everything that does not involve you, as far as it can go
+function tourAdvance(T, all){
+  const me=meIdx(T);
+  for(let guard=0;guard<200;guard++){
+    let moved=false;
+    for(const m of [...T.gm, ...T.po]){ if(mDone(m) || !tourMatchReady(T,m)) continue; if(!all && (m.a===me||m.b===me)) continue;
+      const myOpen=myMatch(T); if(!all && myOpen && m.st==='g' && m.rd>myOpen.rd) continue;
+      if(!all && myOpen && m.st!=='g' && myOpen.st!=='g' && stageN(m.st)>stageN(myOpen.st)) continue;
+      while(!mDone(m)) simGame(T,m); moved=true; }
+    if(T.gm.every(mDone) && !T.po.length){ const q=[0,1,2,3].map(G=>groupTable(T,G).slice(0,2).map(r=>r.i));
+      [[q[0][0],q[1][1]],[q[1][0],q[0][1]],[q[2][0],q[3][1]],[q[3][0],q[2][1]]].forEach(([a,b],k)=>T.po.push({st:'qf', k, a, b, bo:3, g:[]})); moved=true; }
+    const qf=T.po.filter(m=>m.st==='qf'), sf=T.po.filter(m=>m.st==='sf');
+    if(qf.length===4 && qf.every(mDone) && !sf.length){ T.po.push({st:'sf',k:0,a:mWin(qf[0]),b:mWin(qf[1]),bo:3,g:[]},{st:'sf',k:1,a:mWin(qf[2]),b:mWin(qf[3]),bo:3,g:[]}); moved=true; }
+    const sf2=T.po.filter(m=>m.st==='sf');
+    if(sf2.length===2 && sf2.every(mDone) && !T.po.some(m=>m.st==='f')){ T.po.push({st:'3',k:0,a:mLose(sf2[0]),b:mLose(sf2[1]),bo:3,g:[]},{st:'f',k:0,a:mWin(sf2[0]),b:mWin(sf2[1]),bo:5,g:[]}); moved=true; }
+    if(!moved) break;
+  }
+  const f=T.po.find(m=>m.st==='f'), th=T.po.find(m=>m.st==='3');
+  if(f && th && mDone(f) && mDone(th) && T.status!=='done'){
+    const pl={}; pl[mWin(f)]=1; pl[mLose(f)]=2; pl[mWin(th)]=3; pl[mLose(th)]=4;
+    T.po.filter(m=>m.st==='qf').forEach(m=>{ pl[mLose(m)]=5; });
+    [0,1,2,3].forEach(G=>groupTable(T,G).slice(2).forEach((r,k)=>{ pl[r.i]=9+k; }));
+    T.places=pl; T.status='done';
+  }
+  saveW();
+}
+const stageN=st=>({g:0,qf:1,sf:2,'3':3,f:3})[st];
+function tourStageName(m){ return m.st==='g' ? t('tourGroupR',{g:'ABCD'[m.G], r:m.rd+1}) : t('tourSt_'+m.st); }
+// ---- your games ----
+function tourPlay(){
+  const T=tourState(); if(!T) return; const m=myMatch(T); if(!m) return;
+  const me=meIdx(T), oi=m.a===me?m.b:m.a, o=T.players[oi];
+  show('tourOv',false); stopSearch(true); leave();
+  mode='bot'; gameId='tour'+rid(); gs=newGame('ME','BOT'); gs.gm=true; gs.botNoise=0;
+  gs.tour={id:T.id, st:m.st, G:m.G, rd:m.rd, k:m.k, gi:m.g.length};
+  gs.names={p1:profile.name||'',p2:o.name}; gs.avs={p1:profile.av||'',p2:o.av}; gs.ratings={p1:profile.rating||1000,p2:o.r};
+  toast(t('tourGameStart',{s:tourStageName(m), n:m.g.length+1, bo:m.bo})); route();
+}
+function tourFindMatch(T,tr){ return [...T.gm,...T.po].find(m=>m.st===tr.st && m.G===tr.G && m.rd===tr.rd && m.k===tr.k && (m.a===meIdx(T)||m.b===meIdx(T))); }
+function tourGameOver(){
+  const T=tourState(); if(!T || !gs.tour || T.id!==gs.tour.id || gs.tour.saved) return; gs.tour.saved=1;
+  const m=tourFindMatch(T,gs.tour); if(!m || mDone(m) || m.g.length!==gs.tour.gi) return;
+  const iWon=slotOfColor(gs.winner)==='p1', meA=m.a===meIdx(T), mars=gs.resign ? gs.resign.mars : gs.off[OPP(gs.winner)]===0;
+  m.g.push({w:(iWon===meA)?'a':'b', mars});
+  if(mDone(m)) tourAdvance(T,false); else saveW();
+}
+function tourWinText(){
+  const T=tourState(); const m=T&&gs&&gs.tour&&tourFindMatch(T,gs.tour); if(!m) return '';
+  const me=meIdx(T), [a,b]=mScore(m), my=m.a===me?a:b, op=m.a===me?b:a;
+  return t('tourMatchScore',{a:my,b:op}) + (mDone(m) ? ' · '+t(my>op?'tourMatchWon':my<op?'tourMatchLost':'tourMatchDraw') : ' · '+t('tourNextGame',{n:m.g.length+1}));
+}
+function tourAfterGame(){ show('winOv',false); const T=tourState(); const m=T&&gs&&gs.tour&&tourFindMatch(T,gs.tour); if(m && !mDone(m)) return tourPlay(); leave(); route(); openTour(); }
+// ---- prizes ----
+function tourClaim(){
+  const T=tourState(); if(!T || T.status!=='done' || T.paid) return; const pl=T.places[meIdx(T)], n=tourPrize(pl);
+  T.paid=true; W.badges=W.badges||[]; W.titles=W.titles||[];
+  if(n){ addCoins(n); if(SW) srvW('claim',{kind:'tour',n}); }
+  if(pl<=4){ const d=new Date(T.at+2*3600e3).toISOString().slice(0,10); W.badges.push({id:'tour-'+d, tour:1, pos:pl, tier:pl===1?'gold':pl<=3?'silver':'bronze', day:d}); W.titles.push({k:pl===1?'champ':pl===2?'final':'podium', until:Date.now()+30*864e5}); }
+  if(pl===1 && !W.owned.includes('frame:cup')){ W.owned.push('frame:cup'); W.fresh=(W.fresh||[]).concat('frame:cup'); }
+  saveW(); if(pl<=3) try{ playWinFx('confetti'); }catch(e){} toast(n ? t('tourGot',{n}) : t('tourThanks')); renderTour();
+}
+function myTitle(){ const l=(W.titles||[]).filter(x=>x.until>Date.now()); const order=['champ','final','podium']; l.sort((a,b)=>order.indexOf(a.k)-order.indexOf(b.k)); return l[0]&&l[0].k; }
+// ---- window ----
+let tourTab='groups';
+function openTour(){ show('tourOv',true); renderTour(); }
+function renderTour(){
+  const box=$('tourBox'), T=tourState(); box.innerHTML=''; const h=(tag,cls,txt)=>{ const e=document.createElement(tag); if(cls) e.className=cls; if(txt!=null) e.textContent=txt; return e; };
+  const pAv=(i,cls)=>{ const p=T.players[i], a=h('span','av'); avatarInto(a,p.av,p.name); return a; };
+  const hd=h('div','thd'); const l=h('div'); l.append(h('h2',null,t('tourT')));
+  const when=new Date((T?T.at:nextSat())+2*3600e3); const dstr=when.toLocaleDateString(lang==='uk'?'uk-UA':'en-GB',{weekday:'long',day:'numeric',month:'long',timeZone:'UTC'})+' · 18:00';
+  l.append(h('div','tst', T ? (T.status==='done'?t('tourDone'):t('tourLive')) + ' · ' + t('tourPool',{n:TOUR_POOL.toLocaleString('uk-UA')}) : t('tourNextOn',{d:dstr})));
+  const x=h('button','xbtn'); x.innerHTML='<svg class="i"><use href="#i-x"/></svg>'; x.onclick=()=>show('tourOv',false); hd.append(l,x); box.appendChild(hd);
+  const act=h('div','tact');
+  if(!T){ const p=h('p','note',t('tourIntro')); box.appendChild(p);
+    const b1=h('button','cta',t('tourTest')); b1.onclick=()=>{ tourNew(); tourAdvance(tourState(),false); tourTab='groups'; renderTour(); }; act.append(b1, h('div','tnext',t('tourTestNote'))); box.appendChild(act); tourTab='prizes'; }
+  else {
+    const m=myMatch(T), me=meIdx(T);
+    if(T.status==='done'){ const pl=T.places[me];
+      const pod=h('div','pod'); [[2,'p2'],[1,'p1'],[3,'p3']].forEach(([place,cls])=>{ const i=+Object.keys(T.places).find(k=>T.places[k]===place); const d=h('div',cls); d.append(pAv(i), h('span',null,T.players[i].name), h('i',null,String(place))); pod.appendChild(d); }); box.appendChild(pod);
+      act.append(h('div','tnext',t('tourYouPlace',{n:pl})+(tourPrize(pl)?' · +'+tourPrize(pl)+' 🪙':'')));
+      if(!T.paid){ const b=h('button','cta',t(tourPrize(pl)||pl<=4?'tourClaim':'tourFinish')); b.onclick=tourClaim; act.appendChild(b); }
+      const b2=h('button','ghost',t('tourAgain')); b2.onclick=()=>{ W.tour=null; saveW(); renderTour(); }; act.appendChild(b2);
+    } else if(m){ const oi=m.a===me?m.b:m.a; const [a,b]=mScore(m), my=m.a===me?a:b, op=m.a===me?b:a;
+      const b1=h('button','cta',t('tourPlayVs',{n:T.players[oi].name})); b1.onclick=tourPlay;
+      act.append(h('div','tnext',tourStageName(m)+' · '+t('tourBo',{n:m.bo})+' · '+t('tourMatchScore',{a:my,b:op})+' · '+t('tourNextGame',{n:m.g.length+1})), b1);
+    } else { act.append(h('div','tnext',t('tourOut')));
+      const b1=h('button','cta',t('tourSimAll')); b1.onclick=()=>{ tourAdvance(T,true); renderTour(); }; act.appendChild(b1); }
+    box.appendChild(act);
+  }
+  const tabs=h('div','ttabs'); [['groups','tourTabG'],['bracket','tourTabB'],['prizes','tourTabP'],['players','tourTabU']].forEach(([k,lb])=>{ const b=h('button',k===tourTab?'on':'',t(lb)); b.onclick=()=>{ tourTab=k; renderTour(); }; tabs.appendChild(b); });
+  box.appendChild(tabs); const body=h('div','tbody'); box.appendChild(body);
+  if(tourTab==='prizes' || !T){ const pz=h('div','prz'); [['1',4000,t('tourP1')],['2',2500,t('tourP2')],['3',1500,t('tourP3')],['4',1000,''],['5–8',250,'']].forEach(([pl,n,ex])=>{ const d=h('div'); d.append(h('b',null,'№'+pl), h('span',null,ex), h('b',null,'+'+n.toLocaleString('uk-UA')+' 🪙')); pz.appendChild(d); }); body.appendChild(pz); body.appendChild(h('p','note',t('tourFormat'))); return; }
+  if(tourTab==='groups'){ const gr=h('div','tgrps'); [0,1,2,3].forEach(G=>{ const g=h('div','tgrp'); g.append(h('h4',null,t('tourGroup',{g:'ABCD'[G]})));
+      groupTable(T,G).forEach((r,k)=>{ const p=T.players[r.i], row=h('div','trow'+(k<2&&T.gm.filter(m=>m.G===G).every(mDone)?' q':'')+(p.me?' me':'')); row.append(h('span','pos',String(k+1)), pAv(r.i), h('span','nm',p.name+(p.me?' · '+t('lbYou'):'')), h('span','gw',r.gp+'/6'), h('span','pts',String(r.pts))); g.appendChild(row); });
+      const res=h('div','tres'); T.gm.filter(m=>m.G===G && m.g.length).forEach(m=>{ const [a,b]=mScore(m), d=h('div',(m.a===meIdx(T)||m.b===meIdx(T))?'mine':''); d.textContent=T.players[m.a].name+' '+a+':'+b+' '+T.players[m.b].name+(mDone(m)?'':' …'); res.appendChild(d); }); if(res.childNodes.length) g.appendChild(res);
+      gr.appendChild(g); }); body.appendChild(gr); return; }
+  if(tourTab==='bracket'){ const br=h('div','brk'); const col=(title,list)=>{ const c=h('div','bcol'); c.append(h('h4',null,title)); list.forEach(m=>c.appendChild(bm(m))); return c; };
+    const bm=m=>{ const d=h('div','bm'+(m&&(m.a===meIdx(T)||m.b===meIdx(T))?' mym':'')); if(!m){ d.append(h('div','bp',' ')); d.append(h('div','bp',' ')); return d; } const [a,b]=mScore(m), done=mDone(m);
+      [[m.a,a,b],[m.b,b,a]].forEach(([i,s1,s2])=>{ const r=h('div','bp'+(done?(s1>s2?' w':' l'):'')); r.append(pAv(i), h('span','nm',T.players[i].name), h('b',null,String(s1))); d.appendChild(r); }); d.appendChild(h('div','bo',t('tourBo',{n:m.bo}))); return d; };
+    const qf=[0,1,2,3].map(k=>T.po.find(m=>m.st==='qf'&&m.k===k)||null), sf=[0,1].map(k=>T.po.find(m=>m.st==='sf'&&m.k===k)||null);
+    const fc=h('div','bcol'); fc.append(h('h4',null,t('tourSt_f')), bm(T.po.find(m=>m.st==='f')||null), h('h4',null,t('tourSt_3')), bm(T.po.find(m=>m.st==='3')||null));
+    br.append(col(t('tourSt_qf'),qf), col(t('tourSt_sf'),sf), fc); body.appendChild(br); if(!T.po.length) body.appendChild(h('p','note',t('tourBrkWait'))); return; }
+  if(tourTab==='players'){ const pl=h('div','tpl'); T.players.map((p,i)=>[p,i]).sort((x,y)=>y[0].r-x[0].r).forEach(([p,i])=>{ const d=h('div'); d.append(pAv(i), h('span',null,p.name+(p.me?' · '+t('lbYou'):'')), h('small',null,String(p.r))); pl.appendChild(d); }); body.appendChild(pl); }
+}
+$('tourOv').addEventListener('click',e=>{ if(e.target.id==='tourOv') show('tourOv',false); });
+function tourCard(home){
+  if(!BETA) return; let c=home.querySelector('.tourcard'); const anchor=home.querySelector('.pzcard')||home.querySelector('.rkcard'); if(!anchor) return;
+  if(!c){ c=document.createElement('div'); c.className='tourcard'; c.onclick=openTour; anchor.before(c); }
+  const T=tourState(); c.innerHTML='';
+  const ic=document.createElement('span'); ic.className='ti'; ic.textContent='🏆'; emojify(ic,'🏆');
+  const mid=document.createElement('div'); const b=document.createElement('b'); b.textContent=t('tourT'); const sm=document.createElement('small');
+  const m=T&&myMatch(T); sm.textContent = !T ? t('tourCardSub',{n:TOUR_POOL.toLocaleString('uk-UA')}) : T.status==='done' ? t('tourCardDone',{n:T.places[meIdx(T)]}) : m ? tourStageName(m)+' · '+t('tourVs',{n:T.players[m.a===meIdx(T)?m.b:m.a].name}) : t('tourOut');
+  mid.append(b,sm); const go=document.createElement('span'); go.className='tgo'; go.textContent=!T?t('tourOpen'):T.status==='done'&&!T.paid&&tourPrize(T.places[meIdx(T)])?t('tourClaim'):m?t('tourPlay'):t('tourOpen'); c.append(ic,mid,go);
+}
+{ const _rh3=renderHomeV7; renderHomeV7=function(){ _rh3.apply(this,arguments); try{ tourCard($('vHome')); }catch(e){} }; }
 
 // ---- leaderboard ----
 async function openLeaderboard(){
@@ -4545,6 +4768,7 @@ function confetti(n){
 }
 function recordResult(){
   if(!(mode==='online' || mode==='bot') || !mySlot() || gs.phase!=='over') return;
+  if(gs.tour){ tourGameOver(); return; }   // tournament games: no rating, no coins per game
   try{ payGame(); }catch(e){}
   if(viaServer()){ const me=mySlot(); lastDelta = gs.ratingDelta ? gs.ratingDelta[me] : null; checkAchievements(); refreshProfile(); return; }
   const key=gameId+':'+gs.score.p1+':'+gs.score.p2; const done=store.get('counted',[]);
@@ -4602,7 +4826,7 @@ $('shareSend').onclick=async()=>{ const url=linkFor(gameId), text=t('shareText')
     else await navigator.share({title:t('shareT'), text, url}); }catch(e){} };
 $('btnShareClose').onclick=()=>show('shareOv',false); $('shareOv').addEventListener('click',e=>{ if(e.target.id==='shareOv') show('shareOv',false); });
 $('btnRoll').onclick=roll; $('btnUndo').onclick=undo;
-$('btnNew').onclick=askRematch; $('btnNew2').onclick=askRematch; $('btnReview').onclick=openReview; $('btnRevClose').onclick=()=>show('revOv',false); $('btnCloseWin').onclick=()=>show('winOv',false);
+$('btnNew').onclick=askRematch; $('btnNew2').onclick=()=>{ if(gs && gs.tour) return tourAfterGame(); askRematch(); }; $('btnReview').onclick=openReview; $('btnRevClose').onclick=()=>show('revOv',false); $('btnCloseWin').onclick=()=>show('winOv',false);
 $('togSound').onclick=()=>{ prefs.sound=!prefs.sound; store.set('sound',prefs.sound); $('togSound').classList.toggle('on',prefs.sound); };
 prefs.dark=store.get('dark',true); document.body.classList.add('v7'); document.body.classList.toggle('dark',prefs.dark); $('togDark').classList.toggle('on',prefs.dark);
 $('togDark').onclick=()=>{ prefs.dark=!prefs.dark; store.set('dark',prefs.dark); document.body.classList.toggle('dark',prefs.dark); $('togDark').classList.toggle('on',prefs.dark); try{ renderHomeV7(); }catch(e){} };

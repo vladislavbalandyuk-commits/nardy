@@ -3,6 +3,11 @@
 Beta versions are `<next main-site version>-beta.<build>`: the beta is heading for 0.14.0, and every deploy to /beta adds one to the build number (0.14.0-beta.2, -beta.3 …).
 When features move to the main site they get a normal version there (see CHANGELOG.md), and the beta moves on to the next one.
 
+## 0.14.0-beta.3 — 5 Nov 2026
+- Weekend tournament (local test version): 16 players, 4 groups of 4 with two games per pair, top two to the play-off; quarter- and semi-finals best of 3, final best of 5, 3rd-place match. Prize pool 10,000 coins (4000 / 2500 / 1500 / 1000 / 4×250), titles, badges and the “Weekend Cup” frame for the winner.
+- Grandmaster bot for tournaments: plays each candidate move out to the end of the game and picks the one that wins most; beats the strongest regular bot ~70 % of the time.
+- Server wallet accepts the tournament prize (once a day, up to 4000).
+
 ## 0.14.0-beta.2 — 5 Nov 2026
 - Invite a friend: the link button opens a window with a QR code — copy the link, share it (phone share sheet, with the QR picture) or save the QR as a picture.
 

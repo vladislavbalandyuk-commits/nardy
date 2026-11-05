@@ -87,6 +87,10 @@ export function walletOp(w0: Wallet, op: string, args: any, cat: any, now: numbe
         const prize = cat.season.find((p: any) => p[1] === n); if (prize && Array.isArray(prize[3])) for (const it of prize[3]) if (!w.owned.includes(it)) { w.owned.push(it); got.push(it); }
         res = { n }; break;
       }
+      if (kind === 'tour') {   // weekend tournament prize: once a day, at most the 1st-place prize
+        if (n <= 0 || n > 4000 || (w as any).tourDay === today) fail('bad_claim');
+        (w as any).tourDay = today; w.coins += n; res = { n }; break;
+      }
       const cap = CLAIM_MAX[kind]; if (!cap || n <= 0 || n > cap) fail('bad_claim');
       if (w.claims.day !== today) w.claims = { day: today, n: 0 };
       const give = Math.min(n, CLAIMS_PER_DAY - w.claims.n); if (give <= 0) fail('claim_cap');
