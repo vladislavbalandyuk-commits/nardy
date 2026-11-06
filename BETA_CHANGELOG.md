@@ -3,6 +3,9 @@
 Beta versions are `<next main-site version>-beta.<build>`: the beta is heading for 0.14.0, and every deploy to /beta adds one to the build number (0.14.0-beta.2, -beta.3 …).
 When features move to the main site they get a normal version there (see CHANGELOG.md), and the beta moves on to the next one.
 
+## 0.14.0-beta.7 — 6 Nov 2026
+- “Mega Aperol 3 L” win effect redone: a real animated spritz glass (“cocktail mix” by Xavier Ledieu on LottieFiles, Lottie Simple License) recoloured to Aperol orange, played big over the board with a warm glow, the clink of glasses and confetti. The animation and its player load only when the effect is used.
+
 ## 0.14.0-beta.6 — 6 Nov 2026
 - Two new rarities: Mythic (between Epic and Legendary) and Secret (above Legendary).
 - Druzi Case rebuilt from the bar’s real menu, 300 coins, odds 40 / 30 / 20 / 6 / 3 / 1 %:
