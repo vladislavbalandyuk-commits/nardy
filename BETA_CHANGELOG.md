@@ -3,6 +3,11 @@
 Beta versions are `<next main-site version>-beta.<build>`: every deploy to /beta adds one to the build number. Up to 0.14.0-beta.14 the beta was heading for 0.14.0; the main site took 0.14.1 (tutorial and coins), so from 0.15.0-beta.1 the beta heads for 0.15.0 (the shop).
 When features move to the main site they get a normal version there (see CHANGELOG.md), and the beta moves on to the next one.
 
+## 0.15.0-beta.2 — 6 Nov 2026
+- Invite friends: the profile has an “Invite friends” block with a personal link and QR code. A new player who signs up by the link gets 300 coins and the Druzi checkers (a welcome window greets them by the inviter’s name). The inviter gets 200 coins per friend (up to 50 friends) and the Friends board at 1, 3, 5 and 10 friends: Friends, Friends · Neon, Friends · Wave (a colour wave runs round the frame) and Friends · Legend (iridescent frame, starry field). The four steps show as badges in the block.
+- The server checks every invite: only a new registered account (no older than 14 days), not your own link, once per account and once per device.
+- Chat wheel: voice emoji no longer fall off the ring; the ring radius and button size now depend on how many items are on the wheel, so they never overlap each other or the centre.
+
 ## 0.15.0-beta.1 — 6 Nov 2026
 - Version renumbered: the main site is on 0.14.1 (the tutorial and coins went there), the beta now heads for 0.15.0.
 - Server code: registered players’ coins per game and the tutorial reward are kept in the profile, the same as on the main site (takes effect when the game function is deployed).
