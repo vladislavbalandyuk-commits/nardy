@@ -3,6 +3,11 @@
 Beta versions are `<next main-site version>-beta.<build>`: the beta is heading for 0.14.0, and every deploy to /beta adds one to the build number (0.14.0-beta.2, -beta.3 …).
 When features move to the main site they get a normal version there (see CHANGELOG.md), and the beta moves on to the next one.
 
+## 0.14.0-beta.14 — 6 Nov 2026
+- New tutorial “An evening at Druzi”: Vlad and Pasha (drawn in the same style as the game’s avatars) teach you at the Druzi hookah bar. Their lines appear right on the board in speech bubbles, the points they talk about light up or get crossed out, and the bear-off tray glows when it matters. The six lessons stay the same, now with a story, jokes and a reaction after each of your moves. During the tutorial the board is “Neon Druzi” on the Druzi bar table.
+- On a computer the bubble sits on the side of the board away from the points it talks about; on a phone it sits under the board. Tap to continue.
+- Finishing the tutorial gives 200 coins once, the achievement “Druzi graduate”, and Vlad and Pasha as avatars in your profile. The final window offers a game with Pasha (the bot) or a real opponent.
+
 ## 0.14.0-beta.13 — 6 Nov 2026
 - Profile: achievements are back as one row of 10 badges — earned ones in colour, the rest grey with a progress line (e.g. mars 3 / 5); hover or tap a badge for its name and goal. The heading shows how many you have.
 - Profile: last games — a strip of wins and losses and your last 6 games with the opponent, mars or bot, how long ago, and the rating change. Kept on this device.
