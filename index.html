@@ -1748,6 +1748,15 @@ body.storeopen{overflow:hidden}
   .stgrid.wide{grid-template-columns:1fr}
   .store .sgrid2{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 }
+.aperolfx{position:fixed;inset:0;z-index:85;pointer-events:none;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(8,6,10,.0);transition:background .4s,opacity .5s}
+.aperolfx.on{background:rgba(8,6,10,.62)}
+.aperolfx.out{opacity:0}
+.aperolfx .aglow{position:absolute;width:90vmin;height:90vmin;border-radius:50%;background:radial-gradient(circle,rgba(255,122,26,.45),rgba(255,90,20,.12) 45%,transparent 70%);opacity:0;transform:scale(.6);transition:opacity .6s,transform 1.2s cubic-bezier(.2,.8,.2,1)}
+.aperolfx.on .aglow{opacity:1;transform:scale(1)}
+.aperolfx .aglass{position:relative;width:min(70vmin,560px);height:min(70vmin,560px);transform:scale(.4) translateY(30%);opacity:0;transition:transform .7s cubic-bezier(.2,1.4,.3,1),opacity .3s;filter:drop-shadow(0 20px 40px rgba(0,0,0,.5))}
+.aperolfx.on .aglass{transform:none;opacity:1}
+.aperolfx b{position:relative;margin-top:-2vmin;font:600 clamp(22px,4.5vmin,40px)/1 var(--sans);color:#fff3e6;letter-spacing:.02em;text-shadow:0 0 18px rgba(255,122,26,.8);opacity:0;transform:translateY(12px);transition:opacity .5s .9s,transform .5s .9s}
+.aperolfx.on b{opacity:1;transform:none}
 </style>
 </head>
 <body>
@@ -3107,32 +3116,30 @@ function fxScream(){
   setTimeout(()=>w.remove(), 2600);
 }
 
-// Druzi legendary win effect: a huge glass fills with Aperol, bubbles rise, an orange slice sits on the rim
+// Druzi legendary win effect "Mega Aperol": an animated spritz glass ("cocktail mix" by Xavier Ledieu, LottieFiles, Lottie Simple License),
+// recoloured to Aperol orange and played big over a dimmed screen. lottie_light and the .lottie file load on first use.
+const APEROL_SRC='https://assets-v2.lottiefiles.com/a/a9024b5c-1174-11ee-9e7d-e7eeb37eeba8/WoMqVOjsuB.lottie';
+let _lottieP=null, _aperolP=null;
+function loadLottie(){ return _lottieP || (_lottieP=new Promise((ok,no)=>{ if(window.lottie) return ok(window.lottie); const sc=document.createElement('script'); sc.src='https://cdn.jsdelivr.net/npm/lottie-web@5.12.2/build/player/lottie_light.min.js'; sc.onload=()=>ok(window.lottie); sc.onerror=()=>{ _lottieP=null; no(); }; document.head.appendChild(sc); })); }
+async function unzipFirstJson(buf){ const b=new Uint8Array(buf), dv=new DataView(b.buffer); let p=0;
+  while(dv.getUint32(p,true)===0x04034b50){ const m=dv.getUint16(p+8,true), cs=dv.getUint32(p+18,true), n=dv.getUint16(p+26,true), e=dv.getUint16(p+28,true); const name=new TextDecoder().decode(b.slice(p+30,p+30+n)); const data=b.slice(p+30+n+e,p+30+n+e+cs);
+    if(name.startsWith('animations/') && name.endsWith('.json')){ const out = m===8 ? await new Response(new Blob([data]).stream().pipeThrough(new DecompressionStream('deflate-raw'))).arrayBuffer() : data; return JSON.parse(new TextDecoder().decode(out)); }
+    p+=30+n+e+cs; } throw new Error('no json'); }
+function loadAperol(){ return _aperolP || (_aperolP=fetch(APEROL_SRC).then(r=>r.arrayBuffer()).then(unzipFirstJson).then(J=>{
+  // pink drink -> Aperol orange, navy outline -> warm cream so it reads on the dark overlay
+  const map=[[[0.929,0.427,0.427],[1,0.42,0.09]],[[0.973,0.557,0.506],[1,0.62,0.22]],[[0.008,0.251,0.404],[1,0.95,0.88]]];
+  const near=(c,t)=>Math.abs(c[0]-t[0])<.02&&Math.abs(c[1]-t[1])<.02&&Math.abs(c[2]-t[2])<.02;
+  (function walk(o){ if(Array.isArray(o)) return o.forEach(walk); if(!o||typeof o!=='object') return; if((o.ty==='fl'||o.ty==='st')&&o.c&&Array.isArray(o.c.k)&&typeof o.c.k[0]==='number'){ for(const [f,t] of map) if(near(o.c.k,f)){ o.c.k=[t[0],t[1],t[2],1]; break; } } Object.values(o).forEach(walk); })(J.layers);
+  return J; }).catch(e=>{ _aperolP=null; throw e; })); }
 function fxAperol(){
-  runFx(4600, F=>{ const R=Math.min(F.W,F.H)*.26, cx=F.W/2, cy=F.H*.44; const bub=[]; for(let i=0;i<70;i++) bub.push({x:rnd(-.8,.8), y:rnd(0,1), v:rnd(.12,.35), s:rnd(1.5,4.5), w:rnd(0,6)}); const ice=[0,1,2].map(i=>({x:rnd(-.45,.45), r:rnd(0,6), s:rnd(.22,.3)})); return {R,cx,cy,bub,ice}; },
-  (F,st,t,dt)=>{ const {ctx}=F, {R,cx,cy}=st; const fade=F.fade, ap=Math.min(1,t/.35);
-    ctx.globalAlpha=.55*fade*ap; ctx.fillStyle='#000'; ctx.fillRect(0,0,F.W,F.H);
-    ctx.globalAlpha=fade*ap; const bowl=new Path2D(); bowl.moveTo(cx-R*.92,cy-R*.62); bowl.bezierCurveTo(cx-R*1.08,cy+R*.55,cx-R*.45,cy+R*1.02,cx,cy+R*1.02); bowl.bezierCurveTo(cx+R*.45,cy+R*1.02,cx+R*1.08,cy+R*.55,cx+R*.92,cy-R*.62); bowl.closePath();
-    // stem and foot
-    ctx.strokeStyle='rgba(255,255,255,.75)'; ctx.lineWidth=Math.max(2,R*.035); ctx.beginPath(); ctx.moveTo(cx,cy+R*1.02); ctx.lineTo(cx,cy+R*1.75); ctx.stroke(); ctx.beginPath(); ctx.ellipse(cx,cy+R*1.78,R*.5,R*.08,0,0,Math.PI*2); ctx.stroke();
-    // liquid
-    const lv=Math.min(1,Math.max(0,(t-.3)/1.6)), top=cy+R*1.02-(R*1.5)*(1-Math.pow(1-lv,3)), wob=Math.sin(t*5)*R*.03*(1-lv*.6);
-    ctx.save(); ctx.clip(bowl); const g=ctx.createLinearGradient(0,cy-R,0,cy+R); g.addColorStop(0,'#ffb347'); g.addColorStop(.5,'#ff7a1f'); g.addColorStop(1,'#e2470f'); ctx.fillStyle=g;
-    ctx.beginPath(); ctx.moveTo(cx-R*1.2,top+wob); ctx.quadraticCurveTo(cx,top-wob*2,cx+R*1.2,top+wob); ctx.lineTo(cx+R*1.2,cy+R*1.2); ctx.lineTo(cx-R*1.2,cy+R*1.2); ctx.closePath(); ctx.fill();
-    ctx.fillStyle='rgba(255,255,255,.85)'; for(const b of st.bub){ b.y-=b.v*dt; if(b.y<0) b.y=1; const by=cy+R*1.02-b.y*(R*1.6); if(by<top) continue; ctx.globalAlpha=fade*.7; ctx.beginPath(); ctx.arc(cx+b.x*R+Math.sin(t*3+b.w)*3,by,b.s,0,Math.PI*2); ctx.fill(); }
-    ctx.globalAlpha=fade*.55; for(const c of st.ice){ const iy=Math.max(top+R*.12, cy-R*.2); ctx.save(); ctx.translate(cx+c.x*R, iy+Math.sin(t*2+c.r)*R*.03); ctx.rotate(c.r+t*.2); ctx.fillStyle='rgba(255,255,255,.55)'; ctx.strokeStyle='rgba(255,255,255,.9)'; ctx.lineWidth=2; const z=R*c.s; ctx.fillRect(-z/2,-z/2,z,z); ctx.strokeRect(-z/2,-z/2,z,z); ctx.restore(); }
-    ctx.restore(); ctx.globalAlpha=fade*ap;
-    // glass outline and shine
-    ctx.strokeStyle='rgba(255,255,255,.8)'; ctx.lineWidth=Math.max(2,R*.03); ctx.stroke(bowl);
-    ctx.strokeStyle='rgba(255,255,255,.35)'; ctx.lineWidth=R*.06; ctx.beginPath(); ctx.moveTo(cx-R*.7,cy-R*.4); ctx.quadraticCurveTo(cx-R*.82,cy+R*.3,cx-R*.45,cy+R*.75); ctx.stroke();
-    // orange slice on the rim
-    const os=Math.min(1,Math.max(0,(t-1.4)/.5)); if(os>0){ const ox=cx+R*.86, oy=cy-R*.62, orr=R*.32*(0.6+.4*os); ctx.save(); ctx.translate(ox,oy); ctx.rotate(-.5+Math.sin(t*2)*.05);
-      ctx.fillStyle='#ff8c1a'; ctx.beginPath(); ctx.arc(0,0,orr,Math.PI,0); ctx.fill(); ctx.fillStyle='#ffd08a'; ctx.beginPath(); ctx.arc(0,0,orr*.84,Math.PI,0); ctx.fill();
-      ctx.strokeStyle='#ff9d3a'; ctx.lineWidth=2; for(let i=1;i<6;i++){ const a=Math.PI+i*Math.PI/6; ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(Math.cos(a)*orr*.84,Math.sin(a)*orr*.84); ctx.stroke(); } ctx.restore(); }
-    // "3 L" tag
-    if(t>1.9){ ctx.globalAlpha=fade*Math.min(1,(t-1.9)/.3); ctx.fillStyle='#fff'; ctx.font='700 '+Math.round(R*.22)+'px Jost,system-ui,sans-serif'; ctx.textAlign='center'; ctx.fillText('3 L', cx, cy+R*2.1); }
-  });
-  setTimeout(()=>{ try{ playVoice('clink'); }catch(e){} }, 1700);
+  const w=document.createElement('div'); w.className='aperolfx'; w.innerHTML='<i class="aglow"></i><div class="aglass"></div><b></b>'; w.querySelector('b').textContent=t('fx_aperol'); document.body.appendChild(w);
+  const end=()=>{ w.classList.add('out'); setTimeout(()=>w.remove(), 600); };
+  Promise.all([loadLottie(), loadAperol()]).then(([L,J])=>{
+    const an=L.loadAnimation({container:w.querySelector('.aglass'), renderer:'svg', loop:false, autoplay:true, animationData:JSON.parse(JSON.stringify(J))});
+    w.classList.add('on'); setTimeout(()=>{ try{ playVoice('clink'); }catch(e){} }, 900);
+    setTimeout(()=>{ try{ fxConfetti(); }catch(e){} }, 1600);
+    an.addEventListener('complete', ()=>setTimeout(end, 500)); setTimeout(end, 7000);
+  }).catch(()=>{ w.remove(); fxConfetti(); });
 }
 // Druzi legendary dice effect: hookah smoke curls up from the dice
 function fxSmokeAt(cx, cy){
@@ -4711,7 +4718,7 @@ function badgesEl(list){ const bs=(list||W.badges||[]).slice(-6); if(!bs.length)
 // ================= server wallet (beta) =================
 // When the "game" function knows the 'wallet' action, coins and items live on the server and the local W is only a cache.
 // Purchases are shown at once and confirmed by the server; if it refuses, the wallet is reloaded from the server.
-const APP_VERSION='0.14.0-beta.6';
+const APP_VERSION='0.14.0-beta.7';
 { const v=document.getElementById('appVer'); if(v){ const m=APP_VERSION.match(/-beta\.(\d+)$/); v.innerHTML='<span class="vl"></span><span class="vs"></span>'; v.firstChild.textContent='v'+APP_VERSION; v.lastChild.textContent=m?'b.'+m[1]:'v'+APP_VERSION; v.title='v'+APP_VERSION; } }
 let SW=false;
 function walletApply(sw, got){
