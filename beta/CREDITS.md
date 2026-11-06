@@ -23,3 +23,8 @@
 
 ## QR codes
 - qrcode-generator by Kazuhiko Arase (MIT) — beta/qr.js — https://github.com/kazuhikoarase/qrcode-generator
+
+## Druzi Case 2 (0.14.0-beta.8)
+- Sounds from Freesound, all CC0: “Sizzling Steaks on a Gas Grill” (#587177), “Ice Faling into Glass SFX” (#40702), “Open Soda can” (#418988), “Crowd.Yay.Applause.25ppl.Short” (#139972), “Car horn beep beep” (#423990).
+- 3D emoji (scooter, pizza, burger, sushi, cocktail, receipt): Microsoft Fluent Emoji, MIT licence.
+- “Mega Aperol” animation: “cocktail mix” by Xavier Ledieu, LottieFiles, Lottie Simple License (loaded from LottieFiles).

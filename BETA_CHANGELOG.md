@@ -3,6 +3,15 @@
 Beta versions are `<next main-site version>-beta.<build>`: the beta is heading for 0.14.0, and every deploy to /beta adds one to the build number (0.14.0-beta.2, -beta.3 …).
 When features move to the main site they get a normal version there (see CHANGELOG.md), and the beta moves on to the next one.
 
+## 0.14.0-beta.8 — 6 Nov 2026
+- New **Druzi Case 2 · Night**, 300 coins, same odds as the first one (40 / 30 / 20 / 6 / 3 / 1 %). The Cases page now has a switch between the two cases, and the shop home shows both.
+  - Common: pizza dice Margherita, Salami, Four cheese, Hawaiian; checkers Cappuccino, Latte, Raspberry tea, Eastern tea.
+  - Rare: roll checkers seen from the top (Philadelphia, California, Bonito, Golden samurai); burger dice BBQ, Spicy (glowing pips), Chicken.
+  - Epic: chat phrases “One more round? 🍹”, “Hookah’s on us! 💨”, “Separate bills, please 🧾”; avatar frames Druzi neon and Smoke ring; card background “Night at Druzi”.
+  - Mythic: Sushi set board (bamboo mat, rice and nori points), Bar counter board (dark wood, neon strip), Hookah embers dice (pips glow), Black violet checkers, Evening hall table.
+  - Legendary: win effect “Druzi delivery” (a scooter rides across throwing pizza, burgers, sushi and cocktails), dice effect “Smoke rings”, animated frame “Druzi Live”.
+  - Secret: sounds Sizzling grill, Ice in a glass, Can opening, Cheers!, Scooter horn (Freesound, CC0).
+
 ## 0.14.0-beta.7 — 6 Nov 2026
 - “Mega Aperol 3 L” win effect redone: a real animated spritz glass (“cocktail mix” by Xavier Ledieu on LottieFiles, Lottie Simple License) recoloured to Aperol orange, played big over the board with a warm glow, the clink of glasses and confetti. The animation and its player load only when the effect is used.
 
