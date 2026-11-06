@@ -3,6 +3,9 @@
 Beta versions are `<next main-site version>-beta.<build>`: the beta is heading for 0.14.0, and every deploy to /beta adds one to the build number (0.14.0-beta.2, -beta.3 …).
 When features move to the main site they get a normal version there (see CHANGELOG.md), and the beta moves on to the next one.
 
+## 0.14.0-beta.12 — 6 Nov 2026
+- Profile: the rank ladder is one compact row of 8 small frames instead of two rows of big cards. Your rank is labelled; tap or hover any other rank to see its name and rating threshold.
+
 ## 0.14.0-beta.11 — 6 Nov 2026
 - Shop looks to try: a switch at the top of the shop (beta only) between the current look and three new ones:
   1. Clean — one big card on the shop home, three small tiles (bonus, pass, quests), today’s items and the cases; daily bonus and quests move to a new Rewards page; the catalogue is grouped by rarity with bigger cards.
