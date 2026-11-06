@@ -3,6 +3,9 @@
 Beta versions are `<next main-site version>-beta.<build>`: every deploy to /beta adds one to the build number. Up to 0.14.0-beta.14 the beta was heading for 0.14.0; the main site took 0.14.1 (tutorial and coins), so from 0.15.0-beta.1 the beta heads for 0.15.0 (the shop).
 When features move to the main site they get a normal version there (see CHANGELOG.md), and the beta moves on to the next one.
 
+## 0.15.0-beta.14 — 6 Nov 2026
+- Tournament window before the start: four cards (Groups — Saturday 18:00, Play-off — Sunday, Players signed up of 16, Prize pool) and a countdown instead of the long text. The Groups / Play-off / Players tabs work before the start: how the draw works with empty group slots, the play-off stages, and who signed up plus the free places that bots will take.
+
 ## 0.15.0-beta.13 — 6 Nov 2026
 - Fix: tournament sign-up did nothing for guests and visitors who were not signed in — the sign-in window opened under the tournament window. Now guests can sign up too, and a visitor without a session gets the sign-in window on top and the sign-up form right after signing in.
 
