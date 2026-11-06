@@ -1,7 +1,11 @@
 # Beta changelog — nardy-nine.vercel.app/beta
 
-Beta versions are `<next main-site version>-beta.<build>`: the beta is heading for 0.14.0, and every deploy to /beta adds one to the build number (0.14.0-beta.2, -beta.3 …).
+Beta versions are `<next main-site version>-beta.<build>`: every deploy to /beta adds one to the build number. Up to 0.14.0-beta.14 the beta was heading for 0.14.0; the main site took 0.14.1 (tutorial and coins), so from 0.15.0-beta.1 the beta heads for 0.15.0 (the shop).
 When features move to the main site they get a normal version there (see CHANGELOG.md), and the beta moves on to the next one.
+
+## 0.15.0-beta.1 — 6 Nov 2026
+- Version renumbered: the main site is on 0.14.1 (the tutorial and coins went there), the beta now heads for 0.15.0.
+- Server code: registered players’ coins per game and the tutorial reward are kept in the profile, the same as on the main site (takes effect when the game function is deployed).
 
 ## 0.14.0-beta.14 — 6 Nov 2026
 - New tutorial “An evening at Druzi”: Vlad and Pasha (drawn in the same style as the game’s avatars) teach you at the Druzi hookah bar. Their lines appear right on the board in speech bubbles, the points they talk about light up or get crossed out, and the bear-off tray glows when it matters. The six lessons stay the same, now with a story, jokes and a reaction after each of your moves. During the tutorial the board is “Neon Druzi” on the Druzi bar table.
