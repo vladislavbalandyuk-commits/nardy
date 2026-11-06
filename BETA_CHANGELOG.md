@@ -3,6 +3,9 @@
 Beta versions are `<next main-site version>-beta.<build>`: every deploy to /beta adds one to the build number. Up to 0.14.0-beta.14 the beta was heading for 0.14.0; the main site took 0.14.1 (tutorial and coins), so from 0.15.0-beta.1 the beta heads for 0.15.0 (the shop).
 When features move to the main site they get a normal version there (see CHANGELOG.md), and the beta moves on to the next one.
 
+## 0.15.0-beta.8 — 6 Nov 2026
+- Tournament points now come from three parts: 10 for taking part (finishing a weekend tournament), 5 for every game won, and a bonus for the place (1st +100, 2nd +60, 3rd–4th +40, 5th–8th +20). Shown in the Tournaments tab and in the tournament rules; after a tournament the note says how the points add up.
+
 ## 0.15.0-beta.7 — 6 Nov 2026
 - Fix: with the tournament banner on top, the “Long nardy” title on the home page was squeezed into half the width; it spans the full width again.
 - Druzi International is switched off for now (it needs the shop and cases for its prize pool) and will come back with them. The Tournaments tab is now a “Tournament season”: 7 weekend tournaments, points for your place add up, the table resets with a new season; your pinned row shows how many points you need for the place above. The home banner shows your tournament points and place.
