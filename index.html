@@ -5229,7 +5229,7 @@ function badgesEl(list){ const bs=(list||W.badges||[]).slice(-6); if(!bs.length)
 // ================= server wallet (beta) =================
 // When the "game" function knows the 'wallet' action, coins and items live on the server and the local W is only a cache.
 // Purchases are shown at once and confirmed by the server; if it refuses, the wallet is reloaded from the server.
-const APP_VERSION='0.14.0-beta.14';
+const APP_VERSION='0.15.0-beta.1';
 { const v=document.getElementById('appVer'); if(v){ const m=APP_VERSION.match(/-beta\.(\d+)$/); v.innerHTML='<span class="vl"></span><span class="vs"></span>'; v.firstChild.textContent='v'+APP_VERSION; v.lastChild.textContent=m?'b.'+m[1]:'v'+APP_VERSION; v.title='v'+APP_VERSION; } }
 let SW=false;
 function walletApply(sw, got){
