@@ -3,6 +3,10 @@
 Beta versions are `<next main-site version>-beta.<build>`: every deploy to /beta adds one to the build number. Up to 0.14.0-beta.14 the beta was heading for 0.14.0; the main site took 0.14.1 (tutorial and coins), so from 0.15.0-beta.1 the beta heads for 0.15.0 (the shop).
 When features move to the main site they get a normal version there (see CHANGELOG.md), and the beta moves on to the next one.
 
+## 0.15.0-beta.3 — 6 Nov 2026
+- The Friends board can be seen before you invite anyone: tap any of the four boards in the profile’s “Invite friends” block to open it up close (on the table, with the Druzi checkers), and switch between the levels 1 / 3 / 5 / 10 friends right there.
+- The Friends boards and the Druzi checkers are listed in the shop too, marked “For 3 invited friends” and so on, with an “Invite a friend” button instead of a price.
+
 ## 0.15.0-beta.2 — 6 Nov 2026
 - Invite friends: the profile has an “Invite friends” block with a personal link and QR code. A new player who signs up by the link gets 300 coins and the Druzi checkers (a welcome window greets them by the inviter’s name). The inviter gets 200 coins per friend (up to 50 friends) and the Friends board at 1, 3, 5 and 10 friends: Friends, Friends · Neon, Friends · Wave (a colour wave runs round the frame) and Friends · Legend (iridescent frame, starry field). The four steps show as badges in the block.
 - The server checks every invite: only a new registered account (no older than 14 days), not your own link, once per account and once per device.
