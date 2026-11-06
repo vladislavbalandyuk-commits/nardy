@@ -174,6 +174,27 @@ Deno.serve(async (req) => {
     };
     // invite a friend: a new registered player who came by a friend's link gets 300 coins and the Druzi checkers;
     // the friend gets 200 coins (for up to 50 friends) and counts towards the Friends board (1 / 3 / 5 / 10)
+    // sign up for the weekend tournaments of this season: first name, nickname, last name — fixed until the season ends
+    if (action === 'tour_reg') {
+      if ((user as any).is_anonymous) return json({ error: 'not_registered' }, 400);
+      const EPOCH = Date.UTC(2026, 10, 7, 16, 0), WK = 7 * 864e5, Q = 4;
+      const season = Math.max(0, Math.floor((Date.now() - EPOCH + 3 * 864e5) / (Q * WK)));
+      const clean = (v: any, max: number) => String(v ?? '').replace(/\s+/g, ' ').trim().slice(0, max);
+      const first = clean(args?.first, 24), last = clean(args?.last, 32), nick = clean(args?.nick, 20);
+      const nameOk = (v: string) => /^[\p{L}][\p{L}'’ -]{1,}$/u.test(v);
+      if (!nameOk(first) || !nameOk(last)) return json({ error: 'bad_name' }, 400);
+      if (!/^[\p{L}\p{N}_.-]{2,20}$/u.test(nick)) return json({ error: 'bad_nick' }, 400);
+      const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
+      const A = { ...(p.ach || {}) }; if (A.treg && A.treg.s === season) return json({ error: 'locked', treg: A.treg }, 400);
+      A.treg = { s: season, first, nick, last, at: Date.now() };
+      await db.from('profiles').update({ ach: A }).eq('id', user.id);
+      return json({ ok: true, treg: A.treg });
+    }
+    // who signed up this season (public: the tournament name only)
+    if (action === 'tour_regs') {
+      const { data } = await db.from('profiles').select('id,name,av,rating,ach').not('ach->treg', 'is', null).limit(1000);
+      return json({ rows: (data || []).map((r: any) => ({ id: r.id, name: r.name, av: r.av, rating: r.rating, treg: r.ach?.treg })) });
+    }
     if (action === 'ref_claim') {
       const ref = String(args?.ref ?? '');
       if (!/^[0-9a-f-]{36}$/.test(ref) || ref === user.id) return json({ error: 'bad_ref' }, 400);
