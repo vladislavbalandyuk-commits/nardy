@@ -3,6 +3,12 @@
 Beta versions are `<next main-site version>-beta.<build>`: every deploy to /beta adds one to the build number. Up to 0.14.0-beta.14 the beta was heading for 0.14.0; the main site took 0.14.1 (tutorial and coins), so from 0.15.0-beta.1 the beta heads for 0.15.0 (the shop).
 When features move to the main site they get a normal version there (see CHANGELOG.md), and the beta moves on to the next one.
 
+## 0.15.0-beta.6 — 6 Nov 2026
+- Druzi International, like The International in Dota: weekend tournaments give points (1st 100, 2nd 60, 3–4 40, 5–8 20, 9–16 5); after 7 qualifying weekends the top 8 by points are invited to the Druzi International on the 8th weekend. The prize pool grows with every case — 25 % of each opened case — and is split 40 / 20 / 12 / 8 % and 5 % each for 5th–8th. Coins only.
+- Rating page: a fourth tab “Tournaments” — the International card (date, prize pool, split), the qualification progress by weekends, the points table with the invite zone line under #8, and your row pinned at the bottom (“#12 · 40 pts to the invite zone”).
+- Home: a slim banner on top instead of the tournament card — “Weekend tournament · Saturday 18:00 · in 1 d 2 h” with Open / Play, and a line with the International prize pool and your place; tap it to open the Tournaments tab.
+- In the beta the other players’ tournament results and their share of the pool are simulated; your own points come from the weekend tournaments you finish.
+
 ## 0.15.0-beta.5 — 6 Nov 2026
 - Rating is a page of its own (opened by the trophy button or the Hall of Legends card) instead of a window: tabs Season / All time / Friends, a podium for the top 3, the list from #4 in pages of 20, and your own row pinned at the bottom with your place and how much is left to the place above (or to the top 100). Back button or the phone’s back gesture closes it.
 - Season tab: the month, time left and the prizes for 1st, top 3, top 10 and top 100.
