@@ -1111,6 +1111,80 @@ body[data-table]:not([data-table=auto]) #stage .bw{filter:drop-shadow(0 30px 36p
 .pick.lk{position:relative} .pick.lk .pv{opacity:.55} .pick.lk::after{content:"🔒";position:absolute;top:6px;right:8px;font-size:12px}
 .pick .rar.r-x{color:#ff5c8a}
 
+/* ---- weekend tournament ---- */
+#tourOv{z-index:13}
+.tov{max-width:760px;width:min(760px,96vw)}
+.tov .thd{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.tov .thero{position:relative;min-height:168px;border-radius:16px;padding:16px;align-items:flex-end!important;color:#fff;margin-bottom:6px;background:linear-gradient(0deg,rgba(10,8,14,.88),rgba(10,8,14,.25) 62%,rgba(10,8,14,.1)),url("https://images.unsplash.com/photo-1781917389734-282472b03a2a?w=1200&q=60&auto=format&fit=crop") center 40%/cover,url(/fx/druzi_table.webp) center/cover;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+.tov .thero h2{color:#fff;font-size:26px;text-shadow:0 2px 12px rgba(0,0,0,.5)} .tov .thero .tst{color:rgba(255,255,255,.85)!important}
+.tov .thero .xbtn{position:absolute;top:10px;right:10px;background:rgba(0,0,0,.45);color:#fff;border-radius:50%}
+@media (max-width:560px){ .tov .thero{min-height:140px} .tov .thero h2{font-size:22px} }
+.tov .thd h2{margin:0} .tov .thd .tst{color:var(--muted);font-size:13px;margin-top:4px}
+.tov .tact{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 10px} .tov .tact button{flex:1 1 auto}
+.tov .tact .tnext{font-size:13px;color:var(--muted);width:100%}
+.tov .ttabs{display:flex;gap:4px;padding:4px;border-radius:12px;background:var(--surf2,rgba(127,127,127,.1));border:1px solid var(--line2);margin-bottom:12px;overflow-x:auto}
+.tov .ttabs button{flex:1;padding:8px 10px;border:0;border-radius:9px;background:transparent;color:var(--muted);font:inherit;font-weight:600;cursor:pointer;white-space:nowrap}
+.tov .ttabs button.on{background:var(--surf);color:inherit;box-shadow:0 1px 3px rgba(0,0,0,.18)}
+.tov .tbody{height:min(54vh,520px);overflow-y:auto;scrollbar-gutter:stable;overscroll-behavior:contain}
+#tourOv{align-items:flex-start} #tourOv .tov{margin:max(2vh,8px) auto}
+@media (max-width:560px){ .tov .tbody{height:min(50vh,460px)} }
+.tov .tgrps{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px}
+.tov .tgrp{border:1px solid var(--line2);border-radius:14px;padding:10px 12px;background:var(--surf)}
+.tov .tgrp h4{margin:0 0 6px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.tov .trow{display:grid;grid-template-columns:18px 26px 1fr 30px 24px;gap:8px;align-items:center;padding:4px 0;font-size:13.5px}
+.tov .trow .av{width:26px;height:26px} .tov .trow .nm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tov .trow.q .pos{color:#3fae74;font-weight:700} .tov .trow.me{font-weight:700} .tov .trow .pts{font-weight:700;text-align:right} .tov .trow .gw{color:var(--muted);text-align:right;font-size:12px}
+.tov .tres{margin-top:6px;border-top:1px solid var(--line);padding-top:6px;font-size:12px;color:var(--muted);display:grid;gap:2px}
+.tov .tres .mine{color:inherit;font-weight:600}
+.tov .brk{display:grid;grid-template-columns:repeat(3,minmax(170px,1fr));gap:14px;align-items:center;min-width:560px}
+.tov .bcol{display:grid;gap:10px} .tov .bcol h4{margin:0;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.tov .bm{border:1px solid var(--line2);border-radius:12px;background:var(--surf);overflow:hidden}
+.tov .bm .bp{display:grid;grid-template-columns:22px 1fr auto;gap:8px;align-items:center;padding:6px 10px;font-size:13px}
+.tov .bm .bp+.bp{border-top:1px solid var(--line)} .tov .bm .bp .av{width:22px;height:22px} .tov .bm .bp .nm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tov .bm .bp.w{font-weight:700} .tov .bm .bp.l{opacity:.55} .tov .bm .bp b{font-variant-numeric:tabular-nums} .tov .bm.mym{border-color:#8f7cff;box-shadow:0 0 0 1px rgba(143,124,255,.4)}
+.tov .bm .bo{font-size:10.5px;color:var(--muted);padding:3px 10px;background:rgba(127,127,127,.08)}
+.tov .prz{display:grid;gap:6px} .tov .prz div{display:grid;grid-template-columns:70px 1fr auto;gap:10px;align-items:center;padding:8px 12px;border:1px solid var(--line2);border-radius:12px;background:var(--surf);font-size:13.5px}
+.tov .prz b{font-weight:700} .tov .prz span{color:var(--muted);font-size:12.5px}
+.tov .pod{display:grid;grid-template-columns:1fr 1.15fr 1fr;align-items:end;gap:10px;margin:6px 0 14px;text-align:center}
+.tov .pod div{display:grid;justify-items:center;gap:6px;font-size:13px} .tov .pod .av{width:52px;height:52px} .tov .pod i{display:block;width:100%;border-radius:10px 10px 0 0;background:linear-gradient(180deg,rgba(143,124,255,.35),rgba(143,124,255,.08));font-style:normal;font-weight:800;padding-top:6px}
+.tov .pod .p1 i{height:70px} .tov .pod .p2 i{height:48px} .tov .pod .p3 i{height:34px}
+.tov .tpl{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:6px} .tov .tpl div{display:grid;grid-template-columns:28px 1fr auto;gap:8px;align-items:center;padding:6px 10px;border:1px solid var(--line2);border-radius:12px;font-size:13px} .tov .tpl .av{width:28px;height:28px} .tov .tpl small{color:var(--muted)}
+
+@media (max-width:560px){ .tov .ttabs{gap:2px} .tov .ttabs button{padding:8px 4px;font-size:12.5px;letter-spacing:0} .tov .prz div{grid-template-columns:44px 1fr auto} .tov .thd h2{font-size:24px} .tov .tbody{max-height:none} }
+.tov .thero{position:relative;min-height:168px;border-radius:16px;padding:16px;align-items:flex-end!important;color:#fff;margin-bottom:6px;background:linear-gradient(0deg,rgba(10,8,14,.88),rgba(10,8,14,.25) 62%,rgba(10,8,14,.1)),url("https://images.unsplash.com/photo-1781917389734-282472b03a2a?w=1200&q=60&auto=format&fit=crop") center 40%/cover,url(/fx/druzi_table.webp) center/cover;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+.tov .thero h2{color:#fff;font-size:26px;text-shadow:0 2px 12px rgba(0,0,0,.5)} .tov .thero .tst{color:rgba(255,255,255,.85)!important}
+.tov .thero .xbtn{position:absolute;top:10px;right:10px;background:rgba(0,0,0,.45);color:#fff;border-radius:50%}
+@media (max-width:560px){ .tov .thero{min-height:140px} .tov .thero h2{font-size:22px} }
+.tov .tbody{height:min(54vh,520px);overflow-y:auto;scrollbar-gutter:stable;overscroll-behavior:contain}
+#tourOv{align-items:flex-start} #tourOv .tov{margin:max(2vh,8px) auto}
+@media (max-width:560px){ .tov .tbody{height:min(50vh,460px)} }
+/* ===== weekend tournament banner and Druzi International ===== */
+.tourban{grid-column:1/-1;width:100%;box-sizing:border-box;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;margin:0 0 14px;padding:10px 12px 10px 14px;border-radius:16px;cursor:pointer;color:#f3eefc;
+  background:linear-gradient(100deg,rgba(62,230,255,.16),rgba(164,107,255,.22) 55%,rgba(255,79,216,.18)),#17121f;border:1px solid rgba(164,107,255,.4);box-shadow:0 10px 26px -14px rgba(164,107,255,.7)}
+.tourban .ti{font-size:22px;line-height:1} .tourban b{display:block;font-size:14.5px;font-weight:600} .tourban small{display:block;font-size:12px;opacity:.75;margin-top:1px}
+.tourban .tgo{background:#f3eefc;color:#17121f;border-radius:10px;padding:7px 12px;font-weight:600;font-size:13px;white-space:nowrap}
+.tourban .intl{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:2px;padding-top:8px;border-top:1px solid rgba(255,255,255,.12);font-size:12.5px}
+.tourban .intl span{opacity:.8} .tourban .intl em{font-style:normal;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+body.v7 .tourcard{display:none!important}
+.rptabs.t4{grid-template-columns:repeat(4,1fr)} .rptabs.t4 button{font-size:13px;padding:9px 2px}
+.ricard{border-radius:18px;padding:16px;margin-bottom:14px;color:#f3eefc;background:radial-gradient(110% 120% at 100% 0%,rgba(255,79,216,.28),transparent 55%),radial-gradient(110% 120% at 0% 100%,rgba(62,230,255,.22),transparent 55%),#17121f;border:1px solid rgba(164,107,255,.45)}
+.ricard small{display:block;font-size:12px;opacity:.7;letter-spacing:.04em;text-transform:uppercase} .ricard h2{margin:2px 0 2px;font-size:22px} .ricard .when{font-size:13px;opacity:.8}
+.ricard .pool{display:flex;align-items:baseline;gap:8px;margin:12px 0 4px} .ricard .pool b{font-size:30px;font-weight:700;font-variant-numeric:tabular-nums} .ricard .pool span{font-size:13px;opacity:.8}
+.ricard .grow{font-size:12.5px;opacity:.85;margin-bottom:10px}
+.risplit{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px} .risplit div{background:rgba(255,255,255,.07);border-radius:10px;padding:7px 6px;text-align:center} .risplit b{display:block;font-size:12px} .risplit span{display:block;font-size:11.5px;opacity:.8;font-variant-numeric:tabular-nums}
+@media (max-width:560px){ .risplit{grid-template-columns:repeat(3,minmax(0,1fr))} }
+.riq{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 8px} .riq b{font-size:14px} .riq span{font-size:12.5px;color:var(--muted)}
+.riweeks{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;margin-bottom:12px} .riweeks i{height:6px;border-radius:3px;background:var(--line)} .riweeks i.done{background:#a46bff} .riweeks i.now{background:linear-gradient(90deg,#a46bff,var(--line))} .riweeks i.intl{background:#ff4fd8;opacity:.5} .riweeks i.intl.done{opacity:1}
+.ripts{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px} .ripts span.rpplay{border-color:rgba(95,211,154,.55);color:var(--ink)} .ripts span{border:1px solid var(--line);border-radius:99px;padding:4px 10px;font-size:12px;color:var(--ink2)}
+.rizone{display:flex;align-items:center;gap:8px;margin:6px 0;color:#5fd39a;font-size:12px;font-weight:600;letter-spacing:.03em;text-transform:uppercase} .rizone::before,.rizone::after{content:"";flex:1;height:1px;background:rgba(95,211,154,.5)}
+.rplist .lbrow.inv .pos{color:#5fd39a;font-weight:600}
+
+body.v7 #vHome .tourban + .sec{grid-column:1/-1;padding:6px 4px 4px}
+.lbtabs{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;border:1px solid var(--line);border-radius:12px;background:var(--surf);margin:0 0 12px}
+.lbtabs button{border:0;background:none;box-shadow:none;border-radius:9px;padding:8px;color:var(--muted);font-weight:500}
+.lbtabs button.on{background:var(--ink);color:var(--paper)}
+.lb .lbrow.me .rt{color:#a46bff}
+
 </style>
 </head>
 <body>
@@ -1244,9 +1318,11 @@ body[data-table]:not([data-table=auto]) #stage .bw{filter:drop-shadow(0 30px 36p
     <div class="blk" style="margin-bottom:0"><h3 data-t="diceT"></h3><div class="picks pd3" id="pickDice"></div></div>
   </div>
 </div></div>
+<div id="tourOv" class="overlay hidden"><div class="modal tov" id="tourBox"></div></div>
 <div id="lbOv" class="overlay hidden"><div class="modal wide lb">
   <div class="mhead"><h2 data-t="lbT"></h2><button class="xbtn" id="btnLbClose" aria-label="Close"><svg class="i"><use href="#i-x"/></svg></button></div>
-  <p class="note" data-t="lbSub" style="margin:0 0 10px"></p>
+  <div class="lbtabs" id="lbTabs"><button type="button" data-m="rating" data-t="lbRatingTab"></button><button type="button" data-m="tour" data-t="rpTour"></button></div>
+  <p class="note" id="lbSubP" data-t="lbSub" style="margin:0 0 10px"></p>
   <div id="lbList"></div>
 </div></div>
 <div id="profOv" class="overlay hidden"><div class="modal" id="profBox"></div></div>
@@ -1311,7 +1387,7 @@ const T = {
   tut3T:'Doubles', tut3D:'Equal dice are played four times. Roll — you get 4 and 4: make four moves of 4 points with any checkers (still only one from the head).',
   tut4T:'Taken points', tut4D:'There is no hitting in long nardy, and you cannot land on a point your opponent holds. Roll 3 and 1: the checkers on point 18 cannot move — points 17 and 15 are taken by Black. Play with other checkers.',
   tut5T:'Bearing off', tut5D:'Once all 15 checkers are home (points 1–6) you bear them off. Roll 6 and 2: tap the checker on 6 and then the tray on the right, then do the same with a checker on 2.',
-  calibT:'Calibration', calibSub:'{g} of {n} rated games · {w} won', calibEnd:'Calibration complete', calibRes:'Your rating is {r}', calibOk:'Let’s go', stVlad:'Vlad', stPasha:'Pasha', stTap:'tap to continue', stYourMove:'your move', s0a:'Oh, a new face! The hookah will be ready in ten minutes. Do you play nardy?', s0b:'Not yet — we’ll teach you. Sit down, ten minutes is enough.', s1a:'You play white. All fifteen stand right here, on the head.', s1b:'Walk them round the board into your home and bear them off before Pasha does.', s1c:'Nobody has ever borne off before me. Well, except Vlad. And the barman. And yesterday’s tourist.', s2a:'Who goes first — we each roll one die. You got five, I got two… The die was cold, that one doesn’t count.', s2b:'It counts. Higher roll goes first.', s3a:'Each die is a separate move. Five and three — or eight with one checker.', s3b:'But only one checker may leave the head per turn. So take one checker far.', s3p:'Roll and move: one checker off the head by 5 and then by 3.', s3r:'A natural. Barman, write him down as a regular.', s4a:'A double, in honour of the hookah!', s4b:'Equal numbers are played four times.', s4c:'Four moves of four. One checker or several.', s4p:'Make four moves of 4.', s4r:'Clean. Pasha, your turn to worry.', s5a:'And now my signature fence. Get through if you can.', s5b:'In long nardy you don’t hit and you can’t land on the opponent’s point. Look for a free one.', s5p:'Play 3 and 1 onto free points.', s5r:'One more rule: no wall of six points in a row unless an opponent’s checker is already past it. That one’s for Pasha.', s6a:'Let’s skip ahead: all fifteen are home. Now we bear off.', s6b:'Six from the six point, two from the two point. Tap the checker, then the tray on the right.', s6c:'Only checkers get taken out here. Leave the dishes.', s6p:'Bear off with 6 and 2.', s6r:'That’s how games are won.', s7a:'Victory. And if Pasha hasn’t borne off a single one — that’s a mars, two points.', s7b:'I let you win. Teaching method.', s7c:'The hookah is ready. So are you.', stFinT:'Tutorial complete', stFinD:'Vlad and Pasha are now in your avatars.', stFinAv:'Avatars: Vlad and Pasha', stPlayPasha:'Play Pasha', av_vlad:'Vlad', av_pasha:'Pasha', luckyGame:'Lucky game ×2!', coinsW:'coins', coinsGot:'+{n} coins', shopSoon:'Your coins. The shop opens soon — keep collecting!', stGrad:'Druzi graduate', nickNeed:'Rated games need a nickname — set one in your profile', myGamesT:'Last games', myGamesNone:'No games on this device yet — play one and it shows up here', plWin:'win', plLoss:'loss', liveMars:'mars', botTag:'bot', agoM:'{n} min ago', agoH:'{n} h ago', agoD:'{n} d ago', wheelT:'Chat wheel', wheelHint:'pick a message', wheelCd:'until the next message', wheelEdit:'Set up the wheel', wheelEmpty:'Your wheel is empty', wheelFull:'The wheel holds {m} — remove one first', wheelN:'{n} of {m}', wheelWait:'Next message in {n} s', wheelHow:'Up to 10 emoji and phrases you will see in a game. Tap one below to add it, tap a slot to remove it. You can send one message every 15 seconds.', wheelDone:'Done', tutorB2:'How to play', footBeta:'Beta', langT:'Language', footNew:'What’s new', footSig:'Nardy · long backgammon for two · made with friends from Druzi', newsT:'What’s new', shareT:'Invite a friend', shareSub:'Send the link or let them scan the QR code with a phone camera.', shareText:'Join me for a game of long nardy:', shareCopy:'Copy link', shareSend:'Share', shareSave:'Save QR', ck_friends:'Druzi', st_friends1:'Friends', st_friends2:'Friends · Neon', st_friends3:'Friends · Wave', st_friends4:'Friends · Legend', fromRef:'For {n} invited friends', fromRef1:'For 1 invited friend', fromRefNew:'Gift for joining by an invite', refGo:'Invite friends', refT:'Invite friends', refN:'Invited: {n}', refS1:'1 friend', refS3:'3 friends', refS5:'5 friends', refS10:'10 friends', refShareT:'Invite a friend', refShareSub:'Send the link or let them scan the QR code. Rewards come when your friend signs up.', refShareText:'Play long nardy with me — sign up by my link and get 300 coins:', refHiT:'{n} invites you to Nardy', refHiT0:'A friend invites you to Nardy', refHiD:'Sign up and get 300 coins and the Druzi checkers.', refHiB:'Sign up', refLater:'Later', refGotT:'Welcome to Nardy!', refGotD:'{n} invited you: 300 coins and the Druzi checkers are yours.', refGotD0:'A friend invited you: 300 coins and the Druzi checkers are yours.', refPaid:'A friend signed up by your link: +{n} coins', refBoard:'New board: {b}', refNotNew:'Invites work only for new accounts', refNeedReg:'Sign up to invite friends', refUsed:'An invite was already used on this device', refLook:'Tap to see the board', refLookHint:'Tap a board to see it up close', refShort:'Friends get 300 coins and the Druzi checkers, you get 200 coins and the Friends board.', refFriendGets:'Your friend gets', refFriendWhat:'300 coins and the Druzi checkers', refYouGet:'You get', refYouWhat:'200 coins for each friend', refBoardT:'Friends board — grows with every friend', rar_x:'Exclusive', refPut:'Put it on', refLocked:'Locked — {w}', tut6T:'You are ready!', tut6D:'Whoever bears off all 15 checkers first wins. If the opponent has not borne off a single one, it is a “mars” — 2 points. One more rule: you may not build a wall of 6 points in a row unless an enemy checker is already ahead of it. Now try the bot or find an online opponent.', lbT:'Leaderboard', lbOpen:'Leaderboard', lbSub:'Hall of Legends — top 100 players with a rating of 3450+.', lbLoading:'Loading…', lbErr:'Could not load the leaderboard — sign in to see it.', lbEmpty:'No rated games yet — play an online game to get on the board.', lbYou:'you', lbNotYou:'You will appear here after your first online game.', tier_bronze:'Bronze', tier_silver:'Silver', tier_gold:'Gold', tier_platinum:'Platinum', tier_diamond:'Diamond', toNext:'{n} to {tier}', topTier:'Top rank', ratedNote:'only online games are rated', ratingChange:'Rating {d} → {r}', av_none:'Initials', av_dice:'Dice', av_crown:'Crown', av_fox:'Fox', av_tea:'Tea', dice_ivory:'Ivory', dice_onyx:'Onyx', dice_ruby:'Ruby', dice_gold:'Gold', dice_wood:'Wood', dice_marble:'Marble', dice_glass:'Glass', dice_neon:'Neon', boardT:'Board', sound:'Sound', flip:'Flip board', autoForcedT:'Play forced moves', autoRollT:'Auto-roll dice', pips:'pips', forced:'Only one way to play — moved automatically', rules:'Rules',
+  calibT:'Calibration', calibSub:'{g} of {n} rated games · {w} won', calibEnd:'Calibration complete', calibRes:'Your rating is {r}', calibOk:'Let’s go', stVlad:'Vlad', stPasha:'Pasha', stTap:'tap to continue', stYourMove:'your move', s0a:'Oh, a new face! The hookah will be ready in ten minutes. Do you play nardy?', s0b:'Not yet — we’ll teach you. Sit down, ten minutes is enough.', s1a:'You play white. All fifteen stand right here, on the head.', s1b:'Walk them round the board into your home and bear them off before Pasha does.', s1c:'Nobody has ever borne off before me. Well, except Vlad. And the barman. And yesterday’s tourist.', s2a:'Who goes first — we each roll one die. You got five, I got two… The die was cold, that one doesn’t count.', s2b:'It counts. Higher roll goes first.', s3a:'Each die is a separate move. Five and three — or eight with one checker.', s3b:'But only one checker may leave the head per turn. So take one checker far.', s3p:'Roll and move: one checker off the head by 5 and then by 3.', s3r:'A natural. Barman, write him down as a regular.', s4a:'A double, in honour of the hookah!', s4b:'Equal numbers are played four times.', s4c:'Four moves of four. One checker or several.', s4p:'Make four moves of 4.', s4r:'Clean. Pasha, your turn to worry.', s5a:'And now my signature fence. Get through if you can.', s5b:'In long nardy you don’t hit and you can’t land on the opponent’s point. Look for a free one.', s5p:'Play 3 and 1 onto free points.', s5r:'One more rule: no wall of six points in a row unless an opponent’s checker is already past it. That one’s for Pasha.', s6a:'Let’s skip ahead: all fifteen are home. Now we bear off.', s6b:'Six from the six point, two from the two point. Tap the checker, then the tray on the right.', s6c:'Only checkers get taken out here. Leave the dishes.', s6p:'Bear off with 6 and 2.', s6r:'That’s how games are won.', s7a:'Victory. And if Pasha hasn’t borne off a single one — that’s a mars, two points.', s7b:'I let you win. Teaching method.', s7c:'The hookah is ready. So are you.', stFinT:'Tutorial complete', stFinD:'Vlad and Pasha are now in your avatars.', stFinAv:'Avatars: Vlad and Pasha', stPlayPasha:'Play Pasha', av_vlad:'Vlad', av_pasha:'Pasha', luckyGame:'Lucky game ×2!', coinsW:'coins', coinsGot:'+{n} coins', shopSoon:'Your coins. The shop opens soon — keep collecting!', stGrad:'Druzi graduate', nickNeed:'Rated games need a nickname — set one in your profile', myGamesT:'Last games', myGamesNone:'No games on this device yet — play one and it shows up here', plWin:'win', plLoss:'loss', liveMars:'mars', botTag:'bot', agoM:'{n} min ago', agoH:'{n} h ago', agoD:'{n} d ago', wheelT:'Chat wheel', wheelHint:'pick a message', wheelCd:'until the next message', wheelEdit:'Set up the wheel', wheelEmpty:'Your wheel is empty', wheelFull:'The wheel holds {m} — remove one first', wheelN:'{n} of {m}', wheelWait:'Next message in {n} s', wheelHow:'Up to 10 emoji and phrases you will see in a game. Tap one below to add it, tap a slot to remove it. You can send one message every 15 seconds.', wheelDone:'Done', tutorB2:'How to play', footBeta:'Beta', langT:'Language', footNew:'What’s new', footSig:'Nardy · long backgammon for two · made with friends from Druzi', newsT:'What’s new', shareT:'Invite a friend', shareSub:'Send the link or let them scan the QR code with a phone camera.', shareText:'Join me for a game of long nardy:', shareCopy:'Copy link', shareSend:'Share', shareSave:'Save QR', ck_friends:'Druzi', st_friends1:'Friends', st_friends2:'Friends · Neon', st_friends3:'Friends · Wave', st_friends4:'Friends · Legend', fromRef:'For {n} invited friends', fromRef1:'For 1 invited friend', fromRefNew:'Gift for joining by an invite', refGo:'Invite friends', refT:'Invite friends', refN:'Invited: {n}', refS1:'1 friend', refS3:'3 friends', refS5:'5 friends', refS10:'10 friends', refShareT:'Invite a friend', refShareSub:'Send the link or let them scan the QR code. Rewards come when your friend signs up.', refShareText:'Play long nardy with me — sign up by my link and get 300 coins:', refHiT:'{n} invites you to Nardy', refHiT0:'A friend invites you to Nardy', refHiD:'Sign up and get 300 coins and the Druzi checkers.', refHiB:'Sign up', refLater:'Later', refGotT:'Welcome to Nardy!', refGotD:'{n} invited you: 300 coins and the Druzi checkers are yours.', refGotD0:'A friend invited you: 300 coins and the Druzi checkers are yours.', refPaid:'A friend signed up by your link: +{n} coins', refBoard:'New board: {b}', refNotNew:'Invites work only for new accounts', refNeedReg:'Sign up to invite friends', refUsed:'An invite was already used on this device', refLook:'Tap to see the board', refLookHint:'Tap a board to see it up close', refShort:'Friends get 300 coins and the Druzi checkers, you get 200 coins and the Friends board.', refFriendGets:'Your friend gets', refFriendWhat:'300 coins and the Druzi checkers', refYouGet:'You get', refYouWhat:'200 coins for each friend', refBoardT:'Friends board — grows with every friend', rar_x:'Exclusive', refPut:'Put it on', refLocked:'Locked — {w}', rpUp:'{d} to #{n}', rpLead:'You lead', rpTour:'Tournaments', tourSeasonK:'Weekend tournaments', tourSeasonT:'Tournament season', tourSeasonD:'7 weekend tournaments in a season. Points for your place add up; the table resets with the new season.', tourSeasonW:'Season · weekend {w} of {n}', tourSeasonEnd:'Season over — a new one starts soon', banTour:'Tournament points', intlKick:'The big event of the season', intlT:'Druzi International', intlWhen:'Weekend of {d} · top {n} are invited', intlPool:'prize pool', intlGrow:'Grows with every case: 25% of each opened case goes to the pool.', intlBeta:'(in the beta other players’ share is simulated)', intlQ:'Qualification · weekend {w} of {n}', intlQdone:'Qualification is over — the International is on', intlRules:'Points for a weekend tournament: for taking part, for every game won and a bonus for the place', intlPlay:'Taking part', intlWin:'Each game won', intlGotD:'taking part {p} · wins {w} · place {b}', intlZone:'↑ Invite zone · top {n}', intlPts:'{n} pts', intlSub:'{e} tournaments · best #{b}', intlSub0:'no tournaments yet', intlMe:'You · #{n} · {p} pts', intlToZone:'{d} pts to the invite zone', intlIn:'You are in the invite zone', intlPl1:'1st', intlPl2:'2nd', intlPl34:'3rd–4th', intlPl58:'5th–8th', intlPl916:'9th–16th', intlGot:'+{n} tournament points', banSat:'Saturday 18:00 · starts in {t}', banNow:'On now', banPool:'Druzi International · pool', banMe:'you #{n}', tourT:'Weekend tournament', tourIntro:'16 players: 4 groups of 4, two games against each opponent, the top two go to the play-off. Quarter- and semi-finals are best of 3, the final best of 5. Prize pool 10,000 coins. Tournament points: 10 for taking part, 5 for every game won and a bonus for the place (1st +100, 2nd +60, 3rd–4th +40, 5th–8th +20).', tourTest:'Start a tournament', tourTestNote:'The other 15 places go to grandmaster bots; their games against each other are decided at once, you play yours on the board. Prizes and tournament points: once a week, for your first finished tournament.', tourLive:'In progress', tourDone:'Finished', tourPool:'pool {n} 🪙', tourNextOn:'Next: {d}', tourGroupR:'Group {g} · round {r}', tourSt_qf:'Quarter-finals', tourSt_sf:'Semi-finals', tourSt_f:'Final', tourSt_3:'3rd place', tourGameStart:'{s} · game {n} (best of {bo})', tourMatchScore:'match {a}:{b}', tourMatchWon:'match won', tourMatchLost:'match lost', tourMatchDraw:'match drawn', tourNextGame:'game {n} next', tourNextBtn:'Next game', tourBack:'Back to the tournament', tourYouPlace:'Your place: #{n}', tourClaim:'Collect prize', tourAgain:'New tournament', tourPlayVs:'Play vs {n}', tourBo:'best of {n}', tourOut:'You are out — watch the rest', tourSimAll:'Play out the rest', tourTabG:'Groups', tourTabB:'Play-off', tourTabP:'Prizes', tourTabU:'Players', tourP1:'', tourP2:'', tourP3:'', tourFormat:'Groups: 1 point for each game won; ties go to head-to-head, then marses. Bots never take prize money — it goes to the next person.', tourGroup:'Group {g}', tourG:'g', tourBrkWait:'The play-off opens when the groups are finished.', tourGot:'+{n} coins — well played!', tourThanks:'Thanks for playing!', tourCardSub:'Pool {n} 🪙 · 16 players · try it now', tourCardDone:'Finished · your place #{n}', tourVs:'vs {n}', tourOpen:'Open', tourPlay:'Play', tourOnly:'Only for winning a weekend tournament', tourBadge:'Tournament {d} · #{n}', tourFinish:'Finish', lbRatingTab:'Rating', tourWeekDone:'This week’s prize and points are already taken — this tournament is just for fun. Next from {d}.', tourGotPts:'+{n} coins · +{p} tournament points', tourSignIn:'Sign in so the prize and points are kept with your account', tut6T:'You are ready!', tut6D:'Whoever bears off all 15 checkers first wins. If the opponent has not borne off a single one, it is a “mars” — 2 points. One more rule: you may not build a wall of 6 points in a row unless an enemy checker is already ahead of it. Now try the bot or find an online opponent.', lbT:'Leaderboard', lbOpen:'Leaderboard', lbSub:'Hall of Legends — top 100 players with a rating of 3450+.', lbLoading:'Loading…', lbErr:'Could not load the leaderboard — sign in to see it.', lbEmpty:'No rated games yet — play an online game to get on the board.', lbYou:'you', lbNotYou:'You will appear here after your first online game.', tier_bronze:'Bronze', tier_silver:'Silver', tier_gold:'Gold', tier_platinum:'Platinum', tier_diamond:'Diamond', toNext:'{n} to {tier}', topTier:'Top rank', ratedNote:'only online games are rated', ratingChange:'Rating {d} → {r}', av_none:'Initials', av_dice:'Dice', av_crown:'Crown', av_fox:'Fox', av_tea:'Tea', dice_ivory:'Ivory', dice_onyx:'Onyx', dice_ruby:'Ruby', dice_gold:'Gold', dice_wood:'Wood', dice_marble:'Marble', dice_glass:'Glass', dice_neon:'Neon', boardT:'Board', sound:'Sound', flip:'Flip board', autoForcedT:'Play forced moves', autoRollT:'Auto-roll dice', pips:'pips', forced:'Only one way to play — moved automatically', rules:'Rules',
   winYou:'You win', winLose:'Not this time', winN:'{n} wins', mars:'Mars — 2 points.', one:'1 point.', score:'Score {a} : {b}',
   notFound:'Game not found — the link may be outdated.', full:'This game already has two players — you are watching.', joined:'Your opponent joined!', saveErr:'Could not save the move', connErr:'Connection problem',
   keys:'<kbd>Space</kbd> roll · <kbd>Backspace</kbd> undo',
@@ -1333,7 +1409,7 @@ const T = {
   tut3T:'Дубль', tut3D:'Однакові числа на кубиках граються чотири рази. Киньте — випаде 4 і 4: зробіть чотири ходи по 4 пункти будь-якими шашками (з голови — так само лише одна).',
   tut4T:'Зайняті пункти', tut4D:'Бити шашки в довгих нардах не можна, і не можна ставати на пункт, де стоїть суперник. Випаде 3 і 1: шашки на пункті 18 піти не можуть — пункти 17 і 15 зайняті чорними. Зіграйте іншими шашками.',
   tut5T:'Виведення шашок', tut5D:'Коли всі 15 шашок у домі (пункти 1–6), їх можна викидати з дошки. Випаде 6 і 2: натисніть шашку на пункті 6, а потім лоток праворуч; так само зробіть із шашкою на пункті 2.',
-  calibT:'Калібрування', calibSub:'{g} з {n} рейтингових ігор · виграно {w}', calibEnd:'Калібрування завершено', calibRes:'Ваш рейтинг — {r}', calibOk:'Поїхали', stVlad:'Влад', stPasha:'Паша', stTap:'натисніть, щоб далі', stYourMove:'ваш хід', s0a:'О, новенький! Кальян буде хвилин через десять. В нарди граєш?', s0b:'Не грає — навчимо. Сідай, за десять хвилин встигнемо.', s1a:'Твої білі. Усі п’ятнадцять стоять ось тут, на голові.', s1b:'Треба провести їх по колу в дім і винести раніше за Пашу.', s1c:'Раніше за мене ще ніхто не виносив. Ну, окрім Влада. І бармена. І вчорашнього туриста.', s2a:'Хто ходить першим — кидаємо по кубику. У тебе п’ять, у мене двійка… Кубик був холодний, не рахується.', s2b:'Рахується. Хто викинув більше — ходить першим.', s3a:'Кожен кубик — окремий хід. П’ять і три, або вісім однією шашкою.', s3b:'Але з голови за хід знімаємо лише одну. Тож веди одну шашку далеко.', s3p:'Кидай і ходи: одна шашка з голови на 5, а потім ще на 3.', s3r:'О, талант. Бармен, запиши його в постійні.', s4a:'Дубль на честь кальяну!', s4b:'Однакові числа граються чотири рази.', s4c:'Чотири ходи по чотири. Хоч однією, хоч різними.', s4p:'Зроби чотири ходи по 4.', s4r:'Чисто. Пашо, твоя черга хвилюватись.', s5a:'А тепер мій фірмовий заборчик. Пройди, якщо зможеш.', s5b:'У довгих нардах не б’ють і не стають на чужий пункт. Шукай вільний.', s5p:'Зіграй 3 і 1 на вільні пункти.', s5r:'І ще: стіну з шести пунктів підряд ставити не можна, якщо попереду немає чужої шашки. Це для Паші.', s6a:'Перемотаємо: усі п’ятнадцять уже вдома. Тепер виносимо.', s6b:'Шістка — з шостого пункту, двійка — з другого. Натисни шашку, потім лоток праворуч.', s6c:'Виносити тут тільки шашки. Посуд не треба.', s6p:'Винеси шашки на 6 і 2.', s6r:'Так і виграють.', s7a:'Перемога. А якщо Паша не виніс жодної — це марс, два очки.', s7b:'Я давав тобі виграти. Педагогічний прийом.', s7c:'Кальян готовий. Ти теж.', stFinT:'Навчання пройдено', stFinD:'Влад і Паша тепер є серед ваших аватарів.', stFinAv:'Аватари: Влад і Паша', stPlayPasha:'Зіграти з Пашею', av_vlad:'Влад', av_pasha:'Паша', luckyGame:'Щаслива партія ×2!', coinsW:'монет', coinsGot:'+{n} монет', shopSoon:'Ваші монети. Магазин скоро відкриється — збирайте далі!', stGrad:'Випускник Друзів', nickNeed:'Для рейтингових ігор потрібен нік — вкажіть його в профілі', myGamesT:'Останні ігри', myGamesNone:'На цьому пристрої ще немає ігор — зіграйте, і вони з’являться тут', plWin:'перемога', plLoss:'поразка', liveMars:'марс', botTag:'бот', agoM:'{n} хв тому', agoH:'{n} год тому', agoD:'{n} дн тому', wheelT:'Колесо чату', wheelHint:'оберіть повідомлення', wheelCd:'до наступного повідомлення', wheelEdit:'Налаштувати колесо', wheelEmpty:'Колесо порожнє', wheelFull:'У колесі максимум {m} — спершу приберіть щось', wheelN:'{n} з {m}', wheelWait:'Наступне повідомлення через {n} с', wheelHow:'До 10 емодзі й фраз, які будуть у вас у грі. Натисніть внизу, щоб додати, натисніть на слот, щоб прибрати. Писати можна раз на 15 секунд.', wheelDone:'Готово', tutorB2:'Як грати', footBeta:'Бета', langT:'Мова · Language', footNew:'Що нового', footSig:'Нарди · довгі нарди на двох · зроблено з друзями з Druzi', newsT:'Що нового', shareT:'Запросити друга', shareSub:'Надішліть посилання або дайте відсканувати QR-код камерою телефона.', shareText:'Зіграймо в довгі нарди:', shareCopy:'Скопіювати посилання', shareSend:'Поділитися', shareSave:'Зберегти QR', ck_friends:'Друзі', st_friends1:'Друзі', st_friends2:'Друзі · Неон', st_friends3:'Друзі · Хвиля', st_friends4:'Друзі · Легенда', fromRef:'За {n} запрошених друзів', fromRef1:'За 1 запрошеного друга', fromRefNew:'Подарунок за реєстрацію за запрошенням', refGo:'Запросити друзів', refT:'Запроси друзів', refN:'Запрошено: {n}', refS1:'1 друг', refS3:'3 друзі', refS5:'5 друзів', refS10:'10 друзів', refShareT:'Запроси друга', refShareSub:'Надішліть посилання або дайте відсканувати QR-код. Нагорода — коли друг зареєструється.', refShareText:'Зіграймо в довгі нарди — зареєструйся за моїм посиланням і отримай 300 монет:', refHiT:'{n} кличе тебе в Нарди', refHiT0:'Друг кличе тебе в Нарди', refHiD:'Зареєструйся — і отримаєш 300 монет та шашки «Друзі».', refHiB:'Зареєструватися', refLater:'Пізніше', refGotT:'Вітаємо в Нардах!', refGotD:'Тебе запросив {n}: 300 монет і шашки «Друзі» вже твої.', refGotD0:'Тебе запросив друг: 300 монет і шашки «Друзі» вже твої.', refPaid:'Друг зареєструвався за вашим посиланням: +{n} монет', refBoard:'Нова дошка: {b}', refNotNew:'Запрошення діє лише для нових акаунтів', refNeedReg:'Зареєструйтесь, щоб запрошувати друзів', refUsed:'На цьому пристрої вже використали запрошення', refLook:'Натисніть, щоб роздивитися дошку', refLookHint:'Натисніть на дошку, щоб роздивитися її ближче', refShort:'Друзям — 300 монет і шашки «Друзі», вам — 200 монет і дошка «Друзі».', refFriendGets:'Друг отримає', refFriendWhat:'300 монет і шашки «Друзі»', refYouGet:'Ви отримаєте', refYouWhat:'200 монет за кожного друга', refBoardT:'Дошка «Друзі» — краща з кожним другом', rar_x:'Ексклюзив', refPut:'Поставити', refLocked:'Закрито — {w}', tut6T:'Ви готові!', tut6D:'Хто першим викине всі 15 шашок — перемагає. Якщо суперник не встиг викинути жодної — це «марс», 2 очки. Ще одне правило: не можна ставити 6 своїх шашок поспіль, якщо попереду немає жодної шашки суперника. Тепер спробуйте зіграти з ботом або знайдіть суперника онлайн.', lbT:'Таблиця лідерів', lbOpen:'Таблиця лідерів', lbSub:'Зала Легенд — топ-100 гравців з рейтингом 3450+.', lbLoading:'Завантаження…', lbErr:'Не вдалося завантажити таблицю — увійдіть, щоб її побачити.', lbEmpty:'Ще немає рейтингових ігор — зіграйте онлайн, щоб потрапити в таблицю.', lbYou:'ви', lbNotYou:'Ви зʼявитесь тут після першої онлайн-гри.', tier_bronze:'Бронза', tier_silver:'Срібло', tier_gold:'Золото', tier_platinum:'Платина', tier_diamond:'Діамант', toNext:'ще {n} до рангу «{tier}»', topTier:'Найвищий ранг', ratedNote:'рейтинг рахується лише в онлайн-іграх', ratingChange:'Рейтинг {d} → {r}', av_none:'Ініціали', av_dice:'Кубик', av_crown:'Корона', av_fox:'Лис', av_tea:'Чай', dice_ivory:'Слонова кістка', dice_onyx:'Онікс', dice_ruby:'Рубін', dice_gold:'Золото', dice_wood:'Дерево', dice_marble:'Мармур', dice_glass:'Скло', dice_neon:'Неон', boardT:'Дошка', sound:'Звук', flip:'Перевернути дошку', autoForcedT:'Вимушені ходи сам', autoRollT:'Кидати кубики сам', pips:'піпів', forced:'Хід лише один — зіграно автоматично', rules:'Правила',
+  calibT:'Калібрування', calibSub:'{g} з {n} рейтингових ігор · виграно {w}', calibEnd:'Калібрування завершено', calibRes:'Ваш рейтинг — {r}', calibOk:'Поїхали', stVlad:'Влад', stPasha:'Паша', stTap:'натисніть, щоб далі', stYourMove:'ваш хід', s0a:'О, новенький! Кальян буде хвилин через десять. В нарди граєш?', s0b:'Не грає — навчимо. Сідай, за десять хвилин встигнемо.', s1a:'Твої білі. Усі п’ятнадцять стоять ось тут, на голові.', s1b:'Треба провести їх по колу в дім і винести раніше за Пашу.', s1c:'Раніше за мене ще ніхто не виносив. Ну, окрім Влада. І бармена. І вчорашнього туриста.', s2a:'Хто ходить першим — кидаємо по кубику. У тебе п’ять, у мене двійка… Кубик був холодний, не рахується.', s2b:'Рахується. Хто викинув більше — ходить першим.', s3a:'Кожен кубик — окремий хід. П’ять і три, або вісім однією шашкою.', s3b:'Але з голови за хід знімаємо лише одну. Тож веди одну шашку далеко.', s3p:'Кидай і ходи: одна шашка з голови на 5, а потім ще на 3.', s3r:'О, талант. Бармен, запиши його в постійні.', s4a:'Дубль на честь кальяну!', s4b:'Однакові числа граються чотири рази.', s4c:'Чотири ходи по чотири. Хоч однією, хоч різними.', s4p:'Зроби чотири ходи по 4.', s4r:'Чисто. Пашо, твоя черга хвилюватись.', s5a:'А тепер мій фірмовий заборчик. Пройди, якщо зможеш.', s5b:'У довгих нардах не б’ють і не стають на чужий пункт. Шукай вільний.', s5p:'Зіграй 3 і 1 на вільні пункти.', s5r:'І ще: стіну з шести пунктів підряд ставити не можна, якщо попереду немає чужої шашки. Це для Паші.', s6a:'Перемотаємо: усі п’ятнадцять уже вдома. Тепер виносимо.', s6b:'Шістка — з шостого пункту, двійка — з другого. Натисни шашку, потім лоток праворуч.', s6c:'Виносити тут тільки шашки. Посуд не треба.', s6p:'Винеси шашки на 6 і 2.', s6r:'Так і виграють.', s7a:'Перемога. А якщо Паша не виніс жодної — це марс, два очки.', s7b:'Я давав тобі виграти. Педагогічний прийом.', s7c:'Кальян готовий. Ти теж.', stFinT:'Навчання пройдено', stFinD:'Влад і Паша тепер є серед ваших аватарів.', stFinAv:'Аватари: Влад і Паша', stPlayPasha:'Зіграти з Пашею', av_vlad:'Влад', av_pasha:'Паша', luckyGame:'Щаслива партія ×2!', coinsW:'монет', coinsGot:'+{n} монет', shopSoon:'Ваші монети. Магазин скоро відкриється — збирайте далі!', stGrad:'Випускник Друзів', nickNeed:'Для рейтингових ігор потрібен нік — вкажіть його в профілі', myGamesT:'Останні ігри', myGamesNone:'На цьому пристрої ще немає ігор — зіграйте, і вони з’являться тут', plWin:'перемога', plLoss:'поразка', liveMars:'марс', botTag:'бот', agoM:'{n} хв тому', agoH:'{n} год тому', agoD:'{n} дн тому', wheelT:'Колесо чату', wheelHint:'оберіть повідомлення', wheelCd:'до наступного повідомлення', wheelEdit:'Налаштувати колесо', wheelEmpty:'Колесо порожнє', wheelFull:'У колесі максимум {m} — спершу приберіть щось', wheelN:'{n} з {m}', wheelWait:'Наступне повідомлення через {n} с', wheelHow:'До 10 емодзі й фраз, які будуть у вас у грі. Натисніть внизу, щоб додати, натисніть на слот, щоб прибрати. Писати можна раз на 15 секунд.', wheelDone:'Готово', tutorB2:'Як грати', footBeta:'Бета', langT:'Мова · Language', footNew:'Що нового', footSig:'Нарди · довгі нарди на двох · зроблено з друзями з Druzi', newsT:'Що нового', shareT:'Запросити друга', shareSub:'Надішліть посилання або дайте відсканувати QR-код камерою телефона.', shareText:'Зіграймо в довгі нарди:', shareCopy:'Скопіювати посилання', shareSend:'Поділитися', shareSave:'Зберегти QR', ck_friends:'Друзі', st_friends1:'Друзі', st_friends2:'Друзі · Неон', st_friends3:'Друзі · Хвиля', st_friends4:'Друзі · Легенда', fromRef:'За {n} запрошених друзів', fromRef1:'За 1 запрошеного друга', fromRefNew:'Подарунок за реєстрацію за запрошенням', refGo:'Запросити друзів', refT:'Запроси друзів', refN:'Запрошено: {n}', refS1:'1 друг', refS3:'3 друзі', refS5:'5 друзів', refS10:'10 друзів', refShareT:'Запроси друга', refShareSub:'Надішліть посилання або дайте відсканувати QR-код. Нагорода — коли друг зареєструється.', refShareText:'Зіграймо в довгі нарди — зареєструйся за моїм посиланням і отримай 300 монет:', refHiT:'{n} кличе тебе в Нарди', refHiT0:'Друг кличе тебе в Нарди', refHiD:'Зареєструйся — і отримаєш 300 монет та шашки «Друзі».', refHiB:'Зареєструватися', refLater:'Пізніше', refGotT:'Вітаємо в Нардах!', refGotD:'Тебе запросив {n}: 300 монет і шашки «Друзі» вже твої.', refGotD0:'Тебе запросив друг: 300 монет і шашки «Друзі» вже твої.', refPaid:'Друг зареєструвався за вашим посиланням: +{n} монет', refBoard:'Нова дошка: {b}', refNotNew:'Запрошення діє лише для нових акаунтів', refNeedReg:'Зареєструйтесь, щоб запрошувати друзів', refUsed:'На цьому пристрої вже використали запрошення', refLook:'Натисніть, щоб роздивитися дошку', refLookHint:'Натисніть на дошку, щоб роздивитися її ближче', refShort:'Друзям — 300 монет і шашки «Друзі», вам — 200 монет і дошка «Друзі».', refFriendGets:'Друг отримає', refFriendWhat:'300 монет і шашки «Друзі»', refYouGet:'Ви отримаєте', refYouWhat:'200 монет за кожного друга', refBoardT:'Дошка «Друзі» — краща з кожним другом', rar_x:'Ексклюзив', refPut:'Поставити', refLocked:'Закрито — {w}', rpUp:'до №{n} ще {d}', rpLead:'Ви попереду всіх', rpTour:'Турніри', tourSeasonK:'Турніри вихідного дня', tourSeasonT:'Сезон турнірів', tourSeasonD:'7 турнірів вихідного дня за сезон. Очки за місця сумуються, з новим сезоном таблиця обнуляється.', tourSeasonW:'Сезон · вихідні {w} з {n}', tourSeasonEnd:'Сезон завершено — скоро новий', banTour:'Турнірні очки', intlKick:'Головна подія сезону', intlT:'Druzi International', intlWhen:'Вихідні {d} · запрошуються топ-{n}', intlPool:'призовий фонд', intlGrow:'Росте з кожним кейсом: 25% від кожного відкритого кейса йде у фонд.', intlBeta:'(у беті частка інших гравців імітується)', intlQ:'Відбір · вихідні {w} з {n}', intlQdone:'Відбір завершено — триває International', intlRules:'Очки за турнір вихідного дня: за участь, за кожну виграну гру і бонус за місце', intlPlay:'Участь', intlWin:'Кожна виграна гра', intlGotD:'участь {p} · перемоги {w} · місце {b}', intlZone:'↑ Зона запрошення · топ-{n}', intlPts:'{n} оч.', intlSub:'турнірів: {e} · найкраще №{b}', intlSub0:'ще без турнірів', intlMe:'Ви · №{n} · {p} оч.', intlToZone:'до зони запрошення ще {d} оч.', intlIn:'Ви в зоні запрошення', intlPl1:'1-ше', intlPl2:'2-ге', intlPl34:'3–4', intlPl58:'5–8', intlPl916:'9–16', intlGot:'+{n} турнірних очок', banSat:'Субота 18:00 · через {t}', banNow:'Йде зараз', banPool:'Druzi International · фонд', banMe:'ви №{n}', tourT:'Турнір вихідного дня', tourIntro:'16 гравців: 4 групи по 4, по дві гри з кожним суперником, двоє найкращих виходять у плей-оф. 1/4 і півфінали — до 2 перемог, фінал — до 3. Призовий пул 10 000 монет. Турнірні очки: 10 за участь, 5 за кожну виграну гру і бонус за місце (1-ше +100, 2-ге +60, 3–4 +40, 5–8 +20).', tourTest:'Почати турнір', tourTestNote:'Інші 15 місць займають боти-гросмейстери; їхні ігри між собою вирішуються одразу, свої ви граєте на дошці. Приз і турнірні очки — раз на тиждень, за перший завершений турнір.', tourLive:'Триває', tourDone:'Завершено', tourPool:'пул {n} 🪙', tourNextOn:'Наступний: {d}', tourGroupR:'Група {g} · тур {r}', tourSt_qf:'1/4 фіналу', tourSt_sf:'Півфінал', tourSt_f:'Фінал', tourSt_3:'За 3-тє місце', tourGameStart:'{s} · гра {n} (до {bo})', tourMatchScore:'матч {a}:{b}', tourMatchWon:'матч виграно', tourMatchLost:'матч програно', tourMatchDraw:'нічия в парі', tourNextGame:'далі гра {n}', tourNextBtn:'Наступна гра', tourBack:'До турніру', tourYouPlace:'Ваше місце: №{n}', tourClaim:'Забрати приз', tourAgain:'Новий турнір', tourPlayVs:'Грати з {n}', tourBo:'Bo{n}', tourOut:'Ви вибули — подивіться, хто переможе', tourSimAll:'Дограти турнір', tourTabG:'Групи', tourTabB:'Плей-оф', tourTabP:'Призи', tourTabU:'Учасники', tourP1:'', tourP2:'', tourP3:'', tourFormat:'Групи: 1 очко за кожну виграну гру; при рівності — особиста зустріч, потім марси. Боти призів не забирають — приз іде наступній людині.', tourGroup:'Група {g}', tourG:'ігор', tourBrkWait:'Плей-оф відкриється, коли завершаться групи.', tourGot:'+{n} монет — гарна гра!', tourThanks:'Дякуємо за гру!', tourCardSub:'Пул {n} 🪙 · 16 гравців · спробуйте зараз', tourCardDone:'Завершено · ваше місце №{n}', tourVs:'з {n}', tourOpen:'Відкрити', tourPlay:'Грати', tourOnly:'Лише за перемогу в турнірі вихідного дня', tourBadge:'Турнір {d} · №{n}', tourFinish:'Завершити', lbRatingTab:'Рейтинг', tourWeekDone:'Приз і очки цього тижня вже отримано — цей турнір просто для гри. Наступні — з {d}.', tourGotPts:'+{n} монет · +{p} турнірних очок', tourSignIn:'Увійдіть, щоб приз і очки зберігались в акаунті', tut6T:'Ви готові!', tut6D:'Хто першим викине всі 15 шашок — перемагає. Якщо суперник не встиг викинути жодної — це «марс», 2 очки. Ще одне правило: не можна ставити 6 своїх шашок поспіль, якщо попереду немає жодної шашки суперника. Тепер спробуйте зіграти з ботом або знайдіть суперника онлайн.', lbT:'Таблиця лідерів', lbOpen:'Таблиця лідерів', lbSub:'Зала Легенд — топ-100 гравців з рейтингом 3450+.', lbLoading:'Завантаження…', lbErr:'Не вдалося завантажити таблицю — увійдіть, щоб її побачити.', lbEmpty:'Ще немає рейтингових ігор — зіграйте онлайн, щоб потрапити в таблицю.', lbYou:'ви', lbNotYou:'Ви зʼявитесь тут після першої онлайн-гри.', tier_bronze:'Бронза', tier_silver:'Срібло', tier_gold:'Золото', tier_platinum:'Платина', tier_diamond:'Діамант', toNext:'ще {n} до рангу «{tier}»', topTier:'Найвищий ранг', ratedNote:'рейтинг рахується лише в онлайн-іграх', ratingChange:'Рейтинг {d} → {r}', av_none:'Ініціали', av_dice:'Кубик', av_crown:'Корона', av_fox:'Лис', av_tea:'Чай', dice_ivory:'Слонова кістка', dice_onyx:'Онікс', dice_ruby:'Рубін', dice_gold:'Золото', dice_wood:'Дерево', dice_marble:'Мармур', dice_glass:'Скло', dice_neon:'Неон', boardT:'Дошка', sound:'Звук', flip:'Перевернути дошку', autoForcedT:'Вимушені ходи сам', autoRollT:'Кидати кубики сам', pips:'піпів', forced:'Хід лише один — зіграно автоматично', rules:'Правила',
   winYou:'Перемога', winLose:'Цього разу — ні', winN:'Переміг: {n}', mars:'Марс — 2 очки.', one:'1 очко.', score:'Рахунок {a} : {b}',
   notFound:'Гру не знайдено — можливо, посилання застаріло.', full:'У цій грі вже двоє гравців — ви глядач.', joined:'Суперник приєднався!', saveErr:'Не вдалося зберегти хід', connErr:'Проблема зі зʼєднанням',
   keys:'<kbd>Пробіл</kbd> кинути · <kbd>Backspace</kbd> скасувати',
@@ -1798,7 +1874,7 @@ function botTick(){
     const c=gs.turn;
     if(!gs.rolled){ const d1=d6(), d2=d6(); gs.dice=[d1,d2]; gs.remaining=d1===d2?[d1,d1,d1,d1]:[d1,d2]; gs.headLimit=(gs.first[c]&&d1===d2&&[3,4,6].includes(d1))?2:1; gs.first[c]=false; gs.headMoved=0; gs.rolled=true; gs.trail=[]; gs.rollId++; gs.snap=null; rollAnimUntil=performance.now()+700; sfx('dice'); botBusy=true; scene3d&&scene3d.sync(); renderHud(); }
     await botWait(gh ? J(1300,4200) : 900); if(stale()) return;
-    const path=botBestPath(gs,c);
+    const path=gs.gm ? botBestPathGM(gs,c) : botBestPath(gs,c);
     if(!path || !path.length){ toast(gh ? t('oppNoMoves') : t('botNoMoves')); await botWait(900); if(stale()) return; passTurn(); botBusy=false; route(); return; }
     for(let i=0;i<path.length;i++){ if(stale()) return; playPath([path[i]]); if(i<path.length-1) await botWait(gh ? J(450,1300) : 620); }
     botBusy=false; route();
@@ -2359,6 +2435,7 @@ function renderHud(){
     $('winTitle').textContent = mode==='local' ? t('winN',{n:slotName(ws)}) : (ws===me ? t('winYou') : (me ? t('winLose') : t('winN',{n:slotName(ws)})));
     $('winSub').textContent = (gs.resign ? (mode!=='local' && slotOfColor(gs.resign.c)===me ? t('resignedYou') : t('resigned',{n: mode==='local' ? colorName(gs.resign.c) : slotName(slotOfColor(gs.resign.c)).split(' (')[0]}))+' ' : '')+(mars?t('mars'):t('one'))+' '+t('score',{a:gs.score.p1,b:gs.score.p2}) + (lastDelta!=null ? ' · '+t('ratingChange',{d:(lastDelta>=0?'+':'')+lastDelta, r:profile.rating}) + (mode==='bot' && !isGhost() ? ' ('+t('botRated')+')' : '') : '');
     show('btnNew2', mode==='local' || !!me); $('btnNew2').textContent = mode==='local' ? t('again') : t('rematch'); renderRematch();
+    if(gs.tour){ $('winSub').textContent=tourWinText(); const T=tourState(), tm=T&&tourFindMatch(T,gs.tour); $('btnNew2').textContent = tm && !mDone(tm) ? t('tourNextBtn') : t('tourBack'); }
     setTimeout(()=>{ if(gs && gs.phase==='over'){ show('winOv',true); showRankUp(); } }, 600);
   } else if(gs.phase!=='over') show('winOv',false);
 }
@@ -2705,7 +2782,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.14.6';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.14.7';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=>(RAR3[cat]||{})[k]||'r';
@@ -3114,9 +3191,236 @@ function openProfile(){
   show('profOv',true); if(!authUser || matchMedia('(min-width:761px)').matches) setTimeout(()=>nick.focus(),50);
 }
 
+// ---- grandmaster bot (tournaments): plays the position out ----
+// Take the 5 best ways to play by the usual evaluation, then play each one out to the end of the game 16 times
+// with the normal strong bot on both sides, using the same dice for every candidate, and pick the one that wins most.
+function gmRng(seed){ let a=seed>>>0; return ()=>{ a=(a+0x6D2B79F5)>>>0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+function gmRollout(s0,c,seed){
+  const rng=gmRng(seed); let s=s0, turn=OPP(c), n=0;
+  while(s.off.w<15 && s.off.b<15 && n++<200){
+    const d1=1+Math.floor(rng()*6), d2=1+Math.floor(rng()*6);
+    s={...s, remaining:d1===d2?[d1,d1,d1,d1]:[d1,d2], headMoved:0, headLimit:(s.first&&s.first[turn]&&d1===d2&&[3,4,6].includes(d1))?2:1, first:{...(s.first||{}),[turn]:false}};
+    const p=botBestPath(s,turn); if(p) for(const m of p){ s=applyMove(s,turn,m); if(s.off[turn]>=15) break; }
+    turn=OPP(turn);
+  }
+  if(s.off[c]>=15) return s.off[OPP(c)]===0 ? 2 : 1;
+  if(s.off[OPP(c)]>=15) return s.off[c]===0 ? -2 : -1;
+  return 0;
+}
+function botBestPathGM(st,c){
+  const total=maxUse(st,c); if(!total) return null;
+  const outs=new Map(); let nodes=0;
+  (function dfs(s,path){ if(nodes++>4000) return; if(path.length===total){ const k=s.board.join()+'|'+s.off[c]; if(!outs.has(k)) outs.set(k,{path,s,v:botEval(s,c)}); return; }
+    for(const m of legalMoves(s,c)) dfs(applyMove(s,c,m), path.concat([m])); })(st,[]);
+  const cand=[...outs.values()].sort((a,b)=>b.v-a.v).slice(0,5); if(cand.length===1) return cand[0].path;
+  const keep=gs?gs.botNoise:undefined; if(gs) gs.botNoise=-0.05;
+  const base=Math.floor(Math.random()*1e9); let best=cand[0], bestE=-1e9;
+  try{ for(const x of cand){ if(x.s.off[c]>=15) return x.path; let e=0; for(let k=0;k<16;k++) e+=gmRollout(x.s,c,base+k*7919); if(e>bestE){ bestE=e; best=x; } } }
+  finally{ if(gs) gs.botNoise=keep; }
+  return best.path;
+}
+
+// ================= weekend tournament (local test version) =================
+// 16 players: 4 groups of 4 (round robin, 2 games per pair, 1 point per game won), top 2 go through;
+// quarter- and semi-finals and the 3rd-place match are best of 3, the final is best of 5.
+// Everyone else is a grandmaster bot. Bot-vs-bot games are decided by rating; your games are played on the board.
+const TOUR_POOL=10000, TOUR_PRIZE=[[1,4000],[2,2500],[3,1500],[4,1000],[8,250]];
+const RR=[[0,1],[2,3],[0,2],[1,3],[0,3],[1,2]];   // round robin of 4: three rounds of two pairs
+function tourPrize(place){ const p=TOUR_PRIZE.find(x=>place<=x[0]); return p?p[1]:0; }
+function nextSat(now){ const d=new Date((now||Date.now())+2*3600e3); const add=(6-d.getUTCDay()+7)%7; const t=Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate()+add,18,0)-2*3600e3; return t<=(now||Date.now()) ? t+7*864e5 : t; }
+function tourState(){ return TW.tour||null; }
+function tourNew(){
+  const gh=GHOSTS.map((g,i)=>ghostInfo(i)).sort((a,b)=>b.rating-a.rating).slice(0,40);
+  for(let i=gh.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [gh[i],gh[j]]=[gh[j],gh[i]]; }
+  const bots=gh.slice(0,15).map(g=>({id:g.id, name:g.name, av:g.av, r:Math.max(2600,g.rating)}));
+  const me={id:'me', name:profile.name||t('you'), av:profile.av||'', r:profile.rating||1000, me:1};
+  // seeded draw: pots by rating, you go into a random group
+  const P=bots.sort((a,b)=>b.r-a.r); const groups=[[],[],[],[]];
+  const myG=Math.floor(Math.random()*4); groups[myG].push(me);
+  let gi=0; for(const b of P){ while(groups[gi%4].length>=4) gi++; groups[gi%4].push(b); gi++; }
+  const players=[].concat(...groups); const idx=p=>players.indexOf(p);
+  const gm=[]; groups.forEach((g,G)=>RR.forEach(([x,y],k)=>gm.push({st:'g', G, rd:Math.floor(k/2), a:idx(g[x]), b:idx(g[y]), bo:2, g:[]})));
+  TW.tour={ id:'t'+Date.now(), at:nextSat(), status:'run', players, gm, po:[], places:null, paid:false };
+  saveTW(); return TW.tour;
+}
+const mDone=m=>{ const need=m.bo===2?2:(m.bo+1)/2, wa=m.g.filter(x=>x.w==='a').length, wb=m.g.length-wa; return m.bo===2 ? m.g.length>=2 : (wa>=need||wb>=need); };
+const mScore=m=>{ const wa=m.g.filter(x=>x.w==='a').length; return [wa, m.g.length-wa]; };
+const mWin=m=>{ const [a,b]=mScore(m); return a>b?m.a:m.b; }, mLose=m=>{ const [a,b]=mScore(m); return a>b?m.b:m.a; };
+function simGame(T,m){ const A=T.players[m.a], B=T.players[m.b], pa=1/(1+Math.pow(10,(B.r-A.r)/400)); m.g.push({w:Math.random()<pa?'a':'b', mars:Math.random()<.15}); }
+function groupTable(T,G){
+  const ids=[...new Set(T.gm.filter(m=>m.G===G).flatMap(m=>[m.a,m.b]))];
+  const row=i=>{ let pts=0, mars=0, gp=0; T.gm.filter(m=>m.G===G&&(m.a===i||m.b===i)).forEach(m=>m.g.forEach(x=>{ const mine=(x.w==='a')===(m.a===i); gp++; if(mine){ pts++; if(x.mars) mars++; } })); return {i, pts, mars, gp}; };
+  const rows=ids.map(row);
+  const h2h=(x,y)=>{ let s=0; T.gm.filter(m=>m.G===G&&((m.a===x&&m.b===y)||(m.a===y&&m.b===x))).forEach(m=>m.g.forEach(g=>{ s+=((g.w==='a')===(m.a===x))?1:-1; })); return s; };
+  return rows.sort((p,q)=>q.pts-p.pts || h2h(q.i,p.i) || q.mars-p.mars || T.players[q.i].r-T.players[p.i].r);
+}
+const meIdx=T=>T.players.findIndex(p=>p.me);
+function myMatch(T){ const me=meIdx(T); return [...T.gm, ...T.po].find(m=>!mDone(m) && (m.a===me||m.b===me) && tourMatchReady(T,m)); }
+function tourMatchReady(T,m){ if(m.st==='g') return T.gm.filter(x=>x.rd<m.rd).every(mDone); return true; }
+// advance everything that does not involve you, as far as it can go
+function tourAdvance(T, all){
+  const me=meIdx(T);
+  for(let guard=0;guard<200;guard++){
+    let moved=false;
+    for(const m of [...T.gm, ...T.po]){ if(mDone(m) || !tourMatchReady(T,m)) continue; if(!all && (m.a===me||m.b===me)) continue;
+      const myOpen=myMatch(T); if(!all && myOpen && m.st==='g' && m.rd>myOpen.rd) continue;
+      if(!all && myOpen && m.st!=='g' && myOpen.st!=='g' && stageN(m.st)>stageN(myOpen.st)) continue;
+      while(!mDone(m)) simGame(T,m); moved=true; }
+    if(T.gm.every(mDone) && !T.po.length){ const q=[0,1,2,3].map(G=>groupTable(T,G).slice(0,2).map(r=>r.i));
+      [[q[0][0],q[1][1]],[q[1][0],q[0][1]],[q[2][0],q[3][1]],[q[3][0],q[2][1]]].forEach(([a,b],k)=>T.po.push({st:'qf', k, a, b, bo:3, g:[]})); moved=true; }
+    const qf=T.po.filter(m=>m.st==='qf'), sf=T.po.filter(m=>m.st==='sf');
+    if(qf.length===4 && qf.every(mDone) && !sf.length){ T.po.push({st:'sf',k:0,a:mWin(qf[0]),b:mWin(qf[1]),bo:3,g:[]},{st:'sf',k:1,a:mWin(qf[2]),b:mWin(qf[3]),bo:3,g:[]}); moved=true; }
+    const sf2=T.po.filter(m=>m.st==='sf');
+    if(sf2.length===2 && sf2.every(mDone) && !T.po.some(m=>m.st==='f')){ T.po.push({st:'3',k:0,a:mLose(sf2[0]),b:mLose(sf2[1]),bo:3,g:[]},{st:'f',k:0,a:mWin(sf2[0]),b:mWin(sf2[1]),bo:5,g:[]}); moved=true; }
+    if(!moved) break;
+  }
+  const f=T.po.find(m=>m.st==='f'), th=T.po.find(m=>m.st==='3');
+  if(f && th && mDone(f) && mDone(th) && T.status!=='done'){
+    const pl={}; pl[mWin(f)]=1; pl[mLose(f)]=2; pl[mWin(th)]=3; pl[mLose(th)]=4;
+    T.po.filter(m=>m.st==='qf').forEach(m=>{ pl[mLose(m)]=5; });
+    [0,1,2,3].forEach(G=>groupTable(T,G).slice(2).forEach((r,k)=>{ pl[r.i]=9+k; }));
+    T.places=pl; T.status='done';
+  }
+  saveTW();
+}
+const stageN=st=>({g:0,qf:1,sf:2,'3':3,f:3})[st];
+function tourStageName(m){ return m.st==='g' ? t('tourGroupR',{g:'ABCD'[m.G], r:m.rd+1}) : t('tourSt_'+m.st); }
+// ---- your games ----
+function tourPlay(){
+  const T=tourState(); if(!T) return; const m=myMatch(T); if(!m) return;
+  const me=meIdx(T), oi=m.a===me?m.b:m.a, o=T.players[oi];
+  show('tourOv',false); stopSearch(true); leave();
+  mode='bot'; gameId='tour'+rid(); gs=newGame('ME','BOT'); gs.gm=true; gs.botNoise=0;
+  gs.tour={id:T.id, st:m.st, G:m.G, rd:m.rd, k:m.k, gi:m.g.length};
+  gs.names={p1:profile.name||'',p2:o.name}; gs.avs={p1:profile.av||'',p2:o.av}; gs.ratings={p1:profile.rating||1000,p2:o.r};
+  toast(t('tourGameStart',{s:tourStageName(m), n:m.g.length+1, bo:m.bo})); route();
+}
+function tourFindMatch(T,tr){ return [...T.gm,...T.po].find(m=>m.st===tr.st && m.G===tr.G && m.rd===tr.rd && m.k===tr.k && (m.a===meIdx(T)||m.b===meIdx(T))); }
+function tourGameOver(){
+  const T=tourState(); if(!T || !gs.tour || T.id!==gs.tour.id || gs.tour.saved) return; gs.tour.saved=1;
+  const m=tourFindMatch(T,gs.tour); if(!m || mDone(m) || m.g.length!==gs.tour.gi) return;
+  const iWon=slotOfColor(gs.winner)==='p1', meA=m.a===meIdx(T), mars=gs.resign ? gs.resign.mars : gs.off[OPP(gs.winner)]===0;
+  m.g.push({w:(iWon===meA)?'a':'b', mars});
+  if(mDone(m)) tourAdvance(T,false); else saveTW();
+}
+function tourWinText(){
+  const T=tourState(); const m=T&&gs&&gs.tour&&tourFindMatch(T,gs.tour); if(!m) return '';
+  const me=meIdx(T), [a,b]=mScore(m), my=m.a===me?a:b, op=m.a===me?b:a;
+  return t('tourMatchScore',{a:my,b:op}) + (mDone(m) ? ' · '+t(my>op?'tourMatchWon':my<op?'tourMatchLost':'tourMatchDraw') : ' · '+t('tourNextGame',{n:m.g.length+1}));
+}
+function tourAfterGame(){ show('winOv',false); const T=tourState(); const m=T&&gs&&gs.tour&&tourFindMatch(T,gs.tour); if(m && !mDone(m)) return tourPlay(); leave(); route(); openTour(); }
+// ---- prizes ----
+async function tourClaim(){
+  const T=tourState(); if(!T || T.status!=='done' || T.paid) return; const pl=T.places[meIdx(T)], wins=myTourWins(T);
+  T.paid=true; saveTW();
+  if(coinsOnline()){ try{ const {data}=await sb.functions.invoke('game',{body:{action:'tour_done', args:{place:pl, wins}}});
+      if(data && data.ok){ profile.ach=Object.assign({},profile.ach||{},{coins:data.coins, tp:data.tp, tourAt:Date.now()}); coinsPaint(); if(data.prize) coinFly(data.prize); toast(t('tourGotPts',{n:data.prize, p:data.pts})); if(pl<=3) try{ confetti(90); }catch(e){} }
+      else if(data && data.already){ toast(t('tourWeekDone',{d:new Date(data.next).toLocaleDateString(lang==='uk'?'uk-UA':'en-GB',{weekday:'long',day:'numeric',month:'long'})})); }
+      else toast(t('srvErr')); }catch(e){ toast(t('srvErr')); }
+    renderTour(); try{ renderHomeV7(); }catch(e){} return; }
+  // guests: kept in this browser, same once-a-week rule
+  const last=store.get('tourAt',0); if(Date.now()-last<6*864e5){ toast(t('tourWeekDone',{d:new Date(last+6*864e5).toLocaleDateString(lang==='uk'?'uk-UA':'en-GB',{weekday:'long',day:'numeric',month:'long'})})); renderTour(); return; }
+  const n=tourPrize(pl), pts=TPTS_PLAY+wins*TPTS_WIN+tptsFor(pl); store.set('tourAt',Date.now()); store.set('coins', coinsNow()+n); const tp=store.get('tp',[]); tp.push({at:Date.now(), pl, pts}); store.set('tp',tp.slice(-30));
+  coinsPaint(); if(n) coinFly(n); toast(t('tourGotPts',{n, p:pts})+' · '+t('tourSignIn')); if(pl<=3) try{ confetti(90); }catch(e){} renderTour(); try{ renderHomeV7(); }catch(e){}
+}
+function myTitle(){ return null; }
+// ---- window ----
+let tourTab='groups';
+function openTour(){ show('tourOv',true); renderTour(); }
+function renderTour(){
+  const box=$('tourBox'), T=tourState(); box.innerHTML=''; const h=(tag,cls,txt)=>{ const e=document.createElement(tag); if(cls) e.className=cls; if(txt!=null) e.textContent=txt; return e; };
+  const pAv=(i,cls)=>{ const p=T.players[i], a=h('span','av'); avatarInto(a,p.av,p.name); return a; };
+  const hd=h('div','thd thero'); const l=h('div'); l.append(h('h2',null,t('tourT')));
+  const when=new Date((T?T.at:nextSat())+2*3600e3); const dstr=when.toLocaleDateString(lang==='uk'?'uk-UA':'en-GB',{weekday:'long',day:'numeric',month:'long',timeZone:'UTC'})+' · 18:00';
+  l.append(h('div','tst', T ? (T.status==='done'?t('tourDone'):t('tourLive')) + ' · ' + t('tourPool',{n:TOUR_POOL.toLocaleString('uk-UA')}) : t('tourNextOn',{d:dstr})));
+  const x=h('button','xbtn'); x.innerHTML='<svg class="i"><use href="#i-x"/></svg>'; x.onclick=()=>show('tourOv',false); hd.append(l,x); box.appendChild(hd);
+  const act=h('div','tact');
+  if(!T){ const p=h('p','note',t('tourIntro')); box.appendChild(p);
+    const b1=h('button','cta',t('tourTest')); b1.onclick=()=>{ tourNew(); tourAdvance(tourState(),false); tourTab='groups'; renderTour(); }; act.append(b1, h('div','tnext',t('tourTestNote'))); box.appendChild(act); tourTab='prizes'; }
+  else {
+    const m=myMatch(T), me=meIdx(T);
+    if(T.status==='done'){ const pl=T.places[me];
+      const pod=h('div','pod'); [[2,'p2'],[1,'p1'],[3,'p3']].forEach(([place,cls])=>{ const i=+Object.keys(T.places).find(k=>T.places[k]===place); const d=h('div',cls); d.append(pAv(i), h('span',null,T.players[i].name), h('i',null,String(place))); pod.appendChild(d); }); box.appendChild(pod);
+      act.append(h('div','tnext',t('tourYouPlace',{n:pl})+(tourPrize(pl)?' · +'+tourPrize(pl)+' 🪙':'')));
+      if(!T.paid){ const b=h('button','cta',t(tourPrize(pl)||pl<=4?'tourClaim':'tourFinish')); b.onclick=tourClaim; act.appendChild(b); }
+      const b2=h('button','ghost',t('tourAgain')); b2.onclick=()=>{ TW.tour=null; saveTW(); renderTour(); }; act.appendChild(b2);
+    } else if(m){ const oi=m.a===me?m.b:m.a; const [a,b]=mScore(m), my=m.a===me?a:b, op=m.a===me?b:a;
+      const b1=h('button','cta',t('tourPlayVs',{n:T.players[oi].name})); b1.onclick=tourPlay;
+      act.append(h('div','tnext',tourStageName(m)+' · '+t('tourBo',{n:m.bo})+' · '+t('tourMatchScore',{a:my,b:op})+' · '+t('tourNextGame',{n:m.g.length+1})), b1);
+    } else { act.append(h('div','tnext',t('tourOut')));
+      const b1=h('button','cta',t('tourSimAll')); b1.onclick=()=>{ tourAdvance(T,true); renderTour(); }; act.appendChild(b1); }
+    box.appendChild(act);
+  }
+  const tabs=h('div','ttabs'); [['groups','tourTabG'],['bracket','tourTabB'],['prizes','tourTabP'],['players','tourTabU']].forEach(([k,lb])=>{ const b=h('button',k===tourTab?'on':'',t(lb)); b.onclick=()=>{ const ov=$('tourOv'), y=ov.scrollTop; tourTab=k; renderTour(); ov.scrollTop=y; }; tabs.appendChild(b); });
+  box.appendChild(tabs); const body=h('div','tbody'); box.appendChild(body);
+  if(tourTab==='prizes' || !T){ const pz=h('div','prz'); [['1',4000,t('tourP1')],['2',2500,t('tourP2')],['3',1500,t('tourP3')],['4',1000,''],['5–8',250,'']].forEach(([pl,n,ex])=>{ const d=h('div'); d.append(h('b',null,'№'+pl), h('span',null,ex), h('b',null,'+'+n.toLocaleString('uk-UA')+' 🪙')); pz.appendChild(d); }); body.appendChild(pz); body.appendChild(h('p','note',t('tourFormat'))); return; }
+  if(tourTab==='groups'){ const gr=h('div','tgrps'); [0,1,2,3].forEach(G=>{ const g=h('div','tgrp'); g.append(h('h4',null,t('tourGroup',{g:'ABCD'[G]})));
+      groupTable(T,G).forEach((r,k)=>{ const p=T.players[r.i], row=h('div','trow'+(k<2&&T.gm.filter(m=>m.G===G).every(mDone)?' q':'')+(p.me?' me':'')); row.append(h('span','pos',String(k+1)), pAv(r.i), h('span','nm',p.name+(p.me?' · '+t('lbYou'):'')), h('span','gw',r.gp+'/6'), h('span','pts',String(r.pts))); g.appendChild(row); });
+      const res=h('div','tres'); T.gm.filter(m=>m.G===G && m.g.length).forEach(m=>{ const [a,b]=mScore(m), d=h('div',(m.a===meIdx(T)||m.b===meIdx(T))?'mine':''); d.textContent=T.players[m.a].name+' '+a+':'+b+' '+T.players[m.b].name+(mDone(m)?'':' …'); res.appendChild(d); }); if(res.childNodes.length) g.appendChild(res);
+      gr.appendChild(g); }); body.appendChild(gr); return; }
+  if(tourTab==='bracket'){ const br=h('div','brk'); const col=(title,list)=>{ const c=h('div','bcol'); c.append(h('h4',null,title)); list.forEach(m=>c.appendChild(bm(m))); return c; };
+    const bm=m=>{ const d=h('div','bm'+(m&&(m.a===meIdx(T)||m.b===meIdx(T))?' mym':'')); if(!m){ d.append(h('div','bp',' ')); d.append(h('div','bp',' ')); return d; } const [a,b]=mScore(m), done=mDone(m);
+      [[m.a,a,b],[m.b,b,a]].forEach(([i,s1,s2])=>{ const r=h('div','bp'+(done?(s1>s2?' w':' l'):'')); r.append(pAv(i), h('span','nm',T.players[i].name), h('b',null,String(s1))); d.appendChild(r); }); d.appendChild(h('div','bo',t('tourBo',{n:m.bo}))); return d; };
+    const qf=[0,1,2,3].map(k=>T.po.find(m=>m.st==='qf'&&m.k===k)||null), sf=[0,1].map(k=>T.po.find(m=>m.st==='sf'&&m.k===k)||null);
+    const fc=h('div','bcol'); fc.append(h('h4',null,t('tourSt_f')), bm(T.po.find(m=>m.st==='f')||null), h('h4',null,t('tourSt_3')), bm(T.po.find(m=>m.st==='3')||null));
+    br.append(col(t('tourSt_qf'),qf), col(t('tourSt_sf'),sf), fc); body.appendChild(br); if(!T.po.length) body.appendChild(h('p','note',t('tourBrkWait'))); return; }
+  if(tourTab==='players'){ const pl=h('div','tpl'); T.players.map((p,i)=>[p,i]).sort((x,y)=>y[0].r-x[0].r).forEach(([p,i])=>{ const d=h('div'); d.append(pAv(i), h('span',null,p.name+(p.me?' · '+t('lbYou'):'')), h('small',null,String(p.r))); pl.appendChild(d); }); body.appendChild(pl); }
+}
+$('tourOv').addEventListener('click',e=>{ if(e.target.id==='tourOv') show('tourOv',false); });
+
+// ================= tournament points =================
+// 10 for taking part + 5 per game won + a bonus for the place; a season is 7 weekends. Kept on the server for accounts (ach.tp).
+const TW={ tour:store.get('tour',null) }; function saveTW(){ store.set('tour',TW.tour); }
+const INTL_EPOCH=Date.UTC(2026,9,10,16,0), WK=7*864e5, INTL_Q=7;
+const TPTS=[[1,100,'intlPl1'],[2,60,'intlPl2'],[4,40,'intlPl34'],[8,20,'intlPl58']], TPTS_PLAY=10, TPTS_WIN=5;
+const tptsFor=pl=>{ const p=TPTS.find(x=>pl<=x[0]); return p?p[1]:0; };
+const fmtN=n=>Math.round(n).toLocaleString('uk-UA');
+function intlNow(now){ now=now||Date.now(); const s=Math.max(0,Math.floor((now-INTL_EPOCH+3*864e5)/(8*WK))), start=INTL_EPOCH+s*8*WK;
+  let done=0; for(let w=0;w<INTL_Q;w++) if(now>start+w*WK+4*3600e3) done++; return {s, start, done, end:start+INTL_Q*WK}; }
+function myTourWins(T){ const me=meIdx(T); let w=0; T.gm.concat(T.po).forEach(m=>{ if(m.a!==me && m.b!==me) return; const [a,b]=mScore(m); w+= m.a===me ? a : b; }); return w; }
+const _gw=new Map();
+function ghostWeek(s,w){ const k=s+':'+w; if(_gw.has(k)) return _gw.get(k);
+  const hsh=(i)=>{ let x=((i+1)*2654435761 ^ (s*97+w+1)*40503)>>>0; x^=x>>>15; x=Math.imul(x,2246822519)>>>0; x^=x>>>13; return x>>>0; };
+  const pl=GHOSTS.map((g,i)=>i).filter(i=>hsh(i)%3!==0).map(i=>[i, (ghostInfo(i).rating||1000) + (hsh(i)%1000/1000-.5)*900]).sort((a,b)=>b[1]-a[1]).slice(0,16).map((x,k)=>[x[0],k+1]);
+  _gw.set(k,pl); return pl; }
+function myTp(){ const I=intlNow(); const L= coinsOnline() ? ((profile.ach&&profile.ach.tp)||[]) : store.get('tp',[]); return L.filter(e=>e.at>=I.start-3*864e5 && e.at<I.start+8*WK); }
+function intlTable(){ const I=intlNow(), rows=new Map();
+  for(let w=0;w<I.done;w++) ghostWeek(I.s,w).forEach(([i,pl])=>{ const g=ghostInfo(i); let r=rows.get(g.id); if(!r){ r={id:g.id, name:g.name, av:g.av, rating:g.rating, played:g.played, won:g.won, pts:0, ev:0, best:99}; rows.set(g.id,r); } const gw= pl===1?11:pl===2?9:pl<=4?7:pl<=8?4:2; r.pts+=TPTS_PLAY+gw*TPTS_WIN+tptsFor(pl); r.ev++; r.best=Math.min(r.best,pl); });
+  const me={id:uid||'me', name:profile.name||t('guestName'), av:profile.av, rating:profile.rating||1000, played:profile.played||0, won:profile.won||0, pts:0, ev:0, best:99}; myTp().forEach(e=>{ me.pts+=e.pts; me.ev++; me.best=Math.min(me.best,e.pl); }); rows.set(me.id,me);
+  return [...rows.values()].sort((a,b)=>b.pts-a.pts || a.best-b.best || (b.rating||0)-(a.rating||0)); }
+function rpDur(ms){ ms=Math.max(0,ms); const d=Math.floor(ms/864e5), h=Math.floor(ms%864e5/3600e3), m=Math.floor(ms%3600e3/60000); return d ? d+(lang==='uk'?' д ':' d ')+h+(lang==='uk'?' год':' h') : h ? h+(lang==='uk'?' год ':' h ')+m+(lang==='uk'?' хв':' min') : m+(lang==='uk'?' хв':' min'); }
+// the banner on top of the home page
+function tourCard(home){
+  let c=home.querySelector('.tourban'); if(!c){ c=document.createElement('div'); c.className='tourban'; c.onclick=openTour; home.prepend(c); }
+  const T=tourState(); c.innerHTML='';
+  const ic=document.createElement('span'); ic.className='ti'; ic.textContent='🏆';
+  const mid=document.createElement('div'); const b=document.createElement('b'); b.textContent=t('tourT'); const sm=document.createElement('small');
+  const m=T&&myMatch(T), sat=nextSat(), live=Date.now()>sat-7*864e5 && Date.now()<sat-7*864e5+4*3600e3;
+  sm.textContent = T&&T.status==='done' ? t('tourCardDone',{n:T.places[meIdx(T)]}) : m ? tourStageName(m)+' · '+t('tourVs',{n:T.players[m.a===meIdx(T)?m.b:m.a].name}) : T ? t('tourOut') : live ? t('banNow') : t('banSat',{t:rpDur(sat-Date.now())});
+  mid.append(b,sm); const go=document.createElement('span'); go.className='tgo'; go.textContent=!T?t('tourOpen'):T.status==='done'&&!T.paid?t('tourClaim'):m?t('tourPlay'):t('tourOpen'); c.append(ic,mid,go);
+  const rows=intlTable(), k=rows.findIndex(r=>r.id===(uid||'me'));
+  const il=document.createElement('div'); il.className='intl'; const l=document.createElement('span'); l.textContent=t('banTour')+(k>=0?' · '+t('banMe',{n:k+1}):''); const e=document.createElement('em'); e.textContent=t('intlPts',{n:k>=0?rows[k].pts:0}); il.append(l,e);
+  il.onclick=ev=>{ ev.stopPropagation(); lbMode='tour'; openLeaderboard(); }; c.appendChild(il);
+}
+{ const _rh3=renderHomeV7; renderHomeV7=function(){ _rh3.apply(this,arguments); try{ tourCard($('vHome')); }catch(e){} }; }
+// the Tournaments tab of the leaderboard
+function lbTour(list){ const H=(tag,cls,txt)=>{ const e=document.createElement(tag); if(cls) e.className=cls; if(txt!=null) e.textContent=txt; return e; };
+  const I=intlNow(); list.innerHTML='';
+  const c=H('div','ricard'); c.append(H('small',null,t('tourSeasonK')), H('h2',null,t('tourSeasonT')), H('div','when',t('tourSeasonD'))); list.appendChild(c);
+  const q=H('div','riq'); q.append(H('b',null, I.done>=INTL_Q ? t('tourSeasonEnd') : t('tourSeasonW',{w:Math.min(INTL_Q,I.done+1), n:INTL_Q})), H('span',null, I.done<INTL_Q ? t('banSat',{t:rpDur(I.start+I.done*WK-Date.now())}) : '')); list.appendChild(q);
+  const wk=H('div','riweeks'); wk.style.gridTemplateColumns='repeat('+INTL_Q+',1fr)'; for(let w=0;w<INTL_Q;w++) wk.appendChild(H('i', w<I.done ? 'done' : w===I.done ? 'now' : '')); list.appendChild(wk);
+  list.appendChild(H('p','rpnote',t('intlRules'))); const pr=H('div','ripts'); pr.appendChild(H('span','rpplay',t('intlPlay')+' · '+TPTS_PLAY)); pr.appendChild(H('span','rpplay',t('intlWin')+' · '+TPTS_WIN)); TPTS.forEach(([n,p,k])=>pr.appendChild(H('span',null,t(k)+' · +'+p))); list.appendChild(pr);
+  const rows=intlTable(); rows.slice(0,50).forEach((r,i)=>{ const me=r.id===(uid||'me'); const row=H('div','lbrow'+(me?' me':'')); const pos=H('div','pos'+(i<3?' g'+(i+1):''),String(i+1)); const a=H('span','av'); avatarInto(a, r.av, r.name||'?'); const avw=H('div'); avw.appendChild(framed(a, r.rating||1000, 38));
+    const who=H('div','who'); who.append(H('b',null,(r.name||t('guestName'))+(me?' · '+t('lbYou'):'')), H('span',null, r.ev ? t('intlSub',{e:r.ev, b:r.best}) : t('intlSub0'))); row.append(pos,avw,who,H('div','rt',String(r.pts))); list.appendChild(row); });
+  const k=rows.findIndex(r=>r.id===(uid||'me')); if(k>=50){ const e=H('div','empty',t('intlMe',{n:k+1, p:rows[k].pts})); e.style.padding='14px 6px 2px'; list.appendChild(e); }
+  const go=H('button','cta',t('tourOpen')+' · '+t('tourT')); go.style.cssText='width:100%;margin-top:12px'; go.onclick=()=>{ show('lbOv',false); openTour(); }; list.appendChild(go); }
+
 // ---- leaderboard ----
+let lbMode='rating';
 async function openLeaderboard(){
-  show('lbOv',true); const list=$('lbList'); list.innerHTML='<div class="empty">'+t('lbLoading')+'</div>';
+  show('lbOv',true); document.querySelectorAll('#lbTabs button').forEach(b=>b.classList.toggle('on', b.dataset.m===lbMode)); $('lbSubP').classList.toggle('hidden', lbMode==='tour'); const list=$('lbList');
+  if(lbMode==='tour'){ await Promise.race([loadGhosts(), new Promise(r=>setTimeout(r,3000))]); return lbTour(list); }
+  list.innerHTML='<div class="empty">'+t('lbLoading')+'</div>';
   await Promise.race([loadGhosts(), new Promise(r=>setTimeout(r,3000))]);
   let rows=null; try{ rows=await Promise.race([lbFetch(), new Promise(r=>setTimeout(()=>r(null),5000))]); }catch(e){ rows=null; }
   if(rows) lbCache=rows.slice();
@@ -3187,6 +3491,7 @@ function achRow(){ const A=achState(), w=document.createElement('div'); w.classN
 
 function recordResult(){
   if(!(mode==='online' || mode==='bot') || !mySlot() || gs.phase!=='over') return;
+  if(gs.tour){ tourGameOver(); return; }   // tournament games: no rating, no coins per game
   try{ logMyGame(); }catch(e){}
   if(viaServer()){ const me=mySlot(); lastDelta = gs.ratingDelta ? gs.ratingDelta[me] : null; checkAchievements(); refreshProfile().then(coinsPaint); coinsServerGame(); return; }
   const key=gameId+':'+gs.score.p1+':'+gs.score.p2; const done=store.get('counted',[]);
@@ -3202,6 +3507,7 @@ function recordResult(){
   saveProfile();
 }
 $('btnMe').onclick=openProfile;
+document.querySelectorAll('#lbTabs button').forEach(b=>b.onclick=()=>{ lbMode=b.dataset.m; openLeaderboard(); });
 $('btnLb').onclick=openLeaderboard; $('btnLb2').onclick=openLeaderboard;
 $('btnLbClose').onclick=()=>show('lbOv',false);
 $('lbOv').addEventListener('click',e=>{ if(e.target.id==='lbOv') show('lbOv',false); });
@@ -3215,6 +3521,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=createGame; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 const NEWS=[
+ {v:'0.14.7', d:'6.11.2026', uk:['Турнір вихідного дня: 16 гравців, групи й плей-оф проти ботів-гросмейстерів, банер на головній','Турнірні очки: 10 за участь, 5 за кожну перемогу, бонус за місце; вкладка «Турніри» в таблиці лідерів','Приз і очки — раз на тиждень'], en:['Weekend tournament: 16 players, groups and play-off against grandmaster bots, a banner on the home page','Tournament points: 10 for taking part, 5 per win, a bonus for the place; a Tournaments tab in the leaderboard','Prize and points once a week']},
  {v:'0.14.6', d:'6.11.2026', uk:['Запроси друзів: друг отримує 300 монет і шашки «Друзі», ви — 200 монет за кожного й дошку «Друзі» на 4 рівнях (1, 3, 5, 10 друзів)','Запрошення в гру тепер з QR-кодом','Колесо чату підлаштовується під кількість емоцій','Компактні ранги в профілі'], en:['Invite friends: a friend gets 300 coins and the Druzi checkers, you get 200 coins per friend and the Friends board in 4 levels (1, 3, 5, 10 friends)','Game invites now come with a QR code','The chat wheel fits itself to how many items it has','Compact ranks in the profile']},
  {v:'0.14.5', d:'6.11.2026', uk:['Якщо навчання вже пройдено на цьому пристрої, а акаунт не отримав 200 монет — вони нараховуються самі при вході'], en:['If the tutorial was finished on this device but the account never got its 200 coins, they are paid on sign-in']},
  {v:'0.14.4', d:'6.11.2026', uk:['Мову тепер перемикають у налаштуваннях'], en:['Language is now switched in Settings']},
@@ -3319,7 +3626,7 @@ $('coachNext').onclick=()=>{ if(!tut) return; if(tut.i===TUT.length-1){ startSea
 $('btnLeave1').onclick=askLeave; $('btnLeave2').onclick=askLeave; $('btnLeaveNo').onclick=()=>show('leaveOv',false); $('btnLeaveYes').onclick=doLeave; $('btnClaim').onclick=doClaim; $('btnChat').onclick=toggleChat; $('btnVoice').onclick=toggleVoice; $('btnSpk').onclick=toggleSpk; $('btnResign').onclick=askResign; $('btnResYes').onclick=doResign; $('btnResNo').onclick=()=>show('resOv',false); $('resOv').addEventListener('click',e=>{ if(e.target.id==='resOv') show('resOv',false); }); $('brand').onclick=()=>{ if(gs) askLeave(); };
 $('btnCopy').onclick=()=>openShare('game'); $('btnCopy2').onclick=()=>openShare('game');
 $('btnRoll').onclick=roll; $('btnUndo').onclick=undo;
-$('btnNew').onclick=askRematch; $('btnNew2').onclick=askRematch; $('btnReview').onclick=openReview; $('btnRevClose').onclick=()=>show('revOv',false); $('btnCloseWin').onclick=()=>show('winOv',false);
+$('btnNew').onclick=askRematch; $('btnNew2').onclick=()=>{ if(gs && gs.tour) return tourAfterGame(); askRematch(); }; $('btnReview').onclick=openReview; $('btnRevClose').onclick=()=>show('revOv',false); $('btnCloseWin').onclick=()=>show('winOv',false);
 $('togSound').onclick=()=>{ prefs.sound=!prefs.sound; store.set('sound',prefs.sound); $('togSound').classList.toggle('on',prefs.sound); };
 prefs.dark=store.get('dark',true); document.body.classList.add('v7'); document.body.classList.toggle('dark',prefs.dark); $('togDark').classList.toggle('on',prefs.dark);
 $('togDark').onclick=()=>{ prefs.dark=!prefs.dark; store.set('dark',prefs.dark); document.body.classList.toggle('dark',prefs.dark); $('togDark').classList.toggle('on',prefs.dark); try{ renderHomeV7(); }catch(e){} };

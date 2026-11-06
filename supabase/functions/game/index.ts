@@ -149,6 +149,19 @@ Deno.serve(async (req) => {
     }
     // invite a friend: a new registered player who came by a friend's link gets 300 coins and the Druzi checkers;
     // the friend gets 200 coins (for up to 50 friends) and counts towards the Friends board (1 / 3 / 5 / 10)
+    // weekend tournament (played against grandmaster bots in the browser): coins for the place and tournament points,
+    // at most once every 6 days per account; points = 10 for taking part + 5 per game won (max 15) + a bonus for the place
+    if (action === 'tour_done') {
+      const pl = Math.round(Number(args?.place)), wins = Math.max(0, Math.min(15, Math.round(Number(args?.wins) || 0)));
+      if (!(pl >= 1 && pl <= 16)) return json({ error: 'bad_place' }, 400);
+      const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
+      const A = { ...(p.ach || {}) }; if (A.tourAt && Date.now() - A.tourAt < 6 * 864e5) return json({ already: true, coins: A.coins ?? COIN_START, next: A.tourAt + 6 * 864e5 });
+      const prize = pl === 1 ? 4000 : pl === 2 ? 2500 : pl === 3 ? 1500 : pl === 4 ? 1000 : pl <= 8 ? 250 : 0;
+      const bonus = pl === 1 ? 100 : pl === 2 ? 60 : pl <= 4 ? 40 : pl <= 8 ? 20 : 0, pts = 10 + wins * 5 + bonus;
+      A.tourAt = Date.now(); A.coins = (A.coins ?? COIN_START) + prize; A.tp = [...(A.tp || []), { at: A.tourAt, pl, pts }].slice(-30);
+      await db.from('profiles').update({ ach: A }).eq('id', user.id);
+      return json({ ok: true, coins: A.coins, prize, pts, tp: A.tp });
+    }
     if (action === 'ref_claim') {
       const ref = String(args?.ref ?? '');
       if (!/^[0-9a-f-]{36}$/.test(ref) || ref === user.id) return json({ error: 'bad_ref' }, 400);
