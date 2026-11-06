@@ -176,7 +176,6 @@ Deno.serve(async (req) => {
     // the friend gets 200 coins (for up to 50 friends) and counts towards the Friends board (1 / 3 / 5 / 10)
     // sign up for the weekend tournaments of this season: first name, nickname, last name — fixed until the season ends
     if (action === 'tour_reg') {
-      if ((user as any).is_anonymous) return json({ error: 'not_registered' }, 400);
       const EPOCH = Date.UTC(2026, 10, 7, 16, 0), WK = 7 * 864e5, Q = 4;
       const season = Math.max(0, Math.floor((Date.now() - EPOCH + 3 * 864e5) / (Q * WK)));
       const clean = (v: any, max: number) => String(v ?? '').replace(/\s+/g, ' ').trim().slice(0, max);

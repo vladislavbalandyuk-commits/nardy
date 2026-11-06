@@ -3,6 +3,9 @@
 Beta versions are `<next main-site version>-beta.<build>`: every deploy to /beta adds one to the build number. Up to 0.14.0-beta.14 the beta was heading for 0.14.0; the main site took 0.14.1 (tutorial and coins), so from 0.15.0-beta.1 the beta heads for 0.15.0 (the shop).
 When features move to the main site they get a normal version there (see CHANGELOG.md), and the beta moves on to the next one.
 
+## 0.15.0-beta.13 — 6 Nov 2026
+- Fix: tournament sign-up did nothing for guests and visitors who were not signed in — the sign-in window opened under the tournament window. Now guests can sign up too, and a visitor without a session gets the sign-in window on top and the sign-up form right after signing in.
+
 ## 0.15.0-beta.12 — 6 Nov 2026
 - “Share the tournament” button in the weekend tournament window: a link and QR code that open the tournament window for friends; when you are signed in it also counts as your friend invite.
 
