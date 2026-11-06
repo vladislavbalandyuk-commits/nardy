@@ -3,6 +3,15 @@
 Beta versions are `<next main-site version>-beta.<build>`: the beta is heading for 0.14.0, and every deploy to /beta adds one to the build number (0.14.0-beta.2, -beta.3 …).
 When features move to the main site they get a normal version there (see CHANGELOG.md), and the beta moves on to the next one.
 
+## 0.14.0-beta.11 — 6 Nov 2026
+- Shop looks to try: a switch at the top of the shop (beta only) between the current look and three new ones:
+  1. Clean — one big card on the shop home, three small tiles (bonus, pass, quests), today’s items and the cases; daily bonus and quests move to a new Rewards page; the catalogue is grouped by rarity with bigger cards.
+  2. Fitting room — the shop home in two columns (rewards on the left, the shop on the right); the catalogue shows your table with the chosen item on the left and a compact list on the right, with Buy / Put on and “I want this” under the preview.
+  3. Market — like 1 on the home page; the catalogue is a list with a picture, name, rarity, price and a Buy button in every row.
+- My table opens on a new page: your whole set-up at a glance (the table with your board, checkers and dice, your avatar and rank), slots for board, checkers, dice, table, win and dice effects, frame, look and chat wheel — tap a slot to change it — and what you got most recently.
+- Rated games need a nickname.
+- Calibration: the first 10 rated games keep your rating hidden (the home card shows “Calibration 3 of 10 · 2 won”); after the 10th you get a rating by your wins — 0–5 Rookie (1000–1180), 6–7 Regular (1230–1320), 8–9 Expert (1470–1600), 10 Master (1760) — with a reveal window. The leaderboard shows only placed players. Needs the updated game function on the server.
+
 ## 0.14.0-beta.10 — 6 Nov 2026
 - Chat wheel, like in Dota: you choose up to 10 emoji, phrases and voice emoji for your wheel in My table → Chat (tap to add, tap a slot to remove). Everything you own stays in your collection, but only the wheel shows up in a game.
 - In a game a round chat button sits on the right of the board. On a computer it opens a round wheel in the middle of the screen; on a phone a panel with two rows of five big buttons slides up from the bottom.

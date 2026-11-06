@@ -149,6 +149,7 @@ Deno.serve(async (req) => {
       }
       return json({ error: 'busy' }, 409);
     }
+    const CALIB = 10, CALIB_PLACE = [1000, 1030, 1060, 1100, 1140, 1180, 1230, 1320, 1470, 1600, 1760];   // rating by wins out of 10: 0–5 Rookie, 6–7 Regular, 8–9 Expert, 10 Master
     const payWallet = async (id: string, key: string, won: boolean, full: boolean, mars = false) => {
       for (let attempt = 0; attempt < 3; attempt++) {
         const row = await loadWallet(id); if (!row) return null;   // only players who use the new wallet
@@ -174,6 +175,10 @@ Deno.serve(async (req) => {
       for (const [s, p] of (vsBot ? [['p1', a]] : [['p1', a], ['p2', b]]) as any) {
         const id = st[s]; const won = st.result.winner === s; const myR = p?.rating ?? 1000, opR = s === 'p1' ? oppR : (a?.rating ?? 1000);
         const ach = C.achUpdate(p?.ach, st, s, myR, opR); fresh[s] = ach.fresh;
+        // calibration: the first CALIB rated games keep the rating hidden; after the last one it is set by how many were won
+        const rg = p?.rgames ?? 0;
+        if (rg < CALIB) { const cal = { g: 0, w: 0, ...(ach.A.cal || {}) }; cal.g++; if (won) cal.w++; ach.A.cal = cal;
+          d[s] = rg + 1 >= CALIB ? CALIB_PLACE[Math.min(cal.w, CALIB)] - myR : 0; }
         await db.from('profiles').update({ rating: Math.max(100, myR + d[s]), rgames: (p?.rgames ?? 0) + 1, played: (p?.played ?? 0) + 1, won: (p?.won ?? 0) + (won ? 1 : 0), ach: ach.A, updated_at: new Date().toISOString() }).eq('id', id);
       }
       if (gh) { const gw = st.result.winner === 'p2'; await db.from('ghosts').update({ rating: Math.max(100, gh.rating + dGhost), played: gh.played + 1, won: gh.won + (gw ? 1 : 0), updated_at: new Date().toISOString() }).eq('id', gh.id); }
