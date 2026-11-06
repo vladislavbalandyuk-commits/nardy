@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.14.4 — 6 Nov 2026
+- The EN / UA switch moved from the footer to Settings (“Мова · Language”, under Dark theme).
+
 ## 0.14.3 — 6 Nov 2026
 - Footer at the bottom of the home page (desktop and phone): the version (tap it for “What’s new” — the last versions in short), the EN / UA switch, “How to play”, a link to the beta and “What’s new”.
 - The version and language switch moved out of the header, so on phones the header fits again: coins, leaderboard, settings and the profile button are all on screen (in 0.14.1–0.14.2 they ran off the right edge and the profile could not be opened on a phone).
