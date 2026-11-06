@@ -3,6 +3,10 @@
 Beta versions are `<next main-site version>-beta.<build>`: every deploy to /beta adds one to the build number. Up to 0.14.0-beta.14 the beta was heading for 0.14.0; the main site took 0.14.1 (tutorial and coins), so from 0.15.0-beta.1 the beta heads for 0.15.0 (the shop).
 When features move to the main site they get a normal version there (see CHANGELOG.md), and the beta moves on to the next one.
 
+## 0.15.0-beta.4 — 6 Nov 2026
+- Profile: “Invite friends” is now one short line (what friends and you get) and an “Invite friends” button. Everything else is in the invite window: what your friend gets, what you get, the four Friends boards with ✓ on the ones you have (tap one to see it up close), then the QR code and the link.
+- Profile ranks: one tight row of frames without the empty space under it; the name and rating of your rank (or of the one you tap) is shown in the block title.
+
 ## 0.15.0-beta.3 — 6 Nov 2026
 - The Friends board can be seen before you invite anyone: tap any of the four boards in the profile’s “Invite friends” block to open it up close (on the table, with the Druzi checkers), and switch between the levels 1 / 3 / 5 / 10 friends right there.
 - The Friends boards and the Druzi checkers are listed in the shop too, marked “For 3 invited friends” and so on, with an “Invite a friend” button instead of a price.
