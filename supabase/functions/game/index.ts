@@ -147,6 +147,25 @@ Deno.serve(async (req) => {
       const A = { ...(p.ach || {}) }; if (A.tut) return json({ coins: A.coins ?? COIN_START, already: true });
       A.tut = 1; A.coins = (A.coins ?? COIN_START) + 200; await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ coins: A.coins });
     }
+    // invite a friend: a new registered player who came by a friend's link gets 300 coins and the Druzi checkers;
+    // the friend gets 200 coins (for up to 50 friends) and counts towards the Friends board (1 / 3 / 5 / 10)
+    if (action === 'ref_claim') {
+      const ref = String(args?.ref ?? '');
+      if (!/^[0-9a-f-]{36}$/.test(ref) || ref === user.id) return json({ error: 'bad_ref' }, 400);
+      if ((user as any).is_anonymous) return json({ error: 'not_registered' }, 400);
+      if (Date.now() - new Date(user.created_at).getTime() > 14 * 864e5) return json({ error: 'not_new' }, 400);
+      const [{ data: me }, { data: inv }] = await Promise.all([
+        db.from('profiles').select('ach').eq('id', user.id).maybeSingle(),
+        db.from('profiles').select('ach').eq('id', ref).maybeSingle()]);
+      if (!me || !inv) return json({ error: 'no_profile' }, 400);
+      const A = { ...(me.ach || {}) }; if (A.refBy) return json({ already: true, coins: A.coins ?? COIN_START });
+      const B = { ...(inv.ach || {}) }; if (B.refBy === user.id) return json({ error: 'bad_ref' }, 400);
+      A.refBy = ref; A.coins = (A.coins ?? COIN_START) + 300;
+      B.refN = (B.refN | 0) + 1; if (B.refN <= 50) B.coins = (B.coins ?? COIN_START) + 200;
+      await db.from('profiles').update({ ach: A }).eq('id', user.id);
+      await db.from('profiles').update({ ach: B }).eq('id', ref);
+      return json({ ok: true, coins: A.coins });
+    }
     if (typeof gameId !== 'string' || !/^[a-z0-9]{4,16}$/.test(gameId)) return json({ error: 'bad_id' }, 400);
     const prof = async (id: string) => (await db.from('profiles').select('name,av,rating,rgames,played,won,ach').eq('id', id).maybeSingle()).data;
     const ghostRow = async (gid: number) => (await db.from('ghosts').select('id,name,av,rating,played,won').eq('id', gid).maybeSingle()).data;
