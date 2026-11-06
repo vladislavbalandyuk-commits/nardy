@@ -3,6 +3,12 @@
 Beta versions are `<next main-site version>-beta.<build>`: every deploy to /beta adds one to the build number. Up to 0.14.0-beta.14 the beta was heading for 0.14.0; the main site took 0.14.1 (tutorial and coins), so from 0.15.0-beta.1 the beta heads for 0.15.0 (the shop).
 When features move to the main site they get a normal version there (see CHANGELOG.md), and the beta moves on to the next one.
 
+## 0.15.0-beta.5 — 6 Nov 2026
+- Rating is a page of its own (opened by the trophy button or the Hall of Legends card) instead of a window: tabs Season / All time / Friends, a podium for the top 3, the list from #4 in pages of 20, and your own row pinned at the bottom with your place and how much is left to the place above (or to the top 100). Back button or the phone’s back gesture closes it.
+- Season tab: the month, time left and the prizes for 1st, top 3, top 10 and top 100.
+- Friends tab: you, the friends you invited and the one who invited you; with nobody yet it offers “Invite friends”.
+- Player card: “Invite to a game” for real players — creates a game and opens the invite window with the QR code.
+
 ## 0.15.0-beta.4 — 6 Nov 2026
 - Profile: “Invite friends” is now one short line (what friends and you get) and an “Invite friends” button. Everything else is in the invite window: what your friend gets, what you get, the four Friends boards with ✓ on the ones you have (tap one to see it up close), then the QR code and the link.
 - Profile ranks: one tight row of frames without the empty space under it; the name and rating of your rank (or of the one you tap) is shown in the block title.
