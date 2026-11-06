@@ -1700,15 +1700,17 @@ body.storeopen{overflow:hidden}
 .stsort{font:inherit;font-size:13px;color:var(--ink);background:var(--surf);border:1px solid var(--line);border-radius:8px;padding:6px 10px}
 .stgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(176px,1fr));gap:14px}
 .stgrid.wide{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
-.stgrid .itile{border-radius:12px}
-.stgrid .itile:hover{transform:none;border-color:var(--muted)}
-.stgrid .itile .pv{height:auto;aspect-ratio:16/10;background:var(--surf2)}
-.stgrid .itile .pv.fill{height:auto;aspect-ratio:16/10;margin:0;border-radius:0}
-.stgrid .itile .pv .mb{height:62%;width:88%}
-.stgrid .itile .rar{top:auto;bottom:auto;position:static;padding:10px 12px 0}
-.stgrid .itile .rar::before{box-shadow:none}
-.stgrid .itile .ift{padding:4px 12px 12px}
-.stgrid .itile:not(:has(.rar))::before{content:"";display:block;height:25px}
+.stgrid .itile{border-radius:10px;box-shadow:inset 0 -2px 0 var(--rc)}
+.stgrid .itile:hover{transform:none;border-color:color-mix(in srgb,var(--rc) 60%,var(--line))}
+.stgrid .itile .pv{height:auto;aspect-ratio:2/1;padding:0;background:radial-gradient(80% 90% at 50% 120%,color-mix(in srgb,var(--rc) 22%,transparent),transparent 70%),var(--surf2)}
+.stgrid .itile .pv.fill{aspect-ratio:2/1;margin:0;border-radius:0}
+.stgrid .itile .pv .mb{height:70%;width:90%}
+.stgrid .itile .pv .ckp,.stgrid .itile .pv .dcp{transform:scale(1.25)}
+.stgrid .itile .rar{position:static;order:3;padding:0 11px 9px;margin-top:-3px;font-size:9.5px}
+.stgrid .itile .rar::before{box-shadow:none;width:5px;height:5px}
+.stgrid .itile .ift{order:2;padding:8px 11px 6px;min-height:0}
+.stgrid .itile .pv{order:1}
+.stgrid .itile .nm{font-size:13.5px}
 .sttoggle input{margin-right:2px!important;flex-shrink:0}
 .stempty{padding:50px 0;text-align:center;color:var(--muted)}
 .store .sgrid2{grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
@@ -2938,10 +2940,7 @@ const SHOP=[];
 for(const cat in RARITY) for(const k in RARITY[cat]){ const id=cat+':'+k, r=RARITY[cat][k]; SHOP.push({id,cat,k,r,price:EVENT_PRICE[id]||PRICE[cat][r]}); }
 SHOP.push({id:'table:night',cat:'table',k:'night',r:'v',price:300},{id:'card:pumpkin',cat:'card',k:'pumpkin',r:'v',price:200},{id:'card:haunted',cat:'card',k:'haunted',r:'v',price:250},{id:'card:xmas',cat:'card',k:'xmas',r:'p',price:250},
   {id:'fx:bats',cat:'fx',k:'bats',r:'v',price:300},{id:'fx:scream',cat:'fx',k:'scream',r:'v',price:450},{id:'fx:confetti',cat:'fx',k:'confetti',r:'r',price:400},{id:'fx:pumpkins',cat:'fx',k:'pumpkins',r:'v',price:350},{id:'fx:ghost',cat:'fx',k:'ghost',r:'v',price:250},
-  {id:'emo:halloween',cat:'emo',k:'halloween',r:'v',price:150},{id:'vo:witch',cat:'vo',k:'witch',r:'v',price:200},
-  {id:'board:waves',cat:'board',k:'waves',r:'r',price:0,caseOnly:1},{id:'board:deco',cat:'board',k:'deco',r:'e',price:0,caseOnly:1},{id:'board:aurora',cat:'board',k:'aurora',r:'l',price:0,caseOnly:1},{id:'ck:orb',cat:'ck',k:'orb',r:'l',price:0,caseOnly:1},{id:'fx:gift',cat:'fx',k:'gift',r:'l',price:0,caseOnly:1},
-  {id:'vo:badum',cat:'vo',k:'badum',r:'e',price:0,caseOnly:1},{id:'vo:trombone',cat:'vo',k:'trombone',r:'e',price:0,caseOnly:1},{id:'vo:airhorn',cat:'vo',k:'airhorn',r:'e',price:0,caseOnly:1},{id:'vo:crickets',cat:'vo',k:'crickets',r:'e',price:0,caseOnly:1},{id:'vo:kaching',cat:'vo',k:'kaching',r:'e',price:0,caseOnly:1},
-  {id:'vo:wewish',cat:'vo',k:'wewish',r:'l',price:0,caseOnly:1},{id:'vo:deck',cat:'vo',k:'deck',r:'l',price:0,caseOnly:1});
+  {id:'emo:halloween',cat:'emo',k:'halloween',r:'v',price:150},{id:'vo:witch',cat:'vo',k:'witch',r:'v',price:200});
 
 // ---- Druzi Case: the hookah bar's own case ----
 // common: 4 simple dice + 4 checkers, rare: the bar's 3 dice + 4 cocktail checkers (colours of classic bar cocktails)
@@ -2989,7 +2988,9 @@ const setOwned=x=>!setLeft(x).length;
 function setPrice(x){ if(x.pass) return 0; const left=setLeft(x); if(!left.length) return 0; const full=setFull(x); const rest=left.reduce((a,i)=>a+shopItem(i).price,0); return Math.round(rest*setBase(x)/full/10)*10; }
 const setRarity=x=>x.pass?'p':x.ev?'v':setItems(x).map(i=>shopItem(i).r).sort((a,b)=>RAR_ORDER.indexOf(b)-RAR_ORDER.indexOf(a))[0];
 
-const W=(()=>{ const w=store.get('wallet',null); return Object.assign({coins:ECON.start, owned:[], daily:'', paid:[], pass:0, xp:0, streak:0, q:null, fresh:[]}, w||{}); })();
+// the winter case was removed in 0.14.0-beta.5 together with everything that only dropped from it
+const WINTER_GONE=['board:waves','board:deco','board:aurora','ck:orb','fx:gift','vo:badum','vo:trombone','vo:airhorn','vo:crickets','vo:kaching','vo:wewish','vo:deck'];
+const W=(()=>{ const w=store.get('wallet',null); const o=Object.assign({coins:ECON.start, owned:[], daily:'', paid:[], pass:0, xp:0, streak:0, q:null, fresh:[]}, w||{}); const gone=WINTER_GONE; o.owned=o.owned.filter(id=>!gone.includes(id)); o.fresh=(o.fresh||[]).filter(id=>!gone.includes(id)); return o; })();
 function saveW(){ store.set('wallet',W); paintCoins(); }
 const owns=(cat,k)=>{ const it=SHOP.find(x=>x.cat===cat&&x.k===k); return !it || W.owned.includes(it.id); };
 // days change at local midnight (for Kyiv that is 00:00, not 02:00)
@@ -3251,7 +3252,7 @@ function openDetail(o){
   if(it && it.cat==='vo'){ const pb=document.createElement('button'); pb.className='dprev'; pb.textContent='🔊 '+t('previewVo'); pb.onclick=()=>{ const was=prefs.sound; prefs.sound=true; playVoice(it.k); prefs.sound=was; }; box.appendChild(pb); }
   const own = x? setOwned(x) : (W.owned.includes(it.id)||(!it.price&&!it.pass&&!it.caseOnly));
   if(it && (it.season||it.tour) && !own){ const btn=document.createElement('button'); btn.className='dbuy'; btn.disabled=true; btn.textContent=it.tour ? t('tourOnly') : t('seasonOnly',{n:it.season}); box.appendChild(btn); }
-  else if(it && it.caseOnly && !own){ const btn=document.createElement('button'); btn.className='cta dbuy'; btn.textContent=t(it.druzi?'dzGo':'caseGo'); btn.onclick=()=>{ show('detOv',false); setCase(it.druzi?'druzi':'main'); openShop('case'); }; box.appendChild(btn); show('detOv',true); return; }
+  else if(it && it.caseOnly && !own){ const btn=document.createElement('button'); btn.className='cta dbuy'; btn.textContent=t(it.druzi?'dzGo':'caseGo'); btn.onclick=()=>{ show('detOv',false); setCase('druzi'); openShop('case'); }; box.appendChild(btn); show('detOv',true); return; }
   const isPass = x? x.pass : it.pass;
   const price = x? setPrice(x) : priceOf(it);
   const btn=document.createElement('button'); btn.className='cta dbuy';
@@ -3345,16 +3346,13 @@ function renderPass(body){
 
 
 // ---- cases: spin a strip like in CS, odds shown openly, duplicates refund coins, guaranteed epic every 10 ----
-const CASES={ main:{price:200, odds:{c:.70,r:.22,e:.07,l:.01}, dupe:{c:40,r:90,e:200,l:500}, pity:10},
-  druzi:{price:250, odds:{c:.58,r:.28,e:.11,l:.03}, dupe:{c:40,r:90,e:200,l:500}, pity:10} };
-let caseKind='main', CASE=CASES.main;
-function setCase(k){ caseKind=CASES[k]?k:'main'; CASE=CASES[caseKind]; }
+const CASES={ druzi:{price:250, odds:{c:.58,r:.28,e:.11,l:.03}, dupe:{c:40,r:90,e:200,l:500}, pity:10} };
+let caseKind='druzi', CASE=CASES.druzi;
+function setCase(k){ caseKind=CASES[k]?k:'druzi'; CASE=CASES[caseKind]; }
 const pityGet=()=>caseKind==='main' ? (W.casePity||0) : ((W.pity||{})[caseKind]||0);
 function pitySet(v){ if(caseKind==='main') W.casePity=v; else { W.pity=W.pity||{}; W.pity[caseKind]=v; } }
 function casePool(){ const P={c:[],r:[],e:[],l:[]};
-  if(caseKind==='druzi'){ SHOP.forEach(x=>{ if(x.druzi && P[x.r]) P[x.r].push(x); }); return P; }
-  SHOP.forEach(x=>{ if(x.pass || x.caseOnly) return; if(['board','ck'].includes(x.cat) && P[x.r]) P[x.r].push(x); });  // dice are sold in the shop only
-  P.r.push(shopItem('board:waves')); P.e.push(shopItem('board:deco'), ...['badum','trombone','airhorn','crickets','kaching'].map(k=>shopItem('vo:'+k))); P.l.push(shopItem('vo:wewish'), shopItem('vo:deck'), shopItem('ck:orb'), shopItem('fx:gift'), shopItem('board:aurora')); return P; }
+  SHOP.forEach(x=>{ if(x.druzi && P[x.r]) P[x.r].push(x); }); return P; }
 function caseTier(){ const x=Math.random(); let acc=0; for(const r of ['l','e','r','c']){ acc+=CASE.odds[r]; if(x<acc) return r; } return 'c'; }
 function caseRoll(){ const P=casePool(); let r=caseTier(); if(pityGet()>=CASE.pity-1 && (r==='c'||r==='r')) r='e';
   const list=P[r]; return {r, it:list[Math.floor(Math.random()*list.length)]}; }
@@ -3397,9 +3395,7 @@ function caseReveal(it, r, dup, refund){
 }
 function renderCase(body){
   const hero=document.createElement('div'); hero.className='casehero';
-  const pick=document.createElement('div'); pick.className='casepick';
-  [['main','fx/gift.webp','caseT'],['druzi','fx/druzi_logo_s.webp','dzT']].forEach(([k,img,nm])=>{ const b=document.createElement('button'); b.className='cpk'+(k===caseKind?' on':'')+' k-'+k; b.innerHTML='<img alt=""><span></span><em><i class="coin"></i><b></b></em>'; b.querySelector('img').src=img; b.querySelector('span').textContent=t(nm); b.querySelector('b').textContent=CASES[k].price; b.onclick=()=>{ setCase(k); renderShop(); }; pick.appendChild(b); });
-  body.appendChild(pick);
+  setCase('druzi');
   if(caseKind==='druzi') hero.classList.add('druzi');
   hero.innerHTML='<img class="chest" alt="" src="'+(caseKind==='druzi'?'fx/druzi_logo.webp':'fx/gift.webp')+'"><div class="cht"><span class="rar"></span><h3></h3><p></p><div class="codds"></div><button class="cta copen"><span></span><i class="coin"></i><b></b></button><small class="cpity"></small></div>';
   const rt=hero.querySelector('.rar'); rt.style.setProperty('--rc',RAR.l); rt.textContent=t('caseTag');
@@ -3531,7 +3527,7 @@ function stHome(body){
     const pb=document.createElement('button'); pb.className='passban'; pb.innerHTML='<span class="pbsn"></span><div><small></small><b></b></div><div class="pbr"><b></b><div class="pbar"><i></i></div></div>';
     pb.querySelector('small').textContent=t('passSeason'); pb.querySelector('div b').textContent=t('passT'); pb.querySelector('.pbr b').textContent=t('passLvl',{n:(W.pass||0)+' / '+PASS.length}); pb.querySelector('.pbar i').style.width=((W.pass||0)/PASS.length*100)+'%';
     pb.onclick=()=>{ shopTab='pass'; renderStore(true);  }; body.appendChild(pb);
-    const cb=document.createElement('button'); cb.className='caseban'; cb.innerHTML='<img alt="" src="fx/gift.webp"><div><small></small><b></b></div><span class="price"><i class="coin"></i><b></b></span>'; cb.querySelector('small').textContent=t('caseTag'); cb.querySelector('div b').textContent=t('caseT'); cb.querySelector('.price b').textContent=CASE.price; cb.onclick=()=>{ shopTab='case'; renderStore(true);  }; body.appendChild(cb);
+    const cb=document.createElement('button'); cb.className='caseban dz'; cb.innerHTML='<img alt="" src="fx/druzi_logo_s.webp"><div><small></small><b></b></div><span class="price"><i class="coin"></i><b></b></span>'; cb.querySelector('small').textContent=t('caseTag'); cb.querySelector('div b').textContent=t('dzT'); cb.querySelector('.price b').textContent=CASES.druzi.price; cb.onclick=()=>{ shopTab='case'; renderStore(true);  }; body.appendChild(cb);
     const q=qToday(); const qt=document.createElement('span'); qt.className='timer'; qt.textContent=t('qNew',{t:untilMidnight()}); sec(body,t('qT'),qt);
     const ql=document.createElement('div'); ql.className='quests';
     q.ids.forEach(k=>{ const Q=QUESTS.find(x=>x.k===k), pr=q.prog[k]||0, done=pr>=Q.n, got=q.got.includes(k);
@@ -4080,13 +4076,10 @@ const BOARDS={
   halloween:{name:'Halloween', sw:['#2a1a2e','#e8772e'], shape:'tri'},
   velvet:{name:'Velvet', sw:['#6a1424','#d9b25e'], shape:'tri'},
   newyear:{name:'New Year', sw:['#173d2b','#c8323c'], shape:'tri'},
-  waves:{name:'Waves', sw:['#2f8c94','#ff8a6b'], shape:'pill'},
-  deco:{name:'Art Deco', sw:['#111114','#d6b062'], shape:'slim'},
-  aurora:{name:'Aurora', sw:['#07142a','#5effc4'], shape:'line'},
   druzibar:{name:'Druzi', sw:['#a8662f','#151110'], shape:'arch'},
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
-const CKS=['classic','wood','stone','flat','metal','glass','retro','pearl','amber','jade','neon','vyshyvanka','spooky','royal','frost','ornament','orb','season','dzmint','dzcherry','dzlavender','dzpeach','dzbluelagoon','dzmojito','dzcosmo','dzsunrise'], DICES=['ivory','onyx','ruby','gold','wood','marble','glass','neon','lantern','sapphire','emerald','dzlime','dzberry','dzlagoon','dzcoconut','dzred','dzcoal','dzskull','ice','giftbox'];
+const CKS=['classic','wood','stone','flat','metal','glass','retro','pearl','amber','jade','neon','vyshyvanka','spooky','royal','frost','ornament','season','dzmint','dzcherry','dzlavender','dzpeach','dzbluelagoon','dzmojito','dzcosmo','dzsunrise'], DICES=['ivory','onyx','ruby','gold','wood','marble','glass','neon','lantern','sapphire','emerald','dzlime','dzberry','dzlagoon','dzcoconut','dzred','dzcoal','dzskull','ice','giftbox'];
 prefs.ck = store.get('ck','classic'); if(!CKS.includes(prefs.ck)) prefs.ck='classic';
 const TABLES=['auto','night','winter','wood','felt','carpet','marble','druzi','cafe','stone','leather'], TABLE_SW={"druzi":"url(fx/druzi_table.webp) center/cover","winter":"radial-gradient(circle,rgba(255,255,255,.75) 1px,transparent 1.7px) 0 0/17px 17px,radial-gradient(circle,rgba(255,255,255,.45) 1px,transparent 1.5px) 8px 9px/29px 29px,radial-gradient(90% 50% at 50% 115%,#cfe4f7 0%,rgba(150,190,230,.4) 40%,transparent 70%),linear-gradient(180deg,#0b1730,#1d3a5c)","night":"radial-gradient(circle at 80% 22%,#fff8e1 0 7%,rgba(255,240,200,.3) 9%,transparent 30%),linear-gradient(180deg,#0b0a1c,#2a1838)","wood": "url(\"https://images.unsplash.com/photo-1546484396-fb3fc6f95f98?w=320&q=50&auto=format&fit=crop\") center/cover", "felt": "url(\"https://images.unsplash.com/photo-1601370690183-1c7796ecec61?w=320&q=50&auto=format&fit=crop\") center/cover", "carpet": "url(\"https://images.unsplash.com/photo-1572123979839-3749e9973aba?w=320&q=50&auto=format&fit=crop\") center/cover", "marble": "url(\"https://images.unsplash.com/photo-1738664926458-d8ca7f56549f?w=320&q=50&auto=format&fit=crop\") center/cover", "cafe": "url(\"https://images.unsplash.com/photo-1721579381696-15deace92c81?w=320&q=50&auto=format&fit=crop\") center/cover", "stone": "url(\"https://images.unsplash.com/photo-1701105040869-40cb9a5bbe6c?w=320&q=50&auto=format&fit=crop\") center/cover", "leather": "url(\"https://images.unsplash.com/photo-1564842505181-8862a3b9b173?w=320&q=50&auto=format&fit=crop\") center/cover"};
 prefs.table=store.get('table','auto'); if(!TABLES.includes(prefs.table)) prefs.table='auto';
@@ -4673,7 +4666,7 @@ function badgesEl(list){ const bs=(list||W.badges||[]).slice(-6); if(!bs.length)
 // ================= server wallet (beta) =================
 // When the "game" function knows the 'wallet' action, coins and items live on the server and the local W is only a cache.
 // Purchases are shown at once and confirmed by the server; if it refuses, the wallet is reloaded from the server.
-const APP_VERSION='0.14.0-beta.4';
+const APP_VERSION='0.14.0-beta.5';
 { const v=document.getElementById('appVer'); if(v){ const m=APP_VERSION.match(/-beta\.(\d+)$/); v.innerHTML='<span class="vl"></span><span class="vs"></span>'; v.firstChild.textContent='v'+APP_VERSION; v.lastChild.textContent=m?'b.'+m[1]:'v'+APP_VERSION; v.title='v'+APP_VERSION; } }
 let SW=false;
 function walletApply(sw, got){

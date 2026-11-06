@@ -3,6 +3,10 @@
 Beta versions are `<next main-site version>-beta.<build>`: the beta is heading for 0.14.0, and every deploy to /beta adds one to the build number (0.14.0-beta.2, -beta.3 …).
 When features move to the main site they get a normal version there (see CHANGELOG.md), and the beta moves on to the next one.
 
+## 0.14.0-beta.5 — 6 Nov 2026
+- Shop cards are tighter: wide preview, name and price right under it, rarity as a small line and a coloured edge at the bottom.
+- The Winter case is gone, together with everything that only dropped from it (Waves, Art Deco and Aurora boards, Crystal orbs, the Surprise effect and 7 voice emoji). Boards and checkers that are also sold in the shop stay. The Druzi case is now the only case.
+
 ## 0.14.0-beta.4 — 6 Nov 2026
 - New shop: a full page instead of a popup. Shop and “My table” are one page with a switch at the top; sections sit in a side menu (a scrolling row on phones), so the page no longer jumps between tabs.
 - Item lists get rarity filters, a “not mine yet / only mine” switch and sorting (recommended, cheapest, most expensive, rarest); every card has the same size.

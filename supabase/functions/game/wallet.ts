@@ -62,7 +62,7 @@ export function walletOp(w0: Wallet, op: string, args: any, cat: any, now: numbe
       w.coins -= cost; for (let i = 0; i < n; i++) grantLevel(w, cat, got); break;
     }
     case 'case': {
-      const kind = cat.cases && cat.cases[args?.kind] ? String(args.kind) : 'main', C = cat.cases ? cat.cases[kind] : cat.case; if (w.coins < C.price) fail('no_coins');
+      const kind = cat.cases && cat.cases[args?.kind] ? String(args.kind) : 'druzi', C = cat.cases ? cat.cases[kind] : cat.case; if (w.coins < C.price) fail('no_coins');
       const pity = kind === 'main' ? w.casePity : (w.pity[kind] || 0);
       const x = rnd(); let acc = 0, r = 'c'; for (const k of ['l', 'e', 'r', 'c']) { acc += C.odds[k]; if (x < acc) { r = k; break; } }
       if (pity >= C.pity - 1 && (r === 'c' || r === 'r')) r = 'e';
