@@ -28,3 +28,6 @@
 - Sounds from Freesound, all CC0: “Sizzling Steaks on a Gas Grill” (#587177), “Ice Faling into Glass SFX” (#40702), “Open Soda can” (#418988), “Crowd.Yay.Applause.25ppl.Short” (#139972), “Car horn beep beep” (#423990).
 - 3D emoji (scooter, pizza, burger, sushi, cocktail, receipt): Microsoft Fluent Emoji, MIT licence.
 - “Mega Aperol” animation: “cocktail mix” by Xavier Ledieu, LottieFiles, Lottie Simple License (loaded from LottieFiles).
+
+## Tutorial (0.14.0-beta.14)
+- Vlad and Pasha are built from DiceBear “Notionists” parts (CC0), the same style as the game’s avatars.
