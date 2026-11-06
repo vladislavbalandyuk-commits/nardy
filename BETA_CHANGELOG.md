@@ -3,6 +3,9 @@
 Beta versions are `<next main-site version>-beta.<build>`: every deploy to /beta adds one to the build number. Up to 0.14.0-beta.14 the beta was heading for 0.14.0; the main site took 0.14.1 (tutorial and coins), so from 0.15.0-beta.1 the beta heads for 0.15.0 (the shop).
 When features move to the main site they get a normal version there (see CHANGELOG.md), and the beta moves on to the next one.
 
+## 0.15.0-beta.12 — 6 Nov 2026
+- “Share the tournament” button in the weekend tournament window: a link and QR code that open the tournament window for friends; when you are signed in it also counts as your friend invite.
+
 ## 0.15.0-beta.11 — 6 Nov 2026
 - The test tournament (“Start a test tournament now” against bots) is removed, and any test tournament in progress is cleared. The weekend tournament window now only offers signing up; groups start on Saturday at 18:00, the play-off on Sunday, free places go to grandmaster bots.
 
