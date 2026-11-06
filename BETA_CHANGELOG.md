@@ -3,6 +3,11 @@
 Beta versions are `<next main-site version>-beta.<build>`: the beta is heading for 0.14.0, and every deploy to /beta adds one to the build number (0.14.0-beta.2, -beta.3 …).
 When features move to the main site they get a normal version there (see CHANGELOG.md), and the beta moves on to the next one.
 
+## 0.14.0-beta.4 — 6 Nov 2026
+- New shop: a full page instead of a popup. Shop and “My table” are one page with a switch at the top; sections sit in a side menu (a scrolling row on phones), so the page no longer jumps between tabs.
+- Item lists get rarity filters, a “not mine yet / only mine” switch and sorting (recommended, cheapest, most expensive, rarest); every card has the same size.
+- Back button, the phone’s back gesture and Esc close the shop.
+
 ## 0.14.0-beta.3 — 5 Nov 2026
 - Weekend tournament (local test version): 16 players, 4 groups of 4 with two games per pair, top two to the play-off; quarter- and semi-finals best of 3, final best of 5, 3rd-place match. Prize pool 10,000 coins (4000 / 2500 / 1500 / 1000 / 4×250), titles, badges and the “Weekend Cup” frame for the winner.
 - Grandmaster bot for tournaments: plays each candidate move out to the end of the game and picks the one that wins most; beats the strongest regular bot ~70 % of the time.
