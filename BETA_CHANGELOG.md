@@ -3,6 +3,11 @@
 Beta versions are `<next main-site version>-beta.<build>`: every deploy to /beta adds one to the build number. Up to 0.14.0-beta.14 the beta was heading for 0.14.0; the main site took 0.14.1 (tutorial and coins), so from 0.15.0-beta.1 the beta heads for 0.15.0 (the shop).
 When features move to the main site they get a normal version there (see CHANGELOG.md), and the beta moves on to the next one.
 
+## 0.15.0-beta.7 — 6 Nov 2026
+- Fix: with the tournament banner on top, the “Long nardy” title on the home page was squeezed into half the width; it spans the full width again.
+- Druzi International is switched off for now (it needs the shop and cases for its prize pool) and will come back with them. The Tournaments tab is now a “Tournament season”: 7 weekend tournaments, points for your place add up, the table resets with a new season; your pinned row shows how many points you need for the place above. The home banner shows your tournament points and place.
+- Weekend tournament window: a photo header — people playing nardy at a tournament (Unsplash), with the Druzi table photo underneath if it does not load.
+
 ## 0.15.0-beta.6 — 6 Nov 2026
 - Druzi International, like The International in Dota: weekend tournaments give points (1st 100, 2nd 60, 3–4 40, 5–8 20, 9–16 5); after 7 qualifying weekends the top 8 by points are invited to the Druzi International on the 8th weekend. The prize pool grows with every case — 25 % of each opened case — and is split 40 / 20 / 12 / 8 % and 5 % each for 5th–8th. Coins only.
 - Rating page: a fourth tab “Tournaments” — the International card (date, prize pool, split), the qualification progress by weekends, the points table with the invite zone line under #8, and your row pinned at the bottom (“#12 · 40 pts to the invite zone”).
