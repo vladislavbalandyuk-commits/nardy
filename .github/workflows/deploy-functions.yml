@@ -18,4 +18,4 @@ jobs:
         with:
           version: latest
       - name: Deploy "game"
-        run: supabase functions deploy game --project-ref zndzvicklrkxkrpmkybg --no-verify-jwt
+        run: supabase functions deploy game --project-ref zndzvicklrkxkrpmkybg --no-verify-jwt --yes
