@@ -3,6 +3,9 @@
 Beta versions are `<next main-site version>-beta.<build>`: every deploy to /beta adds one to the build number. Up to 0.14.0-beta.14 the beta was heading for 0.14.0; the main site took 0.14.1 (tutorial and coins), so from 0.15.0-beta.1 the beta heads for 0.15.0 (the shop).
 When features move to the main site they get a normal version there (see CHANGELOG.md), and the beta moves on to the next one.
 
+## 0.15.0-beta.11 — 6 Nov 2026
+- The test tournament (“Start a test tournament now” against bots) is removed, and any test tournament in progress is cleared. The weekend tournament window now only offers signing up; groups start on Saturday at 18:00, the play-off on Sunday, free places go to grandmaster bots.
+
 ## 0.15.0-beta.10 — 6 Nov 2026
 - Sign up for the weekend tournaments: a “Sign up” button on the tournament banner and in the tournament window opens a form with first name, nickname and last name and a live preview of how you will be shown — like a pro player: Влад «Ka1p3r» Баландюк. The server checks and keeps it; it cannot be changed until the season ends. Only accounts can sign up.
 - After signing up the tournament window shows “You are signed up as …” and how many players are signed up; the banner shows the count too.
