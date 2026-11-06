@@ -948,6 +948,9 @@ body[data-table]:not([data-table=auto]) #stage .bw{filter:drop-shadow(0 30px 36p
 .pt7 .pv .tbl{width:100%;height:52px;border-radius:8px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.15)}
 .setm .pt7{grid-template-columns:repeat(4,1fr)}
 @media (max-width:760px){.setm .pt7{grid-template-columns:repeat(3,1fr)}}
+
+.rkcard.calib .rkr{opacity:.5}
+.calov .modal{text-align:center;max-width:360px} .calov small{letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-size:12px} .calov h2{margin:6px 0 4px;font-size:28px} .calov p{color:var(--ink2);margin:0 0 16px} .calr{display:flex;justify-content:center;margin:10px 0 20px} .calov .cta{width:100%}
 </style>
 </head>
 <body>
@@ -1136,7 +1139,7 @@ const T = {
   tut3T:'Doubles', tut3D:'Equal dice are played four times. Roll — you get 4 and 4: make four moves of 4 points with any checkers (still only one from the head).',
   tut4T:'Taken points', tut4D:'There is no hitting in long nardy, and you cannot land on a point your opponent holds. Roll 3 and 1: the checkers on point 18 cannot move — points 17 and 15 are taken by Black. Play with other checkers.',
   tut5T:'Bearing off', tut5D:'Once all 15 checkers are home (points 1–6) you bear them off. Roll 6 and 2: tap the checker on 6 and then the tray on the right, then do the same with a checker on 2.',
-  tut6T:'You are ready!', tut6D:'Whoever bears off all 15 checkers first wins. If the opponent has not borne off a single one, it is a “mars” — 2 points. One more rule: you may not build a wall of 6 points in a row unless an enemy checker is already ahead of it. Now try the bot or find an online opponent.', lbT:'Leaderboard', lbOpen:'Leaderboard', lbSub:'Hall of Legends — top 100 players with a rating of 3450+.', lbLoading:'Loading…', lbErr:'Could not load the leaderboard — sign in to see it.', lbEmpty:'No rated games yet — play an online game to get on the board.', lbYou:'you', lbNotYou:'You will appear here after your first online game.', tier_bronze:'Bronze', tier_silver:'Silver', tier_gold:'Gold', tier_platinum:'Platinum', tier_diamond:'Diamond', toNext:'{n} to {tier}', topTier:'Top rank', ratedNote:'only online games are rated', ratingChange:'Rating {d} → {r}', av_none:'Initials', av_dice:'Dice', av_crown:'Crown', av_fox:'Fox', av_tea:'Tea', dice_ivory:'Ivory', dice_onyx:'Onyx', dice_ruby:'Ruby', dice_gold:'Gold', dice_wood:'Wood', dice_marble:'Marble', dice_glass:'Glass', dice_neon:'Neon', boardT:'Board', sound:'Sound', flip:'Flip board', autoForcedT:'Play forced moves', autoRollT:'Auto-roll dice', pips:'pips', forced:'Only one way to play — moved automatically', rules:'Rules',
+  calibT:'Calibration', calibSub:'{g} of {n} rated games · {w} won', calibEnd:'Calibration complete', calibRes:'Your rating is {r}', calibOk:'Let’s go', tut6T:'You are ready!', tut6D:'Whoever bears off all 15 checkers first wins. If the opponent has not borne off a single one, it is a “mars” — 2 points. One more rule: you may not build a wall of 6 points in a row unless an enemy checker is already ahead of it. Now try the bot or find an online opponent.', lbT:'Leaderboard', lbOpen:'Leaderboard', lbSub:'Hall of Legends — top 100 players with a rating of 3450+.', lbLoading:'Loading…', lbErr:'Could not load the leaderboard — sign in to see it.', lbEmpty:'No rated games yet — play an online game to get on the board.', lbYou:'you', lbNotYou:'You will appear here after your first online game.', tier_bronze:'Bronze', tier_silver:'Silver', tier_gold:'Gold', tier_platinum:'Platinum', tier_diamond:'Diamond', toNext:'{n} to {tier}', topTier:'Top rank', ratedNote:'only online games are rated', ratingChange:'Rating {d} → {r}', av_none:'Initials', av_dice:'Dice', av_crown:'Crown', av_fox:'Fox', av_tea:'Tea', dice_ivory:'Ivory', dice_onyx:'Onyx', dice_ruby:'Ruby', dice_gold:'Gold', dice_wood:'Wood', dice_marble:'Marble', dice_glass:'Glass', dice_neon:'Neon', boardT:'Board', sound:'Sound', flip:'Flip board', autoForcedT:'Play forced moves', autoRollT:'Auto-roll dice', pips:'pips', forced:'Only one way to play — moved automatically', rules:'Rules',
   winYou:'You win', winLose:'Not this time', winN:'{n} wins', mars:'Mars — 2 points.', one:'1 point.', score:'Score {a} : {b}',
   notFound:'Game not found — the link may be outdated.', full:'This game already has two players — you are watching.', joined:'Your opponent joined!', saveErr:'Could not save the move', connErr:'Connection problem',
   keys:'<kbd>Space</kbd> roll · <kbd>Backspace</kbd> undo',
@@ -1158,7 +1161,7 @@ const T = {
   tut3T:'Дубль', tut3D:'Однакові числа на кубиках граються чотири рази. Киньте — випаде 4 і 4: зробіть чотири ходи по 4 пункти будь-якими шашками (з голови — так само лише одна).',
   tut4T:'Зайняті пункти', tut4D:'Бити шашки в довгих нардах не можна, і не можна ставати на пункт, де стоїть суперник. Випаде 3 і 1: шашки на пункті 18 піти не можуть — пункти 17 і 15 зайняті чорними. Зіграйте іншими шашками.',
   tut5T:'Виведення шашок', tut5D:'Коли всі 15 шашок у домі (пункти 1–6), їх можна викидати з дошки. Випаде 6 і 2: натисніть шашку на пункті 6, а потім лоток праворуч; так само зробіть із шашкою на пункті 2.',
-  tut6T:'Ви готові!', tut6D:'Хто першим викине всі 15 шашок — перемагає. Якщо суперник не встиг викинути жодної — це «марс», 2 очки. Ще одне правило: не можна ставити 6 своїх шашок поспіль, якщо попереду немає жодної шашки суперника. Тепер спробуйте зіграти з ботом або знайдіть суперника онлайн.', lbT:'Таблиця лідерів', lbOpen:'Таблиця лідерів', lbSub:'Зала Легенд — топ-100 гравців з рейтингом 3450+.', lbLoading:'Завантаження…', lbErr:'Не вдалося завантажити таблицю — увійдіть, щоб її побачити.', lbEmpty:'Ще немає рейтингових ігор — зіграйте онлайн, щоб потрапити в таблицю.', lbYou:'ви', lbNotYou:'Ви зʼявитесь тут після першої онлайн-гри.', tier_bronze:'Бронза', tier_silver:'Срібло', tier_gold:'Золото', tier_platinum:'Платина', tier_diamond:'Діамант', toNext:'ще {n} до рангу «{tier}»', topTier:'Найвищий ранг', ratedNote:'рейтинг рахується лише в онлайн-іграх', ratingChange:'Рейтинг {d} → {r}', av_none:'Ініціали', av_dice:'Кубик', av_crown:'Корона', av_fox:'Лис', av_tea:'Чай', dice_ivory:'Слонова кістка', dice_onyx:'Онікс', dice_ruby:'Рубін', dice_gold:'Золото', dice_wood:'Дерево', dice_marble:'Мармур', dice_glass:'Скло', dice_neon:'Неон', boardT:'Дошка', sound:'Звук', flip:'Перевернути дошку', autoForcedT:'Вимушені ходи сам', autoRollT:'Кидати кубики сам', pips:'піпів', forced:'Хід лише один — зіграно автоматично', rules:'Правила',
+  calibT:'Калібрування', calibSub:'{g} з {n} рейтингових ігор · виграно {w}', calibEnd:'Калібрування завершено', calibRes:'Ваш рейтинг — {r}', calibOk:'Поїхали', tut6T:'Ви готові!', tut6D:'Хто першим викине всі 15 шашок — перемагає. Якщо суперник не встиг викинути жодної — це «марс», 2 очки. Ще одне правило: не можна ставити 6 своїх шашок поспіль, якщо попереду немає жодної шашки суперника. Тепер спробуйте зіграти з ботом або знайдіть суперника онлайн.', lbT:'Таблиця лідерів', lbOpen:'Таблиця лідерів', lbSub:'Зала Легенд — топ-100 гравців з рейтингом 3450+.', lbLoading:'Завантаження…', lbErr:'Не вдалося завантажити таблицю — увійдіть, щоб її побачити.', lbEmpty:'Ще немає рейтингових ігор — зіграйте онлайн, щоб потрапити в таблицю.', lbYou:'ви', lbNotYou:'Ви зʼявитесь тут після першої онлайн-гри.', tier_bronze:'Бронза', tier_silver:'Срібло', tier_gold:'Золото', tier_platinum:'Платина', tier_diamond:'Діамант', toNext:'ще {n} до рангу «{tier}»', topTier:'Найвищий ранг', ratedNote:'рейтинг рахується лише в онлайн-іграх', ratingChange:'Рейтинг {d} → {r}', av_none:'Ініціали', av_dice:'Кубик', av_crown:'Корона', av_fox:'Лис', av_tea:'Чай', dice_ivory:'Слонова кістка', dice_onyx:'Онікс', dice_ruby:'Рубін', dice_gold:'Золото', dice_wood:'Дерево', dice_marble:'Мармур', dice_glass:'Скло', dice_neon:'Неон', boardT:'Дошка', sound:'Звук', flip:'Перевернути дошку', autoForcedT:'Вимушені ходи сам', autoRollT:'Кидати кубики сам', pips:'піпів', forced:'Хід лише один — зіграно автоматично', rules:'Правила',
   winYou:'Перемога', winLose:'Цього разу — ні', winN:'Переміг: {n}', mars:'Марс — 2 очки.', one:'1 очко.', score:'Рахунок {a} : {b}',
   notFound:'Гру не знайдено — можливо, посилання застаріло.', full:'У цій грі вже двоє гравців — ви глядач.', joined:'Суперник приєднався!', saveErr:'Не вдалося зберегти хід', connErr:'Проблема зі зʼєднанням',
   keys:'<kbd>Пробіл</kbd> кинути · <kbd>Backspace</kbd> скасувати',
@@ -1926,11 +1929,13 @@ function renderHomeV7(){
     const em=document.createElement('em'); em.textContent=($('onlineCnt')&&$('onlineCnt').textContent)||''; st.appendChild(em); }
   let rk=home.querySelector('.rkcard'); if(!rk){ rk=document.createElement('div'); rk.className='rkcard'; rk.onclick=()=>$('btnMe').click(); (opts[3]||home.lastChild).before(rk); }
   const r=profile.rating||1000, R=rankOf(r); rk.innerHTML='';
+  if(isCalib()){ rk.classList.add('calib'); const a=document.createElement('span'); a.className='av'; avatarInto(a, selfAv(), profile.name||'?'); const c=calibInfo(); const mid=document.createElement('div'); const b=document.createElement('b'); b.textContent=t('calibT'); const sm=document.createElement('small'); sm.textContent=t('calibSub',{g:c.g, n:CALIB, w:c.w}); const bar=document.createElement('div'); bar.className='rkbar'; const fi=document.createElement('i'); fi.style.width=Math.round(c.g/CALIB*100)+'%'; bar.appendChild(fi); mid.append(b,sm,bar); const rr=document.createElement('div'); rr.className='rkr'; rr.textContent='?'; rk.append(a, mid, rr); }
+  else { rk.classList.remove('calib');
   const a=document.createElement('span'); a.className='av'; avatarInto(a, selfAv(), profile.name||'?');
   const mid=document.createElement('div'); const b=document.createElement('b'); b.textContent=t('tier_'+TIERS[R.ti].k); const sm=document.createElement('small'); sm.textContent=t('rkSee');
   const bar=document.createElement('div'); bar.className='rkbar'; const fi=document.createElement('i'); const fr = R.ti===7 ? 1 : ((R.star-1) + Math.max(0,Math.min(1,(r-RTH[R.step])/((RTH[R.step+1]||RTH[R.step]+1)-RTH[R.step]))))/6; fi.style.width=Math.round(fr*100)+'%'; bar.appendChild(fi); mid.append(sm,b,bar);
   const rr=document.createElement('div'); rr.className='rkr'; rr.textContent=r;
-  rk.append(framed(a, r, 44), mid, rr);
+  rk.append(framed(a, r, 44), mid, rr); }
   let tc=home.querySelector('.topcard'); if(!tc){ tc=document.createElement('div'); tc.className='topcard'; tc.onclick=()=>$('btnLb').click(); rk.after(tc); }
   const rows=GHOSTS.map((g,i)=>ghostInfo(i)).concat((lbCache||[])).sort((x,y)=>(y.rating||0)-(x.rating||0)).slice(0,3);
   tc.innerHTML=''; const hd=document.createElement('div'); hd.className='tch'; hd.innerHTML='<span></span><span>›</span>'; hd.firstChild.textContent=t('topT'); tc.appendChild(hd);
@@ -2260,7 +2265,16 @@ function achBlock(){
   ACH.forEach(a=>{ const d=document.createElement('div'); d.className='achi'+(A.got[a.k]?' on':''); d.title=t('achD_'+a.k); d.innerHTML='<i></i><span></span>'; d.firstChild.textContent=a.ic; d.lastChild.textContent=t('ach_'+a.k); w.appendChild(d); });
   return w;
 }
-async function refreshProfile(){ if(!sb||!uid) return; try{ const {data}=await sb.from('profiles').select('rating,rgames,played,won,ach').eq('id',uid).maybeSingle(); if(data){ const before=rankOf(profile.rating||1000); Object.assign(profile,data); const after=rankOf(profile.rating); rankUp = after.step>before.step ? {tier:after.ti>before.ti,before,after} : null; renderMe(); if(gs) renderHud(); } }catch(e){} }
+// ---- calibration: the first 10 rated games place you; until then the rating is hidden ----
+const CALIB=10;
+const isCalib=()=> !!authUser && (profile.rgames|0) < CALIB;
+function calibInfo(){ const c=(profile.ach && profile.ach.cal) || {}; return {g: Math.min(CALIB, profile.rgames|0), w: c.w|0}; }
+function calibDone(d){ const w=((d.ach||{}).cal||{}).w|0, r=d.rating||1000, R=rankOf(r);
+  const ov=document.createElement('div'); ov.className='overlay calov'; ov.innerHTML='<div class="modal"><small></small><h2></h2><p></p><div class="calr"></div><button class="cta"></button></div>';
+  ov.querySelector('small').textContent=t('calibEnd'); ov.querySelector('h2').textContent=t('tier_'+TIERS[R.ti].k); ov.querySelector('p').textContent=t('calibRes',{r});
+  const a=document.createElement('span'); a.className='av'; avatarInto(a, selfAv(), profile.name||'?'); ov.querySelector('.calr').appendChild(framed(a, r, 92));
+  const b=ov.querySelector('button'); b.textContent=t('calibOk'); b.onclick=()=>ov.remove(); document.body.appendChild(ov); try{ sfx('win'); }catch(e){} }
+async function refreshProfile(){ if(!sb||!uid) return; try{ const {data}=await sb.from('profiles').select('rating,rgames,played,won,ach').eq('id',uid).maybeSingle(); if(data){ const before=rankOf(profile.rating||1000), wasCal=isCalib(); if(wasCal && (data.rgames|0)>=CALIB) setTimeout(()=>calibDone(data), 1200); Object.assign(profile,data); const after=rankOf(profile.rating); rankUp = after.step>before.step ? {tier:after.ti>before.ti,before,after} : null; renderMe(); if(gs) renderHud(); } }catch(e){} }
 
 // ---- server-held bot games ----
 async function startServerBot(ghostIdx){
@@ -2380,7 +2394,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.13.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.13.1';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=>(RAR3[cat]||{})[k]||'r';
@@ -2810,7 +2824,7 @@ async function openLeaderboard(){
 
 async function lbFetch(){
   if(!sb || !uid) return null;
-  const {data,error}=await sb.from('profiles').select('id,name,av,rating,won,played,rgames').gt('rgames',0).gte('rating',RTH[LEG]).order('rating',{ascending:false}).limit(100);
+  const {data,error}=await sb.from('profiles').select('id,name,av,rating,won,played,rgames').gte('rgames',CALIB).gte('rating',RTH[LEG]).order('rating',{ascending:false}).limit(100);
   if(error) return null; return data||[];
 }
 
