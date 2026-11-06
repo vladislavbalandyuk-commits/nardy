@@ -3,6 +3,13 @@
 Beta versions are `<next main-site version>-beta.<build>`: the beta is heading for 0.14.0, and every deploy to /beta adds one to the build number (0.14.0-beta.2, -beta.3 …).
 When features move to the main site they get a normal version there (see CHANGELOG.md), and the beta moves on to the next one.
 
+## 0.14.0-beta.9 — 6 Nov 2026
+- Economy: coins per game are now a random amount — win vs a person 120–180, loss 40–60, vs the practice bot 30–50 / 5–15. A mars win pays +50 %, and 5 % of games vs people are a “Lucky game” that pays double (with a coin rain).
+- New players start with 1000 coins instead of 500.
+- Both Druzi cases cost 400. Epic items: boards 800, checkers 650, dice 500; legendary: boards 1500, checkers 1200, dice 900. Common and rare prices unchanged.
+- “I want this” goal: in any item or set card you can mark it as your goal. The shop home shows a progress bar, and after every game you see how much is left.
+- Server wallet (when deployed) pays the same way.
+
 ## 0.14.0-beta.8 — 6 Nov 2026
 - New **Druzi Case 2 · Night**, 300 coins, same odds as the first one (40 / 30 / 20 / 6 / 3 / 1 %). The Cases page now has a switch between the two cases, and the shop home shows both.
   - Common: pizza dice Margherita, Salami, Four cheese, Hawaiian; checkers Cappuccino, Latte, Raspberry tea, Eastern tea.
