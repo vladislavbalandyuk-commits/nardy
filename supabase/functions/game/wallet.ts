@@ -64,11 +64,11 @@ export function walletOp(w0: Wallet, op: string, args: any, cat: any, now: numbe
     case 'case': {
       const kind = cat.cases && cat.cases[args?.kind] ? String(args.kind) : 'druzi', C = cat.cases ? cat.cases[kind] : cat.case; if (w.coins < C.price) fail('no_coins');
       const pity = kind === 'main' ? w.casePity : (w.pity[kind] || 0);
-      const x = rnd(); let acc = 0, r = 'c'; for (const k of ['l', 'e', 'r', 'c']) { acc += C.odds[k]; if (x < acc) { r = k; break; } }
+      const x = rnd(); let acc = 0, r = 'c'; for (const k of ['s', 'l', 'm', 'e', 'r', 'c']) { acc += (C.odds[k] || 0); if (x < acc) { r = k; break; } }
       if (pity >= C.pity - 1 && (r === 'c' || r === 'r')) r = 'e';
       const list = C.pool[r]; const id = list[Math.floor(rnd() * list.length)];
       const dup = w.owned.includes(id), refund = dup ? C.dupe[r] : 0;
-      const np = (r === 'e' || r === 'l') ? 0 : pity + 1; if (kind === 'main') w.casePity = np; else w.pity = { ...w.pity, [kind]: np }; w.cases++;
+      const np = (r === 'c' || r === 'r') ? pity + 1 : 0; if (kind === 'main') w.casePity = np; else w.pity = { ...w.pity, [kind]: np }; w.cases++;
       w.coins -= C.price;
       if (dup) w.coins += refund; else { w.owned.push(id); got.push(id); }
       res = { id, r, refund, kind }; break;

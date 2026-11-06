@@ -3,6 +3,18 @@
 Beta versions are `<next main-site version>-beta.<build>`: the beta is heading for 0.14.0, and every deploy to /beta adds one to the build number (0.14.0-beta.2, -beta.3 …).
 When features move to the main site they get a normal version there (see CHANGELOG.md), and the beta moves on to the next one.
 
+## 0.14.0-beta.6 — 6 Nov 2026
+- Two new rarities: Mythic (between Epic and Legendary) and Secret (above Legendary).
+- Druzi Case rebuilt from the bar’s real menu, 300 coins, odds 40 / 30 / 20 / 6 / 3 / 1 %:
+  - Common: dice B-52, BMW, Medusa, Audi; checkers Citrus lemonade, Raspberry lemonade, Mojito lemonade, Sea-buckthorn tea.
+  - Rare: dice Green Mexican, Hiroshima, Espresso; checkers Aperol Spritz, Cosmopolitan, Piña Colada, Paloma.
+  - Epic: checkers Negroni, Naked Lady, Purple French; avatars hookah master, waiter, admin.
+  - Mythic: Druzi bar board and table, Yin-Yang roll checkers, Golden roll dice, Druzi menu emoji for chat.
+  - Legendary: neon Druzi board (the sign now flickers), win effect “Mega Aperol 3 L”, dice effect “Hookah smoke”.
+  - Secret: the five bar sounds.
+- Guaranteed epic or better every 10 cases; duplicates give 40 / 90 / 200 / 500 / 1200 / 3000 coins.
+- Items that left the case are swapped for their new versions (Hot coals → Espresso, Blue Lagoon → Piña Colada, Mojito → Paloma).
+
 ## 0.14.0-beta.5 — 6 Nov 2026
 - Shop cards are tighter: wide preview, name and price right under it, rarity as a small line and a coloured edge at the bottom.
 - The Winter case is gone, together with everything that only dropped from it (Waves, Art Deco and Aurora boards, Crystal orbs, the Surprise effect and 7 voice emoji). Boards and checkers that are also sold in the shop stay. The Druzi case is now the only case.
