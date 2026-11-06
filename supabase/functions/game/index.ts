@@ -151,6 +151,11 @@ Deno.serve(async (req) => {
     // the friend gets 200 coins (for up to 50 friends) and counts towards the Friends board (1 / 3 / 5 / 10)
     // weekend tournament (played against grandmaster bots in the browser): coins for the place and tournament points,
     // at most once every 6 days per account; points = 10 for taking part + 5 per game won (max 15) + a bonus for the place
+    // tournament table: everyone who has taken a tournament prize, with their recent tournament results (no coins or other profile data)
+    if (action === 'tour_table') {
+      const { data } = await db.from('profiles').select('id,name,av,rating,played,won,ach').not('ach->tourAt', 'is', null).limit(1000);
+      return json({ rows: (data || []).map((r: any) => ({ id: r.id, name: r.name, av: r.av, rating: r.rating, played: r.played, won: r.won, tp: (r.ach?.tp || []).slice(-30) })) });
+    }
     if (action === 'tour_done') {
       const pl = Math.round(Number(args?.place)), wins = Math.max(0, Math.min(15, Math.round(Number(args?.wins) || 0)));
       if (!(pl >= 1 && pl <= 16)) return json({ error: 'bad_place' }, 400);
