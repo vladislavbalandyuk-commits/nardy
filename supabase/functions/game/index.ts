@@ -149,12 +149,12 @@ Deno.serve(async (req) => {
       }
       return json({ error: 'busy' }, 409);
     }
-    const payWallet = async (id: string, key: string, won: boolean, full: boolean) => {
+    const payWallet = async (id: string, key: string, won: boolean, full: boolean, mars = false) => {
       for (let attempt = 0; attempt < 3; attempt++) {
         const row = await loadWallet(id); if (!row) return null;   // only players who use the new wallet
-        const r = gameReward(normalize(row.w, CAT), CAT, key, won, full);
+        const r = gameReward(normalize(row.w, CAT), CAT, key, won, full, mars);
         const { data: upd } = await db.from('wallets').update({ w: r.w, v: row.v + 1, updated_at: new Date().toISOString() }).eq('uid', id).eq('v', row.v).select('uid');
-        if (upd && upd.length) return { coins: r.coins, xp: r.xp, got: r.got };
+        if (upd && upd.length) return { coins: r.coins, xp: r.xp, got: r.got, lucky: r.lucky };
       }
       return null;
     };
@@ -179,7 +179,7 @@ Deno.serve(async (req) => {
       if (gh) { const gw = st.result.winner === 'p2'; await db.from('ghosts').update({ rating: Math.max(100, gh.rating + dGhost), played: gh.played + 1, won: gh.won + (gw ? 1 : 0), updated_at: new Date().toISOString() }).eq('id', gh.id); }
       // coins and pass XP for players on the server wallet
       const full = !vsBot || st.ghost != null || !!st.mbot, paid: any = {};
-      for (const s of (vsBot ? ['p1'] : ['p1', 'p2'])) { const r = await payWallet(st[s], gid + ':' + (st.seq || 0), st.result.winner === s, full).catch(() => null); if (r) paid[s] = r; }
+      for (const s of (vsBot ? ['p1'] : ['p1', 'p2'])) { const r = await payWallet(st[s], gid + ':' + (st.seq || 0), st.result.winner === s, full, !!st.result.mars).catch(() => null); if (r) paid[s] = r; }
       st.paid = paid;
       st.ratingDelta = d; st.achNew = fresh;
     };

@@ -103,16 +103,21 @@ export function walletOp(w0: Wallet, op: string, args: any, cat: any, now: numbe
 }
 
 // coins and pass XP for a finished game; `full` = against a person, a disguised bot or a matchmaking bot
-export function gameReward(w0: Wallet, cat: any, key: string, won: boolean, full: boolean) {
+export function gameReward(w0: Wallet, cat: any, key: string, won: boolean, full: boolean, mars = false, rnd: () => number = Math.random) {
   const w: Wallet = structuredClone(w0), got: string[] = [];
   if (w.paid.includes(key)) return { w, coins: 0, xp: 0, got };
   w.paid = w.paid.concat(key).slice(-80);
   const E = cat.econ, X = cat.xp;
-  const coins = won ? (full ? E.win : E.botWin) : (full ? E.loss : E.botLoss); w.coins += coins;
+  // a random amount in the range (older catalogs had a single number), +50% for a mars win, and a rare lucky x2
+  const R = won ? (full ? E.win : E.botWin) : (full ? E.loss : E.botLoss);
+  let coins = Array.isArray(R) ? R[0] + Math.floor(rnd() * (R[1] - R[0] + 1)) : R;
+  if (won && mars && E.mars) coins = Math.round(coins * (1 + E.mars));
+  const lucky = full && !!E.lucky && rnd() < E.lucky; if (lucky) coins *= 2;
+  w.coins += coins;
   let xp = 0;
   if (w.pass < cat.pass.length) {
     xp = won ? (full ? X.win : X.botWin) : (full ? X.loss : X.botLoss); w.xp += xp;
     while (w.xp >= X.level && w.pass < cat.pass.length) { w.xp -= X.level; grantLevel(w, cat, got); }
   }
-  return { w, coins, xp, got };
+  return { w, coins, xp, got, lucky };
 }
