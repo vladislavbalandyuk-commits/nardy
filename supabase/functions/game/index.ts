@@ -175,10 +175,10 @@ Deno.serve(async (req) => {
       for (const [s, p] of (vsBot ? [['p1', a]] : [['p1', a], ['p2', b]]) as any) {
         const id = st[s]; const won = st.result.winner === s; const myR = p?.rating ?? 1000, opR = s === 'p1' ? oppR : (a?.rating ?? 1000);
         const ach = C.achUpdate(p?.ach, st, s, myR, opR); fresh[s] = ach.fresh;
-        // calibration: the first CALIB rated games keep the rating hidden; after the last one it is set by how many were won
+        // calibration: the first CALIB rated games keep the rating hidden; after the last one it is set by the share of them won
         const rg = p?.rgames ?? 0;
         if (rg < CALIB) { const cal = { g: 0, w: 0, ...(ach.A.cal || {}) }; cal.g++; if (won) cal.w++; ach.A.cal = cal;
-          d[s] = rg + 1 >= CALIB ? CALIB_PLACE[Math.min(cal.w, CALIB)] - myR : 0; }
+          d[s] = rg + 1 >= CALIB ? CALIB_PLACE[Math.round(cal.w / cal.g * CALIB)] - myR : 0; }
         await db.from('profiles').update({ rating: Math.max(100, myR + d[s]), rgames: (p?.rgames ?? 0) + 1, played: (p?.played ?? 0) + 1, won: (p?.won ?? 0) + (won ? 1 : 0), ach: ach.A, updated_at: new Date().toISOString() }).eq('id', id);
       }
       if (gh) { const gw = st.result.winner === 'p2'; await db.from('ghosts').update({ rating: Math.max(100, gh.rating + dGhost), played: gh.played + 1, won: gh.won + (gw ? 1 : 0), updated_at: new Date().toISOString() }).eq('id', gh.id); }
