@@ -3,6 +3,10 @@
 Beta versions are `<next main-site version>-beta.<build>`: the beta is heading for 0.14.0, and every deploy to /beta adds one to the build number (0.14.0-beta.2, -beta.3 …).
 When features move to the main site they get a normal version there (see CHANGELOG.md), and the beta moves on to the next one.
 
+## 0.14.0-beta.13 — 6 Nov 2026
+- Profile: achievements are back as one row of 10 badges — earned ones in colour, the rest grey with a progress line (e.g. mars 3 / 5); hover or tap a badge for its name and goal. The heading shows how many you have.
+- Profile: last games — a strip of wins and losses and your last 6 games with the opponent, mars or bot, how long ago, and the rating change. Kept on this device.
+
 ## 0.14.0-beta.12 — 6 Nov 2026
 - Profile: the rank ladder is one compact row of 8 small frames instead of two rows of big cards. Your rank is labelled; tap or hover any other rank to see its name and rating threshold.
 
