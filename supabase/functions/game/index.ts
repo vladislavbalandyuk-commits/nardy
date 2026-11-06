@@ -125,6 +125,13 @@ async function iceServers() {
   if (!r.ok) return null; iceCache = await r.json(); iceAt = Date.now(); return iceCache;
 }
 
+// coins per finished game: a random amount; a mars win +50 %, 5 % of full games pay double
+const COIN_START = 1000;
+function gameCoins(won: boolean, full: boolean, mars: boolean) {
+  const R = won ? (full ? [120, 180] : [30, 50]) : (full ? [40, 60] : [5, 15]);
+  let c = R[0] + Math.floor(Math.random() * (R[1] - R[0] + 1)); if (won && mars) c = Math.round(c * 1.5);
+  const lucky = full && Math.random() < 0.05; if (lucky) c *= 2; return { coins: c, lucky };
+}
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: cors });
   try {
@@ -134,6 +141,12 @@ Deno.serve(async (req) => {
     const { data: { user } } = await db.auth.getUser(token); if (!user) return json({ error: 'auth' }, 401);
     const { action, gameId, args } = await req.json();
     if (action === 'ice') return json({ ice: await iceServers().catch(() => null) });
+    // coins live in profiles.ach.coins (start 1000); the tutorial pays 200 once
+    if (action === 'tut_reward') {
+      const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
+      const A = { ...(p.ach || {}) }; if (A.tut) return json({ coins: A.coins ?? COIN_START, already: true });
+      A.tut = 1; A.coins = (A.coins ?? COIN_START) + 200; await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ coins: A.coins });
+    }
     if (typeof gameId !== 'string' || !/^[a-z0-9]{4,16}$/.test(gameId)) return json({ error: 'bad_id' }, 400);
     const prof = async (id: string) => (await db.from('profiles').select('name,av,rating,rgames,played,won,ach').eq('id', id).maybeSingle()).data;
     const ghostRow = async (gid: number) => (await db.from('ghosts').select('id,name,av,rating,played,won').eq('id', gid).maybeSingle()).data;
@@ -147,7 +160,7 @@ Deno.serve(async (req) => {
       const d = C.ratingChanges(st, a?.rating ?? 1000, oppR);
       const dGhost = d.p2;
       if (vsBot) { const f = (C.BOTS[st.p2.split(':')[1]] || C.BOTS.ghost).factor; d.p1 = Math.round(d.p1 * f); }
-      const fresh: any = {};
+      const fresh: any = {}, coinsPaid: any = {}, fullGame = !vsBot || st.ghost != null || !!st.mbot;
       for (const [s, p] of (vsBot ? [['p1', a]] : [['p1', a], ['p2', b]]) as any) {
         const id = st[s]; const won = st.result.winner === s; const myR = p?.rating ?? 1000, opR = s === 'p1' ? oppR : (a?.rating ?? 1000);
         const ach = C.achUpdate(p?.ach, st, s, myR, opR); fresh[s] = ach.fresh;
@@ -155,10 +168,11 @@ Deno.serve(async (req) => {
         const rg = p?.rgames ?? 0;
         if (rg < CALIB) { const cal = { g: 0, w: 0, ...(ach.A.cal || {}) }; cal.g++; if (won) cal.w++; ach.A.cal = cal;
           d[s] = rg + 1 >= CALIB ? CALIB_PLACE[Math.round(cal.w / cal.g * CALIB)] - myR : 0; }
+        const gc = gameCoins(won, fullGame, !!st.result.mars); ach.A.coins = (ach.A.coins ?? COIN_START) + gc.coins; coinsPaid[s] = gc;
         await db.from('profiles').update({ rating: Math.max(100, myR + d[s]), rgames: (p?.rgames ?? 0) + 1, played: (p?.played ?? 0) + 1, won: (p?.won ?? 0) + (won ? 1 : 0), ach: ach.A, updated_at: new Date().toISOString() }).eq('id', id);
       }
       if (gh) { const gw = st.result.winner === 'p2'; await db.from('ghosts').update({ rating: Math.max(100, gh.rating + dGhost), played: gh.played + 1, won: gh.won + (gw ? 1 : 0), updated_at: new Date().toISOString() }).eq('id', gh.id); }
-      st.ratingDelta = d; st.achNew = fresh;
+      st.ratingDelta = d; st.achNew = fresh; st.coins = coinsPaid;
     };
     // save with an optimistic lock; if this save finishes the game, apply the rating once and store the result
     const commit = async (id: string, prevAt: string, st: any) => {
