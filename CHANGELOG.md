@@ -3,6 +3,11 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.16.2 — 7 Nov 2026
+- Telegram Mini App: the game opens inside Telegram (@dovgi_nardy_bot) — Telegram's colours, its Back button, vibration on dice and moves, sign-in with the Telegram account, invites that open straight in Telegram.
+- "Log in with Telegram" on the website (the same account as in the bot) and "Link Telegram" in the profile for nickname accounts.
+- Telegram bonus, once per account: +500 coins and the Telegram badge on your avatar.
+
 ## 0.16.1 — 7 Nov 2026
 - Settings → «Сповіщення». While the site is open (even in a background tab): "your turn" in an online game, and the weekend tournament an hour and 5 minutes before the start if you are signed up.
 - When the site is closed (signed-in players): web push — Saturday 12:00 "the tournament is today" (everyone), and 17:00 / 17:50 Saturday and 17:50 Sunday for the players who signed up. Tapping one opens the tournament. On iPhone it works after "Add to Home Screen".
