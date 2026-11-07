@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.16.7 — 7 Nov 2026
+- Fix: the weekend tournament did not start at 18:00 for signed-up players — the groups are now drawn automatically at the start, and the first match is ready to play.
+
 ## 0.16.6 — 7 Nov 2026
 - Weekend tournament: the field always fills up to 16 players by the start.
 

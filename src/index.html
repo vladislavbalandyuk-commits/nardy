@@ -3017,7 +3017,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.16.6';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.16.7';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -3468,6 +3468,12 @@ const RR=[[0,1],[2,3],[0,2],[1,3],[0,3],[1,2]];   // round robin of 4: three rou
 function tourPrize(place){ const p=TOUR_PRIZE.find(x=>place<=x[0]); return p?p[1]:0; }
 function nextSat(now){ const d=new Date((now||Date.now())+2*3600e3); const add=(6-d.getUTCDay()+7)%7; const t=Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate()+add,18,0)-2*3600e3; return t<=(now||Date.now()) ? t+7*864e5 : t; }
 function tourState(){ return TW.tour||null; }
+// the weekend tournament that is on right now: from Saturday 18:00 (Kyiv) until Monday; nextSat() already points a week ahead then
+const tourThisSat=()=>nextSat()-7*864e5;
+const tourLiveWin=()=>{ const s=tourThisSat(), n=Date.now(); return n>=s && n<s+2*864e5; };
+// signed-up players get their bracket at 18:00 (groups are drawn on their device; the opponents are the field you saw in "Players")
+function tourAutoStart(){ try{ if(!tourLiveWin() || !(typeof myTreg==='function' && myTreg())) return false; const s=tourThisSat(); if(TW.tour && TW.tour.at===s) return false; tourNew(); return true; }catch(e){ return false; } }
+setInterval(()=>{ if(tourAutoStart()){ try{ if(!$('tourOv').classList.contains('hidden')) renderTour(); renderBanner&&renderBanner(); }catch(e){} } }, 5000);
 function tourNew(){
   const bots=tourBots().slice(0,15).map(g=>({id:g.id, name:g.name, av:g.av, r:g.rating}));
   const me={id:'me', name:profile.name||t('you'), av:profile.av||'', r:profile.rating||1000, me:1};
@@ -3477,7 +3483,7 @@ function tourNew(){
   let gi=0; for(const b of P){ while(groups[gi%4].length>=4) gi++; groups[gi%4].push(b); gi++; }
   const players=[].concat(...groups); const idx=p=>players.indexOf(p);
   const gm=[]; groups.forEach((g,G)=>RR.forEach(([x,y],k)=>gm.push({st:'g', G, rd:Math.floor(k/2), a:idx(g[x]), b:idx(g[y]), bo:2, g:[]})));
-  TW.tour={ id:'t'+Date.now(), at:nextSat(), status:'run', players, gm, po:[], places:null, paid:false };
+  TW.tour={ id:'t'+Date.now(), at:tourThisSat(), status:'run', players, gm, po:[], places:null, paid:false };
   saveTW(); return TW.tour;
 }
 const mDone=m=>{ const need=m.bo===2?2:(m.bo+1)/2, wa=m.g.filter(x=>x.w==='a').length, wb=m.g.length-wa; return m.bo===2 ? m.g.length>=2 : (wa>=need||wb>=need); };
@@ -3578,6 +3584,7 @@ function tourPre(body,h){ const note=txt=>{ const n=h('div','tpre'); n.append(h(
     for(let k=rows.length;k<16;k++){ const d=h('div','free'); d.append(h('span','av sk'), h('span',null,t('tpFree')), h('small',null,'')); pl.appendChild(d); } body.appendChild(pl);
     if(!me){ const b=h('button','cta',t('tregBtn')); b.style.cssText='width:100%;margin-top:12px'; b.onclick=tregOpen; body.appendChild(b); } return; } }
 function renderTour(){
+  tourAutoStart();
   const box=$('tourBox'), T=tourState(); box.innerHTML=''; const h=(tag,cls,txt)=>{ const e=document.createElement(tag); if(cls) e.className=cls; if(txt!=null) e.textContent=txt; return e; };
   const pAv=(i,cls)=>{ const p=T.players[i], a=h('span','av'); avatarInto(a,p.av,p.name); return a; };
   const hd=h('div','thd thero'); const l=h('div'); l.append(h('h2',null,t('tourT')));
@@ -3645,7 +3652,7 @@ function tregResume(){ const at=store.get('tregAfter',0); if(!at || Date.now()-a
 setInterval(()=>{ try{ if(store.get('tregAfter',0)) tregResume(); }catch(e){} }, 1500);
 async function tregFetch(force){ if(!sb || (!force && Date.now()-tregTry<60000)) return tregRows; tregTry=Date.now();
   try{ const {data}=await sb.functions.invoke('game',{body:{action:'tour_regs'}}); if(data && data.rows){ const s=tregSeason(); tregRows=data.rows.filter(r=>r.treg && r.treg.s===s); } }catch(e){} return tregRows; }
-const tregCount=()=>{ const L=tregRows||[]; const real=L.length + (myTreg() && !L.some(r=>r.id===uid) ? 1 : 0); return real + tourBotsNow(real).length; };
+const tregCount=()=>{ if(tourLiveWin() && myTreg()) return 16; const L=tregRows||[]; const real=L.length + (myTreg() && !L.some(r=>r.id===uid) ? 1 : 0); return real + tourBotsNow(real).length; };
 const tregOf=id=> id===uid ? myTreg() : ((tregRows||[]).find(r=>r.id===id)||{}).treg || null;
 function tregOpen(){ if(!(authUser && uid && sb)){ toast(t('tregNeedReg')); store.set('tregAfter',Date.now()); show('tourOv',false); openProfile(); return; }
   if(myTreg()){ toast(t('tregLocked')); return; }
@@ -3694,7 +3701,7 @@ function intlTable(){ const I=intlNow(), rows=new Map();
   return [...rows.values()].sort((a,b)=>b.pts-a.pts || a.best-b.best || (b.rating||0)-(a.rating||0)); }
 function rpDur(ms){ ms=Math.max(0,ms); const d=Math.floor(ms/864e5), h=Math.floor(ms%864e5/3600e3), m=Math.floor(ms%3600e3/60000); return d ? d+(lang==='uk'?' д ':' d ')+h+(lang==='uk'?' год':' h') : h ? h+(lang==='uk'?' год ':' h ')+m+(lang==='uk'?' хв':' min') : m+(lang==='uk'?' хв':' min'); }
 // the banner on top of the home page
-function tourCard(home){
+function tourCard(home){ tourAutoStart();
   let c=home.querySelector('.tourban'); if(!c){ c=document.createElement('div'); c.className='tourban'; c.onclick=openTour; home.prepend(c); }
   const T=tourState(); c.innerHTML='';
   const ic=document.createElement('span'); ic.className='ti'; ic.textContent='🏆';
