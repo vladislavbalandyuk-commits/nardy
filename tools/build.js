@@ -10,6 +10,8 @@ function splitCss(css){ const ITEM=/\[data-ck=|\[data-dice=|\[data-b=|data-table
     i=j; }
   return [core,items]; }
 (async()=>{ const [src,outDir]=process.argv.slice(2); let s=fs.readFileSync(src,'utf8');
+  // every release must be in the in-game "What's new" list (NEWS); beta builds are exempt
+  { const v=(s.match(/const APP_VERSION='([^']+)'/)||[])[1]; if(v && !v.includes('beta') && s.includes('const NEWS=[') && !s.includes("{v:'"+v+"'") && !s.includes('{v:"'+v+'"')){ console.error('NEWS has no entry for v'+v+' — add it to the "What\'s new" list'); process.exit(1); } }
   const a=s.indexOf('const AVATARS='), b=s.indexOf('\n',a); const all=JSON.parse(s.slice(a+'const AVATARS='.length,b).trim().replace(/;$/,''));
   const keys=Object.keys(all), base={}, pt={}; keys.forEach(k=>{ (/^pt\d+$/.test(k)?pt:base)[k]=all[k]; });
   const av='window.__AV='+JSON.stringify(base)+';window.__avReady&&window.__avReady();', ptjs='window.__PT='+JSON.stringify(pt)+';window.__ptReady&&window.__ptReady();';
