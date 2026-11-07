@@ -1,6 +1,31 @@
 {
   "headers": [
-    { "source": "/beta/(emoji|fx|sfx)/(.*)", "headers": [ { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" } ] },
-    { "source": "/beta/av.js", "headers": [ { "key": "Cache-Control", "value": "public, max-age=604800" } ] }
+    {
+      "source": "/beta/(emoji|fx|sfx)/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/beta/av.js",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800"
+        }
+      ]
+    },
+    {
+      "source": "/beta/(pt.js|skins.css)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800"
+        }
+      ]
+    }
   ]
 }
