@@ -9,6 +9,11 @@ When features move to the main site they get a normal version there (see CHANGEL
 
 
 
+## 7 Nov 2026 — Telegram Mini App (0.16.0-beta.3)
+- The site opens inside Telegram (@dovgi_nardy_bot): Telegram's colours, its Back button, vibration on dice and moves, no swipe-to-close while dragging checkers.
+- Sign-in with the Telegram account — no nickname or password; the server checks Telegram's signature.
+- Invite / tournament / referral links inside Telegram are t.me links that open the game straight in the Mini App; "Send" opens Telegram's chat picker.
+
 ## 7 Nov 2026 — notifications (0.16.0-beta.2)
 - Settings → «Сповіщення». While the site is open (even in a background tab): "your turn" in an online game, and the weekend tournament an hour and 5 minutes before the start if you are signed up.
 - When the site is closed (signed-in players): web push from the server — Saturday 12:00 the tournament is today (everyone), and 17:00 / 17:50 Saturday and 17:50 Sunday for the players who signed up. Tapping one opens the tournament.

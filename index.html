@@ -7,6 +7,10 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/icon-180.png">
 <link rel="manifest" href="/manifest.webmanifest">
+<script>/* Telegram Mini App: Telegram opens the site with #tgWebAppData=… — only then load its script */
+(function(){try{var h=location.hash+location.search;if(/tgWebApp/.test(h)||sessionStorage.getItem('tgwa')){sessionStorage.setItem('tgwa','1');document.write('<script src="https://telegram.org/js/telegram-web-app.js"><\/script>');}}catch(e){}})();</script>
+<script>(function(){try{var W=window.Telegram&&Telegram.WebApp;if(!W||!W.initData)return;window.TGWA=W;var sp=(W.initDataUnsafe||{}).start_param||'';
+history.replaceState(null,'',location.pathname+location.search+(sp&&/^[A-Za-z0-9_-]+$/.test(sp)?'#'+sp:''));}catch(e){}})();</script>
 <meta name="description" content="Довгі нарди онлайн: грай з другом за посиланням або знайди суперника. Рейтинг, ранги, голосовий чат.">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -2588,6 +2592,7 @@ body[data-table=nightsea] #stage::after{background:linear-gradient(180deg,transp
 .pv.big.fxpv>span{font-size:90px} .pv.big.fxpv>span img{width:110px!important;height:110px!important}
 .ctile .pv.fxpv>span img,.cstrip .pv.fxpv>span img{width:38px!important;height:38px!important}
 .set.ntf>span{display:flex;flex-direction:column;gap:2px} .set.ntf small{font-size:11.5px;color:var(--muted);line-height:1.3;max-width:240px}
+body.tg .set.ntf{display:none}
 </style>
 </head>
 <body>
@@ -3037,7 +3042,9 @@ async function resync(){ if(!ref) return; try{ const d=await ref.get(); if(d){ g
 let nameCache={};
 function rid(){ const a='abcdefghjkmnpqrstuvwxyz23456789'; let s=''; for(let i=0;i<7;i++) s+=a[Math.floor(Math.random()*a.length)]; return s; }
 function setHash(h){ try{ if(h) location.hash=h; else history.replaceState(null,'',location.pathname+location.search); }catch(e){} }
-const linkFor = id => location.origin + location.pathname + '#g-' + id;
+const TG=window.TGWA||null, TG_BOT='dovgi_nardy_bot';
+const tgLink=p=>'https://t.me/'+TG_BOT+(/^\/beta/.test(location.pathname)?'/beta':'')+'?startapp='+p;
+const linkFor = id => TG ? tgLink('g-'+id) : location.origin + location.pathname + '#g-' + id;
 async function createGame(){
   if(!db){ openProfile(); return; }
   gameId=rid(); mode='online'; ref=db.doc('games/'+gameId);
@@ -6433,7 +6440,7 @@ function badgesEl(list){ const bs=(list||W.badges||[]).slice(-6); if(!bs.length)
 // ================= server wallet (beta) =================
 // When the "game" function knows the 'wallet' action, coins and items live on the server and the local W is only a cache.
 // Purchases are shown at once and confirmed by the server; if it refuses, the wallet is reloaded from the server.
-const APP_VERSION='0.16.0-beta.2';
+const APP_VERSION='0.16.0-beta.3';
 { const v=document.getElementById('appVer'); if(v){ const m=APP_VERSION.match(/-beta\.(\d+)$/); v.innerHTML='<span class="vl"></span><span class="vs"></span>'; v.firstChild.textContent='v'+APP_VERSION; v.lastChild.textContent=m?'b.'+m[1]:'v'+APP_VERSION; v.title='v'+APP_VERSION; } }
 let SW=false;
 function walletApply(sw, got){
@@ -6712,6 +6719,32 @@ function rpTour(body){ const H=(tag,cls,txt)=>{ const e=document.createElement(t
   inn.onclick=()=>{ closeRankPage(); openTour(); }; el.appendChild(inn); }
 function rpDur(ms){ ms=Math.max(0,ms); const d=Math.floor(ms/864e5), h=Math.floor(ms%864e5/3600e3), m=Math.floor(ms%3600e3/60000); return d ? d+(lang==='uk'?' д ':' d ')+h+(lang==='uk'?' год':' h') : h ? h+(lang==='uk'?' год ':' h ')+m+(lang==='uk'?' хв':' min') : m+(lang==='uk'?' хв':' min'); }
 
+
+// ================= Telegram Mini App =================
+// The same site runs inside Telegram: Telegram's theme bar colour, its Back button, vibration on dice and moves,
+// sign-in with the Telegram account (the server checks Telegram's signature), invites through Telegram chats.
+function tgName(tg){ const clean=x=>String(x||'').replace(/[^\p{L}\p{N}_.\- ]/gu,'').replace(/\s+/g,' ').trim();
+  let n=clean(tg.first); if(n.length<3) n=clean(((tg.first||'')+' '+(tg.last||''))); if(n.length<3) n=clean(tg.username); if(n.length<3) n='Гравець '+String(tg.id).slice(-4);
+  return n.slice(0,16).trim(); }
+async function tgLogin(){ if(!TG || !sb) return false;
+  try{ const {data}=await sb.functions.invoke('game',{body:{action:'tg_login', args:{initData:TG.initData}}}); if(!data || !data.token_hash) return false;
+    let r=await sb.auth.verifyOtp({token_hash:data.token_hash, type:'magiclink'}); if(r.error) r=await sb.auth.verifyOtp({token_hash:data.token_hash, type:'email'}); if(r.error || !r.data || !r.data.user) return false;
+    if(data.isNew && data.tg && /^(uk|ru)/.test(data.tg.lang||'') && lang!=='uk'){ lang='uk'; try{ store.set('lang','uk'); }catch(e){} applyLang(); }
+    await onSignedIn(r.data.user, tgName(data.tg||{})); return true; }catch(e){ return false; } }
+if(TG){ document.body.classList.add('tg');
+  try{ TG.ready(); TG.expand(); if(TG.disableVerticalSwipes) TG.disableVerticalSwipes(); }catch(e){}
+  const tgHex=c=>{ const m=String(c).match(/\d+/g); return m ? '#'+m.slice(0,3).map(x=>(+x).toString(16).padStart(2,'0')).join('') : '#111111'; };
+  const tgColors=()=>{ try{ const bg=tgHex(getComputedStyle(document.body).backgroundColor); TG.setHeaderColor && TG.setHeaderColor(bg); TG.setBackgroundColor && TG.setBackgroundColor(bg); TG.setBottomBarColor && TG.setBottomBarColor(bg); }catch(e){} };
+  tgColors(); new MutationObserver(tgColors).observe(document.body,{attributes:true, attributeFilter:['class']});
+  // Back: closes the top window, then the rating page / shop, then leaves the game
+  const tgOpenOv=()=>[...document.querySelectorAll('.overlay:not(.hidden)')].filter(o=>o.offsetParent!==null || getComputedStyle(o).display!=='none').pop();
+  const tgCanBack=()=>!!(tgOpenOv() || $('rankPg') || gs);
+  TG.BackButton.onClick(()=>{ try{ const ov=tgOpenOv(); if(ov){ const x=ov.querySelector('.x, .close, [data-close], .mclose'); if(x) x.click(); else show(ov.id,false); }
+    else if($('rankPg')) closeRankPage(); else if(gs) askLeave(); }catch(e){} });
+  setInterval(()=>{ try{ tgCanBack() ? TG.BackButton.show() : TG.BackButton.hide(); }catch(e){} }, 400);
+  // vibration
+  const _sfx=sfx; sfx=function(kind){ try{ const H=TG.HapticFeedback; if(H){ if(kind==='dice') H.impactOccurred('medium'); else if(kind==='move') H.impactOccurred('light'); else if(kind==='turn') H.selectionChanged(); else if(kind==='win') H.notificationOccurred('success'); } }catch(e){} return _sfx.apply(this,arguments); };
+}
 // ================= notifications =================
 // 1) while the site is open (even in the background): your turn in an online game, the tournament in an hour / in 5 minutes;
 // 2) when it is closed: web push from the server (the weekend tournament reminders). Switched on in Settings.
@@ -6939,7 +6972,7 @@ $('btnCopy').onclick=()=>BETA?openShare('game'):copyLink(); $('btnCopy2').onclic
 // The link carries the inviter's id (#r-<id>). A new registered player who came by it gets 300 coins and the Druzi checkers;
 // the inviter gets 200 coins per friend and the Friends board at 1 / 3 / 5 / 10 friends. The server checks and records it in ach
 // (refBy for the newcomer, refN for the inviter); in the beta the wallet is local, so refSync pays out what ach says is due.
-const refLink=()=> location.origin + location.pathname + '#r-' + uid;
+const refLink=()=> TG ? tgLink('r-'+uid) : location.origin + location.pathname + '#r-' + uid;
 { const h=location.hash.replace('#',''); if(/^r-[0-9a-f-]{36}$/.test(h)){ store.set('refPending', h.slice(2)); try{ history.replaceState(null,'',location.pathname+location.search); }catch(e){} } }
 const isReg=()=> !!(authUser && !authUser.is_anonymous && !profile.guest);
 function openInvite(){ if(!isReg()){ toast(t('refNeedReg')); openProfile(); return; } show('profOv',false); openShare('ref'); }
@@ -6990,7 +7023,7 @@ function refInfo(){ const A=profile.ach||{}, n=A.refN|0, w=document.createElemen
 let _qrLib=null;
 function loadQr(){ return _qrLib || (_qrLib=new Promise((res,rej)=>{ if(window.qrcode) return res(window.qrcode); const sc=document.createElement('script'); sc.src='qr.js'; sc.onload=()=>res(window.qrcode); sc.onerror=rej; document.head.appendChild(sc); })); }
 // ---- share the weekend tournament: the link opens the tournament window (and counts as a friend invite when you are signed in) ----
-const tourLink=()=> location.origin + location.pathname + '#tour' + (uid && authUser && !authUser.is_anonymous ? '-r-'+uid : '');
+const tourLink=()=> TG ? tgLink('tour'+(uid && authUser && !authUser.is_anonymous ? '-r-'+uid : '')) : location.origin + location.pathname + '#tour' + (uid && authUser && !authUser.is_anonymous ? '-r-'+uid : '');
 { const h=location.hash.replace('#',''); const m=h.match(/^tour(?:-r-([0-9a-f-]{36}))?$/); if(m){ if(m[1]) store.set('refPending', m[1]); try{ history.replaceState(null,'',location.pathname+location.search); }catch(e){} setTimeout(()=>{ try{ openTour(); }catch(e){} }, 900); } }
 function tourShareBtn(){ const b=document.createElement('button'); b.type='button'; b.className='ghost tshbtn'; b.textContent='↗ '+t('tshB'); b.title=t('tshB'); b.onclick=()=>{ show('tourOv',false); openShare('tour'); }; return b; }
 let shareKind='game', shareURL='';
@@ -7001,12 +7034,13 @@ async function openShare(kind){
   try{ const qrcode=await loadQr(); const q=qrcode(0,'M'); q.addData(url); q.make(); const n=q.getModuleCount(), m=4, sz=cv.width/(n+2*m);
     g.fillStyle='#111'; for(let r=0;r<n;r++) for(let c=0;c<n;c++) if(q.isDark(r,c)) g.fillRect(Math.floor((c+m)*sz),Math.floor((r+m)*sz),Math.ceil(sz),Math.ceil(sz)); }
   catch(e){ g.fillStyle='#888'; g.font='20px sans-serif'; g.textAlign='center'; g.fillText('QR',cv.width/2,cv.height/2); }
-  $('shareSend').hidden=!navigator.share;
+  $('shareSend').hidden=!navigator.share && !TG;
 }
 const qrBlob=()=>new Promise(r=>$('shareQr').toBlob(r,'image/png'));
 $('shareCopy').onclick=async()=>{ if(shareKind==='game') return copyLink(); try{ await navigator.clipboard.writeText(shareURL); toast(t('copied')); }catch(e){ toast(shareURL); } };
 $('shareSave').onclick=async()=>{ const b=await qrBlob(); const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='nardy-invite.png'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),2000); };
 $('shareSend').onclick=async()=>{ const url=shareURL||linkFor(gameId), text=t(shareKind==='ref'?'refShareText':shareKind==='tour'?'tshText':'shareText');
+  if(TG){ try{ TG.openTelegramLink('https://t.me/share/url?url='+encodeURIComponent(url)+'&text='+encodeURIComponent(text)); }catch(e){} return; }
   try{ const b=await qrBlob(); const f=new File([b],'nardy-invite.png',{type:'image/png'});
     if(navigator.canShare && navigator.canShare({files:[f]})) await navigator.share({title:t('shareT'), text:text+' '+url, files:[f]});
     else await navigator.share({title:t('shareT'), text, url}); }catch(e){} };
@@ -7041,6 +7075,7 @@ async function boot(){
   lobbyStart(); loadGhosts(); setInterval(loadGhosts, 300000);
   const {data:{session}} = await sb.auth.getSession();
   if(session && session.user) await onSignedIn(session.user);
+  else if(TG && await tgLogin()){ }
   else { bootState='nologin'; bootNote(); $('btnCreate').disabled=false; if(store.get('refPending',null)) setTimeout(()=>refOnSignIn(), 300); else setTimeout(openProfile, 300); }
 }
 window.addEventListener('hashchange',()=>{ const h=location.hash.replace('#',''); if(db && h.startsWith('g-') && h.slice(2)!==gameId) joinGame(h.slice(2)); });
