@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.19.1 — 7 Nov 2026
+- Lessons on phones: the story bubble was placed on stale board coordinates and could cover the bear-off tray (e.g. the 6 and 2 lesson). It is now placed again as the board settles (scroll, layout), and goes below the tray if it fits, otherwise over the top half of the board.
+
 ## 0.19.0 — 7 Nov 2026
 - Friends (Rating → Friends): find and add by nickname, online now / last seen, "Call" creates a game and invites the friend (in-app invite if online, push, Telegram message via the bot); add / remove / call from a player's card. Server action `friends` (find, add, remove, invite, list; one invite per friend per minute).
 - The daily puzzle on prod (from the beta): a card on the home page; the server pays once per Kyiv day (best 60, good 20) and keeps the streak (action `puzzle`).
