@@ -4,6 +4,15 @@ Beta versions are `<next main-site version>-beta.<build>`: every deploy to /beta
 When features move to the main site they get a normal version there (see CHANGELOG.md), and the beta moves on to the next one.
 
 
+
+## 7 Nov 2026 — Druzi International battle pass
+- The winter pass is put away (its things stay with whoever has them and are hidden from the catalog). In its place: the **International Compendium** — 100 levels.
+- The pass costs 2000 coins; a level costs 250. Half of every pass and level purchase goes to the Druzi International prize pool (shown on the pass page with your share).
+- XP comes from games (win +30, loss +15), quests (+40 each) and the daily gift (+20), 100 XP per level. Levels count before you buy the pass; buying it gives all the rewards for the levels already passed.
+- 100 rewards, from chat phrases at the start to animated things at the end: 24 portraits; 12 checkers (Bronze, Silver, Radiant, Dire, Emerald, Sapphire, Ruby, Gold, Obsidian, Platinum, Aurora, Immortal — the last two animated); 8 dice; 5 boards (Arena, Obsidian, Aurora, Gold hall, Immortal with a moving shine); 3 tables (International arena, Trophy room, Night stadium); 8 avatar frames up to the animated Immortal and the International crown; 6 card backgrounds; 7 phrases; 3 emoji packs; 4 sounds (gong, war drums, crowd chant, stadium horn); 3 avatar looks (caster headset, champion crown, laurel wreath); 12 effects — 8 big animated wins from LottieFiles (trophy, crown, twinkle crown, gold status, rocket, two fireworks, confetti burst) and coin rain, meteor shower, golden wave and lightning; coins at levels 25, 45, 75, 94 and 99.
+- Pass page: a fourth tab “Pass” in the Collection — the International hero with the prize pool and your level, the ten big rewards (every 10th level), and all 100 levels in rows of ten (locked rewards show a lock until the pass is bought). The rewards window links to it.
+- Portraits are a new catalog category (Profile → Portraits): 24 from the pass and 12 sold for 300–900 coins. A portrait replaces your avatar; avatar looks stay for the classic avatars.
+
 ## 7 Nov 2026 — NIKOW case (demo)
 - New case “NIKOW · demo” (450 coins, same odds as the Druzi cases): 34 things in the mood of NIKOW — night city, the ocean, the stage and a stadium of phone lights. Checkers Balm, Philophobia, Son are you asleep?, Open ocean, Heartbeat (pulses), Seductive, Not for real (holographic), Moon; dice Whisper, City windows, Concert ticket, Spotlight, Vinyl, Stage neon; boards “Talks with the city” and “Deep” (slow waves); the Stadium table; phrases; frames Spotlight beam, Sound wave and NIKOW Live (animated, with a LIVE badge); the “Sold out” card; avatar look “Hood and mic”; concert emoji; effects “Stadium lights” (win) and “Heartbeat” (roll); five voices — heartbeat, stadium roar, night chord, rain in the city, bass drop.
 - All pictures and sounds are our own (sounds are synthesized in the browser); no recordings, lyrics, covers or likeness of the artist. Licensed snippets can be dropped in later through VO_SRC for the nk* voices.
