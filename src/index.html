@@ -1388,7 +1388,7 @@ body.rpopen{overflow:hidden}
 .rptabs button{border:0;background:none;box-shadow:none;border-radius:10px;padding:9px 6px;color:var(--muted);font-weight:600;font-size:14px}
 .rptabs button.on{background:var(--ink);color:var(--paper)}
 .rpnote{font-size:12.5px;color:var(--muted);margin:2px 0 10px}
-.rppod{display:grid;grid-template-columns:1fr 1.15fr 1fr;align-items:end;gap:8px;margin:6px 0 14px}
+.rppod{display:grid;grid-template-columns:1fr 1.15fr 1fr;align-items:end;gap:8px;margin:40px 0 14px}
 .rpp{text-align:center;cursor:pointer;min-width:0} .rpp .avw{display:flex;justify-content:center;margin-bottom:12px}
 .rpp b{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis} .rpp small{display:block;color:var(--muted);font-size:12.5px;font-variant-numeric:tabular-nums}
 .rpp .st{margin-top:8px;border-radius:12px 12px 0 0;border:1px solid var(--line);border-bottom:0;background:var(--surf);display:flex;align-items:flex-start;justify-content:center;padding-top:8px;font-weight:700;font-size:20px;color:var(--muted)}
@@ -3757,6 +3757,8 @@ function openRankPage(mode){ if(mode) rpMode=mode; let pg=$('rankPg'); if(!pg){ 
   const body=document.createElement('div'); body.id='rpBody'; w.appendChild(body);
   try{ if(!_rpHist){ history.pushState({rp:1},''); _rpHist=true; } }catch(e){}
   rpPaint(); rpLoad().then(()=>{ if(rpMode==='rating') rpPaint(); }); rpFriends().then(r=>{ rpFr=r; if(rpMode==='friends') rpPaint(); }); }
+// anything opened from the rating page (the tournament window) appears on top: close the page first
+{ const _ot=openTour; openTour=function(){ if($('rankPg')) closeRankPage(); return _ot.apply(this,arguments); }; }
 function closeRankPage(){ const pg=$('rankPg'); if(pg) pg.remove(); const me=$('rpMe'); if(me) me.remove(); document.body.classList.remove('rpopen'); if(_rpHist){ _rpHist=false; try{ history.back(); }catch(e){} } }
 window.addEventListener('popstate',()=>{ if(_rpHist && $('rankPg')){ _rpHist=false; closeRankPage(); } });
 document.addEventListener('keydown',e=>{ if(e.key==='Escape' && $('rankPg') && $('plOv').classList.contains('hidden')) closeRankPage(); });
