@@ -3,6 +3,14 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.15.1 — 7 Nov 2026
+- The shop “Collection” (coin button in the header, or “More in the shop” in Settings): boards, checkers, dice and tables for coins, each with a try-on — the selected thing on your board with your checkers and dice — filters All / Mine / Not mine, and rarity (common, rare, epic, legendary). Buying and the prices are checked on the server; your things are kept with your profile.
+- The base set (Felt board, Classic checkers, Ivory dice, “To match the board” table) is free for everyone; the Friends board and checkers stay earned by inviting friends; card backgrounds stay earned by rank. Everything else is now in the shop.
+- Players whose accounts existed before the shop opened get 3000 coins once, with a welcome window. Anyone playing on an item that is now paid goes back to the base set and can buy it again.
+- My outfits: up to 5 saved outfits (avatar, board, checkers, dice, table). They are in the profile instead of the big avatar grid and switch with one tap; not during a game. Avatars moved to the Collection (Profile → Avatar).
+- Settings show only your things, plus “More in the shop”.
+- Coins per game against matched bots: full for the first 10 games a day, half up to 20, then like practice games.
+
 ## 0.14.13 — 7 Nov 2026
 - Admin panel, visible only to the admin account and checked by the server on every call: Settings → Admin panel. Statistics (online now, registered and guests, new and active players, games between people and with bots, return next day / within a week, funnel, coins in circulation) with 30-day charts; find a player by nickname and give or take coins with a reason (every action is logged); all skins for testing.
 - The site tells the server once a day that the player was here, and finished games are counted per day, for the statistics.

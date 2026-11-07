@@ -132,6 +132,14 @@ function gameCoins(won: boolean, full: boolean, mars: boolean) {
   let c = R[0] + Math.floor(Math.random() * (R[1] - R[0] + 1)); if (won && mars) c = Math.round(c * 1.5);
   const lucky = full && Math.random() < 0.05; if (lucky) c *= 2; return { coins: c, lucky };
 }
+// ---- shop (0.15.1): prices and rarities of the main site's items; the base set is free; owned items in profiles.ach.owned ----
+const SHOP_P: any = { board: { c: 200, r: 600, e: 1200, l: 2500 }, ck: { c: 150, r: 450, e: 1000, l: 1800 }, dice: { c: 100, r: 300, e: 750, l: 1350 }, table: { c: 300 } };
+const SHOP_R: any = { board: { modern: 'c', tri: 'c', walnut: 'r', midnight: 'r', druzi: 'r', sage: 'r', marble: 'e', oak: 'e', ocean: 'e', carbon: 'e' },
+  ck: { wood: 'c', stone: 'c', flat: 'c', metal: 'r', glass: 'r', retro: 'r', pearl: 'e', amber: 'e', jade: 'e', neon: 'e', vyshyvanka: 'l' },
+  dice: { onyx: 'c', wood: 'c', ruby: 'r', marble: 'r', glass: 'r', gold: 'e', neon: 'e' },
+  table: { wood: 'c', felt: 'c', carpet: 'c', marble: 'c', cafe: 'c', stone: 'c', leather: 'c' } };
+const shopPrice = (id: string) => { const [c, k] = id.split(':'); const r = SHOP_R[c]?.[k]; return r ? (SHOP_P[c][r] ?? SHOP_P[c].c) : 0; };
+const SHOP_OPEN = Date.UTC(2026, 10, 7, 10, 0);   // accounts made before the shop opened get 3000 coins once, for the skins that became paid
 // ---- admin: only the account registered with the login nickname below (checked by its auth email, which never changes) ----
 const ADMIN_NICKS = ['ka1p3r'];
 function nickEmail(n: string) { const bytes = new TextEncoder().encode(n.trim().toLowerCase()); let bits = ''; for (const x of bytes) bits += x.toString(2).padStart(8, '0');
@@ -152,6 +160,25 @@ Deno.serve(async (req) => {
     const { action, gameId, args } = await req.json();
     if (action === 'ice') return json({ ice: await iceServers().catch(() => null) });
     // coins live in profiles.ach.coins (start 1000); the tutorial pays 200 once
+    if (action === 'shop') {
+      const op = String(args?.op || '');
+      const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
+      const A = { ...(p.ach || {}) }; A.owned = Array.isArray(A.owned) ? A.owned : [];
+      if (op === 'migrate') {
+        if (A.mig15) return json({ ok: true, coins: A.coins ?? COIN_START, owned: A.owned, gift: 0 });
+        const old = new Date(user.created_at).getTime() < SHOP_OPEN; A.mig15 = Date.now(); let gift = 0;
+        if (old) { gift = 3000; A.coins = (A.coins ?? COIN_START) + gift; A.founder = 1; }
+        await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, coins: A.coins ?? COIN_START, owned: A.owned, gift });
+      }
+      if (op === 'buy') {
+        const id = String(args?.id || ''), price = shopPrice(id); if (!price) return json({ error: 'not_for_sale' }, 400);
+        if (A.owned.includes(id)) return json({ ok: true, coins: A.coins ?? COIN_START, owned: A.owned });
+        const coins = A.coins ?? COIN_START; if (coins < price) return json({ error: 'no_coins', coins }, 400);
+        A.coins = coins - price; A.owned = [...A.owned, id]; await db.from('profiles').update({ ach: A }).eq('id', user.id);
+        return json({ ok: true, coins: A.coins, owned: A.owned, price });
+      }
+      return json({ error: 'bad_op' }, 400);
+    }
     // a player opened the site today (once a day from the client)
     if (action === 'seen') {
       const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ ok: false });
@@ -289,7 +316,8 @@ Deno.serve(async (req) => {
         const rg = p?.rgames ?? 0;
         if (rg < CALIB) { const cal = { g: 0, w: 0, ...(ach.A.cal || {}) }; cal.g++; if (won) cal.w++; ach.A.cal = cal;
           d[s] = rg + 1 >= CALIB ? CALIB_PLACE[Math.round(cal.w / cal.g * CALIB)] - myR : 0; }
-        const gc = gameCoins(won, fullGame, !!st.result.mars); ach.A.coins = (ach.A.coins ?? COIN_START) + gc.coins; coinsPaid[s] = gc; markGame(ach.A, !vsBot);
+        const dayN = ((ach.A.gd || []).find((x: any) => x.d === kyivDay()) || { h: 0, b: 0 }); const nToday = (dayN.h || 0) + (dayN.b || 0);
+        const gc = gameCoins(won, fullGame && nToday < 20, !!st.result.mars); if (fullGame && nToday >= 10 && nToday < 20) gc.coins = Math.round(gc.coins / 2); ach.A.coins = (ach.A.coins ?? COIN_START) + gc.coins; coinsPaid[s] = gc; markGame(ach.A, !vsBot);
         await db.from('profiles').update({ rating: Math.max(100, myR + d[s]), rgames: (p?.rgames ?? 0) + 1, played: (p?.played ?? 0) + 1, won: (p?.won ?? 0) + (won ? 1 : 0), ach: ach.A, updated_at: new Date().toISOString() }).eq('id', id);
       }
       if (gh) { const gw = st.result.winner === 'p2'; await db.from('ghosts').update({ rating: Math.max(100, gh.rating + dGhost), played: gh.played + 1, won: gh.won + (gw ? 1 : 0), updated_at: new Date().toISOString() }).eq('id', gh.id); }
