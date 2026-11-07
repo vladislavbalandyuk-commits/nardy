@@ -3583,11 +3583,17 @@ function storyRender(){
 function storyType(el, txt){ clearInterval(el._t); if(noMotion()){ el.textContent=txt; return; } let i=0; el.textContent=''; el._t=setInterval(()=>{ i+=2; el.textContent=txt.slice(0,i); if(i>=txt.length) clearInterval(el._t); }, 18); }
 // the bubble sits on the side of the board away from the points it talks about; on a phone it sits under the board
 function storyPlace(){ const ov=$('storyOv'), bd=$('board'); if(!ov||!bd) return; const r=bd.getBoundingClientRect(), L=story&&storyLine()||{}, pts=(L.hl||[]).concat(L.no||[]);
-  if(isPhone()){ ov.style.left='8px'; ov.style.right='8px'; ov.style.width=''; ov.style.top=Math.round(Math.min(innerHeight-ov.offsetHeight-8, r.bottom+8))+'px'; return; }
+  // phone: below the bear-off tray if it fits, otherwise over the top half of the board — never over the tray or the highlighted points
+  if(isPhone()){ ov.style.left='8px'; ov.style.right='8px'; ov.style.width=''; const h=ov.offsetHeight, tr=document.querySelector('#stage .tray, .tray'), tb=tr ? tr.getBoundingClientRect().bottom : r.bottom;
+    const below=Math.max(r.bottom, tb)+8, upper=pts.some(n=>n>=13);
+    ov.style.top=Math.round(below+h <= innerHeight-8 ? below : upper ? Math.max(8, r.top-h-8) : r.top+8)+'px'; return; }
   const W=Math.min(560, r.width*.7); ov.style.width=W+'px'; ov.style.right=''; ov.style.left=Math.round(r.left+r.width/2-W/2)+'px';
   const top = !pts.some(n=>n>=13);   // points 13–24 are the top row
   ov.style.top = Math.round(top ? r.top+12 : r.bottom-ov.offsetHeight-12)+'px'; }
 addEventListener('resize', ()=>{ try{ storyPlace(); }catch(e){} });
+// the board settles (scroll, layout, fonts) after a line is shown: place the bubble again so it never sits on stale coordinates
+addEventListener('scroll', ()=>{ try{ if(story) storyPlace(); }catch(e){} }, {passive:true, capture:true});
+setInterval(()=>{ try{ if(story && $('storyOv')) storyPlace(); }catch(e){} }, 400);
 function storyNext(){ if(!story) return; const p=$('storyOv').querySelector('p'); const L=storyLine();
   if(p && L && p.textContent.length < t(L.k).length){ clearInterval(p._t); p.textContent=t(L.k); return; }   // first tap shows the whole line
   const S=STORY[tut.i];
