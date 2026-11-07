@@ -36,3 +36,5 @@
 - Portraits: DiceBear styles Lorelei, Open Peeps and Pixel Art by Lisa Wischofsky, Pablo Stanley and Florian Körner (CC0 1.0), and Avataaars by Pablo Stanley (free for personal and commercial use), generated with DiceBear (MIT).
 - Win animations from LottieFiles, Lottie Simple License, loaded from LottieFiles when played: “Trophy” by Mahendra Bhunwal, “Crown” by aliakbar, “TWINKLE CROWN!” by Bùi Vịnh, “Premium Gold” by Khalil Oueslati, “Rocket Flight” by Jay Baulch, “Fireworks” by Emily Zhou, “Fireworks” by Omar Mahmoud, “celebration_confetti.json” by Ruben Lara.
 - All other International things (checkers, dice, boards, tables, frames, cards, avatar looks, sounds, coin rain, meteors, golden wave, lightning) are drawn and synthesized in the code.
+- 3D effects use three.js r160 (MIT), loaded from jsdelivr when an effect plays.
+- New material photos from Unsplash (Unsplash License): gold leaf texture (photo-1760784213096), gold and white liquid metal by Susan Wilkinson (photo-1654528322488), snowflakes macro by Rob Sarmiento (photo-1550715512).
