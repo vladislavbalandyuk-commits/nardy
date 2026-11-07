@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.16.5 — 7 Nov 2026
+- Telegram bot: after Start it greets the player with buttons Play / Weekend tournament / Invite a friend; bot description, short description, /start command and the Play menu button. Set up from Admin → Tools → Telegram bot (needs TG_BOT_TOKEN in Supabase secrets).
+
 ## 0.16.4 — 7 Nov 2026
 - Phone header order: rating, settings, coins, then your nickname.
 

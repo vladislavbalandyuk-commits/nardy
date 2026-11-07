@@ -246,6 +246,49 @@ async function tgSession(db: any, tu: any) {
   return { ok: true, token_hash: L.properties.hashed_token, isNew, tg: { id: tu.id, first: tu.first_name || '', last: tu.last_name || '', username: tu.username || '', lang: tu.language_code || '' } };
 }
 const TG_BONUS = 500, TG_FRAME = 'frame:tg';
+
+// ---- the Telegram bot itself (needs TG_BOT_TOKEN): answers /start with a "Play" button; set up from Admin → Tools ----
+const SITE = 'https://nardy-nine.vercel.app/';
+const tgTok = () => (globalThis as any).Deno?.env.get('TG_BOT_TOKEN') || '';
+async function tgApi(method: string, body: any) {
+  const r = await fetch('https://api.telegram.org/bot' + tgTok() + '/' + method, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+  return await r.json().catch(() => ({ ok: false }));
+}
+async function tgHookSecret() { const h = new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode('nardy-hook:' + tgTok()))); return Array.from(h.slice(0, 24)).map((b) => b.toString(16).padStart(2, '0')).join(''); }
+const TG_TXT: any = {
+  uk: { hi: (n: string) => `Привіт${n ? ', ' + n : ''}! 🎲\n\n<b>Довгі нарди</b> онлайн — грайте з друзями або з випадковим суперником, піднімайте рейтинг і забирайте призи турніру вихідного дня.\n\n🎁 За вхід через Telegram — <b>+500 монет</b> і рамка Telegram.`,
+        play: '🎲 Грати', tour: '🏆 Турнір вихідного дня', invite: '👥 Запросити друга', inviteText: 'Зіграймо в довгі нарди!',
+        help: 'Натисніть «Грати», щоб відкрити нарди.', menu: 'Грати',
+        desc: 'Довгі нарди онлайн: гра з друзями за посиланням, суперники за рейтингом, турнір вихідного дня з призами, колекція дощок і шашок. Натисніть «Почати» і грайте прямо в Telegram.',
+        short: 'Довгі нарди онлайн: друзі, рейтинг, турніри. Грайте прямо в Telegram.' },
+  en: { hi: (n: string) => `Hi${n ? ', ' + n : ''}! 🎲\n\n<b>Long nardy</b> online — play friends or a random opponent, climb the rating and win the weekend tournament prizes.\n\n🎁 Signing in with Telegram gives <b>+500 coins</b> and the Telegram frame.`,
+        play: '🎲 Play', tour: '🏆 Weekend tournament', invite: '👥 Invite a friend', inviteText: 'Let’s play long nardy!',
+        help: 'Tap “Play” to open nardy.', menu: 'Play',
+        desc: 'Long nardy (backgammon) online: play friends by link, opponents by rating, a weekend tournament with prizes, a collection of boards and checkers. Tap Start and play right in Telegram.',
+        short: 'Long nardy online: friends, rating, tournaments. Play right in Telegram.' },
+};
+const tgLang = (c: string) => /^(uk|ru|be)/.test(c || '') ? 'uk' : 'en';
+async function tgOnUpdate(u: any) {
+  const m = u?.message; if (!m || !m.chat || m.chat.type !== 'private') return;
+  const L = TG_TXT[tgLang(m.from?.language_code)], text = String(m.text || '');
+  const kb = { inline_keyboard: [[{ text: L.play, web_app: { url: SITE } }], [{ text: L.tour, web_app: { url: SITE + '?tour=1' } }],
+    [{ text: L.invite, url: 'https://t.me/share/url?url=' + encodeURIComponent('https://t.me/dovgi_nardy_bot?startapp=go') + '&text=' + encodeURIComponent(L.inviteText) }]] };
+  if (text.startsWith('/start') || text.startsWith('/play')) await tgApi('sendMessage', { chat_id: m.chat.id, text: L.hi(m.from?.first_name || ''), parse_mode: 'HTML', reply_markup: kb });
+  else await tgApi('sendMessage', { chat_id: m.chat.id, text: L.help, reply_markup: kb });
+}
+async function tgSetup(hookUrl: string) {
+  const out: any = {};
+  out.webhook = (await tgApi('setWebhook', { url: hookUrl, secret_token: await tgHookSecret(), allowed_updates: ['message'], drop_pending_updates: true })).ok;
+  for (const [lc, L] of [['', TG_TXT.en], ['uk', TG_TXT.uk], ['ru', TG_TXT.uk]] as any) {
+    const lcA = lc ? { language_code: lc } : {};
+    out['desc' + lc] = (await tgApi('setMyDescription', { description: L.desc, ...lcA })).ok;
+    out['short' + lc] = (await tgApi('setMyShortDescription', { short_description: L.short, ...lcA })).ok;
+    out['cmd' + lc] = (await tgApi('setMyCommands', { commands: [{ command: 'start', description: L.play.replace(/^\S+\s/, '') }], ...lcA })).ok;
+  }
+  out.menu = (await tgApi('setChatMenuButton', { menu_button: { type: 'web_app', text: TG_TXT.uk.menu, web_app: { url: SITE } } })).ok;
+  const me = await tgApi('getMe', {}); out.bot = me?.result?.username || null;
+  return out;
+}
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: cors });
   try {
@@ -253,6 +296,11 @@ Deno.serve(async (req) => {
     const db = createClient(url, svc, { auth: { persistSession: false } });
     const token = (req.headers.get('Authorization') ?? '').replace(/^Bearer\s+/i, '');
     const body0 = await req.json().catch(() => ({}));
+    // Telegram webhook: an update from the bot (checked by the secret header)
+    if (body0 && body0.update_id != null) {
+      if (!tgTok() || req.headers.get('X-Telegram-Bot-Api-Secret-Token') !== await tgHookSecret()) return json({ ok: false }, 401);
+      try { await tgOnUpdate(body0); } catch (_) {} return json({ ok: true });
+    }
     // public: the VAPID public key, and the reminder tick (called every few minutes by a scheduled GitHub Action)
     if (body0.action === 'push_key') return json({ key: (await vapid(db)).pub });
     if (body0.action === 'push_tick') {
@@ -371,6 +419,7 @@ Deno.serve(async (req) => {
         const { data } = await db.from('profiles').select('id,name,av,rating,rgames,played,won,ach').ilike('name', '%' + q.replace(/[%_]/g, '') + '%').limit(20);
         return json({ rows: (data || []).map((r: any) => ({ id: r.id, name: r.name, av: r.av, rating: r.rating, rgames: r.rgames, played: r.played, won: r.won, coins: r.ach?.coins ?? COIN_START, last: (r.ach?.days || []).slice(-1)[0] || null, plat: r.ach?.plat || null, tg: !!r.ach?.tg, treg: r.ach?.treg || null, refN: r.ach?.refN || 0 })) });
       }
+      if (op === 'tg_setup') { if (!tgTok()) return json({ error: 'no_token' }); return json({ ok: true, ...(await tgSetup(url + '/functions/v1/game')) }); }
       if (op === 'coins') {
         const id = String(args?.id || ''), n = Math.round(Number(args?.n) || 0), note = String(args?.note || '').slice(0, 80);
         if (!/^[0-9a-f-]{36}$/.test(id) || !n || Math.abs(n) > 100000) return json({ error: 'bad_args' }, 400);
