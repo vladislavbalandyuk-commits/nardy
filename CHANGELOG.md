@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.16.4 — 7 Nov 2026
+- Phone header order: rating, settings, coins, then your nickname.
+
 ## 0.16.3 — 7 Nov 2026
 - Admin → Statistics → "Where people play": Telegram accounts (and nickname accounts that linked Telegram), players today and in 7 days in Telegram / the browser / the installed app, and a 30-day chart by platform. Players search shows each player's platform.
 - Admin: the Refresh button sits next to the title; the stat cards are two per row on phones.
