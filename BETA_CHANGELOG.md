@@ -5,6 +5,15 @@ When features move to the main site they get a normal version there (see CHANGEL
 
 
 
+
+## 7 Nov 2026 — cases like CS, Druzi Case 3 "Winter at Druzi", the pass reworked
+- Cases open like in CS: under the spinning strip you see everything that can drop, in one grid from common to rare; the tick rises in pitch as the strip slows down; new reveal sounds for rare, epic and special drops.
+- Legendary things are hidden like the knife in a case: in the strip and in the contents they show as one ★ “Special item” tile; only when it drops the tile flips to the real thing.
+- “Inspect” for legendary and mythic drops: the thing on a 3D stage — drag to turn it, wheel to zoom, it turns by itself; effects and sounds get a big icon and a Play button.
+- Druzi Case 3 “Winter at Druzi” (450): 31 things from the cafe's menu in winter — bubble-gum and currant-lavender lemonades, milkshake, sea-buckthorn tea, pancakes, the big breakfast, hot chocolate, the bourbon-orange tincture, snowballs, gingerbread, the Druzi bike, winter emoji, live garland and frost frames, the snowy terrace card, table and board, hot mulled wine, garland dice, hat and scarf; special: snow globe, sleigh with presents, the twinkling “Druzi Christmas” board; sounds: “Shchedryk” on bells, fireplace, champagne, sleigh bells, snow crunch.
+- Druzi Case 1 and 2 got winter things too: mulled wine checkers, cocoa dice, a garland frame; gingerbread dice, tangerine checkers, the “Happy New Year, friends!” phrase and the “Snow at Druzi” card.
+- The International pass is reworked: 20 rewards on 100 levels instead of 100; buying it gives three sounds, Arena checkers I and the International frame I right away; the checkers and the frame grow to II/III/IV at levels 20/45/70 and 30/55/80 (IV is animated); level 100 gives the Champion's Aegis — a rising shield with light rays, shockwaves, a coin rain and the crowd. Reward cards have one fixed size, so nothing jumps. The other International things moved to the shop.
+
 ## 7 Nov 2026 — Druzi International battle pass
 - The winter pass is put away (its things stay with whoever has them and are hidden from the catalog). In its place: the **International Compendium** — 100 levels.
 - The pass costs 2000 coins; a level costs 250. Half of every pass and level purchase goes to the Druzi International prize pool (shown on the pass page with your share).
