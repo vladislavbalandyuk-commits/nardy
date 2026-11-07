@@ -206,6 +206,26 @@ function pushEvents(now: number) { const k = new Date(now + KYIV_OFF), dow = k.g
   if (dow === 6 && mins >= 17 * 60 + 50 && mins < 18 * 60 + 20) ev.push({ id: 'sat1750-' + ymd, who: 'reg', uk: ['Турнір починається!', 'Ваша група вже чекає — відкрийте нарди.'], en: ['The tournament is starting!', 'Your group is waiting — open nardy.'] });
   if (dow === 0 && mins >= 17 * 60 + 50 && mins < 18 * 60 + 20) ev.push({ id: 'sun1750-' + ymd, who: 'reg', uk: ['Плей-оф починається', 'Неділя, 18:00 — ваш плей-оф турніру вихідного дня.'], en: ['The play-off is starting', 'Sunday, 18:00 — your weekend tournament play-off.'] });
   return ev; }
+
+// ---- Telegram Mini App login ----
+// The Mini App gets a signed initData string from Telegram. Telegram signs it with its own Ed25519 key, so we can
+// check it with just the bot's id (no bot token on the server). If TG_BOT_TOKEN is set, the HMAC hash is accepted too.
+const TG_BOT_ID = 9048788159;
+const TG_PUB = 'e7bf03a2fa4602af4580703d88dda5bb59f32ed8b02a56c187fe7d34caed242d';
+const hex2u8 = (h: string) => new Uint8Array(h.match(/../g)!.map((x) => parseInt(x, 16)));
+async function tgVerify(initData: string, pubHex = TG_PUB, botId = TG_BOT_ID): Promise<any | null> {
+  const P = new URLSearchParams(initData); const hash = P.get('hash') || '', sig = P.get('signature') || '';
+  const pairs: string[] = []; P.forEach((v, k) => { if (k !== 'hash' && k !== 'signature') pairs.push(k + '=' + v); }); pairs.sort();
+  const enc = new TextEncoder(); let ok = false;
+  if (sig) { try { const key = await crypto.subtle.importKey('raw', hex2u8(pubHex), { name: 'Ed25519' }, false, ['verify']);
+    ok = await crypto.subtle.verify('Ed25519', key, ub64(sig), enc.encode(botId + ':WebAppData\n' + pairs.join('\n'))); } catch (_) { ok = false; } }
+  const tok = (globalThis as any).Deno?.env.get('TG_BOT_TOKEN');
+  if (!ok && tok && hash) { const sk = await hmac(enc.encode('WebAppData'), enc.encode(tok));
+    const h = Array.from(await hmac(sk, enc.encode([...pairs].join('\n')))).map((b) => b.toString(16).padStart(2, '0')).join(''); ok = h === hash; }
+  if (!ok) return null;
+  const at = +(P.get('auth_date') || 0); if (!at || Date.now() / 1000 - at > 86400) return null;
+  try { return JSON.parse(P.get('user') || 'null'); } catch (_) { return null; }
+}
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: cors });
   try {
@@ -225,6 +245,14 @@ Deno.serve(async (req) => {
         const to = (rows || []).filter((r: any) => e.who === 'all' || (r.ach?.treg && r.ach.treg.s === season));
         for (const r of to) { const L = r.ach?.lang === 'en' ? e.en : e.uk; sent += await pushTo(db, [r], { title: L[0], body: L[1], tag: e.id, url: '/' + (r.ach?.beta ? 'beta/' : '') + '?tour=1' }); } }
       return json({ ok: true, events: ev.length, sent }); }
+    if (body0.action === 'tg_login') {
+      const tu = await tgVerify(String(body0.args?.initData || '')); if (!tu || !tu.id) return json({ error: 'tg_bad' }, 401);
+      const email = 'tg-' + tu.id + '@telegram.invalid';
+      const cr = await db.auth.admin.createUser({ email, email_confirm: true, user_metadata: { tg: tu.id } });
+      const isNew = !cr.error;
+      const { data: L, error: le } = await db.auth.admin.generateLink({ type: 'magiclink', email }); if (le || !L?.properties?.hashed_token) return json({ error: 'tg_link' }, 500);
+      return json({ ok: true, token_hash: L.properties.hashed_token, isNew, tg: { id: tu.id, first: tu.first_name || '', last: tu.last_name || '', username: tu.username || '', lang: tu.language_code || '' } });
+    }
     const { data: { user } } = await db.auth.getUser(token); if (!user) return json({ error: 'auth' }, 401);
     const { action, gameId, args } = body0;
     if (action === 'ice') return json({ ice: await iceServers().catch(() => null) });
