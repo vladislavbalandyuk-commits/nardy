@@ -9,6 +9,11 @@ When features move to the main site they get a normal version there (see CHANGEL
 
 
 
+## 7 Nov 2026 — «Екскурсія з Пашею» (0.16.0-beta.6)
+- Pasha shows the platform: a spotlight on the real buttons (find a game, bot / link, coins and shop, daily gift, collection, rating, the weekend tournament, the daily puzzle, the course, profile, settings) with a hookah-bar joke at each one. Steps whose button is not on the screen are skipped.
+- Starts by itself once for new players on the home page; again from Settings → «Екскурсія з Пашею». Skip on every step; +100 coins at the end, once.
+- The course card glows for newcomers until chapter 2 is done.
+
 ## 7 Nov 2026 — «Вечори в кальянній» (0.16.0-beta.5)
 - The story course after the first lesson: 6 chapters with Vlad and Pasha — the head rule and the first-roll exception, the fence (and why six in a row is not allowed), bearing off, mars, tactics, and a final game against Pasha.
 - Every lesson with a move checks the move (a fence of five, bearing off, etc.); a wrong move gets a line from Vlad and the lesson again.
