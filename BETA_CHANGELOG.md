@@ -9,6 +9,11 @@ When features move to the main site they get a normal version there (see CHANGEL
 
 
 
+## 7 Nov 2026 — Telegram login on the website (0.16.0-beta.4)
+- "Log in with Telegram" in the login window — the same account as in the Telegram bot.
+- Profile → Telegram → "Link Telegram" for nickname accounts, so the bot opens the same account (coins, rating, items).
+- One-time bonus for a Telegram account: +500 coins and the new Telegram frame (blue ring with the paper-plane badge).
+
 ## 7 Nov 2026 — Telegram Mini App (0.16.0-beta.3)
 - The site opens inside Telegram (@dovgi_nardy_bot): Telegram's colours, its Back button, vibration on dice and moves, no swipe-to-close while dragging checkers.
 - Sign-in with the Telegram account — no nickname or password; the server checks Telegram's signature.
