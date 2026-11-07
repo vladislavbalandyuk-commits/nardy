@@ -3,6 +3,9 @@
 Beta versions are `<next main-site version>-beta.<build>`: every deploy to /beta adds one to the build number. Up to 0.14.0-beta.14 the beta was heading for 0.14.0; the main site took 0.14.1 (tutorial and coins), so from 0.15.0-beta.1 the beta heads for 0.15.0 (the shop).
 When features move to the main site they get a normal version there (see CHANGELOG.md), and the beta moves on to the next one.
 
+## 0.15.0-beta.17 — 7 Nov 2026
+- Showcase is fuller: the bundle of the week shows its board large with the checkers and dice on two tiles below (no tilted table); “Today for you” always shows four items (if you own them all they say “Yours” and “Put it on”); new blocks “Your collection” (how many of all items you have, opens what you are missing) and “Your goal” (your “Want this” item and how many coins are left); “New arrivals” as a row; both cases side by side.
+
 ## 0.15.0-beta.16 — 6 Nov 2026
 - The shop is redesigned as one page, “Collection”, with three tabs:
   - Showcase: the bundle of the week (changes weekly, with what it includes, the price and the saving, “Try on”), “Today for you” — four offers, one of each rarity (common, rare, epic, legendary) and of different kinds, refreshed at midnight — and the case.
