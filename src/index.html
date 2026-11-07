@@ -3017,7 +3017,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.16.5';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.16.6';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -3639,7 +3639,7 @@ function tourBots(season){ const s=season==null?tregSeason():season; let h=(s+1)
   return out; }
 // how many of them have signed up by now: a few on Monday, the rest during the week, all in by Friday evening
 function tourBotsNow(real){ const sat=nextSat(), weekStart=sat-5*864e5-18*3600e3; const f=Math.max(0,Math.min(1,(Date.now()-weekStart)/(sat-6*3600e3-weekStart)));
-  const need=Math.max(0,14-real); return tourBots().filter(b=>b.w<=Math.max(.15,f)).slice(0,need); }
+  const need=Math.max(0,16-real); return tourBots().filter(b=>b.w<=Math.max(.15,f)).slice(0,need); }
 let tregRows=null, tregTry=0;
 function tregResume(){ const at=store.get('tregAfter',0); if(!at || Date.now()-at>30*60000) return; if(!(authUser && uid && sb)) return; store.set('tregAfter',0); show('profOv',false); setTimeout(()=>{ try{ openTour(); if(!myTreg()) tregOpen(); }catch(e){} }, 400); }
 setInterval(()=>{ try{ if(store.get('tregAfter',0)) tregResume(); }catch(e){} }, 1500);
