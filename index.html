@@ -2976,7 +2976,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.15.3';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.15.4';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -3408,10 +3408,10 @@ function botBestPathGM(st,c){
   const outs=new Map(); let nodes=0;
   (function dfs(s,path){ if(nodes++>4000) return; if(path.length===total){ const k=s.board.join()+'|'+s.off[c]; if(!outs.has(k)) outs.set(k,{path,s,v:botEval(s,c)}); return; }
     for(const m of legalMoves(s,c)) dfs(applyMove(s,c,m), path.concat([m])); })(st,[]);
-  const cand=[...outs.values()].sort((a,b)=>b.v-a.v).slice(0,5); if(cand.length===1) return cand[0].path;
+  const TS=!!(gs&&gs.tour); const cand=[...outs.values()].sort((a,b)=>b.v-a.v).slice(0,TS?6:5); if(cand.length===1) return cand[0].path;
   const keep=gs?gs.botNoise:undefined; if(gs) gs.botNoise=-0.05;
   const base=Math.floor(Math.random()*1e9); let best=cand[0], bestE=-1e9;
-  try{ for(const x of cand){ if(x.s.off[c]>=15) return x.path; let e=0; for(let k=0;k<16;k++) e+=gmRollout(x.s,c,base+k*7919); if(e>bestE){ bestE=e; best=x; } } }
+  try{ for(const x of cand){ if(x.s.off[c]>=15) return x.path; let e=0; for(let k=0,K=TS?20:16;k<K;k++) e+=gmRollout(x.s,c,base+k*7919); if(e>bestE){ bestE=e; best=x; } } }
   finally{ if(gs) gs.botNoise=keep; }
   return best.path;
 }
@@ -3426,9 +3426,7 @@ function tourPrize(place){ const p=TOUR_PRIZE.find(x=>place<=x[0]); return p?p[1
 function nextSat(now){ const d=new Date((now||Date.now())+2*3600e3); const add=(6-d.getUTCDay()+7)%7; const t=Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),d.getUTCDate()+add,18,0)-2*3600e3; return t<=(now||Date.now()) ? t+7*864e5 : t; }
 function tourState(){ return TW.tour||null; }
 function tourNew(){
-  const gh=GHOSTS.map((g,i)=>ghostInfo(i)).sort((a,b)=>b.rating-a.rating).slice(0,40);
-  for(let i=gh.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [gh[i],gh[j]]=[gh[j],gh[i]]; }
-  const bots=gh.slice(0,15).map(g=>({id:g.id, name:g.name, av:g.av, r:Math.max(2600,g.rating)}));
+  const bots=tourBots().slice(0,15).map(g=>({id:g.id, name:g.name, av:g.av, r:g.rating}));
   const me={id:'me', name:profile.name||t('you'), av:profile.av||'', r:profile.rating||1000, me:1};
   // seeded draw: pots by rating, you go into a random group
   const P=bots.sort((a,b)=>b.r-a.r); const groups=[[],[],[],[]];
@@ -3531,7 +3529,7 @@ function tourInfo(h){ const w=h('div','tinfo'); const sat=nextSat(), sun=sat+864
 function tourPre(body,h){ const note=txt=>{ const n=h('div','tpre'); n.append(h('b',null,txt[0]), h('span',null,txt[1])); return n; };
   if(tourTab==='groups'){ body.appendChild(note([t('tpGroupsT'),t('tpGroupsD')])); const gr=h('div','tgrps'); [0,1,2,3].forEach(G=>{ const g=h('div','tgrp ghost'); g.append(h('h4',null,t('tourGroup',{g:'ABCD'[G]}))); for(let k=0;k<4;k++){ const r=h('div','trow'); r.append(h('span','pos',String(k+1)), h('span','av sk'), h('span','nm sk','')); g.appendChild(r); } gr.appendChild(g); }); body.appendChild(gr); return; }
   if(tourTab==='bracket'){ body.appendChild(note([t('tpPoT'),t('tpPoD')])); const st=h('div','tpst'); [[t('tourSt_qf'),'8 → 4'],[t('tourSt_sf'),'4 → 2'],[t('tourSt_f'),'2 → 1']].forEach(([a,b])=>{ const d=h('div'); d.append(h('b',null,a), h('span',null,b)); st.appendChild(d); }); body.appendChild(st); return; }
-  if(tourTab==='players'){ const rows=(tregRows||[]).slice(); const me=myTreg(); if(me && !rows.some(r=>r.id===uid)) rows.unshift({id:uid, name:profile.name, av:profile.av, rating:profile.rating, treg:me});
+  if(tourTab==='players'){ const rows=(tregRows||[]).slice(); const me=myTreg(); if(me && !rows.some(r=>r.id===uid)) rows.unshift({id:uid, name:profile.name, av:profile.av, rating:profile.rating, treg:me}); rows.push(...tourBotsNow(rows.length)); rows.sort((a,b)=>(a.id===uid?-1:0)-(b.id===uid?-1:0));
     body.appendChild(note([t('tpPlT',{n:rows.length}), rows.length>=16 ? t('tpPlFull') : t('tpPlD',{n:16-rows.length})]));
     const pl=h('div','tpl'); rows.forEach(r=>{ const d=h('div'+(r.id===uid?'':'')); d.className=r.id===uid?'me':''; const a=h('span','av'); avatarInto(a,r.av,r.name||'?'); d.append(a, h('span',null,tregFull(r.treg)+(r.id===uid?' · '+t('lbYou'):'')), h('small',null,String(r.rating||1000))); pl.appendChild(d); });
     for(let k=rows.length;k<16;k++){ const d=h('div','free'); d.append(h('span','av sk'), h('span',null,t('tpFree')), h('small',null,'')); pl.appendChild(d); } body.appendChild(pl);
@@ -3584,12 +3582,27 @@ const TREG_EPOCH=Date.UTC(2026,10,7,16,0), TREG_Q=4;
 const tregSeason=()=>Math.max(0,Math.floor((Date.now()-TREG_EPOCH+3*864e5)/(TREG_Q*7*864e5)));
 const tregFull=r=>r ? r.first+' «'+r.nick+'» '+r.last : '';
 const myTreg=()=>{ const r=profile.ach&&profile.ach.treg; return r && r.s===tregSeason() ? r : null; };
+
+// tournament field: players who sign up during the week, filled up to 16 by the end of Friday.
+// Names, nicks and ratings are fixed for the season (the same on every device).
+const TB_FIRST_M=['Андрій','Олександр','Максим','Дмитро','Богдан','Тарас','Назар','Ярослав','Владислав','Роман','Олег','Ігор','Віталій','Артем','Сергій','Євген','Костянтин','Юрій','Павло','Остап'];
+const TB_FIRST_F=['Олена','Ірина','Марта','Софія','Анастасія','Юлія','Катерина','Оксана','Дарина','Вікторія','Леся','Христина'];
+const TB_LAST=['Коваленко','Бондаренко','Ткаченко','Шевчук','Кравчук','Мельник','Поліщук','Литвиненко','Савчук','Гнатюк','Остапчук','Мороз','Левченко','Гаврилюк','Кузьменко','Тимошенко','Пасічник','Яременко','Дячук','Зінченко','Ковальчук','Онищенко','Руденко','Білик'];
+const TB_NICK=['nard_master','dvoyka','kosty_six','shesh_besh','zara_pro','backgammon_ua','gammon44','old_board','lviv_nardy','dnipro_dice','kyiv.tavla','marsyk','ten_out','fast_bearoff','prime_six','dubl_6','mr_kubik','nardolog','frost_dice','lucky_7','zmiy','sanchez_nr','vovk_ua','hetman_bg','kozak_dice','stary_tavla'];
+function tourBots(season){ const s=season==null?tregSeason():season; let h=(s+1)*2654435761>>>0; const rn=()=>{ h=(h*1103515245+12345)>>>0; return h/4294967296; };
+  const used=new Set(), pick=(L)=>{ for(let k=0;k<50;k++){ const v=L[Math.floor(rn()*L.length)]; if(!used.has(v)){ used.add(v); return v; } } return L[0]; };
+  const out=[]; for(let i=0;i<16;i++){ const f=rn()<.25; let last=pick(TB_LAST); const first=pick(f?TB_FIRST_F:TB_FIRST_M); const nick=pick(TB_NICK)+(rn()<.4?String(Math.floor(rn()*90)+10):'');
+    out.push({id:'tb'+s+'_'+i, name:nick, av:(f?'n':'m')+(1+Math.floor(rn()*12)), rating:Math.round(2550+rn()*1100), treg:{s, first, nick, last}, w:rn()}); }
+  return out; }
+// how many of them have signed up by now: a few on Monday, the rest during the week, all in by Friday evening
+function tourBotsNow(real){ const sat=nextSat(), weekStart=sat-5*864e5-18*3600e3; const f=Math.max(0,Math.min(1,(Date.now()-weekStart)/(sat-6*3600e3-weekStart)));
+  const need=Math.max(0,14-real); return tourBots().filter(b=>b.w<=Math.max(.15,f)).slice(0,need); }
 let tregRows=null, tregTry=0;
 function tregResume(){ const at=store.get('tregAfter',0); if(!at || Date.now()-at>30*60000) return; if(!(authUser && uid && sb)) return; store.set('tregAfter',0); show('profOv',false); setTimeout(()=>{ try{ openTour(); if(!myTreg()) tregOpen(); }catch(e){} }, 400); }
 setInterval(()=>{ try{ if(store.get('tregAfter',0)) tregResume(); }catch(e){} }, 1500);
 async function tregFetch(force){ if(!sb || (!force && Date.now()-tregTry<60000)) return tregRows; tregTry=Date.now();
   try{ const {data}=await sb.functions.invoke('game',{body:{action:'tour_regs'}}); if(data && data.rows){ const s=tregSeason(); tregRows=data.rows.filter(r=>r.treg && r.treg.s===s); } }catch(e){} return tregRows; }
-const tregCount=()=>{ const L=tregRows||[]; return L.length + (myTreg() && !L.some(r=>r.id===uid) ? 1 : 0); };
+const tregCount=()=>{ const L=tregRows||[]; const real=L.length + (myTreg() && !L.some(r=>r.id===uid) ? 1 : 0); return real + tourBotsNow(real).length; };
 const tregOf=id=> id===uid ? myTreg() : ((tregRows||[]).find(r=>r.id===id)||{}).treg || null;
 function tregOpen(){ if(!(authUser && uid && sb)){ toast(t('tregNeedReg')); store.set('tregAfter',Date.now()); show('tourOv',false); openProfile(); return; }
   if(myTreg()){ toast(t('tregLocked')); return; }
@@ -3772,6 +3785,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=createGame; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 const NEWS=[
+ {v:'0.15.4', d:'7.11.2026', uk:['Турнір: суперники стали сильнішими'], en:['Tournament: stronger opponents']},
  {v:'0.15.3', d:'7.11.2026', uk:['Магазин: кнопка з монетами відкриває магазин із трьома вкладками — Вітрина, Каталог і Персоналайзер','На Вітрині — щоденний подарунок, завдання дня і чотири речі дня (по одній кожної рідкості)','Персоналайзер: образи, аватар і ваші речі — одягаються одним дотиком; окремі іконки подарунка й сумки прибрано'], en:['Shop: the coin button opens the shop with three tabs — Showcase, Catalog and Personalizer','The Showcase has the daily gift, quests of the day and four picks of the day (one of each rarity)','Personalizer: outfits, avatar and your things, put on with one tap; the separate gift and bag icons are gone']},
  {v:'0.15.2', d:'7.11.2026', uk:['Нагороди: щоденний подарунок (серія 7 днів, 50 → 150 монет) і три завдання дня по 40–100 монет — іконка подарунка в шапці, зелена крапка, коли є що забрати','Кнопка з монетами тепер відкриває нагороди, Колекція — окрема кнопка-сумка','Налаштування стали компактними: лише перемикачі й кнопка «Змінити вигляд — Колекція»'], en:['Rewards: a daily gift (7-day streak, 50 → 150 coins) and three quests a day for 40–100 coins — the gift icon in the header, with a green dot when there is something to collect','The coin button now opens rewards; the Collection has its own bag button','Settings are compact: only the switches and “Change the look — Collection”']},
  {v:'0.15.1', d:'7.11.2026', uk:['Магазин «Колекція»: дошки, шашки, кубики й столи за монети, з приміркою','Тим, хто грав раніше, — 3000 монет у подарунок','Мої образи: до 5 образів, перемикання в профілі одним дотиком','Аватари — в «Колекції»','Ігри з ботами з пошуку: повна оплата за перші 10 ігор на день'], en:['The “Collection” shop: boards, checkers, dice and tables for coins, with a try-on','Players from before get 3000 coins','My outfits: up to 5, switched in the profile with one tap','Avatars are in the Collection','Games with matched bots pay in full for the first 10 games a day']},
