@@ -3,6 +3,12 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.15.2 — 7 Nov 2026
+- Rewards (gift button in the header, also the coin button): a daily gift with a 7-day streak (50, 70, 90, 110, 130, 150, 150 coins; missing a day starts the streak again) and three quests of the day (play 2 or 4 games, win 1 or 3, play an online game, win with a mars) for 40–100 coins each. Progress is counted and coins are paid by the server; a green dot on the gift shows when something can be collected. Guests see the rewards and are asked to sign in.
+- The Collection has its own bag button in the header; the coin button no longer opens it.
+- Settings are compact: one narrow window with the switches, the language and “Change the look — Collection”; the big skin grids are gone (looks are chosen in the Collection). On phones the board preview is hidden.
+- Header fits on 360 px phones: the brand name hides below 480 px and the icon buttons are tighter.
+
 ## 0.15.1 — 7 Nov 2026
 - The shop “Collection” (coin button in the header, or “More in the shop” in Settings): boards, checkers, dice and tables for coins, each with a try-on — the selected thing on your board with your checkers and dice — filters All / Mine / Not mine, and rarity (common, rare, epic, legendary). Buying and the prices are checked on the server; your things are kept with your profile.
 - The base set (Felt board, Classic checkers, Ivory dice, “To match the board” table) is free for everyone; the Friends board and checkers stay earned by inviting friends; card backgrounds stay earned by rank. Everything else is now in the shop.

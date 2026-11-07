@@ -140,6 +140,13 @@ const SHOP_R: any = { board: { modern: 'c', tri: 'c', walnut: 'r', midnight: 'r'
   table: { wood: 'c', felt: 'c', carpet: 'c', marble: 'c', cafe: 'c', stone: 'c', leather: 'c' } };
 const shopPrice = (id: string) => { const [c, k] = id.split(':'); const r = SHOP_R[c]?.[k]; return r ? (SHOP_P[c][r] ?? SHOP_P[c].c) : 0; };
 const SHOP_OPEN = Date.UTC(2026, 10, 7, 10, 0);   // accounts made before the shop opened get 3000 coins once, for the skins that became paid
+// ---- daily gift (7-day streak) and quests of the day; quest progress is counted on the server in rate() ----
+const DAILY = [50, 70, 90, 110, 130, 150, 150];
+const QUESTS: any[] = [{ k: 'play2', ev: 'game', n: 2, r: 40 }, { k: 'play4', ev: 'game', n: 4, r: 70 }, { k: 'win1', ev: 'win', n: 1, r: 50 }, { k: 'win3', ev: 'win', n: 3, r: 100 }, { k: 'human1', ev: 'human', n: 1, r: 60 }, { k: 'mars1', ev: 'mars', n: 1, r: 100 }];
+function questIds(day: string) { let h = 0; for (const ch of day) h = (h * 31 + ch.charCodeAt(0)) >>> 0; const L = QUESTS.map((q) => q.k); const out: string[] = []; while (out.length < 3) { h = (h * 1103515245 + 12345) >>> 0; const k = L[h % L.length]; if (!out.includes(k)) out.push(k); } return out; }
+function questState(A: any, day: string) { const q = A.q && A.q.d === day ? A.q : { d: day, p: {}, got: [] }; return q; }
+function questTick(A: any, ev: Record<string, number>) { const day = kyivDay(); const q = questState(A, day); for (const k in ev) q.p[k] = (q.p[k] || 0) + ev[k]; A.q = q; }
+const prevDay = (day: string) => kyivDay(new Date(day + 'T12:00:00Z').getTime() - 864e5 - 2 * 3600e3 + 3600e3);
 // ---- admin: only the account registered with the login nickname below (checked by its auth email, which never changes) ----
 const ADMIN_NICKS = ['ka1p3r'];
 function nickEmail(n: string) { const bytes = new TextEncoder().encode(n.trim().toLowerCase()); let bits = ''; for (const x of bytes) bits += x.toString(2).padStart(8, '0');
@@ -160,6 +167,19 @@ Deno.serve(async (req) => {
     const { action, gameId, args } = await req.json();
     if (action === 'ice') return json({ ice: await iceServers().catch(() => null) });
     // coins live in profiles.ach.coins (start 1000); the tutorial pays 200 once
+    if (action === 'rewards') {
+      const op = String(args?.op || 'get'), day = kyivDay();
+      const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
+      const A = { ...(p.ach || {}) }; const D = A.daily || { d: '', s: 0 };
+      const streakNext = D.d === day ? D.s : (D.d === prevDay(day) ? (D.s % 7) + 1 : 1);
+      const view = () => { const q = questState(A, day); return { day, coins: A.coins ?? COIN_START, daily: { ready: D.d !== day, day: streakNext, list: DAILY }, quests: questIds(day).map((k) => { const Q = QUESTS.find((x) => x.k === k); return { k, ev: Q.ev, n: Q.n, r: Q.r, p: Math.min(Q.n, q.p[Q.ev] || 0), got: q.got.includes(k) }; }) }; };
+      if (op === 'daily') { if (D.d === day) return json({ ok: true, already: true, ...view() }); const n = DAILY[streakNext - 1]; A.daily = { d: day, s: streakNext }; A.coins = (A.coins ?? COIN_START) + n; Object.assign(D, A.daily);
+        await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, got: n, ...view() }); }
+      if (op === 'quest') { const k = String(args?.k || ''); const q = questState(A, day); const Q = QUESTS.find((x) => x.k === k);
+        if (!Q || !questIds(day).includes(k) || q.got.includes(k) || (q.p[Q.ev] || 0) < Q.n) return json({ error: 'not_ready', ...view() }, 400);
+        q.got.push(k); A.q = q; A.coins = (A.coins ?? COIN_START) + Q.r; await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, got: Q.r, ...view() }); }
+      return json({ ok: true, ...view() });
+    }
     if (action === 'shop') {
       const op = String(args?.op || '');
       const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
@@ -317,7 +337,7 @@ Deno.serve(async (req) => {
         if (rg < CALIB) { const cal = { g: 0, w: 0, ...(ach.A.cal || {}) }; cal.g++; if (won) cal.w++; ach.A.cal = cal;
           d[s] = rg + 1 >= CALIB ? CALIB_PLACE[Math.round(cal.w / cal.g * CALIB)] - myR : 0; }
         const dayN = ((ach.A.gd || []).find((x: any) => x.d === kyivDay()) || { h: 0, b: 0 }); const nToday = (dayN.h || 0) + (dayN.b || 0);
-        const gc = gameCoins(won, fullGame && nToday < 20, !!st.result.mars); if (fullGame && nToday >= 10 && nToday < 20) gc.coins = Math.round(gc.coins / 2); ach.A.coins = (ach.A.coins ?? COIN_START) + gc.coins; coinsPaid[s] = gc; markGame(ach.A, !vsBot);
+        const gc = gameCoins(won, fullGame && nToday < 20, !!st.result.mars); if (fullGame && nToday >= 10 && nToday < 20) gc.coins = Math.round(gc.coins / 2); ach.A.coins = (ach.A.coins ?? COIN_START) + gc.coins; coinsPaid[s] = gc; markGame(ach.A, !vsBot); questTick(ach.A, { game: 1, win: won ? 1 : 0, human: fullGame ? 1 : 0, mars: won && st.result.mars ? 1 : 0 });
         await db.from('profiles').update({ rating: Math.max(100, myR + d[s]), rgames: (p?.rgames ?? 0) + 1, played: (p?.played ?? 0) + 1, won: (p?.won ?? 0) + (won ? 1 : 0), ach: ach.A, updated_at: new Date().toISOString() }).eq('id', id);
       }
       if (gh) { const gw = st.result.winner === 'p2'; await db.from('ghosts').update({ rating: Math.max(100, gh.rating + dGhost), played: gh.played + 1, won: gh.won + (gw ? 1 : 0), updated_at: new Date().toISOString() }).eq('id', gh.id); }
