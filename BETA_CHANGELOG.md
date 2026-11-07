@@ -9,6 +9,11 @@ When features move to the main site they get a normal version there (see CHANGEL
 
 
 
+## 7 Nov 2026 — notifications (0.16.0-beta.2)
+- Settings → «Сповіщення». While the site is open (even in a background tab): "your turn" in an online game, and the weekend tournament an hour and 5 minutes before the start if you are signed up.
+- When the site is closed (signed-in players): web push from the server — Saturday 12:00 the tournament is today (everyone), and 17:00 / 17:50 Saturday and 17:50 Sunday for the players who signed up. Tapping one opens the tournament.
+- iPhone: works after "Add to Home Screen" (iOS 16.4+); the settings line says so.
+
 ## 7 Nov 2026 — faster loading, better icons
 - Faster start: item skins (checkers, dice, boards, tables, frames — about 155 KB of CSS) moved to skins.css, which loads without blocking the first paint; portraits moved from av.js to pt.js, fetched when the page is idle. On a slow phone (4× CPU) the first paint went from 0.86 s to 0.34 s and the full load from 2.0 s to 1.0 s. The build script is now in tools/build.js.
 - Effect icons: a big 3D emoji with a glow in the effect's own colour on a starry tile, everywhere (catalog, cases, pass).
