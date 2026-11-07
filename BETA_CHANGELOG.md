@@ -3,6 +3,9 @@
 Beta versions are `<next main-site version>-beta.<build>`: every deploy to /beta adds one to the build number. Up to 0.14.0-beta.14 the beta was heading for 0.14.0; the main site took 0.14.1 (tutorial and coins), so from 0.15.0-beta.1 the beta heads for 0.15.0 (the shop).
 When features move to the main site they get a normal version there (see CHANGELOG.md), and the beta moves on to the next one.
 
+## 0.16.0-beta.1 — 7 Nov 2026
+- Version renumbered: the main site is on 0.15.1 (shop with the catalog, outfits), the beta now heads for 0.16.0. Server code is the same as on the main site.
+
 ## 0.15.0-beta.20 — 7 Nov 2026
 - Profile: the big avatar grid is replaced by “My outfits” — 5 outfits to switch with one tap, plus links “Avatar” and “Set up”. The outfits row is no longer on the home page.
 - Avatars moved to Collection → Catalog → Profile → Avatar.

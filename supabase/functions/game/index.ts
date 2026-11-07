@@ -2,8 +2,6 @@
 // Supabase Edge Function "game": the only writer of online games and ratings.
 // Clients call it with { action, gameId, args }; it validates the move with the same rules as the client.
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
-import CAT from './catalog.json' with { type: 'json' };
-import { walletOp, gameReward, normalize, freshWallet, WalletError } from './wallet.ts';
 // ---- rules (same as the client) ----
 // Authoritative long-nardy rules for the server. Pure functions, no I/O.
 // The same rules as the client (index.html): every action is validated here.
@@ -134,6 +132,14 @@ function gameCoins(won: boolean, full: boolean, mars: boolean) {
   let c = R[0] + Math.floor(Math.random() * (R[1] - R[0] + 1)); if (won && mars) c = Math.round(c * 1.5);
   const lucky = full && Math.random() < 0.05; if (lucky) c *= 2; return { coins: c, lucky };
 }
+// ---- shop (0.15.1): prices and rarities of the main site's items; the base set is free; owned items in profiles.ach.owned ----
+const SHOP_P: any = { board: { c: 200, r: 600, e: 1200, l: 2500 }, ck: { c: 150, r: 450, e: 1000, l: 1800 }, dice: { c: 100, r: 300, e: 750, l: 1350 }, table: { c: 300 } };
+const SHOP_R: any = { board: { modern: 'c', tri: 'c', walnut: 'r', midnight: 'r', druzi: 'r', sage: 'r', marble: 'e', oak: 'e', ocean: 'e', carbon: 'e' },
+  ck: { wood: 'c', stone: 'c', flat: 'c', metal: 'r', glass: 'r', retro: 'r', pearl: 'e', amber: 'e', jade: 'e', neon: 'e', vyshyvanka: 'l' },
+  dice: { onyx: 'c', wood: 'c', ruby: 'r', marble: 'r', glass: 'r', gold: 'e', neon: 'e' },
+  table: { wood: 'c', felt: 'c', carpet: 'c', marble: 'c', cafe: 'c', stone: 'c', leather: 'c' } };
+const shopPrice = (id: string) => { const [c, k] = id.split(':'); const r = SHOP_R[c]?.[k]; return r ? (SHOP_P[c][r] ?? SHOP_P[c].c) : 0; };
+const SHOP_OPEN = Date.UTC(2026, 10, 7, 10, 0);   // accounts made before the shop opened get 3000 coins once, for the skins that became paid
 // ---- admin: only the account registered with the login nickname below (checked by its auth email, which never changes) ----
 const ADMIN_NICKS = ['ka1p3r'];
 function nickEmail(n: string) { const bytes = new TextEncoder().encode(n.trim().toLowerCase()); let bits = ''; for (const x of bytes) bits += x.toString(2).padStart(8, '0');
@@ -153,7 +159,26 @@ Deno.serve(async (req) => {
     const { data: { user } } = await db.auth.getUser(token); if (!user) return json({ error: 'auth' }, 401);
     const { action, gameId, args } = await req.json();
     if (action === 'ice') return json({ ice: await iceServers().catch(() => null) });
-    // coins live in profiles.ach.coins (start 1000); the tutorial pays 200 once (same as main)
+    // coins live in profiles.ach.coins (start 1000); the tutorial pays 200 once
+    if (action === 'shop') {
+      const op = String(args?.op || '');
+      const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
+      const A = { ...(p.ach || {}) }; A.owned = Array.isArray(A.owned) ? A.owned : [];
+      if (op === 'migrate') {
+        if (A.mig15) return json({ ok: true, coins: A.coins ?? COIN_START, owned: A.owned, gift: 0 });
+        const old = new Date(user.created_at).getTime() < SHOP_OPEN; A.mig15 = Date.now(); let gift = 0;
+        if (old) { gift = 3000; A.coins = (A.coins ?? COIN_START) + gift; A.founder = 1; }
+        await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, coins: A.coins ?? COIN_START, owned: A.owned, gift });
+      }
+      if (op === 'buy') {
+        const id = String(args?.id || ''), price = shopPrice(id); if (!price) return json({ error: 'not_for_sale' }, 400);
+        if (A.owned.includes(id)) return json({ ok: true, coins: A.coins ?? COIN_START, owned: A.owned });
+        const coins = A.coins ?? COIN_START; if (coins < price) return json({ error: 'no_coins', coins }, 400);
+        A.coins = coins - price; A.owned = [...A.owned, id]; await db.from('profiles').update({ ach: A }).eq('id', user.id);
+        return json({ ok: true, coins: A.coins, owned: A.owned, price });
+      }
+      return json({ error: 'bad_op' }, 400);
+    }
     // a player opened the site today (once a day from the client)
     if (action === 'seen') {
       const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ ok: false });
@@ -213,31 +238,26 @@ Deno.serve(async (req) => {
       const A = { ...(p.ach || {}) }; if (A.tut) return json({ coins: A.coins ?? COIN_START, already: true });
       A.tut = 1; A.coins = (A.coins ?? COIN_START) + 200; await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ coins: A.coins });
     }
-    // ---- wallet (beta): the server holds coins and items; optimistic lock on a version number ----
-    const loadWallet = async (id: string) => { const { data } = await db.from('wallets').select('w,v').eq('uid', id).maybeSingle(); return data; };
-    if (action === 'wallet') {
-      for (let attempt = 0; attempt < 3; attempt++) {
-        const row = await loadWallet(user.id), cur = row ? normalize(row.w, CAT) : freshWallet(CAT);
-        let out; try { out = walletOp(cur, String(args?.op || 'get'), args || {}, CAT, Date.now(), Math.random); }
-        catch (e) { if (e instanceof WalletError) return json({ error: e.code, wallet: cur }, 400); throw e; }
-        if (!row) { const { error } = await db.from('wallets').insert({ uid: user.id, w: out.w, v: 1 }); if (error) continue; }
-        else if (args?.op && args.op !== 'get') { const { data: upd } = await db.from('wallets').update({ w: out.w, v: row.v + 1, updated_at: new Date().toISOString() }).eq('uid', user.id).eq('v', row.v).select('uid'); if (!upd || !upd.length) continue; }
-        return json({ wallet: out.w, res: out.res, got: out.got });
-      }
-      return json({ error: 'busy' }, 409);
-    }
-    const CALIB = 10, CALIB_PLACE = [1000, 1030, 1060, 1100, 1140, 1180, 1230, 1320, 1470, 1600, 1760];   // rating by wins out of 10: 0–5 Rookie, 6–7 Regular, 8–9 Expert, 10 Master
-    const payWallet = async (id: string, key: string, won: boolean, full: boolean, mars = false) => {
-      for (let attempt = 0; attempt < 3; attempt++) {
-        const row = await loadWallet(id); if (!row) return null;   // only players who use the new wallet
-        const r = gameReward(normalize(row.w, CAT), CAT, key, won, full, mars);
-        const { data: upd } = await db.from('wallets').update({ w: r.w, v: row.v + 1, updated_at: new Date().toISOString() }).eq('uid', id).eq('v', row.v).select('uid');
-        if (upd && upd.length) return { coins: r.coins, xp: r.xp, got: r.got, lucky: r.lucky };
-      }
-      return null;
-    };
     // invite a friend: a new registered player who came by a friend's link gets 300 coins and the Druzi checkers;
     // the friend gets 200 coins (for up to 50 friends) and counts towards the Friends board (1 / 3 / 5 / 10)
+    // weekend tournament (played against grandmaster bots in the browser): coins for the place and tournament points,
+    // at most once every 6 days per account; points = 10 for taking part + 5 per game won (max 15) + a bonus for the place
+    // tournament table: everyone who has taken a tournament prize, with their recent tournament results (no coins or other profile data)
+    if (action === 'tour_table') {
+      const { data } = await db.from('profiles').select('id,name,av,rating,played,won,ach').not('ach->tourAt', 'is', null).limit(1000);
+      return json({ rows: (data || []).map((r: any) => ({ id: r.id, name: r.name, av: r.av, rating: r.rating, played: r.played, won: r.won, tp: (r.ach?.tp || []).slice(-30) })) });
+    }
+    if (action === 'tour_done') {
+      const pl = Math.round(Number(args?.place)), wins = Math.max(0, Math.min(15, Math.round(Number(args?.wins) || 0)));
+      if (!(pl >= 1 && pl <= 16)) return json({ error: 'bad_place' }, 400);
+      const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
+      const A = { ...(p.ach || {}) }; if (A.tourAt && Date.now() - A.tourAt < 6 * 864e5) return json({ already: true, coins: A.coins ?? COIN_START, next: A.tourAt + 6 * 864e5 });
+      const prize = pl === 1 ? 4000 : pl === 2 ? 2500 : pl === 3 ? 1500 : pl === 4 ? 1000 : pl <= 8 ? 250 : 0;
+      const bonus = pl === 1 ? 100 : pl === 2 ? 60 : pl <= 4 ? 40 : pl <= 8 ? 20 : 0, pts = 10 + wins * 5 + bonus;
+      A.tourAt = Date.now(); A.coins = (A.coins ?? COIN_START) + prize; A.tp = [...(A.tp || []), { at: A.tourAt, pl, pts }].slice(-30);
+      await db.from('profiles').update({ ach: A }).eq('id', user.id);
+      return json({ ok: true, coins: A.coins, prize, pts, tp: A.tp });
+    }
     // sign up for the weekend tournaments of this season: first name, nickname, last name — fixed until the season ends
     if (action === 'tour_reg') {
       const EPOCH = Date.UTC(2026, 10, 7, 16, 0), WK = 7 * 864e5, Q = 4;
@@ -280,7 +300,8 @@ Deno.serve(async (req) => {
     const ghostRow = async (gid: number) => (await db.from('ghosts').select('id,name,av,rating,played,won').eq('id', gid).maybeSingle()).data;
 
     // rating for a finished game; called only after the game row was saved with rated=true (so it runs once)
-    const rate = async (st: any, gid: string) => {
+    const CALIB = 10, CALIB_PLACE = [1000, 1030, 1060, 1100, 1140, 1180, 1230, 1320, 1470, 1600, 1760];   // rating by wins out of 10: 0–5 Rookie, 6–7 Regular, 8–9 Expert, 10 Master
+    const rate = async (st: any) => {
       const vsBot = C.isBotId(st.p2), gh = vsBot && st.ghost != null ? await ghostRow(st.ghost) : null;
       const [a, b] = await Promise.all([prof(st.p1), vsBot ? Promise.resolve(null) : prof(st.p2)]);
       const oppR = vsBot ? (gh ? gh.rating : st.ratings.p2) : (b?.rating ?? 1000);
@@ -295,14 +316,11 @@ Deno.serve(async (req) => {
         const rg = p?.rgames ?? 0;
         if (rg < CALIB) { const cal = { g: 0, w: 0, ...(ach.A.cal || {}) }; cal.g++; if (won) cal.w++; ach.A.cal = cal;
           d[s] = rg + 1 >= CALIB ? CALIB_PLACE[Math.round(cal.w / cal.g * CALIB)] - myR : 0; }
-        const gc = gameCoins(won, fullGame, !!st.result.mars); ach.A.coins = (ach.A.coins ?? COIN_START) + gc.coins; coinsPaid[s] = gc; markGame(ach.A, !vsBot);
+        const dayN = ((ach.A.gd || []).find((x: any) => x.d === kyivDay()) || { h: 0, b: 0 }); const nToday = (dayN.h || 0) + (dayN.b || 0);
+        const gc = gameCoins(won, fullGame && nToday < 20, !!st.result.mars); if (fullGame && nToday >= 10 && nToday < 20) gc.coins = Math.round(gc.coins / 2); ach.A.coins = (ach.A.coins ?? COIN_START) + gc.coins; coinsPaid[s] = gc; markGame(ach.A, !vsBot);
         await db.from('profiles').update({ rating: Math.max(100, myR + d[s]), rgames: (p?.rgames ?? 0) + 1, played: (p?.played ?? 0) + 1, won: (p?.won ?? 0) + (won ? 1 : 0), ach: ach.A, updated_at: new Date().toISOString() }).eq('id', id);
       }
       if (gh) { const gw = st.result.winner === 'p2'; await db.from('ghosts').update({ rating: Math.max(100, gh.rating + dGhost), played: gh.played + 1, won: gh.won + (gw ? 1 : 0), updated_at: new Date().toISOString() }).eq('id', gh.id); }
-      // coins and pass XP for players on the server wallet
-      const full = !vsBot || st.ghost != null || !!st.mbot, paid: any = {};
-      for (const s of (vsBot ? ['p1'] : ['p1', 'p2'])) { const r = await payWallet(st[s], gid + ':' + (st.seq || 0), st.result.winner === s, full, !!st.result.mars).catch(() => null); if (r) paid[s] = r; }
-      st.paid = paid;
       st.ratingDelta = d; st.achNew = fresh; st.coins = coinsPaid;
     };
     // save with an optimistic lock; if this save finishes the game, apply the rating once and store the result
@@ -310,7 +328,7 @@ Deno.serve(async (req) => {
       const finishing = st.phase === 'over' && !st.rated; if (finishing) st.rated = true;
       const { data: upd, error } = await db.from('games').update({ p2: st.p2 && !C.isBotId(st.p2) ? st.p2 : null, state: st, updated_at: new Date().toISOString() }).eq('id', id).eq('updated_at', prevAt).select('id');
       if (error) return 'error'; if (!upd || !upd.length) return 'conflict';
-      if (finishing) { await rate(st, id); await db.from('games').update({ state: st }).eq('id', id); }
+      if (finishing) { await rate(st); await db.from('games').update({ state: st }).eq('id', id); }
       return 'ok';
     };
 
@@ -326,7 +344,7 @@ Deno.serve(async (req) => {
       const myR = me?.rating ?? 1000;
       const botR = gh ? gh.rating : bot ? C.BOTS[bot].r : 0;
       st.names = { p1: me?.name ?? '', p2: gh ? gh.name : bot ? String(args?.name ?? '').slice(0, 24) : '' }; st.avs = { p1: me?.av ?? '', p2: gh ? gh.av : bot ? String(args?.av ?? '').slice(0, 8) : '' };
-      st.ratings = { p1: myR, p2: botR }; if (gh) st.ghost = gh.id; if (bot && !gh && args?.mb) st.mbot = true;
+      st.ratings = { p1: myR, p2: botR }; if (gh) st.ghost = gh.id;
       const { error } = await db.from('games').insert({ id: gameId, p1: user.id, p2: null, state: st, updated_at: new Date().toISOString() });
       if (error) return json({ error: error.code === '23505' ? 'exists' : 'db' }, 409);
       return json({ state: st });
