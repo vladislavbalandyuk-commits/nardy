@@ -31,3 +31,8 @@
 
 ## Tutorial (0.14.0-beta.14)
 - Vlad and Pasha are built from DiceBear “Notionists” parts (CC0), the same style as the game’s avatars.
+
+## Druzi International pass (Nov 2026)
+- Portraits: DiceBear styles Lorelei, Open Peeps and Pixel Art by Lisa Wischofsky, Pablo Stanley and Florian Körner (CC0 1.0), and Avataaars by Pablo Stanley (free for personal and commercial use), generated with DiceBear (MIT).
+- Win animations from LottieFiles, Lottie Simple License, loaded from LottieFiles when played: “Trophy” by Mahendra Bhunwal, “Crown” by aliakbar, “TWINKLE CROWN!” by Bùi Vịnh, “Premium Gold” by Khalil Oueslati, “Rocket Flight” by Jay Baulch, “Fireworks” by Emily Zhou, “Fireworks” by Omar Mahmoud, “celebration_confetti.json” by Ruben Lara.
+- All other International things (checkers, dice, boards, tables, frames, cards, avatar looks, sounds, coin rain, meteors, golden wave, lightning) are drawn and synthesized in the code.
