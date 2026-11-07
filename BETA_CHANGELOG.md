@@ -8,6 +8,12 @@ When features move to the main site they get a normal version there (see CHANGEL
 
 
 
+
+## 7 Nov 2026 — faster loading, better icons
+- Faster start: item skins (checkers, dice, boards, tables, frames — about 155 KB of CSS) moved to skins.css, which loads without blocking the first paint; portraits moved from av.js to pt.js, fetched when the page is idle. On a slow phone (4× CPU) the first paint went from 0.86 s to 0.34 s and the full load from 2.0 s to 1.0 s. The build script is now in tools/build.js.
+- Effect icons: a big 3D emoji with a glow in the effect's own colour on a starry tile, everywhere (catalog, cases, pass).
+- Photo materials have a fallback colour, so a board or checker never looks empty while its photo loads.
+
 ## 7 Nov 2026 — a reward on every level again; photo tables
 - The International pass gives a reward on every one of the 100 levels again (portraits, boards, effects, sounds, frames, phrases, coins), together with the purchase bonus, the growing Arena checkers and International frame (II–IV at 20/45/70 and 30/55/80) and the Champion's Aegis at 100. The plainest gradient things are replaced by portraits and coins. A “Top rewards” row shows every 10th level.
 - Five new tables from the author's own pictures, each with a little movement on top: Sunny glade (fireflies), Rain in the forest (rain), Snowfall under a lamp (snow), Night sakura (petals), Night sea — in the catalog for 700–900 coins.
