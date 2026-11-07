@@ -5,6 +5,8 @@ The beta at `/beta` is not versioned until its features reach the main site.
 
 ## 0.15.4 — 7 Nov 2026
 - Weekend tournament field: when there are not enough sign-ups, the places are taken by computer players with a first name, a nickname and a last name (fixed for the season, the same on every device). They appear in "Participants" gradually during the week (up to 14, so there are always free places for real people) and are the opponents in your groups and play-off. They are not marked as bots.
+- The tournament texts no longer mention bots.
+- Coins in the tournament (prize pool, prizes, the home card) use the site's gold coin instead of the 🪙 emoji, which is silver on some systems.
 - Tournament opponents play stronger: 6 candidate moves and 20 rollouts each (was 5 and 16), about 1 s per move.
 
 ## 0.15.3 — 7 Nov 2026
