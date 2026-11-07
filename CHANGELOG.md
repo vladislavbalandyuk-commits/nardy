@@ -3,6 +3,13 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.19.0 — 7 Nov 2026
+- Friends (Rating → Friends): find and add by nickname, online now / last seen, "Call" creates a game and invites the friend (in-app invite if online, push, Telegram message via the bot); add / remove / call from a player's card. Server action `friends` (find, add, remove, invite, list; one invite per friend per minute).
+- The daily puzzle on prod (from the beta): a card on the home page; the server pays once per Kyiv day (best 60, good 20) and keeps the streak (action `puzzle`).
+- Quick reactions under the board in online and bot games (👍, Nice move, Oops, Cold dice, Hookah's on me); new hookah phrases in the chat wheel. Same 15-second limit.
+- After an online game: "Find a new opponent" (if yours does not want a rematch).
+- Install as an app: the browser prompt on Android/desktop, a how-to on iPhone; a row in Settings and a card on the home page after the first game (phones). Not shown in Telegram or when already installed.
+
 ## 0.18.1 — 7 Nov 2026
 - Home: the big «How to play» button is gone (it duplicated the footer link and the course card); «Play on one device» is full width.
 - «What's new» in the game has entries again for 0.16.1–0.18.1; the build now fails if a release has no «What's new» entry.

@@ -518,6 +518,16 @@ Deno.serve(async (req) => {
       return json({ error: 'bad_op' }, 400);
     }
     // «Вечори в кальянній» (the story course) and Pasha's tour: rewards once, chapters in order (chapter 1 = the first lesson, ach.tut)
+    // the daily puzzle: one prize per Kyiv day (best move 60, a good one 20), and the streak of solved days
+    if (action === 'puzzle') {
+      const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
+      const A = { ...(p.ach || {}) }; const P = { ...(A.pz || {}) }; const today = kyivDay(), y = kyivDay(Date.now() - 864e5);
+      const res = ['best', 'good', 'miss'].includes(args?.res) ? args.res : 'miss';
+      if (P.day === today) return json({ ok: true, got: 0, pz: P, coins: A.coins ?? COIN_START });
+      P.streak = res === 'miss' ? 0 : (P.last === y ? (P.streak || 0) + 1 : 1); if (res !== 'miss') P.last = today; P.day = today; P.res = res;
+      const got = res === 'best' ? 60 : res === 'good' ? 20 : 0; A.pz = P; A.coins = (A.coins ?? COIN_START) + got;
+      await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, got, pz: P, coins: A.coins });
+    }
     if (action === 'course') {
       const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
       const A = { ...(p.ach || {}) }; const done = Math.max(A.stc || 0, A.tut ? 1 : 0);
@@ -576,6 +586,38 @@ Deno.serve(async (req) => {
       if (args?.on && sub && sub.endpoint && sub.keys?.p256dh && sub.keys?.auth) L = [...L, { endpoint: String(sub.endpoint).slice(0, 600), keys: { p256dh: String(sub.keys.p256dh).slice(0, 200), auth: String(sub.keys.auth).slice(0, 60) } }].slice(-4);
       A.push = L.length ? L : null; if (args?.lang) A.lang = args.lang === 'en' ? 'en' : 'uk'; if (args?.beta != null) A.beta = !!args.beta;
       await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, n: L.length });
+    }
+    // friends: a list in ach.friends (one-way, like a contact list); "call to a game" sends a push and a Telegram message
+    if (action === 'friends') {
+      const { data: me } = await db.from('profiles').select('id,name,ach').eq('id', user.id).maybeSingle(); if (!me) return json({ error: 'no_profile' }, 400);
+      const A = { ...(me.ach || {}) }; let F: string[] = Array.isArray(A.friends) ? A.friends.slice(0, 100) : []; const op = String(args?.op || 'list');
+      const save = async () => { A.friends = F; await db.from('profiles').update({ ach: A }).eq('id', user.id); };
+      const pub = (r: any) => ({ id: r.id, name: r.name, av: r.av, rating: r.rating, played: r.played, won: r.won, last: (r.ach?.days || []).slice(-1)[0] || null, plat: r.ach?.plat || null, mutual: Array.isArray(r.ach?.friends) && r.ach.friends.includes(user.id) });
+      if (op === 'find') {
+        const q = String(args?.name || '').trim().slice(0, 24); if (q.length < 2) return json({ rows: [] });
+        const { data } = await db.from('profiles').select('id,name,av,rating,played,won,ach').ilike('name', q.replace(/[%_]/g, '') + '%').neq('id', user.id).order('played', { ascending: false }).limit(8);
+        return json({ rows: (data || []).map(pub) });
+      }
+      if (op === 'add') { const id = String(args?.id || ''); if (!id || id === user.id) return json({ error: 'bad' }, 400);
+        const { data: o } = await db.from('profiles').select('id').eq('id', id).maybeSingle(); if (!o) return json({ error: 'not_found' }, 404);
+        if (!F.includes(id)) { if (F.length >= 100) return json({ error: 'full' }, 400); F = [id, ...F]; await save(); } return json({ ok: true, friends: F }); }
+      if (op === 'remove') { F = F.filter((x) => x !== String(args?.id || '')); await save(); return json({ ok: true, friends: F }); }
+      if (op === 'invite') {
+        const id = String(args?.id || ''), gid = String(args?.gameId || '').toLowerCase(); if (!/^[a-z0-9]{4,24}$/.test(gid)) return json({ error: 'bad_game' }, 400);
+        const inv = { ...(A.inv || {}) }; if (Date.now() - (inv[id] || 0) < 60e3) return json({ error: 'too_often' }, 429); inv[id] = Date.now(); A.inv = inv; await db.from('profiles').update({ ach: A }).eq('id', user.id);
+        const { data: o } = await db.from('profiles').select('id,ach').eq('id', id).maybeSingle(); if (!o) return json({ error: 'not_found' }, 404);
+        const en = o.ach?.lang === 'en', nm = String(me.name || '').slice(0, 20) || (en ? 'A friend' : 'Друг');
+        const url = '/' + (o.ach?.beta ? 'beta/' : '') + '#g-' + gid;
+        const pushed = await pushTo(db, [o], { title: en ? nm + ' invites you to a game' : nm + ' кличе вас на партію', body: en ? 'Tap to join — the board is ready.' : 'Натисніть, щоб приєднатись — дошка вже готова.', tag: 'inv-' + gid, url });
+        let tg = 0; if (o.ach?.tg && tgTok()) { const r = await tgApi('sendMessage', { chat_id: Number(o.ach.tg), text: (en ? '🎲 ' + nm + ' invites you to a game of long nardy!' : '🎲 ' + nm + ' кличе вас зіграти в довгі нарди!'), reply_markup: { inline_keyboard: [[{ text: en ? 'Play' : 'Грати', url: 'https://t.me/dovgi_nardy_bot?startapp=g-' + gid }]] } }); tg = r?.ok ? 1 : 0; }
+        return json({ ok: true, pushed, tg });
+      }
+      // list: your friends + players connected by an invite link (who invited you, whom you invited)
+      const { data: refs } = await db.from('profiles').select('id').eq('ach->>refBy', user.id).limit(100);
+      const ids = [...new Set([...F, ...(refs || []).map((r: any) => r.id), ...(A.refBy ? [A.refBy] : [])])].filter((x) => x && x !== user.id).slice(0, 150);
+      if (!ids.length) return json({ rows: [], friends: F });
+      const { data } = await db.from('profiles').select('id,name,av,rating,played,won,ach').in('id', ids);
+      return json({ rows: (data || []).map((r: any) => ({ ...pub(r), added: F.includes(r.id), ref: !F.includes(r.id) })), friends: F });
     }
     if (action === 'push_test') {
       const { data: p } = await db.from('profiles').select('id,ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
