@@ -3,6 +3,11 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.15.3 — 7 Nov 2026
+- The coin button opens the Shop with three tabs: **Showcase** (the daily gift and quests of the day, plus four picks of the day — one common, rare, epic and legendary thing, the same for everyone during a Kyiv day, preferring things you do not own), **Catalog** (everything for sale with the try-on, by board / checkers / dice / table) and **Personalizer** (outfits, avatar and your own things — tap to put on, “More in the catalog” to buy).
+- The gift and bag icons are gone from the header; a green dot on the coin button (and on the Showcase tab) shows when a gift or a quest reward can be collected. The brand name is back on phones.
+- Settings → “Change the look” and Profile → outfits open the Personalizer.
+
 ## 0.15.2 — 7 Nov 2026
 - Rewards (gift button in the header, also the coin button): a daily gift with a 7-day streak (50, 70, 90, 110, 130, 150, 150 coins; missing a day starts the streak again) and three quests of the day (play 2 or 4 games, win 1 or 3, play an online game, win with a mars) for 40–100 coins each. Progress is counted and coins are paid by the server; a green dot on the gift shows when something can be collected. Guests see the rewards and are asked to sign in.
 - The Collection has its own bag button in the header; the coin button no longer opens it.
