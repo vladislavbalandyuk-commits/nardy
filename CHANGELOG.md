@@ -3,6 +3,13 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.18.0 — 7 Nov 2026
+- «Вечори в кальянній»: the story course after the first lesson — 6 chapters with Vlad and Pasha (the head rule and the first-roll exception, the fence and why six in a row is not allowed, bearing off, mars, tactics, and a final game against Pasha). Moves are checked; a wrong one gets a line from Vlad and the lesson again.
+- Course rewards, once each (the server pays accounts and keeps the order; guests keep them in the browser): the Apprentice badge on your avatar, Hookah dice, 300 coins, Coal checkers, and for beating Pasha 500 coins + the Hookah lounge table. The course items are not sold; the shop says where they come from.
+- «Екскурсія з Пашею»: Pasha shows the platform with a spotlight on the real buttons and a joke at each; once by itself for brand-new players, any time from Settings; +100 coins at the end, once. Works in the Telegram Mini App too (Telegram's Back closes it).
+- Home card «Вечори в кальянній · N з 6» (glows until chapter 2), the chapter list, "Hide from the home page".
+- Phone: more room between the coins and the avatar; compact empty slots in "My looks".
+
 ## 0.17.0 — 7 Nov 2026
 - The weekend tournament is now one shared bracket on the server: at the start the server draws 4 groups of 4 from the signed-up players (in sign-up order), free places go to tournament bots. Everyone sees the same groups, tables and play-off.
 - Player vs player matches are real online games (the first to come creates the game, the other joins; no-show after 10 minutes = a win for the one who came). Player vs bot matches are played against the tournament bot and reported to the server. Bot vs bot matches are resolved by the server.

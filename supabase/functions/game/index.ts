@@ -517,6 +517,20 @@ Deno.serve(async (req) => {
       if (op === 'log') { const { data: me } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); return json({ rows: (me?.ach?.alog || []).slice().reverse() }); }
       return json({ error: 'bad_op' }, 400);
     }
+    // «Вечори в кальянній» (the story course) and Pasha's tour: rewards once, chapters in order (chapter 1 = the first lesson, ach.tut)
+    if (action === 'course') {
+      const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
+      const A = { ...(p.ach || {}) }; const done = Math.max(A.stc || 0, A.tut ? 1 : 0);
+      if (args?.op === 'guide') { if (A.guide) return json({ ok: true, got: 0, coins: A.coins ?? COIN_START });
+        A.guide = 1; A.coins = (A.coins ?? COIN_START) + 100; await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, got: 100, coins: A.coins }); }
+      const RW: any = { 1: { item: 'frame:uchen' }, 2: { item: 'dice:hookah' }, 3: { coins: 300 }, 4: { item: 'ck:coal' }, 5: { coins: 500, item: 'table:lounge' } };
+      const n = Math.round(Number(args?.n)); if (!RW[n]) return json({ error: 'bad_chapter' }, 400);
+      if (done > n) return json({ ok: true, got: 0, stc: done, coins: A.coins ?? COIN_START, owned: A.owned || [] });
+      if (done < n) return json({ error: 'locked' }, 400);
+      const rw = RW[n]; A.stc = n + 1; A.owned = Array.isArray(A.owned) ? A.owned : [];
+      if (rw.item && !A.owned.includes(rw.item)) A.owned = [...A.owned, rw.item]; if (rw.coins) A.coins = (A.coins ?? COIN_START) + rw.coins;
+      await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, got: 1, stc: A.stc, coins: A.coins ?? COIN_START, owned: A.owned });
+    }
     if (action === 'tut_reward') {
       const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
       const A = { ...(p.ach || {}) }; if (A.tut) return json({ coins: A.coins ?? COIN_START, already: true });
