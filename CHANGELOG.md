@@ -3,6 +3,10 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.16.3 — 7 Nov 2026
+- Admin → Statistics → "Where people play": Telegram accounts (and nickname accounts that linked Telegram), players today and in 7 days in Telegram / the browser / the installed app, and a 30-day chart by platform. Players search shows each player's platform.
+- Admin: the Refresh button sits next to the title; the stat cards are two per row on phones.
+
 ## 0.16.2 — 7 Nov 2026
 - Telegram Mini App: the game opens inside Telegram (@dovgi_nardy_bot) — Telegram's colours, its Back button, vibration on dice and moves, sign-in with the Telegram account, invites that open straight in Telegram.
 - "Log in with Telegram" on the website (the same account as in the bot) and "Link Telegram" in the profile for nickname accounts.
