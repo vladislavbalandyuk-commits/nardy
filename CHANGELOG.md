@@ -3,6 +3,10 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.16.1 — 7 Nov 2026
+- Settings → «Сповіщення». While the site is open (even in a background tab): "your turn" in an online game, and the weekend tournament an hour and 5 minutes before the start if you are signed up.
+- When the site is closed (signed-in players): web push — Saturday 12:00 "the tournament is today" (everyone), and 17:00 / 17:50 Saturday and 17:50 Sunday for the players who signed up. Tapping one opens the tournament. On iPhone it works after "Add to Home Screen".
+
 ## 0.16.0 — 7 Nov 2026
 - Rating is a page of its own (the trophy button, the rating card on the home page): tabs Rating (top 100 by rating, everyone past calibration), Friends (you, the friends you invited and whoever invited you) and Tournament (the weekend tournament season table); a podium for the top 3, the list from #4 in pages of 20, and your own row pinned at the bottom with your place and how much rating is left to the place above (or to the top 100). The phone's back gesture closes it.
 - Player card: tap anyone in the table — avatar with the rank frame, rank, rating and place, games, wins, win rate, and "Play by link" (makes a game link to send).
