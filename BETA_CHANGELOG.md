@@ -3,6 +3,9 @@
 Beta versions are `<next main-site version>-beta.<build>`: every deploy to /beta adds one to the build number. Up to 0.14.0-beta.14 the beta was heading for 0.14.0; the main site took 0.14.1 (tutorial and coins), so from 0.15.0-beta.1 the beta heads for 0.15.0 (the shop).
 When features move to the main site they get a normal version there (see CHANGELOG.md), and the beta moves on to the next one.
 
+## 0.15.0-beta.18 — 7 Nov 2026
+- Admin panel for the admin account (Settings → Admin panel): statistics with charts, find a player and give or take coins with a log, all skins for testing.
+
 ## 0.15.0-beta.17 — 7 Nov 2026
 - Showcase is fuller: the bundle of the week shows its board large with the checkers and dice on two tiles below (no tilted table); “Today for you” always shows four items (if you own them all they say “Yours” and “Put it on”); new blocks “Your collection” (how many of all items you have, opens what you are missing) and “Your goal” (your “Want this” item and how many coins are left); “New arrivals” as a row; both cases side by side.
 
