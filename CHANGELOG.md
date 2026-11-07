@@ -3,6 +3,10 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.14.13 — 7 Nov 2026
+- Admin panel, visible only to the admin account and checked by the server on every call: Settings → Admin panel. Statistics (online now, registered and guests, new and active players, games between people and with bots, return next day / within a week, funnel, coins in circulation) with 30-day charts; find a player by nickname and give or take coins with a reason (every action is logged); all skins for testing.
+- The site tells the server once a day that the player was here, and finished games are counted per day, for the statistics.
+
 ## 0.14.12 — 6 Nov 2026
 - Tournament window is compact: a lower photo header, sign-up (or “You are signed up”) and “Share” side by side, the four info cards in one slim row, and the tab content takes only the space it needs — no empty area under short tabs. The window stays pinned at the top, so the tabs do not jump.
 

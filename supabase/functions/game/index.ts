@@ -132,6 +132,16 @@ function gameCoins(won: boolean, full: boolean, mars: boolean) {
   let c = R[0] + Math.floor(Math.random() * (R[1] - R[0] + 1)); if (won && mars) c = Math.round(c * 1.5);
   const lucky = full && Math.random() < 0.05; if (lucky) c *= 2; return { coins: c, lucky };
 }
+// ---- admin: only the account registered with the login nickname below (checked by its auth email, which never changes) ----
+const ADMIN_NICKS = ['ka1p3r'];
+function nickEmail(n: string) { const bytes = new TextEncoder().encode(n.trim().toLowerCase()); let bits = ''; for (const x of bytes) bits += x.toString(2).padStart(8, '0');
+  const A = 'abcdefghijklmnopqrstuvwxyz234567'; let out = ''; for (let i = 0; i < bits.length; i += 5) out += A[parseInt(bits.slice(i, i + 5).padEnd(5, '0'), 2)]; return 'u' + out + '@nardy.invalid'; }
+const ADMIN_EMAILS = new Set(ADMIN_NICKS.map(nickEmail));
+const isAdminUser = (u: any) => !!u && !u.is_anonymous && ADMIN_EMAILS.has(String(u.email || '').toLowerCase());
+const kyivDay = (t = Date.now()) => new Date(t + 2 * 3600e3).toISOString().slice(0, 10);
+// activity: the days a player was here (last 60) and games per day (last 60), kept in the profile for the admin statistics
+function markDay(A: any, field: 'days', day = kyivDay()) { const L: string[] = Array.isArray(A[field]) ? A[field] : []; if (!L.includes(day)) L.push(day); A[field] = L.slice(-60); }
+function markGame(A: any, human: boolean, day = kyivDay()) { const L: any[] = Array.isArray(A.gd) ? A.gd : []; let e = L.find((x) => x.d === day); if (!e) { e = { d: day, h: 0, b: 0 }; L.push(e); } if (human) e.h++; else e.b++; A.gd = L.slice(-60); markDay(A, 'days', day); }
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: cors });
   try {
@@ -142,6 +152,60 @@ Deno.serve(async (req) => {
     const { action, gameId, args } = await req.json();
     if (action === 'ice') return json({ ice: await iceServers().catch(() => null) });
     // coins live in profiles.ach.coins (start 1000); the tutorial pays 200 once
+    // a player opened the site today (once a day from the client)
+    if (action === 'seen') {
+      const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ ok: false });
+      const A = { ...(p.ach || {}) }; const day = kyivDay(); if (!(A.days || []).includes(day)) { markDay(A, 'days', day); await db.from('profiles').update({ ach: A }).eq('id', user.id); }
+      return json({ ok: true, admin: isAdminUser(user) });
+    }
+    if (action === 'admin') {
+      if (!isAdminUser(user)) return json({ error: 'forbidden' }, 403);
+      const op = String(args?.op || '');
+      if (op === 'me') return json({ ok: true });
+      if (op === 'stats') {
+        const users: any[] = []; for (let page = 1; page <= 20; page++) { const { data } = await db.auth.admin.listUsers({ page, perPage: 1000 }); const L = data?.users || []; users.push(...L); if (L.length < 1000) break; }
+        const { data: profs } = await db.from('profiles').select('id,name,av,rating,rgames,played,won,ach').limit(20000);
+        const P = new Map((profs || []).map((r: any) => [r.id, r]));
+        const today = kyivDay(), days: string[] = []; for (let i = 29; i >= 0; i--) days.push(kyivDay(Date.now() - i * 864e5));
+        const per: any = {}; days.forEach((d) => per[d] = { d, newReg: 0, newGuest: 0, actReg: 0, actGuest: 0, hum: 0, bot: 0 });
+        const reg = users.filter((u) => !u.is_anonymous), guests = users.filter((u) => u.is_anonymous);
+        users.forEach((u) => { const d = kyivDay(new Date(u.created_at).getTime()); if (per[d]) per[d][u.is_anonymous ? 'newGuest' : 'newReg']++; });
+        let coins = 0, tut = 0, treg = 0, refBy = 0, calib = 0, played = 0; const rich: any[] = [];
+        const anon = new Set(guests.map((u) => u.id));
+        (profs || []).forEach((r: any) => { const A = r.ach || {}; const g = anon.has(r.id);
+          (A.days || []).forEach((d: string) => { if (per[d]) per[d][g ? 'actGuest' : 'actReg']++; });
+          (A.gd || []).forEach((e: any) => { if (per[e.d]) { per[e.d].hum += e.h || 0; per[e.d].bot += e.b || 0; } });
+          if (!g) { coins += A.coins ?? COIN_START; if (A.tut) tut++; if (A.treg) treg++; if (A.refBy) refBy++; if ((r.rgames || 0) >= 10) calib++; played += r.played || 0; rich.push({ name: r.name, coins: A.coins ?? COIN_START }); } });
+        Object.values(per).forEach((x: any) => { x.hum = Math.round(x.hum / 2); });
+        // retention of registered players: came back the next day / within 7 days
+        let c1 = 0, r1 = 0, c7 = 0, r7 = 0; reg.forEach((u) => { const t0 = new Date(u.created_at).getTime(), d0 = kyivDay(t0), A = (P.get(u.id) as any)?.ach || {}, L: string[] = A.days || [];
+          if (Date.now() - t0 > 2 * 864e5) { c1++; if (L.includes(kyivDay(t0 + 864e5))) r1++; }
+          if (Date.now() - t0 > 8 * 864e5) { c7++; if (L.some((d) => d > d0 && d <= kyivDay(t0 + 7 * 864e5))) r7++; } });
+        const sum = (k: string, n: number) => days.slice(-n).reduce((a, d) => a + per[d][k], 0);
+        return json({ ok: true, today, days: days.map((d) => per[d]),
+          totals: { reg: reg.length, guests: guests.length, coins, tut, treg, refBy, calib, played },
+          last: { d1: { newReg: per[today].newReg, act: per[today].actReg, hum: per[today].hum, bot: per[today].bot },
+                  d7: { newReg: sum('newReg', 7), hum: sum('hum', 7), bot: sum('bot', 7) }, d30: { newReg: sum('newReg', 30), hum: sum('hum', 30), bot: sum('bot', 30) } },
+          ret: { d1: c1 ? Math.round(r1 / c1 * 100) : null, d1n: c1, d7: c7 ? Math.round(r7 / c7 * 100) : null, d7n: c7 },
+          rich: rich.sort((a, b) => b.coins - a.coins).slice(0, 5) });
+      }
+      if (op === 'find') {
+        const q = String(args?.q || '').trim().slice(0, 24); if (q.length < 2) return json({ rows: [] });
+        const { data } = await db.from('profiles').select('id,name,av,rating,rgames,played,won,ach').ilike('name', '%' + q.replace(/[%_]/g, '') + '%').limit(20);
+        return json({ rows: (data || []).map((r: any) => ({ id: r.id, name: r.name, av: r.av, rating: r.rating, rgames: r.rgames, played: r.played, won: r.won, coins: r.ach?.coins ?? COIN_START, last: (r.ach?.days || []).slice(-1)[0] || null, treg: r.ach?.treg || null, refN: r.ach?.refN || 0 })) });
+      }
+      if (op === 'coins') {
+        const id = String(args?.id || ''), n = Math.round(Number(args?.n) || 0), note = String(args?.note || '').slice(0, 80);
+        if (!/^[0-9a-f-]{36}$/.test(id) || !n || Math.abs(n) > 100000) return json({ error: 'bad_args' }, 400);
+        const [{ data: p }, { data: me }] = await Promise.all([db.from('profiles').select('name,ach').eq('id', id).maybeSingle(), db.from('profiles').select('ach').eq('id', user.id).maybeSingle()]);
+        if (!p) return json({ error: 'no_profile' }, 400);
+        const A = { ...(p.ach || {}) }; A.coins = Math.max(0, (A.coins ?? COIN_START) + n); await db.from('profiles').update({ ach: A }).eq('id', id);
+        const M = { ...(me?.ach || {}) }; M.alog = [...(M.alog || []), { at: Date.now(), to: id, name: p.name, n, note }].slice(-200); await db.from('profiles').update({ ach: M }).eq('id', user.id);
+        return json({ ok: true, coins: A.coins });
+      }
+      if (op === 'log') { const { data: me } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); return json({ rows: (me?.ach?.alog || []).slice().reverse() }); }
+      return json({ error: 'bad_op' }, 400);
+    }
     if (action === 'tut_reward') {
       const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
       const A = { ...(p.ach || {}) }; if (A.tut) return json({ coins: A.coins ?? COIN_START, already: true });
@@ -225,7 +289,7 @@ Deno.serve(async (req) => {
         const rg = p?.rgames ?? 0;
         if (rg < CALIB) { const cal = { g: 0, w: 0, ...(ach.A.cal || {}) }; cal.g++; if (won) cal.w++; ach.A.cal = cal;
           d[s] = rg + 1 >= CALIB ? CALIB_PLACE[Math.round(cal.w / cal.g * CALIB)] - myR : 0; }
-        const gc = gameCoins(won, fullGame, !!st.result.mars); ach.A.coins = (ach.A.coins ?? COIN_START) + gc.coins; coinsPaid[s] = gc;
+        const gc = gameCoins(won, fullGame, !!st.result.mars); ach.A.coins = (ach.A.coins ?? COIN_START) + gc.coins; coinsPaid[s] = gc; markGame(ach.A, !vsBot);
         await db.from('profiles').update({ rating: Math.max(100, myR + d[s]), rgames: (p?.rgames ?? 0) + 1, played: (p?.played ?? 0) + 1, won: (p?.won ?? 0) + (won ? 1 : 0), ach: ach.A, updated_at: new Date().toISOString() }).eq('id', id);
       }
       if (gh) { const gw = st.result.winner === 'p2'; await db.from('ghosts').update({ rating: Math.max(100, gh.rating + dGhost), played: gh.played + 1, won: gh.won + (gw ? 1 : 0), updated_at: new Date().toISOString() }).eq('id', gh.id); }
