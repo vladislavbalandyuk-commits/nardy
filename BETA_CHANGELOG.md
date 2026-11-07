@@ -3,6 +3,10 @@
 Beta versions are `<next main-site version>-beta.<build>`: every deploy to /beta adds one to the build number. Up to 0.14.0-beta.14 the beta was heading for 0.14.0; the main site took 0.14.1 (tutorial and coins), so from 0.15.0-beta.1 the beta heads for 0.15.0 (the shop).
 When features move to the main site they get a normal version there (see CHANGELOG.md), and the beta moves on to the next one.
 
+## 0.15.0-beta.20 — 7 Nov 2026
+- Profile: the big avatar grid is replaced by “My outfits” — 5 outfits to switch with one tap, plus links “Avatar” and “Set up”. The outfits row is no longer on the home page.
+- Avatars moved to Collection → Catalog → Profile → Avatar.
+
 ## 0.15.0-beta.19 — 7 Nov 2026
 - Outfits: up to 5 saved outfits (avatar, avatar skin and frame, card background, board, checkers, dice, table, both effects). Home page has a “My outfits” row — one tap puts an outfit on; the row is not shown during a game. “Save” on an empty slot keeps what you wear now. Outfits are named, re-saved and deleted in Collection → Catalog → My outfits.
 - Catalog categories are split into groups: Outfits · Game (board, checkers, dice, table) · Profile (avatar skins, avatar frames, card backgrounds) · Effects (dice roll, victory) · Chat (chat wheel, emoji, phrases, voice).
