@@ -3,6 +3,12 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.16.0 — 7 Nov 2026
+- Rating is a page of its own (the trophy button, the rating card on the home page): tabs Rating (top 100 by rating, everyone past calibration), Friends (you, the friends you invited and whoever invited you) and Tournament (the weekend tournament season table); a podium for the top 3, the list from #4 in pages of 20, and your own row pinned at the bottom with your place and how much rating is left to the place above (or to the top 100). The phone's back gesture closes it.
+- Player card: tap anyone in the table — avatar with the rank frame, rank, rating and place, games, wins, win rate, and "Play by link" (makes a game link to send).
+- Faster loading: the Supabase library loads without blocking the page; the site is now built from src/index.html by tools/build.js — CSS, JS and HTML are minified, avatars moved to av.js (loaded in parallel), item skins to skins.css (applied right after the first paint). index.html went from 672 KB to 427 KB (189 → 125 KB compressed).
+- Source of the site: src/index.html (edit there, then `node tools/build.js src/index.html .`).
+
 ## 0.15.4 — 7 Nov 2026
 - Weekend tournament field: when there are not enough sign-ups, the places are taken by computer players with a first name, a nickname and a last name (fixed for the season, the same on every device). They appear in "Participants" gradually during the week (up to 14, so there are always free places for real people) and are the opponents in your groups and play-off. They are not marked as bots.
 - The tournament texts no longer mention bots.
