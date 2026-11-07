@@ -7,6 +7,11 @@ When features move to the main site they get a normal version there (see CHANGEL
 
 
 
+
+## 7 Nov 2026 — a reward on every level again; photo tables
+- The International pass gives a reward on every one of the 100 levels again (portraits, boards, effects, sounds, frames, phrases, coins), together with the purchase bonus, the growing Arena checkers and International frame (II–IV at 20/45/70 and 30/55/80) and the Champion's Aegis at 100. The plainest gradient things are replaced by portraits and coins. A “Top rewards” row shows every 10th level.
+- Five new tables from the author's own pictures, each with a little movement on top: Sunny glade (fireflies), Rain in the forest (rain), Snowfall under a lamp (snow), Night sakura (petals), Night sea — in the catalog for 700–900 coins.
+
 ## 7 Nov 2026 — real 3D and real materials
 - The Champion's Aegis (level 100) is now real 3D (three.js, loaded when it plays): a polished gold shield with a blue enamel field, a crown and glass gems, lit by a moving light so the reflections run over the metal; it rises spinning, sparks rise around it, light rays turn behind, rings and a coin rain on top.
 - The snow globe is real 3D: a glass sphere, a little Druzi house with warm windows, snowy fir trees, snowflakes that swirl after a shake and settle, a lacquered walnut base with a gold ring and a “DRUZI · 2027” plaque.
