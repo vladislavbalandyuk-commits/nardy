@@ -226,6 +226,26 @@ async function tgVerify(initData: string, pubHex = TG_PUB, botId = TG_BOT_ID): P
   const at = +(P.get('auth_date') || 0); if (!at || Date.now() / 1000 - at > 86400) return null;
   try { return JSON.parse(P.get('user') || 'null'); } catch (_) { return null; }
 }
+
+// "Log in with Telegram" button on the website: Telegram signs these fields with SHA256(bot token), so it needs TG_BOT_TOKEN.
+async function tgWidgetVerify(d: any): Promise<any | null> {
+  const tok = (globalThis as any).Deno?.env.get('TG_BOT_TOKEN'); if (!tok || !d || !d.hash || !d.id) return null;
+  const pairs = Object.keys(d).filter((k) => k !== 'hash' && d[k] != null && d[k] !== '').sort().map((k) => k + '=' + d[k]);
+  const sk = new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(tok)));
+  const h = Array.from(await hmac(sk, new TextEncoder().encode(pairs.join('\n')))).map((b) => b.toString(16).padStart(2, '0')).join('');
+  if (h !== String(d.hash)) return null; if (Date.now() / 1000 - (+d.auth_date || 0) > 86400) return null;
+  return { id: d.id, first_name: d.first_name, last_name: d.last_name, username: d.username, language_code: '' };
+}
+// one account per Telegram user: a nickname account the player linked (ach.tg), otherwise tg-<id>@telegram.invalid
+async function tgSession(db: any, tu: any) {
+  const { data: linked } = await db.from('profiles').select('id').eq('ach->>tg', String(tu.id)).limit(1);
+  let email = 'tg-' + tu.id + '@telegram.invalid', isNew = false;
+  if (linked && linked.length) { const { data: u } = await db.auth.admin.getUserById(linked[0].id); if (u?.user?.email) email = u.user.email; }
+  else { const cr = await db.auth.admin.createUser({ email, email_confirm: true, user_metadata: { tg: tu.id } }); isNew = !cr.error; }
+  const { data: L, error } = await db.auth.admin.generateLink({ type: 'magiclink', email }); if (error || !L?.properties?.hashed_token) return null;
+  return { ok: true, token_hash: L.properties.hashed_token, isNew, tg: { id: tu.id, first: tu.first_name || '', last: tu.last_name || '', username: tu.username || '', lang: tu.language_code || '' } };
+}
+const TG_BONUS = 500, TG_FRAME = 'frame:tg';
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: cors });
   try {
@@ -245,16 +265,28 @@ Deno.serve(async (req) => {
         const to = (rows || []).filter((r: any) => e.who === 'all' || (r.ach?.treg && r.ach.treg.s === season));
         for (const r of to) { const L = r.ach?.lang === 'en' ? e.en : e.uk; sent += await pushTo(db, [r], { title: L[0], body: L[1], tag: e.id, url: '/' + (r.ach?.beta ? 'beta/' : '') + '?tour=1' }); } }
       return json({ ok: true, events: ev.length, sent }); }
-    if (body0.action === 'tg_login') {
-      const tu = await tgVerify(String(body0.args?.initData || '')); if (!tu || !tu.id) return json({ error: 'tg_bad' }, 401);
-      const email = 'tg-' + tu.id + '@telegram.invalid';
-      const cr = await db.auth.admin.createUser({ email, email_confirm: true, user_metadata: { tg: tu.id } });
-      const isNew = !cr.error;
-      const { data: L, error: le } = await db.auth.admin.generateLink({ type: 'magiclink', email }); if (le || !L?.properties?.hashed_token) return json({ error: 'tg_link' }, 500);
-      return json({ ok: true, token_hash: L.properties.hashed_token, isNew, tg: { id: tu.id, first: tu.first_name || '', last: tu.last_name || '', username: tu.username || '', lang: tu.language_code || '' } });
+    if (body0.action === 'tg_login' || body0.action === 'tg_widget') {
+      const tu = body0.action === 'tg_login' ? await tgVerify(String(body0.args?.initData || '')) : await tgWidgetVerify(body0.args?.data);
+      if (!tu || !tu.id) return json({ error: body0.action === 'tg_widget' && !(globalThis as any).Deno?.env.get('TG_BOT_TOKEN') ? 'tg_off' : 'tg_bad' }, 401);
+      const r = await tgSession(db, tu); return r ? json(r) : json({ error: 'tg_link' }, 500);
     }
     const { data: { user } } = await db.auth.getUser(token); if (!user) return json({ error: 'auth' }, 401);
     const { action, gameId, args } = body0;
+    // link Telegram to the signed-in (nickname) account, and the one-time Telegram bonus: 500 coins + the Telegram frame
+    if (action === 'tg_link') {
+      const tu = args?.initData ? await tgVerify(String(args.initData)) : await tgWidgetVerify(args?.data); if (!tu || !tu.id) return json({ error: 'tg_bad' }, 401);
+      const { data: other } = await db.from('profiles').select('id').eq('ach->>tg', String(tu.id)).neq('id', user.id).limit(1); if (other && other.length) return json({ error: 'tg_taken' }, 400);
+      const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
+      const A = { ...(p.ach || {}) }; A.tg = String(tu.id); await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, tg: A.tg });
+    }
+    if (action === 'tg_bonus') {
+      const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
+      const A = { ...(p.ach || {}) }; const isTg = /^tg-\d+@telegram\.invalid$/.test(user.email || '') || !!A.tg;
+      if (!isTg) return json({ error: 'not_tg' }, 400); if (A.tgb) return json({ ok: true, already: true, coins: A.coins ?? COIN_START });
+      if (!A.tg && user.email) A.tg = (user.email.match(/^tg-(\d+)@/) || [])[1];
+      A.tgb = 1; A.coins = (A.coins ?? COIN_START) + TG_BONUS; A.owned = Array.isArray(A.owned) ? A.owned : []; if (!A.owned.includes(TG_FRAME)) A.owned = [...A.owned, TG_FRAME];
+      await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, got: TG_BONUS, frame: TG_FRAME, coins: A.coins });
+    }
     if (action === 'ice') return json({ ice: await iceServers().catch(() => null) });
     // coins live in profiles.ach.coins (start 1000); the tutorial pays 200 once
     if (action === 'rewards') {
