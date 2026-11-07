@@ -3,6 +3,11 @@
 Beta versions are `<next main-site version>-beta.<build>`: every deploy to /beta adds one to the build number. Up to 0.14.0-beta.14 the beta was heading for 0.14.0; the main site took 0.14.1 (tutorial and coins), so from 0.15.0-beta.1 the beta heads for 0.15.0 (the shop).
 When features move to the main site they get a normal version there (see CHANGELOG.md), and the beta moves on to the next one.
 
+
+## 7 Nov 2026 — NIKOW case (demo)
+- New case “NIKOW · demo” (450 coins, same odds as the Druzi cases): 34 things in the mood of NIKOW — night city, the ocean, the stage and a stadium of phone lights. Checkers Balm, Philophobia, Son are you asleep?, Open ocean, Heartbeat (pulses), Seductive, Not for real (holographic), Moon; dice Whisper, City windows, Concert ticket, Spotlight, Vinyl, Stage neon; boards “Talks with the city” and “Deep” (slow waves); the Stadium table; phrases; frames Spotlight beam, Sound wave and NIKOW Live (animated, with a LIVE badge); the “Sold out” card; avatar look “Hood and mic”; concert emoji; effects “Stadium lights” (win) and “Heartbeat” (roll); five voices — heartbeat, stadium roar, night chord, rain in the city, bass drop.
+- All pictures and sounds are our own (sounds are synthesized in the browser); no recordings, lyrics, covers or likeness of the artist. Licensed snippets can be dropped in later through VO_SRC for the nk* voices.
+- The case opens with its own sounds (heartbeat, night chord, stadium roar + lights for the top tiers). The showcase hero now shows this case.
 ## 0.16.0-beta.1 — 7 Nov 2026
 - Version renumbered: the main site is on 0.15.1 (shop with the catalog, outfits), the beta now heads for 0.16.0. Server code is the same as on the main site.
 
