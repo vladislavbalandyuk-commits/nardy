@@ -157,14 +157,76 @@ const kyivDay = (t = Date.now()) => new Date(t + 2 * 3600e3).toISOString().slice
 // activity: the days a player was here (last 60) and games per day (last 60), kept in the profile for the admin statistics
 function markDay(A: any, field: 'days', day = kyivDay()) { const L: string[] = Array.isArray(A[field]) ? A[field] : []; if (!L.includes(day)) L.push(day); A[field] = L.slice(-60); }
 function markGame(A: any, human: boolean, day = kyivDay()) { const L: any[] = Array.isArray(A.gd) ? A.gd : []; let e = L.find((x) => x.d === day); if (!e) { e = { d: day, h: 0, b: 0 }; L.push(e); } if (human) e.h++; else e.b++; A.gd = L.slice(-60); markDay(A, 'days', day); }
+
+// ---- web push (RFC 8030/8291/8292) with WebCrypto only: VAPID keys are made once and kept in a private storage bucket ----
+const b64u = (u8: Uint8Array) => btoa(String.fromCharCode(...u8)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+const ub64 = (s: string) => { s = s.replace(/-/g, '+').replace(/_/g, '/'); while (s.length % 4) s += '='; const b = atob(s); return Uint8Array.from(b, (c) => c.charCodeAt(0)); };
+const cat = (...a: Uint8Array[]) => { const o = new Uint8Array(a.reduce((n, x) => n + x.length, 0)); let i = 0; for (const x of a) { o.set(x, i); i += x.length; } return o; };
+const te = new TextEncoder();
+async function hmac(key: Uint8Array, data: Uint8Array) { const k = await crypto.subtle.importKey('raw', key, { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']); return new Uint8Array(await crypto.subtle.sign('HMAC', k, data)); }
+let VAPID: any = null;
+async function vapid(db: any) {
+  if (VAPID) return VAPID;
+  try { await db.storage.createBucket('srv', { public: false }); } catch (_) {}
+  const dl = await db.storage.from('srv').download('vapid.json');
+  let j: any = null; if (dl.data) { try { j = JSON.parse(await dl.data.text()); } catch (_) {} }
+  if (!j) { const kp = await crypto.subtle.generateKey({ name: 'ECDSA', namedCurve: 'P-256' }, true, ['sign', 'verify']);
+    j = { priv: await crypto.subtle.exportKey('jwk', kp.privateKey), pub: b64u(new Uint8Array(await crypto.subtle.exportKey('raw', kp.publicKey))) };
+    await db.storage.from('srv').upload('vapid.json', new Blob([JSON.stringify(j)], { type: 'application/json' }), { upsert: true }); }
+  const key = await crypto.subtle.importKey('jwk', j.priv, { name: 'ECDSA', namedCurve: 'P-256' }, false, ['sign']);
+  VAPID = { key, pub: j.pub }; return VAPID; }
+async function vapidJwt(V: any, endpoint: string) {
+  const aud = new URL(endpoint).origin, h = b64u(te.encode(JSON.stringify({ typ: 'JWT', alg: 'ES256' }))), p = b64u(te.encode(JSON.stringify({ aud, exp: Math.floor(Date.now() / 1000) + 12 * 3600, sub: 'mailto:nardy@nardy.invalid' })));
+  const sig = new Uint8Array(await crypto.subtle.sign({ name: 'ECDSA', hash: 'SHA-256' }, V.key, te.encode(h + '.' + p))); return h + '.' + p + '.' + b64u(sig); }
+async function encrypt(sub: any, payload: Uint8Array) {
+  const ua = ub64(sub.keys.p256dh), auth = ub64(sub.keys.auth);
+  const eph = await crypto.subtle.generateKey({ name: 'ECDH', namedCurve: 'P-256' }, true, ['deriveBits']); const asPub = new Uint8Array(await crypto.subtle.exportKey('raw', eph.publicKey));
+  const uaKey = await crypto.subtle.importKey('raw', ua, { name: 'ECDH', namedCurve: 'P-256' }, false, []);
+  const ecdh = new Uint8Array(await crypto.subtle.deriveBits({ name: 'ECDH', public: uaKey }, eph.privateKey, 256));
+  const prkKey = await hmac(auth, ecdh), ikm = await hmac(prkKey, cat(te.encode('WebPush: info\0'), ua, asPub, new Uint8Array([1])));
+  const salt = crypto.getRandomValues(new Uint8Array(16)), prk = await hmac(salt, ikm);
+  const cek = (await hmac(prk, cat(te.encode('Content-Encoding: aes128gcm\0'), new Uint8Array([1])))).slice(0, 16), nonce = (await hmac(prk, cat(te.encode('Content-Encoding: nonce\0'), new Uint8Array([1])))).slice(0, 12);
+  const k = await crypto.subtle.importKey('raw', cek, 'AES-GCM', false, ['encrypt']); const ct = new Uint8Array(await crypto.subtle.encrypt({ name: 'AES-GCM', iv: nonce }, k, cat(payload, new Uint8Array([2]))));
+  const rs = new Uint8Array([0, 0, 16, 0]); return cat(salt, rs, new Uint8Array([65]), asPub, ct); }
+async function pushOne(db: any, sub: any, msg: any) { const V = await vapid(db); const body = await encrypt(sub, te.encode(JSON.stringify(msg)));
+  const r = await fetch(sub.endpoint, { method: 'POST', headers: { Authorization: 'vapid t=' + (await vapidJwt(V, sub.endpoint)) + ', k=' + V.pub, 'Content-Encoding': 'aes128gcm', 'Content-Type': 'application/octet-stream', TTL: '3600', Urgency: 'high' }, body });
+  return r.status; }
+// send to a list of profiles; subscriptions that are gone (404/410) are dropped
+async function pushTo(db: any, rows: any[], msg: any) { let sent = 0;
+  for (const r of rows) { const A = { ...(r.ach || {}) }; const L = Array.isArray(A.push) ? A.push : []; if (!L.length) continue; const keep: any[] = [];
+    for (const sub of L) { try { const st = await pushOne(db, sub, msg); if (st === 404 || st === 410) continue; if (st < 300) sent++; } catch (_) {} keep.push(sub); }
+    if (keep.length !== L.length) { A.push = keep; await db.from('profiles').update({ ach: A }).eq('id', r.id); } }
+  return sent; }
+// the weekend tournament reminders: Saturday 12:00 (everyone), 17:00 and 17:50 (signed up), Sunday 17:50 play-off (signed up) — Kyiv time
+const KYIV_OFF = 2 * 3600e3;
+function pushEvents(now: number) { const k = new Date(now + KYIV_OFF), dow = k.getUTCDay(), ymd = k.toISOString().slice(0, 10), mins = k.getUTCHours() * 60 + k.getUTCMinutes();
+  const ev: any[] = [];
+  if (dow === 6 && mins >= 12 * 60 && mins < 12 * 60 + 40) ev.push({ id: 'sat12-' + ymd, who: 'all', uk: ['Сьогодні турнір вихідного дня', 'О 18:00 — групи. Запис ще відкритий, заходьте!'], en: ['Weekend tournament today', 'Groups at 18:00. Sign-up is still open — come in!'] });
+  if (dow === 6 && mins >= 17 * 60 && mins < 17 * 60 + 40) ev.push({ id: 'sat17-' + ymd, who: 'reg', uk: ['Турнір через годину', 'Групи стартують о 18:00 — ви записані.'], en: ['Tournament in an hour', 'Groups start at 18:00 — you are signed up.'] });
+  if (dow === 6 && mins >= 17 * 60 + 50 && mins < 18 * 60 + 20) ev.push({ id: 'sat1750-' + ymd, who: 'reg', uk: ['Турнір починається!', 'Ваша група вже чекає — відкрийте нарди.'], en: ['The tournament is starting!', 'Your group is waiting — open nardy.'] });
+  if (dow === 0 && mins >= 17 * 60 + 50 && mins < 18 * 60 + 20) ev.push({ id: 'sun1750-' + ymd, who: 'reg', uk: ['Плей-оф починається', 'Неділя, 18:00 — ваш плей-оф турніру вихідного дня.'], en: ['The play-off is starting', 'Sunday, 18:00 — your weekend tournament play-off.'] });
+  return ev; }
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: cors });
   try {
     const url = Deno.env.get('SUPABASE_URL')!, svc = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? Deno.env.get('SUPABASE_SECRET_KEY')!;
     const db = createClient(url, svc, { auth: { persistSession: false } });
     const token = (req.headers.get('Authorization') ?? '').replace(/^Bearer\s+/i, '');
+    const body0 = await req.json().catch(() => ({}));
+    // public: the VAPID public key, and the reminder tick (called every few minutes by a scheduled GitHub Action)
+    if (body0.action === 'push_key') return json({ key: (await vapid(db)).pub });
+    if (body0.action === 'push_tick') {
+      const ev = pushEvents(Date.now()); if (!ev.length) return json({ ok: true, events: 0 });
+      let doneJ: any = {}; const dl = await db.storage.from('srv').download('push_sent.json'); if (dl.data) { try { doneJ = JSON.parse(await dl.data.text()); } catch (_) {} }
+      const EPOCH = Date.UTC(2026, 10, 7, 16, 0), season = Math.max(0, Math.floor((Date.now() - EPOCH + 3 * 864e5) / (4 * 7 * 864e5)));
+      const { data: rows } = await db.from('profiles').select('id,ach').not('ach->push', 'is', null).limit(5000);
+      let sent = 0; for (const e of ev) { if (doneJ[e.id]) continue; doneJ[e.id] = Date.now();
+        await db.storage.from('srv').upload('push_sent.json', new Blob([JSON.stringify(doneJ)], { type: 'application/json' }), { upsert: true });
+        const to = (rows || []).filter((r: any) => e.who === 'all' || (r.ach?.treg && r.ach.treg.s === season));
+        for (const r of to) { const L = r.ach?.lang === 'en' ? e.en : e.uk; sent += await pushTo(db, [r], { title: L[0], body: L[1], tag: e.id, url: '/' + (r.ach?.beta ? 'beta/' : '') + '?tour=1' }); } }
+      return json({ ok: true, events: ev.length, sent }); }
     const { data: { user } } = await db.auth.getUser(token); if (!user) return json({ error: 'auth' }, 401);
-    const { action, gameId, args } = await req.json();
+    const { action, gameId, args } = body0;
     if (action === 'ice') return json({ ice: await iceServers().catch(() => null) });
     // coins live in profiles.ach.coins (start 1000); the tutorial pays 200 once
     if (action === 'rewards') {
@@ -279,6 +341,19 @@ Deno.serve(async (req) => {
       return json({ ok: true, coins: A.coins, prize, pts, tp: A.tp });
     }
     // sign up for the weekend tournaments of this season: first name, nickname, last name — fixed until the season ends
+    if (action === 'push_sub') {
+      const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
+      const A = { ...(p.ach || {}) }; let L = Array.isArray(A.push) ? A.push : []; const sub = args?.sub;
+      if (sub && sub.endpoint) L = L.filter((x: any) => x.endpoint !== sub.endpoint);
+      if (args?.on && sub && sub.endpoint && sub.keys?.p256dh && sub.keys?.auth) L = [...L, { endpoint: String(sub.endpoint).slice(0, 600), keys: { p256dh: String(sub.keys.p256dh).slice(0, 200), auth: String(sub.keys.auth).slice(0, 60) } }].slice(-4);
+      A.push = L.length ? L : null; if (args?.lang) A.lang = args.lang === 'en' ? 'en' : 'uk'; if (args?.beta != null) A.beta = !!args.beta;
+      await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, n: L.length });
+    }
+    if (action === 'push_test') {
+      const { data: p } = await db.from('profiles').select('id,ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
+      const en = p.ach?.lang === 'en'; const sent = await pushTo(db, [p], { title: en ? 'Notifications are on' : 'Сповіщення увімкнено', body: en ? 'We will remind you about the weekend tournament.' : 'Нагадаємо про турнір вихідного дня.', tag: 'test', url: '/' });
+      return json({ ok: true, sent });
+    }
     if (action === 'tour_reg') {
       const EPOCH = Date.UTC(2026, 10, 7, 16, 0), WK = 7 * 864e5, Q = 4;
       const season = Math.max(0, Math.floor((Date.now() - EPOCH + 3 * 864e5) / (Q * WK)));
