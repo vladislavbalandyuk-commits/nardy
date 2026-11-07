@@ -1458,6 +1458,7 @@ body[data-table=lounge] #stage::after{content:"";position:absolute;inset:0;point
 @media (max-width:760px){ header .hdr-r>#coinPill{margin-right:10px} }
 .chcard .tgo{flex:none;padding:8px 16px;border-radius:99px;background:#8f7cff;color:#fff;font-weight:600;font-size:13.5px;white-space:nowrap}
 @media (max-width:560px){ .lkslot.empty{min-height:0!important} .lkadd{padding:16px 10px!important;gap:4px!important} .lkadd b{font-size:20px} .lkadd span{font-size:13px;line-height:1.3} }
+.two.one{grid-template-columns:1fr!important} #btnTutor[hidden]{display:none!important}
 </style>
 </head>
 <body>
@@ -1505,7 +1506,7 @@ body[data-table=lounge] #stage::after{content:"";position:absolute;inset:0;point
         <button id="btnCreate" data-t="friendB"></button>
       </div>
       <div class="sec opt">
-        <div class="two"><button id="btnTutor" data-t="tutorB"></button><button id="btnLocal" data-t="localB2"></button></div>
+        <div class="two one"><button id="btnTutor" data-t="tutorB" hidden></button><button id="btnLocal" data-t="localB2"></button></div>
       </div>
       <div class="sec deskhide"><button id="btnLb2" style="width:100%" data-t="lbOpen"></button></div>
       <div class="sec deskhide"><p class="note" id="onlineNote"></p></div>
@@ -3223,7 +3224,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.18.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.18.1';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -4251,6 +4252,15 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=createGame; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 const NEWS=[
+ {v:"0.18.1", d:"7.11.2026", uk:["На головній більше немає двох кнопок «Як грати» — навчання тепер у картці «Вечори в кальянній» і внизу сторінки","«Що нового» знову показує всі зміни"], en:["No more two «How to play» buttons on the home page — learning is in the «Hookah bar evenings» card and at the bottom of the page","«What’s new» shows every change again"]},
+ {v:"0.18.0", d:"7.11.2026", uk:["«Вечори в кальянній»: курс з Владом і Пашею — 6 розділів після першого уроку: правило голови, паркан, виведення, марс, тактика і партія з Пашею", "Подарунки за курс: рамка «Учень», кубики «Кальянні», шашки «Вугілля», монети і стіл «Кальянна» за перемогу над Пашею", "«Екскурсія з Пашею»: Паша показує, де що на сайті, і дає 100 монет — у Налаштуваннях", "На телефоні більше місця між монетками й аватаркою; компактніші «Мої образи»"], en:["«Hookah bar evenings»: a course with Vlad and Pasha — 6 chapters after the first lesson: the head rule, the fence, bearing off, mars, tactics and a game against Pasha", "Course gifts: the Apprentice frame, Hookah dice, Coal checkers, coins and the Hookah lounge table for beating Pasha", "«Pasha’s tour»: Pasha shows where everything is and gives 100 coins — in Settings", "On phones more room between the coins and the avatar; more compact «My looks»"]},
+ {v:"0.17.0", d:"7.11.2026", uk:["Турнір вихідного дня — тепер одна спільна сітка для всіх: записані гравці грають між собою онлайн, вільні місця займають боти", "Цього тижня турнір перенесено: групи в неділю о 14:00, плей-оф о 16:00", "Таблиці груп і плей-оф у всіх однакові, призи нараховує сервер"], en:["The weekend tournament is now one shared bracket: signed-up players play each other online, bots take the free places", "This week the tournament moved: groups on Sunday at 14:00, play-off at 16:00", "Group tables and the play-off are the same for everyone; the server pays the prizes"]},
+ {v:"0.16.7", d:"7.11.2026", uk:["Турнір стартує вчасно для всіх записаних"], en:["The tournament starts on time for everyone signed up"]},
+ {v:"0.16.6", d:"7.11.2026", uk:["До старту турніру завжди набирається повних 16 гравців"], en:["The tournament always has a full field of 16 by the start"]},
+ {v:"0.16.5", d:"7.11.2026", uk:["Telegram-бот @dovgi_nardy_bot вітається після «Почати» і дає кнопки «Грати», «Турнір» і «Запросити друга»"], en:["The Telegram bot @dovgi_nardy_bot greets you after Start with Play, Tournament and Invite buttons"]},
+ {v:"0.16.4", d:"7.11.2026", uk:["Шапка на телефоні: рейтинг, налаштування, монети, нік"], en:["Phone header: rating, settings, coins, nickname"]},
+ {v:"0.16.2", d:"7.11.2026", uk:["Нарди в Telegram: гра відкривається прямо в Telegram, вхід через Telegram-акаунт, запрошення друзів з чатів", "«Увійти через Telegram» на сайті і прив’язка Telegram у профілі — один акаунт і там, і тут", "Бонус за Telegram: +500 монет і значок Telegram на аватарці"], en:["Nardy in Telegram: the game opens right in Telegram, sign-in with your Telegram account, invite friends from chats", "«Log in with Telegram» on the website and linking Telegram in the profile — one account in both", "Telegram bonus: +500 coins and the Telegram badge on your avatar"]},
+ {v:"0.16.1", d:"7.11.2026", uk:["Сповіщення в Налаштуваннях: «ваш хід» в онлайн-грі і нагадування про турнір — навіть коли сайт закритий"], en:["Notifications in Settings: «your turn» in an online game and tournament reminders — even when the site is closed"]},
  {v:'0.16.0', d:'7.11.2026', uk:['Рейтинг — окрема сторінка: Рейтинг (топ-100), Друзі й Турнір, п’єдестал для трійки лідерів, ваше місце закріплене внизу — і скільки лишилось до місця вище','Картка гравця: ранг, рейтинг, місце, партії, перемоги — і гра по посиланню','Сайт вантажиться швидше: сторінка менша на третину, а сервер підключається не заважаючи показу'], en:['Rating is a page of its own: Rating (top 100), Friends and Tournament, a podium for the top 3, your place pinned at the bottom with the gap to the place above','Player card: rank, rating, place, games, wins — and a game by link','The site loads faster: the page is a third smaller and the server library no longer holds the first paint']},
  {v:'0.15.4', d:'7.11.2026', uk:['Турнір: суперники стали сильнішими; монети в турнірі — такі ж золоті, як у магазині'], en:['Tournament: stronger opponents; tournament coins are the same gold coins as in the shop']},
  {v:'0.15.3', d:'7.11.2026', uk:['Магазин: кнопка з монетами відкриває магазин із трьома вкладками — Вітрина, Каталог і Персоналайзер','На Вітрині — щоденний подарунок, завдання дня і чотири речі дня (по одній кожної рідкості)','Персоналайзер: образи, аватар і ваші речі — одягаються одним дотиком; окремі іконки подарунка й сумки прибрано'], en:['Shop: the coin button opens the shop with three tabs — Showcase, Catalog and Personalizer','The Showcase has the daily gift, quests of the day and four picks of the day (one of each rarity)','Personalizer: outfits, avatar and your things, put on with one tap; the separate gift and bag icons are gone']},

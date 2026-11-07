@@ -3,6 +3,10 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.18.1 — 7 Nov 2026
+- Home: the big «How to play» button is gone (it duplicated the footer link and the course card); «Play on one device» is full width.
+- «What's new» in the game has entries again for 0.16.1–0.18.1; the build now fails if a release has no «What's new» entry.
+
 ## 0.18.0 — 7 Nov 2026
 - «Вечори в кальянній»: the story course after the first lesson — 6 chapters with Vlad and Pasha (the head rule and the first-roll exception, the fence and why six in a row is not allowed, bearing off, mars, tactics, and a final game against Pasha). Moves are checked; a wrong one gets a line from Vlad and the lesson again.
 - Course rewards, once each (the server pays accounts and keeps the order; guests keep them in the browser): the Apprentice badge on your avatar, Hookah dice, 300 coins, Coal checkers, and for beating Pasha 500 coins + the Hookah lounge table. The course items are not sold; the shop says where they come from.
