@@ -3,6 +3,13 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.17.0 — 7 Nov 2026
+- The weekend tournament is now one shared bracket on the server: at the start the server draws 4 groups of 4 from the signed-up players (in sign-up order), free places go to tournament bots. Everyone sees the same groups, tables and play-off.
+- Player vs player matches are real online games (the first to come creates the game, the other joins; no-show after 10 minutes = a win for the one who came). Player vs bot matches are played against the tournament bot and reported to the server. Bot vs bot matches are resolved by the server.
+- One game per match; group rounds open every 35 minutes (earlier once both players are free), the play-off opens when the groups end. The server pays the prizes and tournament points once.
+- This weekend's tournament is moved: groups on Sunday 14:00–16:00, play-off from 16:00 (Kyiv). Signed-up players keep their place; reminders say so.
+- Phone header: more space between the coins and your avatar.
+
 ## 0.16.7 — 7 Nov 2026
 - Fix: the weekend tournament did not start at 18:00 for signed-up players — the groups are now drawn automatically at the start, and the first match is ready to play.
 

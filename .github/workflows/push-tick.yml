@@ -13,3 +13,8 @@ jobs:
             -H 'Content-Type: application/json' \
             -H 'apikey: sb_publishable_RN7RCyueFTrdIUyOllJKWA_wxMp2Bpz' \
             -d '{"action":"push_tick"}'
+          echo
+          curl -sS -X POST https://zndzvicklrkxkrpmkybg.supabase.co/functions/v1/game \
+            -H 'Content-Type: application/json' \
+            -H 'apikey: sb_publishable_RN7RCyueFTrdIUyOllJKWA_wxMp2Bpz' \
+            -d '{"action":"tour_state"}' | head -c 400

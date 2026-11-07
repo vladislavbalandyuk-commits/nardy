@@ -2,6 +2,7 @@
 // Supabase Edge Function "game": the only writer of online games and ratings.
 // Clients call it with { action, gameId, args }; it validates the move with the same rules as the client.
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import * as TR from './tour.ts';
 // ---- rules (same as the client) ----
 // Authoritative long-nardy rules for the server. Pure functions, no I/O.
 // The same rules as the client (index.html): every action is validated here.
@@ -199,12 +200,17 @@ async function pushTo(db: any, rows: any[], msg: any) { let sent = 0;
   return sent; }
 // the weekend tournament reminders: Saturday 12:00 (everyone), 17:00 and 17:50 (signed up), Sunday 17:50 play-off (signed up) — Kyiv time
 const KYIV_OFF = 2 * 3600e3;
-function pushEvents(now: number) { const k = new Date(now + KYIV_OFF), dow = k.getUTCDay(), ymd = k.toISOString().slice(0, 10), mins = k.getUTCHours() * 60 + k.getUTCMinutes();
-  const ev: any[] = [];
-  if (dow === 6 && mins >= 12 * 60 && mins < 12 * 60 + 40) ev.push({ id: 'sat12-' + ymd, who: 'all', uk: ['Сьогодні турнір вихідного дня', 'О 18:00 — групи. Запис ще відкритий, заходьте!'], en: ['Weekend tournament today', 'Groups at 18:00. Sign-up is still open — come in!'] });
-  if (dow === 6 && mins >= 17 * 60 && mins < 17 * 60 + 40) ev.push({ id: 'sat17-' + ymd, who: 'reg', uk: ['Турнір через годину', 'Групи стартують о 18:00 — ви записані.'], en: ['Tournament in an hour', 'Groups start at 18:00 — you are signed up.'] });
-  if (dow === 6 && mins >= 17 * 60 + 50 && mins < 18 * 60 + 20) ev.push({ id: 'sat1750-' + ymd, who: 'reg', uk: ['Турнір починається!', 'Ваша група вже чекає — відкрийте нарди.'], en: ['The tournament is starting!', 'Your group is waiting — open nardy.'] });
-  if (dow === 0 && mins >= 17 * 60 + 50 && mins < 18 * 60 + 20) ev.push({ id: 'sun1750-' + ymd, who: 'reg', uk: ['Плей-оф починається', 'Неділя, 18:00 — ваш плей-оф турніру вихідного дня.'], en: ['The play-off is starting', 'Sunday, 18:00 — your weekend tournament play-off.'] });
+function pushEvents(now: number) {
+  const E = TR.tourEvent(now); const ev: any[] = []; if (!E) return ev;
+  const hm = (t: number) => new Date(t + KYIV_OFF).toISOString().slice(11, 16);
+  const dayUk = (t: number) => ['у неділю', 'у понеділок', 'у вівторок', 'у середу', 'у четвер', 'у п’ятницю', 'у суботу'][new Date(t + KYIV_OFF).getUTCDay()];
+  const dayEn = (t: number) => ['on Sunday', 'on Monday', 'on Tuesday', 'on Wednesday', 'on Thursday', 'on Friday', 'on Saturday'][new Date(t + KYIV_OFF).getUTCDay()];
+  const win = (from: number, len: number) => now >= from && now < from + len;
+  if (E.moved && now < E.gAt - 60 * TR.MIN && now >= E.gAt - 24 * 3600e3) ev.push({ id: 'moved-' + E.id, who: 'reg', uk: ['Турнір перенесено', 'Групи ' + dayUk(E.gAt) + ' о ' + hm(E.gAt) + ', плей-оф о ' + hm(E.pAt) + '. Ваш запис зберігається.'], en: ['The tournament has moved', 'Groups ' + dayEn(E.gAt) + ' at ' + hm(E.gAt) + ', play-off at ' + hm(E.pAt) + '. You are still signed up.'] });
+  if (win(E.gAt - 6 * 3600e3, 40 * TR.MIN)) ev.push({ id: 'day-' + E.id, who: 'all', uk: ['Сьогодні турнір вихідного дня', 'О ' + hm(E.gAt) + ' — групи. Запис ще відкритий, заходьте!'], en: ['Weekend tournament today', 'Groups at ' + hm(E.gAt) + '. Sign-up is still open!'] });
+  if (win(E.gAt - 60 * TR.MIN, 40 * TR.MIN)) ev.push({ id: 'h1-' + E.id, who: 'reg', uk: ['Турнір через годину', 'Групи стартують о ' + hm(E.gAt) + ' — ви записані.'], en: ['Tournament in an hour', 'Groups start at ' + hm(E.gAt) + ' — you are signed up.'] });
+  if (win(E.gAt - 10 * TR.MIN, 30 * TR.MIN)) ev.push({ id: 'g-' + E.id, who: 'reg', uk: ['Турнір починається!', 'Ваша група вже чекає — відкрийте турнір і грайте перший матч.'], en: ['The tournament is starting!', 'Your group is waiting — open the tournament and play your first match.'] });
+  if (win(E.pAt - 10 * TR.MIN, 30 * TR.MIN)) ev.push({ id: 'p-' + E.id, who: 'reg', uk: ['Плей-оф починається', 'О ' + hm(E.pAt) + ' — чвертьфінали. Якщо ви вийшли з групи — заходьте!'], en: ['The play-off is starting', 'Quarter-finals at ' + hm(E.pAt) + '. If you got through your group, come in!'] });
   return ev; }
 
 // ---- Telegram Mini App login ----
@@ -289,6 +295,80 @@ async function tgSetup(hookUrl: string) {
   const me = await tgApi('getMe', {}); out.bot = me?.result?.username || null;
   return out;
 }
+
+// ---- weekend tournament on the server (see tour.ts): the draw and each result are files in Storage srv/tour/<event>/ ----
+// results are written once: a lock file l_<match> (first writer wins) and a name x_<match>_<w>_<mars>_<at>_<how> to read them back with one list call
+const tourSeason = (t: number) => Math.max(0, Math.floor((t - Date.UTC(2026, 10, 7, 16, 0) + 3 * 864e5) / (4 * 7 * 864e5)));
+async function tourLoad(db: any, eid: string) {
+  const dir = 'tour/' + eid; const { data: L } = await db.storage.from('srv').list(dir, { limit: 1000 });
+  const names = (L || []).map((f: any) => f.name); const res: any = {};
+  for (const n of names) { const m = n.match(/^x_([a-z0-9]+)_(a|b)_(0|1)_(\d+)_([a-z]+)$/); if (m) res[m[1]] = { w: m[2], mars: m[3] === '1', at: +m[4], how: m[5] }; }
+  for (const n of names) { const m = n.match(/^l_([a-z0-9]+)$/); if (m && !res[m[1]]) { const d = await db.storage.from('srv').download(dir + '/' + n); if (d.data) { try { res[m[1]] = JSON.parse(await d.data.text()); } catch (_) {} } } }
+  let draw = null; if (names.includes('draw.json')) { const d = await db.storage.from('srv').download(dir + '/draw.json'); if (d.data) draw = JSON.parse(await d.data.text()); }
+  return { draw, res, names };
+}
+async function tourPut(db: any, path: string, body: string) { const r = await db.storage.from('srv').upload(path, new Blob([body], { type: 'application/json' }), { upsert: false }); return !r.error; }
+async function tourWrite(db: any, eid: string, mid: string, r: any) {
+  const ok = await tourPut(db, 'tour/' + eid + '/l_' + mid, JSON.stringify(r)); if (!ok) return false;
+  await tourPut(db, 'tour/' + eid + '/x_' + mid + '_' + r.w + '_' + (r.mars ? 1 : 0) + '_' + Math.round(r.at) + '_' + r.how, '{}'); return true;
+}
+async function tourEnsureDraw(db: any, E: any) {
+  let { draw, res, names } = await tourLoad(db, E.id); if (draw || Date.now() < E.gAt) return { draw, res, names };
+  const season = tourSeason(E.gAt - 864e5);
+  const { data } = await db.from('profiles').select('id,name,av,rating,ach').not('ach->treg', 'is', null).limit(1000);
+  const reals = (data || []).filter((r: any) => r.ach?.treg && r.ach.treg.s === season).map((r: any) => ({ id: r.id, nick: r.ach.treg.nick, name: r.name, full: r.ach.treg.first + ' «' + r.ach.treg.nick + '» ' + r.ach.treg.last, av: r.av, r: r.rating || 1000, at: r.ach.treg.at || 0 }));
+  const d = TR.tourDraw(E, season, reals);
+  if (!(await tourPut(db, 'tour/' + E.id + '/draw.json', JSON.stringify(d)))) return await tourLoad(db, E.id);
+  return { draw: d, res, names };
+}
+// resolve what is due (bot games, no-shows, finished online games), then pay the prizes once the final is over
+async function tourTick(db: any, E: any) {
+  let { draw, res, names } = await tourEnsureDraw(db, E); if (!draw) return { draw: null, res: {}, C: null };
+  let C = TR.tourCompute(draw, res, Date.now());
+  for (let pass = 0; pass < 6 && C.due.length; pass++) {
+    let wrote = false; const now = Date.now();
+    for (const d of C.due) {
+      const m = [...C.gm, ...C.po].find((x: any) => x.id === d.mid); let r: any = null;
+      if (d.kind === 'sim') r = TR.simResult(draw, m, d.at);
+      else if (d.kind === 'botwin') r = { w: d.w, mars: false, at: now, how: 'noshow' };
+      else if (d.kind === 'hvh') {
+        const { data: g } = await db.from('games').select('state').eq('id', TR.gameIdOf(draw, m.id)).maybeSingle(); const st = g?.state; const A = draw.players[m.a].id;
+        if (st && st.phase === 'over' && st.result) { const wu = st[st.result.winner]; r = { w: wu === A ? 'a' : 'b', mars: !!st.result.mars, at: now, how: 'play' }; }
+        else if (d.noshow && st && !st.p2) r = { w: st.p1 === A ? 'a' : 'b', mars: false, at: now, how: 'noshow' };
+        else if ((d.hard && !st) || d.late) r = { ...TR.simResult(draw, m, now), how: 'sim' };
+      }
+      if (r && await tourWrite(db, E.id, m.id, r)) { res[m.id] = r; wrote = true; }
+    }
+    if (!wrote) break; C = TR.tourCompute(draw, res, Date.now());
+  }
+  if (C.done && !names.includes('paid')) {
+    const all = [...C.gm, ...C.po];
+    if (await tourPut(db, 'tour/' + E.id + '/paid', '{}')) {
+      for (let i = 0; i < 16; i++) { const P = draw.players[i]; if (P.bot) continue; const pl = C.places[i], prize = TR.PRIZE(pl), pts = TR.TPTS(pl, TR.winsOf(all, res, i));
+        const { data: p } = await db.from('profiles').select('ach').eq('id', P.id).maybeSingle(); if (!p) continue;
+        const A = { ...(p.ach || {}) }; A.tourAt = Date.now(); A.coins = (A.coins ?? COIN_START) + prize; A.tp = [...(A.tp || []), { at: A.tourAt, pl, pts, ev: E.id }].slice(-30);
+        await db.from('profiles').update({ ach: A }).eq('id', P.id); }
+    }
+  }
+  return { draw, res, C };
+}
+// a tournament game id belongs to one match: only its two players may create or join it, and only while it is open
+async function tourGuard(db: any, gid: string, uid: string): Promise<string | null> {
+  const mm = String(gid || '').match(/^t(\d{6})((?:g\d\d)|(?:qf\d)|(?:sf\d)|f0|th0)$/); if (!mm) return null;
+  const E = TR.tourEvent(Date.now()); if (!E || E.id !== mm[1]) return 'tour_closed';
+  const { draw, res } = await tourLoad(db, E.id); if (!draw) return 'tour_closed';
+  const C = TR.tourCompute(draw, res, Date.now()); const m = [...C.gm, ...C.po].find((x: any) => x.id === mm[2]);
+  if (!m || m.a == null || m.b == null || draw.players[m.a].bot || draw.players[m.b].bot) return 'bad_match';
+  if (draw.players[m.a].id !== uid && draw.players[m.b].id !== uid) return 'not_yours';
+  if (res[m.id] || Date.now() < m.av - 60e3) return 'tour_closed';
+  return null;
+}
+function tourView(E: any, draw: any, res: any, C: any) {
+  const pub = (m: any) => ({ id: m.id, st: m.st, G: m.G, k: m.k, rd: m.rd, a: m.a, b: m.b, av: m.av === Infinity ? null : m.av, hard: m.hard === Infinity ? null : m.hard, r: res[m.id] || null, gid: draw && m.a != null && m.b != null && !draw.players[m.a].bot && !draw.players[m.b].bot ? TR.gameIdOf(draw, m.id) : null });
+  return { ev: { id: E.id, gAt: E.gAt, pAt: E.pAt, moved: E.moved }, now: Date.now(), phase: C ? C.phase : 'pre', season: draw ? draw.season : tourSeason(E.gAt - 864e5),
+    players: draw ? draw.players.map((p: any) => ({ id: p.id, bot: p.bot, name: p.name, full: p.full, av: p.av, r: p.r })) : null,
+    gm: C ? C.gm.map(pub) : null, po: C ? C.po.map(pub) : null, places: C ? C.places : null };
+}
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: cors });
   try {
@@ -302,8 +382,13 @@ Deno.serve(async (req) => {
       try { await tgOnUpdate(body0); } catch (_) {} return json({ ok: true });
     }
     // public: the VAPID public key, and the reminder tick (called every few minutes by a scheduled GitHub Action)
+    if (body0.action === 'tour_state') {
+      const E = TR.tourEvent(Date.now()); if (!E) return json({ ev: null });
+      const { draw, res, C } = await tourTick(db, E); return json(tourView(E, draw, res, C));
+    }
     if (body0.action === 'push_key') return json({ key: (await vapid(db)).pub });
     if (body0.action === 'push_tick') {
+      try { const E = TR.tourEvent(Date.now()); if (E && Date.now() >= E.gAt && Date.now() < E.end) await tourTick(db, E); } catch (_) {}
       const ev = pushEvents(Date.now()); if (!ev.length) return json({ ok: true, events: 0 });
       let doneJ: any = {}; const dl = await db.storage.from('srv').download('push_sent.json'); if (dl.data) { try { doneJ = JSON.parse(await dl.data.text()); } catch (_) {} }
       const EPOCH = Date.UTC(2026, 10, 7, 16, 0), season = Math.max(0, Math.floor((Date.now() - EPOCH + 3 * 864e5) / (4 * 7 * 864e5)));
@@ -442,11 +527,23 @@ Deno.serve(async (req) => {
     // weekend tournament (played against grandmaster bots in the browser): coins for the place and tournament points,
     // at most once every 6 days per account; points = 10 for taking part + 5 per game won (max 15) + a bonus for the place
     // tournament table: everyone who has taken a tournament prize, with their recent tournament results (no coins or other profile data)
+    if (action === 'tour_report') {
+      const E = TR.tourEvent(Date.now()); if (!E) return json({ error: 'no_event' }, 400);
+      const { draw, res } = await tourLoad(db, E.id); if (!draw) return json({ error: 'no_draw' }, 400);
+      const C = TR.tourCompute(draw, res, Date.now()); const m = [...C.gm, ...C.po].find((x: any) => x.id === String(args?.mid || ''));
+      if (!m || m.a == null || m.b == null) return json({ error: 'bad_match' }, 400); if (res[m.id]) return json({ ok: true, already: true, r: res[m.id] });
+      const meA = draw.players[m.a].id === user.id, meB = draw.players[m.b].id === user.id; if (!meA && !meB) return json({ error: 'not_yours' }, 403);
+      if (!(meA ? draw.players[m.b].bot : draw.players[m.a].bot)) return json({ error: 'online_match' }, 400);
+      const now = Date.now(); if (now < m.av - 60e3 || now > m.hard + TR.GRACE) return json({ error: 'closed' }, 400);
+      const won = !!args?.won; const r = { w: (won === meA) ? 'a' : 'b', mars: !!args?.mars, at: now, how: 'play' };
+      await tourWrite(db, E.id, m.id, r); return json({ ok: true, r });
+    }
     if (action === 'tour_table') {
       const { data } = await db.from('profiles').select('id,name,av,rating,played,won,ach').not('ach->tourAt', 'is', null).limit(1000);
       return json({ rows: (data || []).map((r: any) => ({ id: r.id, name: r.name, av: r.av, rating: r.rating, played: r.played, won: r.won, tp: (r.ach?.tp || []).slice(-30) })) });
     }
     if (action === 'tour_done') {
+      return json({ error: 'moved' }, 400);
       const pl = Math.round(Number(args?.place)), wins = Math.max(0, Math.min(15, Math.round(Number(args?.wins) || 0)));
       if (!(pl >= 1 && pl <= 16)) return json({ error: 'bad_place' }, 400);
       const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
@@ -544,6 +641,7 @@ Deno.serve(async (req) => {
       return 'ok';
     };
 
+    if (action === 'create' || action === 'join') { const ge = await tourGuard(db, gameId, user.id); if (ge) return json({ error: ge }, 403); }
     if (action === 'create') {
       // a bot game left unfinished counts as a loss before a new one starts
       const { data: stale } = await db.from('games').select('id,state,updated_at').eq('p1', user.id).is('p2', null).eq('state->>phase', 'play').like('state->>p2', 'bot:%').limit(5);
