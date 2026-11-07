@@ -3,6 +3,15 @@
 Beta versions are `<next main-site version>-beta.<build>`: every deploy to /beta adds one to the build number. Up to 0.14.0-beta.14 the beta was heading for 0.14.0; the main site took 0.14.1 (tutorial and coins), so from 0.15.0-beta.1 the beta heads for 0.15.0 (the shop).
 When features move to the main site they get a normal version there (see CHANGELOG.md), and the beta moves on to the next one.
 
+## 0.15.0-beta.16 — 6 Nov 2026
+- The shop is redesigned as one page, “Collection”, with three tabs:
+  - Showcase: the bundle of the week (changes weekly, with what it includes, the price and the saving, “Try on”), “Today for you” — four offers, one of each rarity (common, rare, epic, legendary) and of different kinds, refreshed at midnight — and the case.
+  - Catalog: categories on the left (on a phone as a row of chips), a try-on on top that shows the selected thing on your board, and your things and the shop's in one list with the filter All / Mine / Not mine and sorting. Buy, put on, “Want this”; case, pass and invite items say where they come from.
+  - Cases: as before.
+- The four shop look variants and the separate inventory / “My table” are gone — the Catalog with “Mine” does that.
+- Daily gift, quests and the battle pass moved to a gift button in the header (green dot when the gift is ready).
+- Legendary rarity colour is coral instead of yellow.
+
 ## 0.15.0-beta.15 — 6 Nov 2026
 - Tournament window is compact: a lower photo header, sign-up (or “You are signed up”) and “Share” side by side, the four info cards in one slim row, and the tab content takes only the space it needs — no empty area under short tabs. The window stays pinned at the top, so the tabs do not jump.
 
