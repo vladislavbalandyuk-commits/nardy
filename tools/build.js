@@ -13,16 +13,16 @@ function splitCss(css){ const ITEM=/\[data-ck=|\[data-dice=|\[data-b=|data-table
   const a=s.indexOf('const AVATARS='), b=s.indexOf('\n',a); const all=JSON.parse(s.slice(a+'const AVATARS='.length,b).trim().replace(/;$/,''));
   const keys=Object.keys(all), base={}, pt={}; keys.forEach(k=>{ (/^pt\d+$/.test(k)?pt:base)[k]=all[k]; });
   const av='window.__AV='+JSON.stringify(base)+';window.__avReady&&window.__avReady();', ptjs='window.__PT='+JSON.stringify(pt)+';window.__ptReady&&window.__ptReady();';
-  const h=md5(av), hp=md5(ptjs); fs.writeFileSync(path.join(outDir,'av.js'),av); fs.writeFileSync(path.join(outDir,'pt.js'),ptjs);
+  const h=md5(av), hp=md5(ptjs); fs.writeFileSync(path.join(outDir,'av.js'),av); if(Object.keys(pt).length) fs.writeFileSync(path.join(outDir,'pt.js'),ptjs);
   s=s.slice(0,a)+'const AVATARS={};'+s.slice(b);
   s=s.replace('const AV_KEYS=Object.keys(AVATARS);','const AV_KEYS='+JSON.stringify(keys)+';');
   s=s.replace(/\nboot\(\);\n/,`
-function refreshAvatars(){ document.querySelectorAll('.av[data-av]').forEach(el=>{ if(el.dataset.av && !el.closest('.frl')) avatarInto(el, el.dataset.av, el.dataset.nm); }); try{ renderMeAvatar(); renderHomeV7(); if(gs) route(); }catch(e){} }
-window.__avReady=function(){ Object.assign(AVATARS, window.__AV||{}); for(const k in SKIN_CACHE) delete SKIN_CACHE[k]; refreshAvatars(); };
+function refreshAvatars(){ document.querySelectorAll('.av[data-av]').forEach(el=>{ if(el.dataset.av && !el.closest('.frl')) avatarInto(el, el.dataset.av, el.dataset.nm); }); try{ renderMeAvatar(); }catch(e){} try{ renderHomeV7(); }catch(e){} try{ if(gs) route(); }catch(e){} }
+window.__avReady=function(){ Object.assign(AVATARS, window.__AV||{}); if(typeof SKIN_CACHE!=='undefined') for(const k in SKIN_CACHE) delete SKIN_CACHE[k]; refreshAvatars(); };
 window.__ptReady=function(){ Object.assign(AVATARS, window.__PT||{}); refreshAvatars(); };
 if(window.__AV) window.__avReady();
 // portraits are only needed for some players: fetch them when the page is idle
-(window.requestIdleCallback||setTimeout)(()=>{ const sc=document.createElement('script'); sc.async=true; sc.src='pt.js?v=${hp}'; document.head.appendChild(sc); }, {timeout:2500});
+${Object.keys(pt).length ? "(window.requestIdleCallback||setTimeout)(()=>{ const sc=document.createElement('script'); sc.async=true; sc.src='pt.js?v="+hp+"'; document.head.appendChild(sc); }, {timeout:2500});" : ''}
 boot();
 `);
   s=s.replace('<script async id="sbjs"','<script async src="av.js?v='+h+'"></script><script async id="sbjs"');
