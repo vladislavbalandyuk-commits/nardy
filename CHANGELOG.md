@@ -3,6 +3,12 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.23.4 – 0.23.6 — 8.11.2026
+- Tournament games are shown like games with an opponent (no «bot» labels; human-like pauses).
+- Tournament bots leave two seats free before the draw (no «16/16» with an active «Sign up»).
+- Fix: a duplicate myMatch() (the old practice-tournament one, declared later) won, so the server tournament waited for the whole round; now the server's m.av is used. The banner no longer says «you are out» between matches — it shows the next match; tournament points are counted live (10 + 5 per win) until the final.
+- «Live now»: people's matches only when the game exists and is not over; tournament-bot matches can be watched as a broadcast that ends exactly as the server decides (seeded bot game, same timing).
+
 ## 0.23.3 — 8.11.2026
 - Personalizer → Avatar is grouped: Special (Vlad and Pasha — course rewards, locked ones shown with the condition), Men (14), Women (10), No avatar.
 
