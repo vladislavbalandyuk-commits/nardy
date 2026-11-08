@@ -3,6 +3,10 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.19.2 — 8 Nov 2026
+- The season banner said «weekend 2 of 4» during the first weekend: a weekend was counted as done 4 hours after Saturday 18:00. It now counts as done after the play-off (Sunday ~22:00 Kyiv).
+- Settings: the «App on your screen» row stayed visible where installing is not possible.
+
 ## 0.19.1 — 7 Nov 2026
 - Lessons on phones: the story bubble was placed on stale board coordinates and could cover the bear-off tray (e.g. the 6 and 2 lesson). It is now placed again as the board settles (scroll, layout), and goes below the tray if it fits, otherwise over the top half of the board.
 
