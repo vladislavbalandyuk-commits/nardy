@@ -3,6 +3,10 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.23.2 — 8.11.2026
+- Personalizer → Card background: a live preview of the player card on top (hover/tap shows any background, locked ones too) and big tiles with names and unlock conditions. The text no longer claims others see the card background (it is kept in this browser).
+- Matchmaking: a matchmaking opponent comes at a random 5–25 s (was 6–15 s); if nobody came by 30 s, a labelled practice bot starts (does not count for calibration); the search screen says so.
+
 ## 0.23.1 — 8.11.2026
 - Calibration like Dota/CS: 10 games with opponents (people, matchmaking opponents); practice bots no longer count (they used to: 10 wins over the weakest bot gave 1760). A hidden rating ach.cal.m (Elo, K = 160, mars ×1.2, 1000–2000) depends a lot on whom you beat; matchmaking uses it; after game 10 it becomes the rating. The result window shows wins, mars and the strongest player beaten.
 - One online counter: only in the «Find an opponent» card (online · bots waiting); the header and the line under the title are hidden.
