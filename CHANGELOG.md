@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.24.1 — 8.11.2026
+- Tournament window: an «Info» tab with everything (format, Swiss, play-off, time and no-shows, prizes, season points, a «Druzi International» teaser); the long notes on the other tabs are gone. Season table: «More about the system» opens the same rules.
+
 ## 0.24.0 — 8.11.2026
 - Weekend tournament in the CS format from 14 Nov (draw.fmt = 'cs'; older events keep the old rules):
   - Saturday 14:00 — Swiss stage: rounds pair equal records; 3 wins → play-off, 3 losses → out; Bo1, matches to go through / go out Bo3; up to 5 rounds; 8 go through, seeded 3–0, 3–1, 3–2.
