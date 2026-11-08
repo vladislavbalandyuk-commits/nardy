@@ -3,6 +3,10 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.20.1 — 8.11.2026
+- Pasha's tour now covers the new features: the weekly league line, friends online with «Call», the Friends tile once the course is done, and live watching in the tournament step; the League tab is mentioned in the rating step.
+- Guests get their own lines for the daily gift (needs an account) and for the sign-in button.
+
 ## 0.20.0 — 8 Nov 2026
 - Weekly leagues (Rating → League; a line under the rank card on the home page): Bronze / Silver / Gold / Diamond, groups of 20 with league bots in free places, points for full games (1, win 3, mars 4), Sunday night: top 5 up, bottom 5 down, prizes 500/300/200/100/100; the result is shown on the first visit of the new week. Server: `lgAdd` in the rating step, action `league`, group files in storage `srv/league/<week>/`.
 - Home: «Today» row (daily puzzle, daily gift, course — or Friends after the course); friends online above Find an opponent with «Call».
