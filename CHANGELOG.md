@@ -3,6 +3,10 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.23.1 — 8.11.2026
+- Calibration like Dota/CS: 10 games with opponents (people, matchmaking opponents); practice bots no longer count (they used to: 10 wins over the weakest bot gave 1760). A hidden rating ach.cal.m (Elo, K = 160, mars ×1.2, 1000–2000) depends a lot on whom you beat; matchmaking uses it; after game 10 it becomes the rating. The result window shows wins, mars and the strongest player beaten.
+- One online counter: only in the «Find an opponent» card (online · bots waiting); the header and the line under the title are hidden.
+
 ## 0.23.0 — 8.11.2026
 - Profile rebuilt: hero (rank pill opens «Ranks»), Form (rating sparkline from the server history + last 10 results + current streak / best rating), Numbers (best streak, mars, comebacks, wins over stronger players, best rating, tournaments), Activity (8 weeks from ach.gd), Last games (server history, falls back to this device), Achievements, one «Looks» row → Personalizer, Invite friends.
 - Server keeps the last 20 games in ach.rh (opponent, avatar, win, mars, rating change and new rating after calibration, bot flag).
