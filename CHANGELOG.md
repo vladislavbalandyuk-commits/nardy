@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.23.3 — 8.11.2026
+- Personalizer → Avatar is grouped: Special (Vlad and Pasha — course rewards, locked ones shown with the condition), Men (14), Women (10), No avatar.
+
 ## 0.23.2 — 8.11.2026
 - Personalizer → Card background: a live preview of the player card on top (hover/tap shows any background, locked ones too) and big tiles with names and unlock conditions. The text no longer claims others see the card background (it is kept in this browser).
 - Matchmaking: a matchmaking opponent comes at a random 5–25 s (was 6–15 s); if nobody came by 30 s, a labelled practice bot starts (does not count for calibration); the search screen says so.
