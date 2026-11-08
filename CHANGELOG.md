@@ -3,6 +3,12 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.21.0 — 8.11.2026
+- Password recovery: «Forgot password?» under the login form → nickname → the Telegram bot sends a «Set a new password» button (link #pw-<token>, 20 min, one use, 90 s cooldown) → new password → signed in. Accounts without Telegram: a message to write to the admin; the admin panel has «Reset a password» (temporary password). The profile asks to link Telegram for recovery.
+- Ghosts: 16 weaker ghosts (650–990, ids 68–83); ghost-vs-ghost games every 5 min, up to 14 per round (was every 10 min, up to 6), so the rating table moves; matchmaking ghosts play at their skill (noise by skill: <800 → 6 … ≥1900 → 0), on the server and offline.
+- New workflow db-sql: SQL files in supabase/run/ run against the database through the Management API.
+- The «Today» block is a single list card (icon, title, subtitle, ✓ or ›), no truncation, no extra bottom margin; subtitles: «Find the best move · +60», «Chapter N: …».
+
 ## 0.20.2 — 8.11.2026
 - Weekly leagues switched off (LG_ON=false on the site and the server): no League tab, no home line, no points collected; the code stays for a possible return.
 - Online counter: 10–120 by the time of day (Kyiv), drifting smoothly hour to hour with ±3 jitter; bots waiting are always 10–25% of the shown online.

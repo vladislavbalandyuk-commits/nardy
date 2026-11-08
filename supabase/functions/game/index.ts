@@ -62,11 +62,11 @@ function autoPassIfStuck(st,now){ if(st.phase==='play' && st.rolled && !legalMov
 // act(state, uid, action, args, {now, d6}) -> new state (mutates a copy)
 function act(state, uid, action, args, env){
   const now=env.now, d6=env.d6; const st=JSON.parse(JSON.stringify(state)); const me=slotOf(st,uid);
-  if(action==='bot_step'){ if(!isBotId(st.p2)||st.p1!==uid) err('not_bot_game'); const rnd=env.rnd||Math.random, kind=st.p2.split(':')[1]; const B=BOTS[kind]||BOTS.ghost;
+  if(action==='bot_step'){ if(!isBotId(st.p2)||st.p1!==uid) err('not_bot_game'); const rnd=env.rnd||Math.random, kind=st.p2.split(':')[1]; const B=BOTS[kind]||BOTS.ghost, NZ=st.botNoise!=null?st.botNoise:B.noise;
     if(st.phase==='opening'){ if(!st.open.p1) err('wait'); if(st.open.p2) err('already'); st.open.p2=d6(); st.rollId++; resolveOpening(st,now); return st; }
     if(st.phase!=='play') err('bad_phase'); const c=colorOfSlot(st,'p2'); if(st.turn!==c) err('not_bot_turn');
     if(!st.rolled){ const a=d6(),b=d6(); st.dice=[a,b]; st.remaining=a===b?[a,a,a,a]:[a,b]; st.headLimit=(st.first[c]&&a===b&&[3,4,6].includes(a))?2:1; st.first[c]=false; st.headMoved=0; st.rolled=true; st.trail=[]; st.rollId++; st.snap=null; st.turnAt=now;
-      st.botPlan = botBestPath(st,c,B.noise,rnd)||[]; if(!st.botPlan.length){ st.botPlan=null; passTurn(st,now); } return st; }
+      st.botPlan = botBestPath(st,c,NZ,rnd)||[]; if(!st.botPlan.length){ st.botPlan=null; passTurn(st,now); } return st; }
     const m=(st.botPlan||[]).shift(); const ok=m&&legalMoves(st,c).find(x=>x.from===m.from&&x.to===m.to&&x.die===m.die); if(!ok){ st.botPlan=null; passTurn(st,now); return st; }
     Object.assign(st,applyMove(st,c,ok)); st.trail=(st.trail||[]).concat([b2(c,ok.from),ok.to===24?-1:b2(c,ok.to)]);
     if(st.off[c]===15){ pushHist(st); finish(st,c,st.off[OPP(c)]===0); st.botPlan=null; return st; }
@@ -152,6 +152,17 @@ const prevDay = (day: string) => kyivDay(new Date(day + 'T12:00:00Z').getTime() 
 const ADMIN_NICKS = ['ka1p3r'];
 function nickEmail(n: string) { const bytes = new TextEncoder().encode(n.trim().toLowerCase()); let bits = ''; for (const x of bytes) bits += x.toString(2).padStart(8, '0');
   const A = 'abcdefghijklmnopqrstuvwxyz234567'; let out = ''; for (let i = 0; i < bits.length; i += 5) out += A[parseInt(bits.slice(i, i + 5).padEnd(5, '0'), 2)]; return 'u' + out + '@nardy.invalid'; }
+// how a ghost plays: weaker players make more random moves (the engine at noise 0 is the strongest bot)
+const ghostNoise = (sk: number) => sk < 800 ? 6 : sk < 950 ? 4 : sk < 1100 ? 2.5 : sk < 1250 ? 1.3 : sk < 1500 ? 0.6 : sk < 1900 ? 0.25 : 0;
+// ---- password recovery: the login nickname → the account; the code goes to the Telegram linked to it ----
+async function userByNick(db: any, nick: string) {
+  const em = nickEmail(nick);
+  for (let page = 1; page <= 10; page++) { const { data } = await db.auth.admin.listUsers({ page, perPage: 1000 }); const us = data?.users || [];
+    const u = us.find((x: any) => String(x.email || '').toLowerCase() === em); if (u) return u; if (us.length < 1000) break; }
+  const { data: pr } = await db.from('profiles').select('id').ilike('name', nick.replace(/[%_\\]/g, (c: string) => '\\' + c)).limit(2);
+  if (pr && pr.length === 1) { const { data } = await db.auth.admin.getUserById(pr[0].id); const u = data?.user; if (u && !u.is_anonymous && /@nardy\.invalid$/.test(u.email || '')) return u; }
+  return null; }
+const rndTok = (n: number) => { const a = new Uint8Array(n); crypto.getRandomValues(a); return Array.from(a, (x) => 'abcdefghijkmnpqrstuvwxyz23456789'[x % 32]).join(''); };
 const ADMIN_EMAILS = new Set(ADMIN_NICKS.map(nickEmail));
 const isAdminUser = (u: any) => !!u && !u.is_anonymous && ADMIN_EMAILS.has(String(u.email || '').toLowerCase());
 const kyivDay = (t = Date.now()) => new Date(t + 2 * 3600e3).toISOString().slice(0, 10);
@@ -431,6 +442,23 @@ Deno.serve(async (req) => {
       const E = TR.tourEvent(Date.now()); if (!E) return json({ ev: null });
       const { draw, res, C } = await tourTick(db, E); return json(tourView(E, draw, res, C));
     }
+    if (body0.action === 'pw_forgot') {
+      const nick = String(body0.args?.nick || '').trim().slice(0, 20); if (nick.length < 2) return json({ ok: false, why: 'nick' });
+      const u = await userByNick(db, nick); if (!u) return json({ ok: false, why: 'nouser' });
+      const { data: pf } = await db.from('profiles').select('ach,name').eq('id', u.id).maybeSingle(); const chat = pf?.ach?.tg, en = pf?.ach?.lang === 'en';
+      if (!chat || !tgTok()) return json({ ok: false, why: 'notg' });
+      const cdP = 'pwreset/u_' + u.id + '.json', cd = await lgFile(db, cdP); if (cd && Date.now() - cd.at < 90e3) return json({ ok: false, why: 'wait' });
+      const tok = rndTok(24); await lgSave(db, 'pwreset/' + tok + '.json', { uid: u.id, exp: Date.now() + 20 * 60e3 }); await lgSave(db, cdP, { at: Date.now() });
+      const link = 'https://nardy-nine.vercel.app/#pw-' + tok;
+      const r = await tgApi('sendMessage', { chat_id: Number(chat), parse_mode: 'HTML', text: en ? '🔑 <b>New password for ' + (pf?.name || nick) + '</b>\nTap the button to set a new password. The link works for 20 minutes.\nIf it was not you — just ignore this message.' : '🔑 <b>Новий пароль для ' + (pf?.name || nick) + '</b>\nНатисніть кнопку, щоб задати новий пароль. Посилання діє 20 хвилин.\nЯкщо це були не ви — просто ігноруйте це повідомлення.', reply_markup: { inline_keyboard: [[{ text: en ? 'Set a new password' : 'Задати новий пароль', url: link }]] } }).catch(() => null);
+      return json(r?.ok ? { ok: true } : { ok: false, why: 'tgfail' }); }
+    if (body0.action === 'pw_reset') {
+      const tok = String(body0.args?.token || ''), pw = String(body0.args?.pw || ''); if (!/^[a-z0-9]{24}$/.test(tok)) return json({ ok: false, why: 'bad' });
+      if (pw.length < 6 || pw.length > 72) return json({ ok: false, why: 'short' });
+      const T = await lgFile(db, 'pwreset/' + tok + '.json'); if (!T || T.used || Date.now() > T.exp) return json({ ok: false, why: 'expired' });
+      const { data, error } = await db.auth.admin.updateUserById(T.uid, { password: pw }); if (error) return json({ ok: false, why: 'db' });
+      await lgSave(db, 'pwreset/' + tok + '.json', { ...T, used: Date.now() });
+      return json({ ok: true, email: data?.user?.email || '' }); }
     if (body0.action === 'push_key') return json({ key: (await vapid(db)).pub });
     if (body0.action === 'push_tick') {
       try { const E = TR.tourEvent(Date.now()); if (E && Date.now() >= E.gAt && Date.now() < E.end) await tourTick(db, E); } catch (_) {}
@@ -552,6 +580,9 @@ Deno.serve(async (req) => {
         const { data } = await db.from('profiles').select('id,name,av,rating,rgames,played,won,ach').ilike('name', '%' + q.replace(/[%_]/g, '') + '%').limit(20);
         return json({ rows: (data || []).map((r: any) => ({ id: r.id, name: r.name, av: r.av, rating: r.rating, rgames: r.rgames, played: r.played, won: r.won, coins: r.ach?.coins ?? COIN_START, last: (r.ach?.days || []).slice(-1)[0] || null, plat: r.ach?.plat || null, tg: !!r.ach?.tg, treg: r.ach?.treg || null, refN: r.ach?.refN || 0 })) });
       }
+      if (op === 'pw_admin') { const u = await userByNick(db, String(args?.nick || '').trim()); if (!u) return json({ ok: false, why: 'nouser' });
+        const pw = rndTok(10); const { error } = await db.auth.admin.updateUserById(u.id, { password: pw }); if (error) return json({ ok: false, why: 'db' });
+        const { data: pf } = await db.from('profiles').select('name').eq('id', u.id).maybeSingle(); return json({ ok: true, pw, name: pf?.name || '' }); }
       if (op === 'tg_setup') { if (!tgTok()) return json({ error: 'no_token' }); return json({ ok: true, ...(await tgSetup(url + '/functions/v1/game')) }); }
       if (op === 'coins') {
         const id = String(args?.id || ''), n = Math.round(Number(args?.n) || 0), note = String(args?.note || '').slice(0, 80);
@@ -741,7 +772,7 @@ Deno.serve(async (req) => {
     }
     if (typeof gameId !== 'string' || !/^[a-z0-9]{4,16}$/.test(gameId)) return json({ error: 'bad_id' }, 400);
     const prof = async (id: string) => (await db.from('profiles').select('name,av,rating,rgames,played,won,ach').eq('id', id).maybeSingle()).data;
-    const ghostRow = async (gid: number) => (await db.from('ghosts').select('id,name,av,rating,played,won').eq('id', gid).maybeSingle()).data;
+    const ghostRow = async (gid: number) => (await db.from('ghosts').select('id,name,av,rating,played,won,skill').eq('id', gid).maybeSingle()).data;
 
     // rating for a finished game; called only after the game row was saved with rated=true (so it runs once)
     const CALIB = 10, CALIB_PLACE = [1000, 1030, 1060, 1100, 1140, 1180, 1230, 1320, 1470, 1600, 1760];   // rating by wins out of 10: 0–5 Rookie, 6–7 Regular, 8–9 Expert, 10 Master
@@ -790,7 +821,7 @@ Deno.serve(async (req) => {
       const myR = me?.rating ?? 1000;
       const botR = gh ? gh.rating : bot ? C.BOTS[bot].r : 0;
       st.names = { p1: me?.name ?? '', p2: gh ? gh.name : bot ? String(args?.name ?? '').slice(0, 24) : '' }; st.avs = { p1: me?.av ?? '', p2: gh ? gh.av : bot ? String(args?.av ?? '').slice(0, 8) : '' };
-      st.ratings = { p1: myR, p2: botR }; if (gh) st.ghost = gh.id;
+      st.ratings = { p1: myR, p2: botR }; if (gh) { st.ghost = gh.id; st.botNoise = ghostNoise(gh.skill ?? gh.rating); }
       const { error } = await db.from('games').insert({ id: gameId, p1: user.id, p2: null, state: st, updated_at: new Date().toISOString() });
       if (error) return json({ error: error.code === '23505' ? 'exists' : 'db' }, 409);
       return json({ state: st });

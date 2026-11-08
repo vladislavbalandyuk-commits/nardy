@@ -1,0 +1,29 @@
+name: db-sql
+# Runs new SQL files from supabase/run/ against the database (Supabase Management API).
+on:
+  push:
+    branches: [main]
+    paths: ['supabase/run/**']
+  workflow_dispatch:
+    inputs:
+      file: { description: 'SQL file to run (path in the repo)', required: true }
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 2 }
+      - env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          FILE: ${{ github.event.inputs.file }}
+        run: |
+          set -e
+          if [ -n "$FILE" ]; then files="$FILE"; else files=$(git diff --name-only --diff-filter=AM HEAD~1 HEAD -- supabase/run); fi
+          for f in $files; do
+            echo "== $f"
+            body=$(jq -Rs '{query: .}' "$f")
+            code=$(curl -sS -o out.json -w '%{http_code}' -X POST "https://api.supabase.com/v1/projects/zndzvicklrkxkrpmkybg/database/query" \
+              -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" -H 'Content-Type: application/json' -d "$body")
+            echo "HTTP $code"; head -c 1500 out.json; echo
+            [ "$code" -ge 200 ] && [ "$code" -lt 300 ]
+          done
