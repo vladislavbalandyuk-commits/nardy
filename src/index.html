@@ -3669,7 +3669,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.23.7';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.23.8';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -4477,7 +4477,8 @@ const tpIn=(e,I)=>e && e.at>=I.start-3*864e5 && e.at<I.start+(INTL_Q-1)*WK+4*864
 // real players who took part this season, read from their profiles (ach.tp)
 let tourRows=null, tourRowsAt=0;
 let tourTry=0;
-async function tourFetch(force){ if(!sb || (!force && Date.now()-tourTry<60000)) return tourRows; tourTry=Date.now(); try{ const {data:res,error}=await sb.functions.invoke('game',{body:{action:'tour_table'}}); const data=res&&res.rows; if(!error && data){ const I=intlNow(); tourRows=(data||[]).map(r=>{ const L=(Array.isArray(r.tp)?r.tp:[]).filter(e=>tpIn(e,I)); return {id:r.id, name:r.name, av:r.av, rating:r.rating||1000, played:r.played, won:r.won, pts:L.reduce((a,e)=>a+(e.pts|0),0), ev:L.length, best:L.reduce((a,e)=>Math.min(a,e.pl|0||99),99)}; }).filter(r=>r.ev>0); tourRowsAt=Date.now(); } }catch(e){} return tourRows; }
+async function tourFetch(force){ if(!sb || (!force && Date.now()-tourTry<60000)) return tourRows; tourTry=Date.now(); try{ const {data:res,error}=await sb.functions.invoke('game',{body:{action:'tour_table'}}); const data=res&&res.rows; if(!error && data){ const I=intlNow(); tourRows=(data||[]).map(r=>{ const L=(Array.isArray(r.tp)?r.tp:[]).filter(e=>tpIn(e,I)); if(r.bot){ const sm=/^tb(\d+)_/.exec(r.id); const b=sm ? (tourBots(+sm[1]).find(x=>x.id===r.id)||{}) : {}; r.name=(b.treg&&b.treg.nick)||r.id; r.av=b.av||''; r.rating=b.rating||r.rating; }
+    return {id:r.id, fr:r.fr||0, name:r.name, av:r.av, rating:r.rating||1000, played:r.played, won:r.won, pts:L.reduce((a,e)=>a+(e.pts|0),0), ev:L.length, best:L.reduce((a,e)=>Math.min(a,e.pl|0||99),99)}; }).filter(r=>r.ev>0); tourRowsAt=Date.now(); } }catch(e){} return tourRows; }
 function intlTable(){ const I=intlNow(), rows=new Map();
   (tourRows||[]).forEach(r=>rows.set(r.id,Object.assign({},r)));
   const me={id:uid||'me', name:profile.name||t('guestName'), av:profile.av, rating:profile.rating||1000, played:profile.played||0, won:profile.won||0, pts:0, ev:0, best:99}; myTp().forEach(e=>{ me.pts+=e.pts; me.ev++; me.best=Math.min(me.best,e.pl); }); if(me.ev || !rows.has(me.id)) rows.set(me.id,me);
@@ -4668,7 +4669,7 @@ window.addEventListener('popstate',()=>{ if(_rpHist && $('rankPg')){ _rpHist=fal
 document.addEventListener('keydown',e=>{ if(e.key==='Escape' && $('rankPg') && $('plOv').classList.contains('hidden')) closeRankPage(); });
 function rpPaint(){ const body=$('rpBody'); if(!body) return; document.querySelectorAll('.rptabs button').forEach(b=>b.classList.toggle('on', b.dataset.m===rpMode)); body.innerHTML='';
   const H=(tag,cls,txt)=>{ const e=document.createElement(tag); if(cls) e.className=cls; if(txt!=null) e.textContent=txt; return e; };
-  if(rpMode==='tour'){ rpMine(null,-1); const list=H('div','rptour'); body.appendChild(list); list.appendChild(H('div','rpempty',t('lbLoading'))); Promise.race([tourFetch(true), new Promise(r=>setTimeout(r,5000))]).then(()=>{ if(rpMode==='tour' && document.body.contains(list)) lbTour(list); }); return; }
+  if(rpMode==='tour'){ rpMine(null,-1); const list=H('div','rptour lb'); body.appendChild(list); list.appendChild(H('div','rpempty',t('lbLoading'))); Promise.race([tourFetch(true), new Promise(r=>setTimeout(r,5000))]).then(()=>{ if(rpMode==='tour' && document.body.contains(list)) lbTour(list); }); return; }
   if(rpMode==='friends'){ frPaint(body,H); return; }
   if(rpMode==='league'){ lgPaint(body,H); return; }
   body.appendChild(H('p','rpnote',t(rpMode==='rating'?'rpGlNote':'rpFrNote')));
@@ -4795,6 +4796,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=createGame; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 const NEWS=[
+ {v:"0.23.8", d:"8.11.2026", uk:["Таблиця сезону турнірів знову акуратна; у ній тепер усі учасники турнірів"], en:["The tournament season table is tidy again and lists everyone who played the tournaments"]},
  {v:"0.23.7", d:"8.11.2026", uk:["Монети за гру: рейтингова — 120–180 за перемогу, 40–60 за поразку; з тренувальним ботом — 30–50 / 5–15; у турнірі — 50–150 за кожну гру, навіть якщо програли. За марс переможцю ×1,5"], en:["Coins per game: rated — 120–180 a win, 40–60 a loss; practice bot — 30–50 / 5–15; tournament — 50–150 for every game, even a loss. Mars win ×1.5"]},
  {v:"0.23.6", d:"8.11.2026", uk:["Турнір: наступний матч відкривається одразу, як ви й суперник звільнилися (раніше чекав увесь тур)", "«Наживо зараз»: лише справжні партії, що йдуть; матчі інших учасників можна дивитися в трансляції", "На банері — наступний матч і очки за турнір одразу (10 за участь + 5 за перемогу)"], en:["Tournament: your next match opens as soon as you and your opponent are free (it used to wait for the whole round)", "«Live now»: only games really being played; other players’ matches can be watched as a broadcast", "The banner shows your next match and the tournament points right away (10 for taking part + 5 per win)"]},
  {v:"0.23.5", d:"8.11.2026", uk:["Запис на турнір: до старту завжди видно вільні місця, а не «16 з 16» з активною кнопкою «Записатися»"], en:["Tournament sign-up: free seats are always shown before the start instead of «16 of 16» with an active «Sign up» button"]},

@@ -326,6 +326,11 @@ async function tourLoad(db: any, eid: string) {
   let draw = null; if (names.includes('draw.json')) { const d = await db.storage.from('srv').download(dir + '/draw.json'); if (d.data) draw = JSON.parse(await d.data.text()); }
   return { draw, res, names };
 }
+// season points of the tournament bots (they took part too): tour/botpts.json = { evs: [event ids], p: { botId: [{ at, pl, pts, ev }] } }
+async function botPtsAdd(db: any, eid: string, draw: any, C: any, res: any) {
+  const F = (await lgFile(db, 'tour/botpts.json')) || { evs: [], p: {} }; if (F.evs.includes(eid)) return F; const all = [...C.gm, ...C.po];
+  for (let i = 0; i < 16; i++) { const P = draw.players[i]; if (!P?.bot) continue; const pl = C.places[i]; (F.p[P.id] ||= []).push({ at: Date.now(), pl, pts: TR.TPTS(pl, TR.winsOf(all, res, i)), ev: eid }); F.p[P.id] = F.p[P.id].slice(-30); }
+  F.evs = [...F.evs, eid].slice(-20); await lgSave(db, 'tour/botpts.json', F); return F; }
 async function tourPut(db: any, path: string, body: string) { const r = await db.storage.from('srv').upload(path, new Blob([body], { type: 'application/json' }), { upsert: false }); return !r.error; }
 async function tourWrite(db: any, eid: string, mid: string, r: any) {
   const ok = await tourPut(db, 'tour/' + eid + '/l_' + mid, JSON.stringify(r)); if (!ok) return false;
@@ -363,6 +368,7 @@ async function tourTick(db: any, E: any) {
   if (C.done && !names.includes('paid')) {
     const all = [...C.gm, ...C.po];
     if (await tourPut(db, 'tour/' + E.id + '/paid', '{}')) {
+      try { await botPtsAdd(db, E.id, draw, C, res); } catch (_) {}
       for (let i = 0; i < 16; i++) { const P = draw.players[i]; if (P.bot) continue; const pl = C.places[i], prize = TR.PRIZE(pl), pts = TR.TPTS(pl, TR.winsOf(all, res, i));
         const { data: p } = await db.from('profiles').select('ach').eq('id', P.id).maybeSingle(); if (!p) continue;
         const A = { ...(p.ach || {}) }; A.tourAt = Date.now(); A.coins = (A.coins ?? COIN_START) + prize; A.tp = [...(A.tp || []), { at: A.tourAt, pl, pts, ev: E.id }].slice(-30);
@@ -657,7 +663,10 @@ Deno.serve(async (req) => {
     }
     if (action === 'tour_table') {
       const { data } = await db.from('profiles').select('id,name,av,rating,played,won,ach').not('ach->tourAt', 'is', null).limit(1000);
-      return json({ rows: (data || []).map((r: any) => ({ id: r.id, name: r.name, av: r.av, rating: r.rating, played: r.played, won: r.won, tp: (r.ach?.tp || []).slice(-30) })) });
+      let F = (await lgFile(db, 'tour/botpts.json')) || { evs: [], p: {} };
+      { const E = TR.tourEvent(Date.now()); if (E && !F.evs.includes(E.id)) { const { draw, res, names } = await tourLoad(db, E.id); if (draw && names.includes('paid')) { const C = TR.tourCompute(draw, res, Date.now()); if (C.done) F = await botPtsAdd(db, E.id, draw, C, res); } } }   // the event paid before this existed
+      const bots = Object.entries(F.p || {}).map(([id, tp]: any) => ({ id, bot: 1, rating: TR.botRating ? TR.botRating(id) : 0, tp }));
+      return json({ rows: [...(data || []).map((r: any) => ({ id: r.id, name: r.name, av: r.av, rating: r.rating, played: r.played, won: r.won, fr: r.ach?.fr || 0, tp: (r.ach?.tp || []).slice(-30) })), ...bots] });
     }
     if (action === 'tour_done') {
       return json({ error: 'moved' }, 400);
