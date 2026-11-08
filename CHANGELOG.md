@@ -3,6 +3,15 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.24.0 — 8.11.2026
+- Weekend tournament in the CS format from 14 Nov (draw.fmt = 'cs'; older events keep the old rules):
+  - Saturday 14:00 — Swiss stage: rounds pair equal records; 3 wins → play-off, 3 losses → out; Bo1, matches to go through / go out Bo3; up to 5 rounds; 8 go through, seeded 3–0, 3–1, 3–2.
+  - Sunday 14:00 — double elimination: upper bracket (QF, SF, final), lower bracket (round 1, round 2 crossed, semi-final, final), grand final Bo5; all other matches Bo3.
+  - Results per game (key: match + 'n' + game number); series decided from them; bots simulated game by game; no-show per game; a match has a hard deadline (Bo1 35 min, Bo3 80, Bo5 130).
+  - Prize pool 25 000: 9 500 / 5 600 / 3 350 / 2 400 / 900 (5–6) / 500 (7–8) / 300 (2–3) / 150 (1–3) / 0 (0–3).
+  - Season points: 300 / 220 / 160 / 130 / 100 / 80 / 50 / 30 / 15 by place + 5 per match won.
+- Site: Swiss tab (records, rounds with series scores), play-off tab (upper / lower brackets, grand final), series games («Play vs X · game 2»), live list and broadcasts per game, banner with live points, CS texts and push texts.
+
 ## 0.23.8 — 8.11.2026
 - The season table on the rating page (Tournaments tab) had no table styles (container without .lb) — fixed.
 - Tournament bots get season points too: at payout the server writes tour/botpts.json (place, points per event; the already paid event is filled in on the first tour_table call); tour_table returns them, the site names them like in the bracket.

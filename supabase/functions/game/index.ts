@@ -226,6 +226,9 @@ function pushEvents(now: number) {
   if (win(E.gAt - 60 * TR.MIN, 40 * TR.MIN)) ev.push({ id: 'h1-' + E.id, who: 'reg', uk: ['Турнір через годину', 'Групи стартують о ' + hm(E.gAt) + ' — ви записані.'], en: ['Tournament in an hour', 'Groups start at ' + hm(E.gAt) + ' — you are signed up.'] });
   if (win(E.gAt - 10 * TR.MIN, 30 * TR.MIN)) ev.push({ id: 'g-' + E.id, who: 'reg', uk: ['Турнір починається!', 'Ваша група вже чекає — відкрийте турнір і грайте перший матч.'], en: ['The tournament is starting!', 'Your group is waiting — open the tournament and play your first match.'] });
   if (win(E.pAt - 10 * TR.MIN, 30 * TR.MIN)) ev.push({ id: 'p-' + E.id, who: 'reg', uk: ['Плей-оф починається', 'О ' + hm(E.pAt) + ' — чвертьфінали. Якщо ви вийшли з групи — заходьте!'], en: ['The play-off is starting', 'Quarter-finals at ' + hm(E.pAt) + '. If you got through your group, come in!'] });
+  if (E.fmt === 'cs') { const fx: any = [[/Групи стартують/g, 'Швейцарська система стартує'], [/Групи /g, 'Швейцарська система '], [/— групи\./g, '— швейцарська система.'], [/Ваша група вже чекає — відкрийте турнір і грайте перший матч\./g, 'Перший раунд уже чекає — відкрийте турнір і грайте.'], [/— чвертьфінали\. Якщо ви вийшли з групи/g, '— плей-оф (верхня й нижня сітки). Якщо ви пройшли швейцарку'],
+      [/Groups start/g, 'The Swiss stage starts'], [/Groups at/g, 'The Swiss stage at'], [/Groups /g, 'The Swiss stage '], [/Your group is waiting/g, 'Round 1 is waiting'], [/Quarter-finals at/g, 'The play-off (upper and lower brackets) at']];
+    ev.forEach((e: any) => { for (const L of ['uk', 'en']) e[L] = e[L].map((x: string) => fx.reduce((t: string, [re, to]: any) => t.replace(re, to), x)); }); }
   return ev; }
 
 // ---- Telegram Mini App login ----
@@ -329,7 +332,7 @@ async function tourLoad(db: any, eid: string) {
 // season points of the tournament bots (they took part too): tour/botpts.json = { evs: [event ids], p: { botId: [{ at, pl, pts, ev }] } }
 async function botPtsAdd(db: any, eid: string, draw: any, C: any, res: any) {
   const F = (await lgFile(db, 'tour/botpts.json')) || { evs: [], p: {} }; if (F.evs.includes(eid)) return F; const all = [...C.gm, ...C.po];
-  for (let i = 0; i < 16; i++) { const P = draw.players[i]; if (!P?.bot) continue; const pl = C.places[i]; (F.p[P.id] ||= []).push({ at: Date.now(), pl, pts: TR.TPTS(pl, TR.winsOf(all, res, i)), ev: eid }); F.p[P.id] = F.p[P.id].slice(-30); }
+  for (let i = 0; i < 16; i++) { const P = draw.players[i]; if (!P?.bot) continue; const pl = C.places[i]; (F.p[P.id] ||= []).push({ at: Date.now(), pl, pts: (draw.fmt === 'cs' ? TR.TPTS_CS : TR.TPTS)(pl, C.wins ? C.wins[i] : TR.winsOf(all, res, i)), ev: eid }); F.p[P.id] = F.p[P.id].slice(-30); }
   F.evs = [...F.evs, eid].slice(-20); await lgSave(db, 'tour/botpts.json', F); return F; }
 async function tourPut(db: any, path: string, body: string) { const r = await db.storage.from('srv').upload(path, new Blob([body], { type: 'application/json' }), { upsert: false }); return !r.error; }
 async function tourWrite(db: any, eid: string, mid: string, r: any) {
@@ -352,16 +355,17 @@ async function tourTick(db: any, E: any) {
   for (let pass = 0; pass < 6 && C.due.length; pass++) {
     let wrote = false; const now = Date.now();
     for (const d of C.due) {
-      const m = [...C.gm, ...C.po].find((x: any) => x.id === d.mid); let r: any = null;
-      if (d.kind === 'sim') r = TR.simResult(draw, m, d.at);
+      const m = [...C.gm, ...C.po].find((x: any) => x.id === d.mid); let r: any = null; const key = d.key || d.mid, cs = draw.fmt === 'cs';   // CS format: a result per game of a series
+      const sim = (at: number) => cs ? TR.simGameCS(draw, m, key, at) : TR.simResult(draw, m, at);
+      if (d.kind === 'sim') r = sim(d.at);
       else if (d.kind === 'botwin') r = { w: d.w, mars: false, at: now, how: 'noshow' };
       else if (d.kind === 'hvh') {
-        const { data: g } = await db.from('games').select('state').eq('id', TR.gameIdOf(draw, m.id)).maybeSingle(); const st = g?.state; const A = draw.players[m.a].id;
+        const { data: g } = await db.from('games').select('state').eq('id', TR.gameIdOf(draw, key)).maybeSingle(); const st = g?.state; const A = draw.players[m.a].id;
         if (st && st.phase === 'over' && st.result) { const wu = st[st.result.winner]; r = { w: wu === A ? 'a' : 'b', mars: !!st.result.mars, at: now, how: 'play' }; }
         else if (d.noshow && st && !st.p2) r = { w: st.p1 === A ? 'a' : 'b', mars: false, at: now, how: 'noshow' };
-        else if ((d.hard && !st) || d.late) r = { ...TR.simResult(draw, m, now), how: 'sim' };
+        else if ((d.hard && !st) || d.late) r = { ...sim(now), how: 'sim' };
       }
-      if (r && await tourWrite(db, E.id, m.id, r)) { res[m.id] = r; wrote = true; }
+      if (r && await tourWrite(db, E.id, key, r)) { res[key] = r; wrote = true; }
     }
     if (!wrote) break; C = TR.tourCompute(draw, res, Date.now());
   }
@@ -369,7 +373,7 @@ async function tourTick(db: any, E: any) {
     const all = [...C.gm, ...C.po];
     if (await tourPut(db, 'tour/' + E.id + '/paid', '{}')) {
       try { await botPtsAdd(db, E.id, draw, C, res); } catch (_) {}
-      for (let i = 0; i < 16; i++) { const P = draw.players[i]; if (P.bot) continue; const pl = C.places[i], prize = TR.PRIZE(pl), pts = TR.TPTS(pl, TR.winsOf(all, res, i));
+      for (let i = 0; i < 16; i++) { const P = draw.players[i]; if (P.bot) continue; const pl = C.places[i], prize = draw.fmt === 'cs' ? TR.PRIZE_CS(pl) : TR.PRIZE(pl), pts = (draw.fmt === 'cs' ? TR.TPTS_CS : TR.TPTS)(pl, C.wins ? C.wins[i] : TR.winsOf(all, res, i));
         const { data: p } = await db.from('profiles').select('ach').eq('id', P.id).maybeSingle(); if (!p) continue;
         const A = { ...(p.ach || {}) }; A.tourAt = Date.now(); A.coins = (A.coins ?? COIN_START) + prize; A.tp = [...(A.tp || []), { at: A.tourAt, pl, pts, ev: E.id }].slice(-30);
         await db.from('profiles').update({ ach: A }).eq('id', P.id);
@@ -381,22 +385,33 @@ async function tourTick(db: any, E: any) {
 }
 // a tournament game id belongs to one match: only its two players may create or join it, and only while it is open
 async function tourGuard(db: any, gid: string, uid: string): Promise<string | null> {
-  const mm = String(gid || '').match(/^t(\d{6})((?:g\d\d)|(?:qf\d)|(?:sf\d)|f0|th0)$/); if (!mm) return null;
+  const mm = String(gid || '').match(/^t(\d{6})((?:g\d\d)|(?:qf\d)|(?:sf\d)|f0|th0|(?:(?:s\d\d|uq\d|us\d|uf0|l1\d|l2\d|ls0|lf0|gf0)n\d))$/); if (!mm) return null;
   const E = TR.tourEvent(Date.now()); if (!E || E.id !== mm[1]) return 'tour_closed';
   const { draw, res } = await tourLoad(db, E.id); if (!draw) return 'tour_closed';
-  const C = TR.tourCompute(draw, res, Date.now()); const m = [...C.gm, ...C.po].find((x: any) => x.id === mm[2]);
+  const C = TR.tourCompute(draw, res, Date.now()); const cs = draw.fmt === 'cs', mid = cs ? mm[2].replace(/n\d$/, '') : mm[2];
+  const m = [...C.gm, ...C.po].find((x: any) => x.id === mid);
   if (!m || m.a == null || m.b == null || draw.players[m.a].bot || draw.players[m.b].bot) return 'bad_match';
   if (draw.players[m.a].id !== uid && draw.players[m.b].id !== uid) return 'not_yours';
-  if (res[m.id] || Date.now() < m.av - 60e3) return 'tour_closed';
+  if (cs) { if (!m.cur || m.cur.key !== mm[2] || Date.now() < m.cur.av - 60e3) return 'tour_closed'; }
+  else if (res[m.id] || Date.now() < m.av - 60e3) return 'tour_closed';
   return null;
 }
 function tourView(E: any, draw: any, res: any, C: any) {
+  if (draw && draw.fmt === 'cs') return tourViewCS(E, draw, res, C);
   const pub = (m: any) => ({ id: m.id, st: m.st, G: m.G, k: m.k, rd: m.rd, a: m.a, b: m.b, av: m.av === Infinity ? null : m.av, hard: m.hard === Infinity ? null : m.hard, r: res[m.id] || null, gid: draw && m.a != null && m.b != null && !draw.players[m.a].bot && !draw.players[m.b].bot ? TR.gameIdOf(draw, m.id) : null });
   return { ev: { id: E.id, gAt: E.gAt, pAt: E.pAt, moved: E.moved }, now: Date.now(), phase: C ? C.phase : 'pre', season: draw ? draw.season : tourSeason(E.gAt - 864e5),
     players: draw ? draw.players.map((p: any) => ({ id: p.id, bot: p.bot, name: p.name, full: p.full, av: p.av, r: p.r })) : null,
     gm: C ? C.gm.map(pub) : null, po: C ? C.po.map(pub) : null, places: C ? C.places : null };
 }
 
+function tourViewCS(E: any, draw: any, res: any, C: any) {
+  const T = (x: number) => x === Infinity || x == null ? null : x; const hvh = (m: any) => m.a != null && m.b != null && !draw.players[m.a].bot && !draw.players[m.b].bot;
+  const pub = (m: any) => ({ id: m.id, st: m.st, rd: m.rd, k: m.k, rec: m.rec, a: m.a, b: m.b, bo: m.bo, av: T(m.av), hard: T(m.hard), sa: m.sa, sb: m.sb, r: m.r,
+    g: (m.g || []).map((x: any) => ({ n: x.n, key: x.key, r: x.r, av: T(x.av), gid: hvh(m) ? TR.gameIdOf(draw, x.key) : null })), cur: m.cur ? { n: m.cur.n, key: m.cur.key, av: T(m.cur.av), gid: hvh(m) ? TR.gameIdOf(draw, m.cur.key) : null } : null });
+  return { fmt: 'cs', ev: { id: E.id, gAt: E.gAt, pAt: E.pAt, moved: E.moved, fmt: 'cs' }, now: Date.now(), phase: C ? C.phase : 'pre', season: draw.season,
+    players: draw.players.map((p: any) => ({ id: p.id, bot: p.bot, name: p.name, full: p.full, av: p.av, r: p.r })), rec: C ? C.rec : null,
+    gm: C ? C.gm.map(pub) : [], po: C ? C.po.map(pub) : [], places: C ? C.places : null };
+}
 // ---- weekly leagues: Bronze → Silver → Gold → Diamond. Groups of 20 (free places = league bots whose points grow
 // through the week). Points: a full game 1, a win 3, a mars win 4. Week = Monday 00:00 → Sunday 24:00 (Kyiv).
 // At the end: top 5 go up, bottom 5 go down; prizes for places 1–5. Group files live in storage: srv/league/<wk>/<g>.json.
@@ -650,12 +665,15 @@ Deno.serve(async (req) => {
       const E = TR.tourEvent(Date.now()); if (!E) return json({ error: 'no_event' }, 400);
       const { draw, res } = await tourLoad(db, E.id); if (!draw) return json({ error: 'no_draw' }, 400);
       const C = TR.tourCompute(draw, res, Date.now()); const m = [...C.gm, ...C.po].find((x: any) => x.id === String(args?.mid || ''));
-      if (!m || m.a == null || m.b == null) return json({ error: 'bad_match' }, 400); if (res[m.id]) return json({ ok: true, already: true, r: res[m.id] });
+      if (!m || m.a == null || m.b == null) return json({ error: 'bad_match' }, 400);
+      const cs = draw.fmt === 'cs', key = cs ? TR.gameKey(m.id, Number(args?.n) || (m.cur ? m.cur.n : 1)) : m.id;
+      if (res[key]) return json({ ok: true, already: true, r: res[key] });
+      if (cs && (!m.cur || m.cur.key !== key)) return json({ error: 'closed' }, 400);
       const meA = draw.players[m.a].id === user.id, meB = draw.players[m.b].id === user.id; if (!meA && !meB) return json({ error: 'not_yours' }, 403);
       if (!(meA ? draw.players[m.b].bot : draw.players[m.a].bot)) return json({ error: 'online_match' }, 400);
-      const now = Date.now(); if (now < m.av - 60e3 || now > m.hard + TR.GRACE) return json({ error: 'closed' }, 400);
+      const now = Date.now(); if (now < (cs ? m.cur.av : m.av) - 60e3 || now > m.hard + TR.GRACE) return json({ error: 'closed' }, 400);
       const won = !!args?.won; const r = { w: (won === meA) ? 'a' : 'b', mars: !!args?.mars, at: now, how: 'play' };
-      await tourWrite(db, E.id, m.id, r);
+      await tourWrite(db, E.id, key, r);
       // tournament game against a tournament bot: 50–150 coins whatever the result
       const gc = gameCoins(won, true, !!args?.mars, true); const { data: pc } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle();
       if (pc) { const A = { ...(pc.ach || {}) }; A.coins = (A.coins ?? COIN_START) + gc.coins; await db.from('profiles').update({ ach: A }).eq('id', user.id); }
