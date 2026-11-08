@@ -16,6 +16,6 @@ jobs:
       - uses: actions/checkout@v4
       - uses: supabase/setup-cli@v1
         with:
-          version: latest
+          version: 2.122.1
       - name: Deploy "game"
         run: supabase functions deploy game --project-ref zndzvicklrkxkrpmkybg --no-verify-jwt --yes
