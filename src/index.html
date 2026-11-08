@@ -857,6 +857,35 @@ body.simw #btnCopy2,body.simw #btnVoice,body.simw #btnSpk,body.simw #qrBar,body.
 }
 
 /* ---------- phone in landscape: board on the left, panel on the right ---------- */
+/* in a game: no site header, the board takes the whole height, a narrow compact panel on the right */
+@media (orientation:landscape) and (max-height:540px){
+  body.ingame header{display:none!important}
+  body.ingame .app{grid-template-columns:minmax(0,1fr) clamp(200px,27vw,260px)!important;grid-template-rows:minmax(0,1fr)!important}
+  body.ingame #stage{padding:4px 2px 4px max(6px,env(safe-area-inset-left))!important;align-items:center;justify-content:center}
+  body.ingame .hud{padding-top:max(4px,env(safe-area-inset-top))}
+  body.ingame #vGame .sec{padding:7px 10px!important;margin:0 0 6px!important;border-radius:14px}
+  body.ingame #vGame .pl{padding:3px 0!important;gap:8px!important;min-height:0}
+  body.ingame #vGame .pl .pav .av,body.ingame #vGame .pl .pav .frl{transform:scale(.82);transform-origin:center}
+  body.ingame #vGame .pl .nm{font-size:13.5px!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px;display:block}
+  body.ingame #vGame .pl .sub{font-size:10.5px!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:125px;display:block}
+  body.ingame #vGame .pl .sc{font-size:24px!important}
+  body.ingame #vGame .share{gap:6px!important}
+  body.ingame #vGame .share > span{display:none}
+  body.ingame #vGame .share{justify-content:flex-start;flex-wrap:wrap}
+  body.ingame #vGame .share button{width:34px!important;height:34px!important;padding:0!important}
+  body.ingame #vGame details.rules:not(#histD){display:none}
+  body.ingame #vGame .sec:has(> details.rules:not(#histD)){display:none}
+  body.ingame #vGame .wchance,body.ingame #vGame .kbdh,body.ingame #vGame .keys{display:none!important}
+  body.ingame #qrBar{flex-wrap:nowrap;overflow-x:auto;gap:4px}
+  body.ingame #qrBar button{padding:5px 9px!important;font-size:12px!important}
+  body.ingame #wheelBtn{width:42px!important;height:42px!important;left:auto!important;top:auto!important;right:max(10px,env(safe-area-inset-right))!important;bottom:10px!important}
+  body.ingame #vGame .pl{display:flex!important;align-items:center}
+  body.ingame #vGame .pl > *{min-width:0}
+  body.ingame #vGame .pl > div:not(.pav){flex:1 1 auto;overflow:hidden}
+  body.ingame #vGame .pl .sc{flex:0 0 auto;margin-left:4px!important;min-width:1.4ch!important;width:auto!important;overflow:visible;text-align:right}
+  body.ingame #vGame .odds{display:none!important}
+  body.ingame #vGame .pl .nm,body.ingame #vGame .pl .sub{max-width:none}
+}
 @media (orientation:landscape) and (max-height:540px){
   html,body{overflow:hidden!important}
   .app{grid-template-columns:minmax(0,1.55fr) minmax(250px,1fr)!important;grid-template-rows:auto minmax(0,1fr)!important;height:100vh!important;height:100dvh!important;min-height:0!important}
@@ -2944,7 +2973,7 @@ function renderCoach(){
 // ================= HUD =================
 let lastWinShown='';
 let wasInGame=false;
-function route(){
+function route(){ try{ document.body.classList.toggle('ingame', !!gs); }catch(e){}
   const inGame=!!gs;
   if(inGame && !wasInGame){ try{ window.scrollTo(0,0); document.body.scrollTop=0; document.documentElement.scrollTop=0; }catch(e){} }
   wasInGame=inGame;
@@ -3690,7 +3719,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.24.2';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.24.3';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -3713,7 +3742,7 @@ function build2D(){
   function fit(){
     const r=stage.getBoundingClientRect(), phoneLand = innerWidth>innerHeight && innerHeight<=540, narrow=innerWidth<=860 && !phoneLand;
     const land = phoneLand;
-    const cs = land ? Math.max(16, Math.min((r.width-14)/14.35, (innerHeight-r.top-12)/12.15)) : narrow ? Math.min((r.width-8)/13.95, 56, Math.max(20,(innerHeight-70-170)/13.4)) : Math.max(24, Math.min((r.width-28)/14.35, (r.height-22)/12.15, 96));
+    const cs = land ? Math.max(16, Math.min((r.width-14)/14.35, (innerHeight-Math.max(0,r.top)-10)/12.15)) : narrow ? Math.min((r.width-8)/13.95, 56, Math.max(20,(innerHeight-70-170)/13.4)) : Math.max(24, Math.min((r.width-28)/14.35, (r.height-22)/12.15, 96));
     document.documentElement.style.setProperty('--cs', cs.toFixed(2)+'px');
   }
   new ResizeObserver(fit).observe(stage); addEventListener('resize',fit); fit();
@@ -4884,6 +4913,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=createGame; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 const NEWS=[
+ {v:"0.24.3", d:"8.11.2026", uk:["Телефон горизонтально: у грі дошка на всю висоту екрана (на ~20% більша), а панель збоку — вужча й компактніша"], en:["Phone in landscape: in a game the board takes the full height (about 20% bigger) and the side panel is narrower and compact"]},
  {v:"0.24.2", d:"8.11.2026", uk:["Запис на турнір — з понеділка до п’ятниці, 18:00; о 19:00 з’являються перші пари, і спершу люди грають між собою", "Після фіналу банер турніру видно ще годину"], en:["Tournament sign-up is open Monday to Friday 18:00; at 19:00 the first pairs are out, people play each other first", "After the final the tournament banner stays for an hour"]},
  {v:"0.24.1", d:"8.11.2026", uk:["Менше тексту: усе про турнір вихідного дня — у вкладці «Інфо», а в таблиці сезону — кнопка «Детальніше про систему»"], en:["Less text: everything about the weekend tournament is in the «Info» tab, and the season table has a «More about the system» button"]},
  {v:"0.24.0", d:"8.11.2026", uk:["Турнір вихідного дня — тепер як у CS: у суботу о 14:00 швейцарська система (3 перемоги — у плей-оф, 3 поразки — виліт), у неділю о 14:00 плей-оф із верхньою й нижньою сітками", "Усі матчі плей-оф — до двох перемог (Bo3), гранд-фінал — до трьох (Bo5); у швейцарці матчі на вихід і виліт теж Bo3", "Призовий фонд — 25 000: від 9 500 за перше місце; монети отримують навіть ті, хто вибув зі швейцарки з 1–3 чи 2–3", "Більше турнірних очок: за кожну стадію (від 15 до 300) і +5 за кожен виграний матч"], en:["The weekend tournament now works like CS: Saturday 14:00 a Swiss stage (3 wins — play-off, 3 losses — out), Sunday 14:00 a play-off with upper and lower brackets", "All play-off matches are best of 3, the grand final best of 5; in the Swiss stage matches to go through or go out are Bo3 too", "The prize pool is 25 000: from 9 500 for 1st; coins even for 1–3 and 2–3 in the Swiss stage", "More tournament points: for every stage reached (15 to 300) and +5 per match won"]},
