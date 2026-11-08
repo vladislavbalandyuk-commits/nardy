@@ -75,7 +75,7 @@ function act(state, uid, action, args, env){
   if(!me) err('not_player');
   if(action==='open_roll'){ if(st.phase!=='opening'||!st.p2) err('bad_phase'); if(st.open[me]) err('already'); st.open[me]=d6(); st.rollId++; resolveOpening(st,now); return st; }
   if(action==='rematch'){ if(st.phase!=='over') err('bad_phase'); st.rematch=st.rematch||{}; st.rematch[me]=true;
-    if(st.rematch.p1&&st.rematch.p2){ const ng=newGame(st.p1,st.p2,st.score); ng.names=st.names; ng.avs=st.avs; ng.ratings=st.ratings; ng.seq=st.seq; ng.rollId=st.rollId; return ng; } return st; }
+    if(st.rematch.p1&&st.rematch.p2){ const ng=newGame(st.p1,st.p2,st.score); ng.names=st.names; ng.avs=st.avs; ng.ratings=st.ratings; ng.frs=st.frs; ng.seq=st.seq; ng.rollId=st.rollId; return ng; } return st; }
   if(action==='timeout'){ if(st.phase!=='play') err('bad_phase'); const opp=me==='p1'?'p2':'p1'; if(colorOfSlot(st,opp)!==st.turn) err('not_their_turn'); if(now-(st.turnAt||0)<TURN_MS) err('too_early');
     st.strikes=st.strikes||{p1:0,p2:0}; st.strikes[opp]++;
     if(st.strikes[opp]>=MAX_STRIKES){ const w=colorOfSlot(st,me); finish(st,w,st.off[OPP(w)]===0&&false,{c:OPP(w),mars:false,timeout:true}); return st; }
@@ -162,6 +162,9 @@ async function userByNick(db: any, nick: string) {
   const { data: pr } = await db.from('profiles').select('id').ilike('name', nick.replace(/[%_\\]/g, (c: string) => '\\' + c)).limit(2);
   if (pr && pr.length === 1) { const { data } = await db.auth.admin.getUserById(pr[0].id); const u = data?.user; if (u && !u.is_anonymous && /@nardy\.invalid$/.test(u.email || '')) return u; }
   return null; }
+// rank tiers (same table as the site): 8 tiers × 6 steps from 1000
+const RANK_TH = (() => { const a = [1000]; for (let ti = 0; ti < 7; ti++) for (let k = 0; k < 6; k++) a.push(a[a.length - 1] + 34 + 8 * ti); return a; })();
+const rankTier = (r: number) => { let i = 0; for (let t = 1; t < 8; t++) if (r >= RANK_TH[t * 6]) i = t; return i; };
 const rndTok = (n: number) => { const a = new Uint8Array(n); crypto.getRandomValues(a); return Array.from(a, (x) => 'abcdefghijkmnpqrstuvwxyz23456789'[x % 32]).join(''); };
 const ADMIN_EMAILS = new Set(ADMIN_NICKS.map(nickEmail));
 const isAdminUser = (u: any) => !!u && !u.is_anonymous && ADMIN_EMAILS.has(String(u.email || '').toLowerCase());
@@ -607,6 +610,12 @@ Deno.serve(async (req) => {
       const got = res === 'best' ? 60 : res === 'good' ? 20 : 0; A.pz = P; A.coins = (A.coins ?? COIN_START) + got;
       await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, got, pz: P, coins: A.coins });
     }
+    if (action === 'frame') {   // the rank frame to show: 0 = always the current rank, 1…8 = a rank reached once (by the best rating)
+      const { data: p } = await db.from('profiles').select('ach,rating,rgames').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
+      const A = { ...(p.ach || {}) }; const best = Math.max(A.peak || 0, (p.rgames ?? 0) >= 10 ? (p.rating ?? 1000) : 0); const tf = Math.round(Number(args?.t) || 0);
+      if (tf < 0 || tf > 8 || (tf > 0 && tf - 1 > rankTier(best))) return json({ ok: false, why: 'locked' });
+      if (best > (A.peak || 0)) A.peak = best; if (tf) A.fr = tf; else delete A.fr;
+      await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, fr: A.fr || 0, peak: A.peak || 0 }); }
     if (action === 'course') {
       const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
       const A = { ...(p.ach || {}) }; const done = Math.max(A.stc || 0, A.tut ? 1 : 0);
@@ -702,7 +711,7 @@ Deno.serve(async (req) => {
       const { data: me } = await db.from('profiles').select('id,name,ach').eq('id', user.id).maybeSingle(); if (!me) return json({ error: 'no_profile' }, 400);
       const A = { ...(me.ach || {}) }; let F: string[] = Array.isArray(A.friends) ? A.friends.slice(0, 100) : []; const op = String(args?.op || 'list');
       const save = async () => { A.friends = F; await db.from('profiles').update({ ach: A }).eq('id', user.id); };
-      const pub = (r: any) => ({ id: r.id, name: r.name, av: r.av, rating: r.rating, played: r.played, won: r.won, last: (r.ach?.days || []).slice(-1)[0] || null, plat: r.ach?.plat || null, mutual: Array.isArray(r.ach?.friends) && r.ach.friends.includes(user.id) });
+      const pub = (r: any) => ({ id: r.id, name: r.name, av: r.av, rating: r.rating, fr: r.ach?.fr || 0, played: r.played, won: r.won, last: (r.ach?.days || []).slice(-1)[0] || null, plat: r.ach?.plat || null, mutual: Array.isArray(r.ach?.friends) && r.ach.friends.includes(user.id) });
       if (op === 'find') {
         const q = String(args?.name || '').trim().slice(0, 24); if (q.length < 2) return json({ rows: [] });
         const { data } = await db.from('profiles').select('id,name,av,rating,played,won,ach').ilike('name', q.replace(/[%_]/g, '') + '%').neq('id', user.id).order('played', { ascending: false }).limit(8);
@@ -793,6 +802,7 @@ Deno.serve(async (req) => {
           d[s] = rg + 1 >= CALIB ? CALIB_PLACE[Math.round(cal.w / cal.g * CALIB)] - myR : 0; }
         const dayN = ((ach.A.gd || []).find((x: any) => x.d === kyivDay()) || { h: 0, b: 0 }); const nToday = (dayN.h || 0) + (dayN.b || 0);
         const gc = gameCoins(won, fullGame && nToday < 20, !!st.result.mars); if (fullGame && nToday >= 10 && nToday < 20) gc.coins = Math.round(gc.coins / 2); ach.A.coins = (ach.A.coins ?? COIN_START) + gc.coins; coinsPaid[s] = gc; markGame(ach.A, !vsBot); questTick(ach.A, { game: 1, win: won ? 1 : 0, human: fullGame ? 1 : 0, mars: won && st.result.mars ? 1 : 0 });
+        if (rg + 1 >= CALIB) ach.A.peak = Math.max(ach.A.peak || 0, Math.max(100, myR + d[s]));   // the best rating reached: unlocks rank frames
         if (fullGame && LG_ON) await lgAdd(db, id, ach.A, p?.name || '', p?.av || '', won ? (st.result.mars ? 4 : 3) : 1);
         await db.from('profiles').update({ rating: Math.max(100, myR + d[s]), rgames: (p?.rgames ?? 0) + 1, played: (p?.played ?? 0) + 1, won: (p?.won ?? 0) + (won ? 1 : 0), ach: ach.A, updated_at: new Date().toISOString() }).eq('id', id);
       }
@@ -821,7 +831,7 @@ Deno.serve(async (req) => {
       const myR = me?.rating ?? 1000;
       const botR = gh ? gh.rating : bot ? C.BOTS[bot].r : 0;
       st.names = { p1: me?.name ?? '', p2: gh ? gh.name : bot ? String(args?.name ?? '').slice(0, 24) : '' }; st.avs = { p1: me?.av ?? '', p2: gh ? gh.av : bot ? String(args?.av ?? '').slice(0, 8) : '' };
-      st.ratings = { p1: myR, p2: botR }; if (gh) { st.ghost = gh.id; st.botNoise = ghostNoise(gh.skill ?? gh.rating); }
+      st.ratings = { p1: myR, p2: botR }; st.frs = { p1: me?.ach?.fr || 0, p2: 0 }; if (gh) { st.ghost = gh.id; st.botNoise = ghostNoise(gh.skill ?? gh.rating); }
       const { error } = await db.from('games').insert({ id: gameId, p1: user.id, p2: null, state: st, updated_at: new Date().toISOString() });
       if (error) return json({ error: error.code === '23505' ? 'exists' : 'db' }, 409);
       return json({ state: st });
@@ -832,7 +842,7 @@ Deno.serve(async (req) => {
       let st;
       try { st = C.act(row.state, user.id, action, args, { now: Date.now(), d6 }); } catch (e) { return json({ error: (e as Error).message }, 409); }
       if (action === 'join' && st.p2 === user.id && !row.state.p2) {
-        const me = await prof(user.id); st.names = { ...(st.names || {}), p2: me?.name ?? '' }; st.avs = { ...(st.avs || {}), p2: me?.av ?? '' }; st.ratings = { ...(st.ratings || {}), p2: me?.rating ?? 1000 };
+        const me = await prof(user.id); st.names = { ...(st.names || {}), p2: me?.name ?? '' }; st.avs = { ...(st.avs || {}), p2: me?.av ?? '' }; st.ratings = { ...(st.ratings || {}), p2: me?.rating ?? 1000 }; st.frs = { ...(st.frs || {}), p2: me?.ach?.fr || 0 };
       }
       st.seq = (row.state.seq || 0) + 1;
       const r = await commit(gameId, row.updated_at, st);

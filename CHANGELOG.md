@@ -3,6 +3,11 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.22.0 — 8.11.2026
+- Rank frames to choose: the server keeps the best rating reached (ach.peak, after calibration) and the chosen frame (ach.fr, action «frame», 0 = Auto); any rank up to the best one can be worn. A lower rank's frame shows the full die (6).
+- Shown everywhere: the header button, the home rank card, the profile, the rating table, friends, the player card, the game chips (state.frs from create/join, kept on rematch).
+- The profile's small rank strip is replaced by the frame picker (Auto + 8 ranks, locked ones greyed with the rating needed); the same picker is in Shop → Personalizer → Frame; «Frame» link in the looks bar.
+
 ## 0.21.0 — 8.11.2026
 - Password recovery: «Forgot password?» under the login form → nickname → the Telegram bot sends a «Set a new password» button (link #pw-<token>, 20 min, one use, 90 s cooldown) → new password → signed in. Accounts without Telegram: a message to write to the admin; the admin panel has «Reset a password» (temporary password). The profile asks to link Telegram for recovery.
 - Ghosts: 16 weaker ghosts (650–990, ids 68–83); ghost-vs-ghost games every 5 min, up to 14 per round (was every 10 min, up to 6), so the rating table moves; matchmaking ghosts play at their skill (noise by skill: <800 → 6 … ≥1900 → 0), on the server and offline.
