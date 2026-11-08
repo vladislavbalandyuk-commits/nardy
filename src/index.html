@@ -2253,6 +2253,7 @@ function startGhost(i){
   toast(t('matchFound')); sfx('turn'); route();
 }
 const isGhost=()=>!!(gs && mode==='bot' && gs.ghost!=null);
+const asHuman=()=>isGhost() || !!(gs && mode==='bot' && gs.gm);   // shown like a person: matchmaking opponents and tournament opponents
 let botTimer=null, botBusy=false, botToken=0;
 function startBot(){ if(isCalib() && !store.get('calBotTip',0)){ store.set('calBotTip',1); setTimeout(()=>toast(t('calBotTip')),400); }
   stopSearch(true); leave();
@@ -2292,13 +2293,13 @@ function botTick(){
   if(gs.server) return serverBotTick();
   const tok=botToken, stale=()=>tok!==botToken || mode!=='bot' || !gs;
   if(gs.phase==='opening'){
-    if(gs.open.p1 && !gs.open.p2){ botBusy=true; botWait(isGhost() ? 1100+Math.random()*2200 : 850).then(()=>{ botBusy=false; if(stale()||gs.phase!=='opening') return; gs.open.p2=d6(); gs.rollId++; rollAnimUntil=performance.now()+700; sfx('dice'); resolveOpening(); route(); }); }
+    if(gs.open.p1 && !gs.open.p2){ botBusy=true; botWait(asHuman() ? 1100+Math.random()*2200 : 850).then(()=>{ botBusy=false; if(stale()||gs.phase!=='opening') return; gs.open.p2=d6(); gs.rollId++; rollAnimUntil=performance.now()+700; sfx('dice'); resolveOpening(); route(); }); }
     return;
   }
   if(gs.phase!=='play' || gs.turn!==colorOfSlot('p2')) return;
   botBusy=true;
   (async()=>{
-    const gh=isGhost(), J=(a,b)=>a+Math.random()*(b-a);
+    const gh=asHuman(), J=(a,b)=>a+Math.random()*(b-a);
     await botWait(gh ? J(900,3200) : 650); if(stale()) return;
     const c=gs.turn;
     if(!gs.rolled){ const d1=d6(), d2=d6(); gs.dice=[d1,d2]; gs.remaining=d1===d2?[d1,d1,d1,d1]:[d1,d2]; gs.headLimit=(gs.first[c]&&d1===d2&&[3,4,6].includes(d1))?2:1; gs.first[c]=false; gs.headMoved=0; gs.rolled=true; gs.trail=[]; gs.rollId++; gs.snap=null; rollAnimUntil=performance.now()+700; sfx('dice'); botBusy=true; scene3d&&scene3d.sync(); renderHud(); }
@@ -3242,11 +3243,11 @@ function renderBanner(){
   if(gs.phase==='opening'){
     const s=openSlotToRoll();
     if(s){ title=t('bnOpenT'); sub = mode==='local' ? slotName(s) : t('bnOpenS'); if(gs.openLast && gs.openLast.tie && !gs.open.p1 && !gs.open.p2) sub=t('openTie',{a:gs.openLast.p1}); btn=t('rollFirst'); }
-    else { title = mode==='bot' && !isGhost() ? t('botThinking') : t('bnOppOpen'); wait=true; }
+    else { title = mode==='bot' && !asHuman() ? t('botThinking') : t('bnOppOpen'); wait=true; }
   } else if(gs.phase==='play' && !gs.rolled){
     if(tutorMode){ if(tut && !tut.done && tutCur().dice){ title=t('bnYour'); btn=t('roll'); } else return hide(); }
     else if(canPlay()){ title = mode==='local' ? t('bnColor',{c:colorName(gs.turn)}) : t('bnYour'); sub=t('bnRollS'); btn=t('roll'); }
-    else { title = mode==='bot' && !isGhost() ? t('bnBot') : t('bnOpp'); sub = slotName(slotOfColor(gs.turn)).split(' (')[0]; wait=true; }
+    else { title = mode==='bot' && !asHuman() ? t('bnBot') : t('bnOpp'); sub = slotName(slotOfColor(gs.turn)).split(' (')[0]; wait=true; }
   } else if(gs.phase==='play' && gs.rolled && canPlay() && mode!=='tutor' && !legalMoves(gs,gs.turn).length){ title=t('noMovesT'); wait=true; }
   else return hide();
   const key=[title,sub,btn,wait,gs.turn,gs.rollId].join('|');
@@ -3272,7 +3273,7 @@ function renderHud(){
     if(gs.openLast && gs.openLast.tie && !gs.open.p1 && !gs.open.p2) st=t('openTie',{a:gs.openLast.p1});
     else if(mode==='local' && s) st=t('openLocal',{n:slotName(s)});
     else if(s) st=t('openYour');
-    else if(mode==='bot') st= isGhost() ? t('openWait') : t('botThinking');
+    else if(mode==='bot') st= asHuman() ? t('openWait') : t('botThinking');
     else if(mode==='online' && me) st=t('openWait');
     else st=t('openYour');
   } else if(gs.phase==='over'){
@@ -3280,7 +3281,7 @@ function renderHud(){
   } else {
     const justOpened = gs.openLast && !gs.openLast.tie && gs.first.w && !gs.rolled;
     if(mode==='online' && !me) st=t('spectator',{c:colorName(c)});
-    else if(!playing) st= mode==='bot' && !isGhost() ? t('botTurn') : t('oppTurn');
+    else if(!playing) st= mode==='bot' && !asHuman() ? t('botTurn') : t('oppTurn');
     else if(mode==='tutor' && !gs.rolled){ st = tut && tut.done ? (tut.pz?'':t('tutStepDone')) : (tutCur().dice ? t('tutRoll') : ''); rollOn = !!(tut && !tut.done && tutCur().dice); }
     else if(!gs.rolled){ st = mode==='local' ? t('localRoll',{c:colorName(c)}) : t('yourRoll'); rollOn=true; }
     else if(!moves.length) st=t('noMoves');
@@ -3300,7 +3301,7 @@ function renderHud(){
   { const rc=resignColor(); const can=canResign(); const rb=$('btnResign');
     show('btnResign', gs.phase==='play' && !!rc && mode!=='tutor'); rb.disabled=!can;
     const left=Math.max(0, 10-(gs.hist||[]).length); rb.title = can ? t('resignB') : t('resignWait',{n:left}); }
-  $('shareLbl').textContent = mode==='online' ? t('link') : isGhost() ? t('onlineGame') : mode==='bot' ? t('botGame') : mode==='tutor' ? t('tutorGame') : t('localGame');
+  $('shareLbl').textContent = mode==='online' ? t('link') : gs && gs.gm ? t('tourT') : isGhost() ? t('onlineGame') : mode==='bot' ? t('botGame') : mode==='tutor' ? t('tutorGame') : t('localGame');
 
   if(gs.phase==='over' && lastWinShown!==gameId+':'+gs.seq+':'+gs.winner){
     lastWinShown=gameId+':'+gs.seq+':'+gs.winner;
@@ -3558,7 +3559,7 @@ async function startServerBot(ghostIdx){
 function serverBotTick(){
   const botSlot='p2', needOpen = gs.phase==='opening' && gs.open.p1 && !gs.open.p2, botTurn = gs.phase==='play' && gs.turn===colorOfSlot(botSlot);
   if(!needOpen && !botTurn) return;
-  const gh=isGhost(), J=(a,b)=>a+Math.random()*(b-a), tok=botToken;
+  const gh=asHuman(), J=(a,b)=>a+Math.random()*(b-a), tok=botToken;
   const wait = needOpen ? (gh?J(1100,3000):850) : !gs.rolled ? (gh?J(900,3200):650) : (gh?J(450,1300):620);
   botBusy=true; botWait(wait).then(async()=>{ if(tok!==botToken || !gs){ botBusy=false; return; } await srv('bot_step'); botBusy=false; route(); });
 }
@@ -3667,7 +3668,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.23.3';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.23.4';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -4760,6 +4761,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=createGame; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 const NEWS=[
+ {v:"0.23.4", d:"8.11.2026", uk:["Турнірна гра показується як гра з суперником: «Хід суперника» замість «Хід бота», «Турнір вихідного дня» замість «Гра з ботом»"], en:["Tournament games look like games with an opponent: «Opponent’s turn» instead of «Bot’s turn», «Weekend tournament» instead of «Game with a bot»"]},
  {v:"0.23.3", d:"8.11.2026", uk:["Аватари розділено на групи: особливі (нагороди), чоловічі, жіночі й без аватара; закриті нагороди видно з умовою відкриття"], en:["Avatars are grouped: special (rewards), men, women and no avatar; locked rewards are shown with how to unlock them"]},
  {v:"0.23.2", d:"8.11.2026", uk:["Фон картки: великі картинки з назвами й попередній перегляд картки — видно, як виглядатиме, навіть закриті фони", "Пошук суперника: якщо за 30 секунд нікого не знайшли — гра з ботом (вона не йде в калібрування)"], en:["Card backgrounds: big pictures with names and a live preview of your card — even for locked ones", "Matchmaking: if nobody is found in 30 seconds you play a bot (it does not count for calibration)"]},
  {v:"0.23.1", d:"8.11.2026", uk:["Нове калібрування, як у Доті: 10 ігор із суперниками, прихований рейтинг залежить від того, кого ви обіграли, а після 10-ї гри — ранг до 2000. Ігри з тренувальними ботами не рахуються", "Кількість онлайн тепер показано один раз — у картці «Знайти суперника»"], en:["New calibration, like in Dota: 10 games with opponents, a hidden rating that depends on whom you beat, and after game 10 your rank, up to 2000. Practice bot games do not count", "The online count is shown once — in the «Find an opponent» card"]},
