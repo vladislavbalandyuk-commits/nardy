@@ -2463,6 +2463,12 @@ function pzCard(home){
   const go=document.createElement('span'); go.className='pzgo'+(done?' done':''); go.textContent=done?'✓':t('pzGo'); c.append(ic,mid,go);
 }
 
+// ---- "your turn" nudge: if a human opponent has not moved for a minute, the server sends them one Telegram message / push ----
+let _ndKey='', _ndAt=0, _ndSent='';
+setInterval(()=>{ try{ if(!gs || mode!=='online' || gs.phase!=='play' || !sb || !uid || !authUser || isGhost() || String(gs.p2||'').startsWith('bot') || !gs.p2) return;
+  const meC=myColor(); if(!meC || gs.turn===meC) { _ndKey=''; return; } const k=gameId+':'+((gs.hist&&gs.hist.length)||0)+':'+gs.turn;
+  if(k!==_ndKey){ _ndKey=k; _ndAt=Date.now(); return; } if(Date.now()-_ndAt<60e3 || _ndSent===k) return; _ndSent=k;
+  sb.functions.invoke('game',{body:{action:'nudge', gameId}}).catch(()=>{}); }catch(e){} }, 5000);
 // ================= friends =================
 // Add by nickname, see who is online now, call a friend to a game: the game is created, the friend gets an in-app invite
 // (if online), a push and a Telegram message. Friends from invite links are in the list too.
@@ -3419,7 +3425,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.19.2';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.19.3';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -4454,6 +4460,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=createGame; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 const NEWS=[
+ {v:"0.19.3", d:"8.11.2026", uk:["Бот у Telegram тепер пише сам: «Ваш хід», якщо суперник чекає вже хвилину; нагадування про турнір записаним; ваше місце й приз після турніру"], en:["The Telegram bot now writes first: «Your turn» when your opponent has waited a minute; tournament reminders for signed-up players; your place and prize after the tournament"]},
  {v:"0.19.2", d:"8.11.2026", uk:["Банер турніру знову правильно рахує вихідні сезону (зараз — 1 з 4)"], en:["The tournament banner counts the season weekends correctly again (now 1 of 4)"]},
  {v:"0.19.1", d:"7.11.2026", uk:["Навчання на телефоні: вікно з підказкою Влада й Паші більше не закриває лоток для виведення шашок"], en:["Lessons on phones: Vlad and Pasha’s bubble no longer covers the bear-off tray"]},
  {v:"0.19.0", d:"7.11.2026", uk:["Друзі: додайте друга за ніком, дивіться, хто онлайн, і кличте на партію одним натисканням — друг отримає запрошення, сповіщення й повідомлення в Telegram","Задача дня: одна позиція на день — знайдіть найкращий хід, за нього 60 монет, і тримайте серію днів","Швидкі реакції під дошкою: «Гарний хід», «Ех…», «Кубики холодні», «Кальян за мій рахунок» — одним дотиком","Після онлайн-партії — «Шукати нового суперника», якщо суперник не хоче реваншу","Нарди як застосунок: іконка на екрані телефона — кнопка в Налаштуваннях і на головній"], en:["Friends: add a friend by nickname, see who is online, and call them to a game with one tap — they get an invite, a notification and a Telegram message","The daily puzzle: one position a day — find the best move for 60 coins and keep your streak","Quick reactions under the board: «Nice move», «Oops», «Cold dice», «Hookah’s on me» — one tap","After an online game — «Find a new opponent» if yours doesn’t want a rematch","Nardy as an app: an icon on your phone screen — a button in Settings and on the home page"]},

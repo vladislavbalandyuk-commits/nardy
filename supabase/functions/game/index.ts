@@ -273,6 +273,10 @@ const TG_TXT: any = {
         desc: 'Long nardy (backgammon) online: play friends by link, opponents by rating, a weekend tournament with prizes, a collection of boards and checkers. Tap Start and play right in Telegram.',
         short: 'Long nardy online: friends, rating, tournaments. Play right in Telegram.' },
 };
+// a message from the bot with one button that opens the Mini App (startapp = where to go: g-<game>, tour, …)
+async function tgTell(chat: any, text: string, btn: string, start = '') {
+  if (!chat || !tgTok()) return 0; const url = 'https://t.me/dovgi_nardy_bot' + (start ? '?startapp=' + start : '');
+  const r = await tgApi('sendMessage', { chat_id: Number(chat), text, parse_mode: 'HTML', reply_markup: { inline_keyboard: [[{ text: btn, url }]] } }).catch(() => null); return r?.ok ? 1 : 0; }
 const tgLang = (c: string) => /^(uk|ru|be)/.test(c || '') ? 'uk' : 'en';
 async function tgOnUpdate(u: any) {
   const m = u?.message; if (!m || !m.chat || m.chat.type !== 'private') return;
@@ -347,7 +351,9 @@ async function tourTick(db: any, E: any) {
       for (let i = 0; i < 16; i++) { const P = draw.players[i]; if (P.bot) continue; const pl = C.places[i], prize = TR.PRIZE(pl), pts = TR.TPTS(pl, TR.winsOf(all, res, i));
         const { data: p } = await db.from('profiles').select('ach').eq('id', P.id).maybeSingle(); if (!p) continue;
         const A = { ...(p.ach || {}) }; A.tourAt = Date.now(); A.coins = (A.coins ?? COIN_START) + prize; A.tp = [...(A.tp || []), { at: A.tourAt, pl, pts, ev: E.id }].slice(-30);
-        await db.from('profiles').update({ ach: A }).eq('id', P.id); }
+        await db.from('profiles').update({ ach: A }).eq('id', P.id);
+        if (A.tg) { const en = A.lang === 'en'; await tgTell(A.tg, en ? `🏆 The weekend tournament is over: you are <b>#${pl}</b> of 16` + (prize ? ` and get <b>${prize}</b> coins.` : '.') + `\nThe next one is next weekend — sign up early.`
+          : `🏆 Турнір вихідного дня завершено: ви на <b>${pl}-му місці</b> з 16` + (prize ? ` і отримуєте <b>${prize}</b> монет.` : '.') + `\nНаступний — на вихідних, записуйтесь заздалегідь.`, en ? 'Results' : 'Результати', 'tour'); } }
     }
   }
   return { draw, res, C };
@@ -392,11 +398,14 @@ Deno.serve(async (req) => {
       const ev = pushEvents(Date.now()); if (!ev.length) return json({ ok: true, events: 0 });
       let doneJ: any = {}; const dl = await db.storage.from('srv').download('push_sent.json'); if (dl.data) { try { doneJ = JSON.parse(await dl.data.text()); } catch (_) {} }
       const EPOCH = Date.UTC(2026, 10, 7, 16, 0), season = Math.max(0, Math.floor((Date.now() - EPOCH + 3 * 864e5) / (4 * 7 * 864e5)));
-      const { data: rows } = await db.from('profiles').select('id,ach').not('ach->push', 'is', null).limit(5000);
+      const { data: rowsP } = await db.from('profiles').select('id,ach').not('ach->push', 'is', null).limit(5000);
+      const { data: rowsT } = await db.from('profiles').select('id,ach').not('ach->tg', 'is', null).limit(5000);
+      const seen = new Set(); const rows = [...(rowsP || []), ...(rowsT || [])].filter((r: any) => !seen.has(r.id) && seen.add(r.id));
       let sent = 0; for (const e of ev) { if (doneJ[e.id]) continue; doneJ[e.id] = Date.now();
         await db.storage.from('srv').upload('push_sent.json', new Blob([JSON.stringify(doneJ)], { type: 'application/json' }), { upsert: true });
         const to = (rows || []).filter((r: any) => e.who === 'all' || (r.ach?.treg && r.ach.treg.s === season));
-        for (const r of to) { const L = r.ach?.lang === 'en' ? e.en : e.uk; sent += await pushTo(db, [r], { title: L[0], body: L[1], tag: e.id, url: '/' + (r.ach?.beta ? 'beta/' : '') + '?tour=1' }); } }
+        for (const r of to) { const L = r.ach?.lang === 'en' ? e.en : e.uk; if (r.ach?.push) sent += await pushTo(db, [r], { title: L[0], body: L[1], tag: e.id, url: '/' + (r.ach?.beta ? 'beta/' : '') + '?tour=1' });
+          if (r.ach?.tg && e.who === 'reg') sent += await tgTell(r.ach.tg, '🏆 <b>' + L[0] + '</b>\n' + L[1], r.ach?.lang === 'en' ? 'Open the tournament' : 'Відкрити турнір', 'tour'); } }
       return json({ ok: true, events: ev.length, sent }); }
     if (body0.action === 'tg_login' || body0.action === 'tg_widget') {
       const tu = body0.action === 'tg_login' ? await tgVerify(String(body0.args?.initData || '')) : await tgWidgetVerify(body0.args?.data);
@@ -588,6 +597,20 @@ Deno.serve(async (req) => {
       await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, n: L.length });
     }
     // friends: a list in ach.friends (one-way, like a contact list); "call to a game" sends a push and a Telegram message
+    if (action === 'nudge') {
+      const gid = String(gameId || '').toLowerCase(); const { data: g } = await db.from('games').select('state').eq('id', gid).maybeSingle(); const st = g?.state;
+      if (!st || st.phase !== 'play') return json({ ok: true, sent: 0 }); const meSlot = st.p1 === user.id ? 'p1' : st.p2 === user.id ? 'p2' : null; if (!meSlot) return json({ error: 'not_yours' }, 403);
+      const other = meSlot === 'p1' ? st.p2 : st.p1;
+      const oppTurn = st[st.turn === 'w' ? (st.white === st.p1 ? 'p1' : 'p2') : (st.white === st.p1 ? 'p2' : 'p1')] === other;
+      if (!other || String(other).startsWith('bot') || !oppTurn) return json({ ok: true, sent: 0 });
+      const { data: o } = await db.from('profiles').select('id,ach').eq('id', other).maybeSingle(); if (!o) return json({ ok: true, sent: 0 });
+      const A = { ...(o.ach || {}) }; const N = { ...(A.nudge || {}) }; if (Date.now() - (N[gid] || 0) < 10 * 60e3) return json({ ok: true, sent: 0 });
+      N[gid] = Date.now(); for (const k of Object.keys(N)) if (Date.now() - N[k] > 864e5) delete N[k]; A.nudge = N; await db.from('profiles').update({ ach: A }).eq('id', other);
+      const { data: me } = await db.from('profiles').select('name').eq('id', user.id).maybeSingle(); const nm = String(me?.name || '').slice(0, 20); const en = A.lang === 'en';
+      let sent = 0; if (A.tg) sent += await tgTell(A.tg, en ? `🎲 Your turn! <b>${nm || 'Your opponent'}</b> is waiting for your move.` : `🎲 Ваш хід! <b>${nm || 'Суперник'}</b> чекає на ваш хід.`, en ? 'Play' : 'Грати', 'g-' + gid);
+      if (A.push) sent += await pushTo(db, [o], { title: en ? 'Your turn' : 'Ваш хід', body: en ? (nm || 'Your opponent') + ' is waiting for your move.' : (nm || 'Суперник') + ' чекає на ваш хід.', tag: 'turn-' + gid, url: '/' + (A.beta ? 'beta/' : '') + '#g-' + gid });
+      return json({ ok: true, sent });
+    }
     if (action === 'friends') {
       const { data: me } = await db.from('profiles').select('id,name,ach').eq('id', user.id).maybeSingle(); if (!me) return json({ error: 'no_profile' }, 400);
       const A = { ...(me.ach || {}) }; let F: string[] = Array.isArray(A.friends) ? A.friends.slice(0, 100) : []; const op = String(args?.op || 'list');

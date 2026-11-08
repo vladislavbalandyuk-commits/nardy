@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.19.3 — 8 Nov 2026
+- The Telegram bot writes first: «your turn» (the waiting player's app asks after a minute; one message per game per 10 minutes — action `nudge`), tournament reminders to signed-up players with a Telegram account (with the push reminders), and the place and prize after the tournament.
+
 ## 0.19.2 — 8 Nov 2026
 - The season banner said «weekend 2 of 4» during the first weekend: a weekend was counted as done 4 hours after Saturday 18:00. It now counts as done after the play-off (Sunday ~22:00 Kyiv).
 - Settings: the «App on your screen» row stayed visible where installing is not possible.
