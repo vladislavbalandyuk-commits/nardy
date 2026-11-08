@@ -129,7 +129,7 @@ async function iceServers() {
 // coins per finished game: a random amount; a mars win +50 %, 5 % of full games pay double
 const COIN_START = 1000;
 function gameCoins(won: boolean, full: boolean, mars: boolean) {
-  const R = won ? (full ? [120, 180] : [30, 50]) : (full ? [40, 60] : [5, 15]);
+  const R = full ? [50, 150] : (won ? [30, 50] : [5, 15]);   // a game with an opponent: 50–150 whatever the result; practice bots: small
   let c = R[0] + Math.floor(Math.random() * (R[1] - R[0] + 1)); if (won && mars) c = Math.round(c * 1.5);
   const lucky = full && Math.random() < 0.05; if (lucky) c *= 2; return { coins: c, lucky };
 }
