@@ -3,6 +3,10 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.24.2 — 8.11.2026
+- CS format: sign-up Monday 00:00 – Friday 18:00 (server: reg_closed outside); the draw is made at Friday 19:00 and shown before the start (round 1: people against each other first by seed, a person left over meets a bot, then bots); push «The draw is out».
+- The tournament banner disappears an hour after the final and returns with the sign-up on Monday; «Sign-up closed · first pairs at 19:00» on Friday evening; live points only after the start.
+
 ## 0.24.1 — 8.11.2026
 - Tournament window: an «Info» tab with everything (format, Swiss, play-off, time and no-shows, prizes, season points, a «Druzi International» teaser); the long notes on the other tabs are gone. Season table: «More about the system» opens the same rules.
 

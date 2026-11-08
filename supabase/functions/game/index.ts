@@ -226,7 +226,8 @@ function pushEvents(now: number) {
   if (win(E.gAt - 60 * TR.MIN, 40 * TR.MIN)) ev.push({ id: 'h1-' + E.id, who: 'reg', uk: ['Турнір через годину', 'Групи стартують о ' + hm(E.gAt) + ' — ви записані.'], en: ['Tournament in an hour', 'Groups start at ' + hm(E.gAt) + ' — you are signed up.'] });
   if (win(E.gAt - 10 * TR.MIN, 30 * TR.MIN)) ev.push({ id: 'g-' + E.id, who: 'reg', uk: ['Турнір починається!', 'Ваша група вже чекає — відкрийте турнір і грайте перший матч.'], en: ['The tournament is starting!', 'Your group is waiting — open the tournament and play your first match.'] });
   if (win(E.pAt - 10 * TR.MIN, 30 * TR.MIN)) ev.push({ id: 'p-' + E.id, who: 'reg', uk: ['Плей-оф починається', 'О ' + hm(E.pAt) + ' — чвертьфінали. Якщо ви вийшли з групи — заходьте!'], en: ['The play-off is starting', 'Quarter-finals at ' + hm(E.pAt) + '. If you got through your group, come in!'] });
-  if (E.fmt === 'cs') { const fx: any = [[/Групи стартують/g, 'Швейцарська система стартує'], [/Групи /g, 'Швейцарська система '], [/— групи\./g, '— швейцарська система.'], [/Ваша група вже чекає — відкрийте турнір і грайте перший матч\./g, 'Перший раунд уже чекає — відкрийте турнір і грайте.'], [/— чвертьфінали\. Якщо ви вийшли з групи/g, '— плей-оф (верхня й нижня сітки). Якщо ви пройшли швейцарку'],
+  if (E.fmt === 'cs' && win(E.drawAt, 40 * TR.MIN)) ev.push({ id: 'draw-' + E.id, who: 'reg', uk: ['Жеребкування готове', 'Перший раунд — у суботу о ' + hm(E.gAt) + '. Відкрийте турнір: там ваш суперник.'], en: ['The draw is out', 'Round 1 is on Saturday at ' + hm(E.gAt) + '. Open the tournament to see your opponent.'] });
+  if (E.fmt === 'cs') { const fx: any = [[/Запис ще відкритий, заходьте!/g, 'Перші пари вже відомі — відкрийте турнір.'], [/Sign-up is still open!/g, 'The first pairs are out — open the tournament.'], [/Групи стартують/g, 'Швейцарська система стартує'], [/Групи /g, 'Швейцарська система '], [/— групи\./g, '— швейцарська система.'], [/Ваша група вже чекає — відкрийте турнір і грайте перший матч\./g, 'Перший раунд уже чекає — відкрийте турнір і грайте.'], [/— чвертьфінали\. Якщо ви вийшли з групи/g, '— плей-оф (верхня й нижня сітки). Якщо ви пройшли швейцарку'],
       [/Groups start/g, 'The Swiss stage starts'], [/Groups at/g, 'The Swiss stage at'], [/Groups /g, 'The Swiss stage '], [/Your group is waiting/g, 'Round 1 is waiting'], [/Quarter-finals at/g, 'The play-off (upper and lower brackets) at']];
     ev.forEach((e: any) => { for (const L of ['uk', 'en']) e[L] = e[L].map((x: string) => fx.reduce((t: string, [re, to]: any) => t.replace(re, to), x)); }); }
   return ev; }
@@ -340,7 +341,7 @@ async function tourWrite(db: any, eid: string, mid: string, r: any) {
   await tourPut(db, 'tour/' + eid + '/x_' + mid + '_' + r.w + '_' + (r.mars ? 1 : 0) + '_' + Math.round(r.at) + '_' + r.how, '{}'); return true;
 }
 async function tourEnsureDraw(db: any, E: any) {
-  let { draw, res, names } = await tourLoad(db, E.id); if (draw || Date.now() < E.gAt) return { draw, res, names };
+  let { draw, res, names } = await tourLoad(db, E.id); if (draw || Date.now() < (E.drawAt || E.gAt)) return { draw, res, names };
   const season = tourSeason(E.gAt - 864e5);
   const { data } = await db.from('profiles').select('id,name,av,rating,ach').not('ach->treg', 'is', null).limit(1000);
   const reals = (data || []).filter((r: any) => r.ach?.treg && r.ach.treg.s === season).map((r: any) => ({ id: r.id, nick: r.ach.treg.nick, name: r.name, full: r.ach.treg.first + ' «' + r.ach.treg.nick + '» ' + r.ach.treg.last, av: r.av, r: r.rating || 1000, at: r.ach.treg.at || 0 }));
@@ -783,6 +784,7 @@ Deno.serve(async (req) => {
       const nameOk = (v: string) => /^[\p{L}][\p{L}'’ -]{1,}$/u.test(v);
       if (!nameOk(first) || !nameOk(last)) return json({ error: 'bad_name' }, 400);
       if (!/^[\p{L}\p{N}_.-]{2,20}$/u.test(nick)) return json({ error: 'bad_nick' }, 400);
+      { const E = TR.tourEvent(Date.now()); if (E && E.fmt === 'cs' && (Date.now() < E.regStart || Date.now() >= E.regEnd)) return json({ error: 'reg_closed' }, 400); }   // sign-up: Monday – Friday 18:00
       const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
       const A = { ...(p.ach || {}) }; if (A.treg && A.treg.s === season) return json({ error: 'locked', treg: A.treg }, 400);
       A.treg = { s: season, first, nick, last, at: Date.now() };

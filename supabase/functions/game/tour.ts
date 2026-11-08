@@ -30,7 +30,9 @@ export function tourEvent(now: number) {
     const gAt = mv ? kyivTs(mv.g) : Date.UTC(sat.getUTCFullYear(), sat.getUTCMonth(), sat.getUTCDate(), cs ? 14 : 18) - KYIV;
     const pAt = mv ? kyivTs(mv.p) : gAt + 864e5;
     const end = pAt + (cs ? 11 * 60 : 150) * MIN;
-    if (now < end) return { id: key.replace(/-/g, '').slice(2), sat: key, gAt, pAt, end, moved: !!(mv && mv.moved), fmt: cs ? 'cs' : 'g' };
+    // CS format: sign-up Monday 00:00 – Friday 18:00 (Kyiv), the first-round pairs are published at Friday 19:00
+    const regStart = gAt - (5 * 24 + 14) * 3600e3, regEnd = gAt - 20 * 3600e3, drawAt = cs ? regEnd + 3600e3 : gAt;
+    if (now < end) return { id: key.replace(/-/g, '').slice(2), sat: key, gAt, pAt, end, moved: !!(mv && mv.moved), fmt: cs ? 'cs' : 'g', regStart, regEnd, drawAt };
   }
   return null;
 }
@@ -168,7 +170,10 @@ export function csCompute(draw: any, res: any, now: number) {
     const pairs: number[][] = [];
     for (const k of keys) {
       const L = buckets[k].slice().sort((x: number, y: number) => x - y);
-      if (rd === 1) { const h = L.length / 2; for (let i = 0; i < h; i++) pairs.push([L[i], L[i + h]]); continue; }
+      // round 1: people play each other first (by seed, top half against bottom half), then a person left over meets a bot, then bots
+      if (rd === 1) { const Hm = L.filter((i: number) => !P[i].bot), Bt = L.filter((i: number) => P[i].bot); const hh = Math.floor(Hm.length / 2);
+        for (let i = 0; i < hh; i++) pairs.push([Hm[i], Hm[i + hh + (Hm.length % 2)]]); if (Hm.length % 2) pairs.push([Hm[hh], Bt.shift()]);
+        const bh = Bt.length / 2; for (let i = 0; i < bh; i++) pairs.push([Bt[i], Bt[i + bh]]); continue; }
       while (L.length > 1) { const x = L.shift(); let j = L.length - 1; while (j >= 0 && rec[x].opp.includes(L[j])) j--; if (j < 0) j = L.length - 1; const y = L.splice(j, 1)[0]; pairs.push([x, y]); }
     }
     const ms = pairs.map(([a, b], k) => { const bo = (rec[a].w === 2 || rec[a].l === 2) ? 3 : 1; const av = Math.max(gAt, prevDone);
