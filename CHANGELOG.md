@@ -3,6 +3,11 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.20.2 — 8.11.2026
+- Weekly leagues switched off (LG_ON=false on the site and the server): no League tab, no home line, no points collected; the code stays for a possible return.
+- Online counter: 10–120 by the time of day (Kyiv), drifting smoothly hour to hour with ±3 jitter; bots waiting are always 10–25% of the shown online.
+- Pasha's tour: the league step and the League mention are removed.
+
 ## 0.20.1 — 8.11.2026
 - Pasha's tour now covers the new features: the weekly league line, friends online with «Call», the Friends tile once the course is done, and live watching in the tournament step; the League tab is mentioned in the rating step.
 - Guests get their own lines for the daily gift (needs an account) and for the sign-in button.
