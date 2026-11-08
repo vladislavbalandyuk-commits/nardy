@@ -3,6 +3,13 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.23.0 — 8.11.2026
+- Profile rebuilt: hero (rank pill opens «Ranks»), Form (rating sparkline from the server history + last 10 results + current streak / best rating), Numbers (best streak, mars, comebacks, wins over stronger players, best rating, tournaments), Activity (8 weeks from ach.gd), Last games (server history, falls back to this device), Achievements, one «Looks» row → Personalizer, Invite friends.
+- Server keeps the last 20 games in ach.rh (opponent, avatar, win, mars, rating change and new rating after calibration, bot flag).
+- Settings: an «Account» block (nickname, Telegram, sign out). Guests keep the nickname in the profile.
+- Personalizer: «Card background» category; «Ranks» window (8 frames with thresholds, how the rating works), also in the footer.
+- Pasha's profile and settings lines updated.
+
 ## 0.22.0 — 8.11.2026
 - Rank frames to choose: the server keeps the best rating reached (ach.peak, after calibration) and the chosen frame (ach.fr, action «frame», 0 = Auto); any rank up to the best one can be worn. A lower rank's frame shows the full die (6).
 - Shown everywhere: the header button, the home rank card, the profile, the rating table, friends, the player card, the game chips (state.frs from create/join, kept on rematch).

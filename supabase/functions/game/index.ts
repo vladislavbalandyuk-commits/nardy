@@ -803,6 +803,8 @@ Deno.serve(async (req) => {
         const dayN = ((ach.A.gd || []).find((x: any) => x.d === kyivDay()) || { h: 0, b: 0 }); const nToday = (dayN.h || 0) + (dayN.b || 0);
         const gc = gameCoins(won, fullGame && nToday < 20, !!st.result.mars); if (fullGame && nToday >= 10 && nToday < 20) gc.coins = Math.round(gc.coins / 2); ach.A.coins = (ach.A.coins ?? COIN_START) + gc.coins; coinsPaid[s] = gc; markGame(ach.A, !vsBot); questTick(ach.A, { game: 1, win: won ? 1 : 0, human: fullGame ? 1 : 0, mars: won && st.result.mars ? 1 : 0 });
         if (rg + 1 >= CALIB) ach.A.peak = Math.max(ach.A.peak || 0, Math.max(100, myR + d[s]));   // the best rating reached: unlocks rank frames
+        { const os = s === 'p1' ? 'p2' : 'p1', cal = rg + 1 >= CALIB;   // the last 20 games for the profile (any device): opponent, result, rating change
+          ach.A.rh = [...(Array.isArray(ach.A.rh) ? ach.A.rh : []), { t: Date.now(), o: String(st.names?.[os] || '').slice(0, 20), oa: String(st.avs?.[os] || '').slice(0, 8), w: won ? 1 : 0, m: st.result.mars ? 1 : 0, d: cal ? d[s] : 0, r: cal ? Math.max(100, myR + d[s]) : 0, b: vsBot && st.ghost == null ? 1 : 0 }].slice(-20); }
         if (fullGame && LG_ON) await lgAdd(db, id, ach.A, p?.name || '', p?.av || '', won ? (st.result.mars ? 4 : 3) : 1);
         await db.from('profiles').update({ rating: Math.max(100, myR + d[s]), rgames: (p?.rgames ?? 0) + 1, played: (p?.played ?? 0) + 1, won: (p?.won ?? 0) + (won ? 1 : 0), ach: ach.A, updated_at: new Date().toISOString() }).eq('id', id);
       }
