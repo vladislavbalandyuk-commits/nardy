@@ -128,8 +128,9 @@ async function iceServers() {
 
 // coins per finished game: a random amount; a mars win +50 %, 5 % of full games pay double
 const COIN_START = 1000;
-function gameCoins(won: boolean, full: boolean, mars: boolean) {
-  const R = full ? [50, 150] : (won ? [30, 50] : [5, 15]);   // a game with an opponent: 50–150 whatever the result; practice bots: small
+// coins per game: rating games 120–180 a win / 40–60 a loss; practice bots 30–50 / 5–15; tournament games 50–150 whatever the result
+function gameCoins(won: boolean, full: boolean, mars: boolean, tour = false) {
+  const R = tour ? [50, 150] : won ? (full ? [120, 180] : [30, 50]) : (full ? [40, 60] : [5, 15]);
   let c = R[0] + Math.floor(Math.random() * (R[1] - R[0] + 1)); if (won && mars) c = Math.round(c * 1.5);
   const lucky = full && Math.random() < 0.05; if (lucky) c *= 2; return { coins: c, lucky };
 }
@@ -648,7 +649,11 @@ Deno.serve(async (req) => {
       if (!(meA ? draw.players[m.b].bot : draw.players[m.a].bot)) return json({ error: 'online_match' }, 400);
       const now = Date.now(); if (now < m.av - 60e3 || now > m.hard + TR.GRACE) return json({ error: 'closed' }, 400);
       const won = !!args?.won; const r = { w: (won === meA) ? 'a' : 'b', mars: !!args?.mars, at: now, how: 'play' };
-      await tourWrite(db, E.id, m.id, r); return json({ ok: true, r });
+      await tourWrite(db, E.id, m.id, r);
+      // tournament game against a tournament bot: 50–150 coins whatever the result
+      const gc = gameCoins(won, true, !!args?.mars, true); const { data: pc } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle();
+      if (pc) { const A = { ...(pc.ach || {}) }; A.coins = (A.coins ?? COIN_START) + gc.coins; await db.from('profiles').update({ ach: A }).eq('id', user.id); }
+      return json({ ok: true, r, coins: gc.coins, lucky: gc.lucky, total: pc ? (pc.ach?.coins ?? COIN_START) + gc.coins : null });
     }
     if (action === 'tour_table') {
       const { data } = await db.from('profiles').select('id,name,av,rating,played,won,ach').not('ach->tourAt', 'is', null).limit(1000);
@@ -785,7 +790,7 @@ Deno.serve(async (req) => {
 
     // rating for a finished game; called only after the game row was saved with rated=true (so it runs once)
     const CALIB = 10, CAL_MAX = 2000;   // calibration: 10 games; the starting rating is at most 2000
-    const rate = async (st: any) => {
+    const rate = async (st: any, gid = '') => { const tourG = /^t\d{6}/.test(gid);
       const vsBot = C.isBotId(st.p2), gh = vsBot && st.ghost != null ? await ghostRow(st.ghost) : null;
       const [a, b] = await Promise.all([prof(st.p1), vsBot ? Promise.resolve(null) : prof(st.p2)]);
       const oppR = vsBot ? (gh ? gh.rating : st.ratings.p2) : (b?.rating ?? 1000);
@@ -809,7 +814,7 @@ Deno.serve(async (req) => {
               cal.m = Math.max(1000, Math.min(CAL_MAX, Math.round(cal.m + dm))); }
             ach.A.cal = cal; d[s] = rg + 1 >= CALIB ? cal.m - myR : 0; } }
         const dayN = ((ach.A.gd || []).find((x: any) => x.d === kyivDay()) || { h: 0, b: 0 }); const nToday = (dayN.h || 0) + (dayN.b || 0);
-        const gc = gameCoins(won, fullGame && nToday < 20, !!st.result.mars); if (fullGame && nToday >= 10 && nToday < 20) gc.coins = Math.round(gc.coins / 2); ach.A.coins = (ach.A.coins ?? COIN_START) + gc.coins; coinsPaid[s] = gc; markGame(ach.A, !vsBot); questTick(ach.A, { game: 1, win: won ? 1 : 0, human: fullGame ? 1 : 0, mars: won && st.result.mars ? 1 : 0 });
+        const gc = gameCoins(won, fullGame && nToday < 20, !!st.result.mars, tourG); if (!tourG && fullGame && nToday >= 10 && nToday < 20) gc.coins = Math.round(gc.coins / 2); ach.A.coins = (ach.A.coins ?? COIN_START) + gc.coins; coinsPaid[s] = gc; markGame(ach.A, !vsBot); questTick(ach.A, { game: 1, win: won ? 1 : 0, human: fullGame ? 1 : 0, mars: won && st.result.mars ? 1 : 0 });
         if (!calSkip && rg + 1 >= CALIB) ach.A.peak = Math.max(ach.A.peak || 0, Math.max(100, myR + d[s]));   // the best rating reached: unlocks rank frames
         { const os = s === 'p1' ? 'p2' : 'p1', cal = !calSkip && rg + 1 >= CALIB;   // the last 20 games for the profile (any device): opponent, result, rating change
           ach.A.rh = [...(Array.isArray(ach.A.rh) ? ach.A.rh : []), { t: Date.now(), o: String(st.names?.[os] || '').slice(0, 20), oa: String(st.avs?.[os] || '').slice(0, 8), w: won ? 1 : 0, m: st.result.mars ? 1 : 0, d: cal ? d[s] : 0, r: cal ? Math.max(100, myR + d[s]) : 0, b: vsBot && st.ghost == null ? 1 : 0 }].slice(-20); }
@@ -824,7 +829,7 @@ Deno.serve(async (req) => {
       const finishing = st.phase === 'over' && !st.rated; if (finishing) st.rated = true;
       const { data: upd, error } = await db.from('games').update({ p2: st.p2 && !C.isBotId(st.p2) ? st.p2 : null, state: st, updated_at: new Date().toISOString() }).eq('id', id).eq('updated_at', prevAt).select('id');
       if (error) return 'error'; if (!upd || !upd.length) return 'conflict';
-      if (finishing) { await rate(st); await db.from('games').update({ state: st }).eq('id', id); }
+      if (finishing) { await rate(st, id); await db.from('games').update({ state: st }).eq('id', id); }
       return 'ok';
     };
 

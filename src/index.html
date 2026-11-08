@@ -2415,7 +2415,7 @@ function coinsPaint(){ const b=$('coinPill'); if(b) b.querySelector('b').textCon
 function coinFly(n){ const b=$('coinPill'); if(!b||!n) return; const r=b.getBoundingClientRect(); const f=document.createElement('div'); f.className='coinfly'; f.textContent=(n>0?'+':'')+n; f.style.left=(r.left+r.width/2-14)+'px'; f.style.top=(r.top+r.height)+'px'; document.body.appendChild(f); setTimeout(()=>f.remove(),1400); }
 function coinRoll(R){ return R[0]+Math.floor(Math.random()*(R[1]-R[0]+1)); }
 // a local (guest / offline) game pays here; games the server holds are paid by the server
-function coinsLocalGame(won, practice, mars){ let n=coinRoll(practice ? (won?[30,50]:[5,15]) : [50,150]), lucky=false; if(won && mars) n=Math.round(n*1.5); if(!practice && Math.random()<.05){ lucky=true; n*=2; }
+function coinsLocalGame(won, practice, mars){ let n=coinRoll(won ? (practice?[30,50]:[120,180]) : (practice?[5,15]:[40,60])), lucky=false; if(won && mars) n=Math.round(n*1.5); if(!practice && Math.random()<.05){ lucky=true; n*=2; }
   store.set('coins', coinsNow()+n); coinsPaint(); coinFly(n); toast((lucky?t('luckyGame')+' ':'')+t('coinsGot',{n})); }
 function coinsServerGame(){ const c=gs && gs.coins && gs.coins[mySlot()]; if(!c) return; coinFly(c.coins); toast((c.lucky?t('luckyGame')+' ':'')+t('coinsGot',{n:c.coins})); }
 async function coinsTutReward(){ if(coinsOnline()){ store.set('tutDone',1); try{ const {data}=await sb.functions.invoke('game',{body:{action:'tut_reward'}}); if(data && data.coins!=null){ profile.ach=Object.assign({},profile.ach||{},{coins:data.coins, tut:1}); if(!data.already) coinFly(200); coinsPaint(); } }catch(e){} return; }
@@ -4313,7 +4313,7 @@ function tourPlay(){
 function tourFindMatch(T,tr){ return [...T.gm,...T.po].find(m=>m.st===tr.st && m.G===tr.G && m.rd===tr.rd && m.k===tr.k && (m.a===meIdx(T)||m.b===meIdx(T))); }
 function tourGameOver(){
   if(gs.tour && gs.tour.srv){ if(gs.tour.saved) return; gs.tour.saved=1; const iWon=slotOfColor(gs.winner)==='p1', mars=gs.resign ? gs.resign.mars : gs.off[OPP(gs.winner)]===0; gs.tour.won=iWon;
-    sb && sb.functions.invoke('game',{body:{action:'tour_report', args:{mid:gs.tour.mid, won:iWon, mars}}}).then(r=>{ if(!(r&&r.data&&r.data.ok)) toast(t('srvErr')); tourSync(true); }).catch(()=>toast(t('srvErr'))); return; }
+    sb && sb.functions.invoke('game',{body:{action:'tour_report', args:{mid:gs.tour.mid, won:iWon, mars}}}).then(r=>{ const d=r&&r.data; if(!(d&&d.ok)) toast(t('srvErr')); else if(d.coins){ if(coinsOnline()){ profile.ach=Object.assign({},profile.ach||{}); if(d.total!=null) profile.ach.coins=d.total; } else store.set('coins', coinsNow()+d.coins); coinsPaint(); coinFly(d.coins); toast((d.lucky?t('luckyGame')+' ':'')+t('coinsGot',{n:d.coins})); } tourSync(true); }).catch(()=>toast(t('srvErr'))); return; }
   const T=tourState(); if(!T || !gs.tour || T.id!==gs.tour.id || gs.tour.saved) return; gs.tour.saved=1;
   const m=tourFindMatch(T,gs.tour); if(!m || mDone(m) || m.g.length!==gs.tour.gi) return;
   const iWon=slotOfColor(gs.winner)==='p1', meA=m.a===meIdx(T), mars=gs.resign ? gs.resign.mars : gs.off[OPP(gs.winner)]===0;
@@ -4795,7 +4795,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=createGame; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 const NEWS=[
- {v:"0.23.7", d:"8.11.2026", uk:["За кожну гру з суперником — від 50 до 150 монет, навіть якщо програли (за марс переможцю — більше)"], en:["Every game with an opponent gives 50 to 150 coins, even a loss (more for a mars win)"]},
+ {v:"0.23.7", d:"8.11.2026", uk:["Монети за гру: рейтингова — 120–180 за перемогу, 40–60 за поразку; з тренувальним ботом — 30–50 / 5–15; у турнірі — 50–150 за кожну гру, навіть якщо програли. За марс переможцю ×1,5"], en:["Coins per game: rated — 120–180 a win, 40–60 a loss; practice bot — 30–50 / 5–15; tournament — 50–150 for every game, even a loss. Mars win ×1.5"]},
  {v:"0.23.6", d:"8.11.2026", uk:["Турнір: наступний матч відкривається одразу, як ви й суперник звільнилися (раніше чекав увесь тур)", "«Наживо зараз»: лише справжні партії, що йдуть; матчі інших учасників можна дивитися в трансляції", "На банері — наступний матч і очки за турнір одразу (10 за участь + 5 за перемогу)"], en:["Tournament: your next match opens as soon as you and your opponent are free (it used to wait for the whole round)", "«Live now»: only games really being played; other players’ matches can be watched as a broadcast", "The banner shows your next match and the tournament points right away (10 for taking part + 5 per win)"]},
  {v:"0.23.5", d:"8.11.2026", uk:["Запис на турнір: до старту завжди видно вільні місця, а не «16 з 16» з активною кнопкою «Записатися»"], en:["Tournament sign-up: free seats are always shown before the start instead of «16 of 16» with an active «Sign up» button"]},
  {v:"0.23.4", d:"8.11.2026", uk:["Турнірна гра показується як гра з суперником: «Хід суперника» замість «Хід бота», «Турнір вихідного дня» замість «Гра з ботом»"], en:["Tournament games look like games with an opponent: «Opponent’s turn» instead of «Bot’s turn», «Weekend tournament» instead of «Game with a bot»"]},

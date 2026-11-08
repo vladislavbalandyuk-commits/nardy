@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.23.7 — 8.11.2026
+- Coins per game by mode: rated games 120–180 a win / 40–60 a loss (halved after 10 games a day, none after 20); practice bots 30–50 / 5–15; tournament games 50–150 whatever the result (online tournament games through rate(), games against tournament bots through tour_report), mars win ×1.5, lucky game ×2.
+
 ## 0.23.4 – 0.23.6 — 8.11.2026
 - Tournament games are shown like games with an opponent (no «bot» labels; human-like pauses).
 - Tournament bots leave two seats free before the draw (no «16/16» with an active «Sign up»).
