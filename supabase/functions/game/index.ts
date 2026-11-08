@@ -375,6 +375,44 @@ function tourView(E: any, draw: any, res: any, C: any) {
     players: draw ? draw.players.map((p: any) => ({ id: p.id, bot: p.bot, name: p.name, full: p.full, av: p.av, r: p.r })) : null,
     gm: C ? C.gm.map(pub) : null, po: C ? C.po.map(pub) : null, places: C ? C.places : null };
 }
+
+// ---- weekly leagues: Bronze → Silver → Gold → Diamond. Groups of 20 (free places = league bots whose points grow
+// through the week). Points: a full game 1, a win 3, a mars win 4. Week = Monday 00:00 → Sunday 24:00 (Kyiv).
+// At the end: top 5 go up, bottom 5 go down; prizes for places 1–5. Group files live in storage: srv/league/<wk>/<g>.json.
+const LG_EPOCH = Date.UTC(2026, 10, 8, 22, 0), LG_WEEK = 7 * 864e5, LG_N = 20, LG_TIERS = 4;
+const lgWeek = (t = Date.now()) => Math.max(0, Math.floor((t - LG_EPOCH) / LG_WEEK));
+const lgEnd = (wk: number) => LG_EPOCH + (wk + 1) * LG_WEEK;
+const lgStart = (wk: number) => wk === 0 ? Date.UTC(2026, 10, 7, 22, 0) : LG_EPOCH + wk * LG_WEEK;
+const LG_PRIZE = [500, 300, 200, 100, 100];
+const LG_NAMES = ['Артем', 'Олег', 'Ірина', 'Максим', 'Софія', 'Денис', 'Оля', 'Тарас', 'Марта', 'Богдан', 'Юлія', 'Сергій', 'Настя', 'Віктор', 'Даша', 'Ігор', 'Аня', 'Роман', 'Катя', 'Назар', 'Ліза', 'Андрій', 'Віра', 'Остап', 'Зоя', 'Петро', 'Леся', 'Влад К.', 'Яна', 'Гліб'];
+function lgRng(seed: number) { let a = seed >>> 0; return () => { a = (a + 0x6D2B79F5) >>> 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function lgHash(s: string) { let h = 2166136261; for (const c of s) { h ^= c.charCodeAt(0); h = Math.imul(h, 16777619); } return h >>> 0; }
+// the league bots of a group, with their points at time t
+function lgBots(wk: number, g: string, n: number, t: number) {
+  const tier = +g.split('-')[0], r = lgRng(lgHash(wk + ':' + g)), hrs = Math.max(0, Math.min(t, lgEnd(wk)) - lgStart(wk)) / 3600e3, out: any[] = [];
+  for (let i = 0; i < n; i++) { const rate = (0.04 + r() * 0.26) * (1 + tier * 0.35), lazy = r() < 0.25 ? 0.25 : 1, nm = LG_NAMES[Math.floor(r() * LG_NAMES.length)] + (r() < 0.3 ? ' ' + 'АБВГДКМНОПРСТ'[Math.floor(r() * 13)] + '.' : '');
+    out.push({ id: 'lb' + i, bot: 1, name: nm, av: 'pt' + (1 + Math.floor(r() * 36)), pts: Math.floor(hrs * rate * lazy * (0.85 + r() * 0.3)) }); }
+  return out; }
+async function lgFile(db: any, path: string) { const dl = await db.storage.from('srv').download(path); if (!dl.data) return null; try { return JSON.parse(await dl.data.text()); } catch (_) { return null; } }
+async function lgSave(db: any, path: string, obj: any) { await db.storage.from('srv').upload(path, new Blob([JSON.stringify(obj)], { type: 'application/json' }), { upsert: true }); }
+function lgTable(wk: number, g: string, F: any, t: number) {
+  const reals = Object.entries((F && F.m) || {}).map(([id, v]: any) => ({ id, name: v.n, av: v.av, pts: v.p || 0 }));
+  const all = [...reals, ...lgBots(wk, g, Math.max(0, LG_N - reals.length), t)]; all.sort((a, b) => b.pts - a.pts || (a.bot ? 1 : 0) - (b.bot ? 1 : 0)); return all; }
+// settle the player's finished week (prize, up / down) — once
+async function lgSettle(db: any, A: any) {
+  const L = A.lg; if (!L || L.w >= lgWeek() || A.lgPaid === L.w) return null;
+  const F = await lgFile(db, 'league/' + L.w + '/' + L.g + '.json'); const T = lgTable(L.w, L.g, F, lgEnd(L.w)); const place = T.findIndex((r: any) => r.id === A.__id) + 1 || T.length;
+  const tier = +L.g.split('-')[0]; let nt = tier; if (place <= 5 && tier < LG_TIERS - 1) nt = tier + 1; else if (place > LG_N - 5 && tier > 0) nt = tier - 1;
+  const prize = LG_PRIZE[place - 1] || 0; A.coins = (A.coins ?? COIN_START) + prize; A.lgTier = nt; A.lgPaid = L.w; A.lgLast = { w: L.w, place, tier, nt, prize, at: Date.now() };
+  return A.lgLast; }
+// add points for a finished game (joins this week's group on the first points)
+async function lgAdd(db: any, id: string, A: any, name: string, av: string, pts: number) {
+  try { A.__id = id; await lgSettle(db, A); delete A.__id;
+    const wk = lgWeek(); if (!A.lg || A.lg.w !== wk) { const tier = A.lgTier || 0; const ixP = 'league/' + wk + '/index.json'; const I = (await lgFile(db, ixP)) || {}; const n = I[tier] || 0; I[tier] = n + 1; await lgSave(db, ixP, I);
+      A.lg = { w: wk, g: tier + '-' + Math.floor(n / LG_N), p: 0 }; }
+    A.lg.p = (A.lg.p || 0) + pts; const path = 'league/' + wk + '/' + A.lg.g + '.json'; const F = (await lgFile(db, path)) || { m: {} };
+    F.m[id] = { n: String(name || '').slice(0, 20), av: av || '', p: A.lg.p }; await lgSave(db, path, F);
+  } catch (_) {} }
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: cors });
   try {
@@ -597,6 +635,22 @@ Deno.serve(async (req) => {
       await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, n: L.length });
     }
     // friends: a list in ach.friends (one-way, like a contact list); "call to a game" sends a push and a Telegram message
+    // nicknames are unique for new names: is this one free (case-insensitive)? If not, suggest a free variant
+    if (action === 'league') {
+      const { data: p } = await db.from('profiles').select('name,av,ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
+      const A = { ...(p.ach || {}) }; A.__id = user.id; const settled = await lgSettle(db, A); delete A.__id;
+      if (settled) await db.from('profiles').update({ ach: A }).eq('id', user.id);
+      const wk = lgWeek(), L = A.lg && A.lg.w === wk ? A.lg : null, tier = L ? +L.g.split('-')[0] : (A.lgTier || 0);
+      let rows: any[] = []; if (L) { const F = await lgFile(db, 'league/' + wk + '/' + L.g + '.json'); rows = lgTable(wk, L.g, F, Date.now()).map((r: any) => ({ ...r, me: r.id === user.id })); }
+      return json({ wk, tier, ends: lgEnd(wk), joined: !!L, rows, last: A.lgLast && A.lgLast.w === wk - 1 ? A.lgLast : null, prize: LG_PRIZE, n: LG_N, up: 5, down: 5 });
+    }
+    if (action === 'name_ok') {
+      const nm = String(args?.name || '').trim().slice(0, 16); if (nm.length < 2) return json({ ok: false, suggest: null });
+      const taken = async (x: string) => { const { data } = await db.from('profiles').select('id').ilike('name', x.replace(/[%_\\]/g, (c) => '\\' + c)).neq('id', user.id).limit(1); return !!(data && data.length); };
+      if (!(await taken(nm))) return json({ ok: true });
+      const base = nm.slice(0, 13).replace(/[ _.-]+$/, ''); for (let i = 0; i < 12; i++) { const c = base + '_' + (i < 4 ? 2 + i : Math.floor(10 + Math.random() * 89)); if (!(await taken(c))) return json({ ok: false, suggest: c }); }
+      return json({ ok: false, suggest: null });
+    }
     if (action === 'nudge') {
       const gid = String(gameId || '').toLowerCase(); const { data: g } = await db.from('games').select('state').eq('id', gid).maybeSingle(); const st = g?.state;
       if (!st || st.phase !== 'play') return json({ ok: true, sent: 0 }); const meSlot = st.p1 === user.id ? 'p1' : st.p2 === user.id ? 'p2' : null; if (!meSlot) return json({ error: 'not_yours' }, 403);
@@ -706,6 +760,7 @@ Deno.serve(async (req) => {
           d[s] = rg + 1 >= CALIB ? CALIB_PLACE[Math.round(cal.w / cal.g * CALIB)] - myR : 0; }
         const dayN = ((ach.A.gd || []).find((x: any) => x.d === kyivDay()) || { h: 0, b: 0 }); const nToday = (dayN.h || 0) + (dayN.b || 0);
         const gc = gameCoins(won, fullGame && nToday < 20, !!st.result.mars); if (fullGame && nToday >= 10 && nToday < 20) gc.coins = Math.round(gc.coins / 2); ach.A.coins = (ach.A.coins ?? COIN_START) + gc.coins; coinsPaid[s] = gc; markGame(ach.A, !vsBot); questTick(ach.A, { game: 1, win: won ? 1 : 0, human: fullGame ? 1 : 0, mars: won && st.result.mars ? 1 : 0 });
+        if (fullGame) await lgAdd(db, id, ach.A, p?.name || '', p?.av || '', won ? (st.result.mars ? 4 : 3) : 1);
         await db.from('profiles').update({ rating: Math.max(100, myR + d[s]), rgames: (p?.rgames ?? 0) + 1, played: (p?.played ?? 0) + 1, won: (p?.won ?? 0) + (won ? 1 : 0), ach: ach.A, updated_at: new Date().toISOString() }).eq('id', id);
       }
       if (gh) { const gw = st.result.winner === 'p2'; await db.from('ghosts').update({ rating: Math.max(100, gh.rating + dGhost), played: gh.played + 1, won: gh.won + (gw ? 1 : 0), updated_at: new Date().toISOString() }).eq('id', gh.id); }

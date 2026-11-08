@@ -3,6 +3,14 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.20.0 — 8 Nov 2026
+- Weekly leagues (Rating → League; a line under the rank card on the home page): Bronze / Silver / Gold / Diamond, groups of 20 with league bots in free places, points for full games (1, win 3, mars 4), Sunday night: top 5 up, bottom 5 down, prizes 500/300/200/100/100; the result is shown on the first visit of the new week. Server: `lgAdd` in the rating step, action `league`, group files in storage `srv/league/<week>/`.
+- Home: «Today» row (daily puzzle, daily gift, course — or Friends after the course); friends online above Find an opponent with «Call».
+- Tournament: «Live now» list of player-vs-player matches with «Watch» (spectators do not join the game).
+- Unique nicknames for new names (action `name_ok`; profile name change and new Telegram accounts get a free variant).
+- Guests: a reminder after a game and a card on the home page (every 3 days) to sign in so coins and progress are kept.
+- CI: the edge function is deployed through the Supabase Management API (GitHub release downloads returned 504).
+
 ## 0.19.3 — 8 Nov 2026
 - The Telegram bot writes first: «your turn» (the waiting player's app asks after a minute; one message per game per 10 minutes — action `nudge`), tournament reminders to signed-up players with a Telegram account (with the push reminders), and the place and prize after the tournament.
 
