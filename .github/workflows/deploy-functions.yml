@@ -1,6 +1,8 @@
 # Deploys the Supabase Edge Function "game" whenever it changes on main.
 # One-time setup: GitHub repo → Settings → Secrets and variables → Actions → New repository secret
 #   SUPABASE_ACCESS_TOKEN = a personal access token from https://supabase.com/dashboard/account/tokens
+# The deploy goes through the Supabase Management API (the server bundles the files), so it does not depend on
+# downloading the Supabase CLI from GitHub releases.
 name: Deploy Supabase functions
 on:
   push:
@@ -14,8 +16,16 @@ jobs:
       SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
     steps:
       - uses: actions/checkout@v4
-      - uses: supabase/setup-cli@v1
-        with:
-          version: 2.122.1
-      - name: Deploy "game"
-        run: supabase functions deploy game --project-ref zndzvicklrkxkrpmkybg --no-verify-jwt --yes
+      - name: Deploy "game" (Management API)
+        working-directory: supabase/functions/game
+        run: |
+          set -e
+          args=()
+          for f in *.ts; do args+=(-F "file=@$f;filename=$f;type=application/typescript"); done
+          code=$(curl -sS -o out.json -w '%{http_code}' -X POST \
+            "https://api.supabase.com/v1/projects/zndzvicklrkxkrpmkybg/functions/deploy?slug=game" \
+            -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" \
+            -F 'metadata={"entrypoint_path":"index.ts","name":"game","verify_jwt":false};type=application/json' \
+            "${args[@]}")
+          echo "HTTP $code"; head -c 600 out.json; echo
+          test "$code" -ge 200 -a "$code" -lt 300
