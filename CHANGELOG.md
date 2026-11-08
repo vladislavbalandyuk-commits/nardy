@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.24.4 — 8.11.2026
+- Course on a phone in landscape (also the Telegram mini app): Vlad’s and Pasha’s bubble sits in the side panel next to the board (compact), so the head checkers and highlighted points are never covered.
+
 ## 0.24.3 — 8.11.2026
 - Phone in landscape during a game (body.ingame): no site header, the board fits the full height (iPhone 14: 343 → 406 px), a narrow side panel (27vw, 200–260 px) with compact player rows, no win-chance bar, no rules block, no share label; the chat button sits in the bottom-right corner. Portrait and desktop unchanged.
 

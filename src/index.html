@@ -1095,7 +1095,14 @@ body[data-table]:not([data-table=auto]) #stage .bw{filter:drop-shadow(0 30px 36p
 #storyOv .stb b{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#ff8ae6} #storyOv.w-p .stb b{color:#7fefff}
 #storyOv .stb p{margin:4px 0 6px;font-size:16px;line-height:1.35;min-height:2.7em}
 #storyOv .stb small{font-size:11.5px;opacity:.5}
-#storyOv.play{cursor:default} #storyOv.play .stb{border-color:rgba(52,194,122,.5)} #storyOv.play .stb small{opacity:.9;color:#34c27a}
+#storyOv.play{cursor:default}
+#storyOv.land{grid-template-columns:auto 1fr;gap:6px;align-items:start;max-height:calc(100dvh - 12px);overflow:auto}
+#storyOv.land .stp .av{width:38px!important;height:38px!important;box-shadow:0 0 0 2px #ff4fd8}
+#storyOv.land.w-p .stp .av{box-shadow:0 0 0 2px #3ee6ff}
+#storyOv.land .stb{padding:8px 10px 7px;border-radius:12px 12px 12px 4px}
+#storyOv.land .stb b{font-size:10.5px}
+#storyOv.land .stb p{font-size:13px;line-height:1.3;min-height:0;margin:2px 0 4px}
+#storyOv.land .stb small{font-size:10.5px} #storyOv.play .stb{border-color:rgba(52,194,122,.5)} #storyOv.play .stb small{opacity:.9;color:#34c27a}
 #board .pt.sthl{position:relative;z-index:2;filter:drop-shadow(0 0 10px rgba(255,214,120,.9)) brightness(1.15)}
 #board .pt.sthl::after{content:"";position:absolute;inset:0;border-radius:8px;box-shadow:inset 0 0 0 2px rgba(255,214,120,.9);animation:sthl 1.2s ease-in-out infinite;pointer-events:none}
 @keyframes sthl{50%{opacity:.35}}
@@ -2514,6 +2521,9 @@ function storyRender(){
 function storyType(el, txt){ clearInterval(el._t); if(noMotion()){ el.textContent=txt; return; } let i=0; el.textContent=''; el._t=setInterval(()=>{ i+=2; el.textContent=txt.slice(0,i); if(i>=txt.length) clearInterval(el._t); }, 18); }
 // the bubble sits on the side of the board away from the points it talks about; on a phone it sits under the board
 function storyPlace(){ const ov=$('storyOv'), bd=$('board'); if(!ov||!bd) return; const r=bd.getBoundingClientRect(), L=story&&storyLine()||{}, pts=(L.hl||[]).concat(L.no||[]);
+  // phone in landscape: in the side panel next to the board, so nothing on the board is covered
+  const land=innerWidth>innerHeight && innerHeight<=540, hud=document.querySelector('.hud'); ov.classList.toggle('land', land && !!hud);
+  if(land && hud){ const hr=hud.getBoundingClientRect(); ov.style.left=Math.round(hr.left+4)+'px'; ov.style.right=Math.max(4,Math.round(innerWidth-hr.right+4))+'px'; ov.style.width=''; ov.style.top=Math.round(Math.max(4,hr.top+4))+'px'; return; }
   // phone: below the bear-off tray if it fits, otherwise over the top half of the board — never over the tray or the highlighted points
   if(isPhone()){ ov.style.left='8px'; ov.style.right='8px'; ov.style.width=''; const h=ov.offsetHeight, tr=document.querySelector('#stage .tray, .tray'), tb=tr ? tr.getBoundingClientRect().bottom : r.bottom;
     const below=Math.max(r.bottom, tb)+8, upper=pts.some(n=>n>=13);
@@ -3719,7 +3729,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.24.3';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.24.4';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -4913,6 +4923,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=createGame; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 const NEWS=[
+ {v:"0.24.4", d:"8.11.2026", uk:["У навчанні з телефоном горизонтально підказки Влада й Паші — у панелі збоку, а не на дошці"], en:["In the course on a phone in landscape, Vlad’s and Pasha’s lines sit in the side panel, not on the board"]},
  {v:"0.24.3", d:"8.11.2026", uk:["Телефон горизонтально: у грі дошка на всю висоту екрана (на ~20% більша), а панель збоку — вужча й компактніша"], en:["Phone in landscape: in a game the board takes the full height (about 20% bigger) and the side panel is narrower and compact"]},
  {v:"0.24.2", d:"8.11.2026", uk:["Запис на турнір — з понеділка до п’ятниці, 18:00; о 19:00 з’являються перші пари, і спершу люди грають між собою", "Після фіналу банер турніру видно ще годину"], en:["Tournament sign-up is open Monday to Friday 18:00; at 19:00 the first pairs are out, people play each other first", "After the final the tournament banner stays for an hour"]},
  {v:"0.24.1", d:"8.11.2026", uk:["Менше тексту: усе про турнір вихідного дня — у вкладці «Інфо», а в таблиці сезону — кнопка «Детальніше про систему»"], en:["Less text: everything about the weekend tournament is in the «Info» tab, and the season table has a «More about the system» button"]},
