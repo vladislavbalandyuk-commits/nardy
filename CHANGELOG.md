@@ -3,6 +3,11 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.29.0 — 11.11.2026
+- Story campaign «The way of a nardy player» (`#campPg`): 8 chapters (yard bench → park → café → hookah bar → night train → port tavern → basement → Marble Hall), each a server bot game (`create` with `bot:'camp', camp:n`, noise / engine level per chapter, no rating change), intro + character line, prizes; a win is claimed with the new server action `camp` (checks the finished game, the order, gives coins + items once, `ach.camp`). Prize window, «Chapter N+1 →», the character's last word in the result window, «Back to the campaign». Entry: dashboard card, «Today» tile.
+- Campaign-only skins (rarity x, «From the campaign»): boards Coupe, Shadow (slim, violet glow), Marble hall (emerald frame); checkers Sailor (rope ring), Crown (emblem); dice Park, Emerald.
+- Effects from the beta: roll — hookah smoke, smoke rings, sparkles (next to your dice on your roll); win — fireworks, confetti. Collection → «Effects» (one per slot, preview on tap). Off with «Fewer animations». Images fx/smoke_07, snowflake, star_06, flare_01.
+
 ## 0.28.2 — 11.11.2026
 - Friends tab redone: head card (friends count, online now, «Invite»), search with an icon and results in a box (✓ for those already friends), «Online» / «Offline» sections, rows with rank + rating, «mutual» chip, «Call» (primary when online); proper empty states. The rating page title follows the tab.
 - Home side «Friends» card: online friends (up to 3) with a «Call» button, «all ›» link, «+ Invite»; loads the friends list if needed.

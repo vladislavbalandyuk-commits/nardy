@@ -34,7 +34,7 @@ function eloDelta(my,opp,score,mars){ const E=1/(1+Math.pow(10,(opp-my)/ELO_D));
 
 
 // ---- server-side bots (practice bots and online personas) ----
-const BOTS={ marta:{r:900,noise:7,factor:.4}, ostap:{r:1000,noise:3,factor:.4}, taras:{r:1100,noise:.8,factor:.4}, hryts:{r:1250,noise:0,factor:.4}, ghost:{r:null,noise:0,factor:1} };
+const BOTS={ marta:{r:900,noise:7,factor:.4}, ostap:{r:1000,noise:3,factor:.4}, taras:{r:1100,noise:.8,factor:.4}, hryts:{r:1250,noise:0,factor:.4}, ghost:{r:null,noise:0,factor:1}, camp:{r:null,noise:0,factor:0} };
 function botEval(st,c){ const o=OPP(c); let made=0,run=0,best=0,stack=0,back=0;
   for(let p=0;p<24;p++){ const k=mine(st.board,c,p); if(k>0){ made++; run++; if(run>best) best=run; if(k>3) stack+=k-3; if(p<12) back+=k; } else run=0; }
   let oppPips=0; for(let p=0;p<24;p++){ const k=mine(st.board,o,p); if(k>0) oppPips+=k*(24-p); } const head=Math.max(0,mine(st.board,c,0)-1);
@@ -172,6 +172,17 @@ const bundleCost = (b: string, owned: string[]) => { const miss = (BUNDLES[b] ||
 const PT_PACKS: any = { sketch: [['pt1', 'pt2', 'pt3', 'pt4', 'pt5'], 1000], ink: [['pt6', 'pt7', 'pt8', 'pt9', 'pt10'], 1000], yard: [['pt13', 'pt14', 'pt15', 'pt16', 'pt17'], 1200],
   party: [['pt18', 'pt19', 'pt20', 'pt21', 'pt22'], 1200], travel: [['pt23', 'pt24', 'pt25', 'pt26', 'pt28'], 1500], bit8: [['pt31', 'pt32', 'pt33', 'pt34', 'pt35'], 1800], collage: [['pt11', 'pt12', 'pt29', 'pt30', 'pt36'], 1500] };
 const packCost = (b: string, owned: string[]) => { const P = PT_PACKS[b]; if (!P) return { miss: [], price: 0 }; const miss = P[0].map((k: string) => 'pt:' + k).filter((id: string) => !owned.includes(id)); return { miss, price: Math.round(P[1] * miss.length / P[0].length / 10) * 10 }; };
+// the story campaign «The way of a nardy player» (0.29.0): 8 chapters, each a game against a character; a win unlocks the next one and its prizes
+// (the site has the same list with the texts). Campaign games do not change the rating.
+const CAMP: any[] = [null,
+  { name: 'Дядько Толік', av: 'pt15', r: 900, noise: 4, lvl: 0, coins: 150, items: ['pt:pt15'] },
+  { name: 'Оксана Ігорівна', av: 'pt11', r: 1150, noise: 2.5, lvl: 0, coins: 200, items: ['dice:park'] },
+  { name: 'Марко', av: 'pt25', r: 1400, noise: 1.3, lvl: 0, coins: 250, items: ['fx:smoke'] },
+  { name: 'Рустам', av: 'pt26', r: 1700, noise: 0.6, lvl: 0, coins: 300, items: ['fx:rings', 'pt:pt26'] },
+  { name: 'Галина Петрівна', av: 'pt29', r: 2100, noise: 0, lvl: 0, coins: 350, items: ['board:coupe'] },
+  { name: 'Капітан Нугзар', av: 'pt28', r: 2700, noise: 0, lvl: 1, coins: 400, items: ['ck:sea', 'fx:sparkle'] },
+  { name: 'Тінь', av: 'pt31', r: 3600, noise: 0, lvl: 2, coins: 500, items: ['board:shadow', 'pt:pt31'] },
+  { name: 'Гранд-майстер Гево', av: 'pt23', r: 5200, noise: 0, lvl: 3, coins: 1000, items: ['ck:crown', 'dice:emerald', 'board:marblehall', 'fx:fireworks', 'fx:confetti', 'pt:pt23'] }];
 const SHOP_OPEN = Date.UTC(2026, 10, 7, 10, 0);   // accounts made before the shop opened get 3000 coins once, for the skins that became paid
 // ---- daily gift (7-day streak) and quests of the day; quest progress is counted on the server in rate() ----
 const DAILY = [50, 70, 90, 110, 130, 150, 150];
@@ -576,6 +587,19 @@ Deno.serve(async (req) => {
         q.got.push(k); A.q = q; A.coins = (A.coins ?? COIN_START) + Q.r; await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, got: Q.r, ...view() }); }
       return json({ ok: true, ...view() });
     }
+    // the campaign: a won chapter game gives its prizes once and opens the next chapter
+    if (action === 'camp') {
+      const gid = String(args?.gid || ''); if (!/^[a-z0-9]{4,16}$/.test(gid)) return json({ error: 'bad_game' }, 400);
+      const { data: g } = await db.from('games').select('p1,state').eq('id', gid).maybeSingle(); const st = g?.state;
+      if (!st || g.p1 !== user.id || !st.camp || st.phase !== 'over' || st.result?.winner !== 'p1') return json({ error: 'not_won' }, 400);
+      const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
+      const A = { ...(p.ach || {}) }; A.owned = Array.isArray(A.owned) ? A.owned : []; const done = A.camp | 0, n = st.camp | 0, CH = CAMP[n];
+      if (!CH || n > done + 1) return json({ error: 'camp_locked' }, 400);
+      if (n <= done) return json({ ok: true, already: true, camp: done, coins: A.coins ?? COIN_START, owned: A.owned });
+      const got = CH.items.filter((id: string) => !A.owned.includes(id)); A.owned = [...A.owned, ...got]; A.coins = (A.coins ?? COIN_START) + CH.coins; A.camp = n;
+      await db.from('profiles').update({ ach: A }).eq('id', user.id);
+      return json({ ok: true, camp: n, coins: A.coins, owned: A.owned, got, gotCoins: CH.coins });
+    }
     if (action === 'shop') {
       const op = String(args?.op || '');
       const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
@@ -924,11 +948,14 @@ Deno.serve(async (req) => {
       }
       const me = await prof(user.id); const bot = args?.bot && C.BOTS[args.bot] ? args.bot : null;
       let gh = null; if (bot === 'ghost') { gh = await ghostRow(Number(args?.ghost)); if (!gh) return json({ error: 'bad_ghost' }, 400); }
+      const cn = bot === 'camp' ? Math.round(Number(args?.camp)) : 0, CH = cn ? CAMP[cn] : null;
+      if (bot === 'camp' && (!CH || ((me?.ach?.camp | 0) < cn - 1))) return json({ error: 'camp_locked' }, 400);
       const st = C.newGame(user.id, bot ? 'bot:' + bot : null);
       const myR = me?.rating ?? 1000;
-      const botR = gh ? gh.rating : bot ? C.BOTS[bot].r : 0;
-      st.names = { p1: me?.name ?? '', p2: gh ? gh.name : bot ? String(args?.name ?? '').slice(0, 24) : '' }; st.avs = { p1: me?.av ?? '', p2: gh ? gh.av : bot ? String(args?.av ?? '').slice(0, 8) : '' };
+      const botR = gh ? gh.rating : CH ? CH.r : bot ? C.BOTS[bot].r : 0;
+      st.names = { p1: me?.name ?? '', p2: gh ? gh.name : CH ? CH.name : bot ? String(args?.name ?? '').slice(0, 24) : '' }; st.avs = { p1: me?.av ?? '', p2: gh ? gh.av : CH ? CH.av : bot ? String(args?.av ?? '').slice(0, 8) : '' };
       st.ratings = { p1: myR, p2: botR }; st.frs = { p1: me?.ach?.fr || 0, p2: 0 }; if (gh) { st.ghost = gh.id; st.botNoise = ghostNoise(gh.skill ?? gh.rating); const lv = ghostLvl(gh.skill ?? gh.rating); if (lv) st.botLvl = lv; }
+      if (CH) { st.camp = cn; st.botNoise = CH.noise; if (CH.lvl) st.botLvl = CH.lvl; }
       const { error } = await db.from('games').insert({ id: gameId, p1: user.id, p2: null, state: st, updated_at: new Date().toISOString() });
       if (error) return json({ error: error.code === '23505' ? 'exists' : 'db' }, 409);
       return json({ state: st });
