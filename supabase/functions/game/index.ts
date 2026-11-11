@@ -141,6 +141,15 @@ const SHOP_R: any = { board: { modern: 'c', tri: 'c', walnut: 'r', midnight: 'r'
   dice: { onyx: 'c', wood: 'c', ruby: 'r', marble: 'r', glass: 'r', gold: 'e', neon: 'e' },
   table: { wood: 'c', felt: 'c', carpet: 'c', marble: 'c', cafe: 'c', stone: 'c', leather: 'c' } };
 const shopPrice = (id: string) => { const [c, k] = id.split(':'); const r = SHOP_R[c]?.[k]; return r ? (SHOP_P[c][r] ?? SHOP_P[c].c) : 0; };
+// the deal of the day: one epic or legendary thing at −25%, the same for everyone during a Kyiv day (the site picks it the same way)
+const shopDay = (now = Date.now()) => new Date(now + 2 * 3600e3).toISOString().slice(0, 10);
+const fnv = (str: string) => { let h = 2166136261 >>> 0; for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619) >>> 0; } return h; };
+const shopDeal = (day = shopDay()) => { const L: string[] = []; for (const c of ['board', 'ck', 'dice']) for (const k of Object.keys(SHOP_R[c])) if (SHOP_R[c][k] === 'e' || SHOP_R[c][k] === 'l') L.push(c + ':' + k); return L[fnv('deal' + day) % L.length]; };
+const shopCost = (id: string) => { const p = shopPrice(id); return p && id === shopDeal() ? Math.round(p * 0.75 / 10) * 10 : p; };
+// sets: everything in a set you do not have yet, −20%
+const BUNDLES: any = { oak: ['board:oak', 'ck:wood', 'dice:wood', 'table:wood'], marble: ['board:marble', 'ck:stone', 'dice:marble', 'table:marble'],
+  night: ['board:carbon', 'ck:neon', 'dice:neon', 'table:cafe'], sea: ['board:ocean', 'ck:glass', 'dice:glass', 'table:stone'] };
+const bundleCost = (b: string, owned: string[]) => { const miss = (BUNDLES[b] || []).filter((id: string) => !owned.includes(id)); return { miss, price: Math.round(miss.reduce((a: number, id: string) => a + shopPrice(id), 0) * 0.8 / 10) * 10 }; };
 const SHOP_OPEN = Date.UTC(2026, 10, 7, 10, 0);   // accounts made before the shop opened get 3000 coins once, for the skins that became paid
 // ---- daily gift (7-day streak) and quests of the day; quest progress is counted on the server in rate() ----
 const DAILY = [50, 70, 90, 110, 130, 150, 150];
@@ -548,11 +557,18 @@ Deno.serve(async (req) => {
         await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, coins: A.coins ?? COIN_START, owned: A.owned, gift });
       }
       if (op === 'buy') {
-        const id = String(args?.id || ''), price = shopPrice(id); if (!price) return json({ error: 'not_for_sale' }, 400);
+        const id = String(args?.id || ''), price = shopCost(id); if (!price) return json({ error: 'not_for_sale' }, 400);
         if (A.owned.includes(id)) return json({ ok: true, coins: A.coins ?? COIN_START, owned: A.owned });
         const coins = A.coins ?? COIN_START; if (coins < price) return json({ error: 'no_coins', coins }, 400);
         A.coins = coins - price; A.owned = [...A.owned, id]; await db.from('profiles').update({ ach: A }).eq('id', user.id);
         return json({ ok: true, coins: A.coins, owned: A.owned, price });
+      }
+      if (op === 'bundle') {
+        const b = String(args?.id || ''); if (!BUNDLES[b]) return json({ error: 'not_for_sale' }, 400);
+        const { miss, price } = bundleCost(b, A.owned); if (!miss.length) return json({ ok: true, coins: A.coins ?? COIN_START, owned: A.owned });
+        const coins = A.coins ?? COIN_START; if (coins < price) return json({ error: 'no_coins', coins }, 400);
+        A.coins = coins - price; A.owned = [...A.owned, ...miss]; await db.from('profiles').update({ ach: A }).eq('id', user.id);
+        return json({ ok: true, coins: A.coins, owned: A.owned, price, got: miss });
       }
       return json({ error: 'bad_op' }, 400);
     }
