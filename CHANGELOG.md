@@ -3,6 +3,11 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.26.0 — 11.11.2026
+- The shop has three tabs: **Showcase** (deal of the day, today's picks, free daily rewards, what's new, portrait packs, sets), **Shop** (a catalog like the beta personalizer: categories on the left with owned/total counts — Game: board, checkers, dice, table; Profile: portraits; the chosen thing on top with a live try-on, price and «Buy»; «All / Mine / Not mine» filter and sorting; tap a card to put it in the top panel) and **Collection**. Nothing is put on in the shop any more: after buying — «Put it on in the Collection».
+- From the beta: boards Carrara (epic), Terrazzo (rare), Noir (epic) — new keys carrara/terrazzo/noir, the beta CSS and the «slim» point shape; checkers Frost (rare), Ghosts & pumpkins (epic), Royal (epic), Immortal (legendary). Same rarities on the server (the deal of the day pool changes with them).
+- Portrait packs: 35 beta portraits (yellow backgrounds recoloured) in 7 packs of 5 — Sketchbook, Ink & quill (1000), Neighbours, Party (1200), Travellers, Collage (1500), 8-bit (1800). Owned portraits are taken off a pack's price. Server op «pack» (PT_PACKS). Portraits are in Collection → Avatar («Portraits» group; locked ones open their pack); bots never get portraits, the old avatar picker shows only owned ones.
+
 ## 0.25.0 — 11.11.2026
 - The Shop and the Collection are separate pages (a switch in the top bar). Shop = buying only: the deal of the day (one epic/legendary thing −25%, same pick on the site and the server, a countdown to Kyiv midnight), today's picks, free rewards (daily gift and quests), sets (4 themed looks, −20% on what you don't own; server op «bundle»), the catalog with type / rarity filters, sorting and «hide mine».
 - A product sheet for every item: a live try-on on a real board with checkers and dice on your table, rarity, kind, price (strike-through for the deal), «N coins short» with how to earn; after buying — «Wear it now / Later» (buying no longer auto-equips).

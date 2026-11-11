@@ -136,8 +136,8 @@ function gameCoins(won: boolean, full: boolean, mars: boolean, tour = false) {
 }
 // ---- shop (0.15.1): prices and rarities of the main site's items; the base set is free; owned items in profiles.ach.owned ----
 const SHOP_P: any = { board: { c: 200, r: 600, e: 1200, l: 2500 }, ck: { c: 150, r: 450, e: 1000, l: 1800 }, dice: { c: 100, r: 300, e: 750, l: 1350 }, table: { c: 300 } };
-const SHOP_R: any = { board: { modern: 'c', tri: 'c', walnut: 'r', midnight: 'r', druzi: 'r', sage: 'r', marble: 'e', oak: 'e', ocean: 'e', carbon: 'e' },
-  ck: { wood: 'c', stone: 'c', flat: 'c', metal: 'r', glass: 'r', retro: 'r', pearl: 'e', amber: 'e', jade: 'e', neon: 'e', vyshyvanka: 'l' },
+const SHOP_R: any = { board: { modern: 'c', tri: 'c', walnut: 'r', midnight: 'r', druzi: 'r', sage: 'r', marble: 'e', oak: 'e', ocean: 'e', carbon: 'e', terrazzo: 'r', carrara: 'e', noir: 'e' },
+  ck: { wood: 'c', stone: 'c', flat: 'c', metal: 'r', glass: 'r', retro: 'r', pearl: 'e', amber: 'e', jade: 'e', neon: 'e', vyshyvanka: 'l', frost: 'r', spooky: 'e', royal: 'e', iximmo: 'l' },
   dice: { onyx: 'c', wood: 'c', ruby: 'r', marble: 'r', glass: 'r', gold: 'e', neon: 'e' },
   table: { wood: 'c', felt: 'c', carpet: 'c', marble: 'c', cafe: 'c', stone: 'c', leather: 'c' } };
 const shopPrice = (id: string) => { const [c, k] = id.split(':'); const r = SHOP_R[c]?.[k]; return r ? (SHOP_P[c][r] ?? SHOP_P[c].c) : 0; };
@@ -150,6 +150,10 @@ const shopCost = (id: string) => { const p = shopPrice(id); return p && id === s
 const BUNDLES: any = { oak: ['board:oak', 'ck:wood', 'dice:wood', 'table:wood'], marble: ['board:marble', 'ck:stone', 'dice:marble', 'table:marble'],
   night: ['board:carbon', 'ck:neon', 'dice:neon', 'table:cafe'], sea: ['board:ocean', 'ck:glass', 'dice:glass', 'table:stone'] };
 const bundleCost = (b: string, owned: string[]) => { const miss = (BUNDLES[b] || []).filter((id: string) => !owned.includes(id)); return { miss, price: Math.round(miss.reduce((a: number, id: string) => a + shopPrice(id), 0) * 0.8 / 10) * 10 }; };
+// portrait packs (0.26.0): five portraits for one price; portraits you already have are taken off the price (the site has the same list)
+const PT_PACKS: any = { sketch: [['pt1', 'pt2', 'pt3', 'pt4', 'pt5'], 1000], ink: [['pt6', 'pt7', 'pt8', 'pt9', 'pt10'], 1000], yard: [['pt13', 'pt14', 'pt15', 'pt16', 'pt17'], 1200],
+  party: [['pt18', 'pt19', 'pt20', 'pt21', 'pt22'], 1200], travel: [['pt23', 'pt24', 'pt25', 'pt26', 'pt28'], 1500], bit8: [['pt31', 'pt32', 'pt33', 'pt34', 'pt35'], 1800], collage: [['pt11', 'pt12', 'pt29', 'pt30', 'pt36'], 1500] };
+const packCost = (b: string, owned: string[]) => { const P = PT_PACKS[b]; if (!P) return { miss: [], price: 0 }; const miss = P[0].map((k: string) => 'pt:' + k).filter((id: string) => !owned.includes(id)); return { miss, price: Math.round(P[1] * miss.length / P[0].length / 10) * 10 }; };
 const SHOP_OPEN = Date.UTC(2026, 10, 7, 10, 0);   // accounts made before the shop opened get 3000 coins once, for the skins that became paid
 // ---- daily gift (7-day streak) and quests of the day; quest progress is counted on the server in rate() ----
 const DAILY = [50, 70, 90, 110, 130, 150, 150];
@@ -566,6 +570,13 @@ Deno.serve(async (req) => {
       if (op === 'bundle') {
         const b = String(args?.id || ''); if (!BUNDLES[b]) return json({ error: 'not_for_sale' }, 400);
         const { miss, price } = bundleCost(b, A.owned); if (!miss.length) return json({ ok: true, coins: A.coins ?? COIN_START, owned: A.owned });
+        const coins = A.coins ?? COIN_START; if (coins < price) return json({ error: 'no_coins', coins }, 400);
+        A.coins = coins - price; A.owned = [...A.owned, ...miss]; await db.from('profiles').update({ ach: A }).eq('id', user.id);
+        return json({ ok: true, coins: A.coins, owned: A.owned, price, got: miss });
+      }
+      if (op === 'pack') {
+        const b = String(args?.id || ''); if (!PT_PACKS[b]) return json({ error: 'not_for_sale' }, 400);
+        const { miss, price } = packCost(b, A.owned); if (!miss.length) return json({ ok: true, coins: A.coins ?? COIN_START, owned: A.owned });
         const coins = A.coins ?? COIN_START; if (coins < price) return json({ error: 'no_coins', coins }, 400);
         A.coins = coins - price; A.owned = [...A.owned, ...miss]; await db.from('profiles').update({ ach: A }).eq('id', user.id);
         return json({ ok: true, coins: A.coins, owned: A.owned, price, got: miss });
