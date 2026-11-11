@@ -1,0 +1,10 @@
+name: livecheck
+# Quick check of the live site without a browser: the version in index.html and that the side files answer.
+on: workflow_dispatch
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          curl -sS https://nardy-nine.vercel.app/ -o i.html; echo "index $(wc -c < i.html) bytes"; grep -o "APP_VERSION='[^']*'\|[a-zA-Z]\+=\"0\.[0-9]*\.[0-9]*\"" i.html | head -3; grep -o '0\.2[0-9]\.[0-9]' i.html | sort | uniq -c | sort -rn | head -3
+          for f in $(grep -o '\(en\|news\|av\|pt\)\.js?v=[0-9a-f]*\|skins\.css?v=[0-9a-f]*' i.html | sort -u); do echo "$f $(curl -s -o /dev/null -w '%{http_code} %{size_download}' https://nardy-nine.vercel.app/$f)"; done
