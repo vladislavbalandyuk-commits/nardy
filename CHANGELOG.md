@@ -3,6 +3,13 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.32.0 — 12.11.2026
+- Game replay: the server keeps a compact replay of your last 8 games in `ach.rp` (start position found by undoing the recorded moves from the final board; base-32 board + per-turn colour/dice/moves). Profile «Recent games» rows get a ▶ button; the game-over sheet has «Replay the game» (encoded from the game in memory). A small SVG board viewer with step/play/scrub.
+- Head-to-head: `ach.h2h[opponentId] = {w,l,t,n}` for games against people (the 60 most recent); shown on a player's profile («Your score with …») and as a chip in the friends list.
+- Profile showcase: `show` action stores up to 3 owned items (or the campaign badge) in `ach.show`; shown on your profile (with a picker) and on other players' profiles. The campaign progress card on the profile.
+- Pasha's tips in the first 5 games (roll / move / head rule / no moves / bearing off), each once. Vibration on phones that support it (dice, your turn, win), with a setting.
+- rh entries now keep the game id (`g`).
+
 ## 0.31.5 — 12.11.2026
 - Pasha's tour (GUIDE) brought up to date: steps for open lobbies, the campaign, the «Form» card, the phone bottom menu; new texts for bot/lobby, coins (shop tabs), rating, friends, settings (campaign sounds, less motion); the course-friends step removed. Alternatives in a step highlight only the first visible element (`one`); fixed elements (the bottom menu) count as visible.
 

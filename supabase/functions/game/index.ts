@@ -73,6 +73,14 @@ function pushHist(st){ if(st.phase!=='play'||!st.dice||!st.dice.length) return; 
   st.hist=(st.hist||[]).concat([{c:st.turn,d:st.dice.slice(),t:(st.trail||[]).slice(),p:Math.round(Math.min(.995,Math.max(.005,wc))*100)}]); }
 // custom lobby rules (0.30.0): st.rules = {to: points to win the match, t: seconds per move (0 = no limit), dbl: 'norm'|'none'|'pen', head: 'one'|'free', noMars, noOdds, open}
 const RU=st=>st.rules||{};
+// replays (0.32.0): the start position is found by undoing every recorded move from the final one; board cells -> base-32 chars,
+// a turn -> colour + dice + its moves (points a..x, z = borne off)
+const B32='0123456789abcdefghijklmnopqrstuv';
+function encReplay(st){ const H=st.hist||[]; if(!H.length) return null; const B=st.board.slice(), off={...st.off};
+  for(let i=H.length-1;i>=0;i--){ const h=H[i], sg=h.c==='w'?1:-1, T=h.t||[]; for(let j=T.length-2;j>=0;j-=2){ const a=T[j], b=T[j+1]; if(b>=0) B[b]-=sg; else off[h.c]--; B[a]+=sg; } }
+  const enc=B.map(v=>B32[Math.max(0,Math.min(30,v+15))]).join(''); const turns=H.map(h=>h.c+(h.d||[]).slice(0,2).join('')+(h.t||[]).map(x=>x<0?'z':String.fromCharCode(97+x)).join('')).join(';');
+  if(turns.length>2600) return null; return { s: enc, h: turns, w: st.result?.winner ? colorOfSlot(st, st.result.winner) : '' }; }
+const colorOfSlotS=(st,s)=>slotOfColor(st,'w')===s?'w':'b';
 const turnMs=st=>{ const t=RU(st).t; return t===0 ? Infinity : t ? t*1000 : TURN_MS; };
 function passTurn(st,now){ pushHist(st); st.last=st.trail||[]; st.trail=[]; st.turn=OPP(st.turn); st.dice=[]; st.remaining=[]; st.rolled=false; st.snap=null; st.headMoved=0; st.turnAt=now;
   // «a double is a penalty»: a player who still owes turns skips them now
@@ -749,6 +757,13 @@ Deno.serve(async (req) => {
     }
     // «Вечори в кальянній» (the story course) and Pasha's tour: rewards once, chapters in order (chapter 1 = the first lesson, ach.tut)
     // the daily puzzle: one prize per Kyiv day (best move 60, a good one 20), and the streak of solved days
+    // the profile showcase (0.32.0): up to 3 things you own (or a campaign badge), shown to everyone on your profile
+    if (action === 'show') {
+      const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
+      const A = { ...(p.ach || {}) }; const own = Array.isArray(A.owned) ? A.owned : []; const L = Array.isArray(args?.items) ? args.items.slice(0, 3).map(String) : [];
+      const ok = (id: string) => /^[a-z]+:[a-z0-9_-]{1,24}$/i.test(id) && (own.includes(id) || (id === 'badge:camp' && (A.camp | 0) >= 9) || (id.startsWith('card:cp') && (A.camp | 0) >= Number(id.slice(7))));
+      A.show = L.filter(ok); await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, show: A.show });
+    }
     if (action === 'puzzle') {
       const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
       const A = { ...(p.ach || {}) }; const P = { ...(A.pz || {}) }; const today = kyivDay(), y = kyivDay(Date.now() - 864e5);
@@ -971,7 +986,11 @@ Deno.serve(async (req) => {
         const gc = gameCoins(won, fullGame && nToday < 20, !!st.result.mars, tourG); if (!tourG && fullGame && nToday >= 10 && nToday < 20) gc.coins = Math.round(gc.coins / 2); ach.A.coins = (ach.A.coins ?? COIN_START) + gc.coins; coinsPaid[s] = gc; markGame(ach.A, !vsBot); questTick(ach.A, { game: 1, win: won ? 1 : 0, human: fullGame ? 1 : 0, mars: won && st.result.mars ? 1 : 0 });
         if (!calSkip && rg + 1 >= CALIB) ach.A.peak = Math.max(ach.A.peak || 0, Math.max(100, myR + d[s]));   // the best rating reached: unlocks rank frames
         { const os = s === 'p1' ? 'p2' : 'p1', cal = !calSkip && rg + 1 >= CALIB;   // the last 20 games for the profile (any device): opponent, result, rating change
-          ach.A.rh = [...(Array.isArray(ach.A.rh) ? ach.A.rh : []), { t: Date.now(), o: String(st.names?.[os] || '').slice(0, 20), oa: String(st.avs?.[os] || '').slice(0, 8), w: won ? 1 : 0, m: st.result.mars ? 1 : 0, d: cal ? d[s] : 0, r: cal ? Math.max(100, myR + d[s]) : 0, b: vsBot && st.ghost == null ? 1 : 0 }].slice(-20); }
+          ach.A.rh = [...(Array.isArray(ach.A.rh) ? ach.A.rh : []), { t: Date.now(), o: String(st.names?.[os] || '').slice(0, 20), oa: String(st.avs?.[os] || '').slice(0, 8), w: won ? 1 : 0, m: st.result.mars ? 1 : 0, d: cal ? d[s] : 0, r: cal ? Math.max(100, myR + d[s]) : 0, b: vsBot && st.ghost == null ? 1 : 0, g: gid }].slice(-20); }
+        // 0.32.0: a compact replay of the game (the last 8), and the head-to-head score against people
+        try { const os = s === 'p1' ? 'p2' : 'p1'; const rp = encReplay(st); if (rp && gid) ach.A.rp = [...(Array.isArray(ach.A.rp) ? ach.A.rp : []).filter((x: any) => x.g !== gid), { g: gid, t: Date.now(), c: colorOfSlotS(st, s), ...rp }].slice(-8);
+          if (!vsBot && st[os]) { const H = { ...(ach.A.h2h || {}) }; const o = H[st[os]] || { w: 0, l: 0 }; H[st[os]] = { w: o.w + (won ? 1 : 0), l: o.l + (won ? 0 : 1), t: Date.now(), n: String(st.names?.[os] || '').slice(0, 20) };
+            const keys = Object.keys(H); if (keys.length > 60) keys.sort((a, b) => (H[a].t || 0) - (H[b].t || 0)).slice(0, keys.length - 60).forEach((k) => delete H[k]); ach.A.h2h = H; } } catch (_) { /* never block the rating */ }
         if (fullGame && LG_ON) await lgAdd(db, id, ach.A, p?.name || '', p?.av || '', won ? (st.result.mars ? 4 : 3) : 1);
         await db.from('profiles').update({ rating: Math.max(100, myR + d[s]), rgames: (p?.rgames ?? 0) + (calSkip ? 0 : 1), played: (p?.played ?? 0) + 1, won: (p?.won ?? 0) + (won ? 1 : 0), ach: ach.A, updated_at: new Date().toISOString() }).eq('id', id);
       }
