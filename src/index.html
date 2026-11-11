@@ -4162,7 +4162,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.31.1';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.31.2';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -4837,9 +4837,6 @@ const CAMP_SCENES={
   c6a:['n','p'], c6b:['p','b'], c6w:['b','b','p','p'],
   c7a:['n','p'], c7b:['p','b'], c7w:['b','b','n','p'],
   c8a:['n','m','p','m'], c8b:['m','p'], c8w:['m','n','M','p','M','M','p','M'] };
-// «The Master's case»: a clue for every chapter won; before the final the player names a suspect
-const CP_CLUES=['✉️','📜','📓','📝','🎫','☝️','🎲'], CP_SUSP=[['shadow','pt31'],['captain','pt28'],['vlad','vlad'],['conductor','pt29']];
-const cpGuess=()=>store.get('cpGuess',null);
 const cpSeen=k=> (store.get('cpSeen',[])||[]).includes(k);
 const cpMark=k=>{ const L=store.get('cpSeen',[])||[]; if(!L.includes(k)){ L.push(k); store.set('cpSeen',L); } };
 function campScene(key, done){
@@ -4851,7 +4848,7 @@ function campScene(key, done){
   let i=-1; const AV={v:'vlad',p:'pasha',b:CAMP[n].av,m:'mask',M:'vladM'}, NM={v:t('stVlad'),p:t('stPasha'),b:campLine(n,'N'),m:t('cpMaster'),M:t('stVlad')};
   const end=()=>{ clearInterval(p._t); ov.remove(); done&&done(); };
   const next=()=>{ if(p._t && p.textContent.length<(p.dataset.full||'').length){ clearInterval(p._t); p.textContent=p.dataset.full; return; }
-    i++; if(i>=W.length) return end(); const w=W[i]; let k='cs'+key+(i+1); if(key==='c8w' && i===3 && cpGuess()==='vlad') k+='g'; const txt=t(k);
+    i++; if(i>=W.length) return end(); const w=W[i]; let k='cs'+key+(i+1); const txt=t(k);
     bar.querySelectorAll('i').forEach((e,j)=>e.classList.toggle('on',j<=i)); box.className='cps-box w-'+w; ov.classList.toggle('reveal', w==='M');
     if(w==='n'||w==='note'){ av.hidden=true; who.textContent= w==='note' ? t('cpNote') : ''; }
     else { av.hidden=false; if(av.dataset.k!==AV[w]){ av.dataset.k=AV[w]; avatarInto(av, AV[w], NM[w]); av.classList.remove('pop'); void av.offsetWidth; av.classList.add('pop'); } who.textContent=NM[w]; }
@@ -4859,19 +4856,6 @@ function campScene(key, done){
     if(w==='M' && i===2){ try{ sfx('win'); confetti(80); }catch(e){} } };
   ov.onclick=e=>{ if(e.target===sk) return; next(); }; sk.onclick=e=>{ e.stopPropagation(); end(); };
   document.body.appendChild(ov); next(); }
-// the case board: the clues found so far; the suspects before the final; the answer after it
-function campCase(onPicked){ document.querySelectorAll('.cp-ov').forEach(o=>o.remove()); const d=campDone(), g=cpGuess(), ask=!!onPicked;
-  const ov=uxH('div','cp-ov'); const m=uxH('div','cp-sheet cp-case'); ov.appendChild(m); ov.onclick=e=>{ if(e.target===ov && !ask) ov.remove(); };
-  if(!ask){ const x=uxH('button','cp-x','×'); x.type='button'; x.onclick=()=>ov.remove(); m.appendChild(x); }
-  m.append(uxH('div','cp-place',t('cpCaseT')), uxH('h2',null, campFin() ? t('cpCaseSolved') : ask ? t('cpWhoT') : t('cpCaseN',{n:Math.min(d,7)})));
-  m.appendChild(uxH('p','cp-line n', ask ? t('cpWhoD') : campFin() ? t(g==='vlad'?'cpCaseRight':'cpCaseWrong') : t('cpCaseD')));
-  if(!ask){ const L=uxH('div','cp-clues'); CP_CLUES.forEach((ic,j)=>{ const has=d>j; const c=uxH('div','cp-clue'+(has?'':' no')); c.append(uxH('span','ic',has?ic:'?'), Object.assign(uxH('div'),{}));
-      const tx=c.lastChild; tx.append(uxH('b',null,has?t('cl'+(j+1)+'T'):t('cpChN',{n:j+1})), uxH('small',null,has?t('cl'+(j+1)+'D'):t('cpClueLock'))); L.appendChild(c); }); m.appendChild(L); }
-  if(ask || (g && !campFin())){ const S=uxH('div','cp-susp'); CP_SUSP.forEach(([k,a])=>{ const b=uxH('button','cp-sp'+(g===k?' on':'')); b.type='button'; const av=uxH('span','av'); avatarInto(av,a,'?'); b.append(av, uxH('b',null,t('sus_'+k))); b.disabled=!ask;
-      b.onclick=()=>{ store.set('cpGuess',k); ov.remove(); onPicked&&onPicked(); }; S.appendChild(b); }); if(!ask) m.appendChild(uxH('b','cp-ph',t('cpYourGuess'))); m.appendChild(S); }
-  if(ask){ const sk=uxH('button','ghost',t('cpNoGuess')); sk.type='button'; sk.onclick=()=>{ store.set('cpGuess','none'); ov.remove(); onPicked(); }; m.appendChild(sk); }
-  document.body.appendChild(ov); }
-
 // ---- the map: chapter cards on a glowing road over the chapters' own photos (the background follows the scroll)
 const CP_MAP={w:360, h:1240, x:[64,296,64,296,64,296,64,180], y:[90,240,390,540,690,840,990,1150]};
 function campMapSvg(){ const M=CP_MAP, d=campDone(), pts=M.x.map((x,i)=>[x,M.y[i]]);
@@ -4893,9 +4877,6 @@ function openCampaign(){ let pg=$('campPg'); if(!pg){ pg=uxH('div'); pg.id='camp
   const top=uxH('div','cp-top'); const bk=uxH('button','cp-back'); bk.type='button'; bk.innerHTML='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>'; bk.onclick=closeCampaign;
   const ttl=uxH('div','cp-ttl'); ttl.append(uxH('small',null,t('campSub')), uxH('h1',null,t('campT'))); top.append(bk, ttl);
   const ring=uxH('div','cp-ringp'); ring.style.setProperty('--p',Math.round(done/CAMP_N*100)); ring.append(uxH('b',null,done+'/'+CAMP_N)); top.appendChild(ring); w.appendChild(top);
-  // the case board
-  const cs=uxH('button','cp-casebtn'); cs.type='button'; const icons=uxH('span','ics'); CP_CLUES.forEach((ic,j)=>icons.appendChild(uxH('i',done>j?'on':'',done>j?ic:'?'))); const ct=uxH('span','tx'); ct.append(uxH('b',null,t('cpCaseT')), uxH('small',null, campFin()?t('cpCaseSolved'):t('cpCaseN',{n:Math.min(done,7)})));
-  cs.append(ct, icons); cs.onclick=()=>campCase(); w.appendChild(cs);
   if(!coinsOnline()){ const s=uxH('div','cp-hero'); s.append(uxH('p',null,t('campSign'))); const b=uxH('button','cta',t('login')); b.type='button'; b.onclick=()=>{ closeCampaign(); openProfile(); }; s.appendChild(b); w.appendChild(s); }
   const lay=uxH('div','cp-lay'); const map=uxH('div','cp-map'); map.innerHTML=campMapSvg(); const M=CP_MAP;
   for(let n=1;n<=CAMP_N;n++){ const st=campChSt(n), x=M.x[n-1], side= x>M.w/2 ? 'l' : x<M.w/2 ? 'r' : 'c', hidden= st==='lock' && n>done+2;
@@ -4922,7 +4903,7 @@ function campSheet(n){ if(!$('campPg')) openCampaign();
     if(side && innerWidth>=900){ cpSel=n; campPanel(side,n); return; }
     document.querySelectorAll('.cp-ov').forEach(o=>o.remove()); const ov=uxH('div','cp-ov'); const m=uxH('div','cp-sheet'); ov.appendChild(m); ov.onclick=e=>{ if(e.target===ov) ov.remove(); };
     const x=uxH('button','cp-x','×'); x.type='button'; x.onclick=()=>ov.remove(); m.appendChild(x); campPanel(m,n); document.body.appendChild(ov); };
-  if(first){ if(n===CAMP_N && cpGuess()==null) campCase(()=>campScene('c'+n+'a', go)); else campScene('c'+n+'a', go); } else go(); }
+  if(first) campScene('c'+n+'a', go); else go(); }
 function campPanel(box,n){ box.querySelectorAll(':scope>*:not(.cp-x)').forEach(e=>e.remove()); const st=campChSt(n);
   const ban=uxH('div','cp-ban'); const im=campImg(n,900); if(im) ban.style.backgroundImage='linear-gradient(180deg,rgba(13,14,17,.1),rgba(13,14,17,.85)),url("'+im+'")'; if(st==='lock') ban.classList.add('lock');
   ban.append(uxH('div','cp-place',t('cpChN',{n})), uxH('h2',null, st==='lock'&&n>campDone()+2 ? '???' : campLine(n,'P'))); box.appendChild(ban);
@@ -4981,7 +4962,6 @@ function campMiniDone(n,d){ const ov=uxH('div','cp-ov'); const m=uxH('div','cp-s
 function campPrize(n,d){ const ov=uxH('div','cp-ov'); const m=uxH('div','cp-sheet cp-win'); ov.appendChild(m);
   m.append(uxH('div','big','🏆'), uxH('div','cp-place',t('cpChN',{n})+' · '+t('cpDone')), uxH('h2',null, n===CAMP_N ? t('cpFinal') : t('cpWon',{n:campName(n)})));
   const it=uxH('div','cp-items'); const c0=uxH('div','cp-it'); c0.append(uxH('b',null,'🪙 +'+(d.gotCoins||CAMP[n].coins)), uxH('span',null,t('shCoins'))); it.appendChild(c0); campItems(n).forEach(id=>it.appendChild(campThumb(id))); m.appendChild(it);
-  if(n<CAMP_N){ const nc=uxH('button','cp-newclue'); nc.type='button'; nc.append(uxH('span','ic',CP_CLUES[n-1])); const tx=uxH('span'); tx.append(uxH('b',null,t('cl'+n+'T')), uxH('small',null,t('cpNewClue'))); nc.appendChild(tx); nc.onclick=()=>{ ov.remove(); campCase(); }; m.appendChild(nc); }
   m.appendChild(uxH('p','cp-line n',t(n===CAMP_N?'cpWearF':'cpWear')));
   const bt=uxH('div','cp-btns'); if(n<CAMP_N){ const g=uxH('button','cta',t('cpNext',{n:n+1})); g.type='button'; g.onclick=()=>{ ov.remove(); show('winOv',false); leave(); route(); openCampaign(); campSheet(n+1); }; bt.appendChild(g); }
   const c=uxH('button',null,t('close')); c.type='button'; c.onclick=()=>ov.remove(); bt.appendChild(c); m.appendChild(bt); try{ coinify(m); }catch(e){} document.body.appendChild(ov); try{ coinFly(d.gotCoins||0); sfx('win'); confetti(120); }catch(e){} }
@@ -5804,6 +5784,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+ {v:"0.31.2", d:"12.11.2026", uk:["Кампанія: прибрано «Справу Майстра» й вгадування — лишилась чиста історія в сценах"], en:["Campaign: «The Master’s case» and the guessing are gone — just the story in the scenes"]},
  {v:"0.31.1", d:"11.11.2026", uk:["Нова карта кампанії: фото локацій на фоні, світна дорога, скляні картки глав із прогресом кроків", "Сюжет переписано: у кожній главі — нова загадка про Майстра", "«Справа Майстра»: збирайте докази за кожну главу, а перед фіналом назвіть свою версію — хто ж він?"], en:["A new campaign map: location photos in the background, a glowing road, glass chapter cards with step progress", "The story is rewritten: every chapter brings a new mystery about the Master", "«The Master’s case»: collect a clue for every chapter and name your suspect before the final"]},
  {v:"0.31.0", d:"11.11.2026", uk:["Кампанія «Шлях нардиста» тепер — карта нічного міста: від лавки у дворі до Мармурової зали", "Кожна глава — три кроки: головоломка, розминка з суперником і бос. За головоломку й розминку — монети", "Сюжетні сцени: Влад і Паша йдуть поруч і підказують… а хто ж такий Майстер у капюшоні?", "Нові секретні призи за фінал кампанії"], en:["The «Way of a nardy player» campaign is now a night-city map: from the bench in the yard to the Marble Hall", "Every chapter has three steps: a puzzle, a warm-up game and the boss. Coins for the puzzle and the warm-up", "Story scenes: Vlad and Pasha walk with you and give advice… but who is the hooded Master?", "New secret prizes for finishing the campaign"]},
  {v:"0.30.6", d:"11.11.2026", uk:["Телефон: заголовок «Довгі нарди» на головній знову на всю ширину", "Телефон: у грі аватар у шапці більше не обрізається", "Колекція на телефоні: аватар не закриває шашки на дошці"], en:["Phone: the «Long nardy» heading on home is full width again", "Phone: the avatar in the in-game header is no longer cut off", "Collection on a phone: the avatar no longer covers checkers on the board"]},
