@@ -3,6 +3,13 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.27.0 — 11.11.2026
+- **Rating:** Elo on a wide scale — K 60, 1500 per «10×» (server `eloDelta`, the client preview the same): equal opponent ±30, an upset up to ±60, a mars ×1.2, never 0. Calibration uses the same scale (K 200). Practice bots still count 40%.
+- **Soft reset** (supabase/run/v7_rating.sql): every rating → 1000 + (rating − 1000) / 2; the order stays.
+- **Ghost players:** 100 (ids 0–99, the old 84 kept their names, avatars fixed to match names; 16 new top players, some with portraits). Strength 550 … 6400: 13 above 5000, 14 at 4000–5000. `ghost_round` (pg_cron every 5 min) plays 6–30 games a round with the new Elo and pulls each ghost back to its skill. Engine by skill: random noise below 2200, then `botPathPro` — level 1 (≥2700) scores both sides (≈59% vs the old best bot), level 2 (≥4000) and 3 (≥5000) add short Monte-Carlo rollouts over the top candidates (≤ ~220 ms a move).
+- **Showcase:** «Free today» is a full-width strip under the deal (gift with a 7-dot streak, quests with progress bars and claim buttons). Fixed: after loading, the rewards stayed on «Loading…» (the re-render looked for the old tab name).
+- **«Server did not accept the action»:** every function call made with an expired session is repeated once after `refreshSession()`; game calls also repeat «busy», network errors and 5xx once; a 409 rule error (the screen was a step behind) reloads the game silently; the toast now shows the error code. The season table and sign-up list are public (guests got 401 on every poll). The server logs why a call was unauthorized.
+
 ## 0.26.0 — 11.11.2026
 - The shop has three tabs: **Showcase** (deal of the day, today's picks, free daily rewards, what's new, portrait packs, sets), **Shop** (a catalog like the beta personalizer: categories on the left with owned/total counts — Game: board, checkers, dice, table; Profile: portraits; the chosen thing on top with a live try-on, price and «Buy»; «All / Mine / Not mine» filter and sorting; tap a card to put it in the top panel) and **Collection**. Nothing is put on in the shop any more: after buying — «Put it on in the Collection».
 - From the beta: boards Carrara (epic), Terrazzo (rare), Noir (epic) — new keys carrara/terrazzo/noir, the beta CSS and the «slim» point shape; checkers Frost (rare), Ghosts & pumpkins (epic), Royal (epic), Immortal (legendary). Same rarities on the server (the deal of the day pool changes with them).

@@ -27,7 +27,10 @@ function winChanceOnRoll(st,c){ const o=OPP(c); let pm=0,po=0; for(let q=0;q<24;
   if(st.off[c]===15) return 1; if(st.off[o]===15) return 0; const Sq=Math.sqrt(pm+po+1), hm=Math.max(0,mine(st.board,c,0)), ho=Math.max(0,mine(st.board,o,0));
   return 1/(1+Math.exp(-(0.1702+0.5114*(po-pm)/Sq-6.3696*hm/Sq+6.4309*ho/Sq+4.7955*(st.off[c]-st.off[o])/Sq))); }
 function baseGain(r){ const lo=1000,hi=1600; if(r<=lo) return 50; if(r>=hi) return 25; return 50-25*(r-lo)/(hi-lo); }
-function eloDelta(my,opp,score,mars){ const E=1/(1+Math.pow(10,(opp-my)/400)), b=baseGain(my); let d=score?b*(0.9+0.2*(1-E)):-b*(0.9+0.2*E); if(mars) d*=1.2; return Math.round(d); }
+// rating (0.26.1): Elo on a wide scale. An equal opponent ±30; beating a much stronger one up to +60, a much weaker one only a few points;
+// losing to a much weaker one up to −60. A mars ×1.2. (The scale is 1500 per «10×», so 4000 vs 2500 is still a game, as dice allow.)
+const ELO_K=60, ELO_D=1500;
+function eloDelta(my,opp,score,mars){ const E=1/(1+Math.pow(10,(opp-my)/ELO_D)); let d=ELO_K*((score?1:0)-E); if(mars) d*=1.2; d=Math.round(d); return score?Math.max(1,d):Math.min(-1,d); }
 
 
 // ---- server-side bots (practice bots and online personas) ----
@@ -41,6 +44,21 @@ function botBestPath(st,c,noise,rnd){ const total=maxUse(st,c); if(!total) retur
     const key=s.board.join()+'|'+s.off[c]+'|'+s.remaining.join()+'|'+s.headMoved; if(seen.has(key)) return; seen.add(key);
     const cand=first?legalMoves(s,c):[].concat(...[...new Set(s.remaining)].map(d=>genSingles(s,c,d))); for(const m of cand) dfs(applyMove(s,c,m),path.concat([m]),false); })(st,[],true);
   return best; }
+// strong ghosts (0.26.1): every distinct way to play the roll, scored for both sides (diff); the strongest also look ahead with short
+// Monte-Carlo rollouts (play on 16 half-moves with the plain bot, then the race formula) and pick the best of the top candidates.
+function botFinals(st,c,cap){ const total=maxUse(st,c), out=[]; if(!total) return out; let nodes=0; const seen=new Set();
+  (function dfs(s,path,first){ if(nodes++>cap) return; if(path.length===total){ const k='F'+s.board.join()+'|'+s.off.w+'|'+s.off.b; if(seen.has(k)) return; seen.add(k); out.push({s,path}); return; }
+    const key=s.board.join()+'|'+s.off[c]+'|'+s.remaining.join()+'|'+s.headMoved; if(seen.has(key)) return; seen.add(key);
+    const cand=first?legalMoves(s,c):[].concat(...[...new Set(s.remaining)].map(d=>genSingles(s,c,d))); for(const m of cand) dfs(applyMove(s,c,m),path.concat([m]),false); })(st,[],true);
+  return out; }
+const botDiff=(s,c)=>botEval(s,c)-botEval(s,OPP(c));
+function botRollout(s,toMove,me,maxPly,rnd){ let st=s, c=toMove; const d=()=>1+Math.floor(rnd()*6);
+  for(let n=0;n<maxPly;n++){ const a=d(),b=d(); st={...st,remaining:a===b?[a,a,a,a]:[a,b],headMoved:0,headLimit:1}; const path=botBestPath(st,c,0.3,rnd); if(path) for(const m of path) st=applyMove(st,c,m);
+    if(st.off[c]===15){ const mars=st.off[OPP(c)]===0; return c===me?(mars?2:1):(mars?-2:-1); } st={...st,remaining:[]}; c=OPP(c); }
+  const wc=winChanceOnRoll(st,c), pm=c===me?wc:1-wc; return 2*pm-1; }
+function botPathPro(st,c,lvl,rnd){ const F=botFinals(st,c,6000); if(!F.length) return null; F.forEach(f=>f.v=botDiff(f.s,c)); F.sort((x,y)=>y.v-x.v);
+  if(lvl<2 || F.length===1) return F[0].path; const top=F.slice(0,lvl>=3?4:3), R=lvl>=3?16:10; let best=null,bv=-1e9;
+  for(const f of top){ if(f.s.off[c]===15) return f.path; let sum=0; for(let i=0;i<R;i++) sum+=botRollout({...f.s,remaining:[]},OPP(c),c,16,rnd); const v=sum/R+f.v*0.002; if(v>bv){bv=v;best=f.path;} } return best; }
 const isBotId=id=>typeof id==='string'&&id.startsWith('bot:');
 
 const TURN_MS=60000, MAX_STRIKES=3, RESIGN_MIN=10, CLAIM_MS=45000;
@@ -66,7 +84,7 @@ function act(state, uid, action, args, env){
     if(st.phase==='opening'){ if(!st.open.p1) err('wait'); if(st.open.p2) err('already'); st.open.p2=d6(); st.rollId++; resolveOpening(st,now); return st; }
     if(st.phase!=='play') err('bad_phase'); const c=colorOfSlot(st,'p2'); if(st.turn!==c) err('not_bot_turn');
     if(!st.rolled){ const a=d6(),b=d6(); st.dice=[a,b]; st.remaining=a===b?[a,a,a,a]:[a,b]; st.headLimit=(st.first[c]&&a===b&&[3,4,6].includes(a))?2:1; st.first[c]=false; st.headMoved=0; st.rolled=true; st.trail=[]; st.rollId++; st.snap=null; st.turnAt=now;
-      st.botPlan = botBestPath(st,c,NZ,rnd)||[]; if(!st.botPlan.length){ st.botPlan=null; passTurn(st,now); } return st; }
+      st.botPlan = (st.botLvl ? botPathPro(st,c,st.botLvl,rnd) : botBestPath(st,c,NZ,rnd))||[]; if(!st.botPlan.length){ st.botPlan=null; passTurn(st,now); } return st; }
     const m=(st.botPlan||[]).shift(); const ok=m&&legalMoves(st,c).find(x=>x.from===m.from&&x.to===m.to&&x.die===m.die); if(!ok){ st.botPlan=null; passTurn(st,now); return st; }
     Object.assign(st,applyMove(st,c,ok)); st.trail=(st.trail||[]).concat([b2(c,ok.from),ok.to===24?-1:b2(c,ok.to)]);
     if(st.off[c]===15){ pushHist(st); finish(st,c,st.off[OPP(c)]===0); st.botPlan=null; return st; }
@@ -167,7 +185,9 @@ const ADMIN_NICKS = ['ka1p3r'];
 function nickEmail(n: string) { const bytes = new TextEncoder().encode(n.trim().toLowerCase()); let bits = ''; for (const x of bytes) bits += x.toString(2).padStart(8, '0');
   const A = 'abcdefghijklmnopqrstuvwxyz234567'; let out = ''; for (let i = 0; i < bits.length; i += 5) out += A[parseInt(bits.slice(i, i + 5).padEnd(5, '0'), 2)]; return 'u' + out + '@nardy.invalid'; }
 // how a ghost plays: weaker players make more random moves (the engine at noise 0 is the strongest bot)
-const ghostNoise = (sk: number) => sk < 800 ? 6 : sk < 950 ? 4 : sk < 1100 ? 2.5 : sk < 1250 ? 1.3 : sk < 1500 ? 0.6 : sk < 1900 ? 0.25 : 0;
+const ghostNoise = (sk: number) => sk < 750 ? 6 : sk < 950 ? 4 : sk < 1200 ? 2.5 : sk < 1500 ? 1.3 : sk < 1850 ? 0.6 : sk < 2200 ? 0.25 : 0;
+// 0.26.1: above that the engine itself gets stronger: 1 = sees both sides, 2 = + a look ahead, 3 = a deeper look ahead
+const ghostLvl = (sk: number) => sk >= 5000 ? 3 : sk >= 4000 ? 2 : sk >= 2700 ? 1 : 0;
 // ---- password recovery: the login nickname → the account; the code goes to the Telegram linked to it ----
 async function userByNick(db: any, nick: string) {
   const em = nickEmail(nick);
@@ -518,7 +538,10 @@ Deno.serve(async (req) => {
       if (!tu || !tu.id) return json({ error: body0.action === 'tg_widget' && !(globalThis as any).Deno?.env.get('TG_BOT_TOKEN') ? 'tg_off' : 'tg_bad' }, 401);
       const r = await tgSession(db, tu); return r ? json(r) : json({ error: 'tg_link' }, 500);
     }
-    const { data: { user }, error: authErr } = await db.auth.getUser(token);
+    // the season table and the sign-up list are public: visitors who are not signed in see them too
+    const PUBLIC = ['tour_table', 'tour_regs'].includes(body0.action);
+    const { data: { user: user0 }, error: authErr } = PUBLIC && !token.includes('.') ? { data: { user: null }, error: null } : await db.auth.getUser(token);
+    const user: any = user0 || (PUBLIC ? { id: '' } : null);
     if (!user) { let cl: any = {}; try { cl = JSON.parse(atob(String(token).split('.')[1].replace(/-/g, '+').replace(/_/g, '/'))); } catch (_) {}
       console.log('auth401 ' + JSON.stringify({ a: body0.action, op: body0.args?.op, role: cl.role, anon: cl.is_anonymous, sub: String(cl.sub || '').slice(0, 8), expIn: cl.exp ? Math.round(cl.exp - Date.now() / 1000) : null, err: authErr?.message || null, ua: (req.headers.get('user-agent') || '').slice(0, 60) }));
       return json({ error: 'auth' }, 401); }
@@ -869,7 +892,7 @@ Deno.serve(async (req) => {
         if (rg < CALIB) { if (!fullGame) { calSkip = true; d[s] = 0; }
           else { const cal = { g: 0, w: 0, mars: 0, ...(ach.A.cal || {}) }; if (cal.m == null) cal.m = Math.max(1000, Math.min(CAL_MAX, 1000 + cal.w * 90 - (cal.g - cal.w) * 30));
             cal.g++; if (won) { cal.w++; if (st.result.mars) cal.mars++; } cal.best = won ? Math.max(cal.best || 0, opR) : (cal.best || 0);
-            { const E = 1 / (1 + Math.pow(10, (opR - cal.m) / 400)); let dm = 160 * ((won ? 1 : 0) - E); if (won && st.result.mars) dm *= 1.2;   // classic Elo, K = 160: whom you beat matters a lot
+            { const E = 1 / (1 + Math.pow(10, (opR - cal.m) / 1500)); let dm = 200 * ((won ? 1 : 0) - E); if (won && st.result.mars) dm *= 1.2;   // classic Elo, K = 160: whom you beat matters a lot
               cal.m = Math.max(1000, Math.min(CAL_MAX, Math.round(cal.m + dm))); }
             ach.A.cal = cal; d[s] = rg + 1 >= CALIB ? cal.m - myR : 0; } }
         const dayN = ((ach.A.gd || []).find((x: any) => x.d === kyivDay()) || { h: 0, b: 0 }); const nToday = (dayN.h || 0) + (dayN.b || 0);
@@ -905,7 +928,7 @@ Deno.serve(async (req) => {
       const myR = me?.rating ?? 1000;
       const botR = gh ? gh.rating : bot ? C.BOTS[bot].r : 0;
       st.names = { p1: me?.name ?? '', p2: gh ? gh.name : bot ? String(args?.name ?? '').slice(0, 24) : '' }; st.avs = { p1: me?.av ?? '', p2: gh ? gh.av : bot ? String(args?.av ?? '').slice(0, 8) : '' };
-      st.ratings = { p1: myR, p2: botR }; st.frs = { p1: me?.ach?.fr || 0, p2: 0 }; if (gh) { st.ghost = gh.id; st.botNoise = ghostNoise(gh.skill ?? gh.rating); }
+      st.ratings = { p1: myR, p2: botR }; st.frs = { p1: me?.ach?.fr || 0, p2: 0 }; if (gh) { st.ghost = gh.id; st.botNoise = ghostNoise(gh.skill ?? gh.rating); const lv = ghostLvl(gh.skill ?? gh.rating); if (lv) st.botLvl = lv; }
       const { error } = await db.from('games').insert({ id: gameId, p1: user.id, p2: null, state: st, updated_at: new Date().toISOString() });
       if (error) return json({ error: error.code === '23505' ? 'exists' : 'db' }, 409);
       return json({ state: st });
