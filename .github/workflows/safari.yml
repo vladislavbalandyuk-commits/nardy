@@ -21,5 +21,39 @@ jobs:
             await p.screenshot({path:name+'_'+w+'.png'}); await b.close(); } } })();
           JS
           node t.js
+          cat > t2.js <<'JS'
+          const pw=require('playwright');
+          (async()=>{ const lessons=[[0,'5'],[3,'c4b'],[3,'c4c'],[4,'c5b']];
+           for(const name of ['webkit']){ for(const [w,h,mob] of [[1440,860,0],[1280,720,0],[390,844,1],[844,390,1]]){ for(const [ch,k] of lessons){
+            const b=await pw[name].launch(); const p=await (await b.newContext({viewport:{width:w,height:h},isMobile:!!mob,hasTouch:!!mob})).newPage(); const errs=[]; p.on('pageerror',e=>errs.push(e.message));
+            await p.addInitScript(()=>{ localStorage.setItem('nardy_guideSeen','1'); localStorage.setItem('nardy_lang','"uk"'); localStorage.setItem('nardy_stc','6'); localStorage.setItem('nardy_tutDone','1'); });
+            await p.goto('https://nardy-nine.vercel.app/'); await p.waitForTimeout(3500);
+            await p.evaluate(async([ch,k])=>{ document.querySelectorAll('.overlay').forEach(o=>o.classList.add('hidden')); startChapter(ch); tut.i=TUT.findIndex(x=>String(x.k)===k); tutLoad(); await new Promise(r=>setTimeout(r,300)); for(let i=0;i<14;i++){ if(story && story.phase==='play') break; storyNext(); storyNext(); await new Promise(r=>setTimeout(r,60)); } },[ch,k]);
+            await p.waitForTimeout(500);
+            const rb=await p.evaluate(()=>{ const bt=[...document.querySelectorAll('button')].find(x=>x.offsetParent && /Кинути/.test(x.textContent)); if(!bt) return null; const r=bt.getBoundingClientRect(); return {x:r.left+r.width/2,y:r.top+r.height/2}; });
+            if(rb){ if(mob) await p.touchscreen.tap(rb.x,rb.y); else await p.mouse.click(rb.x,rb.y); } await p.waitForTimeout(1400);
+            const log=[];
+            for(let step=0;step<6;step++){
+              const plan=await p.evaluate(()=>{ if(!gs.rolled||!gs.remaining.length) return null; const L=legalMoves(gs,'w'); if(!L.length) return {none:1}; const m=L.find(x=>x.to===24)||L[0]; let bb=null; for(let i=0;i<24;i++) if(p2('w',i)===m.from) bb=i; const pt=document.querySelector('.pt[data-b="'+bb+'"]'); const ck=pt&&[...pt.querySelectorAll('.ck')].pop(); const r=(ck||pt).getBoundingClientRect(); return {from:m.from,to:m.to,x:r.left+r.width/2,y:r.top+r.height/2}; });
+              if(!plan||plan.none) break;
+              const top=async(x,y)=>p.evaluate(([x,y])=>{ const e=document.elementFromPoint(x,y); return e?(e.closest('#storyOv')?'STORY':e.closest('.pt')?'pt':(e.id||String(e.className))):'none'; },[x,y]);
+              const t1=await top(plan.x,plan.y); if(mob) await p.touchscreen.tap(plan.x,plan.y); else await p.mouse.click(plan.x,plan.y); await p.waitForTimeout(300);
+              const tg=plan.to===24 ? await p.evaluate(()=>{ const t=document.querySelector('#trayBot'); const r=t.getBoundingClientRect(); return {x:r.left+r.width/2,y:r.top+r.height/2,sel:selected}; }) : await p.evaluate(to=>{ let bb=null; for(let i=0;i<24;i++) if(p2('w',i)===to) bb=i; const r=document.querySelector('.pt[data-b="'+bb+'"]').getBoundingClientRect(); return {x:r.left+r.width/2,y:r.top+r.height*0.3,sel:selected}; }, plan.to);
+              const t2=await top(tg.x,tg.y); if(mob) await p.touchscreen.tap(tg.x,tg.y); else await p.mouse.click(tg.x,tg.y); await p.waitForTimeout(800);
+              const off=await p.evaluate(()=>gs.off.w); log.push(plan.from+'>'+plan.to+' src:'+t1+' sel:'+tg.sel+' dst:'+t2+' off='+off);
+            }
+            const fin=await p.evaluate(()=>({off:gs&&gs.off.w, done:tut&&tut.done, ok:tut&&tut.ok}));
+            console.log('LESSON',name,w+'x'+h,k,JSON.stringify(fin),'|',log.join(' ; '),errs.length?'ERR '+errs.slice(0,2).join(' / '):'');
+            if(!fin.done) await p.screenshot({path:'lesson_'+w+'_'+k+'.png'});
+            await b.close(); } } }
+           // a bot game starts and the bot moves
+           const b=await pw.webkit.launch(); const p=await (await b.newContext({viewport:{width:1440,height:860}})).newPage(); const errs=[]; p.on('pageerror',e=>errs.push(e.message));
+           await p.addInitScript(()=>{ localStorage.setItem('nardy_guideSeen','1'); }); await p.goto('https://nardy-nine.vercel.app/'); await p.waitForTimeout(3500);
+           await p.evaluate(()=>{ document.querySelectorAll('.overlay').forEach(o=>o.classList.add('hidden')); startBot(); }); await p.waitForTimeout(1500);
+           for(let i=0;i<30;i++){ await p.evaluate(()=>{ if(!gs) return; if(gs.phase==='opening'){ try{ openRoll(); }catch(e){} return; } if(canPlay()&&!gs.rolled){ roll(); return; } if(canPlay()&&gs.rolled){ const L=legalMoves(gs,gs.turn); if(L.length){ let bb=null; for(let i=0;i<24;i++) if(p2(gs.turn,i)===L[0].from) bb=i; onPoint(bb); if(L[0].to===24) onTray(); else { let tb=null; for(let i=0;i<24;i++) if(p2(gs.turn,i)===L[0].to) tb=i; onPoint(tb); } } } }); await p.waitForTimeout(700); }
+           console.log('BOTGAME', JSON.stringify(await p.evaluate(()=>({phase:gs&&gs.phase, hist:gs&&gs.hist&&gs.hist.length, mode}))), errs.slice(0,3).join(' / '));
+           await p.screenshot({path:'botgame.png'}); await b.close(); })();
+          JS
+          node t2.js
       - uses: actions/upload-artifact@v4
         with: { name: shots, path: '*.png' }
