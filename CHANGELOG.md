@@ -3,6 +3,10 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.30.0 — 11.11.2026
+- Custom lobbies: «Create a lobby» opens a setup (points to win 1/3/5/7, time per move 10/20/30/60 s or none, doubles normal / none (re-rolled) / penalty (double N → this and N−1 more turns skipped, `st.skip`, `st.note`), head one/free (headLimit 15), no mars, no win-chance hints, open/by link). Server: `st.rules` (sanitized at create), `turnMs`, penalty in `roll`/`passTurn`, `finish` without mars, action `next` (match to N keeps the score), rematch of a match starts 0:0; custom games change no rating and count as practice for coins. Action `lobbies` (public): open lobbies waiting ≤30 min.
+- Home: «Open lobbies» card (up to 4, «Join», refresh 20 s). Wait screen and game show the rules; the timer and claims follow the time setting; odds hidden when the lobby says so; «Next game» in a match, «Match won / lost».
+
 ## 0.29.0 — 11.11.2026
 - Story campaign «The way of a nardy player» (`#campPg`): 8 chapters (yard bench → park → café → hookah bar → night train → port tavern → basement → Marble Hall), each a server bot game (`create` with `bot:'camp', camp:n`, noise / engine level per chapter, no rating change), intro + character line, prizes; a win is claimed with the new server action `camp` (checks the finished game, the order, gives coins + items once, `ach.camp`). Prize window, «Chapter N+1 →», the character's last word in the result window, «Back to the campaign». Entry: dashboard card, «Today» tile.
 - Campaign-only skins (rarity x, «From the campaign»): boards Coupe, Shadow (slim, violet glow), Marble hall (emerald frame); checkers Sailor (rope ring), Crown (emblem); dice Park, Emerald.

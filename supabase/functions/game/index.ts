@@ -71,8 +71,13 @@ const colorOfSlot=(st,s)=>slotOfColor(st,'w')===s?'w':'b';
 function err(code){ const e=new Error(code); e.code=code; throw e; }
 function pushHist(st){ if(st.phase!=='play'||!st.dice||!st.dice.length) return; const pw=st.off[st.turn]===15?(st.turn==='w'?1:0):1-winChanceOnRoll(st,OPP(st.turn)); const wc=st.turn==='w'?pw:1-pw;
   st.hist=(st.hist||[]).concat([{c:st.turn,d:st.dice.slice(),t:(st.trail||[]).slice(),p:Math.round(Math.min(.995,Math.max(.005,wc))*100)}]); }
-function passTurn(st,now){ pushHist(st); st.last=st.trail||[]; st.trail=[]; st.turn=OPP(st.turn); st.dice=[]; st.remaining=[]; st.rolled=false; st.snap=null; st.headMoved=0; st.turnAt=now; }
-function finish(st,winner,mars,resign){ st.winner=winner; st.phase='over'; st.score[slotOfColor(st,winner)]+=mars?2:1; st.dice=[]; st.remaining=[]; st.rolled=false; if(resign) st.resign=resign; st.result={winner:slotOfColor(st,winner),mars:!!mars}; }
+// custom lobby rules (0.30.0): st.rules = {to: points to win the match, t: seconds per move (0 = no limit), dbl: 'norm'|'none'|'pen', head: 'one'|'free', noMars, noOdds, open}
+const RU=st=>st.rules||{};
+const turnMs=st=>{ const t=RU(st).t; return t===0 ? Infinity : t ? t*1000 : TURN_MS; };
+function passTurn(st,now){ pushHist(st); st.last=st.trail||[]; st.trail=[]; st.turn=OPP(st.turn); st.dice=[]; st.remaining=[]; st.rolled=false; st.snap=null; st.headMoved=0; st.turnAt=now;
+  // «a double is a penalty»: a player who still owes turns skips them now
+  for(let g=0; g<2 && st.skip && st.skip[st.turn]>0; g++){ st.skip[st.turn]--; st.note={c:st.turn, skip:1, left:st.skip[st.turn], at:now}; st.turn=OPP(st.turn); } }
+function finish(st,winner,mars,resign){ if(RU(st).noMars) mars=false; st.winner=winner; st.phase='over'; st.score[slotOfColor(st,winner)]+=mars?2:1; st.dice=[]; st.remaining=[]; st.rolled=false; if(resign) st.resign=resign; st.result={winner:slotOfColor(st,winner),mars:!!mars}; }
 function resolveOpening(st,now){ const a=st.open.p1,b=st.open.p2; if(!a||!b) return; st.openLast={p1:a,p2:b,tie:a===b};
   if(a===b){ st.open={p1:0,p2:0}; st.openRound++; return; } const w=a>b?'p1':'p2'; st.white=st[w]; st.black=st[w==='p1'?'p2':'p1']; st.phase='play'; st.turn='w'; st.turnAt=now; }
 function autoPassIfStuck(st,now){ if(st.phase==='play' && st.rolled && !legalMoves(st,st.turn).length) passTurn(st,now); }
@@ -92,21 +97,26 @@ function act(state, uid, action, args, env){
   if(action==='join'){ if(st.p2 && st.p2!==uid && st.p1!==uid) err('full'); if(!st.p2 && st.p1!==uid){ st.p2=uid; } return st; }
   if(!me) err('not_player');
   if(action==='open_roll'){ if(st.phase!=='opening'||!st.p2) err('bad_phase'); if(st.open[me]) err('already'); st.open[me]=d6(); st.rollId++; resolveOpening(st,now); return st; }
+  // a match to N points: the next game keeps the score
+  if(action==='next'){ if(st.phase!=='over') err('bad_phase'); const to=RU(st).to||0; if(!to || Math.max(st.score.p1,st.score.p2)>=to) err('match_over');
+    const ng=newGame(st.p1,st.p2,st.score); ng.rules=st.rules; ng.names=st.names; ng.avs=st.avs; ng.ratings=st.ratings; ng.frs=st.frs; ng.seq=st.seq; ng.rollId=st.rollId; ng.game=(st.game||1)+1; return ng; }
   if(action==='rematch'){ if(st.phase!=='over') err('bad_phase'); st.rematch=st.rematch||{}; st.rematch[me]=true;
-    if(st.rematch.p1&&st.rematch.p2){ const ng=newGame(st.p1,st.p2,st.score); ng.names=st.names; ng.avs=st.avs; ng.ratings=st.ratings; ng.frs=st.frs; ng.seq=st.seq; ng.rollId=st.rollId; return ng; } return st; }
-  if(action==='timeout'){ if(st.phase!=='play') err('bad_phase'); const opp=me==='p1'?'p2':'p1'; if(colorOfSlot(st,opp)!==st.turn) err('not_their_turn'); if(now-(st.turnAt||0)<TURN_MS) err('too_early');
+    if(st.rematch.p1&&st.rematch.p2){ const ng=newGame(st.p1,st.p2,st.rules&&st.rules.to?{p1:0,p2:0}:st.score); if(st.rules) ng.rules=st.rules; ng.names=st.names; ng.avs=st.avs; ng.ratings=st.ratings; ng.frs=st.frs; ng.seq=st.seq; ng.rollId=st.rollId; return ng; } return st; }
+  if(action==='timeout'){ if(st.phase!=='play') err('bad_phase'); const opp=me==='p1'?'p2':'p1'; if(colorOfSlot(st,opp)!==st.turn) err('not_their_turn'); if(now-(st.turnAt||0)<turnMs(st)) err('too_early');
     st.strikes=st.strikes||{p1:0,p2:0}; st.strikes[opp]++;
     if(st.strikes[opp]>=MAX_STRIKES){ const w=colorOfSlot(st,me); finish(st,w,st.off[OPP(w)]===0&&false,{c:OPP(w),mars:false,timeout:true}); return st; }
     st.trail=[]; if(st.snap){ st.board=st.snap.board; st.off=st.snap.off; } passTurn(st,now); return st; }
   // leaving a started game counts as a loss (no minimum number of moves)
   if(action==='abandon'){ if(st.phase!=='play') err('bad_phase'); const c=colorOfSlot(st,me), w=OPP(c), mars=st.off[c]===0&&(st.off[w]>0||allHome(st,w)); finish(st,w,mars,{c,mars,abandon:true}); return st; }
   // the opponent has gone quiet on their own turn: take the win without waiting for three timeouts
-  if(action==='claim'){ if(st.phase!=='play') err('bad_phase'); const opp=me==='p1'?'p2':'p1'; if(colorOfSlot(st,opp)!==st.turn) err('not_their_turn'); if(now-(st.turnAt||0)<CLAIM_MS) err('too_early');
+  if(action==='claim'){ if(st.phase!=='play') err('bad_phase'); const opp=me==='p1'?'p2':'p1'; if(colorOfSlot(st,opp)!==st.turn) err('not_their_turn'); if(now-(st.turnAt||0)<(RU(st).t===0?300000:Math.max(CLAIM_MS,turnMs(st)))) err('too_early');
     const w=colorOfSlot(st,me); finish(st,w,false,{c:OPP(w),mars:false,abandon:true}); return st; }
   if(action==='resign'){ if(st.phase!=='play') err('bad_phase'); if((st.hist||[]).length<RESIGN_MIN) err('too_early'); const c=colorOfSlot(st,me), w=OPP(c), mars=st.off[c]===0&&(st.off[w]>0||allHome(st,w)); finish(st,w,mars,{c,mars}); return st; }
   // turn actions
   if(st.phase!=='play') err('bad_phase'); const c=colorOfSlot(st,me); if(st.turn!==c) err('not_your_turn');
-  if(action==='roll'){ if(st.rolled) err('already'); const a=d6(), b=d6(); st.dice=[a,b]; st.remaining=a===b?[a,a,a,a]:[a,b]; st.headLimit=(st.first[c]&&a===b&&[3,4,6].includes(a))?2:1; st.first[c]=false; st.headMoved=0; st.rolled=true; st.trail=[]; st.rollId++; st.snap={board:st.board.slice(),off:{...st.off}}; st.turnAt=now;
+  if(action==='roll'){ if(st.rolled) err('already'); let a=d6(), b=d6(); const R=RU(st); if(R.dbl==='none'){ for(let g=0;g<40&&a===b;g++) b=d6(); }
+    if(R.dbl==='pen' && a===b){ st.dice=[a,b]; st.remaining=[]; st.rolled=true; st.trail=[]; st.rollId++; st.first[c]=false; st.skip=st.skip||{w:0,b:0}; st.skip[c]=a-1; st.note={c, pen:a, at:now}; passTurn(st,now); return st; }
+    st.dice=[a,b]; st.remaining=a===b?[a,a,a,a]:[a,b]; st.headLimit=R.head==='free'?15:(st.first[c]&&a===b&&[3,4,6].includes(a))?2:1; st.first[c]=false; st.headMoved=0; st.rolled=true; st.trail=[]; st.rollId++; st.snap={board:st.board.slice(),off:{...st.off}}; st.turnAt=now;
     autoPassIfStuck(st,now); return st; }
   if(action==='move'){ if(!st.rolled) err('not_rolled'); const path=(args&&args.path)||[]; if(!path.length||path.length>4) err('bad_move');
     for(const m of path){ const ok=legalMoves(st,c).find(x=>x.from===m.from&&x.to===m.to&&x.die===m.die); if(!ok) err('illegal');
@@ -550,7 +560,7 @@ Deno.serve(async (req) => {
       const r = await tgSession(db, tu); return r ? json(r) : json({ error: 'tg_link' }, 500);
     }
     // the season table and the sign-up list are public: visitors who are not signed in see them too
-    const PUBLIC = ['tour_table', 'tour_regs'].includes(body0.action);
+    const PUBLIC = ['tour_table', 'tour_regs', 'lobbies'].includes(body0.action);
     const { data: { user: user0 }, error: authErr } = PUBLIC && !token.includes('.') ? { data: { user: null }, error: null } : await db.auth.getUser(token);
     const user: any = user0 || (PUBLIC ? { id: '' } : null);
     if (!user) { let cl: any = {}; try { cl = JSON.parse(atob(String(token).split('.')[1].replace(/-/g, '+').replace(/_/g, '/'))); } catch (_) {}
@@ -599,6 +609,12 @@ Deno.serve(async (req) => {
       const got = CH.items.filter((id: string) => !A.owned.includes(id)); A.owned = [...A.owned, ...got]; A.coins = (A.coins ?? COIN_START) + CH.coins; A.camp = n;
       await db.from('profiles').update({ ach: A }).eq('id', user.id);
       return json({ ok: true, camp: n, coins: A.coins, owned: A.owned, got, gotCoins: CH.coins });
+    }
+    // open lobbies: games with custom rules that wait for a second player
+    if (action === 'lobbies') {
+      const since = new Date(Date.now() - 30 * 60e3).toISOString();
+      const { data } = await db.from('games').select('id,p1,state,updated_at').is('p2', null).eq('state->rules->>open', 'true').eq('state->>phase', 'opening').gte('updated_at', since).order('updated_at', { ascending: false }).limit(30);
+      return json({ rows: (data || []).filter((g: any) => !g.state?.p2).map((g: any) => ({ id: g.id, mine: g.p1 === user.id, name: g.state?.names?.p1 || '', av: g.state?.avs?.p1 || '', rating: g.state?.ratings?.p1 || 1000, rules: g.state.rules, at: g.updated_at })) });
     }
     if (action === 'shop') {
       const op = String(args?.op || '');
@@ -900,10 +916,10 @@ Deno.serve(async (req) => {
       const vsBot = C.isBotId(st.p2), gh = vsBot && st.ghost != null ? await ghostRow(st.ghost) : null;
       const [a, b] = await Promise.all([prof(st.p1), vsBot ? Promise.resolve(null) : prof(st.p2)]);
       const oppR = vsBot ? (gh ? gh.rating : st.ratings.p2) : (b?.rating ?? 1000);
-      const d = C.ratingChanges(st, a?.rating ?? 1000, oppR);
+      const d = C.ratingChanges(st, a?.rating ?? 1000, oppR); if (st.rules) { d.p1 = 0; d.p2 = 0; }   // custom lobby games do not change the rating
       const dGhost = d.p2;
       if (vsBot) { const f = (C.BOTS[st.p2.split(':')[1]] || C.BOTS.ghost).factor; d.p1 = Math.round(d.p1 * f); }
-      const fresh: any = {}, coinsPaid: any = {}, fullGame = !vsBot || st.ghost != null || !!st.mbot;
+      const fresh: any = {}, coinsPaid: any = {}, fullGame = (!vsBot || st.ghost != null || !!st.mbot) && !st.rules;
       for (const [s, p] of (vsBot ? [['p1', a]] : [['p1', a], ['p2', b]]) as any) {
         const id = st[s]; const won = st.result.winner === s; const myR = p?.rating ?? 1000, opR = s === 'p1' ? oppR : (a?.rating ?? 1000);
         const ach = C.achUpdate(p?.ach, st, s, myR, opR); fresh[s] = ach.fresh;
@@ -951,6 +967,8 @@ Deno.serve(async (req) => {
       const cn = bot === 'camp' ? Math.round(Number(args?.camp)) : 0, CH = cn ? CAMP[cn] : null;
       if (bot === 'camp' && (!CH || ((me?.ach?.camp | 0) < cn - 1))) return json({ error: 'camp_locked' }, 400);
       const st = C.newGame(user.id, bot ? 'bot:' + bot : null);
+      if (!bot && args?.rules && typeof args.rules === 'object') { const q = args.rules, pick = (v: any, L: any[], d: any) => L.includes(v) ? v : d;
+        st.rules = { to: pick(Number(q.to), [1, 3, 5, 7], 1), t: pick(Number(q.t), [0, 10, 20, 30, 60], 60), dbl: pick(q.dbl, ['norm', 'none', 'pen'], 'norm'), head: pick(q.head, ['one', 'free'], 'one'), noMars: !!q.noMars, noOdds: !!q.noOdds, open: !!q.open }; st.lobbyAt = Date.now(); }
       const myR = me?.rating ?? 1000;
       const botR = gh ? gh.rating : CH ? CH.r : bot ? C.BOTS[bot].r : 0;
       st.names = { p1: me?.name ?? '', p2: gh ? gh.name : CH ? CH.name : bot ? String(args?.name ?? '').slice(0, 24) : '' }; st.avs = { p1: me?.av ?? '', p2: gh ? gh.av : CH ? CH.av : bot ? String(args?.av ?? '').slice(0, 8) : '' };
