@@ -518,7 +518,10 @@ Deno.serve(async (req) => {
       if (!tu || !tu.id) return json({ error: body0.action === 'tg_widget' && !(globalThis as any).Deno?.env.get('TG_BOT_TOKEN') ? 'tg_off' : 'tg_bad' }, 401);
       const r = await tgSession(db, tu); return r ? json(r) : json({ error: 'tg_link' }, 500);
     }
-    const { data: { user } } = await db.auth.getUser(token); if (!user) return json({ error: 'auth' }, 401);
+    const { data: { user }, error: authErr } = await db.auth.getUser(token);
+    if (!user) { let cl: any = {}; try { cl = JSON.parse(atob(String(token).split('.')[1].replace(/-/g, '+').replace(/_/g, '/'))); } catch (_) {}
+      console.log('auth401 ' + JSON.stringify({ a: body0.action, op: body0.args?.op, role: cl.role, anon: cl.is_anonymous, sub: String(cl.sub || '').slice(0, 8), expIn: cl.exp ? Math.round(cl.exp - Date.now() / 1000) : null, err: authErr?.message || null, ua: (req.headers.get('user-agent') || '').slice(0, 60) }));
+      return json({ error: 'auth' }, 401); }
     const { action, gameId, args } = body0;
     // link Telegram to the signed-in (nickname) account, and the one-time Telegram bonus: 500 coins + the Telegram frame
     if (action === 'tg_link') {
