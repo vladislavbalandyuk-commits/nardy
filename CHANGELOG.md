@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.31.4 — 12.11.2026
+- Campaign ambient sound (`CP_AMB`, `ambPlay`/`ambStop`/`ambSync`, WebAudio looped buffers, lazy-loaded from /snd, ~1.9 MB total, immutable cache): CC0/public-domain recordings from the Blanket library (yard, fountain, cafe, fire, wind, port) + sounds synthesized for the site (hookah bubbles, rails, basement, hall, midnight). Plays on the map (phone: follows the scrolled chapter; desktop: the selected one), in the chapter's scenes and games/puzzle. Setting «Campaign sounds» (also off with the main sound). snd/LICENSES.md.
+
 ## 0.31.3 — 12.11.2026
 - Story rewritten: the Master (chapter 8) is the one who put obstacles in your way — to stop the man behind you; after his defeat Vlad walks in. Secret chapter 9 (Vlad, `vladM`, lvl 3; warm-up «Vlad's right hand», blockade, 20 s) is hidden from the map, counters and home cards (`campVis()`) until chapter 8 is won. Chapter 8 prizes no longer include avatars; chapter 9 gives fx:confetti, av:vladM, av:pasha2. vlad2 removed from the collection. New scene speakers: k (the Master unmasked, pt23), V (Vlad as the villain).
 
