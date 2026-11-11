@@ -192,7 +192,9 @@ const CAMP: any[] = [null,
   { name: 'Галина Петрівна', av: 'pt29', r: 2100, noise: 0, lvl: 0, coins: 350, items: ['board:coupe'] },
   { name: 'Капітан Нугзар', av: 'pt28', r: 2700, noise: 0, lvl: 1, coins: 400, items: ['ck:sea', 'fx:sparkle'] },
   { name: 'Тінь', av: 'pt31', r: 3600, noise: 0, lvl: 2, coins: 500, items: ['board:shadow', 'pt:pt31'] },
-  { name: 'Майстер', av: 'mask', r: 5200, noise: 0, lvl: 3, coins: 1000, items: ['ck:crown', 'dice:emerald', 'board:marblehall', 'fx:fireworks', 'fx:confetti', 'pt:pt23', 'av:vladM', 'av:vlad2', 'av:pasha2'] }];
+  { name: 'Майстер', av: 'mask', r: 5200, noise: 0, lvl: 3, coins: 1000, items: ['ck:crown', 'dice:emerald', 'board:marblehall', 'fx:fireworks', 'pt:pt23'] },
+  // 0.31.3: the secret chapter 9, opened by beating the Master — Vlad, the teacher who led you all the way to take the hall for himself
+  { name: 'Влад', av: 'vladM', r: 6000, noise: 0, lvl: 3, coins: 1500, items: ['fx:confetti', 'av:vladM', 'av:pasha2'] }];
 // 0.31.0: each chapter is three steps — a puzzle (1, judged on the site like the daily one), a short game against a minor opponent
 // from a set position (2), and the boss (3). ach.cs = steps done in the current chapter (camp+1). Minor games: the player is white and moves first.
 const CAMP_STEP_COINS = { 1: 30, 2: 50 };
@@ -207,7 +209,8 @@ const CAMP_MINI: any[] = [null,
   { name: 'Пасажир з верхньої полиці', av: 'm3', board: () => RACE(EVEN, EVEN), t: 10, noise: .5 },
   { name: 'Юнга Гіві', av: 'm11', board: () => RACE(EVEN, EVEN), dbl: 'none', noise: 0 },
   { name: 'Охоронець', av: 'm12', board: () => BLOCK(4), noise: 0, lvl: 1 },
-  { name: 'Учень Майстра', av: 'n10', board: () => RACE(EVEN, EVEN), t: 10, noise: 0, lvl: 3 }];
+  { name: 'Учень Майстра', av: 'n10', board: () => RACE(EVEN, EVEN), t: 10, noise: 0, lvl: 3 },
+  { name: 'Права рука Влада', av: 'm7', board: () => BLOCK(4), t: 20, noise: 0, lvl: 3 }];
 const SHOP_OPEN = Date.UTC(2026, 10, 7, 10, 0);   // accounts made before the shop opened get 3000 coins once, for the skins that became paid
 // ---- daily gift (7-day streak) and quests of the day; quest progress is counted on the server in rate() ----
 const DAILY = [50, 70, 90, 110, 130, 150, 150];
@@ -617,7 +620,7 @@ Deno.serve(async (req) => {
     if (action === 'campstep') {
       const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
       const A = { ...(p.ach || {}) }; const done = A.camp | 0, n = Math.round(Number(args?.n));
-      if (n !== done + 1 || n > 8) return json({ ok: true, already: true, camp: done, cs: A.cs | 0, coins: A.coins ?? COIN_START });
+      if (n !== done + 1 || n > CAMP.length - 1) return json({ ok: true, already: true, camp: done, cs: A.cs | 0, coins: A.coins ?? COIN_START });
       if ((A.cs | 0) >= 1) return json({ ok: true, already: true, camp: done, cs: A.cs | 0, coins: A.coins ?? COIN_START });
       A.cs = 1; A.coins = (A.coins ?? COIN_START) + CAMP_STEP_COINS[1]; await db.from('profiles').update({ ach: A }).eq('id', user.id);
       return json({ ok: true, camp: done, cs: 1, coins: A.coins, gotCoins: CAMP_STEP_COINS[1] });

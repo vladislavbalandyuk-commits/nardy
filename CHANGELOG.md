@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.31.3 — 12.11.2026
+- Story rewritten: the Master (chapter 8) is the one who put obstacles in your way — to stop the man behind you; after his defeat Vlad walks in. Secret chapter 9 (Vlad, `vladM`, lvl 3; warm-up «Vlad's right hand», blockade, 20 s) is hidden from the map, counters and home cards (`campVis()`) until chapter 8 is won. Chapter 8 prizes no longer include avatars; chapter 9 gives fx:confetti, av:vladM, av:pasha2. vlad2 removed from the collection. New scene speakers: k (the Master unmasked, pt23), V (Vlad as the villain).
+
 ## 0.31.2 — 12.11.2026
 - Campaign: removed «The Master's case» board, the clue chips and the suspect pick; the story stays in the scenes.
 
