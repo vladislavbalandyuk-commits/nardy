@@ -3,6 +3,12 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.33.0 — 12.11.2026
+- Lobby setup redesigned: quick rule sets (Classic / Blitz / No doubles / Long evening), groups «Rules» (to, time, doubles; «More rules»: head, mars, hints, first move), «Table», «Who can join»; a sticky footer with the rules summary and «Create the lobby».
+- «My table for both» (on by default): the host's board, checkers, dice and table go into `rules.sty` (server keeps only safe names); both players' screens use them during the lobby game (`hostLookSync`, own look restored after; shop enforcement paused meanwhile).
+- New rule `first`: 'roll' | 'host' | 'alt' (host in odd games, guest in even) — applied by the server at join / next / rematch (`lobbyStart`).
+- Settings: «Auto-roll the dice» (off by default). Puzzles (daily and campaign) put their dice on the board at once. Phone home: the subtitle under «Long nardy» is hidden.
+
 ## 0.32.0 — 12.11.2026
 - Game replay: the server keeps a compact replay of your last 8 games in `ach.rp` (start position found by undoing the recorded moves from the final board; base-32 board + per-turn colour/dice/moves). Profile «Recent games» rows get a ▶ button; the game-over sheet has «Replay the game» (encoded from the game in memory). A small SVG board viewer with step/play/scrub.
 - Head-to-head: `ach.h2h[opponentId] = {w,l,t,n}` for games against people (the 60 most recent); shown on a player's profile («Your score with …») and as a chip in the friends list.

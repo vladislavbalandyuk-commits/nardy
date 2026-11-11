@@ -73,6 +73,9 @@ function pushHist(st){ if(st.phase!=='play'||!st.dice||!st.dice.length) return; 
   st.hist=(st.hist||[]).concat([{c:st.turn,d:st.dice.slice(),t:(st.trail||[]).slice(),p:Math.round(Math.min(.995,Math.max(.005,wc))*100)}]); }
 // custom lobby rules (0.30.0): st.rules = {to: points to win the match, t: seconds per move (0 = no limit), dbl: 'norm'|'none'|'pen', head: 'one'|'free', noMars, noOdds, open}
 const RU=st=>st.rules||{};
+// 0.33.0: who moves first in a custom lobby — 'roll' (the opening roll), 'host' (always the host), 'alt' (the host in game 1, then by turns)
+function lobbyStart(st,now){ const f=RU(st).first; if(!f||f==='roll'||!st.p2||st.phase!=='opening') return; const g=st.game||1, s=f==='host'||g%2===1?'p1':'p2';
+  st.white=st[s]; st.black=st[s==='p1'?'p2':'p1']; st.phase='play'; st.turn='w'; st.turnAt=now; st.first={w:true,b:true}; }
 // replays (0.32.0): the start position is found by undoing every recorded move from the final one; board cells -> base-32 chars,
 // a turn -> colour + dice + its moves (points a..x, z = borne off)
 const B32='0123456789abcdefghijklmnopqrstuv';
@@ -102,14 +105,14 @@ function act(state, uid, action, args, env){
     Object.assign(st,applyMove(st,c,ok)); st.trail=(st.trail||[]).concat([b2(c,ok.from),ok.to===24?-1:b2(c,ok.to)]);
     if(st.off[c]===15){ pushHist(st); finish(st,c,st.off[OPP(c)]===0); st.botPlan=null; return st; }
     if(!legalMoves(st,c).length){ st.botPlan=null; passTurn(st,now); } return st; }
-  if(action==='join'){ if(st.p2 && st.p2!==uid && st.p1!==uid) err('full'); if(!st.p2 && st.p1!==uid){ st.p2=uid; } return st; }
+  if(action==='join'){ if(st.p2 && st.p2!==uid && st.p1!==uid) err('full'); if(!st.p2 && st.p1!==uid){ st.p2=uid; lobbyStart(st,now); } return st; }
   if(!me) err('not_player');
   if(action==='open_roll'){ if(st.phase!=='opening'||!st.p2) err('bad_phase'); if(st.open[me]) err('already'); st.open[me]=d6(); st.rollId++; resolveOpening(st,now); return st; }
   // a match to N points: the next game keeps the score
   if(action==='next'){ if(st.phase!=='over') err('bad_phase'); const to=RU(st).to||0; if(!to || Math.max(st.score.p1,st.score.p2)>=to) err('match_over');
-    const ng=newGame(st.p1,st.p2,st.score); ng.rules=st.rules; ng.names=st.names; ng.avs=st.avs; ng.ratings=st.ratings; ng.frs=st.frs; ng.seq=st.seq; ng.rollId=st.rollId; ng.game=(st.game||1)+1; return ng; }
+    const ng=newGame(st.p1,st.p2,st.score); ng.rules=st.rules; ng.names=st.names; ng.avs=st.avs; ng.ratings=st.ratings; ng.frs=st.frs; ng.seq=st.seq; ng.rollId=st.rollId; ng.game=(st.game||1)+1; lobbyStart(ng,now); return ng; }
   if(action==='rematch'){ if(st.phase!=='over') err('bad_phase'); st.rematch=st.rematch||{}; st.rematch[me]=true;
-    if(st.rematch.p1&&st.rematch.p2){ const ng=newGame(st.p1,st.p2,st.rules&&st.rules.to?{p1:0,p2:0}:st.score); if(st.rules) ng.rules=st.rules; ng.names=st.names; ng.avs=st.avs; ng.ratings=st.ratings; ng.frs=st.frs; ng.seq=st.seq; ng.rollId=st.rollId; return ng; } return st; }
+    if(st.rematch.p1&&st.rematch.p2){ const ng=newGame(st.p1,st.p2,st.rules&&st.rules.to?{p1:0,p2:0}:st.score); if(st.rules) ng.rules=st.rules; ng.names=st.names; ng.avs=st.avs; ng.ratings=st.ratings; ng.frs=st.frs; ng.seq=st.seq; ng.rollId=st.rollId; lobbyStart(ng,now); return ng; } return st; }
   if(action==='timeout'){ if(st.phase!=='play') err('bad_phase'); const opp=me==='p1'?'p2':'p1'; if(colorOfSlot(st,opp)!==st.turn) err('not_their_turn'); if(now-(st.turnAt||0)<turnMs(st)) err('too_early');
     st.strikes=st.strikes||{p1:0,p2:0}; st.strikes[opp]++;
     if(st.strikes[opp]>=MAX_STRIKES){ const w=colorOfSlot(st,me); finish(st,w,st.off[OPP(w)]===0&&false,{c:OPP(w),mars:false,timeout:true}); return st; }
@@ -1021,7 +1024,10 @@ Deno.serve(async (req) => {
       if (bot === 'camp' && cn === cDone + 1 && cs < cStep - 1) return json({ error: 'camp_step' }, 400);
       const st = C.newGame(user.id, bot ? 'bot:' + bot : null);
       if (!bot && args?.rules && typeof args.rules === 'object') { const q = args.rules, pick = (v: any, L: any[], d: any) => L.includes(v) ? v : d;
-        st.rules = { to: pick(Number(q.to), [1, 3, 5, 7], 1), t: pick(Number(q.t), [0, 10, 20, 30, 60], 60), dbl: pick(q.dbl, ['norm', 'none', 'pen'], 'norm'), head: pick(q.head, ['one', 'free'], 'one'), noMars: !!q.noMars, noOdds: !!q.noOdds, open: !!q.open }; st.lobbyAt = Date.now(); }
+        st.rules = { to: pick(Number(q.to), [1, 3, 5, 7], 1), t: pick(Number(q.t), [0, 10, 20, 30, 60], 60), dbl: pick(q.dbl, ['norm', 'none', 'pen'], 'norm'), head: pick(q.head, ['one', 'free'], 'one'), noMars: !!q.noMars, noOdds: !!q.noOdds, open: !!q.open, first: pick(q.first, ['roll', 'host', 'alt'], 'roll') };
+        // the host's table, board, checkers and dice, shown to both players (names only; the site checks they exist)
+        if (q.sty && typeof q.sty === 'object') { const S: any = {}; for (const k of ['board', 'ck', 'dice', 'table']) { const v = String(q.sty[k] || ''); if (/^[a-z0-9_-]{1,24}$/i.test(v)) S[k] = v; } if (Object.keys(S).length) st.rules.sty = S; }
+        st.lobbyAt = Date.now(); }
       const myR = me?.rating ?? 1000;
       const botR = gh ? gh.rating : CH ? CH.r : bot ? C.BOTS[bot].r : 0;
       st.names = { p1: me?.name ?? '', p2: gh ? gh.name : CH ? CH.name : bot ? String(args?.name ?? '').slice(0, 24) : '' }; st.avs = { p1: me?.av ?? '', p2: gh ? gh.av : CH ? CH.av : bot ? String(args?.av ?? '').slice(0, 8) : '' };
