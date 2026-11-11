@@ -1,0 +1,15 @@
+name: fnlogs
+# Edge function errors of the last hours (Supabase logs API): status codes, times and messages.
+on: workflow_dispatch
+jobs:
+  logs:
+    runs-on: ubuntu-latest
+    steps:
+      - env: { SUPABASE_ACCESS_TOKEN: '${{ secrets.SUPABASE_ACCESS_TOKEN }}' }
+        run: |
+          q() { curl -sS -G "https://api.supabase.com/v1/projects/zndzvicklrkxkrpmkybg/analytics/endpoints/logs.all" -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" \
+              --data-urlencode "iso_timestamp_start=$(date -u -d '-20 hours' +%Y-%m-%dT%H:%M:%SZ)" --data-urlencode "iso_timestamp_end=$(date -u +%Y-%m-%dT%H:%M:%SZ)" --data-urlencode "sql=$1" | head -c 20000; echo; }
+          echo "== status counts"; q "select response.status_code as s, count(*) as n from function_edge_logs cross join unnest(metadata) as m cross join unnest(m.response) as response group by s order by n desc"
+          echo "== errors by hour"; q "select timestamp_trunc(timestamp, hour) as h, response.status_code as s, count(*) as n from function_edge_logs cross join unnest(metadata) as m cross join unnest(m.response) as response where response.status_code >= 400 group by h, s order by h desc limit 60"
+          echo "== execution time"; q "select response.status_code as s, avg(m.execution_time_ms) as avg_ms, max(m.execution_time_ms) as max_ms from function_edge_logs cross join unnest(metadata) as m cross join unnest(m.response) as response group by s"
+          echo "== function messages (errors)"; q "select timestamp, event_message from function_logs where regexp_contains(lower(event_message), 'error|limit|memory|timeout|exception|shutdown') order by timestamp desc limit 60"
