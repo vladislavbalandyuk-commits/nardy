@@ -791,8 +791,8 @@ body.v7 #vHome .sfr .sfr-inv{width:100%;padding:10px;border-radius:12px;border:1
 .cp-sheet h2{margin:0;font-size:24px} .cp-place{color:#8a6cff;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
 .cp-opp{display:flex;align-items:center;gap:14px} .cp-opp .av{width:64px;height:64px;border-radius:50%;overflow:hidden;flex:none;box-shadow:0 0 0 3px rgba(138,108,255,.5)} .cp-opp .av svg{width:100%;height:100%} .cp-opp b{font-size:18px} .cp-opp small{display:block;color:#a8a29a;font-size:13px}
 .cp-lines{display:flex;flex-direction:column;gap:8px} .cp-line{padding:10px 12px;border-radius:14px;font-size:14.5px;line-height:1.5} .cp-line.n{color:#a8a29a;font-style:italic;background:none;padding:0 2px} .cp-line.o{background:rgba(138,108,255,.12);border:1px solid rgba(138,108,255,.25)}
-.cp-items{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px} .cp-it{display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 6px;border-radius:14px;background:rgba(255,255,255,.04);text-align:center;font-size:12px;color:#d9d3c9}
-.cp-it .cp-card{width:100%;height:54px;border-radius:10px;background-size:cover!important} .cp-it .shth{width:100%;height:54px;border-radius:10px;display:flex;align-items:center;justify-content:center} .cp-it .shth .shck,.cp-it .shth .shdc{display:flex;gap:4px;align-items:center} .cp-it .shth .shck{--cs:20px} .cp-it .shth .shdc{--cs:20px} .cp-it .av{width:46px;height:46px;border-radius:50%;overflow:hidden} .cp-it .av svg{width:100%;height:100%} .cp-it .fxth{font-size:28px;height:54px} .cp-it b{font-size:15px}
+.cp-items{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px} .cp-it{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;min-height:96px;gap:6px;padding:10px 6px;border-radius:14px;background:rgba(255,255,255,.04);text-align:center;font-size:12px;color:#d9d3c9}
+.cp-it .cp-card{width:100%;height:54px;border-radius:10px;background-size:cover!important} .cp-it .shth{width:100%;height:54px;border-radius:10px;display:flex;align-items:center;justify-content:center} .cp-it .shth .shck,.cp-it .shth .shdc{display:flex;gap:4px;align-items:center} .cp-it .shth .shck{--cs:20px} .cp-it .shth .shdc{--cs:20px} .cp-it .av{width:46px;height:46px;border-radius:50%;overflow:hidden} .cp-it .av svg{width:100%;height:100%} .cp-it .fxth{font-size:28px;height:54px} .cp-it b{font-size:17px;display:flex;align-items:center;gap:6px;height:54px} .cp-it b .coin{width:20px;height:20px}
 .cp-btns{display:flex;gap:10px} .cp-btns button{flex:1;padding:14px;border-radius:14px;font-weight:700}
 .cp-x{position:absolute;top:12px;right:12px;width:34px;height:34px;border-radius:50%;border:0;background:rgba(255,255,255,.07);color:#f3efe7;font-size:18px;padding:0;box-shadow:none}
 .cp-stars{color:#8a6cff;letter-spacing:2px;font-size:13px}
@@ -4103,7 +4103,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.30.1';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.30.2';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -4572,7 +4572,7 @@ function renderHomeStage(){ const stg=$('stage'); if(!stg) return; let hs=$('hom
   // the campaign: the next chapter
   { const n=Math.min(CAMP_N, campDone()+1), fin=campDone()>=CAMP_N; const cc=uxH('section','hs-card hs-camp'); cc.onclick=()=>{ openCampaign(); if(!fin) campSheet(n); }; const ch=uxH('h3',null,t('campT')); ch.appendChild(uxH('span',null,campDone()+' / '+CAMP_N)); cc.appendChild(ch);
     const row=uxH('div','cpc'); const a=uxH('span','av'); avatarInto(a,CAMP[n].av,'?'); const d=uxH('div'); d.append(uxH('b',null, fin ? t('cpFinal') : t('cpChN',{n})+' · '+campLine(n,'P')), uxH('small',null, fin ? t('cpAllDone') : t('cpVs',{n:campLine(n,'N')})+' · 🪙 '+CAMP[n].coins)); row.append(a,d); cc.appendChild(row);
-    const bar=uxH('div','hs-bar'); bar.style.setProperty('--tc','#8a6cff'); const fi=uxH('i'); fi.style.width=Math.round(campDone()/CAMP_N*100)+'%'; bar.appendChild(fi); cc.appendChild(bar); grid.appendChild(cc); }
+    const bar=uxH('div','hs-bar'); bar.style.setProperty('--tc','#8a6cff'); const fi=uxH('i'); fi.style.width=Math.round(campDone()/CAMP_N*100)+'%'; bar.appendChild(fi); cc.appendChild(bar); try{ coinify(cc); }catch(e){} grid.appendChild(cc); }
   // quests of the day (the gift is on the right)
   const qc=uxH('section','hs-card'); const qh=uxH('h3',null,t('rwQuests')); qh.appendChild(uxH('span',null,t('rwReset'))); qc.appendChild(qh); const S=rwState;
   if(!coinsOnline()) qc.appendChild(uxH('p','hs-empty',t('rwSignIn')));
@@ -4755,7 +4755,7 @@ function openCampaign(){ let pg=$('campPg'); if(!pg){ pg=uxH('div'); pg.id='camp
     const a=uxH('span','av'); avatarInto(a, CAMP[n].av, '?'); const mid=uxH('div','mid'); mid.append(uxH('small',null,t('cpChN',{n})+' · '+campLine(n,'P')), uxH('b',null,campLine(n,'N')), uxH('span',null, st==='done' ? '✓ '+t('cpDone') : st==='cur' ? '★'.repeat(CAMP[n].dif)+'☆'.repeat(5-CAMP[n].dif) : '🔒 '+t('cpLocked')));
     const pz=uxH('div','cp-prz'); prizeChips(n).forEach(x=>pz.appendChild(uxH('i',null,x))); mid.appendChild(pz);
     b.append(uxH('span','num',st==='done'?'✓':String(n)), a, mid); b.onclick=()=>campSheet(n); path.appendChild(b); }
-  w.appendChild(path); }
+  w.appendChild(path); try{ coinify(pg); }catch(e){} }
 function closeCampaign(){ const pg=$('campPg'); if(pg) pg.remove(); if(!$('shopPg')) document.body.classList.remove('storeopen'); try{ if(!gs) renderHomeV7(); }catch(e){} }
 function campSheet(n){ const done=campDone(), st= n<=done ? 'done' : n===done+1 ? 'cur' : 'lock'; const ov=uxH('div','cp-ov'); const m=uxH('div','cp-sheet'); ov.appendChild(m); ov.onclick=e=>{ if(e.target===ov) ov.remove(); };
   const x=uxH('button','cp-x','×'); x.type='button'; x.onclick=()=>ov.remove(); m.appendChild(x);
@@ -4765,7 +4765,7 @@ function campSheet(n){ const done=campDone(), st= n<=done ? 'done' : n===done+1 
   else { const L=uxH('div','cp-lines'); L.append(uxH('div','cp-line n',campLine(n,'I1')), uxH('div','cp-line o','«'+campLine(n,'I2')+'»')); m.appendChild(L); }
   m.appendChild(uxH('b',null,t(st==='done'?'cpGot':'cpPrizes'))); const it=uxH('div','cp-items'); const c0=uxH('div','cp-it'); c0.append(uxH('b',null,'🪙 '+CAMP[n].coins), uxH('span',null,t('shCoins'))); it.appendChild(c0); CAMP[n].items.forEach(id=>it.appendChild(campThumb(id))); m.appendChild(it);
   const bt=uxH('div','cp-btns'); if(st!=='lock'){ const g=uxH('button','cta',t(st==='done'?'cpReplay':'cpPlay')); g.type='button'; g.onclick=()=>{ ov.remove(); if(!coinsOnline()){ closeCampaign(); openProfile(); return; } closeCampaign(); startCamp(n); }; bt.appendChild(g); }
-  const c=uxH('button',null,t('close')); c.type='button'; c.onclick=()=>ov.remove(); bt.appendChild(c); m.appendChild(bt); document.body.appendChild(ov); }
+  const c=uxH('button',null,t('close')); c.type='button'; c.onclick=()=>ov.remove(); bt.appendChild(c); m.appendChild(bt); try{ coinify(m); }catch(e){} document.body.appendChild(ov); }
 async function startCamp(n){ stopSearch(true); leave(); mode='bot'; gameId='b'+rid(); ref=db.doc('games/'+gameId); gs=newGame('ME','BOT'); gs.seq=-1; gs.server=true;
   const st=await srv('create',{bot:'camp', camp:n}); if(!st){ leave(); route(); return; } gs.server=true; toast(t('cpChN',{n})+' · '+campLine(n,'N')); route(); }
 // after a campaign game: the character's last word; a win is claimed on the server and the prizes are shown
@@ -4778,10 +4778,10 @@ async function campClaim(n){ const r=await fnCall({action:'camp', args:{gid:game
   setTimeout(()=>campPrize(n,d), 900); }
 function campPrize(n,d){ const ov=uxH('div','cp-ov'); const m=uxH('div','cp-sheet cp-win'); ov.appendChild(m);
   m.append(uxH('div','big','🏆'), uxH('div','cp-place',t('cpChN',{n})+' · '+t('cpDone')), uxH('h2',null, n===CAMP_N ? t('cpFinal') : t('cpWon',{n:campLine(n,'N')})));
-  const it=uxH('div','cp-items'); const c0=uxH('div','cp-it'); c0.append(uxH('b',null,'+'+(d.gotCoins||CAMP[n].coins)), uxH('span',null,t('shCoins'))); it.appendChild(c0); CAMP[n].items.forEach(id=>it.appendChild(campThumb(id))); m.appendChild(it);
+  const it=uxH('div','cp-items'); const c0=uxH('div','cp-it'); c0.append(uxH('b',null,'🪙 +'+(d.gotCoins||CAMP[n].coins)), uxH('span',null,t('shCoins'))); it.appendChild(c0); CAMP[n].items.forEach(id=>it.appendChild(campThumb(id))); m.appendChild(it);
   m.appendChild(uxH('p','cp-line n',t('cpWear')));
   const bt=uxH('div','cp-btns'); if(n<CAMP_N){ const g=uxH('button','cta',t('cpNext',{n:n+1})); g.type='button'; g.onclick=()=>{ ov.remove(); show('winOv',false); leave(); route(); openCampaign(); campSheet(n+1); }; bt.appendChild(g); }
-  const c=uxH('button',null,t('close')); c.type='button'; c.onclick=()=>ov.remove(); bt.appendChild(c); m.appendChild(bt); document.body.appendChild(ov); try{ coinFly(d.gotCoins||0); sfx('win'); confetti(120); }catch(e){} }
+  const c=uxH('button',null,t('close')); c.type='button'; c.onclick=()=>ov.remove(); bt.appendChild(c); m.appendChild(bt); try{ coinify(m); }catch(e){} document.body.appendChild(ov); try{ coinFly(d.gotCoins||0); sfx('win'); confetti(120); }catch(e){} }
 
 
 // ================= 0.30.0: custom lobbies — your own rules, a link for a friend or an open lobby anyone can join =================
@@ -5600,6 +5600,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+ {v:"0.30.2", d:"11.11.2026", uk:["Монети в кампанії тепер золоті, як усюди на сайті"], en:["Coins in the campaign are gold now, like everywhere on the site"]},
  {v:"0.30.1", d:"11.11.2026", uk:["Кожна глава «Шляху нардиста» тепер дає ще й фон картки під своє місце: лавка у дворі, парк з фонтаном, кав’ярня, кальянна, нічний поїзд, порт, підвал і Мармурова зала", "Призи на сторінці кампанії вирівняні: під іменем суперника, однаковими рядками"], en:["Every chapter of «The way of a nardy player» also gives a card background of its place: the yard bench, the park fountain, the café, the hookah bar, the night train, the port, the basement and the Marble Hall", "Prizes on the campaign page are aligned: under the opponent’s name, in even rows"]},
  {v:"0.30.0", d:"11.11.2026", uk:["Власні лобі: гра до 1, 3, 5 або 7 очок, час на хід 10–60 с або без ліміту, дублі звичайні / без дублів / «дубль — штраф» (дубль N = N пропущених ходів), вільне зняття з голови, без марсу, без підказок шансів", "Лобі можна відкрити для всіх — воно з’явиться в «Відкритих лобі» на головній, або надіслати посилання другу", "Ігри з власними правилами не змінюють рейтинг"], en:["Custom lobbies: play to 1, 3, 5 or 7 points, 10–60 s per move or no limit, doubles normal / none / «double = penalty» (double N = N skipped turns), free head moves, no mars, no win-chance hints", "Open a lobby to everyone — it appears in «Open lobbies» on the home screen — or send the link to a friend", "Games with custom rules do not change the rating"]},
  {v:"0.29.0", d:"11.11.2026", uk:["Сюжетна кампанія «Шлях нардиста»: вісім глав від лавки у дворі до Мармурової зали, у кожного суперника своя історія й сила гри", "Призи за глави: монети, портрети суперників, ефекти й скіни, яких немає в магазині — дошки «Купе», «Тінь», «Мармурова зала», шашки «Морські» й «Корона», кубики «Парк» і «Смарагд»", "Ефекти з бети: кальянний дим, кільця диму й іскри на ваш кидок; феєрверк і конфеті на перемогу — вмикаються в «Колекції» → «Ефекти»"], en:["A story campaign, «The way of a nardy player»: eight chapters from the bench in the yard to the Marble Hall, every opponent with a story and a strength of play", "Chapter prizes: coins, the opponents’ portraits, effects and skins the shop does not sell — boards Coupe, Shadow, Marble hall, checkers Sailor and Crown, dice Park and Emerald", "Effects from the beta: hookah smoke, smoke rings and sparkles on your roll; fireworks and confetti on a win — turn them on in Collection → Effects"]},

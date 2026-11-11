@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.30.2 — 11.11.2026
+- Campaign: the 🪙 emoji (silver on some systems) is replaced with the site's gold coin (`coinify`) on the campaign page, chapter and prize windows and the home card.
+
 ## 0.30.1 — 11.11.2026
 - Campaign: each chapter also unlocks a card background of its place (`CARDS` cp1–cp8, Unsplash photos, unlocked by `ach.camp`, «Prize of chapter N» while locked); prizes show it. Prize chips on the campaign page sit under the opponent's name in even rows.
 
