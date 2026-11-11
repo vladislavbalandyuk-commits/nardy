@@ -3,6 +3,10 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.31.1 — 11.11.2026
+- Campaign map redesign: the background is the chapter's own photo (blurred, cross-faded by an IntersectionObserver as you scroll), a glowing gradient road with flowing light on the walked part, twinkling stars, glass chapter cards (photo, place, opponent, 3 step bars, «Continue» on the current one), a progress ring in the header.
+- Story rewritten with a mystery thread and cliffhangers; «The Master's case» board: one clue per chapter won (shown on the prize sheet too), a suspect pick before chapter 8 (`cpGuess` in local storage) and a different Pasha line at the reveal if you guessed Vlad. Scene progress bar.
+
 ## 0.31.0 — 11.11.2026
 - Campaign rebuilt as a night-city map (SVG road, seeded skyline, fog past the next chapter; Vlad + Pasha ride along at the current chapter, only Pasha from chapter 5). Desktop: map + chapter panel; phone: map + bottom sheet.
 - Every chapter = 3 steps: puzzle (pzMake('camp-n-31'), best or near-best passes, +30, server `campstep`), warm-up (server game from a set position — race / blitz / blockade / behind / no doubles — with lobby rules, +50, `camp` claim with `st.campStep=2`), boss (as before). `ach.cs` = steps done in the current chapter; the server refuses a step out of order (`camp_step`).
