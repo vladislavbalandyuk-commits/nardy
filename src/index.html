@@ -641,16 +641,16 @@ body.simw #btnCopy2,body.simw #btnVoice,body.simw #btnSpk,body.simw #qrBar,body.
 #shopPg .s2rwh{display:flex;align-items:center;gap:12px} #shopPg .s2rwh>div{display:flex;flex-direction:column;gap:2px;min-width:0} #shopPg .s2rwh b{font-size:17px;font-weight:700} #shopPg .s2rwh small{color:#8a847c;font-size:12.5px}
 #shopPg .s2gi{flex:none;width:42px;height:42px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:22px;background:rgba(255,255,255,.06)}
 #shopPg .s2dots{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
-#shopPg .s2dot{display:flex;flex-direction:column;align-items:center;gap:5px;min-width:0} #shopPg .s2dot i{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:12px;font-weight:700;color:#8a847c;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08)}
-#shopPg .s2dot span{font-size:11.5px;font-weight:650;color:#8a847c;white-space:nowrap} #shopPg .s2dot.done i{background:rgba(95,211,154,.18);border-color:rgba(95,211,154,.4);color:#5fd39a} #shopPg .s2dot.done span{color:#5fd39a}
-#shopPg .s2dot.now i{background:#5fd39a;border-color:#5fd39a;color:#0d0e11;box-shadow:0 0 0 4px rgba(95,211,154,.18)} #shopPg .s2dot.now span{color:#f3efe7}
+#shopPg .s2dot{display:flex;flex-direction:column;align-items:center;gap:5px;min-width:0} #shopPg .s2dot>i{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:12px;font-weight:700;color:#8a847c;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08)}
+#shopPg .s2dot span{font-size:11.5px;font-weight:650;color:#8a847c;white-space:nowrap} #shopPg .s2dot.done>i{background:rgba(95,211,154,.18);border-color:rgba(95,211,154,.4);color:#5fd39a} #shopPg .s2dot.done span{color:#5fd39a}
+#shopPg .s2dot.now>i{background:#5fd39a;border-color:#5fd39a;color:#0d0e11;box-shadow:0 0 0 4px rgba(95,211,154,.18)} #shopPg .s2dot.now span{color:#f3efe7}
 #shopPg .s2gift>button{width:100%;margin-top:auto}
 #shopPg .s2q{display:flex;align-items:center;gap:14px;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.03)} #shopPg .s2q .qn{flex:1;min-width:0;display:grid;grid-template-columns:1fr auto;gap:6px 10px;align-items:center}
 #shopPg .s2q .qn b{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis} #shopPg .s2q .qn small{color:#8a847c;font-size:12px;font-variant-numeric:tabular-nums}
 #shopPg .s2q .qb{grid-column:1/3;height:5px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden} #shopPg .s2q .qb i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#5fd39a,#4d8dff)}
 #shopPg .s2q.got{opacity:.6} #shopPg .s2amt{display:flex;align-items:center;gap:5px;font-weight:700;font-size:14px;flex:none} #shopPg .s2amt .coin{width:15px;height:15px}
 #shopPg .s2take{flex:none;padding:8px 14px;border-radius:11px;border:0;background:#5fd39a;color:#0d0e11;font-weight:800;font-size:13.5px;box-shadow:0 6px 18px -8px rgba(95,211,154,.7)}
-@media (max-width:760px){ #shopPg .s2rw{grid-template-columns:1fr} #shopPg .s2gift,#shopPg .s2qs{padding:14px;border-radius:18px} #shopPg .s2dot i{width:26px;height:26px} #shopPg .s2dot span{font-size:10.5px} }
+@media (max-width:760px){ #shopPg .s2rw{grid-template-columns:1fr} #shopPg .s2gift,#shopPg .s2qs{padding:14px;border-radius:18px} #shopPg .s2dot>i{width:26px;height:26px} #shopPg .s2dot span{font-size:10.5px} }
 /* ================= 0.28.0 UX pack ================= */
 /* 1. home dashboard on a computer instead of an empty board */
 .homestage{display:none}
@@ -809,6 +809,7 @@ body.v7 #vHome .sec.lbcard{grid-column:1/-1;display:flex;flex-direction:column;g
 .lbitem .sfr-aw .av{width:34px;height:34px}
 .rulechip{margin:0 0 10px;padding:8px 12px;border-radius:12px;background:rgba(138,108,255,.14);border:1px solid rgba(138,108,255,.3);color:#cfc4ff;font-size:13px;font-weight:600;line-height:1.4}
 body:not(.dark) .rulechip{color:#4b3bb0}
+.camt{display:inline-flex;align-items:center;gap:4px;white-space:nowrap} .camt .coin{width:14px;height:14px;flex:none} .s2dot .camt .coin{width:12px;height:12px} .s2take.camt .coin,.hs-take.camt .coin{width:15px;height:15px}
 .pwnote{margin:0 0 10px;color:var(--muted);font-size:13px;line-height:1.4}
 .admpw{display:flex;gap:8px;margin-top:8px}.admpw input{flex:1;min-width:0}.admpwout{margin-top:6px;font-size:13px;user-select:all}
 
@@ -4103,7 +4104,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.30.2';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.30.3';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -4523,6 +4524,7 @@ function openProfile(){
 
 
 // ================= 0.28.0 UX pack =================
+const coinAmt=(cls,txt)=>{ const e=document.createElement('span'); if(cls) e.className=cls; e.innerHTML='<i class="coin"></i>'; e.appendChild(document.createTextNode(txt)); e.classList.add('camt'); return e; };
 const uxH=(tag,cls,txt)=>{ const e=document.createElement(tag); if(cls) e.className=cls; if(txt!=null) e.textContent=txt; return e; };
 // a small rating line chart (SVG string) for a list of ratings
 function rateSpark(R,W,H){ W=W||300; H=H||64; if(R.length<2) return ''; const lo=Math.min(...R), hi=Math.max(...R), sp=Math.max(20,hi-lo); const X=i=>4+i*(W-8)/(R.length-1), Y=v=>H-6-(v-lo)/sp*(H-14);
@@ -4578,7 +4580,7 @@ function renderHomeStage(){ const stg=$('stage'); if(!stg) return; let hs=$('hom
   if(!coinsOnline()) qc.appendChild(uxH('p','hs-empty',t('rwSignIn')));
   else if(!S) qc.appendChild(uxH('p','hs-empty',t('lbLoading')));
   else (S.quests||[]).forEach(x=>{ const row=uxH('div','hs-q'+(x.got?' got':'')); const nm=uxH('div','qn'); nm.append(uxH('b',null,rwQName(x)), uxH('small',null,Math.min(x.p,x.n)+' / '+x.n)); const bar=uxH('div','hs-bar'); const fi=uxH('i'); fi.style.width=Math.round(Math.min(1,x.p/x.n)*100)+'%'; bar.appendChild(fi); nm.appendChild(bar); row.appendChild(nm);
-    let rr; if(x.got) rr=uxH('span','hs-qok','✓ +'+x.r); else if(x.p>=x.n){ rr=uxH('button','hs-take','+'+x.r); rr.type='button'; rr.onclick=()=>rwClaim('quest',x.k); } else rr=uxH('span','hs-qr','+'+x.r); row.appendChild(rr); qc.appendChild(row); });
+    let rr; if(x.got) rr=coinAmt('hs-qok','✓ +'+x.r); else if(x.p>=x.n){ rr=uxH('button','hs-take camt'); rr.innerHTML='<i class="coin"></i>'; rr.appendChild(document.createTextNode('+'+x.r)); rr.type='button'; rr.onclick=()=>rwClaim('quest',x.k); } else rr=coinAmt('hs-qr','+'+x.r); row.appendChild(rr); qc.appendChild(row); });
   grid.appendChild(qc);
   try{ sideFriends(); }catch(e){}
   }
@@ -5600,6 +5602,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+ {v:"0.30.3", d:"11.11.2026", uk:["Золота монетка біля сум у щоденному подарунку та завданнях дня — на вітрині й на головній"], en:["A gold coin next to the amounts of the daily gift and quests — on the showcase and the home screen"]},
  {v:"0.30.2", d:"11.11.2026", uk:["Монети в кампанії тепер золоті, як усюди на сайті"], en:["Coins in the campaign are gold now, like everywhere on the site"]},
  {v:"0.30.1", d:"11.11.2026", uk:["Кожна глава «Шляху нардиста» тепер дає ще й фон картки під своє місце: лавка у дворі, парк з фонтаном, кав’ярня, кальянна, нічний поїзд, порт, підвал і Мармурова зала", "Призи на сторінці кампанії вирівняні: під іменем суперника, однаковими рядками"], en:["Every chapter of «The way of a nardy player» also gives a card background of its place: the yard bench, the park fountain, the café, the hookah bar, the night train, the port, the basement and the Marble Hall", "Prizes on the campaign page are aligned: under the opponent’s name, in even rows"]},
  {v:"0.30.0", d:"11.11.2026", uk:["Власні лобі: гра до 1, 3, 5 або 7 очок, час на хід 10–60 с або без ліміту, дублі звичайні / без дублів / «дубль — штраф» (дубль N = N пропущених ходів), вільне зняття з голови, без марсу, без підказок шансів", "Лобі можна відкрити для всіх — воно з’явиться в «Відкритих лобі» на головній, або надіслати посилання другу", "Ігри з власними правилами не змінюють рейтинг"], en:["Custom lobbies: play to 1, 3, 5 or 7 points, 10–60 s per move or no limit, doubles normal / none / «double = penalty» (double N = N skipped turns), free head moves, no mars, no win-chance hints", "Open a lobby to everyone — it appears in «Open lobbies» on the home screen — or send the link to a friend", "Games with custom rules do not change the rating"]},
@@ -5790,7 +5793,7 @@ function rwBlock(){ const box=aH('section','rwbox'); const S=rwState;
 function rwStrip(){ const S=rwState, on=coinsOnline(); const w=sH('section','s2rw');
   const day=S&&S.daily?S.daily.day:1, ready=S&&S.daily?S.daily.ready:false, list=(S&&S.daily&&S.daily.list)||RW_DAILY;
   const g=sH('div','s2gift'); const hd=sH('div','s2rwh'); const tt=sH('div'); tt.append(sH('b',null,t('rwDaily')), sH('small',null, on&&S ? t('rwDayN',{n:day}) : t('s2RwUpTo'))); hd.append(sH('span','s2gi','🎁'), tt); g.appendChild(hd);
-  const dots=sH('div','s2dots'); list.forEach((x,i)=>{ const n=i+1, done=!!S && (n<day || (n===day&&!ready)), now=n===day && on && (ready||!S); const d=sH('div','s2dot'+(done?' done':'')+(now?' now':'')); d.append(sH('i',null,done?'✓':String(n)), sH('span',null,'+'+x)); dots.appendChild(d); }); g.appendChild(dots);
+  const dots=sH('div','s2dots'); list.forEach((x,i)=>{ const n=i+1, done=!!S && (n<day || (n===day&&!ready)), now=n===day && on && (ready||!S); const d=sH('div','s2dot'+(done?' done':'')+(now?' now':'')); d.append(sH('i',null,done?'✓':String(n)), coinAmt(null,'+'+x)); dots.appendChild(d); }); g.appendChild(dots);
   let gb; if(!on){ gb=sH('button','s2main',t('rwSignB')); gb.onclick=()=>{ closeShopPg(); openProfile(); }; }
   else if(!S){ gb=sH('button','s2sec',t('lbLoading')); gb.disabled=true; }
   else { gb=sH('button',ready?'s2main':'s2sec', ready ? t('rwTake',{n:list[day-1]}) : '✓ '+t('rwTomorrow')); gb.disabled=!ready||rwBusy; gb.onclick=()=>rwClaim('daily'); }
@@ -5799,7 +5802,7 @@ function rwStrip(){ const S=rwState, on=coinsOnline(); const w=sH('section','s2r
   if(!on) q.appendChild(sH('p','s2note',t('rwSignIn')));
   else if(!S) q.appendChild(sH('p','s2note',t('lbLoading')));
   else (S.quests||[]).forEach(x=>{ const r=sH('div','s2q'+(x.got?' got':'')); const nm=sH('div','qn'); nm.append(sH('b',null,rwQName(x)), sH('small',null,Math.min(x.p,x.n)+' / '+x.n)); const bar=sH('div','qb'); const fi=sH('i'); fi.style.width=Math.round(Math.min(1,x.p/x.n)*100)+'%'; bar.appendChild(fi); nm.appendChild(bar); r.appendChild(nm);
-    let right; if(x.got) right=sH('span','s2tg on','✓ +'+x.r); else if(x.p>=x.n){ right=sH('button','s2take','+'+x.r); right.type='button'; right.disabled=rwBusy; right.onclick=()=>rwClaim('quest',x.k); } else { right=sH('span','s2amt'); right.innerHTML='<i class="coin"></i>'; right.appendChild(document.createTextNode(String(x.r))); }
+    let right; if(x.got) right=coinAmt('s2tg on','✓ +'+x.r); else if(x.p>=x.n){ right=sH('button','s2take camt'); right.innerHTML='<i class="coin"></i>'; right.appendChild(document.createTextNode('+'+x.r)); right.type='button'; right.disabled=rwBusy; right.onclick=()=>rwClaim('quest',x.k); } else { right=sH('span','s2amt'); right.innerHTML='<i class="coin"></i>'; right.appendChild(document.createTextNode(String(x.r))); }
     r.appendChild(right); q.appendChild(r); });
   w.append(g,q); return w; }
 async function rwClaim(op,k){ if(rwBusy||!coinsOnline()) return; rwBusy=true; rwRender(); try{ const d=await rwCall(op,k); if(d && d.daily){ rwState=d; if(d.coins!=null){ profile.ach=Object.assign({},profile.ach||{},{coins:d.coins}); coinsPaint(); } if(d.got){ coinFly(d.got); toast(t('coinsGot',{n:d.got})); try{ sfx('win'); }catch(e){} } } else toast(t('srvErr')); }catch(e){ toast(t('srvErr')); } rwBusy=false; rwRender(); rwDot(); }

@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.30.3 — 11.11.2026
+- The daily gift streak (+50 … +150) and the quest rewards (claim buttons, pending and claimed amounts) show the gold coin icon, on the showcase strip and the home «Quests of the day» card.
+
 ## 0.30.2 — 11.11.2026
 - Campaign: the 🪙 emoji (silver on some systems) is replaced with the site's gold coin (`coinify`) on the campaign page, chapter and prize windows and the home card.
 
