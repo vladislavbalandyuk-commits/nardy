@@ -9,7 +9,6 @@ jobs:
         run: |
           q() { curl -sS -G "https://api.supabase.com/v1/projects/zndzvicklrkxkrpmkybg/analytics/endpoints/logs" -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" \
               --data-urlencode "iso_timestamp_start=$(date -u -d '-20 hours' +%Y-%m-%dT%H:%M:%SZ)" --data-urlencode "iso_timestamp_end=$(date -u +%Y-%m-%dT%H:%M:%SZ)" --data-urlencode "sql=$1" | head -c 20000; echo; }
-          echo "== sample edge"; q "select timestamp, event_message from logs where source = 'function_edge_logs' order by timestamp desc limit 5"
-          echo "== edge status"; q "select extract(event_message, '\\| (\\d{3}) \\|') as s, count() as n from logs where source = 'function_edge_logs' group by s order by n desc"
-          echo "== edge errors by hour"; q "select toStartOfHour(timestamp) as h, extract(event_message, '\\| (\\d{3}) \\|') as s, count() as n from logs where source = 'function_edge_logs' and s >= '400' group by h, s order by h desc limit 80"
-          echo "== fn messages"; q "select timestamp, event_message from logs where source = 'function_logs' and (positionCaseInsensitive(event_message,'error')>0 or positionCaseInsensitive(event_message,'limit')>0 or positionCaseInsensitive(event_message,'memory')>0 or positionCaseInsensitive(event_message,'shutdown')>0 or positionCaseInsensitive(event_message,'timeout')>0) order by timestamp desc limit 50"
+          echo "== edge status"; q "select splitByString(' | ', event_message)[2] as s, count() as n from logs where source = 'function_edge_logs' group by s order by n desc"
+          echo "== edge errors by hour"; q "select toStartOfHour(timestamp) as h, splitByString(' | ', event_message)[2] as s, count() as n from logs where source = 'function_edge_logs' and s not in ('200','204') group by h, s order by h desc limit 80"
+          echo "== fn messages"; q "select timestamp, event_message from logs where source = 'function_logs' and event_message != 'shutdown' and event_message not like 'booted%' order by timestamp desc limit 80"
