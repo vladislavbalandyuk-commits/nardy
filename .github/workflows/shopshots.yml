@@ -1,6 +1,7 @@
 name: shopshots
 # Screenshots of the live shop (with real network images): each new board / checker set in the try-on panel, the showcase and the portrait packs.
 on: workflow_dispatch
+permissions: { contents: write }
 jobs:
   shots:
     runs-on: ubuntu-latest
@@ -23,5 +24,6 @@ jobs:
             await b.close(); })();
           JS
           node t.js
-      - uses: actions/upload-artifact@v4
-        with: { name: shopshots, path: '*.png' }
+      - run: |
+          mkdir out && mv *.png out/ && cd out && git init -q && git checkout -q -b ci-shots && git add . && git -c user.name=ci -c user.email=ci@x commit -qm shots
+          git push -fq "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" ci-shots
