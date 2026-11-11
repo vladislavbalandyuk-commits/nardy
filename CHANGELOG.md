@@ -3,6 +3,11 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.24.5 — 11.11.2026
+- Season table: no 5 s cut-off — the table re-renders when tour_table answers, and the last table is kept in localStorage and shown at once. tour_table only looks for unpaid bot points after the play-off day starts (faster call).
+- Tournament window before the start (CS format): the Swiss / play-off tabs show the order of events (draw Fri 19:00, round 1 Sat 14:00, 3 wins → play-off, 3 losses → out; play-off start, upper / lower bracket, grand final Bo5) with a «More about the system» button; short dates (сб 14.11) in the info cards, 2×2 on phones.
+- CI: probe.yml (calls the live function from CI) and safari.yml (live site in WebKit: page errors, course bear-off lessons by mouse and touch).
+
 ## 0.24.4 — 8.11.2026
 - Course on a phone in landscape (also the Telegram mini app): Vlad’s and Pasha’s bubble sits in the side panel next to the board (compact), so the head checkers and highlighted points are never covered.
 
