@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.30.1 — 11.11.2026
+- Campaign: each chapter also unlocks a card background of its place (`CARDS` cp1–cp8, Unsplash photos, unlocked by `ach.camp`, «Prize of chapter N» while locked); prizes show it. Prize chips on the campaign page sit under the opponent's name in even rows.
+
 ## 0.30.0 — 11.11.2026
 - Custom lobbies: «Create a lobby» opens a setup (points to win 1/3/5/7, time per move 10/20/30/60 s or none, doubles normal / none (re-rolled) / penalty (double N → this and N−1 more turns skipped, `st.skip`, `st.note`), head one/free (headLimit 15), no mars, no win-chance hints, open/by link). Server: `st.rules` (sanitized at create), `turnMs`, penalty in `roll`/`passTurn`, `finish` without mars, action `next` (match to N keeps the score), rematch of a match starts 0:0; custom games change no rating and count as practice for coins. Action `lobbies` (public): open lobbies waiting ≤30 min.
 - Home: «Open lobbies» card (up to 4, «Join», refresh 20 s). Wait screen and game show the rules; the timer and claims follow the time setting; odds hidden when the lobby says so; «Next game» in a match, «Match won / lost».
