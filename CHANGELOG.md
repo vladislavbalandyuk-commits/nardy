@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.31.5 — 12.11.2026
+- Pasha's tour (GUIDE) brought up to date: steps for open lobbies, the campaign, the «Form» card, the phone bottom menu; new texts for bot/lobby, coins (shop tabs), rating, friends, settings (campaign sounds, less motion); the course-friends step removed. Alternatives in a step highlight only the first visible element (`one`); fixed elements (the bottom menu) count as visible.
+
 ## 0.31.4 — 12.11.2026
 - Campaign ambient sound (`CP_AMB`, `ambPlay`/`ambStop`/`ambSync`, WebAudio looped buffers, lazy-loaded from /snd, ~1.9 MB total, immutable cache): CC0/public-domain recordings from the Blanket library (yard, fountain, cafe, fire, wind, port) + sounds synthesized for the site (hookah bubbles, rails, basement, hall, midnight). Plays on the map (phone: follows the scrolled chapter; desktop: the selected one), in the chapter's scenes and games/puzzle. Setting «Campaign sounds» (also off with the main sound). snd/LICENSES.md.
 
