@@ -3,6 +3,19 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.28.0 — 11.11.2026
+- Home on a computer (≥861×560): `#homeStage` replaces the idle board — hero (avatar, tier, rating, bar and points to the next tier, Find / Bot), «Form» (rating line from `ach.rh` since the 0.27 rescale + last 5 games), «Online near you» (5 online ghosts closest to your rating; tap = play that ghost).
+- One-time «A new rating» note (was → now from the last pre-rescale `rh` entry, the three rules, points to the next tier); store key `rr27`.
+- After a game (`#winRate`): the delta, before → after, why (equal / stronger / weaker by N, practice bot 40%, mars ×1.2, calibration game N of 10) and an animated tier bar; re-renders when `ratingDelta` arrives.
+- Search: the rating range we look in (±150 widening 20/s up to ±800) and 4 online ghosts near you.
+- Connection errors in a game: «The connection dropped — the game was restored · code».
+- Coin pill badge: «🎁 +90» / «+150» (gift + finished quests), with a title.
+- Collection: «Put it on in the Collection» opens the item highlighted (pulse + scroll), portraits too; «Your sets» row puts on a whole owned set.
+- Leaderboard: top 100 of everyone (players + ghosts, no Legend filter), your row pinned at the bottom with points to the next place (tap → scroll to it).
+- Phones (≤860): bottom nav (Play, Tournament, Shop, Rating, Profile); landscape hint on the home screen.
+- «Fewer animations» setting (default from prefers-reduced-motion): no animations/transitions, no confetti.
+- Lighter first load: English texts → `en.js` (written in synchronously only for English; loaded on switching), old «What's new» → `news.js` (on opening). index.html gzip 205 → ~178 KB.
+
 ## 0.27.0 — 11.11.2026
 - **Rating:** Elo on a wide scale — K 60, 1500 per «10×» (server `eloDelta`, the client preview the same): equal opponent ±30, an upset up to ±60, a mars ×1.2, never 0. Calibration uses the same scale (K 200). Practice bots still count 40%.
 - **Soft reset** (supabase/run/v7_rating.sql): every rating → 1000 + (rating − 1000) / 2; the order stays.

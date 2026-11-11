@@ -17,6 +17,13 @@ function splitCss(css){ const ITEM=/\[data-ck=|\[data-dice=|\[data-b=|data-table
   const av='window.__AV='+JSON.stringify(base)+';window.__avReady&&window.__avReady();', ptjs='window.__PT='+JSON.stringify(pt)+';window.__ptReady&&window.__ptReady();';
   const h=md5(av), hp=md5(ptjs); fs.writeFileSync(path.join(outDir,'av.js'),av); if(Object.keys(pt).length) fs.writeFileSync(path.join(outDir,'pt.js'),ptjs);
   s=s.slice(0,a)+'const AVATARS={};'+s.slice(b);
+  // the English texts go to en.js (loaded before the app only for English, or when switching), the old «What's new» entries to news.js
+  { const i=s.indexOf('\n en:{'), j=s.indexOf('\n uk:{'); if(i>0 && j>i){ const blk=s.slice(i+1,j); const obj=blk.trim().replace(/^en:/,'').replace(/,\s*$/,''); const en='window.__EN='+obj+';';
+      const he=md5(en); fs.writeFileSync(path.join(outDir,'en.js'),en); s=s.slice(0,i+1)+' en:(window.__EN||{}),'+s.slice(j);
+      const boot='<script>window.__ENSRC="en.js?v='+he+'";(function(){var l=null;try{l=JSON.parse(localStorage.getItem("nardy_lang"))}catch(e){}if(!l)l=(navigator.language||"en").toLowerCase().indexOf("uk")===0?"uk":"en";if(l==="en")document.write(\'<script src="en.js?v='+he+'"><\\/script>\')})();</script>';
+      s=s.replace('<script async id="sbjs"', boot+'<script async id="sbjs"'); } }
+  { const i=s.indexOf('let NEWS=[\n'), j=i<0?-1:s.indexOf('\n];',i); if(i>=0 && j>i){ const body=s.slice(i+'let NEWS=['.length, j+2); const news='window.__NEWS=['+body+';'; const hn=md5(news); fs.writeFileSync(path.join(outDir,'news.js'),news);
+      const first=s.slice(i+'let NEWS=[\n'.length).split('\n')[0].replace(/,\s*$/,''); s=s.slice(0,i)+'window.__NEWSSRC="news.js?v='+hn+'"; let NEWS=['+first+'];'+s.slice(j+3); } }
   s=s.replace('const AV_KEYS=Object.keys(AVATARS);','const AV_KEYS='+JSON.stringify(keys)+';');
   s=s.replace(/\nboot\(\);\n/,`
 function refreshAvatars(){ document.querySelectorAll('.av[data-av]').forEach(el=>{ if(el.dataset.av && !el.closest('.frl')) avatarInto(el, el.dataset.av, el.dataset.nm); }); try{ renderMeAvatar(); }catch(e){} try{ renderHomeV7(); }catch(e){} try{ if(gs) route(); }catch(e){} }
