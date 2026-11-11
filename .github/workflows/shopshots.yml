@@ -1,0 +1,27 @@
+name: shopshots
+# Screenshots of the live shop (with real network images): each new board / checker set in the try-on panel, the showcase and the portrait packs.
+on: workflow_dispatch
+jobs:
+  shots:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          npm i playwright@1 >/dev/null 2>&1
+          npx playwright install --with-deps chromium >/dev/null 2>&1
+          cat > t.js <<'JS'
+          const pw=require('playwright');
+          (async()=>{ const b=await pw.chromium.launch(); for(const [w,h,mob] of [[1440,900,0],[390,844,1]]){
+            const p=await (await b.newContext({viewport:{width:w,height:h},deviceScaleFactor:mob?2:1,isMobile:!!mob,hasTouch:!!mob})).newPage(); const errs=[]; p.on('pageerror',e=>errs.push(e.message));
+            await p.addInitScript(()=>{ localStorage.setItem('nardy_guideSeen','1'); localStorage.setItem('nardy_lang','"uk"'); });
+            await p.goto('https://nardy-nine.vercel.app/'); await p.waitForTimeout(5000);
+            console.log(w, await p.evaluate(()=>APP_VERSION));
+            await p.evaluate(()=>{ document.querySelectorAll('.overlay').forEach(o=>o.classList.add('hidden')); openShopPg('show'); }); await p.waitForTimeout(3000);
+            await p.screenshot({path:'show_'+w+'.png'}); await p.evaluate(()=>{ const n=document.querySelector('.s2new'); n.scrollIntoView(); }); await p.waitForTimeout(2500); await p.screenshot({path:'show_new_'+w+'.png'});
+            for(const [c,k] of [['board','carrara'],['board','terrazzo'],['board','noir'],['ck','frost'],['ck','spooky'],['ck','royal'],['ck','iximmo'],['pt','bit8']]){
+              await p.evaluate(([c,k])=>{ shSel[c]=k; shGo('shop',c); },[c,k]); await p.waitForTimeout(3500); const el=await p.$('#s2ch'); await el.screenshot({path:'item_'+k+'_'+w+'.png'}); }
+            console.log(w,'errors',errs.slice(0,5)); }
+            await b.close(); })();
+          JS
+          node t.js
+      - uses: actions/upload-artifact@v4
+        with: { name: shopshots, path: '*.png' }
