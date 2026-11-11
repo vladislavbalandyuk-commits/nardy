@@ -28,9 +28,9 @@ function winChanceOnRoll(st,c){ const o=OPP(c); let pm=0,po=0; for(let q=0;q<24;
   return 1/(1+Math.exp(-(0.1702+0.5114*(po-pm)/Sq-6.3696*hm/Sq+6.4309*ho/Sq+4.7955*(st.off[c]-st.off[o])/Sq))); }
 function baseGain(r){ const lo=1000,hi=1600; if(r<=lo) return 50; if(r>=hi) return 25; return 50-25*(r-lo)/(hi-lo); }
 // rating (0.26.1): Elo on a wide scale. An equal opponent ±30; beating a much stronger one up to +60, a much weaker one only a few points;
-// losing to a much weaker one up to −60. A mars ×1.2. (The scale is 1500 per «10×», so 4000 vs 2500 is still a game, as dice allow.)
+// losing to a much weaker one up to −60. A mars ×2 (0.30.4). (The scale is 1500 per «10×», so 4000 vs 2500 is still a game, as dice allow.)
 const ELO_K=60, ELO_D=1500;
-function eloDelta(my,opp,score,mars){ const E=1/(1+Math.pow(10,(opp-my)/ELO_D)); let d=ELO_K*((score?1:0)-E); if(mars) d*=1.2; d=Math.round(d); return score?Math.max(1,d):Math.min(-1,d); }
+function eloDelta(my,opp,score,mars){ const E=1/(1+Math.pow(10,(opp-my)/ELO_D)); let d=ELO_K*((score?1:0)-E); if(mars) d*=2; d=Math.round(d); return score?Math.max(1,d):Math.min(-1,d); }
 
 
 // ---- server-side bots (practice bots and online personas) ----
@@ -932,7 +932,7 @@ Deno.serve(async (req) => {
         if (rg < CALIB) { if (!fullGame) { calSkip = true; d[s] = 0; }
           else { const cal = { g: 0, w: 0, mars: 0, ...(ach.A.cal || {}) }; if (cal.m == null) cal.m = Math.max(1000, Math.min(CAL_MAX, 1000 + cal.w * 90 - (cal.g - cal.w) * 30));
             cal.g++; if (won) { cal.w++; if (st.result.mars) cal.mars++; } cal.best = won ? Math.max(cal.best || 0, opR) : (cal.best || 0);
-            { const E = 1 / (1 + Math.pow(10, (opR - cal.m) / 1500)); let dm = 200 * ((won ? 1 : 0) - E); if (won && st.result.mars) dm *= 1.2;   // classic Elo, K = 160: whom you beat matters a lot
+            { const E = 1 / (1 + Math.pow(10, (opR - cal.m) / 1500)); let dm = 200 * ((won ? 1 : 0) - E); if (won && st.result.mars) dm *= 2;   // classic Elo, K = 160: whom you beat matters a lot
               cal.m = Math.max(1000, Math.min(CAL_MAX, Math.round(cal.m + dm))); }
             ach.A.cal = cal; d[s] = rg + 1 >= CALIB ? cal.m - myR : 0; } }
         const dayN = ((ach.A.gd || []).find((x: any) => x.d === kyivDay()) || { h: 0, b: 0 }); const nToday = (dayN.h || 0) + (dayN.b || 0);

@@ -3,6 +3,10 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.30.4 — 11.11.2026
+- Rating: a mars is ×2 (was ×1.2) — server `eloDelta`, calibration, the client preview, texts; ghost games the same (supabase/run/v8_mars.sql).
+- Campaign page: prize chips are spans, so the gold coin inside them is drawn (the chip style hid it).
+
 ## 0.30.3 — 11.11.2026
 - The daily gift streak (+50 … +150) and the quest rewards (claim buttons, pending and claimed amounts) show the gold coin icon, on the showcase strip and the home «Quests of the day» card.
 
