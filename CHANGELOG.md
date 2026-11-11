@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.30.5 — 11.11.2026
+- Desktop dashboard: cards in a row stretch to the same height; «Form» gets four numbers (games, win %, streak, best rating) and the chart grows to fill the card; the campaign card goes right under them with a «Play →» button; «Quests of the day» ends with the daily gift (claim right there).
+
 ## 0.30.4 — 11.11.2026
 - Rating: a mars is ×2 (was ×1.2) — server `eloDelta`, calibration, the client preview, texts; ghost games the same (supabase/run/v8_mars.sql).
 - Campaign page: prize chips are spans, so the gold coin inside them is drawn (the chip style hid it).

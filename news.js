@@ -1,4 +1,5 @@
 window.__NEWS=[
+ {v:"0.30.5", d:"11.11.2026", uk:["Головна на комп’ютері: блок «Форма» без порожнечі — цифри (ігор, перемог, серія, найкращий рейтинг), графік на всю висоту, картки в ряду однакової висоти"], en:["Home on a computer: the «Form» block without empty space — numbers (games, won, streak, best rating), a full-height chart, cards in a row of equal height"]},
  {v:"0.30.4", d:"11.11.2026", uk:["Марс у рейтингу тепер подвійний: ×2 очки і за перемогу, і за поразку", "Золоті монети в списку призів на сторінці кампанії"], en:["A mars now counts double in the rating: ×2 points for the win and for the loss", "Gold coins in the prize list on the campaign page"]},
  {v:"0.30.3", d:"11.11.2026", uk:["Золота монетка біля сум у щоденному подарунку та завданнях дня — на вітрині й на головній"], en:["A gold coin next to the amounts of the daily gift and quests — on the showcase and the home screen"]},
  {v:"0.30.2", d:"11.11.2026", uk:["Монети в кампанії тепер золоті, як усюди на сайті"], en:["Coins in the campaign are gold now, like everywhere on the site"]},
