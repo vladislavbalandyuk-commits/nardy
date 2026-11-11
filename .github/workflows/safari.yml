@@ -1,0 +1,25 @@
+name: safari
+# Open the live site in WebKit (the Safari engine) and in Chromium; print page errors and save screenshots.
+on: workflow_dispatch
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          npm i playwright@1 >/dev/null 2>&1
+          npx playwright install --with-deps webkit chromium >/dev/null 2>&1
+          cat > t.js <<'JS'
+          const pw=require('playwright');
+          (async()=>{ for(const name of ['webkit','chromium']){ for(const [w,h,mob] of [[1440,860,0],[390,844,1]]){
+            const b=await pw[name].launch(); const ctx=await b.newContext({viewport:{width:w,height:h},isMobile:!!mob,hasTouch:!!mob}); const p=await ctx.newPage(); const errs=[];
+            p.on('pageerror',e=>errs.push('PAGEERROR '+e.message+' @ '+(e.stack||'').split('\n').slice(0,3).join(' | ')));
+            p.on('console',m=>{ if(m.type()==='error') errs.push('console '+m.text().slice(0,300)); });
+            p.on('requestfailed',r=>errs.push('reqfail '+r.url().slice(0,120)+' '+(r.failure()&&r.failure().errorText)));
+            await p.goto('https://nardy-nine.vercel.app/',{waitUntil:'load'}); await p.waitForTimeout(6000);
+            const st=await p.evaluate(()=>({ver:typeof APP_VERSION!=='undefined'?APP_VERSION:null, route:typeof route, findBtn:!!document.querySelector('#btnFind'), visibleOverlays:[...document.querySelectorAll('.overlay:not(.hidden)')].map(o=>o.id), bodyText:document.body.innerText.slice(0,200).replace(/\s+/g,' ')})).catch(e=>({evalErr:e.message}));
+            console.log('=====',name,w+'x'+h,JSON.stringify(st)); errs.slice(0,15).forEach(e=>console.log('   ',e));
+            await p.screenshot({path:name+'_'+w+'.png'}); await b.close(); } } })();
+          JS
+          node t.js
+      - uses: actions/upload-artifact@v4
+        with: { name: shots, path: '*.png' }

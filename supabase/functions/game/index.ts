@@ -683,7 +683,7 @@ Deno.serve(async (req) => {
     if (action === 'tour_table') {
       const { data } = await db.from('profiles').select('id,name,av,rating,played,won,ach').not('ach->tourAt', 'is', null).limit(1000);
       let F = (await lgFile(db, 'tour/botpts.json')) || { evs: [], p: {} };
-      { const E = TR.tourEvent(Date.now()); if (E && !F.evs.includes(E.id)) { const { draw, res, names } = await tourLoad(db, E.id); if (draw && names.includes('paid')) { const C = TR.tourCompute(draw, res, Date.now()); if (C.done) F = await botPtsAdd(db, E.id, draw, C, res); } } }   // the event paid before this existed
+      { const E = TR.tourEvent(Date.now()); if (E && Date.now() > E.pAt && !F.evs.includes(E.id)) { const { draw, res, names } = await tourLoad(db, E.id); if (draw && names.includes('paid')) { const C = TR.tourCompute(draw, res, Date.now()); if (C.done) F = await botPtsAdd(db, E.id, draw, C, res); } } }   // the event paid before this existed
       const bots = Object.entries(F.p || {}).map(([id, tp]: any) => ({ id, bot: 1, rating: TR.botRating ? TR.botRating(id) : 0, tp }));
       return json({ rows: [...(data || []).map((r: any) => ({ id: r.id, name: r.name, av: r.av, rating: r.rating, played: r.played, won: r.won, fr: r.ach?.fr || 0, tp: (r.ach?.tp || []).slice(-30) })), ...bots] });
     }
