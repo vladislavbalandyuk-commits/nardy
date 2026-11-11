@@ -596,7 +596,7 @@ body.simw #btnCopy2,body.simw #btnVoice,body.simw #btnSpk,body.simw #qrBar,body.
 #shopPg .s2prog{display:flex;flex-direction:column;gap:8px} #shopPg .s2prog b{font-size:15px} #shopPg .s2prog .bar{height:8px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden} #shopPg .s2prog .bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#5fd39a,#4d8dff)}
 #shopPg .s2live{padding:14px;pointer-events:none;overflow:hidden} #shopPg .s2live .spvIn{position:relative;display:flex;justify-content:center} #shopPg .s2live .board{box-shadow:0 18px 34px -16px rgba(0,0,0,.7)!important}
 #shopPg .s2live .s2dd{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);gap:8px;filter:drop-shadow(0 8px 14px rgba(0,0,0,.5))} #shopPg .s2live .s2me{pointer-events:none} #shopPg .s2live .s2dd .die{width:var(--dcs,32px)!important;height:var(--dcs,32px)!important}
-#shopPg .s2me{position:absolute!important;right:14px;top:14px}
+#shopPg .s2me{position:absolute!important;right:14px;top:14px} @media (max-width:600px){ .s2me{right:-6px;top:-8px;transform:scale(.6);transform-origin:top right} }
 #shopPg .s2colb{display:grid;grid-template-columns:210px minmax(0,1fr);gap:24px;align-items:start}
 #shopPg .s2nav{position:sticky;top:84px;display:flex;flex-direction:column;gap:2px}
 #shopPg .s2nav button{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:11px 13px;border-radius:12px;border:0;background:none;color:#a8a29a;font-weight:600;font-size:14px;text-align:left;box-shadow:none}
@@ -1237,7 +1237,7 @@ body.dark input,body.dark .field input{background:rgba(255,255,255,.05);color:va
 /* ---- home: bento grid ---- */
 body.v7 #vHome{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:16px}
 body.v7 #vHome .sec{border:0;padding:0}
-body.v7 #vHome .sec:first-child{grid-column:1/-1;padding:6px 4px 4px}
+body.v7 #vHome .sec:first-child,body.v7 #vHome>.sec:has(>h1){grid-column:1/-1;padding:6px 4px 4px}
 body.v7 #vHome h1{font-weight:600;letter-spacing:-.035em;font-size:40px;line-height:1.02}
 body.v7 #vHome .sec.opt{position:relative;overflow:hidden;background:var(--surf);border:1px solid var(--line2);border-radius:22px;padding:18px;display:flex;flex-direction:column;transition:transform .2s,border-color .2s,background .2s}
 body.v7 #vHome .sec.opt:hover{border-color:var(--line);transform:translateY(-2px)}
@@ -1254,7 +1254,7 @@ body.v7 #vHome .sec.opt.v7bot button,body.v7 #vHome .sec.opt.v7fr button{margin:
 body.v7 #vHome .sec.opt.v7find{padding:18px 20px}
 body.v7 #vHome .sec.opt.v7find .ico{display:none}
 body.v7 #vHome .sec.opt.v7find p{margin-bottom:12px}
-body.v7 #vHome .sec:first-child p{margin:0}
+body.v7 #vHome .sec:first-child p,body.v7 #vHome>.sec:has(>h1) p{margin:0}
 body.v7 .rkcard{padding:10px 14px}
 @media (min-width:861px) and (max-height:979px){ body.v7 .topcard{display:none} }
 @media (min-width:861px) and (max-height:740px){ body.v7 .rkcard{display:none} body.v7 #vHome .sec:first-child p{display:none} }
@@ -1269,7 +1269,7 @@ body.v7 .avstack .av{width:30px;height:30px;margin-right:-8px;box-shadow:0 0 0 2
 body.v7 .avstack em{font-style:normal;font-size:12.5px;color:var(--muted);margin-left:16px;display:flex;align-items:center;gap:7px}
 body.v7 .avstack em::before{content:"";width:7px;height:7px;border-radius:50%;background:#34d399;box-shadow:0 0 0 0 rgba(52,211,153,.6);animation:livePulse 2s infinite}
 @keyframes livePulse{70%{box-shadow:0 0 0 8px rgba(52,211,153,0)}100%{box-shadow:0 0 0 0 rgba(52,211,153,0)}}
-body.v7 #vHome .sec:first-child .onl{display:none}
+body.v7 #vHome .sec:first-child .onl,body.v7 #vHome>.sec:has(>h1) .onl{display:none}
 body.v7 .rkcard{grid-column:1/-1;display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;background:var(--surf);border:1px solid var(--line2);border-radius:22px;padding:14px 16px;cursor:pointer;transition:border-color .2s}
 body.v7 .rkcard:hover{border-color:var(--line)}
 body.v7 .rkcard b{display:block;font-weight:600;font-size:15px} body.v7 .rkcard small{color:var(--muted);font-size:12.5px}
@@ -1743,6 +1743,7 @@ body.v7 #vHome .tourban + .sec{grid-column:1/-1;padding:6px 4px 4px}
 .setlook .i{width:17px;height:17px}
 @media (max-width:560px){ .setm.slim #setPrev{display:none!important} .setm.slim .snames{margin-top:12px} .setm.slim .hero{padding:18px 16px 14px} }
 /* header: gift with a green dot when something can be collected */
+@media (max-width:430px){ body:not(.home) .coinpill .gdot.tx{font-size:0;padding:0;width:8px;height:8px;margin-left:4px} }
 @media (max-width:480px){ header .hdr-r{gap:2px!important} header .hdr-r .gear{min-width:40px!important;padding:0!important} header .hdr-r .coinpill{margin-right:4px} }
 .coinpill{position:relative}
 .gdot{position:absolute;top:-3px;right:-3px;width:9px;height:9px;border-radius:50%;background:#3fbf7f;box-shadow:0 0 0 2px var(--bg,#fff);display:none}
@@ -4109,7 +4110,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.30.5';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.30.6';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -5613,6 +5614,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+ {v:"0.30.6", d:"11.11.2026", uk:["Телефон: заголовок «Довгі нарди» на головній знову на всю ширину", "Телефон: у грі аватар у шапці більше не обрізається", "Колекція на телефоні: аватар не закриває шашки на дошці"], en:["Phone: the «Long nardy» heading on home is full width again", "Phone: the avatar in the in-game header is no longer cut off", "Collection on a phone: the avatar no longer covers checkers on the board"]},
  {v:"0.30.5", d:"11.11.2026", uk:["Головна на комп’ютері: блок «Форма» без порожнечі — цифри (ігор, перемог, серія, найкращий рейтинг), графік на всю висоту, картки в ряду однакової висоти"], en:["Home on a computer: the «Form» block without empty space — numbers (games, won, streak, best rating), a full-height chart, cards in a row of equal height"]},
  {v:"0.30.4", d:"11.11.2026", uk:["Марс у рейтингу тепер подвійний: ×2 очки і за перемогу, і за поразку", "Золоті монети в списку призів на сторінці кампанії"], en:["A mars now counts double in the rating: ×2 points for the win and for the loss", "Gold coins in the prize list on the campaign page"]},
  {v:"0.30.3", d:"11.11.2026", uk:["Золота монетка біля сум у щоденному подарунку та завданнях дня — на вітрині й на головній"], en:["A gold coin next to the amounts of the daily gift and quests — on the showcase and the home screen"]},

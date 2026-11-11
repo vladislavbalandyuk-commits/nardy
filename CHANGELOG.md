@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.30.6 — 11.11.2026
+- Bug sweep (all pages × 1440/390 × uk/en): home hero spans both grid columns again on phones (`.sec:first-child` no longer matched after the tournament banner moved above it — now also `.sec:has(>h1)`); in-game header on ≤430px shows the gift as a dot instead of «+70» so the avatar isn't clipped; collection preview avatar scaled to 60% in the corner on ≤600px.
+
 ## 0.30.5 — 11.11.2026
 - Desktop dashboard: cards in a row stretch to the same height; «Form» gets four numbers (games, win %, streak, best rating) and the chart grows to fill the card; the campaign card goes right under them with a «Play →» button; «Quests of the day» ends with the daily gift (claim right there).
 
