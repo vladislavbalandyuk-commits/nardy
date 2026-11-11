@@ -3,6 +3,11 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.31.0 — 11.11.2026
+- Campaign rebuilt as a night-city map (SVG road, seeded skyline, fog past the next chapter; Vlad + Pasha ride along at the current chapter, only Pasha from chapter 5). Desktop: map + chapter panel; phone: map + bottom sheet.
+- Every chapter = 3 steps: puzzle (pzMake('camp-n-31'), best or near-best passes, +30, server `campstep`), warm-up (server game from a set position — race / blitz / blockade / behind / no doubles — with lobby rules, +50, `camp` claim with `st.campStep=2`), boss (as before). `ach.cs` = steps done in the current chapter; the server refuses a step out of order (`camp_step`).
+- Story scenes (`campScene`): arrival, before the boss, after the win; Vlad leaves a note after chapter 4; the chapter 8 boss is the hooded Master (`mask`) who turns out to be Vlad (`vladM`). New avatars vladM / vlad2 / pasha2 (remixes of the CC0 Notionists Vlad and Pasha, tools/avgen.js) given for chapter 8 and hidden as «???» until then.
+
 ## 0.30.6 — 11.11.2026
 - Bug sweep (all pages × 1440/390 × uk/en): home hero spans both grid columns again on phones (`.sec:first-child` no longer matched after the tournament banner moved above it — now also `.sec:has(>h1)`); in-game header on ≤430px shows the gift as a dot instead of «+70» so the avatar isn't clipped; collection preview avatar scaled to 60% in the corner on ≤600px.
 

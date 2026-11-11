@@ -192,7 +192,22 @@ const CAMP: any[] = [null,
   { name: 'Галина Петрівна', av: 'pt29', r: 2100, noise: 0, lvl: 0, coins: 350, items: ['board:coupe'] },
   { name: 'Капітан Нугзар', av: 'pt28', r: 2700, noise: 0, lvl: 1, coins: 400, items: ['ck:sea', 'fx:sparkle'] },
   { name: 'Тінь', av: 'pt31', r: 3600, noise: 0, lvl: 2, coins: 500, items: ['board:shadow', 'pt:pt31'] },
-  { name: 'Гранд-майстер Гево', av: 'pt23', r: 5200, noise: 0, lvl: 3, coins: 1000, items: ['ck:crown', 'dice:emerald', 'board:marblehall', 'fx:fireworks', 'fx:confetti', 'pt:pt23'] }];
+  { name: 'Майстер', av: 'mask', r: 5200, noise: 0, lvl: 3, coins: 1000, items: ['ck:crown', 'dice:emerald', 'board:marblehall', 'fx:fireworks', 'fx:confetti', 'pt:pt23', 'av:vladM', 'av:vlad2', 'av:pasha2'] }];
+// 0.31.0: each chapter is three steps — a puzzle (1, judged on the site like the daily one), a short game against a minor opponent
+// from a set position (2), and the boss (3). ach.cs = steps done in the current chapter (camp+1). Minor games: the player is white and moves first.
+const CAMP_STEP_COINS = { 1: 30, 2: 50 };
+const RACE = (w: number[], b: number[]) => { const B = new Array(24).fill(0); w.forEach((n, i) => { B[18 + i] = n; }); b.forEach((n, i) => { B[6 + i] = -n; }); return B; };
+const BLOCK = (st: number) => { const B = new Array(24).fill(0); B[8] = st; const home = st === 3 ? [2, 2, 2, 2, 2, 2] : [2, 2, 2, 2, 2, 1]; home.forEach((n, i) => { B[18 + i] = n; }); [13, 14, 15, 16, 17].forEach((i) => { B[i] = -1; }); [6, 7, 9, 10, 11].forEach((i) => { B[i] = -2; }); return B; };
+const EVEN = [2, 2, 3, 3, 3, 2];
+const CAMP_MINI: any[] = [null,
+  { name: 'Сусід Вітя', av: 'm5', board: () => RACE(EVEN, EVEN), noise: 3 },
+  { name: 'Студент Денис', av: 'm8', board: () => RACE(EVEN, EVEN), t: 10, noise: 2 },
+  { name: 'Офіціантка Іра', av: 'n6', board: () => BLOCK(3), noise: 1.5 },
+  { name: 'Кальянщик Саша', av: 'm10', board: () => RACE([3, 3, 3, 2, 2, 2], EVEN), noise: 1 },
+  { name: 'Пасажир з верхньої полиці', av: 'm3', board: () => RACE(EVEN, EVEN), t: 10, noise: .5 },
+  { name: 'Юнга Гіві', av: 'm11', board: () => RACE(EVEN, EVEN), dbl: 'none', noise: 0 },
+  { name: 'Охоронець', av: 'm12', board: () => BLOCK(4), noise: 0, lvl: 1 },
+  { name: 'Учень Майстра', av: 'n10', board: () => RACE(EVEN, EVEN), t: 10, noise: 0, lvl: 3 }];
 const SHOP_OPEN = Date.UTC(2026, 10, 7, 10, 0);   // accounts made before the shop opened get 3000 coins once, for the skins that became paid
 // ---- daily gift (7-day streak) and quests of the day; quest progress is counted on the server in rate() ----
 const DAILY = [50, 70, 90, 110, 130, 150, 150];
@@ -598,6 +613,15 @@ Deno.serve(async (req) => {
       return json({ ok: true, ...view() });
     }
     // the campaign: a won chapter game gives its prizes once and opens the next chapter
+    // the campaign puzzle (step 1) of the current chapter, solved on the site
+    if (action === 'campstep') {
+      const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
+      const A = { ...(p.ach || {}) }; const done = A.camp | 0, n = Math.round(Number(args?.n));
+      if (n !== done + 1 || n > 8) return json({ ok: true, already: true, camp: done, cs: A.cs | 0, coins: A.coins ?? COIN_START });
+      if ((A.cs | 0) >= 1) return json({ ok: true, already: true, camp: done, cs: A.cs | 0, coins: A.coins ?? COIN_START });
+      A.cs = 1; A.coins = (A.coins ?? COIN_START) + CAMP_STEP_COINS[1]; await db.from('profiles').update({ ach: A }).eq('id', user.id);
+      return json({ ok: true, camp: done, cs: 1, coins: A.coins, gotCoins: CAMP_STEP_COINS[1] });
+    }
     if (action === 'camp') {
       const gid = String(args?.gid || ''); if (!/^[a-z0-9]{4,16}$/.test(gid)) return json({ error: 'bad_game' }, 400);
       const { data: g } = await db.from('games').select('p1,state').eq('id', gid).maybeSingle(); const st = g?.state;
@@ -605,10 +629,15 @@ Deno.serve(async (req) => {
       const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
       const A = { ...(p.ach || {}) }; A.owned = Array.isArray(A.owned) ? A.owned : []; const done = A.camp | 0, n = st.camp | 0, CH = CAMP[n];
       if (!CH || n > done + 1) return json({ error: 'camp_locked' }, 400);
+      if (st.campStep === 2) {   // a minor opponent beaten: step 2 of the current chapter
+        if (n !== done + 1 || (A.cs | 0) >= 2) return json({ ok: true, already: true, step: 2, camp: done, cs: A.cs | 0, coins: A.coins ?? COIN_START, owned: A.owned });
+        A.cs = 2; A.coins = (A.coins ?? COIN_START) + CAMP_STEP_COINS[2]; await db.from('profiles').update({ ach: A }).eq('id', user.id);
+        return json({ ok: true, step: 2, camp: done, cs: 2, coins: A.coins, owned: A.owned, gotCoins: CAMP_STEP_COINS[2] });
+      }
       if (n <= done) return json({ ok: true, already: true, camp: done, coins: A.coins ?? COIN_START, owned: A.owned });
-      const got = CH.items.filter((id: string) => !A.owned.includes(id)); A.owned = [...A.owned, ...got]; A.coins = (A.coins ?? COIN_START) + CH.coins; A.camp = n;
+      const got = CH.items.filter((id: string) => !A.owned.includes(id)); A.owned = [...A.owned, ...got]; A.coins = (A.coins ?? COIN_START) + CH.coins; A.camp = n; A.cs = 0;
       await db.from('profiles').update({ ach: A }).eq('id', user.id);
-      return json({ ok: true, camp: n, coins: A.coins, owned: A.owned, got, gotCoins: CH.coins });
+      return json({ ok: true, camp: n, cs: 0, coins: A.coins, owned: A.owned, got, gotCoins: CH.coins });
     }
     // open lobbies: games with custom rules that wait for a second player
     if (action === 'lobbies') {
@@ -966,6 +995,8 @@ Deno.serve(async (req) => {
       let gh = null; if (bot === 'ghost') { gh = await ghostRow(Number(args?.ghost)); if (!gh) return json({ error: 'bad_ghost' }, 400); }
       const cn = bot === 'camp' ? Math.round(Number(args?.camp)) : 0, CH = cn ? CAMP[cn] : null;
       if (bot === 'camp' && (!CH || ((me?.ach?.camp | 0) < cn - 1))) return json({ error: 'camp_locked' }, 400);
+      const cStep = bot === 'camp' && Number(args?.step) === 2 ? 2 : 3, cDone = me?.ach?.camp | 0, cs = me?.ach?.cs | 0;
+      if (bot === 'camp' && cn === cDone + 1 && cs < cStep - 1) return json({ error: 'camp_step' }, 400);
       const st = C.newGame(user.id, bot ? 'bot:' + bot : null);
       if (!bot && args?.rules && typeof args.rules === 'object') { const q = args.rules, pick = (v: any, L: any[], d: any) => L.includes(v) ? v : d;
         st.rules = { to: pick(Number(q.to), [1, 3, 5, 7], 1), t: pick(Number(q.t), [0, 10, 20, 30, 60], 60), dbl: pick(q.dbl, ['norm', 'none', 'pen'], 'norm'), head: pick(q.head, ['one', 'free'], 'one'), noMars: !!q.noMars, noOdds: !!q.noOdds, open: !!q.open }; st.lobbyAt = Date.now(); }
@@ -973,7 +1004,10 @@ Deno.serve(async (req) => {
       const botR = gh ? gh.rating : CH ? CH.r : bot ? C.BOTS[bot].r : 0;
       st.names = { p1: me?.name ?? '', p2: gh ? gh.name : CH ? CH.name : bot ? String(args?.name ?? '').slice(0, 24) : '' }; st.avs = { p1: me?.av ?? '', p2: gh ? gh.av : CH ? CH.av : bot ? String(args?.av ?? '').slice(0, 8) : '' };
       st.ratings = { p1: myR, p2: botR }; st.frs = { p1: me?.ach?.fr || 0, p2: 0 }; if (gh) { st.ghost = gh.id; st.botNoise = ghostNoise(gh.skill ?? gh.rating); const lv = ghostLvl(gh.skill ?? gh.rating); if (lv) st.botLvl = lv; }
-      if (CH) { st.camp = cn; st.botNoise = CH.noise; if (CH.lvl) st.botLvl = CH.lvl; }
+      if (CH) { st.camp = cn; st.botNoise = CH.noise; if (CH.lvl) st.botLvl = CH.lvl;
+        if (cStep === 2) { const M = CAMP_MINI[cn]; st.campStep = 2; st.board = M.board(); st.botNoise = M.noise; if (M.lvl) st.botLvl = M.lvl; else delete st.botLvl;
+          st.rules = { to: 1, t: M.t || 60, dbl: M.dbl || 'norm', head: 'one', noMars: false, noOdds: false, open: false };
+          st.white = st.p1; st.black = st.p2; st.phase = 'play'; st.turn = 'w'; st.first = { w: false, b: false }; st.turnAt = Date.now(); st.names.p2 = M.name; st.avs.p2 = M.av; } }
       const { error } = await db.from('games').insert({ id: gameId, p1: user.id, p2: null, state: st, updated_at: new Date().toISOString() });
       if (error) return json({ error: error.code === '23505' ? 'exists' : 'db' }, 409);
       return json({ state: st });
