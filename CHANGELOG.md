@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.28.1 — 11.11.2026
+- Home on a computer: the side panel hides what the dashboard already has (title, «Find opponent», «Play the bot», rank card, top card) and gets a «Friends» card (online count and avatars, «Friends», «Invite»). The dashboard gets a second row: «Top players» (top 5 + your place, points to the next; tap → leaderboard) and «Quests of the day» (progress, claim).
+
 ## 0.28.0 — 11.11.2026
 - Home on a computer (≥861×560): `#homeStage` replaces the idle board — hero (avatar, tier, rating, bar and points to the next tier, Find / Bot), «Form» (rating line from `ach.rh` since the 0.27 rescale + last 5 games), «Online near you» (5 online ghosts closest to your rating; tap = play that ghost).
 - One-time «A new rating» note (was → now from the last pre-rescale `rh` entry, the three rules, points to the next tier); store key `rr27`.
