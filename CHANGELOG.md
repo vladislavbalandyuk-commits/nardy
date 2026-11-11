@@ -3,6 +3,10 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.28.2 — 11.11.2026
+- Friends tab redone: head card (friends count, online now, «Invite»), search with an icon and results in a box (✓ for those already friends), «Online» / «Offline» sections, rows with rank + rating, «mutual» chip, «Call» (primary when online); proper empty states. The rating page title follows the tab.
+- Home side «Friends» card: online friends (up to 3) with a «Call» button, «all ›» link, «+ Invite»; loads the friends list if needed.
+
 ## 0.28.1 — 11.11.2026
 - Home on a computer: the side panel hides what the dashboard already has (title, «Find opponent», «Play the bot», rank card, top card) and gets a «Friends» card (online count and avatars, «Friends», «Invite»). The dashboard gets a second row: «Top players» (top 5 + your place, points to the next; tap → leaderboard) and «Quests of the day» (progress, claim).
 
