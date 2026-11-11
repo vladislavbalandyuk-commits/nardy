@@ -1,0 +1,22 @@
+name: probe
+# One-off diagnostics: call the live game function the way the site does and print the responses.
+on:
+  workflow_dispatch:
+    inputs:
+      action: { description: 'game action to call (with a fresh scratch account)', required: false, default: 'tour_table' }
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          A: ${{ github.event.inputs.action }}
+        run: |
+          set -e
+          K=sb_publishable_RN7RCyueFTrdIUyOllJKWA_wxMp2Bpz; U=https://zndzvicklrkxkrpmkybg.supabase.co
+          R=$(curl -sS -X POST "$U/auth/v1/signup" -H "apikey: $K" -H 'Content-Type: application/json' -d "{\"email\":\"uprobe$RANDOM@nardy.invalid\",\"password\":\"pr0be-$RANDOM-x\"}")
+          TOK=$(echo "$R" | jq -r '.access_token // empty'); echo "signup token: ${#TOK} chars"
+          for act in "$A" tour_state; do
+            echo "== $act"
+            code=$(curl -sS -o out.json -w '%{http_code}' -X POST "$U/functions/v1/game" -H "apikey: $K" -H "Authorization: Bearer $TOK" -H 'Content-Type: application/json' -d "{\"action\":\"$act\"}")
+            echo "HTTP $code"; head -c 2000 out.json; echo
+          done
