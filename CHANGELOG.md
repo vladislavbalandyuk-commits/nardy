@@ -3,6 +3,12 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.39.0 — 12.11.2026
+- Phone tab bar: Play · Learn · Shop · Friends · Profile (Tournament and Rating tabs replaced). The bar stays visible on the shop, the friends/rating page, the Learn page and the profile, marks the current tab, and switching closes the other page.
+- New «Learn» page (#learnPg): the campaign as the big card (current chapter, progress, Play), the course with Vlad and Pasha, the daily puzzle, How to play, Rules and ranks, Pasha's tour. Desktop: a book button in the header; Esc closes.
+- Friends tab opens the rank page on «Friends» (Rating / League / Tournaments tabs are there).
+- Pasha's tour: new step for «Learn», tab-bar text updated.
+
 ## 0.38.0 — 12.11.2026
 - New home page: one big «Play» (quick game vs an opponent of your level, falls back to a bot) with three chips under it — Vs bot / Friend (lobby) / Local; the separate bot, lobby and local cards are gone.
 - «Today»: a heading and exactly three tiles — puzzle, gift and a third one: the tournament on its weekend (the big banner left the home page; it lives in the Tournament tab), otherwise the campaign / course / friends.
