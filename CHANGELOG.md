@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.34.1 — 12.11.2026
+- Home «Form» card: until there is a rating chart, a faint sample curve with the hint and «Play a rated game» fills the space. The phone play card title is «Play online» (the button stays «Find an opponent»).
+
 ## 0.34.0 — 12.11.2026
 - Effects preview inside the tapped card (`runFx(..., host)` draws in an element; `previewFx(k, host)`), ▶ button on each effect card; the old preview always drew in the first card.
 - Settings rebuilt as a full page: sticky header, section menu (side on desktop, chips on phones) following the scroll, cards per section (Game / Sound and vibration / Look / Notifications / Help / Account), the account form and admin/test buttons inside «Account»; light theme styles.
