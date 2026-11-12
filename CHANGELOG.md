@@ -3,6 +3,10 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.34.2 — 12.11.2026
+- Take back the last move: when a move would end your turn, it is held for 2.6 s with a bar «Move done · Undo · Done» (and the board's undo button works); after that it is sent and the turn passes. For server games the held move is only sent on commit; undo sends `undo` only if earlier moves of the turn were sent. Not used in tournaments, the tutorial or with ≤20 s per move; setting «Take back your move».
+- Phone shop: compact try-on (smaller board, price and button tighter), picking a card scrolls back to the try-on.
+
 ## 0.34.1 — 12.11.2026
 - Home «Form» card: until there is a rating chart, a faint sample curve with the hint and «Play a rated game» fills the space. The phone play card title is «Play online» (the button stays «Find an opponent»).
 
