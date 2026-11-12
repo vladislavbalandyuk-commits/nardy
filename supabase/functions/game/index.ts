@@ -176,9 +176,9 @@ function gameCoins(won: boolean, full: boolean, mars: boolean, tour = false) {
 }
 // ---- shop (0.15.1): prices and rarities of the main site's items; the base set is free; owned items in profiles.ach.owned ----
 const SHOP_P: any = { board: { c: 200, r: 600, e: 1200, l: 2500 }, ck: { c: 150, r: 450, e: 1000, l: 1800 }, dice: { c: 100, r: 300, e: 750, l: 1350 }, table: { c: 300, e: 900 } };
-const SHOP_R: any = { board: { modern: 'c', tri: 'c', walnut: 'r', midnight: 'r', druzi: 'r', sage: 'r', marble: 'e', oak: 'e', ocean: 'e', carbon: 'e', terrazzo: 'r', carrara: 'e', noir: 'e' },
-  ck: { wood: 'c', stone: 'c', flat: 'c', metal: 'r', glass: 'r', retro: 'r', pearl: 'e', amber: 'e', jade: 'e', neon: 'e', vyshyvanka: 'l', frost: 'r', spooky: 'e', royal: 'e', iximmo: 'l' },
-  dice: { onyx: 'c', wood: 'c', ruby: 'r', marble: 'r', glass: 'r', gold: 'e', neon: 'e' },
+const SHOP_R: any = { board: { modern: 'c', tri: 'c', walnut: 'r', midnight: 'r', druzi: 'r', sage: 'r', marble: 'e', oak: 'e', ocean: 'e', carbon: 'e', terrazzo: 'r', carrara: 'e', noir: 'e', mint: 'c', slate: 'r', rosewood: 'r', lavender: 'e' },
+  ck: { wood: 'c', stone: 'c', flat: 'c', metal: 'r', glass: 'r', retro: 'r', pearl: 'e', amber: 'e', jade: 'e', neon: 'e', vyshyvanka: 'l', frost: 'r', spooky: 'e', royal: 'e', iximmo: 'l', ruby: 'r', copper: 'r', obsidian: 'e', opal: 'e' },
+  dice: { onyx: 'c', wood: 'c', ruby: 'r', marble: 'r', glass: 'r', gold: 'e', neon: 'e', sapphire: 'r', jade: 'r', pearl: 'e' },
   table: { wood: 'c', felt: 'c', carpet: 'c', marble: 'c', cafe: 'c', stone: 'c', leather: 'c', ct1: 'e', ct2: 'e', ct3: 'e', ct4: 'e', ct5: 'e', ct6: 'e', ct7: 'e', ct8: 'e', ct9: 'e' } };
 // 0.35.0: cases — open for coins, get one thing from the case. The rarity is rolled (c 55 / r 30 / e 12 / l 3 %, missing tiers move down),
 // then a thing of that rarity you do not own yet; if you own them all — a fixed refund. Every 10th case without an epic or better gives one.

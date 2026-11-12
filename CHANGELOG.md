@@ -3,6 +3,13 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.44.0 — 12.11.2026
+- 11 new shop items (client + server prices by rarity): boards mint (c), slate (r), rosewood (r), lavender (e); checkers ruby (r), copper (r), obsidian (e), opal (e); dice sapphire (r), jade (r), pearl (e). All CSS, no outside images; no gold/amber.
+- Shop: «New» filter (in categories that have new items), a purple dot in the category menu while something new is not yours, «New» badge on store cards; the hero follows the filter (first item of the filtered list).
+- Test drive: «Play the bot with it» on items you do not own — the look goes on for one bot game and comes off when you leave the table (nothing saved or bought).
+- Phones: smaller try-on board in the hero, filter row wraps.
+- Already in place from earlier versions (0.44 audit items): one card template, owned/not-owned filter, try-on on a real board.
+
 ## 0.43.0 — 12.11.2026
 - Resign visible: phones — a flag button in the top strip next to «…»; desktop — the flag button gets the «Resign» label (icon only on landscape phones). Too early (before move 10) → a toast with the reason and moves left instead of a dead button; the «…» menu item does the same.
 - Turn clock: the next player's time starts 3 s after the turn passes (server and client), so the opponent's move animation is not eaten from your time; the ring never shows more than the full time.
