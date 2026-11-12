@@ -3,6 +3,15 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.55.0 — 12.11.2026
+- Home: «While you were away…» card (shown once a visit after 6+ hours): new puzzle, ready gift, new version, tournament, radio.
+- Desktop right column: «Events» block — tournament, Nardy radio on/off, what's new.
+- Rank card shows «N to <next rank>» on phones too.
+- «With a friend» is active for guests and explains that signing in is needed.
+- +200 coins once for every registered account (server flag `g200`); the guest summary says so.
+- New Year countdown tile in «Today» from 1 December to 7 January (Kyiv); new «tree» line icon.
+- Pasha's tour: New Year tile step.
+
 ## 0.54.0 — 12.11.2026
 - Nardy radio: six tracks by «3 кента» (Кальян в друзях, Дві по п’ятдесят, Дим не йде, Густий туман, Торт, Вдих-Вдих), loudness-matched, 128 kbps, streamed only when turned on. Settings toggle + volume, a mini player (cover, next, pause, off), «…» menu items at the table; ducks under voice phrases; resumes on the first tap after a reload.
 - After an online/ghost game: «New opponent» button starts a new search.

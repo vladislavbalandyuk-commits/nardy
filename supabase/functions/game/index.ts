@@ -866,6 +866,11 @@ Deno.serve(async (req) => {
       const A = { ...(p.ach || {}) }; if (A.src) return json({ ok: true, src: A.src });
       const at = Number(args?.at) > 0 ? Math.min(Number(args.at), Date.now()) : Date.now(); A.src = { s: sv, at };
       await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, src: A.src }); }
+    if (action === 'g200') {   // 0.55: a one-time gift for having an account (progress saved) — registered players only
+      if ((user as any).is_anonymous) return json({ ok: false, why: 'guest' });
+      const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
+      const A = { ...(p.ach || {}) }; if (A.g200) return json({ ok: true, already: true, coins: A.coins ?? COIN_START });
+      A.g200 = Date.now(); A.coins = (A.coins ?? COIN_START) + 200; await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, got: 200, coins: A.coins }); }
     if (action === 'ach') {   // 0.48: claim an achievement's reward, or set one of the two flags the site reports
       const op = String(args?.op || ''), k = String(args?.k || '');
       const { data: p } = await db.from('profiles').select('ach,rating,rgames').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
