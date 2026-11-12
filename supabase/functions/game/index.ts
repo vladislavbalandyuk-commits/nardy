@@ -174,11 +174,11 @@ function gameCoins(won: boolean, full: boolean, mars: boolean, tour = false) {
   const lucky = full && Math.random() < 0.05; if (lucky) c *= 2; return { coins: c, lucky };
 }
 // ---- shop (0.15.1): prices and rarities of the main site's items; the base set is free; owned items in profiles.ach.owned ----
-const SHOP_P: any = { board: { c: 200, r: 600, e: 1200, l: 2500 }, ck: { c: 150, r: 450, e: 1000, l: 1800 }, dice: { c: 100, r: 300, e: 750, l: 1350 }, table: { c: 300 } };
+const SHOP_P: any = { board: { c: 200, r: 600, e: 1200, l: 2500 }, ck: { c: 150, r: 450, e: 1000, l: 1800 }, dice: { c: 100, r: 300, e: 750, l: 1350 }, table: { c: 300, e: 900 } };
 const SHOP_R: any = { board: { modern: 'c', tri: 'c', walnut: 'r', midnight: 'r', druzi: 'r', sage: 'r', marble: 'e', oak: 'e', ocean: 'e', carbon: 'e', terrazzo: 'r', carrara: 'e', noir: 'e' },
   ck: { wood: 'c', stone: 'c', flat: 'c', metal: 'r', glass: 'r', retro: 'r', pearl: 'e', amber: 'e', jade: 'e', neon: 'e', vyshyvanka: 'l', frost: 'r', spooky: 'e', royal: 'e', iximmo: 'l' },
   dice: { onyx: 'c', wood: 'c', ruby: 'r', marble: 'r', glass: 'r', gold: 'e', neon: 'e' },
-  table: { wood: 'c', felt: 'c', carpet: 'c', marble: 'c', cafe: 'c', stone: 'c', leather: 'c' } };
+  table: { wood: 'c', felt: 'c', carpet: 'c', marble: 'c', cafe: 'c', stone: 'c', leather: 'c', ct1: 'e', ct2: 'e', ct3: 'e', ct4: 'e', ct5: 'e', ct6: 'e', ct7: 'e', ct8: 'e', ct9: 'e' } };
 // 0.35.0: cases — open for coins, get one thing from the case. The rarity is rolled (c 55 / r 30 / e 12 / l 3 %, missing tiers move down),
 // then a thing of that rarity you do not own yet; if you own them all — a fixed refund. Every 10th case without an epic or better gives one.
 // 0.35.2: case-only things (boards, checkers, win effects you cannot buy) and their rarity
@@ -188,7 +188,9 @@ const CASES: any = {
   night: { price: 350, items: ['board:modern', 'board:midnight', 'board:carbon', 'board:synth', 'board:holo', 'ck:flat', 'ck:glass', 'ck:neon', 'ck:galaxy', 'ck:holo', 'dice:onyx', 'dice:glass', 'dice:neon', 'table:stone', 'table:felt', 'fx:delivery'] } };
 const CASE_ODDS: any = { c: 55, r: 30, e: 12, l: 3 }, CASE_REFUND: any = { c: 60, r: 120, e: 300, l: 700 };
 const rarOf = (id: string) => { if (CASE_R[id]) return CASE_R[id]; const [c, k] = id.split(':'); return SHOP_R[c]?.[k] || 'c'; };
-const shopPrice = (id: string) => { const [c, k] = id.split(':'); const r = SHOP_R[c]?.[k]; return r ? (SHOP_P[c][r] ?? SHOP_P[c].c) : 0; };
+// campaign tables: only the one in this 3-day window is for sale
+const exclNow = (now = Date.now()) => 'ct' + (Math.floor((now + 2 * 3600e3) / 864e5 / 3) % 9 + 1);
+const shopPrice = (id: string) => { const [c, k] = id.split(':'); if (c === 'table' && /^ct\d$/.test(k) && k !== exclNow()) return 0; const r = SHOP_R[c]?.[k]; return r ? (SHOP_P[c][r] ?? SHOP_P[c].c) : 0; };
 // the deal of the day: one epic or legendary thing at −25%, the same for everyone during a Kyiv day (the site picks it the same way)
 const shopDay = (now = Date.now()) => new Date(now + 2 * 3600e3).toISOString().slice(0, 10);
 const fnv = (str: string) => { let h = 2166136261 >>> 0; for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619) >>> 0; } return h; };
