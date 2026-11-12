@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.33.2 — 12.11.2026
+- Tester role: the admin toggles it in «Players» (`admin` op `tester`, logged); `seen` returns `tester`. Testers get «🧪 Test mode» in settings (no admin panel): all skins on the device, the campaign testing tool (`test` action, op `camp_set`, own profile), show Pasha's tips / tour / news again. A «Tester» chip on the profile (own and others') and a `badge:tester` showcase item. The campaign tool is shared by the admin and testers (`campTestTool`).
+
 ## 0.33.1 — 12.11.2026
 - Admin «Campaign (testing)» tool: open the whole campaign, stand before the Master / the secret chapter, set any progress, start again, show the scenes again (server admin op `camp_set`, own profile only).
 - Admin «all skins» now also opens campaign card backgrounds and the locked avatars (Vlad, Pasha, hooded Vlad, festive Pasha).

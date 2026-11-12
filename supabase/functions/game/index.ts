@@ -699,12 +699,24 @@ Deno.serve(async (req) => {
       // where the player plays from: tg = Telegram Mini App, app = the site installed as an app, web = browser
       const plat = ['tg', 'app', 'web'].includes(args?.plat) ? args.plat : 'web', pf = plat + 'd';
       if (!(A.days || []).includes(day) || !(A[pf] || []).includes(day) || A.plat !== plat) { markDay(A, 'days', day); markDay(A, pf, day); A.plat = plat; await db.from('profiles').update({ ach: A }).eq('id', user.id); }
-      return json({ ok: true, admin: isAdminUser(user) });
+      return json({ ok: true, admin: isAdminUser(user), tester: !!A.tester });
+    }
+    if (action === 'test') {
+      const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); const A = { ...(p?.ach || {}) };
+      if (!A.tester && !isAdminUser(user)) return json({ error: 'forbidden' }, 403);
+      if (String(args?.op) === 'camp_set') { A.camp = Math.max(0, Math.min(CAMP.length - 1, Math.round(Number(args?.camp) || 0))); A.cs = Math.max(0, Math.min(2, Math.round(Number(args?.cs) || 0))); if (A.camp >= CAMP.length - 1) A.cs = 0;
+        await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, camp: A.camp, cs: A.cs }); }
+      return json({ error: 'bad_op' }, 400);
     }
     if (action === 'admin') {
       if (!isAdminUser(user)) return json({ error: 'forbidden' }, 403);
       const op = String(args?.op || '');
       if (op === 'me') return json({ ok: true });
+      // 0.33.2: the tester role — set by the admin; testers get the test mode (all skins on their device, campaign progress) and a badge
+      if (op === 'tester') { const id = String(args?.id || ''); if (!/^[0-9a-f-]{36}$/.test(id)) return json({ error: 'bad_args' }, 400); const { data: p } = await db.from('profiles').select('ach,name').eq('id', id).maybeSingle(); if (!p) return json({ ok: false });
+        const A = { ...(p.ach || {}) }; if (args?.on) A.tester = true; else delete A.tester; await db.from('profiles').update({ ach: A }).eq('id', id);
+        if (id !== user.id) { const { data: me } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); const M = { ...(me?.ach || {}) }; M.alog = [...(M.alog || []), { at: Date.now(), to: id, name: p.name, n: 0, note: args?.on ? 'tester +' : 'tester −' }].slice(-200); await db.from('profiles').update({ ach: M }).eq('id', user.id); }
+        return json({ ok: true, tester: !!A.tester }); }
       // 0.33.1: the admin sets their own campaign progress (to test the chapters and the story)
       if (op === 'camp_set') { const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); const A = { ...(p?.ach || {}) };
         A.camp = Math.max(0, Math.min(CAMP.length - 1, Math.round(Number(args?.camp) || 0))); A.cs = Math.max(0, Math.min(2, Math.round(Number(args?.cs) || 0))); if (A.camp >= CAMP.length - 1) A.cs = 0;
@@ -744,7 +756,7 @@ Deno.serve(async (req) => {
       if (op === 'find') {
         const q = String(args?.q || '').trim().slice(0, 24); if (q.length < 2) return json({ rows: [] });
         const { data } = await db.from('profiles').select('id,name,av,rating,rgames,played,won,ach').ilike('name', '%' + q.replace(/[%_]/g, '') + '%').limit(20);
-        return json({ rows: (data || []).map((r: any) => ({ id: r.id, name: r.name, av: r.av, rating: r.rating, rgames: r.rgames, played: r.played, won: r.won, coins: r.ach?.coins ?? COIN_START, last: (r.ach?.days || []).slice(-1)[0] || null, plat: r.ach?.plat || null, tg: !!r.ach?.tg, treg: r.ach?.treg || null, refN: r.ach?.refN || 0 })) });
+        return json({ rows: (data || []).map((r: any) => ({ id: r.id, name: r.name, av: r.av, rating: r.rating, rgames: r.rgames, played: r.played, won: r.won, coins: r.ach?.coins ?? COIN_START, last: (r.ach?.days || []).slice(-1)[0] || null, plat: r.ach?.plat || null, tg: !!r.ach?.tg, treg: r.ach?.treg || null, refN: r.ach?.refN || 0, tester: !!r.ach?.tester })) });
       }
       if (op === 'pw_admin') { const u = await userByNick(db, String(args?.nick || '').trim()); if (!u) return json({ ok: false, why: 'nouser' });
         const pw = rndTok(10); const { error } = await db.auth.admin.updateUserById(u.id, { password: pw }); if (error) return json({ ok: false, why: 'db' });
@@ -768,7 +780,7 @@ Deno.serve(async (req) => {
     if (action === 'show') {
       const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
       const A = { ...(p.ach || {}) }; const own = Array.isArray(A.owned) ? A.owned : []; const L = Array.isArray(args?.items) ? args.items.slice(0, 3).map(String) : [];
-      const ok = (id: string) => /^[a-z]+:[a-z0-9_-]{1,24}$/i.test(id) && (own.includes(id) || (id === 'badge:camp' && (A.camp | 0) >= 9) || (id.startsWith('card:cp') && (A.camp | 0) >= Number(id.slice(7))));
+      const ok = (id: string) => /^[a-z]+:[a-z0-9_-]{1,24}$/i.test(id) && (own.includes(id) || (id === 'badge:camp' && (A.camp | 0) >= 9) || (id === 'badge:tester' && !!A.tester) || (id.startsWith('card:cp') && (A.camp | 0) >= Number(id.slice(7))));
       A.show = L.filter(ok); await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, show: A.show });
     }
     if (action === 'puzzle') {
