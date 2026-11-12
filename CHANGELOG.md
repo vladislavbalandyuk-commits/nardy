@@ -3,6 +3,12 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.37.1 — 12.11.2026
+- Cases open to everyone (client and server gates removed).
+- Phrases: shop category with 3 text packs (Yard, Manners, Hookah lounge — 300/300/400) and 2 voice packs (Bar, Show — 1000 each; listen before buying); bought phrases go onto the chat wheel.
+- New «Phrases» case (250): 7 text phrases and 6 voice phrases not sold in packs; legendary «Champion!» and fanfare.
+- Fix: phrases in online games arrived as 👋 (the filter compared 4 characters to «ch»).
+
 ## 0.37.0 — 12.11.2026
 - Avatar collection regrouped: filter chips (All / Mine / Story / From cases / Basic / Packs), a card per group with owned count, each portrait pack its own group with a «Pack · price» button.
 - Phone pass: shop tabs scroll and keep the active one in view; deal-of-the-day board no longer collapses; neon sign fits narrow screens; avatars 5 per row.

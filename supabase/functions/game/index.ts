@@ -182,9 +182,10 @@ const SHOP_R: any = { board: { modern: 'c', tri: 'c', walnut: 'r', midnight: 'r'
 // 0.35.0: cases — open for coins, get one thing from the case. The rarity is rolled (c 55 / r 30 / e 12 / l 3 %, missing tiers move down),
 // then a thing of that rarity you do not own yet; if you own them all — a fixed refund. Every 10th case without an epic or better gives one.
 // 0.35.2: case-only things (boards, checkers, win effects you cannot buy) and their rarity
-const CASE_R: any = { 'board:vitrazh': 'e', 'board:azulejo': 'e', 'board:synth': 'e', 'board:holo': 'l', 'board:fib': 'l', 'ck:lava': 'l', 'ck:vitrazh': 'e', 'ck:galaxy': 'e', 'ck:holo': 'l', 'ck:fib': 'e', 'ck:forest': 'e', 'ck:dzsunrise': 'e', 'ck:dbapple': 'r', 'ck:dzmint': 'r', 'fx:aperol': 'l', 'fx:delivery': 'e', 'fx:cloud': 'e', 'fx:lanterns': 'e', 'av:hookah': 'l', 'dice:skyline': 'e', 'dice:disco': 'l', 'dice:metro': 'r', 'dice:ember': 'e', 'dice:mint': 'r', 'av:dj': 'l', 'fx:neonsign': 'e' };
+const CASE_R: any = { 'board:vitrazh': 'e', 'board:azulejo': 'e', 'board:synth': 'e', 'board:holo': 'l', 'board:fib': 'l', 'ck:lava': 'l', 'ck:vitrazh': 'e', 'ck:galaxy': 'e', 'ck:holo': 'l', 'ck:fib': 'e', 'ck:forest': 'e', 'ck:dzsunrise': 'e', 'ck:dbapple': 'r', 'ck:dzmint': 'r', 'fx:aperol': 'l', 'fx:delivery': 'e', 'fx:cloud': 'e', 'fx:lanterns': 'e', 'av:hookah': 'l', 'dice:skyline': 'e', 'dice:disco': 'l', 'dice:metro': 'r', 'dice:ember': 'e', 'dice:mint': 'r', 'av:dj': 'l', 'fx:neonsign': 'e', 'ph:chZWow': 'c', 'ph:chZHmm': 'c', 'ph:chZLuck': 'c', 'ph:chZTry': 'c', 'ph:chZCalm': 'r', 'ph:chZPro': 'r', 'ph:chZMaster': 'r', 'ph:vo:clap': 'e', 'ph:vo:laugh': 'e', 'ph:vo:hookah': 'e', 'ph:vo:dice': 'e', 'ph:vo:champ': 'l', 'ph:vo:fanfare': 'l' };
 const CASES: any = {
   hookah: { price: 350, items: ['board:druzi','board:walnut','board:azulejo','board:vitrazh','board:fib','ck:wood','ck:retro','ck:amber','ck:dbapple','ck:dzmint','ck:forest','ck:fib','ck:dzsunrise','ck:lava','dice:wood','dice:ruby','dice:mint','dice:ember','table:cafe','table:carpet','table:leather','fx:cloud','fx:aperol','av:hookah'] },
+  phrases: { price: 250, items: ['chZWow','chZHmm','chZLuck','chZTry','chZCalm','chZPro','chZMaster','vo:clap','vo:laugh','vo:hookah','vo:dice','vo:champ','vo:fanfare'].map((x) => 'ph:' + x) },
   night: { price: 350, items: ['board:modern','board:midnight','board:carbon','board:synth','board:holo','ck:flat','ck:glass','ck:neon','ck:galaxy','ck:vitrazh','ck:holo','dice:onyx','dice:glass','dice:neon','dice:metro','dice:skyline','dice:disco','table:stone','table:felt','fx:lanterns','fx:neonsign','fx:delivery','av:dj'] } };
 const CASE_ODDS: any = { c: 55, r: 30, e: 12, l: 3 }, CASE_REFUND: any = { c: 60, r: 120, e: 300, l: 700 };
 const rarOf = (id: string) => { if (CASE_R[id]) return CASE_R[id]; const [c, k] = id.split(':'); return SHOP_R[c]?.[k] || 'c'; };
@@ -203,6 +204,10 @@ const bundleCost = (b: string, owned: string[]) => { const miss = (BUNDLES[b] ||
 // portrait packs (0.26.0): five portraits for one price; portraits you already have are taken off the price (the site has the same list)
 const PT_PACKS: any = { sketch: [['pt1', 'pt2', 'pt3', 'pt4', 'pt5'], 1000], ink: [['pt6', 'pt7', 'pt8', 'pt9', 'pt10'], 1000], yard: [['pt13', 'pt14', 'pt15', 'pt16', 'pt17'], 1200],
   party: [['pt18', 'pt19', 'pt20', 'pt21', 'pt22'], 1200], travel: [['pt23', 'pt24', 'pt25', 'pt26', 'pt28'], 1500], bit8: [['pt31', 'pt32', 'pt33', 'pt34', 'pt35'], 1800], collage: [['pt11', 'pt12', 'pt29', 'pt30', 'pt36'], 1500] };
+// phrase packs (the client has the same list): text and voice phrases for the chat wheel
+const PH_PACKS: any = { yard: [['chYLucky','chYRoll','chYShesh','chYMars','chYBack','chYDouble'], 300], polite: [['chPGood','chPThink','chPSorry','chPWell','chPRev','chPBye'], 300], hookah: [['chHCoal','chHSmoke','chHApple','chHMint','chHBreak','chHTea'], 400],
+  bar: [['vo:clink','vo:bottle','vo:ice','vo:cheers','vo:grill'], 1000], show: [['vo:badum','vo:trombone','vo:airhorn','vo:crickets','vo:kaching'], 1000] };
+const phPackCost = (b: string, owned: string[]) => { const P = PH_PACKS[b]; if (!P) return { miss: [], price: 0 }; const miss = P[0].map((k: string) => 'ph:' + k).filter((id: string) => !owned.includes(id)); return { miss, price: Math.round(P[1] * miss.length / P[0].length / 10) * 10 }; };
 const packCost = (b: string, owned: string[]) => { const P = PT_PACKS[b]; if (!P) return { miss: [], price: 0 }; const miss = P[0].map((k: string) => 'pt:' + k).filter((id: string) => !owned.includes(id)); return { miss, price: Math.round(P[1] * miss.length / P[0].length / 10) * 10 }; };
 // the story campaign «The way of a nardy player» (0.29.0): 8 chapters, each a game against a character; a win unlocks the next one and its prizes
 // (the site has the same list with the texts). Campaign games do not change the rating.
@@ -688,7 +693,6 @@ Deno.serve(async (req) => {
         return json({ ok: true, coins: A.coins, owned: A.owned, price });
       }
       if (op === 'case') {
-        if (!A.tester && !isAdminUser(user)) return json({ error: 'not_for_sale' }, 400);   // not public yet
         const ck = String(args?.id || ''), C = CASES[ck]; if (!C) return json({ error: 'not_for_sale' }, 400);
         const coins = A.coins ?? COIN_START; if (coins < C.price) return json({ error: 'no_coins', coins }, 400);
         const P = { ...(A.cpity || {}) }; const pity = (P[ck] | 0) + 1; const tiers = ['c', 'r', 'e', 'l'].filter((r) => C.items.some((i: string) => rarOf(i) === r));
@@ -705,6 +709,13 @@ Deno.serve(async (req) => {
       if (op === 'bundle') {
         const b = String(args?.id || ''); if (!BUNDLES[b]) return json({ error: 'not_for_sale' }, 400);
         const { miss, price } = bundleCost(b, A.owned); if (!miss.length) return json({ ok: true, coins: A.coins ?? COIN_START, owned: A.owned });
+        const coins = A.coins ?? COIN_START; if (coins < price) return json({ error: 'no_coins', coins }, 400);
+        A.coins = coins - price; A.owned = [...A.owned, ...miss]; await db.from('profiles').update({ ach: A }).eq('id', user.id);
+        return json({ ok: true, coins: A.coins, owned: A.owned, price, got: miss });
+      }
+      if (op === 'phpack') {
+        const b = String(args?.id || ''); if (!PH_PACKS[b]) return json({ error: 'not_for_sale' }, 400);
+        const { miss, price } = phPackCost(b, A.owned); if (!miss.length) return json({ ok: true, coins: A.coins ?? COIN_START, owned: A.owned });
         const coins = A.coins ?? COIN_START; if (coins < price) return json({ error: 'no_coins', coins }, 400);
         A.coins = coins - price; A.owned = [...A.owned, ...miss]; await db.from('profiles').update({ ach: A }).eq('id', user.id);
         return json({ ok: true, coins: A.coins, owned: A.owned, price, got: miss });
