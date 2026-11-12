@@ -3,6 +3,11 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.45.0 — 12.11.2026
+- Settings search (sticky field at the top): filters rows by their label and description, a section title match shows the whole section, «nothing found» note, × and Esc clear; the section menu dims while searching.
+- «Reset settings» (Help section) with a confirm window: odds on, auto-roll off, undo hold on, sound / campaign sounds / hookah bubbles / vibration on, dark theme on, fewer animations as the system asks, board not flipped. Items, coins, rating, language and notifications are not touched; the toast says how many switches went back.
+- Descriptions added to «Dark theme» and «Language» — every switch now has one.
+
 ## 0.44.0 — 12.11.2026
 - 11 new shop items (client + server prices by rarity): boards mint (c), slate (r), rosewood (r), lavender (e); checkers ruby (r), copper (r), obsidian (e), opal (e); dice sapphire (r), jade (r), pearl (e). All CSS, no outside images; no gold/amber.
 - Shop: «New» filter (in categories that have new items), a purple dot in the category menu while something new is not yours, «New» badge on store cards; the hero follows the filter (first item of the filtered list).
