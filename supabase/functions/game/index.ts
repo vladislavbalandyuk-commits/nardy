@@ -184,6 +184,26 @@ const SHOP_R: any = { board: { modern: 'c', tri: 'c', walnut: 'r', midnight: 'r'
 // then a thing of that rarity you do not own yet; if you own them all — a fixed refund. Every 10th case without an epic or better gives one.
 // 0.35.2: case-only things (boards, checkers, win effects you cannot buy) and their rarity
 const CASE_R: any = { 'board:vitrazh': 'e', 'board:azulejo': 'e', 'board:synth': 'e', 'board:holo': 'l', 'board:fib': 'l', 'ck:lava': 'l', 'ck:vitrazh': 'e', 'ck:galaxy': 'e', 'ck:holo': 'l', 'ck:fib': 'e', 'ck:forest': 'e', 'ck:dzsunrise': 'e', 'ck:dbapple': 'r', 'ck:dzmint': 'r', 'fx:aperol': 'l', 'fx:delivery': 'e', 'fx:cloud': 'e', 'fx:lanterns': 'e', 'av:hookah': 'l', 'dice:skyline': 'e', 'dice:disco': 'l', 'dice:metro': 'r', 'dice:ember': 'e', 'dice:mint': 'r', 'av:dj': 'l', 'fx:neonsign': 'e', 'ph:chZWow': 'c', 'ph:chZHmm': 'c', 'ph:chZLuck': 'c', 'ph:chZTry': 'c', 'ph:chZCalm': 'r', 'ph:chZPro': 'r', 'ph:chZMaster': 'r', 'ph:vo:clap': 'e', 'ph:vo:laugh': 'e', 'ph:vo:hookah': 'e', 'ph:vo:dice': 'e', 'ph:vo:champ': 'l', 'ph:vo:fanfare': 'l', 'ph:vo:hoho': 'e' };
+// 0.48: 30 achievements with rewards. The server checks each one against the profile before paying; the two it cannot see
+// (a phrase in an online game, watching a replay) are flags the site sets and pay only coins.
+const ACH_X = ['board:triumph', 'board:yard', 'ck:veteran', 'ck:champ', 'dice:laurel', 'dice:scholar', 'ph:vo:gong', 'ph:vo:harp', 'ph:vo:bell'];
+const ACH2: any = {
+  first: [{ coins: 50 }, (P: any, A: any) => (A.c?.won | 0) >= 1], ten: [{ coins: 150 }, (P: any, A: any) => (A.c?.won | 0) >= 10],
+  wins50: [{ item: 'dice:laurel' }, (P: any, A: any) => (A.c?.won | 0) >= 50], wins100: [{ item: 'board:triumph' }, (P: any, A: any) => (A.c?.won | 0) >= 100],
+  games50: [{ coins: 200 }, (P: any, A: any) => (A.c?.games | 0) >= 50], games200: [{ item: 'ck:veteran' }, (P: any, A: any) => (A.c?.games | 0) >= 200],
+  mars: [{ coins: 100 }, (P: any, A: any) => (A.c?.mars | 0) >= 1], mars5: [{ item: 'ph:vo:gong' }, (P: any, A: any) => (A.c?.mars | 0) >= 5],
+  streak3: [{ coins: 100 }, (P: any, A: any) => (A.c?.bestStreak | 0) >= 3], streak5: [{ coins: 300 }, (P: any, A: any) => (A.c?.bestStreak | 0) >= 5],
+  comeback: [{ coins: 150 }, (P: any, A: any) => (A.c?.comeback | 0) >= 1], giant: [{ coins: 200 }, (P: any, A: any) => (A.c?.giant | 0) >= 1],
+  rank2: [{ coins: 150 }, (P: any, A: any) => rankTier(Math.max(A.peak || 0, (P.rgames ?? 0) >= 10 ? (P.rating ?? 1000) : 0)) >= 1],
+  rank4: [{ coins: 500 }, (P: any, A: any) => rankTier(Math.max(A.peak || 0, (P.rgames ?? 0) >= 10 ? (P.rating ?? 1000) : 0)) >= 3],
+  tut: [{ coins: 50 }, (P: any, A: any) => !!A.tut], course: [{ item: 'dice:scholar' }, (P: any, A: any) => (A.stc | 0) >= 6],
+  pz1: [{ coins: 50 }, (P: any, A: any) => !!(A.pz && (A.pz.last || A.pz.n))], pz7: [{ item: 'ph:vo:harp' }, (P: any, A: any) => Math.max(A.pz?.best | 0, A.pz?.streak | 0) >= 7],
+  camp1: [{ coins: 100 }, (P: any, A: any) => (A.camp | 0) >= 1], camp4: [{ coins: 300 }, (P: any, A: any) => (A.camp | 0) >= 4], camp8: [{ item: 'board:yard' }, (P: any, A: any) => (A.camp | 0) >= 8],
+  tour1: [{ coins: 150 }, (P: any, A: any) => (A.tp || []).length >= 1], tour3: [{ item: 'ck:champ' }, (P: any, A: any) => (A.tp || []).some((x: any) => (x.pl | 0) >= 1 && (x.pl | 0) <= 3)],
+  friend1: [{ coins: 100 }, (P: any, A: any) => (A.friends || []).length >= 1], days7: [{ coins: 150 }, (P: any, A: any) => (A.days || []).length >= 7],
+  chat: [{ coins: 50 }, (P: any, A: any) => !!A.fl?.chat], own1: [{ coins: 50 }, (P: any, A: any) => (A.owned || []).length >= 1],
+  case1: [{ coins: 100 }, (P: any, A: any) => (A.cases | 0) >= 1], col20: [{ item: 'ph:vo:bell' }, (P: any, A: any) => (A.owned || []).length >= 20],
+  replay: [{ coins: 50 }, (P: any, A: any) => !!A.fl?.replay] };
 const CASES: any = {
   hookah: { price: 350, items: ['board:druzi','board:walnut','board:azulejo','board:vitrazh','board:fib','ck:wood','ck:retro','ck:amber','ck:dbapple','ck:dzmint','ck:forest','ck:fib','ck:dzsunrise','ck:lava','dice:wood','dice:ruby','dice:mint','dice:ember','table:cafe','table:carpet','table:leather','fx:cloud','fx:aperol','av:hookah'] },
   phrases: { price: 250, items: ['chZWow','chZHmm','chZLuck','chZTry','chZCalm','chZPro','chZMaster','vo:clap','vo:laugh','vo:hookah','vo:dice','vo:hoho','vo:champ','vo:fanfare'].map((x) => 'ph:' + x) },
@@ -821,12 +841,23 @@ Deno.serve(async (req) => {
       const ok = (id: string) => /^[a-z]+:[a-z0-9_-]{1,24}$/i.test(id) && (own.includes(id) || (id === 'badge:camp' && (A.camp | 0) >= 9) || (id === 'badge:tester' && !!A.tester) || (id.startsWith('card:cp') && (A.camp | 0) >= Number(id.slice(7))));
       A.show = L.filter(ok); await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, show: A.show });
     }
+    if (action === 'ach') {   // 0.48: claim an achievement's reward, or set one of the two flags the site reports
+      const op = String(args?.op || ''), k = String(args?.k || '');
+      const { data: p } = await db.from('profiles').select('ach,rating,rgames').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
+      const A = { ...(p.ach || {}) }; A.owned = Array.isArray(A.owned) ? A.owned : []; const G = { ...(A.ach2 || {}) };
+      if (op === 'flag') { if (!['chat', 'replay'].includes(k)) return json({ error: 'bad_flag' }, 400); const F = { ...(A.fl || {}) }; if (!F[k]) { F[k] = Date.now(); A.fl = F; await db.from('profiles').update({ ach: A }).eq('id', user.id); } return json({ ok: true, fl: A.fl }); }
+      if (op === 'claim') { const D = ACH2[k]; if (!D) return json({ error: 'bad_ach' }, 400); if (G[k]) return json({ ok: true, already: true, ach2: G, coins: A.coins ?? COIN_START, owned: A.owned });
+        if (!D[1](p, A)) return json({ ok: false, why: 'not_done' });
+        const R = D[0]; let got = 0; if (R.coins) { got = R.coins; A.coins = (A.coins ?? COIN_START) + got; } if (R.item && !A.owned.includes(R.item)) A.owned = [...A.owned, R.item];
+        G[k] = Date.now(); A.ach2 = G; await db.from('profiles').update({ ach: A }).eq('id', user.id);
+        return json({ ok: true, got, item: R.item || null, ach2: G, coins: A.coins ?? COIN_START, owned: A.owned }); }
+      return json({ error: 'bad_op' }, 400); }
     if (action === 'puzzle') {
       const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
       const A = { ...(p.ach || {}) }; const P = { ...(A.pz || {}) }; const today = kyivDay(), y = kyivDay(Date.now() - 864e5);
       const res = ['best', 'good', 'miss'].includes(args?.res) ? args.res : 'miss';
       if (P.day === today) return json({ ok: true, got: 0, pz: P, coins: A.coins ?? COIN_START });
-      P.streak = res === 'miss' ? 0 : (P.last === y ? (P.streak || 0) + 1 : 1); if (res !== 'miss') P.last = today; P.day = today; P.res = res;
+      P.streak = res === 'miss' ? 0 : (P.last === y ? (P.streak || 0) + 1 : 1); if (res !== 'miss') P.last = today; P.day = today; P.res = res; if (res !== 'miss') { P.n = (P.n | 0) + 1; P.best = Math.max(P.best | 0, P.streak | 0); }
       const got = res === 'best' ? 60 : res === 'good' ? 20 : 0; A.pz = P; A.coins = (A.coins ?? COIN_START) + got;
       await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, got, pz: P, coins: A.coins });
     }

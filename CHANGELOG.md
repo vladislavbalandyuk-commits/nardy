@@ -3,6 +3,13 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.48.0 — 12.11.2026
+- Achievements 2.0 (plan item 0.63 brought forward): 30 goals in 6 groups — game (wins 1/10/50/100, games 50/200, mars 1/5, streaks 3/5, comeback, beat +300), ranks (Regular, rank 4), learning (lesson, whole course, daily puzzle, 7-day puzzle streak), campaign (1/4/8 chapters), contests & friends (a tournament, top 3, first friend, 7 visit days, a phrase online), collection (first item, a case, 20 items, a replay).
+- Rewards: coins 50–500 or 9 achievement-only things (not sold, not in cases): boards Triumph, Yard; checkers Veteran, Champion; dice Laurel, Scholar; voice phrases Gong, Harp, Bell (synthesised on the device, in Collection → Phrases → «For achievements»).
+- Server action `ach`: `claim` re-checks the goal against the profile (counters, peak, tut, stc, pz, camp, tp, friends, days, owned, cases) before paying, once per goal (`ach2`); `flag` stores the two goals only the site sees (chat, replay) — those pay coins only. Puzzle: the server now keeps the solved count and best streak.
+- Guests: the same list with local progress and local coins/items.
+- UI: profile tab «Achievements» and a page from «Learn» — progress ring, «Take all», cards with progress bar, reward chip, «Take» / ✓; one hint per newly done goal and a purple dot on the Profile tab.
+
 ## 0.47.1 — 12.11.2026
 - Shop showcase: «New» shows at most 4 items (ones you do not own first, one per kind where possible); the link reads «All new (11) →» and opens the shop with the «New» filter.
 
