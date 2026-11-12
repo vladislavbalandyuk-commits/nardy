@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.47.1 — 12.11.2026
+- Shop showcase: «New» shows at most 4 items (ones you do not own first, one per kind where possible); the link reads «All new (11) →» and opens the shop with the «New» filter.
+
 ## 0.47.0 — 12.11.2026
 - One set of states: `skel(n)` shimmering placeholder rows (still with «fewer animations»), `emptyEl` (icon, title, text, one action), `errEl` («Something went wrong» + «Try again»).
 - Loading: leaderboard, rank page (rating / tournaments), league — skeleton rows instead of «Loading…».
