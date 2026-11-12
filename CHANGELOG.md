@@ -3,6 +3,12 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.41.0 — 12.11.2026
+- Phone table (portrait ≤600 px, body.pg41): no site header; the opponent's card moves into a strip above the board (#gTop) with a «…» button; your card and the dice controls stay below; the board takes the whole width (checker size up to (width−10)/12.95, ~+7%) and is centred in the free height; nothing scrolls.
+- «…» menu (bottom sheet): link, voice chat, opponent sound, emoji (online only where they apply), move history and rules (in a sheet), Resign, Leave the table — each calls the existing button, so the logic is unchanged.
+- Odds bar, history and rules blocks hidden on the phone table; the phrase wheel moves to the top right; the tab bar is hidden in a game.
+- Desktop, tablets and landscape phones unchanged; rotating/resizing moves the card back.
+
 ## 0.40.0 — 12.11.2026
 - First visit in 3 steps (store `ob40`: q · tut · game · done): 1) «Do you know the rules?» — Yes → a game with the bot, No → the interactive lesson; 2) after the lesson — «Now a real game» with the bot; 3) after the first game — «Keep your progress» (create an account / later → Pasha's tour).
 - New guests no longer get the sign-in popup at load, and Pasha's tour waits until the onboarding is over; «Skip» ends both.
