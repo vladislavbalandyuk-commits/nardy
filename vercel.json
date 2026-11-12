@@ -53,7 +53,12 @@
       "permanent": false
     },
     {
-      "source": "/beta/:path*",
+      "source": "/beta/",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/beta/(.*)",
       "destination": "/",
       "permanent": false
     }
