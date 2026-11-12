@@ -3,6 +3,12 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.43.0 — 12.11.2026
+- Resign visible: phones — a flag button in the top strip next to «…»; desktop — the flag button gets the «Resign» label (icon only on landscape phones). Too early (before move 10) → a toast with the reason and moves left instead of a dead button; the «…» menu item does the same.
+- Turn clock: the next player's time starts 3 s after the turn passes (server and client), so the opponent's move animation is not eaten from your time; the ring never shows more than the full time.
+- The seconds counter on the board banner shows only on your own turn.
+- Draw offer: not added — long nardy has no draws by the rules, and a draw would change rating, matches and tournaments; left for a decision.
+
 ## 0.42.0 — 12.11.2026
 - Game summary (win window rebuilt, its buttons keep their logic): hero with both avatars (winner ringed green), result and big score coloured by win/loss; the game in numbers (your turns, doubles, game time, borne off); a chart of your winning chances through the game (lowest/highest marked); coins for the game (caught from the coin reward, also when the server pays later) next to the rating change; Rematch / Next as the main buttons, Review · Replay · Close as a row below.
 - Phones: the summary is a bottom sheet.

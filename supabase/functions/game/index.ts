@@ -61,6 +61,7 @@ function botPathPro(st,c,lvl,rnd){ const F=botFinals(st,c,6000); if(!F.length) r
   for(const f of top){ if(f.s.off[c]===15) return f.path; let sum=0; for(let i=0;i<R;i++) sum+=botRollout({...f.s,remaining:[]},OPP(c),c,16,rnd); const v=sum/R+f.v*0.002; if(v>bv){bv=v;best=f.path;} } return best; }
 const isBotId=id=>typeof id==='string'&&id.startsWith('bot:');
 
+const TURN_GRACE=3000; // 0.43: the turn clock starts after the opponent's move has been shown
 const TURN_MS=60000, MAX_STRIKES=3, RESIGN_MIN=10, CLAIM_MS=45000;
 function newGame(p1,p2,score){ return { v:2, p1, p2, white:'', black:'', phase:'opening', open:{p1:0,p2:0}, openRound:0, openLast:null,
   board:(()=>{const B=new Array(24).fill(0); B[0]=15; B[12]=-15; return B;})(), off:{w:0,b:0}, turn:'w', dice:[], remaining:[], headMoved:0, headLimit:1, first:{w:true,b:true},
@@ -85,7 +86,7 @@ function encReplay(st){ const H=st.hist||[]; if(!H.length) return null; const B=
   if(turns.length>2600) return null; return { s: enc, h: turns, w: st.result?.winner ? colorOfSlot(st, st.result.winner) : '' }; }
 const colorOfSlotS=(st,s)=>slotOfColor(st,'w')===s?'w':'b';
 const turnMs=st=>{ const t=RU(st).t; return t===0 ? Infinity : t ? t*1000 : TURN_MS; };
-function passTurn(st,now){ pushHist(st); st.last=st.trail||[]; st.trail=[]; st.turn=OPP(st.turn); st.dice=[]; st.remaining=[]; st.rolled=false; st.snap=null; st.headMoved=0; st.turnAt=now;
+function passTurn(st,now){ pushHist(st); st.last=st.trail||[]; st.trail=[]; st.turn=OPP(st.turn); st.dice=[]; st.remaining=[]; st.rolled=false; st.snap=null; st.headMoved=0; st.turnAt=now+TURN_GRACE;
   // «a double is a penalty»: a player who still owes turns skips them now
   for(let g=0; g<2 && st.skip && st.skip[st.turn]>0; g++){ st.skip[st.turn]--; st.note={c:st.turn, skip:1, left:st.skip[st.turn], at:now}; st.turn=OPP(st.turn); } }
 function finish(st,winner,mars,resign){ if(RU(st).noMars) mars=false; st.winner=winner; st.phase='over'; st.score[slotOfColor(st,winner)]+=mars?2:1; st.dice=[]; st.remaining=[]; st.rolled=false; if(resign) st.resign=resign; st.result={winner:slotOfColor(st,winner),mars:!!mars}; }

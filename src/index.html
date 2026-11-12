@@ -2170,6 +2170,15 @@ body:not(.dark) .pgsheet{background:#fff;color:#1d1915} body:not(.dark) .gmore{c
 @media (max-width:600px){ #winOv{align-items:flex-end;padding:0} #winOv .modal.ws42{width:100%;max-height:92vh;overflow:auto;border-radius:24px 24px 0 0;padding:18px 16px calc(16px + env(safe-area-inset-bottom))} }
 body:not(.dark) .w42stats div,body:not(.dark) .w42chart,body:not(.dark) .ws42 .wrv .linkbtn{background:rgba(0,0,0,.04)} body:not(.dark) .ws42 .wrv .linkbtn{color:#3d3730} body:not(.dark) .w42chart .mid{stroke:rgba(0,0,0,.15)}
 </style>
+<style>/* 0.43: resign you can see */
+#btnResign.rs43{display:inline-flex;align-items:center;gap:6px;width:auto!important;padding:0 12px!important;color:#ff8a8f}
+#btnResign.rs43 .rsl{font-size:13px;font-weight:700;white-space:nowrap}
+#btnResign.rs43:disabled{opacity:.55;color:inherit;pointer-events:auto;cursor:help}
+#btnResign.rs43.hidden{display:none!important}
+.gflag{color:#ff8a8f} .gflag svg{width:19px;height:19px} .gflag.off{opacity:.45;color:inherit} .gflag[hidden]{display:none!important}
+.pgit.warn.off{opacity:.55}
+@media (orientation:landscape) and (max-height:540px){ #btnResign.rs43 .rsl{display:none} #btnResign.rs43{padding:0!important;width:34px!important;justify-content:center} }
+</style>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute">
@@ -2721,8 +2730,9 @@ function forcedPath(st,c){
 function passTurn(){
   pushHist();
   gs.last=gs.trail||[]; gs.trail=[];
-  gs.turn=OPP(gs.turn); gs.dice=[]; gs.remaining=[]; gs.rolled=false; gs.snap=null; gs.headMoved=0; gs.turnAt=Date.now(); selected=null;
+  gs.turn=OPP(gs.turn); gs.dice=[]; gs.remaining=[]; gs.rolled=false; gs.snap=null; gs.headMoved=0; gs.turnAt=Date.now()+TURN_GRACE; selected=null;
 }
+const TURN_GRACE=3000;   // 0.43: the turn clock starts after the opponent's move has been shown
 // chance that the player on roll (c) wins; logistic fit on 8000 simulated games
 function winChanceOnRoll(st,c){
   const o=OPP(c); let pm=0,po=0;
@@ -3434,6 +3444,15 @@ async function gPay(){ if(coinsOnline()){ try{ const {data}=await sb.functions.i
   store.set('coins', coinsNow()+100); coinsPaint(); coinFly(100); toast(t('gPrize')); try{ sfx('win'); }catch(e){} }
 addEventListener('keydown', e=>{ if(!guide) return; if(e.key==='Escape') gEnd(false); else if(e.key==='ArrowRight'||e.key==='Enter') gStep(1); else if(e.key==='ArrowLeft') gStep(-1); });
 // new players: the tour starts by itself on the first visit to the home page; the course card glows until chapter 2 is done
+// ================= 0.43: resign you can see; the clock only on your own turn =================
+// Phones: a flag next to «…» in the top strip; desktop: the flag button gets its label. Too early → the reason, not a dead button.
+function rsTry(){ const rb=$('btnResign'); if(!rb) return; if(!canResign()){ const left=Math.max(0, RESIGN_MIN-(gs&&gs.hist||[]).length); toast(t('resignWait',{n:left})); return; } rb.click(); }
+function rs43(){ const rb=$('btnResign'); if(!rb) return; if(!rb.querySelector('.rsl')){ const sp=uxH('span','rsl',t('resignB')); rb.appendChild(sp); rb.classList.add('rs43'); } else rb.querySelector('.rsl').textContent=t('resignB');
+  const st=$('gTop'); if(st){ let f=$('gFlag'); if(!f){ f=uxH('button','gmore gflag'); f.type='button'; f.id='gFlag'; f.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 21V4"/><path d="M6 4h11l-2.5 4L17 12H6"/></svg>'; f.onclick=rsTry; const mb=$('gMore'); if(mb) st.insertBefore(f, mb); else st.appendChild(f); }
+    const vis=!!gs && gs.phase==='play' && !!resignColor() && mode!=='tutor' && !rb.classList.contains('hidden'); f.hidden=!vis; f.classList.toggle('off', vis && !canResign()); f.title=canResign()?t('resignB'):t('resignWait',{n:Math.max(0,RESIGN_MIN-(gs.hist||[]).length)}); f.setAttribute('aria-label',t('resignB')); } }
+setInterval(()=>{ try{ if(gs) rs43(); }catch(e){} }, 500);
+// the resign button itself: when too early, say why instead of doing nothing
+document.addEventListener('click',e=>{ const rb=e.target.closest && e.target.closest('#btnResign'); if(rb && rb.disabled){ e.preventDefault(); rsTry(); } }, true);
 // ================= 0.42: the game summary — who won, the score, the game in numbers, rewards, what next =================
 // Built around the existing win window: its buttons and texts keep their logic, they only move into a clearer layout.
 let _g42={id:null,at:0}, _c42={gid:null,n:0};
@@ -3491,7 +3510,7 @@ function pgMenu(){ let ov=$('pgOv'); if(ov){ ov.remove(); return; } ov=uxH('div'
   if(pgVis('btnChat')) item('😊', t('pgEmoji'), ()=>$('btnChat').click());
   item('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>', t('pgHist'), ()=>pgText('histS','histList'));
   item('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/></svg>', t('rules'), ()=>pgText(null,'rulesList'));
-  if(pgVis('btnResign')) item(IC('btnResign'), t('pgResign'), ()=>$('btnResign').click(), 'warn');
+  if(gs && gs.phase==='play' && resignColor() && mode!=='tutor' && $('btnResign') && !$('btnResign').classList.contains('hidden')) item(IC('btnResign'), t('pgResign'), rsTry, 'warn'+(canResign()?'':' off'));
   if(pgVis('btnLeave2')) item(IC('btnLeave2'), t('pgLeave'), ()=>$('btnLeave2').click());
   ov.onclick=e=>{ if(e.target===ov) ov.remove(); }; document.body.appendChild(ov); }
 function pgText(hid, lid){ let ov=$('pgOv2'); if(ov) ov.remove(); ov=uxH('div','pgov'); ov.id='pgOv2'; const sh=uxH('div','pgsheet pgtext'); ov.appendChild(sh); sh.appendChild(uxH('i','pggrab'));
@@ -4062,7 +4081,7 @@ function timedGame(){ return !!(gs && gs.phase==='play' && (mode==='online' || i
 let presIds=new Set();
 function oppOnline(id){ if(!lobby || !lobby._ready || !presIds.size) return true; return presIds.has(id); }
 const turnMsG=()=>{ const R=gRules(); return R && R.t===0 ? Infinity : R && R.t ? R.t*1000 : TURN_MS; };
-function timeLeft(){ return gs && gs.turnAt ? Math.max(0, turnMsG()-(Date.now()-gs.turnAt)) : turnMsG(); }
+function timeLeft(){ return gs && gs.turnAt ? Math.max(0, Math.min(turnMsG(), turnMsG()-(Date.now()-gs.turnAt))) : turnMsG(); }
 function applyTimeout(slot){
   gs.strikes=gs.strikes||{p1:0,p2:0}; gs.strikes[slot]=(gs.strikes[slot]||0)+1;
   const c=colorOfSlot(slot);
@@ -4075,7 +4094,7 @@ function timerTick(){
   if(!timedGame()) return;
   const left=timeLeft(), frac=left/turnMsG(), turnSlot=slotOfColor(gs.turn);
   document.querySelectorAll('.tmr').forEach(el=>{ const on=el.dataset.slot===turnSlot; el.classList.toggle('on',on); el.style.setProperty('--f',(on?frac*100:0)+'%'); el.classList.toggle('low',on && left<10000); });
-  const sec=Math.ceil(left/1000), bt=$('turnBanner'); if(bt && !bt.classList.contains('hidden')){ let e=bt.querySelector('.tbc'); if(!e){ e=document.createElement('div'); e.className='tbc'; bt.appendChild(e); } e.textContent=sec+' '+t('secShort'); e.classList.toggle('low',left<10000); }
+  const sec=Math.ceil(left/1000), bt=$('turnBanner'), myT=mySlot()===turnSlot; if(bt){ const e0=bt.querySelector('.tbc'); if(e0 && !myT) e0.remove(); } if(bt && myT && !bt.classList.contains('hidden')){ let e=bt.querySelector('.tbc'); if(!e){ e=document.createElement('div'); e.className='tbc'; bt.appendChild(e); } e.textContent=sec+' '+t('secShort'); e.classList.toggle('low',left<10000); }
   if(left>0 || claimBusy) return;
   const me=mySlot();
   if(mode==='online' && me && turnSlot!==me && Date.now()-gs.turnAt>turnMsG()+1500){ claimBusy=true; if(viaServer()) srv('timeout').finally(()=>claimBusy=false); else { applyTimeout(turnSlot); save(); route(); claimBusy=false; } }
@@ -4411,7 +4430,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.42.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.43.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -6307,6 +6326,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+ {v:"0.43.0", d:"12.11.2026", uk:["«Здатися» тепер видно: прапорець біля «…» на телефоні і кнопка з підписом на комп’ютері","Якщо здаватися ще рано — сайт каже чому і скільки ходів залишилось","Ваш час на хід починає йти лише після того, як показано хід суперника (+3 с)","Секунди на дошці — тільки у ваш хід"], en:["«Resign» is visible now: a flag next to «…» on phones and a labelled button on desktop","Too early to resign? The site says why and how many moves are left","Your turn clock starts only after the opponent's move has been shown (+3 s)","Seconds on the board only on your own turn"]},
  {v:"0.42.0", d:"12.11.2026", uk:["Новий екран підсумку партії: ви і суперник, рахунок великими цифрами","Партія в цифрах: ходи, дублі, тривалість, винесені шашки й графік ваших шансів","Монети за партію і зміна рейтингу в одному місці; реванш, повтор і розбір — одним натиском","На телефоні підсумок виїжджає знизу"], en:["New game summary: you and your opponent, the score in big numbers","The game in numbers: turns, doubles, time, checkers borne off and a chart of your chances","Coins for the game and the rating change in one place; rematch, replay and review one tap away","On phones the summary slides up from the bottom"]},
  {v:"0.41.0", d:"12.11.2026", uk:["Стіл на телефоні: дошка на всю ширину і більші шашки — без шапки сайту й зайвих блоків","Суперник — тонкою смугою над дошкою, ви — під нею","Посилання, голос, емоції, історія ходів, правила, «Здатися» і «Вийти» — у меню «…»"], en:["The table on a phone: the board spans the width with bigger checkers — no site header or extra blocks","The opponent is a thin strip above the board, you are below it","Link, voice, emoji, move history, rules, «Resign» and «Leave» are in the «…» menu"]},
  {v:"0.40.0", d:"12.11.2026", uk:["Перший вхід за 3 кроки: «знаєте правила?» → партія з ботом → акаунт","Новачків більше не зустрічає вікно входу — спочатку гра, акаунт потім","Хто не знає правил — спершу короткий урок, потім партія"], en:["First visit in 3 steps: «know the rules?» → a game with the bot → an account","Newcomers no longer meet the sign-in window first — play first, account later","Don't know the rules? A short lesson first, then a game"]},
