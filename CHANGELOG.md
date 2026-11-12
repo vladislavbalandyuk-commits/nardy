@@ -3,6 +3,14 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.36.2 — 12.11.2026
+- Fix: with a photo table the home page cards were painted under the table photo (positioned ::before over static cards) — home stage now sits above it, photo dimmed.
+- Fix: card-background preview name used the campaign class .cpn (absolute, glass) and covered the rank — renamed .cdpn.
+- Night city case: dice Skyscraper, Disco ball (legendary), Metro; avatar «DJ» (Notionists CC0 n9 + neon headphones, glasses, skyline); win effect «Neon sign» with buzz and hum; vinyl scratch when the DJ drops.
+- Hookah case: dice «Hookah coals» and «Mint ice».
+- Hookah bubbles while moving on the Fibonacci board (setting «Бульбашки кальяну»).
+- Campaign page shows the current exclusive table and when the next one comes.
+
 ## 0.36.1 — 12.11.2026
 - Hookah case rebuilt around the hookah: board «Fibonacci hookah» (golden-ratio spiral), checkers Fibonacci, Forest mix, Double apple, Glowing coals; Druzi menu nods — Aperol Spritz and Mojito lemonade checkers; avatar «Hookah master» (from Notionists CC0 n4: fez, hose, smoke); win effect «Fibonacci cloud».
 - Night city case: win effect «Lanterns».
