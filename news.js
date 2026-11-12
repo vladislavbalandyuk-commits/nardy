@@ -1,4 +1,5 @@
 window.__NEWS=[
+ {v:"0.35.2", d:"12.11.2026", uk:["Дрібні виправлення"], en:["Small fixes"]},
  {v:"0.35.1", d:"12.11.2026", uk:["Дрібні виправлення в магазині"], en:["Small fixes in the shop"]},
  {v:"0.35.0", d:"12.11.2026", uk:["Вітрина: «Набір тижня» на початку — дошка, шашки, кубики й стіл разом зі знижкою, з приміркою"], en:["Showcase: «Set of the week» first — board, checkers, dice and table together at a discount, with a try-on"]},
  {v:"0.34.4", d:"12.11.2026", uk:["Аватари в капюшоні перемальовані: капюшон рівно по центру й щільно обрамляє обличчя"], en:["The hooded avatars are redrawn: the hood is centred and frames the face tightly"]},

@@ -3,6 +3,10 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.35.2 — 12.11.2026
+- Cases (admin & testers only): «What's inside» sheet rebuilt — header, odds bar, rarity sections with uniform tiles; sounds for opening, reel ticks, every rarity and refunds.
+- Case-only prizes: boards Stained glass, Azulejo, Synthwave, Hologram; checkers Lava, Galaxy, Holo, Stained glass; win effects «Mega Aperol 3 L» (the original beta Lottie) and «Delivery» (scooter throwing food).
+
 ## 0.35.1 — 12.11.2026
 - Cases hidden from players while they are being reworked: the tab shows only for the admin and testers, the server op refuses others.
 

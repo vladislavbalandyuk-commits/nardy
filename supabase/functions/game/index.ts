@@ -181,11 +181,13 @@ const SHOP_R: any = { board: { modern: 'c', tri: 'c', walnut: 'r', midnight: 'r'
   table: { wood: 'c', felt: 'c', carpet: 'c', marble: 'c', cafe: 'c', stone: 'c', leather: 'c' } };
 // 0.35.0: cases — open for coins, get one thing from the case. The rarity is rolled (c 55 / r 30 / e 12 / l 3 %, missing tiers move down),
 // then a thing of that rarity you do not own yet; if you own them all — a fixed refund. Every 10th case without an epic or better gives one.
+// 0.35.2: case-only things (boards, checkers, win effects you cannot buy) and their rarity
+const CASE_R: any = { 'board:vitrazh': 'l', 'board:azulejo': 'e', 'board:synth': 'e', 'board:holo': 'l', 'ck:lava': 'l', 'ck:vitrazh': 'e', 'ck:galaxy': 'e', 'ck:holo': 'l', 'fx:aperol': 'l', 'fx:delivery': 'e' };
 const CASES: any = {
-  hookah: { price: 350, items: ['board:druzi', 'board:walnut', 'board:sage', 'board:oak', 'ck:wood', 'ck:metal', 'ck:retro', 'ck:amber', 'ck:vyshyvanka', 'dice:wood', 'dice:ruby', 'dice:gold', 'table:cafe', 'table:carpet', 'table:leather'] },
-  night: { price: 350, items: ['board:modern', 'board:midnight', 'board:carbon', 'board:noir', 'ck:flat', 'ck:glass', 'ck:pearl', 'ck:neon', 'ck:iximmo', 'dice:onyx', 'dice:glass', 'dice:neon', 'table:stone', 'table:felt'] } };
+  hookah: { price: 350, items: ['board:druzi', 'board:walnut', 'board:oak', 'board:azulejo', 'board:vitrazh', 'ck:wood', 'ck:retro', 'ck:amber', 'ck:vitrazh', 'ck:lava', 'dice:wood', 'dice:ruby', 'dice:gold', 'table:cafe', 'table:carpet', 'table:leather', 'fx:aperol'] },
+  night: { price: 350, items: ['board:modern', 'board:midnight', 'board:carbon', 'board:synth', 'board:holo', 'ck:flat', 'ck:glass', 'ck:neon', 'ck:galaxy', 'ck:holo', 'dice:onyx', 'dice:glass', 'dice:neon', 'table:stone', 'table:felt', 'fx:delivery'] } };
 const CASE_ODDS: any = { c: 55, r: 30, e: 12, l: 3 }, CASE_REFUND: any = { c: 60, r: 120, e: 300, l: 700 };
-const rarOf = (id: string) => { const [c, k] = id.split(':'); return SHOP_R[c]?.[k] || 'c'; };
+const rarOf = (id: string) => { if (CASE_R[id]) return CASE_R[id]; const [c, k] = id.split(':'); return SHOP_R[c]?.[k] || 'c'; };
 const shopPrice = (id: string) => { const [c, k] = id.split(':'); const r = SHOP_R[c]?.[k]; return r ? (SHOP_P[c][r] ?? SHOP_P[c].c) : 0; };
 // the deal of the day: one epic or legendary thing at −25%, the same for everyone during a Kyiv day (the site picks it the same way)
 const shopDay = (now = Date.now()) => new Date(now + 2 * 3600e3).toISOString().slice(0, 10);
