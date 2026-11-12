@@ -3,6 +3,12 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.52.0 — 12.11.2026
+- Reconnect: when the live game channel fails, a quiet line «reconnecting…» shows and the channel is reopened with growing pauses (2 s → 30 s), each time re-reading the game; on success the line goes and «Back in the game» shows.
+- The game is re-read at once when the network returns (`online`) or the page becomes visible again (phone back from the background), and every 15 s during an online game as a safety net against missed moves.
+- Fix: the 0.51 tap-area rule replaced the toggles' knob (it is their ::after) and the switches in Settings looked broken — fixed; now a tap anywhere on a settings row switches its toggle. The other enlarged hit areas use ::before.
+- Resume after closing: the online game you are in is kept on the device (cleared when it ends or you leave); opening the site again without a link shows «You have an unfinished game · Back to the game» (checked on the server: still running, you are a player, under 6 h old); × forgets it.
+
 ## 0.51.0 — 12.11.2026
 - Readability: captions under 12 px raised (tab bar 11 → 12, chips and badges 11–11.5 → 12), small descriptions 12–12.5 → 13 (Today tiles, rank card, achievements, Learn cards, phone table strip, online line).
 - Tap targets: toggles, the coin pill, footer links and the shop back button get an invisible 40 px+ hit area; settings buttons, shop tabs and the settings menu at least 40 px tall.
