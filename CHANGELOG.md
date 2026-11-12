@@ -3,6 +3,10 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.42.0 — 12.11.2026
+- Game summary (win window rebuilt, its buttons keep their logic): hero with both avatars (winner ringed green), result and big score coloured by win/loss; the game in numbers (your turns, doubles, game time, borne off); a chart of your winning chances through the game (lowest/highest marked); coins for the game (caught from the coin reward, also when the server pays later) next to the rating change; Rematch / Next as the main buttons, Review · Replay · Close as a row below.
+- Phones: the summary is a bottom sheet.
+
 ## 0.41.0 — 12.11.2026
 - Phone table (portrait ≤600 px, body.pg41): no site header; the opponent's card moves into a strip above the board (#gTop) with a «…» button; your card and the dice controls stay below; the board takes the whole width (checker size up to (width−10)/12.95, ~+7%) and is centred in the free height; nothing scrolls.
 - «…» menu (bottom sheet): link, voice chat, opponent sound, emoji (online only where they apply), move history and rules (in a sheet), Resign, Leave the table — each calls the existing button, so the logic is unchanged.
