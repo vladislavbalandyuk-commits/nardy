@@ -3,6 +3,13 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.56.0 — 12.11.2026
+- Challenge of the day: a 4th, harder daily task with a bigger prize (c_mars 200, c_human2 150, c_win3 150, c_game6 120), picked per Kyiv day on the server, never the same kind as the regular quests; highlighted in every quest list.
+- Daily gift: day 7 is now 300 coins; «freeze» — one missed day a week keeps the streak (server `dfz`); the best streak is kept (`dmax`).
+- Content: achievement «Hoarfrost week» (7 days in a row) gives the new winter board «Іней» (icy lanes with frost specks).
+- Desktop: the footer is gone; «How to play», «Ranks» and the credit moved into «Events».
+- Pasha's tour: challenge/streak step.
+
 ## 0.55.0 — 12.11.2026
 - Home: «While you were away…» card (shown once a visit after 6+ hours): new puzzle, ready gift, new version, tournament, radio.
 - Desktop right column: «Events» block — tournament, Nardy radio on/off, what's new.

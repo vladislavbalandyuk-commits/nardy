@@ -186,7 +186,7 @@ const SHOP_R: any = { board: { modern: 'c', tri: 'c', walnut: 'r', midnight: 'r'
 const CASE_R: any = { 'board:vitrazh': 'e', 'board:azulejo': 'e', 'board:synth': 'e', 'board:holo': 'l', 'board:fib': 'l', 'ck:lava': 'l', 'ck:vitrazh': 'e', 'ck:galaxy': 'e', 'ck:holo': 'l', 'ck:fib': 'e', 'ck:forest': 'e', 'ck:dzsunrise': 'e', 'ck:dbapple': 'r', 'ck:dzmint': 'r', 'fx:aperol': 'l', 'fx:delivery': 'e', 'fx:cloud': 'e', 'fx:lanterns': 'e', 'fx:stars': 'e', 'fx:bolt': 'r', 'av:hookah': 'l', 'dice:skyline': 'e', 'dice:disco': 'l', 'dice:metro': 'r', 'dice:ember': 'e', 'dice:mint': 'r', 'av:dj': 'l', 'fx:neonsign': 'e', 'ph:chZWow': 'c', 'ph:chZHmm': 'c', 'ph:chZLuck': 'c', 'ph:chZTry': 'c', 'ph:chZCalm': 'r', 'ph:chZPro': 'r', 'ph:chZMaster': 'r', 'ph:vo:clap': 'e', 'ph:vo:laugh': 'e', 'ph:vo:hookah': 'e', 'ph:vo:dice': 'e', 'ph:vo:champ': 'l', 'ph:vo:fanfare': 'l', 'ph:vo:hoho': 'e' };
 // 0.48: 30 achievements with rewards. The server checks each one against the profile before paying; the two it cannot see
 // (a phrase in an online game, watching a replay) are flags the site sets and pay only coins.
-const ACH_X = ['board:triumph', 'board:yard', 'ck:veteran', 'ck:champ', 'dice:laurel', 'dice:scholar', 'ph:vo:gong', 'ph:vo:harp', 'ph:vo:bell'];
+const ACH_X = ['board:inei', 'board:triumph', 'board:yard', 'ck:veteran', 'ck:champ', 'dice:laurel', 'dice:scholar', 'ph:vo:gong', 'ph:vo:harp', 'ph:vo:bell'];
 const ACH2: any = {
   first: [{ coins: 50 }, (P: any, A: any) => (A.c?.won | 0) >= 1], ten: [{ coins: 150 }, (P: any, A: any) => (A.c?.won | 0) >= 10],
   wins50: [{ item: 'dice:laurel' }, (P: any, A: any) => (A.c?.won | 0) >= 50], wins100: [{ item: 'board:triumph' }, (P: any, A: any) => (A.c?.won | 0) >= 100],
@@ -203,7 +203,8 @@ const ACH2: any = {
   friend1: [{ coins: 100 }, (P: any, A: any) => (A.friends || []).length >= 1], days7: [{ coins: 150 }, (P: any, A: any) => (A.days || []).length >= 7],
   chat: [{ coins: 50 }, (P: any, A: any) => !!A.fl?.chat], own1: [{ coins: 50 }, (P: any, A: any) => (A.owned || []).length >= 1],
   case1: [{ coins: 100 }, (P: any, A: any) => (A.cases | 0) >= 1], col20: [{ item: 'ph:vo:bell' }, (P: any, A: any) => (A.owned || []).length >= 20],
-  replay: [{ coins: 50 }, (P: any, A: any) => !!A.fl?.replay] };
+  replay: [{ coins: 50 }, (P: any, A: any) => !!A.fl?.replay],
+  week7: [{ item: 'board:inei' }, (P: any, A: any) => (A.dmax | 0) >= 7] };
 const CASES: any = {
   hookah: { price: 350, items: ['board:druzi','board:walnut','board:azulejo','board:vitrazh','board:fib','ck:wood','ck:retro','ck:amber','ck:dbapple','ck:dzmint','ck:forest','ck:fib','ck:dzsunrise','ck:lava','dice:wood','dice:ruby','dice:mint','dice:ember','table:cafe','table:carpet','table:leather','fx:cloud','fx:aperol','av:hookah'] },
   phrases: { price: 250, items: ['chZWow','chZHmm','chZLuck','chZTry','chZCalm','chZPro','chZMaster','vo:clap','vo:laugh','vo:hookah','vo:dice','vo:hoho','vo:champ','vo:fanfare'].map((x) => 'ph:' + x) },
@@ -261,7 +262,11 @@ const CAMP_MINI: any[] = [null,
   { name: 'Права рука Влада', av: 'm7', board: () => BLOCK(4), t: 20, noise: 0, lvl: 3 }];
 const SHOP_OPEN = Date.UTC(2026, 10, 7, 10, 0);   // accounts made before the shop opened get 3000 coins once, for the skins that became paid
 // ---- daily gift (7-day streak) and quests of the day; quest progress is counted on the server in rate() ----
-const DAILY = [50, 70, 90, 110, 130, 150, 150];
+const DAILY = [50, 70, 90, 110, 130, 150, 300];
+// 0.56: the challenge of the day — one harder task with a bigger prize, the same for everyone on a Kyiv day
+const CHALS: any[] = [{ k: 'c_mars', ev: 'mars', n: 1, r: 200, ch: 1 }, { k: 'c_human2', ev: 'human', n: 2, r: 150, ch: 1 }, { k: 'c_win3', ev: 'win', n: 3, r: 150, ch: 1 }, { k: 'c_game6', ev: 'game', n: 6, r: 120, ch: 1 }];
+function chalId(day: string) { let h = 7; for (const ch of day) h = (h * 131 + ch.charCodeAt(0)) >>> 0; const used = new Set(questIds(day).map((k) => QUESTS.find((q) => q.k === k)?.ev));
+  for (let i = 0; i < CHALS.length; i++) { const C = CHALS[(h + i) % CHALS.length]; if (!used.has(C.ev)) return C.k; } return CHALS[h % CHALS.length].k; }
 const QUESTS: any[] = [{ k: 'play2', ev: 'game', n: 2, r: 40 }, { k: 'play4', ev: 'game', n: 4, r: 70 }, { k: 'win1', ev: 'win', n: 1, r: 50 }, { k: 'win3', ev: 'win', n: 3, r: 100 }, { k: 'human1', ev: 'human', n: 1, r: 60 }, { k: 'mars1', ev: 'mars', n: 1, r: 100 }];
 function questIds(day: string) { let h = 0; for (const ch of day) h = (h * 31 + ch.charCodeAt(0)) >>> 0; const L = QUESTS.map((q) => q.k); const out: string[] = []; while (out.length < 3) { h = (h * 1103515245 + 12345) >>> 0; const k = L[h % L.length]; if (!out.includes(k)) out.push(k); } return out; }
 function questState(A: any, day: string) { const q = A.q && A.q.d === day ? A.q : { d: day, p: {}, got: [] }; return q; }
@@ -654,12 +659,15 @@ Deno.serve(async (req) => {
       const op = String(args?.op || 'get'), day = kyivDay();
       const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
       const A = { ...(p.ach || {}) }; const D = A.daily || { d: '', s: 0 };
-      const streakNext = D.d === day ? D.s : (D.d === prevDay(day) ? (D.s % 7) + 1 : 1);
-      const view = () => { const q = questState(A, day); return { day, coins: A.coins ?? COIN_START, daily: { ready: D.d !== day, day: streakNext, list: DAILY }, quests: questIds(day).map((k) => { const Q = QUESTS.find((x) => x.k === k); return { k, ev: Q.ev, n: Q.n, r: Q.r, p: Math.min(Q.n, q.p[Q.ev] || 0), got: q.got.includes(k) }; }) }; };
-      if (op === 'daily') { if (D.d === day) return json({ ok: true, already: true, ...view() }); const n = DAILY[streakNext - 1]; A.daily = { d: day, s: streakNext }; A.coins = (A.coins ?? COIN_START) + n; Object.assign(D, A.daily);
-        await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, got: n, ...view() }); }
-      if (op === 'quest') { const k = String(args?.k || ''); const q = questState(A, day); const Q = QUESTS.find((x) => x.k === k);
-        if (!Q || !questIds(day).includes(k) || q.got.includes(k) || (q.p[Q.ev] || 0) < Q.n) return json({ error: 'not_ready', ...view() }, 400);
+      // 0.56: a «freeze» — one missed day a week does not break the streak
+      const fzOk = !A.dfz || A.dfz <= kyivDay(Date.now() - 7 * 864e5), gap2 = !!D.d && D.d === prevDay(prevDay(day));
+      const streakNext = D.d === day ? D.s : (D.d === prevDay(day) || (gap2 && fzOk) ? (D.s % 7) + 1 : 1);
+      const fzNow = D.d !== day && D.d !== prevDay(day) && gap2 && fzOk;
+      const view = () => { const q = questState(A, day); return { day, coins: A.coins ?? COIN_START, daily: { ready: D.d !== day, day: streakNext, list: DAILY, fz: fzOk ? 1 : 0, fzNow: fzNow ? 1 : 0, max: A.dmax | 0 }, quests: questIds(day).concat([chalId(day)]).map((k) => { const Q = QUESTS.find((x) => x.k === k) || CHALS.find((x) => x.k === k); return { k, ev: Q.ev, n: Q.n, r: Q.r, p: Math.min(Q.n, q.p[Q.ev] || 0), got: q.got.includes(k), ch: Q.ch ? 1 : 0 }; }) }; };
+      if (op === 'daily') { if (D.d === day) return json({ ok: true, already: true, ...view() }); const n = DAILY[streakNext - 1]; if (fzNow) A.dfz = day; A.dmax = Math.max(A.dmax | 0, streakNext); A.daily = { d: day, s: streakNext }; A.coins = (A.coins ?? COIN_START) + n; Object.assign(D, A.daily);
+        await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, got: n, fz: fzNow ? 1 : 0, ...view() }); }
+      if (op === 'quest') { const k = String(args?.k || ''); const q = questState(A, day); const Q = QUESTS.find((x) => x.k === k) || CHALS.find((x) => x.k === k);
+        if (!Q || !(questIds(day).includes(k) || chalId(day) === k) || q.got.includes(k) || (q.p[Q.ev] || 0) < Q.n) return json({ error: 'not_ready', ...view() }, 400);
         q.got.push(k); A.q = q; A.coins = (A.coins ?? COIN_START) + Q.r; await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, got: Q.r, ...view() }); }
       return json({ ok: true, ...view() });
     }
