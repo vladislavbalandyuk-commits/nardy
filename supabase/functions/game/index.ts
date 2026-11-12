@@ -179,6 +179,13 @@ const SHOP_R: any = { board: { modern: 'c', tri: 'c', walnut: 'r', midnight: 'r'
   ck: { wood: 'c', stone: 'c', flat: 'c', metal: 'r', glass: 'r', retro: 'r', pearl: 'e', amber: 'e', jade: 'e', neon: 'e', vyshyvanka: 'l', frost: 'r', spooky: 'e', royal: 'e', iximmo: 'l' },
   dice: { onyx: 'c', wood: 'c', ruby: 'r', marble: 'r', glass: 'r', gold: 'e', neon: 'e' },
   table: { wood: 'c', felt: 'c', carpet: 'c', marble: 'c', cafe: 'c', stone: 'c', leather: 'c' } };
+// 0.35.0: cases — open for coins, get one thing from the case. The rarity is rolled (c 55 / r 30 / e 12 / l 3 %, missing tiers move down),
+// then a thing of that rarity you do not own yet; if you own them all — a fixed refund. Every 10th case without an epic or better gives one.
+const CASES: any = {
+  hookah: { price: 350, items: ['board:druzi', 'board:walnut', 'board:sage', 'board:oak', 'ck:wood', 'ck:metal', 'ck:retro', 'ck:amber', 'ck:vyshyvanka', 'dice:wood', 'dice:ruby', 'dice:gold', 'table:cafe', 'table:carpet', 'table:leather'] },
+  night: { price: 350, items: ['board:modern', 'board:midnight', 'board:carbon', 'board:noir', 'ck:flat', 'ck:glass', 'ck:pearl', 'ck:neon', 'ck:iximmo', 'dice:onyx', 'dice:glass', 'dice:neon', 'table:stone', 'table:felt'] } };
+const CASE_ODDS: any = { c: 55, r: 30, e: 12, l: 3 }, CASE_REFUND: any = { c: 60, r: 120, e: 300, l: 700 };
+const rarOf = (id: string) => { const [c, k] = id.split(':'); return SHOP_R[c]?.[k] || 'c'; };
 const shopPrice = (id: string) => { const [c, k] = id.split(':'); const r = SHOP_R[c]?.[k]; return r ? (SHOP_P[c][r] ?? SHOP_P[c].c) : 0; };
 // the deal of the day: one epic or legendary thing at −25%, the same for everyone during a Kyiv day (the site picks it the same way)
 const shopDay = (now = Date.now()) => new Date(now + 2 * 3600e3).toISOString().slice(0, 10);
@@ -675,6 +682,20 @@ Deno.serve(async (req) => {
         const coins = A.coins ?? COIN_START; if (coins < price) return json({ error: 'no_coins', coins }, 400);
         A.coins = coins - price; A.owned = [...A.owned, id]; await db.from('profiles').update({ ach: A }).eq('id', user.id);
         return json({ ok: true, coins: A.coins, owned: A.owned, price });
+      }
+      if (op === 'case') {
+        const ck = String(args?.id || ''), C = CASES[ck]; if (!C) return json({ error: 'not_for_sale' }, 400);
+        const coins = A.coins ?? COIN_START; if (coins < C.price) return json({ error: 'no_coins', coins }, 400);
+        const P = { ...(A.cpity || {}) }; const pity = (P[ck] | 0) + 1; const tiers = ['c', 'r', 'e', 'l'].filter((r) => C.items.some((i: string) => rarOf(i) === r));
+        const R = (crypto.getRandomValues(new Uint32Array(1))[0] / 4294967296);
+        let pool = pity >= 10 ? tiers.filter((r) => r === 'e' || r === 'l') : tiers; if (!pool.length) pool = tiers;
+        const tot = pool.reduce((a, r) => a + CASE_ODDS[r], 0); let x = R * tot, rar = pool[pool.length - 1]; for (const r of pool) { if (x < CASE_ODDS[r]) { rar = r; break; } x -= CASE_ODDS[r]; }
+        const ofR = C.items.filter((i: string) => rarOf(i) === rar), fresh = ofR.filter((i: string) => !A.owned.includes(i));
+        const R2 = crypto.getRandomValues(new Uint32Array(1))[0]; const got = (fresh.length ? fresh : ofR)[R2 % (fresh.length || ofR.length)]; const dup = !fresh.length;
+        A.coins = coins - C.price + (dup ? CASE_REFUND[rar] : 0); if (!dup) A.owned = [...A.owned, got];
+        P[ck] = rar === 'e' || rar === 'l' ? 0 : pity; A.cpity = P; A.cases = (A.cases | 0) + 1;
+        await db.from('profiles').update({ ach: A }).eq('id', user.id);
+        return json({ ok: true, got, rar, dup, refund: dup ? CASE_REFUND[rar] : 0, coins: A.coins, owned: A.owned, pity: P[ck] });
       }
       if (op === 'bundle') {
         const b = String(args?.id || ''); if (!BUNDLES[b]) return json({ error: 'not_for_sale' }, 400);
