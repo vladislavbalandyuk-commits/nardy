@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.52.1 — 12.11.2026
+- «Today» tiles: the icon and the arrow are centred vertically (they sat at the top of taller tiles such as the tournament).
+
 ## 0.52.0 — 12.11.2026
 - Reconnect: when the live game channel fails, a quiet line «reconnecting…» shows and the channel is reopened with growing pauses (2 s → 30 s), each time re-reading the game; on success the line goes and «Back in the game» shows.
 - The game is re-read at once when the network returns (`online`) or the page becomes visible again (phone back from the background), and every 15 s during an online game as a safety net against missed moves.

@@ -2331,6 +2331,8 @@ body.pg41 .pl .sub{font-size:13px!important}
 .gsetb,#shopPg .s2tabs button,#setOv .spnav a{min-height:40px}
 /* line icons */
 .ico{display:inline-flex;align-items:center;justify-content:center;line-height:0} .ico svg{width:100%;height:100%}
+.tdt .tdi,.tdt>em{align-self:center!important;grid-row:1/-1!important}
+.tdt .tdi .ico,#learnPg .lnci .ico,.es .esi .ico{margin:0!important}
 .tdt .tdi .ico,#learnPg .lnci .ico{width:26px!important;height:26px!important;color:#cbbfff!important;background:none!important}
 .tdt .tdi .ico svg,#learnPg .lnci .ico svg{width:24px!important;height:24px!important}
 .es .esi .ico{width:26px;height:26px;color:#cbbfff} .es.err .esi .ico{color:#ff8a8f}
@@ -4751,7 +4753,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.52.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.52.1';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -6665,6 +6667,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+ {v:"0.52.1", d:"12.11.2026", uk:["Перемикачі в налаштуваннях знову виглядають як треба, а натиснути можна на весь рядок","Іконки в блоці «Сьогодні» тепер по центру"], en:["Settings toggles look right again, and the whole row is tappable","Icons in the Today block are centred"]},
  {v:"0.52.0", d:"12.11.2026", uk:["Зник інтернет посеред онлайн-партії? Сайт сам повертає вас у гру, щойно зʼявиться зв’язок, і підтягує ходи, які ви пропустили","Повернулись у застосунок після дзвінка чи згорнутого браузера — партія одразу оновлюється","Закрили вкладку — відкрийте сайт знову: вгорі буде «У вас незавершена партія · Повернутися»","Налаштування: перемикачі знову на місці, а натиснути можна на весь рядок"], en:["Lost the internet mid-game? The site brings you back as soon as the connection returns and fetches the moves you missed","Back from a call or a minimised browser — the game updates at once","Closed the tab? Open the site again: «You have an unfinished game · Back to the game» at the top","Settings: the switches are back in place, and the whole row is tappable"]},
  {v:"0.51.0", d:"12.11.2026", uk:["Читати легше: дрібні підписи стали більшими, на всі маленькі кнопки тепер легко влучити пальцем","Налаштування → «Великий шрифт»: увесь текст більший на 15%, дошка не змінюється","Єдині лінійні значки замість емодзі в «Сьогодні», «Навчанні» і порожніх списках","Нове: дошка й шашки «Контраст» — найлегше розрізнити, всього 200 і 300 монет","Паша підкаже про великий шрифт"], en:["Easier to read: small captions got bigger, every small button is easy to hit with a finger","Settings → «Large text»: all text 15% bigger, the board stays the same","One set of line icons instead of emoji in «Today», «Learn» and empty lists","New: «Contrast» board and checkers — the easiest to tell apart, only 200 and 300 coins","Pasha mentions large text"]},
  {v:"0.50.0", d:"12.11.2026", uk:["Сайт тепер розуміє, звідки прийшов новий гравець — щоб знати, які пости й чати працюють","Мітки з посилань прибираються з адреси одразу, тож вітальні кроки для новачків більше не губляться"], en:["The site now knows where a new player came from — to see which posts and chats work","Link marks are removed from the address at once, so the welcome steps for newcomers are no longer skipped"]},
