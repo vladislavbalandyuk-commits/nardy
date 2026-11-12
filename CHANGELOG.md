@@ -3,6 +3,11 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.40.0 — 12.11.2026
+- First visit in 3 steps (store `ob40`: q · tut · game · done): 1) «Do you know the rules?» — Yes → a game with the bot, No → the interactive lesson; 2) after the lesson — «Now a real game» with the bot; 3) after the first game — «Keep your progress» (create an account / later → Pasha's tour).
+- New guests no longer get the sign-in popup at load, and Pasha's tour waits until the onboarding is over; «Skip» ends both.
+- Only for guests who have not played, finished the lesson or seen the tour; signed-in players and Telegram skip it; invite links are never interrupted.
+
 ## 0.39.1 — 12.11.2026
 - Pasha's tour: the «other ways to play» step works on phones again (it looked at the hidden desktop chips).
 
