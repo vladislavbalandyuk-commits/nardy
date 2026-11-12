@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.36.3 — 12.11.2026
+- Case cards: buttons aligned at the bottom; Night city hover is a soft blip instead of the neon buzz.
+
 ## 0.36.2 — 12.11.2026
 - Fix: with a photo table the home page cards were painted under the table photo (positioned ::before over static cards) — home stage now sits above it, photo dimmed.
 - Fix: card-background preview name used the campaign class .cpn (absolute, glass) and covered the rank — renamed .cdpn.
