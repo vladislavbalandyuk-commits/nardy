@@ -3,6 +3,11 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.36.1 — 12.11.2026
+- Hookah case rebuilt around the hookah: board «Fibonacci hookah» (golden-ratio spiral), checkers Fibonacci, Forest mix, Double apple, Glowing coals; Druzi menu nods — Aperol Spritz and Mojito lemonade checkers; avatar «Hookah master» (from Notionists CC0 n4: fez, hose, smoke); win effect «Fibonacci cloud».
+- Night city case: win effect «Lanterns».
+- New synthesized sounds: hookah bubbling, neon buzz, lantern chime. Cases still admin/testers only.
+
 ## 0.36.0 — 12.11.2026
 - Campaign chapters are played at their own tables (Unsplash photos): bench in the snow, autumn park, café, «The Cloud», dining car, tavern candle, basement, black marble, red curtain.
 - These tables are not won in the campaign: the showcase sells one of them as an exclusive for 3 days (900 coins), then the next (server checks the window).
