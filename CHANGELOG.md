@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.34.4 — 12.11.2026
+- Hooded avatars (vladM, mask) redrawn in tools/avgen.js: a symmetric cowl centred on the face (the face of the base drawing sits right of the head's middle), the ear covered, no straight hanging rim.
+
 ## 0.34.3 — 12.11.2026
 - The beta is closed: the footer link is gone and /beta/* redirects to the main site (vercel.json, temporary redirect; the files stay in the repo).
 
