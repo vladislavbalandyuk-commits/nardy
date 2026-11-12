@@ -3,6 +3,10 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.37.0 — 12.11.2026
+- Avatar collection regrouped: filter chips (All / Mine / Story / From cases / Basic / Packs), a card per group with owned count, each portrait pack its own group with a «Pack · price» button.
+- Phone pass: shop tabs scroll and keep the active one in view; deal-of-the-day board no longer collapses; neon sign fits narrow screens; avatars 5 per row.
+
 ## 0.36.3 — 12.11.2026
 - Case cards: buttons aligned at the bottom; Night city hover is a soft blip instead of the neon buzz.
 

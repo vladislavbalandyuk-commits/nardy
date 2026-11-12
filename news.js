@@ -1,4 +1,5 @@
 window.__NEWS=[
+ {v:"0.37.0", d:"12.11.2026", uk:["Аватари в колекції розкладено по групах: сюжет, базові, кожен набір окремо — з фільтром «Мої»","На телефоні: вкладки магазину гортаються, пропозиція дня знову показує дошку"], en:["Avatars in the collection are grouped: story, basic, each pack on its own — with a «Mine» filter","On phones: shop tabs scroll, the deal of the day shows its board again"]},
  {v:"0.36.3", d:"12.11.2026", uk:["Дрібні виправлення"], en:["Small fixes"]},
  {v:"0.36.2", d:"12.11.2026", uk:["Виправлено: головна з фото-столом ховала картки","Виправлено: ім’я в прев’ю картки гравця налазило на ранг","У кампанії видно, який ексклюзивний стіл зараз у вітрині"], en:["Fixed: the home page hid its cards with a photo table","Fixed: the name in the player card preview overlapped the rank","The campaign shows which exclusive table is in the showcase now"]},
  {v:"0.36.1", d:"12.11.2026", uk:["Дрібні виправлення"], en:["Small fixes"]},
