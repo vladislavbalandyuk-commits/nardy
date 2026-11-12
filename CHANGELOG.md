@@ -3,6 +3,14 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.53.0 — 12.11.2026
+- Phone table: the «your turn» panel and the dice button move under the board when there is room, so nothing covers the checkers; the button is full-width for the thumb.
+- The opening roll happens by itself in games with a bot and online.
+- After a game «+N coins» shows once (in the summary), not as an extra toast.
+- Pages slide in softly; a light buzz on tab taps (respects «calm» and reduced motion).
+- Content: two new self-made effects in the «Night city» case — «Starfall» (win, rare-epic) and «Lightning» (roll).
+- Pasha's tour: step about the new table layout.
+
 ## 0.52.1 — 12.11.2026
 - «Today» tiles: the icon and the arrow are centred vertically (they sat at the top of taller tiles such as the tournament).
 
