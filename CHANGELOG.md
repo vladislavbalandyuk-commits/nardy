@@ -3,6 +3,13 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.47.0 — 12.11.2026
+- One set of states: `skel(n)` shimmering placeholder rows (still with «fewer animations»), `emptyEl` (icon, title, text, one action), `errEl` («Something went wrong» + «Try again»).
+- Loading: leaderboard, rank page (rating / tournaments), league — skeleton rows instead of «Loading…».
+- Empty: leaderboard (Play), friends (Invite friends), my games in the profile (Play), shop filter (Show everything), move history.
+- Error: leaderboard load failure with «Try again».
+- Offline: a line at the bottom («No connection — games with the bot and on one device still work»), a toast when the connection is back.
+
 ## 0.46.0 — 12.11.2026
 - Profile (signed-in) in three tabs under the player card, sticky while scrolling: Overview (showcase, campaign, fun numbers, looks, invite friends / nick for guests), Games (form, activity, recent games; count on the tab), Achievements (n / total on the tab). The last tab is remembered; switching keeps the tab bar in view. The player card on the left and the footer (sign out / close) stay as they were.
 
