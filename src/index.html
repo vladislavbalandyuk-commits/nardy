@@ -2097,7 +2097,7 @@ body.v7 .pzcard .pzgo.done{background:rgba(63,184,115,.15);color:#3fb873;padding
       <div class="sec deskhide"><p class="note" id="onlineNote"></p></div>
       <footer class="sitefoot" id="siteFoot">
         <div class="sfrow"><button type="button" class="sfver" id="appVer"></button></div>
-        <div class="sfrow sflinks"><button type="button" id="btnFootTut" data-t="tutorB"></button><a href="/beta/" id="lnkBeta" data-t="footBeta"></a><button type="button" id="btnFootNew" data-t="footNew"></button><button type="button" id="btnFootRanks" data-t="rkInfoT"></button></div>
+        <div class="sfrow sflinks"><button type="button" id="btnFootTut" data-t="tutorB"></button><button type="button" id="btnFootNew" data-t="footNew"></button><button type="button" id="btnFootRanks" data-t="rkInfoT"></button></div>
         <small class="sfsig" data-t="footSig"></small>
       </footer>
     </div>
@@ -4191,7 +4191,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.34.2';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.34.3';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -5970,6 +5970,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+ {v:"0.34.3", d:"12.11.2026", uk:["Бету закрито: усе найкраще з неї вже на основному сайті"], en:["The beta is closed: the best of it is on the main site now"]},
  {v:"0.34.2", d:"12.11.2026", uk:["Після останнього ходу є пару секунд, щоб скасувати весь хід і походити інакше — кнопка «Скасувати» внизу. Вимикається в налаштуваннях", "Магазин на телефоні: примірка компактніша, каталог видно одразу; при виборі речі сторінка сама підіймається до примірки"], en:["After your last move you have a couple of seconds to take the whole turn back and move again — the «Undo» button at the bottom. Can be turned off in settings", "Shop on phones: a more compact try-on, the catalogue is visible at once; picking an item scrolls back up to the try-on"]},
  {v:"0.34.1", d:"12.11.2026", uk:["Головна: картка «Форма» без порожнього місця — поки немає графіка, там підказка й кнопка рейтингової гри", "На телефоні картка гри називається «Гра онлайн», без повтору кнопки"], en:["Home: the «Form» card has no empty space — until there is a chart it shows a hint and a rated-game button", "On phones the play card is called «Play online», no repeated button text"]},
  {v:"0.34.0", d:"12.11.2026", uk:["Налаштування — тепер окрема сторінка на весь екран: розділи «Гра», «Звук і вібрація», «Вигляд», «Сповіщення», «Допомога», «Акаунт»", "Ваш профіль відкривається на весь екран", "Ефекти в колекції програються прямо у своїй картці — кнопка ▶ на кожній", "Легка текстура фону в темній темі, рівні цифри в статистиці"], en:["Settings are now a full page: «Game», «Sound and vibration», «Look», «Notifications», «Help», «Account»", "Your profile opens full screen", "Effects in the collection play right inside their card — a ▶ button on each", "A light background texture in the dark theme, even digits in stats"]},

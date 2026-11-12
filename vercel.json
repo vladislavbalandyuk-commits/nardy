@@ -45,5 +45,17 @@
         }
       ]
     }
+  ],
+  "redirects": [
+    {
+      "source": "/beta",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/beta/:path*",
+      "destination": "/",
+      "permanent": false
+    }
   ]
 }

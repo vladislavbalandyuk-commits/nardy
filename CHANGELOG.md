@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.34.3 — 12.11.2026
+- The beta is closed: the footer link is gone and /beta/* redirects to the main site (vercel.json, temporary redirect; the files stay in the repo).
+
 ## 0.34.2 — 12.11.2026
 - Take back the last move: when a move would end your turn, it is held for 2.6 s with a bar «Move done · Undo · Done» (and the board's undo button works); after that it is sent and the turn passes. For server games the held move is only sent on commit; undo sends `undo` only if earlier moves of the turn were sent. Not used in tournaments, the tutorial or with ≤20 s per move; setting «Take back your move».
 - Phone shop: compact try-on (smaller board, price and button tighter), picking a card scrolls back to the try-on.
