@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.46.0 — 12.11.2026
+- Profile (signed-in) in three tabs under the player card, sticky while scrolling: Overview (showcase, campaign, fun numbers, looks, invite friends / nick for guests), Games (form, activity, recent games; count on the tab), Achievements (n / total on the tab). The last tab is remembered; switching keeps the tab bar in view. The player card on the left and the footer (sign out / close) stay as they were.
+
 ## 0.45.0 — 12.11.2026
 - Settings search (sticky field at the top): filters rows by their label and description, a section title match shows the whole section, «nothing found» note, × and Esc clear; the section menu dims while searching.
 - «Reset settings» (Help section) with a confirm window: odds on, auto-roll off, undo hold on, sound / campaign sounds / hookah bubbles / vibration on, dark theme on, fewer animations as the system asks, board not flipped. Items, coins, rating, language and notifications are not touched; the toast says how many switches went back.
