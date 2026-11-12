@@ -3,6 +3,10 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.50.0 — 12.11.2026
+- Traffic sources: an early head script reads the source once per device (?src=, utm_source + utm_campaign, Telegram start_param `src_…`, friend/invite links, else the referring site mapped to google/telegram/facebook/instagram/threads/tiktok/reddit/x/youtube/crazygames, else «direct»), keeps it in localStorage and removes the marks from the address (so the newcomer steps are not skipped by a ?src link). Sent once to the server for any player with a profile, guests included (`src` action, never overwritten).
+- Admin → Stats: «Where new players come from (30 days)» — per source: new players (with an account), played a game, back the next day, back within 7 days (with how many were old enough); «Links for posts» — ready ?src= links (Telegram chats, Threads, Facebook, TikTok, Instagram, QR) with Copy, plus a custom mark.
+
 ## 0.49.0 — 12.11.2026
 - Speed: Google font no longer blocks the first paint (variable Jost 300–800, one file per alphabet, loaded non-blocking); preconnect to jsDelivr and Supabase.
 - The page gets the network first: avatars (av.js) and item skins (skins.css) start after the page itself instead of competing with it (slow 4G, 4× slower CPU: home ready 2.2 s → 1.9 s).

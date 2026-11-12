@@ -803,13 +803,22 @@ Deno.serve(async (req) => {
           if (Date.now() - t0 > 2 * 864e5) { c1++; if (L.includes(kyivDay(t0 + 864e5))) r1++; }
           if (Date.now() - t0 > 8 * 864e5) { c7++; if (L.some((d) => d > d0 && d <= kyivDay(t0 + 7 * 864e5))) r7++; } });
         const sum = (k: string, n: number) => days.slice(-n).reduce((a, d) => a + per[d][k], 0);
+        // 0.50: where new players (last 30 days, guests included) came from, and how far they got
+        const SRC: any = {}; const t30 = Date.now() - 30 * 864e5;
+        users.forEach((u) => { const t0 = new Date(u.created_at).getTime(); if (t0 < t30) return; const r: any = P.get(u.id) || {}; const A = r.ach || {};
+          const k = A.src?.s || (isTgMail(u) ? 'telegram' : '?'); const x = SRC[k] || (SRC[k] = { s: k, n: 0, reg: 0, play: 0, c1: 0, r1: 0, c7: 0, r7: 0 });
+          x.n++; if (!u.is_anonymous) x.reg++; if ((r.played || 0) > 0 || (A.gd || []).length) x.play++;
+          const L: string[] = A.days || [], d0 = kyivDay(t0);
+          if (Date.now() - t0 > 2 * 864e5) { x.c1++; if (L.includes(kyivDay(t0 + 864e5))) x.r1++; }
+          if (Date.now() - t0 > 8 * 864e5) { x.c7++; if (L.some((d) => d > d0 && d <= kyivDay(t0 + 7 * 864e5))) x.r7++; } });
+        const srcList = Object.values(SRC).sort((a: any, b: any) => b.n - a.n).slice(0, 25);
         return json({ ok: true, today, days: days.map((d) => per[d]),
           totals: { reg: reg.length, guests: guests.length, coins, tut, treg, refBy, calib, played },
           last: { d1: { newReg: per[today].newReg, act: per[today].actReg, hum: per[today].hum, bot: per[today].bot },
                   d7: { newReg: sum('newReg', 7), hum: sum('hum', 7), bot: sum('bot', 7) }, d30: { newReg: sum('newReg', 30), hum: sum('hum', 30), bot: sum('bot', 30) } },
           plat: { tgReg, tgLinked, today: { tg: per[today].tg, web: per[today].web, app: per[today].app }, d7: { tg: pl7.tg.size, web: pl7.web.size, app: pl7.app.size }, newTg7: sum('newTg', 7) },
           ret: { d1: c1 ? Math.round(r1 / c1 * 100) : null, d1n: c1, d7: c7 ? Math.round(r7 / c7 * 100) : null, d7n: c7 },
-          rich: rich.sort((a, b) => b.coins - a.coins).slice(0, 5) });
+          rich: rich.sort((a, b) => b.coins - a.coins).slice(0, 5), src: srcList });
       }
       if (op === 'find') {
         const q = String(args?.q || '').trim().slice(0, 24); if (q.length < 2) return json({ rows: [] });
@@ -841,6 +850,12 @@ Deno.serve(async (req) => {
       const ok = (id: string) => /^[a-z]+:[a-z0-9_-]{1,24}$/i.test(id) && (own.includes(id) || (id === 'badge:camp' && (A.camp | 0) >= 9) || (id === 'badge:tester' && !!A.tester) || (id.startsWith('card:cp') && (A.camp | 0) >= Number(id.slice(7))));
       A.show = L.filter(ok); await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, show: A.show });
     }
+    if (action === 'src') {   // 0.50: where the player came from — set once, never overwritten
+      const sv = String(args?.s || '').toLowerCase().replace(/[^a-z0-9_.-]/g, '').slice(0, 32) || 'direct';
+      const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
+      const A = { ...(p.ach || {}) }; if (A.src) return json({ ok: true, src: A.src });
+      const at = Number(args?.at) > 0 ? Math.min(Number(args.at), Date.now()) : Date.now(); A.src = { s: sv, at };
+      await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, src: A.src }); }
     if (action === 'ach') {   // 0.48: claim an achievement's reward, or set one of the two flags the site reports
       const op = String(args?.op || ''), k = String(args?.k || '');
       const { data: p } = await db.from('profiles').select('ach,rating,rgames').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
