@@ -3,6 +3,13 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.51.0 — 12.11.2026
+- Readability: captions under 12 px raised (tab bar 11 → 12, chips and badges 11–11.5 → 12), small descriptions 12–12.5 → 13 (Today tiles, rank card, achievements, Learn cards, phone table strip, online line).
+- Tap targets: toggles, the coin pill, footer links and the shop back button get an invisible 40 px+ hit area; settings buttons, shop tabs and the settings menu at least 40 px tall.
+- Settings → «Large text»: built once from the site's own CSS (every px font-size × 1.15 under body.bigfont, media queries kept, the board and avatars untouched); in «Reset settings».
+- Line icons (one stroke set; the puzzle piece from Lucide, ISC licence) instead of emoji in Today tiles, Learn cards and empty/error states.
+- Content: «Contrast» board (200) and checkers (300) — black/white, high contrast. Pasha's tour: a step about large text.
+
 ## 0.50.0 — 12.11.2026
 - Traffic sources: an early head script reads the source once per device (?src=, utm_source + utm_campaign, Telegram start_param `src_…`, friend/invite links, else the referring site mapped to google/telegram/facebook/instagram/threads/tiktok/reddit/x/youtube/crazygames, else «direct»), keeps it in localStorage and removes the marks from the address (so the newcomer steps are not skipped by a ?src link). Sent once to the server for any player with a profile, guests included (`src` action, never overwritten).
 - Admin → Stats: «Where new players come from (30 days)» — per source: new players (with an account), played a game, back the next day, back within 7 days (with how many were old enough); «Links for posts» — ready ?src= links (Telegram chats, Threads, Facebook, TikTok, Instagram, QR) with Copy, plus a custom mark.
