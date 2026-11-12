@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.39.1 — 12.11.2026
+- Pasha's tour: the «other ways to play» step works on phones again (it looked at the hidden desktop chips).
+
 ## 0.39.0 — 12.11.2026
 - Phone tab bar: Play · Learn · Shop · Friends · Profile (Tournament and Rating tabs replaced). The bar stays visible on the shop, the friends/rating page, the Learn page and the profile, marks the current tab, and switching closes the other page.
 - New «Learn» page (#learnPg): the campaign as the big card (current chapter, progress, Play), the course with Vlad and Pasha, the daily puzzle, How to play, Rules and ranks, Pasha's tour. Desktop: a book button in the header; Esc closes.

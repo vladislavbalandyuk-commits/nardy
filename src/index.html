@@ -3316,7 +3316,7 @@ setTimeout(()=>{ try{ if('serviceWorker' in navigator && !TG) navigator.serviceW
 // A spotlight on real buttons with Pasha's line next to it. Steps whose button is not on the screen are skipped.
 // Shown once to new players (first visit to the home page), again any time from Settings. 100 coins at the end, once.
 const GUIDE=[
-  {sel:['#btnFind','#homeStage .hs-hero .cta'], k:'g1', one:1}, {sel:['.h38modes','#btnBot','#btnCreate'], k:'g2', one:1}, {sel:['.lbcard'], k:'g15'},
+  {sel:['#btnFind','#homeStage .hs-hero .cta'], k:'g1', one:1}, {sel:['#vHome .h38modes','#homeStage .h38modes','#btnBot'], k:'g2', one:1}, {sel:['.lbcard'], k:'g15'},
   {sel:['#homeStage .hs-camp','.tdt.camp'], k:'g16', one:1}, {sel:['#homeStage .hs-form'], k:'g17'},
   {sel:['.tdt.gift','#homeStage .hs-card:last-of-type'], k:'g4', kg:'g4g', one:1}, {sel:['.tdt.pz'], k:'g8'}, {sel:['.tdt.course'], k:'g9'},
   {sel:['#coinPill'], k:'g3p'}, {sel:['.tdt.tour','.tourban'], k:'g7', one:1}, {sel:['#btnLb','.mnav .mn-fr'], k:'g6', one:1}, {sel:['#btnLearn','.mnav .mn-learn'], k:'g21', one:1}, {sel:['.sfr','.frhome'], k:'g13', one:1},
@@ -4243,7 +4243,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.39.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.39.1';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
