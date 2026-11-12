@@ -3,6 +3,12 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.34.0 — 12.11.2026
+- Effects preview inside the tapped card (`runFx(..., host)` draws in an element; `previewFx(k, host)`), ▶ button on each effect card; the old preview always drew in the first card.
+- Settings rebuilt as a full page: sticky header, section menu (side on desktop, chips on phones) following the scroll, cards per section (Game / Sound and vibration / Look / Notifications / Help / Account), the account form and admin/test buttons inside «Account»; light theme styles.
+- Own profile as a full page (hero column + scrolling body); replay ▶ aligned in the recent-games rows.
+- Film grain over the dark theme, tabular digits in stats, balanced headings. Phone home: the «Long nardy» heading block hidden.
+
 ## 0.33.2 — 12.11.2026
 - Tester role: the admin toggles it in «Players» (`admin` op `tester`, logged); `seen` returns `tester`. Testers get «🧪 Test mode» in settings (no admin panel): all skins on the device, the campaign testing tool (`test` action, op `camp_set`, own profile), show Pasha's tips / tour / news again. A «Tester» chip on the profile (own and others') and a `badge:tester` showcase item. The campaign tool is shared by the admin and testers (`campTestTool`).
 
