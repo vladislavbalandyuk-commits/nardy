@@ -3,6 +3,14 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.54.0 — 12.11.2026
+- Nardy radio: six tracks by «3 кента» (Кальян в друзях, Дві по п’ятдесят, Дим не йде, Густий туман, Торт, Вдих-Вдих), loudness-matched, 128 kbps, streamed only when turned on. Settings toggle + volume, a mini player (cover, next, pause, off), «…» menu items at the table; ducks under voice phrases; resumes on the first tap after a reload.
+- After an online/ghost game: «New opponent» button starts a new search.
+- Search screen: rotating nardy tips.
+- Winter: light snow on the home screen from 1 December to 14 January (Kyiv), with a settings toggle.
+- Admin: real online — now, today's peak and time, 7-day peak chart, by-hour chart (one lobby client reports every 5 minutes to the new `online_log` table); economy — cases opened, items owned, coins-in-hand buckets.
+- Pasha's tour: radio step.
+
 ## 0.53.0 — 12.11.2026
 - Phone table: the «your turn» panel and the dice button move under the board when there is room, so nothing covers the checkers; the button is full-width for the thumb.
 - The opening roll happens by itself in games with a bot and online.

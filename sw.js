@@ -25,6 +25,7 @@ self.addEventListener('fetch', (e) => {
     return;
   }
   if (r.mode === 'navigate') { e.respondWith(networkFirst(r)); return; }
+  if (/\/snd\/radio\//.test(u.pathname)) return;   // 0.54: radio tracks stream straight from the network (range requests)
   if (/[?&]v=/.test(u.search) || /\/(sfx|fx|snd|emoji)\//.test(u.pathname)) { e.respondWith(cacheFirst(r)); return; }
   if (/\.(png|svg|webmanifest)$/.test(u.pathname)) { e.respondWith(staleWhileRevalidate(r)); return; }
 });

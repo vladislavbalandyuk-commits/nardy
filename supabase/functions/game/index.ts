@@ -750,6 +750,10 @@ Deno.serve(async (req) => {
       }
       return json({ error: 'bad_op' }, 400);
     }
+    // 0.54: one client in the lobby reports how many people are online right now (the max per 5-minute slot is kept)
+    if (action === 'onl') { const n = Math.max(0, Math.min(5000, Math.round(Number(args?.n) || 0))); if (!n) return json({ ok: true });
+      const b = new Date(Math.floor(Date.now() / 3e5) * 3e5).toISOString(); const { data: ex } = await db.from('online_log').select('n').eq('b', b).maybeSingle();
+      if (!ex || (ex.n | 0) < n) await db.from('online_log').upsert({ b, n }); return json({ ok: true }); }
     // a player opened the site today (once a day from the client)
     if (action === 'seen') {
       const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ ok: false });
@@ -789,14 +793,14 @@ Deno.serve(async (req) => {
         const isTgMail = (u: any) => /^tg-\d+@telegram\.invalid$/.test(u.email || '');
         users.forEach((u) => { const d = kyivDay(new Date(u.created_at).getTime()); if (per[d]) { per[d][u.is_anonymous ? 'newGuest' : 'newReg']++; if (isTgMail(u)) per[d].newTg++; } });
         const tgIds = new Set(users.filter(isTgMail).map((u) => u.id)), tgReg = tgIds.size; let tgLinked = 0; const wk = days.slice(-7); const pl7: any = { tg: new Set(), web: new Set(), app: new Set() };
-        let coins = 0, tut = 0, treg = 0, refBy = 0, calib = 0, played = 0; const rich: any[] = [];
+        let coins = 0, tut = 0, treg = 0, refBy = 0, calib = 0, played = 0; const rich: any[] = []; let casesN = 0, itemsN = 0; const cb = [0, 0, 0, 0];
         const anon = new Set(guests.map((u) => u.id));
         (profs || []).forEach((r: any) => { const A = r.ach || {}; const g = anon.has(r.id);
           (A.days || []).forEach((d: string) => { if (per[d]) per[d][g ? 'actGuest' : 'actReg']++; });
           (A.gd || []).forEach((e: any) => { if (per[e.d]) { per[e.d].hum += e.h || 0; per[e.d].bot += e.b || 0; } });
           for (const k of ['tg', 'web', 'app']) (A[k + 'd'] || []).forEach((d: string) => { if (per[d]) per[d][k]++; if (wk.includes(d)) pl7[k].add(r.id); });
           if (A.tg && !g && !tgIds.has(r.id)) tgLinked++;
-          if (!g) { coins += A.coins ?? COIN_START; if (A.tut) tut++; if (A.treg) treg++; if (A.refBy) refBy++; if ((r.rgames || 0) >= 10) calib++; played += r.played || 0; rich.push({ name: r.name, coins: A.coins ?? COIN_START }); } });
+          if (!g) { { const cc = A.coins ?? COIN_START; cb[cc < 500 ? 0 : cc < 2000 ? 1 : cc < 5000 ? 2 : 3]++; casesN += A.cases | 0; itemsN += Array.isArray(A.owned) ? A.owned.length : 0; } coins += A.coins ?? COIN_START; if (A.tut) tut++; if (A.treg) treg++; if (A.refBy) refBy++; if ((r.rgames || 0) >= 10) calib++; played += r.played || 0; rich.push({ name: r.name, coins: A.coins ?? COIN_START }); } });
         Object.values(per).forEach((x: any) => { x.hum = Math.round(x.hum / 2); });
         // retention of registered players: came back the next day / within 7 days
         let c1 = 0, r1 = 0, c7 = 0, r7 = 0; reg.forEach((u) => { const t0 = new Date(u.created_at).getTime(), d0 = kyivDay(t0), A = (P.get(u.id) as any)?.ach || {}, L: string[] = A.days || [];
@@ -812,13 +816,19 @@ Deno.serve(async (req) => {
           if (Date.now() - t0 > 2 * 864e5) { x.c1++; if (L.includes(kyivDay(t0 + 864e5))) x.r1++; }
           if (Date.now() - t0 > 8 * 864e5) { x.c7++; if (L.some((d) => d > d0 && d <= kyivDay(t0 + 7 * 864e5))) x.r7++; } });
         const srcList = Object.values(SRC).sort((a: any, b: any) => b.n - a.n).slice(0, 25);
+        // 0.54: the real online — peak per day (7 days) and per hour today, from online_log
+        const { data: OL } = await db.from('online_log').select('b,n').gte('b', new Date(Date.now() - 8 * 864e5).toISOString()).order('b').limit(3000);
+        const onl: any = {}; const hrs = Array(24).fill(0);
+        (OL || []).forEach((r: any) => { const t = new Date(r.b).getTime(), d = kyivDay(t); const o = onl[d] || (onl[d] = { d, peak: 0, at: 0 }); if ((r.n | 0) > o.peak) { o.peak = r.n | 0; o.at = t; }
+          if (d === today) { const h = Number(new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Kyiv', hour: '2-digit', hourCycle: 'h23' }).format(new Date(t))) % 24; hrs[h] = Math.max(hrs[h], r.n | 0); } });
+        const online = { days: days.slice(-7).map((d) => onl[d] || { d, peak: 0, at: 0 }), hours: hrs };
         return json({ ok: true, today, days: days.map((d) => per[d]),
           totals: { reg: reg.length, guests: guests.length, coins, tut, treg, refBy, calib, played },
           last: { d1: { newReg: per[today].newReg, act: per[today].actReg, hum: per[today].hum, bot: per[today].bot },
                   d7: { newReg: sum('newReg', 7), hum: sum('hum', 7), bot: sum('bot', 7) }, d30: { newReg: sum('newReg', 30), hum: sum('hum', 30), bot: sum('bot', 30) } },
           plat: { tgReg, tgLinked, today: { tg: per[today].tg, web: per[today].web, app: per[today].app }, d7: { tg: pl7.tg.size, web: pl7.web.size, app: pl7.app.size }, newTg7: sum('newTg', 7) },
           ret: { d1: c1 ? Math.round(r1 / c1 * 100) : null, d1n: c1, d7: c7 ? Math.round(r7 / c7 * 100) : null, d7n: c7 },
-          rich: rich.sort((a, b) => b.coins - a.coins).slice(0, 5), src: srcList });
+          rich: rich.sort((a, b) => b.coins - a.coins).slice(0, 5), src: srcList, online, econ: { cases: casesN, items: itemsN, buckets: cb } });
       }
       if (op === 'find') {
         const q = String(args?.q || '').trim().slice(0, 24); if (q.length < 2) return json({ rows: [] });
