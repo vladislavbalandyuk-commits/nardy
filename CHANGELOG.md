@@ -3,6 +3,10 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.37.2 — 12.11.2026
+- Collection → Phrases: the chat wheel (10 slots, tap to take off) and every phrase grouped by Basic / each pack / the case; tap to put on or take off, ▶ to listen; locked ones lead to the shop or the case.
+- «What's inside» of the Phrases case: ▶ on every voice phrase, bubbles no longer cut off.
+
 ## 0.37.1 — 12.11.2026
 - Cases open to everyone (client and server gates removed).
 - Phrases: shop category with 3 text packs (Yard, Manners, Hookah lounge — 300/300/400) and 2 voice packs (Bar, Show — 1000 each; listen before buying); bought phrases go onto the chat wheel.
