@@ -684,6 +684,7 @@ Deno.serve(async (req) => {
         return json({ ok: true, coins: A.coins, owned: A.owned, price });
       }
       if (op === 'case') {
+        if (!A.tester && !isAdminUser(user)) return json({ error: 'not_for_sale' }, 400);   // not public yet
         const ck = String(args?.id || ''), C = CASES[ck]; if (!C) return json({ error: 'not_for_sale' }, 400);
         const coins = A.coins ?? COIN_START; if (coins < C.price) return json({ error: 'no_coins', coins }, 400);
         const P = { ...(A.cpity || {}) }; const pity = (P[ck] | 0) + 1; const tiers = ['c', 'r', 'e', 'l'].filter((r) => C.items.some((i: string) => rarOf(i) === r));

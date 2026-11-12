@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.35.1 — 12.11.2026
+- Cases hidden from players while they are being reworked: the tab shows only for the admin and testers, the server op refuses others.
+
 ## 0.35.0 — 12.11.2026
 - Showcase: «Set of the week» hero first (from the beta's showcase): one of the sets in weekly rotation, the things it includes as chips (owned ones crossed out), «Buy the set · price», «Try on», «separately … · you save …», time left; the deal of the day follows, a bit smaller.
 - Cases (a new shop tab): «Hookah bar» and «Night city», 350 coins. Server op `case`: rarity rolled (c 55 / r 30 / e 12 / l 3 %, normalised to the tiers present), then a thing of that rarity you do not own yet; if none — a fixed refund (60 / 120 / 300 / 700); every 10th case without an epic gives an epic or legendary (`ach.cpity`). The page shows the odds, «What's inside» by rarity with refunds, the pity progress and how much of the case you own. Opening: a reel that slows down on the prize, then the prize card (wear in collection / again / close); reduced motion skips the reel.
