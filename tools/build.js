@@ -31,15 +31,16 @@ window.__avReady=function(){ Object.assign(AVATARS, window.__AV||{}); if(typeof 
 window.__ptReady=function(){ Object.assign(AVATARS, window.__PT||{}); refreshAvatars(); };
 if(window.__AV) window.__avReady();
 // portraits are only needed for some players: fetch them when the page is idle
-${Object.keys(pt).length ? "(window.requestIdleCallback||setTimeout)(()=>{ const sc=document.createElement('script'); sc.async=true; sc.src='pt.js?v="+hp+"'; document.head.appendChild(sc); }, {timeout:2500});" : ''}
+${Object.keys(pt).length ? "window.__ptLoad=function(){ if(window.__ptAsked) return; window.__ptAsked=1; const sc=document.createElement('script'); sc.async=true; sc.src='pt.js?v="+hp+"'; document.head.appendChild(sc); }; addEventListener('load',()=>setTimeout(()=>(window.requestIdleCallback||setTimeout)(window.__ptLoad,{timeout:3000}),3500));" : ''}
 boot();
 `);
-  s=s.replace('<script async id="sbjs"','<script async src="av.js?v='+h+'"></script><script async id="sbjs"');
+  // 0.49: avatars after the page itself — on a slow network the page gets the whole bandwidth first
+  s=s.replace(/<\/body>(?![\s\S]*<\/body>)/,'<script async src="av.js?v='+h+'"></script></body>');
   let items='';
   s=s.replace(/<style>([\s\S]*?)<\/style>/g,(m,c)=>{ const min=new CleanCSS({level:1}).minify(c).styles; const [core,it]=splitCss(min); items+=it; return '<style>'+core+'</style>'; });
   const hs=md5(items); fs.writeFileSync(path.join(outDir,'skins.css'),items);
   // the skins stylesheet: preloaded at once, applied without blocking the first paint
-  s=s.replace('</head>','<link rel="preload" href="skins.css?v='+hs+'" as="style"><link rel="stylesheet" href="skins.css?v='+hs+'" media="print" onload="this.media=\'all\'"><noscript><link rel="stylesheet" href="skins.css?v='+hs+'"></noscript></head>');
+  s=s.replace(/<\/body>(?![\s\S]*<\/body>)/,'<link rel="stylesheet" href="skins.css?v='+hs+'" media="print" onload="this.media=\'all\'"><noscript><link rel="stylesheet" href="skins.css?v='+hs+'"></noscript></body>');
   const parts=[]; let re=/<script>([\s\S]*?)<\/script>/g, m; while((m=re.exec(s))) parts.push(m);
   for(const p of parts.reverse()){ const r=await minify(p[1],{compress:{passes:1},mangle:true,format:{comments:false}}); s=s.slice(0,p.index)+'<script>'+r.code+'</script>'+s.slice(p.index+p[0].length); }
   s=await hm.minify(s,{collapseWhitespace:true,conservativeCollapse:true,removeComments:true});

@@ -28,11 +28,11 @@
       ]
     },
     {
-      "source": "/(av.js|skins.css)",
+      "source": "/(av.js|skins.css|pt.js|en.js|news.js)",
       "headers": [
         {
           "key": "Cache-Control",
-          "value": "public, max-age=604800"
+          "value": "public, max-age=31536000, immutable"
         }
       ]
     },
@@ -42,6 +42,15 @@
         {
           "key": "Cache-Control",
           "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/sw.js",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache"
         }
       ]
     }

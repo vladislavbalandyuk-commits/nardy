@@ -3,6 +3,14 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.49.0 — 12.11.2026
+- Speed: Google font no longer blocks the first paint (variable Jost 300–800, one file per alphabet, loaded non-blocking); preconnect to jsDelivr and Supabase.
+- The page gets the network first: avatars (av.js) and item skins (skins.css) start after the page itself instead of competing with it (slow 4G, 4× slower CPU: home ready 2.2 s → 1.9 s).
+- Tried moving rare screens' CSS to the late stylesheet — it changed the cascade (shop layout on phones), so it was rolled back.
+- Portraits (pt.js) load 3.5 s after the page has loaded, or at once when a portrait is needed.
+- Service worker cache: versioned files (?v=), sounds, effects, fonts and fixed-version libraries come from the cache; the page is network-first (cache only when offline or >4 s). Hashed files get a one-year immutable cache header.
+- Content: phrase pack «Between friends» (6 phrases, 300 coins, client + server). Pasha's tour: a step about achievements.
+
 ## 0.48.0 — 12.11.2026
 - Achievements 2.0 (plan item 0.63 brought forward): 30 goals in 6 groups — game (wins 1/10/50/100, games 50/200, mars 1/5, streaks 3/5, comeback, beat +300), ranks (Regular, rank 4), learning (lesson, whole course, daily puzzle, 7-day puzzle streak), campaign (1/4/8 chapters), contests & friends (a tournament, top 3, first friend, 7 visit days, a phrase online), collection (first item, a case, 20 items, a replay).
 - Rewards: coins 50–500 or 9 achievement-only things (not sold, not in cases): boards Triumph, Yard; checkers Veteran, Champion; dice Laurel, Scholar; voice phrases Gong, Harp, Bell (synthesised on the device, in Collection → Phrases → «For achievements»).
