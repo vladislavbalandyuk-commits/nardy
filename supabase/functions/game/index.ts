@@ -705,6 +705,10 @@ Deno.serve(async (req) => {
       if (!isAdminUser(user)) return json({ error: 'forbidden' }, 403);
       const op = String(args?.op || '');
       if (op === 'me') return json({ ok: true });
+      // 0.33.1: the admin sets their own campaign progress (to test the chapters and the story)
+      if (op === 'camp_set') { const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); const A = { ...(p?.ach || {}) };
+        A.camp = Math.max(0, Math.min(CAMP.length - 1, Math.round(Number(args?.camp) || 0))); A.cs = Math.max(0, Math.min(2, Math.round(Number(args?.cs) || 0))); if (A.camp >= CAMP.length - 1) A.cs = 0;
+        await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, camp: A.camp, cs: A.cs }); }
       if (op === 'stats') {
         const users: any[] = []; for (let page = 1; page <= 20; page++) { const { data } = await db.auth.admin.listUsers({ page, perPage: 1000 }); const L = data?.users || []; users.push(...L); if (L.length < 1000) break; }
         const { data: profs } = await db.from('profiles').select('id,name,av,rating,rgames,played,won,ach').limit(20000);

@@ -3,6 +3,11 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.33.1 — 12.11.2026
+- Admin «Campaign (testing)» tool: open the whole campaign, stand before the Master / the secret chapter, set any progress, start again, show the scenes again (server admin op `camp_set`, own profile only).
+- Admin «all skins» now also opens campaign card backgrounds and the locked avatars (Vlad, Pasha, hooded Vlad, festive Pasha).
+- Finished chapters list all three scenes to watch again.
+
 ## 0.33.0 — 12.11.2026
 - Lobby setup redesigned: quick rule sets (Classic / Blitz / No doubles / Long evening), groups «Rules» (to, time, doubles; «More rules»: head, mars, hints, first move), «Table», «Who can join»; a sticky footer with the rules summary and «Create the lobby».
 - «My table for both» (on by default): the host's board, checkers, dice and table go into `rules.sty` (server keeps only safe names); both players' screens use them during the lobby game (`hostLookSync`, own look restored after; shop enforcement paused meanwhile).
