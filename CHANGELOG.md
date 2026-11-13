@@ -3,6 +3,11 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.73.1
+- Avatar frames (new shop category): Silver, Pearl, Ornament, Aurora, Crown; shared with others as «avatar~frame» in the avatar key.
+- Table backgrounds are back in the game; six new procedural tables (Kilim, Zellige, Velvet, Teahouse, City lights, Rooftop).
+- Four shop boards: Linen, Pistachio, Cobalt, Sultan. East portrait pack (pt37–pt41). Sets Iznik and Sultan.
+
 ## 0.73.0
 - Big content drop 3: the East case — Tavla and Workshop boards, Inlay/Pomegranate/Lapis checkers, Old bone and Izmir tile dice, Flying carpet and Mosaic win shows, Pomegranate seeds roll effect, saz and darbuka chat sounds (synthesized on the device).
 - East phrase pack (6 phrases, 300 coins).
