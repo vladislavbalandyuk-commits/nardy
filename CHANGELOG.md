@@ -3,6 +3,12 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.65.0 — 13.11.2026
+- Evening prime time 21:00–22:00 Kyiv (shown in local time): full games pay coins ×2 (`gc.hh`), and each counts for the arena (`ach.ar`: win 3, mars 4, loss 1).
+- Server action `arena`: the evening table (top 20 + your place) and `claim` — top 3 get 500/300/200, 3+ games +100, once per evening (claimable until the next prime time).
+- Home «Today» tile with countdown / live points / prize, the arena sheet, a bell item for an unclaimed prize; the 19:00 reminder mentions prime time and now has Russian text; push language can be `ru`.
+- Pasha's tour: g35. Test flag: `nardy_primeTest`.
+
 ## 0.64.0 — 13.11.2026
 - Static pages for search engines (`tools/seo.py`): “long nardy online”, rules (+ terms, FAQ with FAQPage JSON-LD) and the daily puzzle in uk / ru / en / ka / hy — 15 pages with hreflang, canonical, Open Graph; `sitemap.xml`, `robots.txt`.
 - `?lang=uk|ru|en` sets the site language (used by the pages' buttons).

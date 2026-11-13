@@ -307,6 +307,10 @@ const rndTok = (n: number) => { const a = new Uint8Array(n); crypto.getRandomVal
 const ADMIN_EMAILS = new Set(ADMIN_NICKS.map(nickEmail));
 const isAdminUser = (u: any) => !!u && !u.is_anonymous && ADMIN_EMAILS.has(String(u.email || '').toLowerCase());
 const kyivDay = (t = Date.now()) => new Date(t + 2 * 3600e3).toISOString().slice(0, 10);
+// 0.65: evening prime time — 21:00–22:00 Kyiv every day: coins ×2 and the arena (points for every full game, top 3 get prizes)
+const kyivHour = (t = Date.now()) => (new Date(t).getUTCHours() + 2) % 24;
+const primeOn = (t = Date.now()) => kyivHour(t) === 21;
+const AR_PRIZE = [500, 300, 200], AR_PLAY = 100, AR_MIN = 3;
 // activity: the days a player was here (last 60) and games per day (last 60), kept in the profile for the admin statistics
 function markDay(A: any, field: string, day = kyivDay()) { const L: string[] = Array.isArray(A[field]) ? A[field] : []; if (!L.includes(day)) L.push(day); A[field] = L.slice(-60); }
 function markGame(A: any, human: boolean, day = kyivDay()) { const L: any[] = Array.isArray(A.gd) ? A.gd : []; let e = L.find((x) => x.d === day); if (!e) { e = { d: day, h: 0, b: 0 }; L.push(e); } if (human) e.h++; else e.b++; A.gd = L.slice(-60); markDay(A, 'days', day); }
@@ -636,9 +640,9 @@ Deno.serve(async (req) => {
           const { data: R1 } = await db.from('profiles').select('id,ach').not('ach->tg', 'is', null).limit(5000); const { data: R2 } = await db.from('profiles').select('id,ach').not('ach->push', 'is', null).limit(5000);
           const seen0 = new Set(); const RR = [...(R1 || []), ...(R2 || [])].filter((r: any) => !seen0.has(r.id) && seen0.add(r.id));
           for (const r of RR) { const A = r.ach || {}; const D = A.daily || {}; if (A.noRem || D.d === day || D.d !== prevDay(day) || (D.s | 0) < 2) continue;
-            const s2 = (D.s % 7) + 1, n = DAILY[s2 - 1], uk = A.lang !== 'en';
-            const ttl = uk ? '🔥 Серія ' + (D.s | 0) + ' дн. — не дайте їй згоріти' : '🔥 ' + (D.s | 0) + '-day streak — keep it alive';
-            const body = uk ? 'Подарунок дня чекає: +' + n + ' монет. Одна партія — і серія триває.' : 'Your daily gift is waiting: +' + n + ' coins. One game keeps the streak going.';
+            const s2 = (D.s % 7) + 1, n = DAILY[s2 - 1], uk = A.lang !== 'en', ru = A.lang === 'ru';
+            const ttl = ru ? '🔥 Серия ' + (D.s | 0) + ' дн. — не дайте ей сгореть' : uk ? '🔥 Серія ' + (D.s | 0) + ' дн. — не дайте їй згоріти' : '🔥 ' + (D.s | 0) + '-day streak — keep it alive';
+            const body = ru ? 'Подарок дня ждёт: +' + n + ' монет. А в 21:00 — прайм-тайм: монеты ×2 и арена с призами.' : uk ? 'Подарунок дня чекає: +' + n + ' монет. А о 21:00 — прайм-тайм: монети ×2 і арена з призами.' : 'Your daily gift is waiting: +' + n + ' coins. And at 21:00 Kyiv — prime time: coins ×2 and an arena with prizes.';
             if (A.tg) remSent += await tgTell(A.tg, '<b>' + ttl + '</b>\n' + body + (uk ? '\n\n<i>Вимкнути: /stop</i>' : '\n\n<i>Turn off: /stop</i>'), uk ? '🎁 Забрати' : '🎁 Claim', 'gift');
             else if (A.push) remSent += await pushTo(db, [r], { title: ttl, body, tag: 'rem-' + day, url: '/?gift=1' }); } } } } catch (_) {}
       const ev = pushEvents(Date.now()); if (!ev.length) return json({ ok: true, events: 0, rem: remSent });
@@ -711,6 +715,15 @@ Deno.serve(async (req) => {
       const A = { ...(p.ach || {}) }; const L = lvOf(lvXp(p, A)); const m = Math.round(Number(args?.m)); A.lv = Array.isArray(A.lv) ? A.lv : [];
       if (!(m >= 5 && m <= 50 && m % 5 === 0) || m > L || A.lv.includes(m)) return json({ error: 'not_ready', lv: L, got: A.lv }, 400);
       A.lv.push(m); A.coins = (A.coins ?? COIN_START) + m * 20; await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, got: m * 20, coins: A.coins, lv: L, claimed: A.lv }); }
+    if (action === 'arena') { const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
+      const A = { ...(p.ach || {}) }; const h = kyivHour(), today = kyivDay(); const day = h >= 21 ? today : prevDay(today); const live = h === 21 && day === today, over = !live;
+      const { data: rows } = await db.from('profiles').select('id,name,av,ach->ar').eq('ach->ar->>d', day).limit(1000);
+      const L = (rows || []).map((r: any) => ({ id: r.id, n: r.name || '', av: r.av || '', p: r.ar?.p | 0, g: r.ar?.g | 0, w: r.ar?.w | 0 })).filter((r: any) => r.g > 0).sort((a: any, b: any) => b.p - a.p || b.w - a.w || a.g - b.g);
+      const meI = L.findIndex((r: any) => r.id === user.id), me = meI >= 0 ? { ...L[meI], rank: meI + 1 } : null;
+      const prizeOf = (rank: number, g: number) => (rank >= 1 && rank <= 3 && g >= 1 ? AR_PRIZE[rank - 1] : 0) + (g >= AR_MIN ? AR_PLAY : 0);
+      const can = over && me && A.ar && A.ar.d === day && !A.ar.cl ? prizeOf(me.rank, me.g) : 0;
+      if (args?.op === 'claim') { if (!can) return json({ ok: false, why: 'none' }); A.ar = { ...A.ar, cl: Date.now() }; A.coins = (A.coins ?? COIN_START) + can; await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, got: can, coins: A.coins }); }
+      return json({ ok: true, day, live, n: L.length, top: L.slice(0, 20).map((r: any) => ({ n: r.n, av: r.av, p: r.p, g: r.g, me: r.id === user.id ? 1 : 0 })), me: me ? { p: me.p, g: me.g, rank: me.rank } : null, prize: can, claimed: !!(A.ar && A.ar.d === day && A.ar.cl) }); }
     if (action === 'rem') { const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400); const A = { ...(p.ach || {}) }; if (args?.on) delete A.noRem; else A.noRem = 1; await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, on: !A.noRem }); }
     if (action === 'title') { const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
       const A = { ...(p.ach || {}) }; const k = String(args?.k || ''); if (k && !(A.ach2 && A.ach2[k])) return json({ error: 'locked' }, 400);
@@ -1015,7 +1028,7 @@ Deno.serve(async (req) => {
       const A = { ...(p.ach || {}) }; let L = Array.isArray(A.push) ? A.push : []; const sub = args?.sub;
       if (sub && sub.endpoint) L = L.filter((x: any) => x.endpoint !== sub.endpoint);
       if (args?.on && sub && sub.endpoint && sub.keys?.p256dh && sub.keys?.auth) L = [...L, { endpoint: String(sub.endpoint).slice(0, 600), keys: { p256dh: String(sub.keys.p256dh).slice(0, 200), auth: String(sub.keys.auth).slice(0, 60) } }].slice(-4);
-      A.push = L.length ? L : null; if (args?.lang) A.lang = args.lang === 'en' ? 'en' : 'uk'; if (args?.beta != null) A.beta = !!args.beta;
+      A.push = L.length ? L : null; if (args?.lang) A.lang = args.lang === 'en' ? 'en' : args.lang === 'ru' ? 'ru' : 'uk'; if (args?.beta != null) A.beta = !!args.beta;
       await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, n: L.length });
     }
     // friends: a list in ach.friends (one-way, like a contact list); "call to a game" sends a push and a Telegram message
@@ -1153,7 +1166,7 @@ Deno.serve(async (req) => {
               cal.m = Math.max(1000, Math.min(CAL_MAX, Math.round(cal.m + dm))); }
             ach.A.cal = cal; d[s] = rg + 1 >= CALIB ? cal.m - myR : 0; } }
         const dayN = ((ach.A.gd || []).find((x: any) => x.d === kyivDay()) || { h: 0, b: 0 }); const nToday = (dayN.h || 0) + (dayN.b || 0);
-        const gc = gameCoins(won, fullGame && nToday < 20, !!st.result.mars, tourG); if (!tourG && fullGame && nToday >= 10 && nToday < 20) gc.coins = Math.round(gc.coins / 2); ach.A.coins = (ach.A.coins ?? COIN_START) + gc.coins; coinsPaid[s] = gc; markGame(ach.A, !vsBot); questTick(ach.A, { game: 1, win: won ? 1 : 0, human: fullGame ? 1 : 0, mars: won && st.result.mars ? 1 : 0 });
+        const gc = gameCoins(won, fullGame && nToday < 20, !!st.result.mars, tourG); if (!tourG && fullGame && nToday >= 10 && nToday < 20) gc.coins = Math.round(gc.coins / 2); if (!tourG && fullGame && primeOn()) { (gc as any).hh = 1; gc.coins *= 2; const dd = kyivDay(); const o = ach.A.ar && ach.A.ar.d === dd ? ach.A.ar : { d: dd, p: 0, g: 0, w: 0 }; ach.A.ar = { ...o, p: o.p + (won ? (st.result.mars ? 4 : 3) : 1), g: o.g + 1, w: o.w + (won ? 1 : 0) }; } ach.A.coins = (ach.A.coins ?? COIN_START) + gc.coins; coinsPaid[s] = gc; markGame(ach.A, !vsBot); questTick(ach.A, { game: 1, win: won ? 1 : 0, human: fullGame ? 1 : 0, mars: won && st.result.mars ? 1 : 0 });
         if (!calSkip && rg + 1 >= CALIB) ach.A.peak = Math.max(ach.A.peak || 0, Math.max(100, myR + d[s]));   // the best rating reached: unlocks rank frames
         { const os = s === 'p1' ? 'p2' : 'p1', cal = !calSkip && rg + 1 >= CALIB;   // the last 20 games for the profile (any device): opponent, result, rating change
           ach.A.rh = [...(Array.isArray(ach.A.rh) ? ach.A.rh : []), { t: Date.now(), o: String(st.names?.[os] || '').slice(0, 20), oa: String(st.avs?.[os] || '').slice(0, 8), w: won ? 1 : 0, m: st.result.mars ? 1 : 0, d: cal ? d[s] : 0, r: cal ? Math.max(100, myR + d[s]) : 0, b: vsBot && st.ghost == null ? 1 : 0, g: gid }].slice(-20); }
