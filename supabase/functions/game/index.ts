@@ -111,9 +111,9 @@ function act(state, uid, action, args, env){
   if(action==='open_roll'){ if(st.phase!=='opening'||!st.p2) err('bad_phase'); if(st.open[me]) err('already'); st.open[me]=d6(); st.rollId++; resolveOpening(st,now); return st; }
   // a match to N points: the next game keeps the score
   if(action==='next'){ if(st.phase!=='over') err('bad_phase'); const to=RU(st).to||0; if(!to || Math.max(st.score.p1,st.score.p2)>=to) err('match_over');
-    const ng=newGame(st.p1,st.p2,st.score); ng.rules=st.rules; ng.names=st.names; ng.avs=st.avs; ng.ratings=st.ratings; ng.frs=st.frs; ng.seq=st.seq; ng.rollId=st.rollId; ng.game=(st.game||1)+1; lobbyStart(ng,now); return ng; }
+    const ng=newGame(st.p1,st.p2,st.score); ng.rules=st.rules; ng.names=st.names; ng.avs=st.avs; ng.ratings=st.ratings; ng.frs=st.frs; ng.tts=st.tts; ng.seq=st.seq; ng.rollId=st.rollId; ng.game=(st.game||1)+1; lobbyStart(ng,now); return ng; }
   if(action==='rematch'){ if(st.phase!=='over') err('bad_phase'); st.rematch=st.rematch||{}; st.rematch[me]=true;
-    if(st.rematch.p1&&st.rematch.p2){ const ng=newGame(st.p1,st.p2,st.rules&&st.rules.to?{p1:0,p2:0}:st.score); if(st.rules) ng.rules=st.rules; ng.names=st.names; ng.avs=st.avs; ng.ratings=st.ratings; ng.frs=st.frs; ng.seq=st.seq; ng.rollId=st.rollId; lobbyStart(ng,now); return ng; } return st; }
+    if(st.rematch.p1&&st.rematch.p2){ const ng=newGame(st.p1,st.p2,st.rules&&st.rules.to?{p1:0,p2:0}:st.score); if(st.rules) ng.rules=st.rules; ng.names=st.names; ng.avs=st.avs; ng.ratings=st.ratings; ng.frs=st.frs; ng.tts=st.tts; ng.seq=st.seq; ng.rollId=st.rollId; lobbyStart(ng,now); return ng; } return st; }
   if(action==='timeout'){ if(st.phase!=='play') err('bad_phase'); const opp=me==='p1'?'p2':'p1'; if(colorOfSlot(st,opp)!==st.turn) err('not_their_turn'); if(now-(st.turnAt||0)<turnMs(st)) err('too_early');
     st.strikes=st.strikes||{p1:0,p2:0}; st.strikes[opp]++;
     if(st.strikes[opp]>=MAX_STRIKES){ const w=colorOfSlot(st,me); finish(st,w,st.off[OPP(w)]===0&&false,{c:OPP(w),mars:false,timeout:true}); return st; }
@@ -270,7 +270,16 @@ function chalId(day: string) { let h = 7; for (const ch of day) h = (h * 131 + c
 const QUESTS: any[] = [{ k: 'play2', ev: 'game', n: 2, r: 40 }, { k: 'play4', ev: 'game', n: 4, r: 70 }, { k: 'win1', ev: 'win', n: 1, r: 50 }, { k: 'win3', ev: 'win', n: 3, r: 100 }, { k: 'human1', ev: 'human', n: 1, r: 60 }, { k: 'mars1', ev: 'mars', n: 1, r: 100 }];
 function questIds(day: string) { let h = 0; for (const ch of day) h = (h * 31 + ch.charCodeAt(0)) >>> 0; const L = QUESTS.map((q) => q.k); const out: string[] = []; while (out.length < 3) { h = (h * 1103515245 + 12345) >>> 0; const k = L[h % L.length]; if (!out.includes(k)) out.push(k); } return out; }
 function questState(A: any, day: string) { const q = A.q && A.q.d === day ? A.q : { d: day, p: {}, got: [] }; return q; }
-function questTick(A: any, ev: Record<string, number>) { const day = kyivDay(); const q = questState(A, day); for (const k in ev) q.p[k] = (q.p[k] || 0) + ev[k]; A.q = q; }
+function questTick(A: any, ev: Record<string, number>) { const day = kyivDay(); const q = questState(A, day); for (const k in ev) q.p[k] = (q.p[k] || 0) + ev[k]; A.q = q;
+  const w = wqState(A); for (const k in ev) w.p[k] = (w.p[k] || 0) + ev[k]; A.wq = w; }
+// ===== 0.57: weekly quests (3 a week, one may be swapped once a day), player level 1–50, titles =====
+const WQ: any[] = [{ k: 'w_game15', ev: 'game', n: 15, r: 250 }, { k: 'w_game25', ev: 'game', n: 25, r: 400 }, { k: 'w_win8', ev: 'win', n: 8, r: 300 }, { k: 'w_win15', ev: 'win', n: 15, r: 500 },
+  { k: 'w_human5', ev: 'human', n: 5, r: 300 }, { k: 'w_human10', ev: 'human', n: 10, r: 500 }, { k: 'w_mars2', ev: 'mars', n: 2, r: 300 }, { k: 'w_mars4', ev: 'mars', n: 4, r: 500 }];
+function weekKey(t = Date.now()) { const d = new Date(t + 2 * 3600e3); const wd = (d.getUTCDay() + 6) % 7; return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() - wd)).toISOString().slice(0, 10); }
+function wqPick(w: string) { let h = 11; for (const ch of w) h = (h * 131 + ch.charCodeAt(0)) >>> 0; const out: string[] = [], evs = new Set(); for (let i = 0; out.length < 3 && i < 40; i++) { const Q = WQ[(h + i * 5) % WQ.length]; if (!evs.has(Q.ev)) { evs.add(Q.ev); out.push(Q.k); } } return out; }
+function wqState(A: any) { const w = weekKey(); return A.wq && A.wq.w === w ? A.wq : { w, ids: wqPick(w), p: {}, got: [], rr: '' }; }
+function lvXp(P: any, A: any) { return (P?.played | 0) * 10 + (P?.won | 0) * 15 + Object.keys(A.ach2 || {}).length * 40 + (A.pz?.n | 0) * 8 + (A.camp | 0) * 30 + (A.stc | 0) * 20 + (A.dmax | 0) * 10; }
+function lvOf(xp: number) { let L = 1, need = 100; while (L < 50 && xp >= need) { xp -= need; L++; need = 100 + 20 * (L - 1); } return L; }
 const prevDay = (day: string) => kyivDay(new Date(day + 'T12:00:00Z').getTime() - 864e5 - 2 * 3600e3 + 3600e3);
 // ---- admin: only the account registered with the login nickname below (checked by its auth email, which never changes) ----
 const ADMIN_NICKS = ['ka1p3r'];
@@ -663,14 +672,29 @@ Deno.serve(async (req) => {
       const fzOk = !A.dfz || A.dfz <= kyivDay(Date.now() - 7 * 864e5), gap2 = !!D.d && D.d === prevDay(prevDay(day));
       const streakNext = D.d === day ? D.s : (D.d === prevDay(day) || (gap2 && fzOk) ? (D.s % 7) + 1 : 1);
       const fzNow = D.d !== day && D.d !== prevDay(day) && gap2 && fzOk;
-      const view = () => { const q = questState(A, day); return { day, coins: A.coins ?? COIN_START, daily: { ready: D.d !== day, day: streakNext, list: DAILY, fz: fzOk ? 1 : 0, fzNow: fzNow ? 1 : 0, max: A.dmax | 0 }, quests: questIds(day).concat([chalId(day)]).map((k) => { const Q = QUESTS.find((x) => x.k === k) || CHALS.find((x) => x.k === k); return { k, ev: Q.ev, n: Q.n, r: Q.r, p: Math.min(Q.n, q.p[Q.ev] || 0), got: q.got.includes(k), ch: Q.ch ? 1 : 0 }; }) }; };
+      const view = () => { const q = questState(A, day); return { day, coins: A.coins ?? COIN_START, daily: { ready: D.d !== day, day: streakNext, list: DAILY, fz: fzOk ? 1 : 0, fzNow: fzNow ? 1 : 0, max: A.dmax | 0 }, quests: questIds(day).concat([chalId(day)]).map((k) => { const Q = QUESTS.find((x) => x.k === k) || CHALS.find((x) => x.k === k); return { k, ev: Q.ev, n: Q.n, r: Q.r, p: Math.min(Q.n, q.p[Q.ev] || 0), got: q.got.includes(k), ch: Q.ch ? 1 : 0 }; }), week: (() => { const w = wqState(A); return { w: w.w, rr: w.rr === day ? 1 : 0, list: w.ids.map((k: string) => { const Q = WQ.find((x) => x.k === k); return { k, ev: Q.ev, n: Q.n, r: Q.r, p: Math.min(Q.n, w.p[Q.ev] || 0), got: w.got.includes(k) }; }) }; })() }; };
       if (op === 'daily') { if (D.d === day) return json({ ok: true, already: true, ...view() }); const n = DAILY[streakNext - 1]; if (fzNow) A.dfz = day; A.dmax = Math.max(A.dmax | 0, streakNext); A.daily = { d: day, s: streakNext }; A.coins = (A.coins ?? COIN_START) + n; Object.assign(D, A.daily);
         await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, got: n, fz: fzNow ? 1 : 0, ...view() }); }
       if (op === 'quest') { const k = String(args?.k || ''); const q = questState(A, day); const Q = QUESTS.find((x) => x.k === k) || CHALS.find((x) => x.k === k);
         if (!Q || !(questIds(day).includes(k) || chalId(day) === k) || q.got.includes(k) || (q.p[Q.ev] || 0) < Q.n) return json({ error: 'not_ready', ...view() }, 400);
         q.got.push(k); A.q = q; A.coins = (A.coins ?? COIN_START) + Q.r; await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, got: Q.r, ...view() }); }
+      if (op === 'wquest') { const k = String(args?.k || ''); const w = wqState(A); const Q = WQ.find((x) => x.k === k);
+        if (!Q || !w.ids.includes(k) || w.got.includes(k) || (w.p[Q.ev] || 0) < Q.n) return json({ error: 'not_ready', ...view() }, 400);
+        w.got.push(k); A.wq = w; A.coins = (A.coins ?? COIN_START) + Q.r; await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, got: Q.r, ...view() }); }
+      if (op === 'wrr') { const k = String(args?.k || ''); const w = wqState(A); if (w.rr === day || !w.ids.includes(k) || w.got.includes(k)) return json({ error: 'not_ready', ...view() }, 400);
+        const evs = new Set(w.ids.filter((x: string) => x !== k).map((x: string) => WQ.find((q) => q.k === x)?.ev)); const pool = WQ.filter((q) => !w.ids.includes(q.k) && !evs.has(q.ev));
+        if (!pool.length) return json({ error: 'no_swap', ...view() }, 400); const nq = pool[Math.floor(Math.random() * pool.length)]; w.ids = w.ids.map((x: string) => x === k ? nq.k : x); w.rr = day; A.wq = w;
+        await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, ...view() }); }
       return json({ ok: true, ...view() });
     }
+    // 0.57: level rewards every 5 levels (coins = level × 20), and the title under the nickname (any claimed achievement)
+    if (action === 'lvl') { const { data: p } = await db.from('profiles').select('ach,played,won').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
+      const A = { ...(p.ach || {}) }; const L = lvOf(lvXp(p, A)); const m = Math.round(Number(args?.m)); A.lv = Array.isArray(A.lv) ? A.lv : [];
+      if (!(m >= 5 && m <= 50 && m % 5 === 0) || m > L || A.lv.includes(m)) return json({ error: 'not_ready', lv: L, got: A.lv }, 400);
+      A.lv.push(m); A.coins = (A.coins ?? COIN_START) + m * 20; await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, got: m * 20, coins: A.coins, lv: L, claimed: A.lv }); }
+    if (action === 'title') { const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
+      const A = { ...(p.ach || {}) }; const k = String(args?.k || ''); if (k && !(A.ach2 && A.ach2[k])) return json({ error: 'locked' }, 400);
+      if (k) A.tt = k; else delete A.tt; await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, tt: A.tt || '' }); }
     // the campaign: a won chapter game gives its prizes once and opens the next chapter
     // the campaign puzzle (step 1) of the current chapter, solved on the site
     if (action === 'campstep') {
@@ -1154,7 +1178,7 @@ Deno.serve(async (req) => {
       const myR = me?.rating ?? 1000;
       const botR = gh ? gh.rating : CH ? CH.r : bot ? C.BOTS[bot].r : 0;
       st.names = { p1: me?.name ?? '', p2: gh ? gh.name : CH ? CH.name : bot ? String(args?.name ?? '').slice(0, 24) : '' }; st.avs = { p1: me?.av ?? '', p2: gh ? gh.av : CH ? CH.av : bot ? String(args?.av ?? '').slice(0, 8) : '' };
-      st.ratings = { p1: myR, p2: botR }; st.frs = { p1: me?.ach?.fr || 0, p2: 0 }; if (gh) { st.ghost = gh.id; st.botNoise = ghostNoise(gh.skill ?? gh.rating); const lv = ghostLvl(gh.skill ?? gh.rating); if (lv) st.botLvl = lv; }
+      st.ratings = { p1: myR, p2: botR }; st.frs = { p1: me?.ach?.fr || 0, p2: 0 }; st.tts = { p1: me?.ach?.tt || '', p2: '' }; if (gh) { st.ghost = gh.id; st.botNoise = ghostNoise(gh.skill ?? gh.rating); const lv = ghostLvl(gh.skill ?? gh.rating); if (lv) st.botLvl = lv; }
       if (CH) { st.camp = cn; st.botNoise = CH.noise; if (CH.lvl) st.botLvl = CH.lvl;
         if (cStep === 2) { const M = CAMP_MINI[cn]; st.campStep = 2; st.board = M.board(); st.botNoise = M.noise; if (M.lvl) st.botLvl = M.lvl; else delete st.botLvl;
           st.rules = { to: 1, t: M.t || 60, dbl: M.dbl || 'norm', head: 'one', noMars: false, noOdds: false, open: false };
@@ -1169,7 +1193,7 @@ Deno.serve(async (req) => {
       let st;
       try { st = C.act(row.state, user.id, action, args, { now: Date.now(), d6 }); } catch (e) { return json({ error: (e as Error).message }, 409); }
       if (action === 'join' && st.p2 === user.id && !row.state.p2) {
-        const me = await prof(user.id); st.names = { ...(st.names || {}), p2: me?.name ?? '' }; st.avs = { ...(st.avs || {}), p2: me?.av ?? '' }; st.ratings = { ...(st.ratings || {}), p2: me?.rating ?? 1000 }; st.frs = { ...(st.frs || {}), p2: me?.ach?.fr || 0 };
+        const me = await prof(user.id); st.names = { ...(st.names || {}), p2: me?.name ?? '' }; st.avs = { ...(st.avs || {}), p2: me?.av ?? '' }; st.ratings = { ...(st.ratings || {}), p2: me?.rating ?? 1000 }; st.frs = { ...(st.frs || {}), p2: me?.ach?.fr || 0 }; st.tts = { ...(st.tts || {}), p2: me?.ach?.tt || '' };
       }
       st.seq = (row.state.seq || 0) + 1;
       const r = await commit(gameId, row.updated_at, st);

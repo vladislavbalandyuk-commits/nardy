@@ -3,6 +3,13 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.57.0 — 13.11.2026
+- Player level 1–50 (XP: games ×10, wins ×15, achievements ×40, puzzles ×8, chapters ×30, course ×20, best daily streak ×10; step 100+20·(L−1)); level card on the achievements page; prizes every 5 levels (level × 20 coins) via server action `lvl`.
+- Quests of the week: 3 per Kyiv week (distinct kinds), up to +500, one swap a day (`rewards` ops `wquest`, `wrr`); winter header in December.
+- Titles: any collected achievement can be the title under the nickname (server action `title`, `ach.tt`); shown in game strips to opponents (`st.tts`, kept on rematch).
+- The bell in the header: daily gift, finished daily/weekly quests, ready achievements, level prizes, new version; on phones the Learn icon leaves the header (it is in the bottom bar).
+- Pasha's tour: bell step.
+
 ## 0.56.0 — 12.11.2026
 - Challenge of the day: a 4th, harder daily task with a bigger prize (c_mars 200, c_human2 150, c_win3 150, c_game6 120), picked per Kyiv day on the server, never the same kind as the regular quests; highlighted in every quest list.
 - Daily gift: day 7 is now 300 coins; «freeze» — one missed day a week keeps the streak (server `dfz`); the best streak is kept (`dmax`).
