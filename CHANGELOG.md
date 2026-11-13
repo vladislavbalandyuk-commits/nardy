@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.72.8 — 13.11.2026
+- Portal guests get an anonymous guest account automatically (name “Player1234”), so online play, friend tables and instant multiplayer work without any sign-in.
+
 ## 0.72.7 — 13.11.2026
 - CrazyGames multiplayer on the current SDK API: `updateRoom` (joinable while a friend table waits, closed once both sit), `leftRoom`, `addJoinRoomListener`, `inviteParams` on start; the deprecated invite button calls are gone.
 

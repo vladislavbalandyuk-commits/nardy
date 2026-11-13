@@ -4386,7 +4386,9 @@ async function portal72Init(){ if(!PORTAL) return; document.body.classList.add('
     try{ const u=S.user && S.user.isUserAccountAvailable ? await S.user.getUser() : null; if(u && u.username && !(profile.name||'').trim()) profile.name=String(u.username).slice(0,20); }catch(e){}
     try{ S.game.loadingStop && S.game.loadingStop(); }catch(e){}
     // a CrazyGames player who is signed in there is signed in here too; a guest who signs in during play switches over
-    try{ const w=()=>new Promise(r=>{ const t0=Date.now(); const k=()=>sb || Date.now()-t0>10000 ? r() : setTimeout(k,200); k(); }); await w(); await cg73Login();
+    try{ const w=()=>new Promise(r=>{ const t0=Date.now(); const k=()=>sb || Date.now()-t0>10000 ? r() : setTimeout(k,200); k(); }); await w(); const okCG=await cg73Login();
+      // a CrazyGames guest plays straight away: an anonymous guest account with a generated name (needed for online play)
+      if(!okCG){ await new Promise(r=>setTimeout(r,1500)); if(!authUser && sb){ try{ const {data,error}=await sb.auth.signInAnonymously(); if(!error && data && data.user) await onSignedIn(data.user, await nameFree('Player'+(1000+Math.floor(Math.random()*9000)))); }catch(e){} } }
       S.user.addAuthListener && S.user.addAuthListener(u=>{ if(u) cg73Login(); }); }catch(e){}
     // multiplayer on CrazyGames: a friend's invite opens their table; "instant multiplayer" opens a new table to invite into
     try{ S.game.addJoinRoomListener && S.game.addJoinRoomListener(p=>{ const r=p && p.roomId; if(r && /^[a-z0-9]{4,40}$/i.test(String(r))){ try{ if(gs) leave(); }catch(e){} joinGame(String(r)); } }); }catch(e){}
@@ -5421,7 +5423,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.72.7';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.72.8';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
