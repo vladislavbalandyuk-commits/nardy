@@ -34,7 +34,7 @@ function eloDelta(my,opp,score,mars){ const E=1/(1+Math.pow(10,(opp-my)/ELO_D));
 
 
 // ---- server-side bots (practice bots and online personas) ----
-const BOTS={ marta:{r:900,noise:7,factor:.4}, ostap:{r:1000,noise:3,factor:.4}, taras:{r:1100,noise:.8,factor:.4}, hryts:{r:1250,noise:0,factor:.4}, ghost:{r:null,noise:0,factor:1}, camp:{r:null,noise:0,factor:0} };
+const BOTS={ marta:{r:900,noise:7,factor:.4}, ostap:{r:1000,noise:3,factor:.4}, taras:{r:1100,noise:.8,factor:.4}, hryts:{r:1250,noise:0,factor:.4}, snowman:{r:1000,noise:3,factor:.4}, ghost:{r:null,noise:0,factor:1}, camp:{r:null,noise:0,factor:0} };
 function botEval(st,c){ const o=OPP(c); let made=0,run=0,best=0,stack=0,back=0;
   for(let p=0;p<24;p++){ const k=mine(st.board,c,p); if(k>0){ made++; run++; if(run>best) best=run; if(k>3) stack+=k-3; if(p<12) back+=k; } else run=0; }
   let oppPips=0; for(let p=0;p<24;p++){ const k=mine(st.board,o,p); if(k>0) oppPips+=k*(24-p); } const head=Math.max(0,mine(st.board,c,0)-1);
@@ -1113,7 +1113,7 @@ Deno.serve(async (req) => {
       const vsBot = C.isBotId(st.p2), gh = vsBot && st.ghost != null ? await ghostRow(st.ghost) : null;
       const [a, b] = await Promise.all([prof(st.p1), vsBot ? Promise.resolve(null) : prof(st.p2)]);
       const oppR = vsBot ? (gh ? gh.rating : st.ratings.p2) : (b?.rating ?? 1000);
-      const d = C.ratingChanges(st, a?.rating ?? 1000, oppR); if (st.rules) { d.p1 = 0; d.p2 = 0; }   // custom lobby games do not change the rating
+      const d = C.ratingChanges(st, a?.rating ?? 1000, oppR); if (st.rules || st.unrated) { d.p1 = 0; d.p2 = 0; }   // custom lobby games and bot practice do not change the rating
       const dGhost = d.p2;
       if (vsBot) { const f = (C.BOTS[st.p2.split(':')[1]] || C.BOTS.ghost).factor; d.p1 = Math.round(d.p1 * f); }
       const fresh: any = {}, coinsPaid: any = {}, fullGame = (!vsBot || st.ghost != null || !!st.mbot) && !st.rules;
@@ -1169,7 +1169,7 @@ Deno.serve(async (req) => {
       if (bot === 'camp' && (!CH || ((me?.ach?.camp | 0) < cn - 1))) return json({ error: 'camp_locked' }, 400);
       const cStep = bot === 'camp' && Number(args?.step) === 2 ? 2 : 3, cDone = me?.ach?.camp | 0, cs = me?.ach?.cs | 0;
       if (bot === 'camp' && cn === cDone + 1 && cs < cStep - 1) return json({ error: 'camp_step' }, 400);
-      const st = C.newGame(user.id, bot ? 'bot:' + bot : null);
+      const st = C.newGame(user.id, bot ? 'bot:' + bot : null); if (bot && bot !== 'ghost' && bot !== 'camp' && args?.pr) st.unrated = 1;   // 0.58: practice with a bot — no rating
       if (!bot && args?.rules && typeof args.rules === 'object') { const q = args.rules, pick = (v: any, L: any[], d: any) => L.includes(v) ? v : d;
         st.rules = { to: pick(Number(q.to), [1, 3, 5, 7], 1), t: pick(Number(q.t), [0, 10, 20, 30, 60], 60), dbl: pick(q.dbl, ['norm', 'none', 'pen'], 'norm'), head: pick(q.head, ['one', 'free'], 'one'), noMars: !!q.noMars, noOdds: !!q.noOdds, open: !!q.open, first: pick(q.first, ['roll', 'host', 'alt'], 'roll') };
         // the host's table, board, checkers and dice, shown to both players (names only; the site checks they exist)

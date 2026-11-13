@@ -3,6 +3,12 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.58.0 — 13.11.2026
+- «With a bot» opens a picker: Marta (easy), Ostap (medium), Taras (strong), Hryts (master) with a line about each; the winter guest Snowman (December–14 January) plays on the «Іней» board.
+- Practice (default on): no rating change (server `st.unrated` from `create` arg `pr`); the «Coach's hint» button highlights the best first move (blue — from, pink — to), computed with zero noise.
+- Content: Snowman bot persona with its own SVG avatar and table.
+- Onboarding still starts a game at once; Pasha's tour: picker step.
+
 ## 0.57.0 — 13.11.2026
 - Player level 1–50 (XP: games ×10, wins ×15, achievements ×40, puzzles ×8, chapters ×30, course ×20, best daily streak ×10; step 100+20·(L−1)); level card on the achievements page; prizes every 5 levels (level × 20 coins) via server action `lvl`.
 - Quests of the week: 3 per Kyiv week (distinct kinds), up to +500, one swap a day (`rewards` ops `wquest`, `wrr`); winter header in December.
