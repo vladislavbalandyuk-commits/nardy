@@ -3,6 +3,11 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.72.1 — 13.11.2026
+- Self-drawn SVG art for the Show case (stage, spotlights, bulbs) and the Winter case (night, moon, garland, pines, snow); the Winter card shows its item fan.
+- Per-case sounds (`cs75*`): hover, opening, reel tick and reveal differ for Show / Winter / Phrases; new `syn66` kinds tick, tick2, bells.
+- Inline SVG backgrounds are now base64 data URIs.
+
 ## 0.72.0 — 13.11.2026
 - Portal mode (`PORTAL`): from `?portal=…`, a build-time `window.__PORTAL`, or the referrer (CrazyGames / Poki / GameDistribution). In a portal: no service worker, no install prompts, Pasha's tour skipped.
 - CrazyGames SDK v3: `init`, `gameplayStart/Stop` follow the game phase, `happytime` on a win, the language from `systemInfo.countryCode` (only when the player never chose one), the portal username as a guest nickname.
