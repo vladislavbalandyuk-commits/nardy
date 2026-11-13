@@ -3,6 +3,11 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.73.0
+- Big content drop 3: the East case — Tavla and Workshop boards, Inlay/Pomegranate/Lapis checkers, Old bone and Izmir tile dice, Flying carpet and Mosaic win shows, Pomegranate seeds roll effect, saz and darbuka chat sounds (synthesized on the device).
+- East phrase pack (6 phrases, 300 coins).
+- Pasha's guide step g42 about the new case.
+
 ## 0.72.11
 - Portal mode: the hookah phrase is hidden from the chat, quick replies and the phrase book.
 
