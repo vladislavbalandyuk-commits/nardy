@@ -1119,7 +1119,7 @@ Deno.serve(async (req) => {
       const d = C.ratingChanges(st, a?.rating ?? 1000, oppR); if (st.rules || st.unrated) { d.p1 = 0; d.p2 = 0; }   // custom lobby games and bot practice do not change the rating
       const dGhost = d.p2;
       if (vsBot) { const f = (C.BOTS[st.p2.split(':')[1]] || C.BOTS.ghost).factor; d.p1 = Math.round(d.p1 * f); }
-      const fresh: any = {}, coinsPaid: any = {}, fullGame = (!vsBot || st.ghost != null || !!st.mbot) && !st.rules;
+      const refPay: any[] = []; const fresh: any = {}, coinsPaid: any = {}, fullGame = (!vsBot || st.ghost != null || !!st.mbot) && !st.rules;
       for (const [s, p] of (vsBot ? [['p1', a]] : [['p1', a], ['p2', b]]) as any) {
         const id = st[s]; const won = st.result.winner === s; const myR = p?.rating ?? 1000, opR = s === 'p1' ? oppR : (a?.rating ?? 1000);
         const ach = C.achUpdate(p?.ach, st, s, myR, opR); fresh[s] = ach.fresh;
@@ -1144,10 +1144,15 @@ Deno.serve(async (req) => {
         try { const os = s === 'p1' ? 'p2' : 'p1'; const rp = encReplay(st); if (rp && gid) ach.A.rp = [...(Array.isArray(ach.A.rp) ? ach.A.rp : []).filter((x: any) => x.g !== gid), { g: gid, t: Date.now(), c: colorOfSlotS(st, s), ...rp }].slice(-8);
           if (!vsBot && st[os]) { const H = { ...(ach.A.h2h || {}) }; const o = H[st[os]] || { w: 0, l: 0 }; H[st[os]] = { w: o.w + (won ? 1 : 0), l: o.l + (won ? 0 : 1), t: Date.now(), n: String(st.names?.[os] || '').slice(0, 20) };
             const keys = Object.keys(H); if (keys.length > 60) keys.sort((a, b) => (H[a].t || 0) - (H[b].t || 0)).slice(0, keys.length - 60).forEach((k) => delete H[k]); ach.A.h2h = H; } } catch (_) { /* never block the rating */ }
+        // 0.60: a friend who came by an invite and played 5 games — both get a bonus (×2 in December)
+        if (ach.A.refBy && !ach.A.ref5 && ((p?.played ?? 0) + 1) >= 5) { const dec = new Date(Date.now() + 2 * 3600e3).getUTCMonth() === 11, bonus = dec ? 600 : 300;
+          ach.A.ref5 = Date.now(); ach.A.coins = (ach.A.coins ?? COIN_START) + bonus; refPay.push([ach.A.refBy, bonus]); }
         if (fullGame && LG_ON) await lgAdd(db, id, ach.A, p?.name || '', p?.av || '', won ? (st.result.mars ? 4 : 3) : 1);
         await db.from('profiles').update({ rating: Math.max(100, myR + d[s]), rgames: (p?.rgames ?? 0) + (calSkip ? 0 : 1), played: (p?.played ?? 0) + 1, won: (p?.won ?? 0) + (won ? 1 : 0), ach: ach.A, updated_at: new Date().toISOString() }).eq('id', id);
       }
       if (gh) { const gw = st.result.winner === 'p2'; await db.from('ghosts').update({ rating: Math.max(100, gh.rating + dGhost), played: gh.played + 1, won: gh.won + (gw ? 1 : 0), updated_at: new Date().toISOString() }).eq('id', gh.id); }
+      for (const [rid, bonus] of refPay) { try { const { data: inv } = await db.from('profiles').select('ach').eq('id', rid).maybeSingle(); if (!inv) continue; const B = { ...(inv.ach || {}) };
+        B.refAct = (B.refAct | 0) + 1; if (B.refAct <= 50) { B.coins = (B.coins ?? COIN_START) + bonus; B.refGot = [...(Array.isArray(B.refGot) ? B.refGot : []), { t: Date.now(), n: bonus }].slice(-10); } await db.from('profiles').update({ ach: B }).eq('id', rid); } catch (_) { /* never block the rating */ } }
       st.ratingDelta = d; st.achNew = fresh; st.coins = coinsPaid;
     };
     // save with an optimistic lock; if this save finishes the game, apply the rating once and store the result

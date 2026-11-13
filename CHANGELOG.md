@@ -3,6 +3,10 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.60.0 — 13.11.2026
+- Bring a friend: besides the sign-up rewards (300 / 200), when the invited friend finishes 5 games both get +300 (×2 in December) — paid by the server in `rate()` (`ach.ref5`, inviter `refAct`, `refGot`); a «Bring a friend» card on the Friends tab; the bell tells the inviter.
+- Share a game: a 1080×1080 picture (result, score, avatars, mars, site link with the invite) from the summary — native share with the file, Telegram share, or download + copied text.
+
 ## 0.59.0 — 13.11.2026 — 🎁 big content drop 1
 - New case «Show» (300): six chat sounds synthesised on the device (Zap, Boing, Drumroll, Wow, Siren, Ta-da!) and two big full-screen win shows.
 - «Hookah master» (legendary): a giant hookah drawn in SVG rises over a dimmed screen, coals glow, smoke rings and the Fibonacci cloud drift up.
