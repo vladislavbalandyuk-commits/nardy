@@ -33,7 +33,7 @@ if(ch){var qs=q.toString();history.replaceState(null,'',location.pathname+(qs?'?
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#ebe5d9">
+<meta name="theme-color" content="#0d0e11">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://cdn.jsdelivr.net"><link rel="preconnect" href="https://zndzvicklrkxkrpmkybg.supabase.co" crossorigin>
@@ -2146,6 +2146,9 @@ body.pg41.tblow .hint58{top:var(--tbY);bottom:auto;right:50%;transform:translate
 /* 0.61: Telegram home screen card */
 .tgh61{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:18px;background:linear-gradient(120deg,rgba(62,230,255,.12),rgba(138,108,255,.08) 70%),var(--panel,#15161b);border:1px solid rgba(62,230,255,.28);margin:0 0 12px;grid-column:1/-1}
 .tgh61 .tx{flex:1;min-width:0} .tgh61 b{display:block;font-size:14.5px} .tgh61 small{color:#a8a29a;font-size:12.5px} .tgh61 button{flex:none;min-height:40px;padding:8px 16px} .tgh61 .x{background:none;border:0;box-shadow:none;color:#a8a29a;padding:4px 6px;min-height:0;font-size:18px}
+
+/* 0.62: landscape phone — Pasha's tip goes to the side panel, not over the checkers */
+@media (max-height:500px) and (orientation:landscape){ body.ingame .ptip{left:auto!important;right:12px!important;bottom:12px!important;top:auto!important;transform:none!important;width:min(300px,34vw)!important} body.ingame .ptip p{font-size:13px} }
 </style>
 <style>/* 0.38: home — one big «Play», three «Today» tiles */
 .h38modes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
@@ -4119,6 +4122,11 @@ setTimeout(()=>{ try{ if(!TG || typeof TG.addToHomeScreen!=='function' || store.
   const show=()=>{ const home=$('vHome'); if(!home || home.querySelector('.tgh61')) return; const c=uxH('div','tgh61'); const tx=uxH('div','tx'); tx.append(uxH('b',null,'📲 '+t('tghT')), uxH('small',null,t('tghD'))); const b=uxH('button','cta',t('tghB')); b.type='button'; b.onclick=()=>{ store.set('tghome61',1); store.set('tgHome61',1); c.remove(); try{ TG.addToHomeScreen(); }catch(e){} };
     const x=uxH('button','x','×'); x.type='button'; x.onclick=()=>{ store.set('tgHome61',1); c.remove(); }; c.append(tx,b,x); const hd=home.querySelector('.h38h'); (hd||home.firstChild).before(c); };
   if(typeof TG.checkHomeScreenStatus==='function') TG.checkHomeScreenStatus(st=>{ if(st==='added' || st==='unsupported'){ store.set('tgHome61',1); return; } show(); }); else show(); }catch(e){} }, 2500);
+
+// ================= 0.62: app shortcuts (?go=bot / ?go=pz), the window colour follows the theme =================
+setTimeout(()=>{ try{ const m=location.search.match(/[?&]go=(bot|pz)\b/); if(!m) return; try{ history.replaceState(null,'',location.pathname); }catch(e){} setTimeout(()=>{ try{ if(m[1]==='bot') bp58Open(); else startPuzzle(); }catch(e){} }, 1200); }catch(e){} }, 300);
+function tc62(){ try{ const bg=getComputedStyle(document.body).backgroundColor; const mm=document.querySelector('meta[name="theme-color"]'); if(mm && bg && mm.content!==bg) mm.content=bg; }catch(e){} }
+setInterval(tc62, 2000); setTimeout(tc62, 500);
 // ================= 0.53: the juicy table =================
 // on a portrait phone the «your turn» panel moves from the middle of the board into the empty space under it
 function tb53(){ try{ const on=document.body.classList.contains('pg41'); const tr=$('tray'), pb=$('plBot'), tb=$('turnBanner'), qr=$('qrBar'); let low=false;
@@ -5097,7 +5105,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.61.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.62.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -7013,6 +7021,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+ {v:"0.62.0", d:"13.11.2026", uk:["Застосунок на телефоні: швидкі дії з іконки — «Грати з ботом», «Задача дня», «Подарунок дня» (утримайте іконку нард)","Темний екран запуску й кольори вікна під темне оформлення","Скриншоти й опис для встановлення — готуємося до Google Play","Горизонтальний режим: підказки Паші більше не закривають шашки"], en:["The phone app: quick actions from the icon — «Play a bot», «Daily puzzle», «Daily gift» (long-press the nardy icon)","A dark launch screen and window colours to match the dark theme","Screenshots and a description for installing — getting ready for Google Play","Landscape: Pasha’s tips no longer cover the checkers"]},
  {v:"0.61.0", d:"13.11.2026", uk:["Вечірнє нагадування о 19:00: якщо серія жива, а подарунок ще не забрано — бот у Telegram або сповіщення підкажуть (вимикається в налаштуваннях або командою /stop)","У Telegram: вібрація тепер через сам Telegram — відчутніша й акуратніша","У Telegram можна додати нарди на головний екран телефону одним натиском","Посилання з нагадування одразу відкриває подарунок дня"], en:["An evening reminder at 19:00: if your streak is alive and the gift is not claimed — the Telegram bot or a notification will tell you (off in Settings or with /stop)","In Telegram the buzz now goes through Telegram itself","In Telegram you can add nardy to the phone home screen in one tap","The reminder link opens the daily gift right away"]},
  {v:"0.60.0", d:"13.11.2026", uk:["Приведи друга: коли друг зіграє 5 партій — ще по 300 монет вам обом (у грудні — по 600!)","Картинка партії: після гри натисніть «Поділитися» — гарна картка з рахунком і посиланням, щоб покликати друзів","Дзвіночок підкаже, коли ваш друг заробив вам бонус"], en:["Bring a friend: when the friend plays 5 games — another 300 coins for both of you (600 in December!)","A game picture: after a game tap «Share» — a nice card with the score and a link to call your friends","The bell tells you when a friend earned you a bonus"]},
  {v:"0.59.0", d:"13.11.2026", uk:["🎁 Великий контент: новий кейс «Шоу» — шість нових звуків для чату (Зап, Буньк, Барабанний дріб, Ого, Сирена, Та-дам!) і два великі шоу перемоги на весь екран","«Кальянний майстер»: величезний кальян, жар і кільця диму на весь екран","«Нарди-таксі»: таксі привозить вашу перемогу — з кубиками й шашками","Три нові готові набори: «Мʼятний ранок», «Рубіновий вечір», «Лавандовий сон» (−20%)","Пак фраз «Пісні 3 кента»: «Дві по пʼятдесят!», «Дим не йде…», «Кальян в друзях!» та інші"], en:["🎁 Big content drop: the new «Show» case — six new chat sounds and two big full-screen win shows","«Hookah master»: a giant hookah, glowing coals and smoke rings across the screen","«Nardy taxi»: a taxi delivers your victory — with dice and checkers","Three new sets: «Mint morning», «Ruby evening», «Lavender dream» (−20%)","Phrase pack «Songs of 3 кента»"]},

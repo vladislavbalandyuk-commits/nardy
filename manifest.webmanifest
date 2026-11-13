@@ -1,17 +1,33 @@
 {
+  "id": "/",
   "name": "Нарди — довгі нарди онлайн",
   "short_name": "Нарди",
-  "description": "Довгі нарди з другом за посиланням або з суперником онлайн.",
-  "start_url": "/",
+  "description": "Довгі нарди онлайн: з другом за посиланням, з суперником за рейтингом або з ботом. Турніри щосуботи, задача дня, колекція дошок і шашок.",
+  "start_url": "/?src=app",
   "scope": "/",
   "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
   "orientation": "any",
-  "background_color": "#ebe5d9",
-  "theme_color": "#ebe5d9",
+  "background_color": "#0d0e11",
+  "theme_color": "#0d0e11",
   "lang": "uk",
+  "dir": "ltr",
+  "categories": ["games", "entertainment"],
+  "launch_handler": { "client_mode": "navigate-existing" },
   "icons": [
     { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
     { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" },
     { "src": "/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Грати з ботом", "short_name": "З ботом", "url": "/?go=bot", "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Задача дня", "short_name": "Задача", "url": "/?go=pz", "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Подарунок дня", "short_name": "Подарунок", "url": "/?gift=1", "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }] }
+  ],
+  "screenshots": [
+    { "src": "/shots/home.webp", "sizes": "780x1688", "type": "image/webp", "form_factor": "narrow", "label": "Головна: гра онлайн, задача дня, подарунок" },
+    { "src": "/shots/game.webp", "sizes": "780x1688", "type": "image/webp", "form_factor": "narrow", "label": "Стіл: довгі нарди на телефоні" },
+    { "src": "/shots/shop.webp", "sizes": "780x1688", "type": "image/webp", "form_factor": "narrow", "label": "Вітрина: дошки, шашки, кубики" },
+    { "src": "/shots/wide.webp", "sizes": "1440x900", "type": "image/webp", "form_factor": "wide", "label": "Нарди на комп'ютері" }
   ]
 }

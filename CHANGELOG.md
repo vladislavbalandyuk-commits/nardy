@@ -3,6 +3,12 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.62.0 — 13.11.2026
+- App manifest for installing / Google Play: id, dark splash and theme (#0d0e11), categories, launch handler, shortcuts (Play a bot `?go=bot`, Daily puzzle `?go=pz`, Daily gift `?gift=1`), four screenshots (`/shots/*.webp`, narrow + wide).
+- The browser/window colour follows the site background.
+- Landscape phones: Pasha's tip moves to the side panel during a game.
+- The Android (TWA) build itself waits for the Google Play account.
+
 ## 0.61.0 — 13.11.2026
 - Evening reminder at 19:00 Kyiv, once a day, to players with a live streak (≥2) whose gift is not claimed: by the Telegram bot (button opens the gift) or web push. `push-tick` workflow runs at 17:03/17:33 UTC; the server keeps `rem_sent.json`.
 - Off/on: the bot's /stop and /remind, or the «Evening reminder» switch in Settings (server action `rem`, `ach.noRem`).
