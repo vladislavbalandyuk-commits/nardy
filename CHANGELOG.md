@@ -3,6 +3,11 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.72.0 — 13.11.2026
+- Portal mode (`PORTAL`): from `?portal=…`, a build-time `window.__PORTAL`, or the referrer (CrazyGames / Poki / GameDistribution). In a portal: no service worker, no install prompts, Pasha's tour skipped.
+- CrazyGames SDK v3: `init`, `gameplayStart/Stop` follow the game phase, `happytime` on a win, the language from `systemInfo.countryCode` (only when the player never chose one), the portal username as a guest nickname.
+- `tools/portal_zip.py` builds `dist/nardy-crazygames.zip` (the site files with `window.__PORTAL='crazygames'`) for upload — waits for Vlad's CrazyGames developer account.
+
 ## 0.71.0 — 13.11.2026
 - Weekly leagues switched back on (site and server): groups of 30 (`LG_N`), 5 up / 5 down, prizes for places 1–5, the League tab and the home line.
 - Pasha's tour: g41.
