@@ -3,6 +3,14 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.59.0 — 13.11.2026 — 🎁 big content drop 1
+- New case «Show» (300): six chat sounds synthesised on the device (Zap, Boing, Drumroll, Wow, Siren, Ta-da!) and two big full-screen win shows.
+- «Hookah master» (legendary): a giant hookah drawn in SVG rises over a dimmed screen, coals glow, smoke rings and the Fibonacci cloud drift up.
+- «Nardy taxi» (epic): a taxi (Microsoft Fluent Emoji 3D, MIT, recoloured violet) drives in, honks, and dice and checkers fly out.
+- Three new sets (−20%): «Mint morning», «Ruby evening», «Lavender dream».
+- Phrase pack «Songs of 3 кента» (titles of Vlad's band's tracks).
+- Pasha's tour: shop step. (Radio, planned for this drop, shipped early in 0.54.)
+
 ## 0.58.0 — 13.11.2026
 - «With a bot» opens a picker: Marta (easy), Ostap (medium), Taras (strong), Hryts (master) with a line about each; the winter guest Snowman (December–14 January) plays on the «Іней» board.
 - Practice (default on): no rating change (server `st.unrated` from `create` arg `pr`); the «Coach's hint» button highlights the best first move (blue — from, pink — to), computed with zero noise.
