@@ -595,6 +595,19 @@ function ssRoll(A: any, rating: number) { const s = ssId(); if (A.ss && A.ss.s !
   if (!A.ss) A.ss = { s, r0: rating | 0, g: 0, w: 0, m: 0, st: 0, bs: 0, pk: 0, cl: {} }; return A.ss; }
 function ssUpd(A: any, won: boolean, mars: boolean, myR: number, newR: number, counted: boolean) { const S = ssRoll(A, myR); S.g++; if (won) { S.w++; S.st++; S.bs = Math.max(S.bs | 0, S.st); if (mars) S.m++; } else S.st = 0; if (counted) S.pk = Math.max(S.pk | 0, newR); }
 const ssProg = (S: any, k: string) => k === 'g' ? S.g | 0 : k === 'w' ? S.w | 0 : k === 'st' ? S.bs | 0 : k === 'm' ? S.m | 0 : (S.pk && ssTier(S.pk) > ssTier(S.r0 | 0) ? 1 : 0);
+
+// ---- 0.78: clubs — up to 30 players, a shared club table, a weekly club tournament (points from rated games, like the leagues), a club chat.
+// Files: srv/club/<id>.json = { id, name, tag, owner, m:[ids], at, wk, wp:{uid:pts}, chat:[{u,n,t,x}], pz:{uid:coins}, last:{wk,top:[...]}};
+// srv/club/index.json = { <id>: { name, tag, n, wp, wk } }. A.club = id.
+const CL_MAX = 30, CL_COST = 300, CL_PRIZE = [300, 200, 100];
+const clPath = (id: string) => 'club/' + id + '.json';
+function clRoll(C: any) { const wk = lgWeek(); if (C.wk === wk) return false;
+  const top = Object.entries(C.wp || {}).sort((a: any, b: any) => b[1] - a[1]).slice(0, 3).filter((x: any) => x[1] > 0);
+  C.pz = { ...(C.pz || {}) }; top.forEach(([u, p]: any, i) => { if (C.m.includes(u)) C.pz[u] = (C.pz[u] | 0) + CL_PRIZE[i]; });
+  C.last = C.wk != null ? { wk: C.wk, top: top.map(([u, p]: any) => ({ u, p })) } : null; C.wk = wk; C.wp = {}; return true; }
+async function clIndex(db: any, C: any, drop = false) { const I = (await lgFile(db, 'club/index.json')) || {}; if (drop) delete I[C.id];
+  else I[C.id] = { name: C.name, tag: C.tag, n: C.m.length, wp: Object.values(C.wp || {}).reduce((a: number, b: any) => a + (b | 0), 0), wk: C.wk }; await lgSave(db, 'club/index.json', I); }
+async function clAdd(db: any, A: any, uid: string, pts: number) { if (!A.club) return; try { const C = await lgFile(db, clPath(A.club)); if (!C || !C.m.includes(uid)) return; clRoll(C); C.wp = { ...(C.wp || {}) }; C.wp[uid] = (C.wp[uid] | 0) + pts; await lgSave(db, clPath(C.id), C); await clIndex(db, C); } catch (_) { /* never block the rating */ } }
 // ---- weekly leagues: Bronze → Silver → Gold → Diamond. Groups of 20 (free places = league bots whose points grow
 // through the week). Points: a full game 1, a win 3, a mars win 4. Week = Monday 00:00 → Sunday 24:00 (Kyiv).
 // At the end: top 5 go up, bottom 5 go down; prizes for places 1–5. Group files live in storage: srv/league/<wk>/<g>.json.
@@ -788,6 +801,41 @@ Deno.serve(async (req) => {
       const can = over && me && A.ar && A.ar.d === day && !A.ar.cl ? prizeOf(me.rank, me.g) : 0;
       if (args?.op === 'claim') { if (!can) return json({ ok: false, why: 'none' }); A.ar = { ...A.ar, cl: Date.now() }; A.coins = (A.coins ?? COIN_START) + can; await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, got: can, coins: A.coins }); }
       return json({ ok: true, day, live, n: L.length, top: L.slice(0, 20).map((r: any) => ({ n: r.n, av: r.av, p: r.p, g: r.g, me: r.id === user.id ? 1 : 0 })), me: me ? { p: me.p, g: me.g, rank: me.rank } : null, prize: can, claimed: !!(A.ar && A.ar.d === day && A.ar.cl) }); }
+    if (action === 'club') { const { data: p } = await db.from('profiles').select('id,name,av,rating,ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
+      const A = { ...(p.ach || {}) }; const op = String(args?.op || 'mine'); const saveA = async () => { await db.from('profiles').update({ ach: A }).eq('id', user.id); };
+      const list = async () => { const I = (await lgFile(db, 'club/index.json')) || {}; const wk = lgWeek(); return Object.entries(I).map(([id, c]: any) => ({ id, name: c.name, tag: c.tag, n: c.n | 0, wp: c.wk === wk ? c.wp | 0 : 0 })).sort((a: any, b: any) => b.wp - a.wp || b.n - a.n).slice(0, 40); };
+      const clean = (x: any, n: number) => String(x || '').replace(/[\u0000-\u001f<>]/g, '').replace(/\s+/g, ' ').trim().slice(0, n);
+      if (op === 'create') { if (A.club) return json({ error: 'in_club' }, 400); const name = clean(args?.name, 24), tag = clean(args?.tag, 4).toUpperCase().replace(/[^A-ZА-ЯІЇЄҐ0-9]/g, '');
+        if (name.length < 3 || tag.length < 2) return json({ error: 'bad_name' }, 400); if ((A.coins ?? COIN_START) < CL_COST) return json({ error: 'coins' }, 400);
+        const I = (await lgFile(db, 'club/index.json')) || {}; if (Object.values(I).some((c: any) => String(c.name).toLowerCase() === name.toLowerCase())) return json({ error: 'taken' }, 400);
+        const id = Math.random().toString(36).slice(2, 10); const C = { id, name, tag, owner: user.id, m: [user.id], at: Date.now(), wk: lgWeek(), wp: {}, chat: [], pz: {}, last: null };
+        await lgSave(db, clPath(id), C); await clIndex(db, C); A.club = id; A.coins = (A.coins ?? COIN_START) - CL_COST; await saveA(); return json({ ok: true, id, coins: A.coins }); }
+      if (op === 'join') { if (A.club) return json({ error: 'in_club' }, 400); const id = String(args?.id || '').replace(/[^a-z0-9]/g, ''); const C = await lgFile(db, clPath(id)); if (!C) return json({ error: 'not_found' }, 404);
+        if (C.m.length >= CL_MAX) return json({ error: 'full' }, 400); if ((C.ban || []).includes(user.id)) return json({ error: 'banned' }, 403);
+        clRoll(C); if (!C.m.includes(user.id)) C.m.push(user.id); C.chat = [...(C.chat || []), { u: '', n: '', t: Date.now(), x: '+' + (p.name || '') }].slice(-60); await lgSave(db, clPath(id), C); await clIndex(db, C); A.club = id; await saveA(); return json({ ok: true, id }); }
+      if (op === 'list') return json({ ok: true, clubs: await list() });
+      if (op === 'peek') { const C = await lgFile(db, clPath(String(args?.id || '').replace(/[^a-z0-9]/g, ''))); if (!C) return json({ ok: false }); return json({ ok: true, id: C.id, name: C.name, tag: C.tag, n: C.m.length, max: CL_MAX, mine: A.club === C.id }); }
+      if (!A.club) return json({ ok: true, club: null, clubs: await list(), cost: CL_COST, max: CL_MAX });
+      const C = await lgFile(db, clPath(A.club)); if (!C || !C.m.includes(user.id)) { delete A.club; await saveA(); return json({ ok: true, club: null, clubs: await list(), cost: CL_COST, max: CL_MAX }); }
+      let dirty = clRoll(C);
+      if (op === 'leave') { C.m = C.m.filter((x: string) => x !== user.id); if (C.wp) delete C.wp[user.id]; delete A.club; await saveA();
+        if (!C.m.length) { await db.storage.from('srv').remove([clPath(C.id)]); await clIndex(db, C, true); return json({ ok: true, club: null }); }
+        if (C.owner === user.id) C.owner = C.m[0]; C.chat = [...(C.chat || []), { u: '', n: '', t: Date.now(), x: '-' + (p.name || '') }].slice(-60); await lgSave(db, clPath(C.id), C); await clIndex(db, C); return json({ ok: true, club: null }); }
+      if (op === 'kick') { const id = String(args?.id || ''); if (C.owner !== user.id || id === user.id || !C.m.includes(id)) return json({ error: 'no' }, 403);
+        C.m = C.m.filter((x: string) => x !== id); C.ban = [...(C.ban || []), id].slice(-50); if (C.wp) delete C.wp[id];
+        const { data: o } = await db.from('profiles').select('ach').eq('id', id).maybeSingle(); if (o && o.ach?.club === C.id) { const B = { ...o.ach }; delete B.club; await db.from('profiles').update({ ach: B }).eq('id', id); }
+        dirty = true; }
+      if (op === 'say') { const x = clean(args?.text, 200); if (!x) return json({ error: 'empty' }, 400); const last = (C.chat || []).filter((m: any) => m.u === user.id).slice(-1)[0]; if (last && Date.now() - last.t < 2500) return json({ error: 'too_often' }, 429);
+        C.chat = [...(C.chat || []), { u: user.id, n: String(p.name || '').slice(0, 20), t: Date.now(), x }].slice(-60); dirty = true; }
+      let got = 0; if (op === 'claim' && C.pz && C.pz[user.id]) { got = C.pz[user.id] | 0; delete C.pz[user.id]; A.coins = (A.coins ?? COIN_START) + got; await saveA(); dirty = true; }
+      if (dirty) { await lgSave(db, clPath(C.id), C); await clIndex(db, C); }
+      const { data: ms } = await db.from('profiles').select('id,name,av,rating,ach->days').in('id', C.m);
+      const M = (ms || []).map((r: any) => ({ id: r.id, n: r.name || '', av: r.av || '', r: r.rating || 1000, wp: (C.wp || {})[r.id] | 0, last: Array.isArray(r.days) ? r.days.slice(-1)[0] : null, own: r.id === C.owner ? 1 : 0, me: r.id === user.id ? 1 : 0 }))
+        .sort((a: any, b: any) => b.wp - a.wp || b.r - a.r);
+      const avg = M.length ? Math.round(M.slice().sort((a: any, b: any) => b.r - a.r).slice(0, 10).reduce((s: number, x: any) => s + x.r, 0) / Math.min(10, M.length)) : 0;
+      const nm: any = {}; M.forEach((x: any) => nm[x.id] = x.n);
+      return json({ ok: true, got, coins: A.coins, cost: CL_COST, max: CL_MAX, prize: CL_PRIZE, ends: lgEnd(C.wk), club: { id: C.id, name: C.name, tag: C.tag, own: C.owner === user.id, n: C.m.length, avg, wp: M.reduce((s: number, x: any) => s + x.wp, 0),
+        m: M, chat: (C.chat || []).slice(-40), pz: (C.pz || {})[user.id] | 0, last: C.last ? { wk: C.last.wk, top: C.last.top.map((x: any) => ({ n: nm[x.u] || '—', p: x.p, me: x.u === user.id ? 1 : 0 })) } : null }, clubs: op === 'mine' ? await list() : [] }); }
     if (action === 'season') { const { data: p } = await db.from('profiles').select('ach,rating').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
       const A = { ...(p.ach || {}) }; const before = JSON.stringify([A.ss, A.ssEnd]); const S = ssRoll(A, p.rating | 0); const op = String(args?.op || '');
       if (op === 'end') { if (!A.ssEnd) return json({ ok: false, why: 'none' }); const ti = ssTier(A.ssEnd.pk), got = SS_PRIZE[ti]; A.coins = (A.coins ?? COIN_START) + got; A.sbad = [...(Array.isArray(A.sbad) ? A.sbad : []), { s: A.ssEnd.s, t: ti }].slice(-24); delete A.ssEnd;
@@ -1272,6 +1320,7 @@ Deno.serve(async (req) => {
         if (ach.A.refBy && !ach.A.ref5 && ((p?.played ?? 0) + 1) >= 5) { const dec = new Date(Date.now() + 2 * 3600e3).getUTCMonth() === 11, bonus = dec ? 600 : 300;
           ach.A.ref5 = Date.now(); ach.A.coins = (ach.A.coins ?? COIN_START) + bonus; refPay.push([ach.A.refBy, bonus]); }
         if (fullGame && LG_ON) await lgAdd(db, id, ach.A, p?.name || '', p?.av || '', won ? (st.result.mars ? 4 : 3) : 1);
+        if (fullGame && !tourG && ach.A.club) await clAdd(db, ach.A, id, won ? (st.result.mars ? 4 : 3) : 1);
         if (fullGame && !tourG) try { ssUpd(ach.A, won, !!st.result.mars, myR, Math.max(100, myR + d[s]), !calSkip && rg + 1 >= CALIB); } catch (_) { /* never block the rating */ }
         await db.from('profiles').update({ rating: Math.max(100, myR + d[s]), rgames: (p?.rgames ?? 0) + (calSkip ? 0 : 1), played: (p?.played ?? 0) + 1, won: (p?.won ?? 0) + (won ? 1 : 0), ach: ach.A, updated_at: new Date().toISOString() }).eq('id', id);
       }
