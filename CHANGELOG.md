@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.75.0
+- Tournaments 2.0: History tab (server action tour_hist: last 10 finished events, top 3 and every real player's place, cached 10 min), «Your path» progress strip, «Add to calendar» (.ics with a 15-minute alarm for both days). 0.74 (seasons) comes next.
+
 ## 0.73.4
 - Radio player is draggable on screens ≥700px (position saved as a fraction of the viewport; double-click resets).
 

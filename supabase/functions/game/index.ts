@@ -635,6 +635,19 @@ Deno.serve(async (req) => {
       const E = TR.tourEvent(Date.now()); if (!E) return json({ ev: null });
       const { draw, res, C } = await tourTick(db, E); return json(tourView(E, draw, res, C));
     }
+    // 0.75: the history of finished weekend tournaments (top 3, your place) — cached for 10 minutes in srv/tour/hist.json
+    if (body0.action === 'tour_hist') {
+      const cache = await lgFile(db, 'tour/hist.json'); if (cache && Date.now() - cache.at < 10 * 60e3) return json(cache);
+      const { data: L } = await db.storage.from('srv').list('tour', { limit: 500 });
+      const ids = (L || []).map((f: any) => f.name).filter((n: string) => /^\d{6}$/.test(n)).sort().reverse();
+      const cur = TR.tourEvent(Date.now()); const list: any[] = [];
+      for (const id of ids) { if (list.length >= 10) break; if (cur && id === cur.id) continue;
+        try { const { draw, res } = await tourLoad(db, id); if (!draw) continue; const C: any = TR.tourCompute(draw, res, Date.now()); if (!C || !C.places) continue;
+          const Pl = draw.players; const top = [1, 2, 3].map((pl) => { const i = C.places.indexOf(pl); return i < 0 ? null : { id: Pl[i].bot ? null : Pl[i].id, name: Pl[i].name, av: Pl[i].av }; });
+          const pl: any = {}; Pl.forEach((p: any, i: number) => { if (!p.bot && p.id) pl[p.id] = C.places[i]; });
+          list.push({ id, fmt: draw.fmt || 'g', n: Pl.length, reals: Pl.filter((p: any) => !p.bot).length, top, pl }); } catch (_) {} }
+      const out = { at: Date.now(), list }; await lgSave(db, 'tour/hist.json', out); return json(out);
+    }
     if (body0.action === 'pw_forgot') {
       const nick = String(body0.args?.nick || '').trim().slice(0, 20); if (nick.length < 2) return json({ ok: false, why: 'nick' });
       const u = await userByNick(db, nick); if (!u) return json({ ok: false, why: 'nouser' });
