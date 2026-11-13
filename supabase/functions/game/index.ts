@@ -562,7 +562,7 @@ function tourViewCS(E: any, draw: any, res: any, C: any) {
 // ---- weekly leagues: Bronze → Silver → Gold → Diamond. Groups of 20 (free places = league bots whose points grow
 // through the week). Points: a full game 1, a win 3, a mars win 4. Week = Monday 00:00 → Sunday 24:00 (Kyiv).
 // At the end: top 5 go up, bottom 5 go down; prizes for places 1–5. Group files live in storage: srv/league/<wk>/<g>.json.
-const LG_EPOCH = Date.UTC(2026, 10, 8, 22, 0), LG_WEEK = 7 * 864e5, LG_N = 20, LG_TIERS = 4;
+const LG_EPOCH = Date.UTC(2026, 10, 8, 22, 0), LG_WEEK = 7 * 864e5, LG_N = 30, LG_TIERS = 4;
 const lgWeek = (t = Date.now()) => Math.max(0, Math.floor((t - LG_EPOCH) / LG_WEEK));
 const lgEnd = (wk: number) => LG_EPOCH + (wk + 1) * LG_WEEK;
 const lgStart = (wk: number) => wk === 0 ? Date.UTC(2026, 10, 7, 22, 0) : LG_EPOCH + wk * LG_WEEK;
@@ -589,7 +589,7 @@ async function lgSettle(db: any, A: any) {
   const prize = LG_PRIZE[place - 1] || 0; A.coins = (A.coins ?? COIN_START) + prize; A.lgTier = nt; A.lgPaid = L.w; A.lgLast = { w: L.w, place, tier, nt, prize, at: Date.now() };
   return A.lgLast; }
 // add points for a finished game (joins this week's group on the first points)
-const LG_ON = false;   // weekly leagues are switched off (8.11.2026)
+const LG_ON = true;   // 0.71: weekly leagues are back (groups of 30)
 async function lgAdd(db: any, id: string, A: any, name: string, av: string, pts: number) {
   try { A.__id = id; await lgSettle(db, A); delete A.__id;
     const wk = lgWeek(); if (!A.lg || A.lg.w !== wk) { const tier = A.lgTier || 0; const ixP = 'league/' + wk + '/index.json'; const I = (await lgFile(db, ixP)) || {}; const n = I[tier] || 0; I[tier] = n + 1; await lgSave(db, ixP, I);
