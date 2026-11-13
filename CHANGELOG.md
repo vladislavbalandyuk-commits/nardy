@@ -3,6 +3,12 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.67.0 — 13.11.2026
+- Fair dice: an explanation sheet (server rolls online, cryptographic generator, bots don't see rolls) from the profile and Settings → Help.
+- Server keeps `ach.dst` per player: rolls, doubles, number frequencies, pips — from each finished game's history. Shown in the profile as a 1–6 bar chart against 1/6.
+- The browser's own die (bot practice, local games) now uses `crypto.getRandomValues` with rejection sampling.
+- Pasha's tour: g37.
+
 ## 0.66.0 — 13.11.2026 🎁
 - Big content drop: the Winter case (350): boards Snowfall (e) and Garland (l, twinkling lights), checkers Snowballs (r), Baubles (e), Gingerbread (e), dice Ice (r) and Candy cane (e).
 - Full-screen win shows: Gift rain (l) and Sled ride (e); roll effect Snow burst (r). Fluent Emoji 3D assets (MIT): `fx/gift|sled|snowman|flake.webp`, gift and sled hue-rotated (no yellow).

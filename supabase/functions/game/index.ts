@@ -1175,6 +1175,11 @@ Deno.serve(async (req) => {
         try { const os = s === 'p1' ? 'p2' : 'p1'; const rp = encReplay(st); if (rp && gid) ach.A.rp = [...(Array.isArray(ach.A.rp) ? ach.A.rp : []).filter((x: any) => x.g !== gid), { g: gid, t: Date.now(), c: colorOfSlotS(st, s), ...rp }].slice(-8);
           if (!vsBot && st[os]) { const H = { ...(ach.A.h2h || {}) }; const o = H[st[os]] || { w: 0, l: 0 }; H[st[os]] = { w: o.w + (won ? 1 : 0), l: o.l + (won ? 0 : 1), t: Date.now(), n: String(st.names?.[os] || '').slice(0, 20) };
             const keys = Object.keys(H); if (keys.length > 60) keys.sort((a, b) => (H[a].t || 0) - (H[b].t || 0)).slice(0, keys.length - 60).forEach((k) => delete H[k]); ach.A.h2h = H; } } catch (_) { /* never block the rating */ }
+        // 0.67: the player's own roll stats (online games): rolls, doubles, how often each number came up, pips
+        try { const myC = colorOfSlotS(st, s); const D0 = ach.A.dst || {}; const D = { n: D0.n | 0, dd: D0.dd | 0, pip: D0.pip | 0, f: Array.isArray(D0.f) && D0.f.length === 6 ? D0.f.slice() : [0, 0, 0, 0, 0, 0] };
+          for (const h of (st.hist || [])) { if (h.c !== myC || !Array.isArray(h.d) || h.d.length < 2) continue; const a1 = h.d[0] | 0, b1 = h.d[1] | 0; if (a1 < 1 || a1 > 6 || b1 < 1 || b1 > 6) continue;
+            D.n++; D.f[a1 - 1]++; D.f[b1 - 1]++; if (a1 === b1) { D.dd++; D.pip += a1 * 4; } else D.pip += a1 + b1; }
+          ach.A.dst = D; } catch (_) { /* never block the rating */ }
         // 0.60: a friend who came by an invite and played 5 games — both get a bonus (×2 in December)
         if (ach.A.refBy && !ach.A.ref5 && ((p?.played ?? 0) + 1) >= 5) { const dec = new Date(Date.now() + 2 * 3600e3).getUTCMonth() === 11, bonus = dec ? 600 : 300;
           ach.A.ref5 = Date.now(); ach.A.coins = (ach.A.coins ?? COIN_START) + bonus; refPay.push([ach.A.refBy, bonus]); }
