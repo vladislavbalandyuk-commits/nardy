@@ -3,6 +3,12 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.64.0 — 13.11.2026
+- Static pages for search engines (`tools/seo.py`): “long nardy online”, rules (+ terms, FAQ with FAQPage JSON-LD) and the daily puzzle in uk / ru / en / ka / hy — 15 pages with hreflang, canonical, Open Graph; `sitemap.xml`, `robots.txt`.
+- `?lang=uk|ru|en` sets the site language (used by the pages' buttons).
+- Settings → Help → Rules page (follows the site language). Pasha's tour: g34.
+- Georgian and Armenian UI translation moved later; for now those pages lead into the English/Russian site.
+
 ## 0.63.0 — 13.11.2026
 - Russian language (2385 strings): `src/ru.json` → `ru.js`, loaded only for Russian; missing keys fall back to Ukrainian.
 - Browser language ru/be/kk/ky opens Russian by default; new Telegram users with a Russian client get Russian.

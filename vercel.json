@@ -28,7 +28,7 @@
       ]
     },
     {
-      "source": "/(av.js|skins.css|pt.js|en.js|news.js)",
+      "source": "/(av.js|skins.css|pt.js|en.js|ru.js|news.js)",
       "headers": [
         {
           "key": "Cache-Control",

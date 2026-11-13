@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /beta/
+Sitemap: https://nardy-nine.vercel.app/sitemap.xml
