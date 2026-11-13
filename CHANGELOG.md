@@ -3,6 +3,11 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.72.2 — 13.11.2026
+- UI: quest rows on the home screen, in the shop and in rewards are separate cards with padding, wrapping names, the bar and count on one line and the reward as a pill.
+- Home (desktop): “Online near you” renders up to 9 and shows as many as fit the height of its row (`near75Fit`, re-run after loading and on resize); phones keep 5.
+- Google Search Console verification (meta tag + file).
+
 ## 0.72.1 — 13.11.2026
 - Self-drawn SVG art for the Show case (stage, spotlights, bulbs) and the Winter case (night, moon, garland, pines, snow); the Winter card shows its item fan.
 - Per-case sounds (`cs75*`): hover, opening, reel tick and reveal differ for Show / Winter / Phrases; new `syn66` kinds tick, tick2, bells.

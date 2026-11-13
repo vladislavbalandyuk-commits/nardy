@@ -2197,6 +2197,16 @@ body.pg41.tblow .hint58{top:var(--tbY);bottom:auto;right:50%;transform:translate
 .rep70b{display:flex;gap:8px;align-items:center;font-size:14px;color:#cfc8bd;margin:4px 2px} .admrow.rep{display:flex;flex-direction:column;align-items:flex-start;gap:4px} .admrow.rep small{color:#a8a29a}
 /* 0.72: inside a game portal — no install prompts, no app shortcuts */
 body.portal .instcard,body.portal .tgh61,body.portal #instRow,body.portal .insthow{display:none!important}
+/* UI pass: roomier quest rows (home, shop, rewards) and an adaptive near-online list */
+.hs-q{padding:12px 14px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);gap:14px} .hs-q+.hs-q{margin-top:2px}
+.hs-q .qn,#shopPg .s2q .qn{row-gap:9px} .hs-q .qn b,#shopPg .s2q .qn b{grid-column:1/3;white-space:normal;line-height:1.3;font-size:14px}
+.hs-q .qn .hs-bar,#shopPg .s2q .qn .qb{grid-column:1;grid-row:2;align-self:center;height:6px} .hs-q .qn small,#shopPg .s2q .qn small{grid-column:2;grid-row:2;line-height:1}
+.hs-q .hs-qr,#shopPg .s2amt{display:flex;align-items:center;gap:5px;padding:6px 10px;border-radius:99px;background:rgba(255,255,255,.05);flex:none;white-space:nowrap}
+#shopPg .s2q{padding:14px 16px;gap:16px;border:1px solid rgba(255,255,255,.05)} #shopPg .s2q+.s2q{margin-top:8px}
+.hs-q.ch,#shopPg .s2q.ch{border-color:rgba(255,79,216,.35)}
+.rwq{padding:12px 14px;border-radius:14px;margin-top:8px;border:1px solid rgba(255,255,255,.05)} .rwq:first-of-type{margin-top:0;border-top:1px solid rgba(255,255,255,.05)}
+.hs-opps .hsopp.cut{display:none}
+@media (max-width:860px){ .hs-opps .hsopp.more{display:none} }
 </style>
 <style>/* 0.38: home — one big «Play», three «Today» tiles */
 .h38modes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
@@ -4386,6 +4396,14 @@ function cs75Open(K){ try{ if(K==='hookah') csSyn('bubble'); else if(K==='night'
 function cs75Tick(K){ try{ if(K==='winter') syn66('tick'); else if(K==='shows') syn66('tick2'); else csSnd('tick',.35); }catch(e){} }
 function cs75Reveal(K,r){ try{ if(K==='shows') setTimeout(()=>syn59(r==='l'||r==='e'?'tada':'wow'),150); else if(K==='winter') setTimeout(()=>syn66(r==='l'||r==='e'?'pop':'bells'),150); else if(K==='phrases' && r!=='l') setTimeout(()=>syn59('wow'),150); }catch(e){} }
 
+// UI pass: fit as many "online near you" rows as the card has room for (desktop); phones keep five
+function near75Fit(ol){ try{ if(!ol || !ol.isConnected) return; const rows=[...ol.children]; rows.forEach(r=>r.classList.remove('cut')); if(innerWidth<=860) return;
+  const card=ol.closest('.hs-card'), grid=card && card.parentElement; if(!card) return; const row=[...grid.children].filter(c=>c!==card && Math.abs(c.getBoundingClientRect().top-card.getBoundingClientRect().top)<4);
+  rows.filter(r=>r.classList.contains('more')).forEach(r=>r.classList.add('cut'));
+  const target=Math.max(...row.map(c=>c.scrollHeight), 0);   // the tallest other card in the same row, by its own content
+  for(const r of rows.filter(r=>r.classList.contains('more'))){ r.classList.remove('cut'); if(card.scrollHeight>target+1){ r.classList.add('cut'); break; } } }catch(e){} }
+addEventListener('resize',()=>{ const ol=document.querySelector('.hs-opps'); if(ol) near75Fit(ol); });
+
 // ================= 0.53: the juicy table =================
 // on a portrait phone the «your turn» panel moves from the middle of the board into the empty space under it
 function tb53(){ try{ const on=document.body.classList.contains('pg41'); const tr=$('tray'), pb=$('plBot'), tb=$('turnBanner'), qr=$('qrBar'); let low=false;
@@ -5365,7 +5383,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.72.1';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.72.2';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -5943,7 +5961,7 @@ function renderHomeStage(){ const stg=$('stage'); if(!stg) return; let hs=$('hom
   grid.appendChild(fm);
   // who is online close to your rating: one tap to play them
   const on=uxH('section','hs-card'); const oh=uxH('h3',null,t('hsNear')); oh.appendChild(uxH('span',null,t('hsNearD'))); on.appendChild(oh);
-  const ol=uxH('div','hs-opps'); nearOnline(mmR(),5).forEach(x=>ol.appendChild(oppRow(x, i=>startGhost(i)))); on.appendChild(ol); grid.appendChild(on);
+  const ol=uxH('div','hs-opps'); nearOnline(mmR(),9).forEach((x,ix)=>{ const r=oppRow(x, i=>startGhost(i)); if(ix>=5) r.classList.add('more'); ol.appendChild(r); }); on.appendChild(ol); grid.appendChild(on); requestAnimationFrame(()=>near75Fit(ol)); setTimeout(()=>near75Fit(ol),700); setTimeout(()=>near75Fit(ol),2000);
   // the top of the table and your place in it
   const tp=uxH('section','hs-card hs-click'); const th=uxH('h3',null,t('hsTop5')); th.appendChild(uxH('span',null,t('hsAll')+' ›')); tp.appendChild(th); tp.onclick=()=>$('btnLb').click();
   const all=GHOSTS.map((g,i)=>ghostInfo(i)).concat((lbCache||[]).filter(x=>x.id!==uid)); if(signed && !isCalib()) all.push({id:uid,name:profile.name,av:selfAv(),rating:r,me:1}); all.sort((a,b)=>(b.rating||0)-(a.rating||0));
@@ -7295,6 +7313,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+ {v:"0.72.2", d:"13.11.2026", uk:["Завдання дня просторіші: кожне — окремою карткою, назва не обрізається, прогрес і нагорода не тиснуться одне до одного","«Онлайн поруч» на комп’ютері показує стільки суперників, скільки вміщається в картку — без порожнього місця знизу"], en:["Daily quests are roomier: each is its own card, the name is never cut, progress and reward no longer squeeze together","“Online near you” on a computer shows as many opponents as the card fits — no empty space at the bottom"], ru:["Задания дня просторнее: каждое — отдельной карточкой, название не обрезается, прогресс и награда не теснятся","«Онлайн рядом» на компьютере показывает столько соперников, сколько помещается в карточку — без пустого места снизу"]},
  {v:"0.72.1", d:"13.11.2026", uk:["Кейси «Шоу» і «Зима» отримали власні фони: сцена з прожекторами і зимова ніч з гірляндою","У кожного кейса тепер свої звуки: «Шоу» — барабанний дріб і фанфари, «Зима» — дзвіночки й шампанське, «Фрази» — «буньк»"], en:["The Show and Winter cases got their own art: a stage with spotlights and a winter night with a garland","Each case now has its own sounds: Show — a drumroll and fanfare, Winter — bells and a champagne pop, Phrases — a boing"], ru:["Кейсы «Шоу» и «Зима» получили свои фоны: сцена с прожекторами и зимняя ночь с гирляндой","У каждого кейса теперь свои звуки: «Шоу» — барабанная дробь и фанфары, «Зима» — колокольчики и шампанское, «Фразы» — «бум»"]},
  {v:"0.72.0", d:"13.11.2026", uk:["Готуємось до ігрових порталів (CrazyGames та інші): режим порталу, мова за країною гравця, нік з акаунта порталу","У порталі не показуються підказки встановити застосунок"], en:["Getting ready for game portals (CrazyGames and others): a portal mode, the language by the player’s country, the nickname from the portal account","No “install the app” prompts inside a portal"], ru:["Готовимся к игровым порталам (CrazyGames и другие): режим портала, язык по стране игрока, ник из аккаунта портала","В портале не показываются подсказки установить приложение"]},
  {v:"0.71.0", d:"13.11.2026", uk:["Ліги тижня повернулись: групи по 30 гравців, вкладка «Ліга» в рейтингу і рядок ліги на головній","Партія з людиною чи в пошуку — 1 очко, перемога — 3, марс — 4; у неділю ввечері п’ятірка лідерів переходить вище й отримує монети, остання п’ятірка — нижче"], en:["Weekly leagues are back: groups of 30, a “League” tab in the rating and a league line on the home screen","A game with a person or from matchmaking — 1 point, a win 3, a mars 4; on Sunday evening the top five move up and get coins, the bottom five move down"], ru:["Лиги недели вернулись: группы по 30 игроков, вкладка «Лига» в рейтинге и строка лиги на главной","Партия с человеком или в поиске — 1 очко, победа — 3, марс — 4; в воскресенье вечером пятёрка лидеров переходит выше и получает монеты, последняя пятёрка — ниже"]},
