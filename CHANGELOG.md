@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.72.6 — 13.11.2026
+- CrazyGames accounts: a player signed in on CrazyGames is signed in automatically. The SDK token is verified on the server (RS256 with CrazyGames' public key, expiry, optional `CG_GAME_ID`), one account per CrazyGames user (`cg-<id>@crazygames.invalid`, `ach.cg`). The auth listener switches a guest who signs in during play; the guest window has a secondary “Sign in with CrazyGames” button; no sign-out or Telegram link inside the portal.
+
 ## 0.72.5 — 13.11.2026
 - CrazyGames multiplayer: friend links are CrazyGames invite links (`inviteLink`), the invite button shows while a friend table waits (`showInviteButton`/`hideInviteButton`), an invite opens the friend's table (`getInviteParam('roomId')`), instant multiplayer opens a new table; muting from the CrazyGames page (`settings.muteAudio`) turns the sound off.
 

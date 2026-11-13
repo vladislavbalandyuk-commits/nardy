@@ -414,6 +414,25 @@ async function tgSession(db: any, tu: any) {
 }
 const TG_BONUS = 500, TG_FRAME = 'frame:tg';
 
+// ---- CrazyGames accounts: the SDK gives a signed token (RS256); we check it with CrazyGames' public key and sign the player in ----
+let cgKey: any = null, cgKeyAt = 0;
+async function cgPublicKey() { if (cgKey && Date.now() - cgKeyAt < 3600e3) return cgKey;
+  const r = await fetch('https://sdk.crazygames.com/publicKey.json'); const j = await r.json(); const pem = String(j.publicKey || '').replace(/-----[^-]+-----/g, '').replace(/\s+/g, '');
+  const der = Uint8Array.from(atob(pem), (c) => c.charCodeAt(0)); cgKey = await crypto.subtle.importKey('spki', der, { name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-256' }, false, ['verify']); cgKeyAt = Date.now(); return cgKey; }
+const b64u = (x: string) => Uint8Array.from(atob(x.replace(/-/g, '+').replace(/_/g, '/') + '==='.slice((x.length + 3) % 4)), (c) => c.charCodeAt(0));
+async function cgVerify(tok: string): Promise<any | null> { try { const [h, p, sg] = String(tok || '').split('.'); if (!h || !p || !sg) return null;
+    const ok = await crypto.subtle.verify('RSASSA-PKCS1-v1_5', await cgPublicKey(), b64u(sg), new TextEncoder().encode(h + '.' + p)); if (!ok) return null;
+    const c = JSON.parse(new TextDecoder().decode(b64u(p))); if (c.exp && c.exp * 1000 < Date.now()) return null;
+    const gid = (globalThis as any).Deno?.env.get('CG_GAME_ID') || ''; if (gid && String(c.gameId || '') !== gid) return null;
+    return c.userId ? c : null; } catch (_) { return null; } }
+// one account per CrazyGames user: cg-<userId>@crazygames.invalid, the CrazyGames id kept in ach.cg
+async function cgSession(db: any, cu: any) {
+  const id = String(cu.userId).replace(/[^A-Za-z0-9_-]/g, '').slice(0, 64); const email = 'cg-' + id.toLowerCase() + '@crazygames.invalid'; let isNew = false;
+  const { data: linked } = await db.from('profiles').select('id').eq('ach->>cg', id).limit(1);
+  if (!(linked && linked.length)) { const cr = await db.auth.admin.createUser({ email, email_confirm: true, user_metadata: { cg: id } }); isNew = !cr.error; }
+  const { data: L, error } = await db.auth.admin.generateLink({ type: 'magiclink', email }); if (error || !L?.properties?.hashed_token) return null;
+  return { ok: true, token_hash: L.properties.hashed_token, isNew, cg: { id, name: String(cu.username || '').slice(0, 30) } }; }
+
 // ---- the Telegram bot itself (needs TG_BOT_TOKEN): answers /start with a "Play" button; set up from Admin → Tools ----
 const SITE = 'https://nardy-nine.vercel.app/';
 const tgTok = () => (globalThis as any).Deno?.env.get('TG_BOT_TOKEN') || '';
@@ -658,6 +677,10 @@ Deno.serve(async (req) => {
         for (const r of to) { const L = r.ach?.lang === 'en' ? e.en : e.uk; if (r.ach?.push) sent += await pushTo(db, [r], { title: L[0], body: L[1], tag: e.id, url: '/' + (r.ach?.beta ? 'beta/' : '') + '?tour=1' });
           if (r.ach?.tg && e.who === 'reg') sent += await tgTell(r.ach.tg, '🏆 <b>' + L[0] + '</b>\n' + L[1], r.ach?.lang === 'en' ? 'Open the tournament' : 'Відкрити турнір', 'tour'); } }
       return json({ ok: true, events: ev.length, sent }); }
+    if (body0.action === 'cg_login') { const cu = await cgVerify(String(body0.args?.token || '')); if (!cu) return json({ error: 'cg_bad' }, 401);
+      const r = await cgSession(db, cu); return r ? json(r) : json({ error: 'cg_link' }, 500); }
+    // the signed-in player's CrazyGames id is remembered on the profile (one account per CrazyGames user)
+    if (body0.action === 'cg_mark') { /* handled below, after auth */ }
     if (body0.action === 'tg_login' || body0.action === 'tg_widget') {
       const tu = body0.action === 'tg_login' ? await tgVerify(String(body0.args?.initData || '')) : await tgWidgetVerify(body0.args?.data);
       if (!tu || !tu.id) return json({ error: body0.action === 'tg_widget' && !(globalThis as any).Deno?.env.get('TG_BOT_TOKEN') ? 'tg_off' : 'tg_bad' }, 401);
@@ -671,6 +694,8 @@ Deno.serve(async (req) => {
       console.log('auth401 ' + JSON.stringify({ a: body0.action, op: body0.args?.op, role: cl.role, anon: cl.is_anonymous, sub: String(cl.sub || '').slice(0, 8), expIn: cl.exp ? Math.round(cl.exp - Date.now() / 1000) : null, err: authErr?.message || null, ua: (req.headers.get('user-agent') || '').slice(0, 60) }));
       return json({ error: 'auth' }, 401); }
     const { action, gameId, args } = body0;
+    if (action === 'cg_mark') { const cu = await cgVerify(String(args?.token || '')); if (!cu) return json({ error: 'cg_bad' }, 401); const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle();
+      const A = { ...((p && p.ach) || {}) }; if (A.cg !== String(cu.userId)) { A.cg = String(cu.userId); await db.from('profiles').update({ ach: A }).eq('id', user.id); } return json({ ok: true }); }
     // link Telegram to the signed-in (nickname) account, and the one-time Telegram bonus: 500 coins + the Telegram frame
     if (action === 'tg_link') {
       const tu = args?.initData ? await tgVerify(String(args.initData)) : await tgWidgetVerify(args?.data); if (!tu || !tu.id) return json({ error: 'tg_bad' }, 401);
