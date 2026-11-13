@@ -3007,7 +3007,7 @@ function rid(){ const a='abcdefghjkmnpqrstuvwxyz23456789'; let s=''; for(let i=0
 function setHash(h){ try{ if(h) location.hash=h; else history.replaceState(null,'',location.pathname+location.search); }catch(e){} }
 const TG=window.TGWA||null, TG_BOT='dovgi_nardy_bot';
 const tgLink=p=>'https://t.me/'+TG_BOT+(/^\/beta/.test(location.pathname)?'/beta':'')+'?startapp='+p;
-const linkFor = id => TG ? tgLink('g-'+id) : location.origin + location.pathname + '#g-' + id;
+const linkFor = id => { try{ if(CG72.sdk) return CG72.sdk.game.inviteLink({roomId:id}); }catch(e){} return TG ? tgLink('g-'+id) : location.origin + location.pathname + '#g-' + id; };
 async function createGame(rules){
   if(!db){ openProfile(); return; }
   if(rules && rules.type) rules=null;   // called as a click handler
@@ -4385,7 +4385,16 @@ async function portal72Init(){ if(!PORTAL) return; document.body.classList.add('
     // the portal account's name for a guest without a nickname
     try{ const u=S.user && S.user.isUserAccountAvailable ? await S.user.getUser() : null; if(u && u.username && !(profile.name||'').trim()) profile.name=String(u.username).slice(0,20); }catch(e){}
     try{ S.game.loadingStop && S.game.loadingStop(); }catch(e){}
+    // multiplayer on CrazyGames: a friend's invite opens their table; "instant multiplayer" opens a new table to invite into
+    try{ const room=S.game.getInviteParam && S.game.getInviteParam('roomId'); const ready=()=>new Promise(r=>{ const t0=Date.now(); const w=()=>(typeof db!=='undefined' && db && uid) || Date.now()-t0>15000 ? r() : setTimeout(w,300); w(); });
+      if(room && /^[a-z0-9]{4,40}$/i.test(room)){ await ready(); joinGame(room); } else if(S.game.isInstantMultiplayer){ await ready(); createGame(); } }catch(e){ console.warn('cg invite', e); }
+    // muting from the CrazyGames page
+    try{ const mute=()=>{ const m=!!(S.game.settings && S.game.settings.muteAudio); if(m){ CG72.wasSound = CG72.wasSound ?? prefs.sound; prefs.sound=false; try{ radSet(false); }catch(e){} } else if(CG72.wasSound!=null){ prefs.sound=CG72.wasSound; CG72.wasSound=null; } };
+      S.game.addSettingsChangeListener && S.game.addSettingsChangeListener(mute); mute(); }catch(e){}
   }catch(e){ console.warn('portal sdk', e); } }
+// the invite button on CrazyGames while a friend table waits for the second player
+setInterval(()=>{ const S=CG72.sdk; if(!S) return; const want=!!(gs && mode==='online' && gameId && !gs.p2 && gs.p1===uid) ? gameId : '';
+  if(want!==CG72.inv){ try{ if(want) S.game.showInviteButton({roomId:want}); else S.game.hideInviteButton(); }catch(e){} CG72.inv=want; } }, 1000);
 setInterval(()=>{ const S=CG72.sdk; if(!S) return; const ph=gs ? gs.phase : ''; const on=ph==='play' || ph==='opening';
   try{ if(on && !CG72.playing){ CG72.playing=true; S.game.gameplayStart(); } else if(!on && CG72.playing){ CG72.playing=false; S.game.gameplayStop(); } }catch(e){}
   try{ if(ph==='over' && CG72.lastPhase!=='over'){ const me=myColor ? (mode==='local'?null:(mySlot()?colorOfSlot(mySlot()):null)) : null; if(me && gs.winner===me) S.game.happytime(); } }catch(e){}
@@ -5398,7 +5407,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.72.4';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.72.5';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';

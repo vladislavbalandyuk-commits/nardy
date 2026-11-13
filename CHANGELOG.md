@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.72.5 — 13.11.2026
+- CrazyGames multiplayer: friend links are CrazyGames invite links (`inviteLink`), the invite button shows while a friend table waits (`showInviteButton`/`hideInviteButton`), an invite opens the friend's table (`getInviteParam('roomId')`), instant multiplayer opens a new table; muting from the CrazyGames page (`settings.muteAudio`) turns the sound off.
+
 ## 0.72.4 — 13.11.2026
 - Portal: players stay guests (no nickname/password or Telegram sign-in inside a portal, per CrazyGames rules for games without account integration); the profile shows a guest note, sign-in prompts are hidden.
 
