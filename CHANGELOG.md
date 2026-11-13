@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.76.1
+- UI audit fixes: bought frames listed in Collection → Frame (wear/remove), a bought frame hides the rank frame ring (no double ring); compact tournament tabs on phones; calendar button full row.
+
 ## 0.76.0
 - Bots: format picker in the bot sheet — 1 game / to 3 / to 5 / to 7 (server bot games, signed-in) and Blitz (10 s a move, 3 timeouts = loss; also for guests on the device). Server: create accepts args.fmt for bots (rules + unrated), 'next' keeps bot settings, bot_step applies the player's timeout.
 
