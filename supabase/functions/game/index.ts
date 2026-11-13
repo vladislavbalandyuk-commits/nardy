@@ -419,10 +419,10 @@ let cgKey: any = null, cgKeyAt = 0;
 async function cgPublicKey() { if (cgKey && Date.now() - cgKeyAt < 3600e3) return cgKey;
   const r = await fetch('https://sdk.crazygames.com/publicKey.json'); const j = await r.json(); const pem = String(j.publicKey || '').replace(/-----[^-]+-----/g, '').replace(/\s+/g, '');
   const der = Uint8Array.from(atob(pem), (c) => c.charCodeAt(0)); cgKey = await crypto.subtle.importKey('spki', der, { name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-256' }, false, ['verify']); cgKeyAt = Date.now(); return cgKey; }
-const b64u = (x: string) => Uint8Array.from(atob(x.replace(/-/g, '+').replace(/_/g, '/') + '==='.slice((x.length + 3) % 4)), (c) => c.charCodeAt(0));
+const b64d = (x: string) => Uint8Array.from(atob(x.replace(/-/g, '+').replace(/_/g, '/') + '==='.slice((x.length + 3) % 4)), (c) => c.charCodeAt(0));
 async function cgVerify(tok: string): Promise<any | null> { try { const [h, p, sg] = String(tok || '').split('.'); if (!h || !p || !sg) return null;
-    const ok = await crypto.subtle.verify('RSASSA-PKCS1-v1_5', await cgPublicKey(), b64u(sg), new TextEncoder().encode(h + '.' + p)); if (!ok) return null;
-    const c = JSON.parse(new TextDecoder().decode(b64u(p))); if (c.exp && c.exp * 1000 < Date.now()) return null;
+    const ok = await crypto.subtle.verify('RSASSA-PKCS1-v1_5', await cgPublicKey(), b64d(sg), new TextEncoder().encode(h + '.' + p)); if (!ok) return null;
+    const c = JSON.parse(new TextDecoder().decode(b64d(p))); if (c.exp && c.exp * 1000 < Date.now()) return null;
     const gid = (globalThis as any).Deno?.env.get('CG_GAME_ID') || ''; if (gid && String(c.gameId || '') !== gid) return null;
     return c.userId ? c : null; } catch (_) { return null; } }
 // one account per CrazyGames user: cg-<userId>@crazygames.invalid, the CrazyGames id kept in ach.cg
