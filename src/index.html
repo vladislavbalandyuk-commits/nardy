@@ -4376,6 +4376,8 @@ setTimeout(()=>{ const b=$('btnBlk70'); if(b) b.onclick=()=>{ try{ $('setOv').cl
 
 // ================= 0.72: game portals — the CrazyGames SDK, gameplay events, the language by country, a portal look =================
 const CG72={sdk:null, playing:false, lastPhase:''};
+// TEMP debug line inside the portal (removed after the CrazyGames check)
+function cgd(m){ try{ let d=document.getElementById('cgdbg'); if(!d){ d=document.createElement('div'); d.id='cgdbg'; d.style.cssText='position:fixed;left:4px;bottom:4px;z-index:2147483647;font:11px monospace;color:#7fe3b0;background:rgba(0,0,0,.75);padding:4px 6px;max-width:60vw;pointer-events:none;white-space:pre-wrap'; document.body.appendChild(d); } d.textContent=(d.textContent+'\n'+((performance.now()/1000)|0)+'s '+m).split('\n').slice(-10).join('\n'); }catch(e){} }
 async function portal72Init(){ if(!PORTAL) return; document.body.classList.add('portal','portal-'+PORTAL); try{ store.set('guideSeen',1); }catch(e){}
   if(PORTAL!=='crazygames') return;
   try{ await loadJs('https://sdk.crazygames.com/crazygames-sdk-v3.js'); const S=window.CrazyGames && window.CrazyGames.SDK; if(!S) return; await S.init(); CG72.sdk=S;
@@ -4386,18 +4388,18 @@ async function portal72Init(){ if(!PORTAL) return; document.body.classList.add('
     try{ const u=S.user && S.user.isUserAccountAvailable ? await S.user.getUser() : null; if(u && u.username && !(profile.name||'').trim()) profile.name=String(u.username).slice(0,20); }catch(e){}
     try{ S.game.loadingStop && S.game.loadingStop(); }catch(e){}
     // a CrazyGames player who is signed in there is signed in here too; a guest who signs in during play switches over
-    try{ const w=()=>new Promise(r=>{ const t0=Date.now(); const k=()=>sb || Date.now()-t0>10000 ? r() : setTimeout(k,200); k(); }); await w(); const okCG=await cg73Login();
+    try{ const w=()=>new Promise(r=>{ const t0=Date.now(); const k=()=>sb || Date.now()-t0>10000 ? r() : setTimeout(k,200); k(); }); cgd('sb '+!!sb+' auth '+!!authUser); await w(); const okCG=await cg73Login(); cgd('cgLogin '+okCG+' auth '+!!authUser+' db '+!!db);
       // a CrazyGames guest plays straight away: an anonymous guest account with a generated name (needed for online play)
-      if(!okCG){ await new Promise(r=>setTimeout(r,1500)); if(!authUser && sb){ try{ const {data,error}=await sb.auth.signInAnonymously(); if(!error && data && data.user) await onSignedIn(data.user, await nameFree('Player'+(1000+Math.floor(Math.random()*9000)))); }catch(e){} } }
+      if(!okCG){ await new Promise(r=>setTimeout(r,1500)); if(!authUser && sb){ try{ const {data,error}=await sb.auth.signInAnonymously(); cgd('anon err '+(error&&error.message)); if(!error && data && data.user) await onSignedIn(data.user, await nameFree('Player'+(1000+Math.floor(Math.random()*9000)))); cgd('after anon db '+!!db+' uid '+!!uid); }catch(e){ cgd('anon ex '+e.message); } } else cgd('skip anon: auth '+!!authUser); }
       S.user.addAuthListener && S.user.addAuthListener(u=>{ if(u) cg73Login(); }); }catch(e){}
     // multiplayer on CrazyGames: a friend's invite opens their table; "instant multiplayer" opens a new table to invite into
     try{ S.game.addJoinRoomListener && S.game.addJoinRoomListener(p=>{ const r=p && p.roomId; if(r && /^[a-z0-9]{4,40}$/i.test(String(r))){ try{ if(gs) leave(); }catch(e){} joinGame(String(r)); } }); }catch(e){}
     try{ const room=(S.game.inviteParams && S.game.inviteParams.roomId) || (S.game.getInviteParam && S.game.getInviteParam('roomId')); const ready=()=>new Promise(r=>{ const t0=Date.now(); const w=()=>(typeof db!=='undefined' && db && uid) || Date.now()-t0>15000 ? r() : setTimeout(w,300); w(); });
-      if(room && /^[a-z0-9]{4,40}$/i.test(room)){ await ready(); joinGame(room); } else if(S.game.isInstantMultiplayer){ await ready(); createGame(); } }catch(e){ console.warn('cg invite', e); }
+      cgd('room '+room+' inst '+S.game.isInstantMultiplayer); if(room && /^[a-z0-9]{4,40}$/i.test(room)){ await ready(); joinGame(room); } else if(S.game.isInstantMultiplayer){ await ready(); cgd('create: db '+!!db+' uid '+!!uid); await createGame(); cgd('created '+gameId+' gs '+(gs&&gs.phase)); } }catch(e){ cgd('mp ex '+e.message); }
     // muting from the CrazyGames page
     try{ const mute=()=>{ const m=!!(S.game.settings && S.game.settings.muteAudio); if(m){ CG72.wasSound = CG72.wasSound ?? prefs.sound; prefs.sound=false; try{ radSet(false); }catch(e){} } else if(CG72.wasSound!=null){ prefs.sound=CG72.wasSound; CG72.wasSound=null; } };
       S.game.addSettingsChangeListener && S.game.addSettingsChangeListener(mute); mute(); }catch(e){}
-  }catch(e){ console.warn('portal sdk', e); } }
+  }catch(e){ cgd('sdk ex '+e.message); } }
 // the invite button on CrazyGames while a friend table waits for the second player
 // the CrazyGames multiplayer room follows our table: open while a friend table waits, closed once both sit, left when we leave
 setInterval(()=>{ const S=CG72.sdk; if(!S) return; const room=(gs && mode==='online' && gameId) ? gameId : ''; const open=!!(room && !gs.p2 && gs.p1===uid); const st=room+'|'+open;
