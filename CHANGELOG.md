@@ -3,6 +3,12 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.66.0 — 13.11.2026 🎁
+- Big content drop: the Winter case (350): boards Snowfall (e) and Garland (l, twinkling lights), checkers Snowballs (r), Baubles (e), Gingerbread (e), dice Ice (r) and Candy cane (e).
+- Full-screen win shows: Gift rain (l) and Sled ride (e); roll effect Snow burst (r). Fluent Emoji 3D assets (MIT): `fx/gift|sled|snowman|flake.webp`, gift and sled hue-rotated (no yellow).
+- Chat sounds made on the device (`syn66`): Jingle bells (e), Pop the bubbly! (r).
+- Pasha's tour: g36.
+
 ## 0.65.0 — 13.11.2026
 - Evening prime time 21:00–22:00 Kyiv (shown in local time): full games pay coins ×2 (`gc.hh`), and each counts for the arena (`ach.ar`: win 3, mars 4, loss 1).
 - Server action `arena`: the evening table (top 20 + your place) and `claim` — top 3 get 500/300/200, 3+ games +100, once per evening (claimable until the next prime time).
