@@ -2207,6 +2207,8 @@ body.portal .instcard,body.portal .tgh61,body.portal #instRow,body.portal .insth
 .rwq{padding:12px 14px;border-radius:14px;margin-top:8px;border:1px solid rgba(255,255,255,.05)} .rwq:first-of-type{margin-top:0;border-top:1px solid rgba(255,255,255,.05)}
 .hs-opps .hsopp.cut{display:none}
 @media (max-width:860px){ .hs-opps .hsopp.more{display:none} }
+/* portal-safe mode */
+body.portal #radRow,body.portal #radVolRow,body.portal #radPill,body.portal #btnVoice{display:none!important}
 </style>
 <style>/* 0.38: home — one big «Play», three «Today» tiles */
 .h38modes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
@@ -4044,7 +4046,7 @@ function away55(home){ let c=home.querySelector('.aw55'); if(!_aw55Show){ if(c) 
   try{ if(coinsOnline() && rwState && rwState.daily && rwState.daily.ready) items.push([t('awGift'),()=>openShopPg('show')]); }catch(e){}
   if(store.get('verSeen55','')!==APP_VERSION && store.get('verSeen55','')) items.push([t('awVer',{v:APP_VERSION}),()=>openNews()]);
   try{ if(tourSoon()) items.push([t('awTour',{t:(((home.querySelector('.tourban small')||{}).textContent)||'').split(' · ')[0]}),()=>openTour()]); }catch(e){}
-  if(!radOn && items.length<3) items.push([t('awRad'),()=>radSet(true)]);
+  if(!radOn && !PORTAL && items.length<3) items.push([t('awRad'),()=>radSet(true)]);
   if(!items.length){ if(c) c.remove(); return; }
   if(!c){ c=uxH('div','aw55'); const hd=home.querySelector('.h38h'); (hd||home.firstChild).before(c); }
   c.innerHTML=''; c.appendChild(uxH('h4',null,t('awT'))); const l=uxH('div','awl'); items.slice(0,3).forEach(([tx,fn])=>{ const b=uxH('button',null,tx); b.type='button'; b.onclick=()=>{ _aw55Show=false; c.remove(); fn(); }; l.appendChild(b); }); c.appendChild(l);
@@ -4056,7 +4058,7 @@ function ev55(home){ let c=home.querySelector('.ev55'); const anchor=home.queryS
   if(!c){ c=uxH('div','ev55'); anchor.after(c); } c.innerHTML=''; c.appendChild(uxH('h4',null,t('evT')));
   const row=(ic,title,sub,fn,right)=>{ const b=uxH('button'); b.type='button'; const i=uxH('span','ei'); if(typeof ic==='string' && ICO[ic]) i.appendChild(ico(ic)); else i.textContent=ic; const tx=uxH('span','et'); tx.append(uxH('b',null,title), uxH('small',null,sub||'')); b.append(i,tx); if(right) b.appendChild(uxH('em',null,right)); b.onclick=fn; c.appendChild(b); };
   try{ const tb=home.querySelector('.tourban small'); row('trophy', t('evTour'), tb?tb.textContent:'', ()=>openTour(), '›'); }catch(e){}
-  row('📻', t('evRad'), RADIO.by+' · '+radTitle(), ()=>{ radSet(!radOn); ev55(home); }, radOn?t('evRadOn'):t('evRadOff'));
+  if(!PORTAL) row('📻', t('evRad'), RADIO.by+' · '+radTitle(), ()=>{ radSet(!radOn); ev55(home); }, radOn?t('evRadOn'):t('evRadOff'));
   row('scroll', t('evNews'), 'v'+APP_VERSION, ()=>openNews(), '›');
   const lk=uxH('div','evlk'); [[t('evHow'),'btnFootTut'],[t('evRanks'),'btnFootRanks']].forEach(([l,id])=>{ const b=uxH('button',null,l); b.type='button'; b.onclick=()=>{ const x=$(id); if(x) x.click(); }; lk.appendChild(b); }); lk.appendChild(uxH('small',null,t('footSig'))); c.appendChild(lk); }
 // the New Year countdown tile (December, Kyiv time)
@@ -4404,6 +4406,19 @@ function near75Fit(ol){ try{ if(!ol || !ol.isConnected) return; const rows=[...o
   for(const r of rows.filter(r=>r.classList.contains('more'))){ r.classList.remove('cut'); if(card.scrollHeight>target+1){ r.classList.add('cut'); break; } } }catch(e){} }
 addEventListener('resize',()=>{ const ol=document.querySelector('.hs-opps'); if(ol) near75Fit(ol); });
 
+// ================= portal-safe mode: inside a game portal (PEGI 12) — no alcohol or hookah items, no radio, no voice chat =================
+const P75_HIDE=new Set(['board:fib','table:lounge','ck:coal','ck:fib','ck:dzsunrise','ck:dzmint','ck:dbapple','ck:forest','dice:hookah','fx:aperol','fx:hookahm','fx:cloud','av:hookah','ph:vo:clink','ph:vo:bottle','ph:vo:ice','ph:vo:cheers','ph:vo:hookah']);
+function p75Ok(id){ return !PORTAL || !P75_HIDE.has(id); }
+if(PORTAL) setTimeout(()=>{ try{
+  ['hookah','shows'].forEach(k=>{ delete CASES[k]; });                                   // cases that hold hidden items
+  for(let i=PH_PACKS.length-1;i>=0;i--) if(['hookah','bar','kenta'].includes(PH_PACKS[i][0])) PH_PACKS.splice(i,1);
+  for(let i=FXK.length-1;i>=0;i--) if(!p75Ok('fx:'+FXK[i])) FXK.splice(i,1);
+  radPlay=function(){}; radOn=false; try{ radPaint(); }catch(e){}
+} catch(e){ console.warn('portal-safe', e); } },0);
+setTimeout(()=>{ if(!PORTAL) return; try{ store.set('radio',false); const ov=(k,v)=>{ T.uk[k]=v[0]; T.en[k]=v[1]; if(T.ru) T.ru[k]=v[2]; };
+  ov('vo_pop',['Хлопавка!','Party popper!','Хлопушка!']); ov('vo_hookah',['Буль-буль','Bubble-bubble','Буль-буль']);
+  ov('chCourse',['Вечори з Владом і Пашею','Evenings with Vlad and Pasha','Вечера с Владом и Пашей']); applyLang(); }catch(e){} },0);
+
 // ================= 0.53: the juicy table =================
 // on a portrait phone the «your turn» panel moves from the middle of the board into the empty space under it
 function tb53(){ try{ const on=document.body.classList.contains('pg41'); const tr=$('tray'), pb=$('plBot'), tb=$('turnBanner'), qr=$('qrBar'); let low=false;
@@ -4452,9 +4467,9 @@ function pgMenu(){ let ov=$('pgOv'); if(ov){ ov.remove(); return; } ov=uxH('div'
   const item=(ic,l,fn,cls)=>{ const b=uxH('button','pgit'+(cls?' '+cls:'')); b.type='button'; const i=uxH('span','pgic'); i.innerHTML=ic; b.append(i, uxH('span',null,l)); b.onclick=()=>{ ov.remove(); setTimeout(fn,30); }; sh.appendChild(b); return b; };
   const IC=id=>{ const e=$(id); const s=e&&e.querySelector('svg'); return s ? s.outerHTML : (e?e.textContent:''); };
   if(pgVis('btnCopy2') && mode==='online') item(IC('btnCopy2'), t('pgLink'), ()=>$('btnCopy2').click());
-  if(pgVis('btnVoice') && mode==='online') item(IC('btnVoice'), t('pgVoice'), ()=>$('btnVoice').click());
+  if(pgVis('btnVoice') && mode==='online' && !PORTAL) item(IC('btnVoice'), t('pgVoice'), ()=>$('btnVoice').click());
   if(pgVis('btnSpk')) item(IC('btnSpk'), t('pgSpk'), ()=>$('btnSpk').click());
-  try{ if(radOn){ item('⏭', t('radNext')+' · '+radTitle(), ()=>radNext(1)); item('📻', t('radOff'), ()=>radSet(false)); } else item('📻', t('radMenu'), ()=>radSet(true)); }catch(e){}
+  try{ if(PORTAL){} else if(radOn){ item('⏭', t('radNext')+' · '+radTitle(), ()=>radNext(1)); item('📻', t('radOff'), ()=>radSet(false)); } else item('📻', t('radMenu'), ()=>radSet(true)); }catch(e){}
   if(pgVis('btnChat')) item('😊', t('pgEmoji'), ()=>$('btnChat').click());
   item('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>', t('pgHist'), ()=>pgText('histS','histList'));
   item('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/></svg>', t('rules'), ()=>pgText(null,'rulesList'));
@@ -5383,7 +5398,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.72.2';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.72.3';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -7722,7 +7737,7 @@ async function shopBuy(c,k){ const price=shCost(c,k), id=c+':'+k; if(!price || o
 const SH_KEY={board:'board2',ck:'ck',dice:'dice',table:'table'};
 function shopPut(c,k){ if(!owns(c,k)) return; prefs[c]=k; store.set(SH_KEY[c],k); try{ window._applyTheme(); }catch(e){} }
 const shName=(c,k)=>t({board:'st_',ck:'ck_',dice:'dice_',table:'tb_'}[c]+k);
-const shList=c=> c==='board'?Object.keys(BOARDS) : c==='ck'?CKS : c==='dice'?DICES : TABLES;
+const shList=c=> (c==='board'?Object.keys(BOARDS) : c==='ck'?CKS : c==='dice'?DICES : TABLES).filter(k=>p75Ok(c+':'+k));
 const sH=(tag,cls,txt)=>{ const e=document.createElement(tag); if(cls) e.className=cls; if(txt!=null) e.textContent=txt; return e; };
 function shThumb(c,k){ const w=sH('div','shth');
   if(c==='board'){ w.appendChild(miniBoard(k)); }

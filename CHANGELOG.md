@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.72.3 — 13.11.2026
+- Portal-safe mode (PEGI 12) inside game portals only: no alcohol / hookah items in the shop (`P75_HIDE`), the Hookah and Show cases and the hookah / bar / 3 kenta phrase packs are hidden, no radio, no voice chat; “Pop the bubbly!” becomes “Party popper!”, the course is called “Evenings with Vlad and Pasha”. The site itself is unchanged.
+
 ## 0.72.2 — 13.11.2026
 - UI: quest rows on the home screen, in the shop and in rewards are separate cards with padding, wrapping names, the bar and count on one line and the reward as a pill.
 - Home (desktop): “Online near you” renders up to 9 and shows as many as fit the height of its row (`near75Fit`, re-run after loading and on resize); phones keep 5.
