@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.73.2
+- Radio: a second station, Nikow (6 tracks, used with the artist's permission, re-encoded to 128 kbps), switch with ⇄ in the player or in Settings.
+
 ## 0.73.1
 - Avatar frames (new shop category): Silver, Pearl, Ornament, Aurora, Crown; shared with others as «avatar~frame» in the avatar key.
 - Table backgrounds are back in the game; six new procedural tables (Kilim, Zellige, Velvet, Teahouse, City lights, Rooftop).
