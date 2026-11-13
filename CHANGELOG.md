@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.72.11
+- Portal mode: the hookah phrase is hidden from the chat, quick replies and the phrase book.
+
 ## 0.72.10 — 13.11.2026
 - Privacy policy page `/privacy/` (English + Ukrainian) and a link in Settings → Help.
 - CrazyGames `disableChat`: the phrase wheel and the opponent's chat bubbles are off when the player disabled chat on CrazyGames.

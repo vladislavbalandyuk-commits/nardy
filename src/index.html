@@ -5121,7 +5121,7 @@ function say(x){
 }
 // ---- chat wheel (like Dota): up to 10 chosen emoji and phrases; one message every 15 seconds ----
 const WHEEL_MAX=10, WHEEL_CD=15000, WHEEL_DEF=['👋','chHi','👍','chNice','😅','chOops','🔥','chLuck','chThanks','chGG'];
-function chatAll(){ return CHAT_E.concat(CHAT_P, phMine()); }
+function chatAll(){ return CHAT_E.concat(CHAT_P, phMine()).filter(x=>!PORTAL||x!=='chHookah'); }
 function wheelGet(){ const all=chatAll(); let w=store.get('wheel',null); if(!Array.isArray(w)) w=WHEEL_DEF; return w.filter(x=>all.includes(x)).slice(0,WHEEL_MAX); }
 function wheelSet(w){ store.set('wheel', w.slice(0,WHEEL_MAX)); }
 function wheelLeft(){ return Math.max(0, Math.ceil((chatLast+WHEEL_CD-Date.now())/1000)); }
@@ -5155,7 +5155,7 @@ setInterval(()=>{ try{ wheelTick(); qrTick(); }catch(e){} }, 300);
 const QR=['👍','chNice','chOops','chCold','chHookah'];
 function qrTick(){ const bar=$('qrBar'); if(!bar) return; const on=!!(gs && gs.phase==='play' && (mode==='online'||mode==='bot') && gs.p2 && !(mode==='online' && !gs.p2));
   bar.classList.toggle('hidden', !on); if(!on) return;
-  if(!bar.childElementCount || bar.dataset.l!==lang){ bar.dataset.l=lang; bar.innerHTML=''; QR.forEach(x=>{ const b=document.createElement('button'); b.type='button'; b.className='qr'+(x.startsWith('ch')?' ph':''); b.textContent=chatText(x); b.onclick=()=>say(x); bar.appendChild(b); }); }
+  if(!bar.childElementCount || bar.dataset.l!==lang+PORTAL){ bar.dataset.l=lang+PORTAL; bar.innerHTML=''; QR.filter(x=>!PORTAL||x!=='chHookah').forEach(x=>{ const b=document.createElement('button'); b.type='button'; b.className='qr'+(x.startsWith('ch')?' ph':''); b.textContent=chatText(x); b.onclick=()=>say(x); bar.appendChild(b); }); }
   bar.classList.toggle('cd', wheelLeft()>0); }
 document.addEventListener('keydown',e=>{ if(e.key==='Escape' && $('chatWheel')){ closeWheel(); } });
 // editor: tap to put an item on the wheel or take it off
@@ -5430,7 +5430,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.72.10';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.72.11';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -8142,7 +8142,7 @@ let avFilt='all';
 function shPhrases(cont){ const hd=sH('div','shhead'); hd.append(sH('h2',null,t('s2Ph')), sH('p',null,t('phColD'))); cont.appendChild(hd);
   const cur=wheelGet(); const wh=sH('section','phcol'); const top=sH('div','phch'); top.append(sH('b',null,t('wheelT')), sH('span',null,t('wheelN',{n:cur.length,m:WHEEL_MAX}))); wh.appendChild(top);
   const slots=sH('div','phslots'); for(let i=0;i<WHEEL_MAX;i++){ const x=cur[i]; const b=sH('button','phslot'+(x?'':' empty')); b.type='button'; if(x){ b.textContent=chatText(x); b.title=t('phTakeOff'); b.onclick=()=>{ wheelSet(cur.filter(y=>y!==x)); shRender(); }; } else b.textContent=String(i+1); slots.appendChild(b); } wh.appendChild(slots); cont.appendChild(wh);
-  const groups=[['phBase',CHAT_E.concat(CHAT_P),null]].concat(PH_PACKS.map(P=>['phk_'+P[0],P[1],P])).concat([['cs_phrases',PH_CASE,'case'],['achPhT',ACH_PH,'ach']]);
+  const groups=[['phBase',CHAT_E.concat(CHAT_P).filter(x=>!PORTAL||x!=='chHookah'),null]].concat(PH_PACKS.map(P=>['phk_'+P[0],P[1],P])).concat([['cs_phrases',PH_CASE,'case'],['achPhT',ACH_PH,'ach']]);
   groups.forEach(([lab,L,src])=>{ const sec=sH('section','phcol'); const h=sH('div','phch'); const own=L.filter(x=>src===null||phOwn(x)).length; h.append(sH('b',null,t(lab)), sH('span',null,own+' / '+L.length));
     if(src && own<L.length){ const go=sH('button','avbuy',src==='ach'?t('achGo'):src==='case'?t('phToCase'):t('phToShop')); go.type='button'; go.onclick=()=>{ if(src==='ach'){ closeShopPg(); openAch(); return; } if(src==='case') shGo('case'); else { shSel.ph=src[0]; shGo('shop','ph'); } }; h.appendChild(go); }
     sec.appendChild(h); const row=sH('div','phlist');
