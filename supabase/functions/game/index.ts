@@ -1155,6 +1155,15 @@ Deno.serve(async (req) => {
         const { data: o } = await db.from('profiles').select('id').eq('id', id).maybeSingle(); if (!o) return json({ error: 'not_found' }, 404);
         if (!F.includes(id)) { if (F.length >= 100) return json({ error: 'full' }, 400); F = [id, ...F]; await save(); } return json({ ok: true, friends: F }); }
       if (op === 'remove') { F = F.filter((x) => x !== String(args?.id || '')); await save(); return json({ ok: true, friends: F }); }
+      // 0.77: a personal friend link — peek at who sent it, then both become friends
+      if (op === 'peek') { const id = String(args?.id || ''); if (!id || id === user.id) return json({ ok: false });
+        const { data: o } = await db.from('profiles').select('id,name,av,rating,ach').eq('id', id).maybeSingle(); if (!o) return json({ ok: false });
+        return json({ ok: true, name: o.name || '', av: o.av || '', rating: o.rating || 1000, already: F.includes(id) && Array.isArray(o.ach?.friends) && o.ach.friends.includes(user.id) }); }
+      if (op === 'link') { const id = String(args?.id || ''); if (!id || id === user.id) return json({ error: 'bad' }, 400);
+        const { data: o } = await db.from('profiles').select('id,ach').eq('id', id).maybeSingle(); if (!o) return json({ error: 'not_found' }, 404);
+        if (!F.includes(id) && F.length < 100) F = [id, ...F]; await save();
+        const B = { ...(o.ach || {}) }; const G: string[] = Array.isArray(B.friends) ? B.friends.slice(0, 100) : []; if (!G.includes(user.id) && G.length < 100) { B.friends = [user.id, ...G]; await db.from('profiles').update({ ach: B }).eq('id', id); }
+        return json({ ok: true, friends: F }); }
       if (op === 'invite') {
         const id = String(args?.id || ''), gid = String(args?.gameId || '').toLowerCase(); if (!/^[a-z0-9]{4,24}$/.test(gid)) return json({ error: 'bad_game' }, 400);
         const inv = { ...(A.inv || {}) }; if (Date.now() - (inv[id] || 0) < 60e3) return json({ error: 'too_often' }, 429); inv[id] = Date.now(); A.inv = inv; await db.from('profiles').update({ ach: A }).eq('id', user.id);
@@ -1168,9 +1177,11 @@ Deno.serve(async (req) => {
       // list: your friends + players connected by an invite link (who invited you, whom you invited)
       const { data: refs } = await db.from('profiles').select('id').eq('ach->>refBy', user.id).limit(100);
       const ids = [...new Set([...F, ...(refs || []).map((r: any) => r.id), ...(A.refBy ? [A.refBy] : [])])].filter((x) => x && x !== user.id).slice(0, 150);
-      if (!ids.length) return json({ rows: [], friends: F });
+      // 0.77: who added you but you have not added back
+      let fans: any[] = []; try { const { data: fz } = await db.from('profiles').select('id,name,av,rating,played,won,ach').filter('ach->friends', 'cs', JSON.stringify([user.id])).limit(30); fans = (fz || []).filter((r: any) => r.id !== user.id && !F.includes(r.id)).map(pub); } catch (_) { /* optional */ }
+      if (!ids.length) return json({ rows: [], friends: F, fans });
       const { data } = await db.from('profiles').select('id,name,av,rating,played,won,ach').in('id', ids);
-      return json({ rows: (data || []).map((r: any) => ({ ...pub(r), added: F.includes(r.id), ref: !F.includes(r.id) })), friends: F });
+      return json({ rows: (data || []).map((r: any) => ({ ...pub(r), added: F.includes(r.id), ref: !F.includes(r.id) })), friends: F, fans });
     }
     if (action === 'push_test') {
       const { data: p } = await db.from('profiles').select('id,ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);

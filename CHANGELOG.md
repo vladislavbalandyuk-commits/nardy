@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.77.0
+- Friends 2.0: personal friend link (?fr=<id>; peek + mutual add via friends op link), «Want to be friends» (fans: profiles whose ach.friends contains you), live status of online friends from presence (playing / searching / free), the call button does not invite a friend who is mid-game.
+
 ## 0.76.3
 - League table: the points cell used the class .pt, which is the board point class (width: var(--cs); height: 100%) — renamed to .lpt; the numbers no longer overflow the row on desktop.
 
