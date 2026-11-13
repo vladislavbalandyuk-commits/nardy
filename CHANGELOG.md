@@ -3,6 +3,12 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.61.0 — 13.11.2026
+- Evening reminder at 19:00 Kyiv, once a day, to players with a live streak (≥2) whose gift is not claimed: by the Telegram bot (button opens the gift) or web push. `push-tick` workflow runs at 17:03/17:33 UTC; the server keeps `rem_sent.json`.
+- Off/on: the bot's /stop and /remind, or the «Evening reminder» switch in Settings (server action `rem`, `ach.noRem`).
+- Telegram: haptics through `Telegram.WebApp.HapticFeedback`; an «Add to home screen» card after the 3rd visit (`addToHomeScreen`, skipped if already added); `#gift` / `?gift=1` opens the daily gift.
+- The Telegram Mini App itself (bot, sign-in, invites) was already live from earlier versions.
+
 ## 0.60.0 — 13.11.2026
 - Bring a friend: besides the sign-up rewards (300 / 200), when the invited friend finishes 5 games both get +300 (×2 in December) — paid by the server in `rate()` (`ach.ref5`, inviter `refAct`, `refGot`); a «Bring a friend» card on the Friends tab; the bell tells the inviter.
 - Share a game: a 1080×1080 picture (result, score, avatars, mars, site link with the invite) from the summary — native share with the file, Telegram share, or download + copied text.

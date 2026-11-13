@@ -434,11 +434,15 @@ async function tgTell(chat: any, text: string, btn: string, start = '') {
   if (!chat || !tgTok()) return 0; const url = 'https://t.me/dovgi_nardy_bot' + (start ? '?startapp=' + start : '');
   const r = await tgApi('sendMessage', { chat_id: Number(chat), text, parse_mode: 'HTML', reply_markup: { inline_keyboard: [[{ text: btn, url }]] } }).catch(() => null); return r?.ok ? 1 : 0; }
 const tgLang = (c: string) => /^(uk|ru|be)/.test(c || '') ? 'uk' : 'en';
-async function tgOnUpdate(u: any) {
+async function tgOnUpdate(u: any, db: any = null) {
   const m = u?.message; if (!m || !m.chat || m.chat.type !== 'private') return;
   const L = TG_TXT[tgLang(m.from?.language_code)], text = String(m.text || '');
   const kb = { inline_keyboard: [[{ text: L.play, web_app: { url: SITE } }], [{ text: L.tour, web_app: { url: SITE + '?tour=1' } }],
     [{ text: L.invite, url: 'https://t.me/share/url?url=' + encodeURIComponent('https://t.me/dovgi_nardy_bot?startapp=go') + '&text=' + encodeURIComponent(L.inviteText) }]] };
+  // 0.61: /stop and /remind switch the evening reminders off and on
+  if (db && (text.startsWith('/stop') || text.startsWith('/remind'))) { const off = text.startsWith('/stop'); const { data: rows } = await db.from('profiles').select('id,ach').eq('ach->>tg', String(m.from?.id || m.chat.id)).limit(1);
+    if (rows && rows[0]) { const A = { ...(rows[0].ach || {}) }; if (off) A.noRem = 1; else delete A.noRem; await db.from('profiles').update({ ach: A }).eq('id', rows[0].id); }
+    await tgApi('sendMessage', { chat_id: m.chat.id, text: off ? (tgLang(m.from?.language_code) === 'uk' ? 'Добре, вечірніх нагадувань більше не буде. Повернути: /remind' : 'OK, no more evening reminders. To turn them back on: /remind') : (tgLang(m.from?.language_code) === 'uk' ? 'Нагадування ввімкнено 🔔' : 'Reminders are on 🔔') }); return; }
   if (text.startsWith('/start') || text.startsWith('/play')) await tgApi('sendMessage', { chat_id: m.chat.id, text: L.hi(m.from?.first_name || ''), parse_mode: 'HTML', reply_markup: kb });
   else await tgApi('sendMessage', { chat_id: m.chat.id, text: L.help, reply_markup: kb });
 }
@@ -598,7 +602,7 @@ Deno.serve(async (req) => {
     // Telegram webhook: an update from the bot (checked by the secret header)
     if (body0 && body0.update_id != null) {
       if (!tgTok() || req.headers.get('X-Telegram-Bot-Api-Secret-Token') !== await tgHookSecret()) return json({ ok: false }, 401);
-      try { await tgOnUpdate(body0); } catch (_) {} return json({ ok: true });
+      try { await tgOnUpdate(body0, db); } catch (_) {} return json({ ok: true });
     }
     // public: the VAPID public key, and the reminder tick (called every few minutes by a scheduled GitHub Action)
     if (body0.action === 'tour_state') {
@@ -625,7 +629,19 @@ Deno.serve(async (req) => {
     if (body0.action === 'push_key') return json({ key: (await vapid(db)).pub });
     if (body0.action === 'push_tick') {
       try { const E = TR.tourEvent(Date.now()); if (E && Date.now() >= E.gAt && Date.now() < E.end) await tourTick(db, E); } catch (_) {}
-      const ev = pushEvents(Date.now()); if (!ev.length) return json({ ok: true, events: 0 });
+      // 0.61: the evening reminder (19:00 Kyiv, once a day): your streak and the gift waiting — only if the streak is alive and not claimed today
+      let remSent = 0; try { const kh = (new Date().getUTCHours() + 2) % 24, day = kyivDay(); if (kh === 19) {
+        const dl0 = await db.storage.from('srv').download('rem_sent.json'); let RJ: any = {}; if (dl0.data) { try { RJ = JSON.parse(await dl0.data.text()); } catch (_) {} }
+        if (!RJ[day]) { RJ = { [day]: Date.now() }; await db.storage.from('srv').upload('rem_sent.json', new Blob([JSON.stringify(RJ)], { type: 'application/json' }), { upsert: true });
+          const { data: R1 } = await db.from('profiles').select('id,ach').not('ach->tg', 'is', null).limit(5000); const { data: R2 } = await db.from('profiles').select('id,ach').not('ach->push', 'is', null).limit(5000);
+          const seen0 = new Set(); const RR = [...(R1 || []), ...(R2 || [])].filter((r: any) => !seen0.has(r.id) && seen0.add(r.id));
+          for (const r of RR) { const A = r.ach || {}; const D = A.daily || {}; if (A.noRem || D.d === day || D.d !== prevDay(day) || (D.s | 0) < 2) continue;
+            const s2 = (D.s % 7) + 1, n = DAILY[s2 - 1], uk = A.lang !== 'en';
+            const ttl = uk ? '🔥 Серія ' + (D.s | 0) + ' дн. — не дайте їй згоріти' : '🔥 ' + (D.s | 0) + '-day streak — keep it alive';
+            const body = uk ? 'Подарунок дня чекає: +' + n + ' монет. Одна партія — і серія триває.' : 'Your daily gift is waiting: +' + n + ' coins. One game keeps the streak going.';
+            if (A.tg) remSent += await tgTell(A.tg, '<b>' + ttl + '</b>\n' + body + (uk ? '\n\n<i>Вимкнути: /stop</i>' : '\n\n<i>Turn off: /stop</i>'), uk ? '🎁 Забрати' : '🎁 Claim', 'gift');
+            else if (A.push) remSent += await pushTo(db, [r], { title: ttl, body, tag: 'rem-' + day, url: '/?gift=1' }); } } } } catch (_) {}
+      const ev = pushEvents(Date.now()); if (!ev.length) return json({ ok: true, events: 0, rem: remSent });
       let doneJ: any = {}; const dl = await db.storage.from('srv').download('push_sent.json'); if (dl.data) { try { doneJ = JSON.parse(await dl.data.text()); } catch (_) {} }
       const EPOCH = Date.UTC(2026, 10, 7, 16, 0), season = Math.max(0, Math.floor((Date.now() - EPOCH + 3 * 864e5) / (4 * 7 * 864e5)));
       const { data: rowsP } = await db.from('profiles').select('id,ach').not('ach->push', 'is', null).limit(5000);
@@ -695,6 +711,7 @@ Deno.serve(async (req) => {
       const A = { ...(p.ach || {}) }; const L = lvOf(lvXp(p, A)); const m = Math.round(Number(args?.m)); A.lv = Array.isArray(A.lv) ? A.lv : [];
       if (!(m >= 5 && m <= 50 && m % 5 === 0) || m > L || A.lv.includes(m)) return json({ error: 'not_ready', lv: L, got: A.lv }, 400);
       A.lv.push(m); A.coins = (A.coins ?? COIN_START) + m * 20; await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, got: m * 20, coins: A.coins, lv: L, claimed: A.lv }); }
+    if (action === 'rem') { const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400); const A = { ...(p.ach || {}) }; if (args?.on) delete A.noRem; else A.noRem = 1; await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, on: !A.noRem }); }
     if (action === 'title') { const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
       const A = { ...(p.ach || {}) }; const k = String(args?.k || ''); if (k && !(A.ach2 && A.ach2[k])) return json({ error: 'locked' }, 400);
       if (k) A.tt = k; else delete A.tt; await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, tt: A.tt || '' }); }
