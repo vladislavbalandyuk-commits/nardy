@@ -583,6 +583,18 @@ function tourViewCS(E: any, draw: any, res: any, C: any) {
     players: draw.players.map((p: any) => ({ id: p.id, bot: p.bot, name: p.name, full: p.full, av: p.av, r: p.r })), rec: C ? C.rec : null,
     gm: C ? C.gm.map(pub) : [], po: C ? C.po.map(pub) : [], places: C ? C.places : null };
 }
+
+// ---- 0.74: rating seasons — one calendar month (Kyiv time). The best rating of the month (after calibration) sets the reward;
+// at least SS_MIN rated games are needed. A.ss = { s:'2611', r0, g, w, m, st, bs, pk, cl:{} }; A.ssEnd waits to be collected; A.sbad = the badges.
+const SS_MIN = 10, SS_TH = [0, 1204, 1456, 1756, 2104, 2500, 2944, 3436], SS_PRIZE = [150, 300, 500, 800, 1200, 1800, 2500, 4000];
+const SS_ACH = [{ k: 'g', n: 20, c: 200 }, { k: 'w', n: 10, c: 300 }, { k: 'st', n: 5, c: 400 }, { k: 'm', n: 3, c: 300 }, { k: 'up', n: 1, c: 500 }];
+const ssId = (t = Date.now()) => { const d = new Date(t + 2 * 3600e3); return String(d.getUTCFullYear() % 100).padStart(2, '0') + String(d.getUTCMonth() + 1).padStart(2, '0'); };
+const ssEnds = () => { const d = new Date(Date.now() + 2 * 3600e3); return Date.UTC(d.getUTCFullYear(), d.getUTCMonth() + 1, 1) - 2 * 3600e3; };
+const ssTier = (r: number) => { let i = 0; SS_TH.forEach((x, j) => { if (r >= x) i = j; }); return i; };
+function ssRoll(A: any, rating: number) { const s = ssId(); if (A.ss && A.ss.s !== s) { if ((A.ss.g | 0) >= SS_MIN && (A.ss.pk | 0) > 0) A.ssEnd = { s: A.ss.s, pk: A.ss.pk | 0, w: A.ss.w | 0, g: A.ss.g | 0 }; A.ss = null; }
+  if (!A.ss) A.ss = { s, r0: rating | 0, g: 0, w: 0, m: 0, st: 0, bs: 0, pk: 0, cl: {} }; return A.ss; }
+function ssUpd(A: any, won: boolean, mars: boolean, myR: number, newR: number, counted: boolean) { const S = ssRoll(A, myR); S.g++; if (won) { S.w++; S.st++; S.bs = Math.max(S.bs | 0, S.st); if (mars) S.m++; } else S.st = 0; if (counted) S.pk = Math.max(S.pk | 0, newR); }
+const ssProg = (S: any, k: string) => k === 'g' ? S.g | 0 : k === 'w' ? S.w | 0 : k === 'st' ? S.bs | 0 : k === 'm' ? S.m | 0 : (S.pk && ssTier(S.pk) > ssTier(S.r0 | 0) ? 1 : 0);
 // ---- weekly leagues: Bronze → Silver → Gold → Diamond. Groups of 20 (free places = league bots whose points grow
 // through the week). Points: a full game 1, a win 3, a mars win 4. Week = Monday 00:00 → Sunday 24:00 (Kyiv).
 // At the end: top 5 go up, bottom 5 go down; prizes for places 1–5. Group files live in storage: srv/league/<wk>/<g>.json.
@@ -776,6 +788,19 @@ Deno.serve(async (req) => {
       const can = over && me && A.ar && A.ar.d === day && !A.ar.cl ? prizeOf(me.rank, me.g) : 0;
       if (args?.op === 'claim') { if (!can) return json({ ok: false, why: 'none' }); A.ar = { ...A.ar, cl: Date.now() }; A.coins = (A.coins ?? COIN_START) + can; await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, got: can, coins: A.coins }); }
       return json({ ok: true, day, live, n: L.length, top: L.slice(0, 20).map((r: any) => ({ n: r.n, av: r.av, p: r.p, g: r.g, me: r.id === user.id ? 1 : 0 })), me: me ? { p: me.p, g: me.g, rank: me.rank } : null, prize: can, claimed: !!(A.ar && A.ar.d === day && A.ar.cl) }); }
+    if (action === 'season') { const { data: p } = await db.from('profiles').select('ach,rating').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
+      const A = { ...(p.ach || {}) }; const before = JSON.stringify([A.ss, A.ssEnd]); const S = ssRoll(A, p.rating | 0); const op = String(args?.op || '');
+      if (op === 'end') { if (!A.ssEnd) return json({ ok: false, why: 'none' }); const ti = ssTier(A.ssEnd.pk), got = SS_PRIZE[ti]; A.coins = (A.coins ?? COIN_START) + got; A.sbad = [...(Array.isArray(A.sbad) ? A.sbad : []), { s: A.ssEnd.s, t: ti }].slice(-24); delete A.ssEnd;
+        await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, got, t: ti, coins: A.coins }); }
+      if (op === 'ach') { const D = SS_ACH.find((x) => x.k === String(args?.k || '')); if (!D || (S.cl && S.cl[D.k]) || ssProg(S, D.k) < D.n) return json({ ok: false, why: 'none' });
+        S.cl = { ...(S.cl || {}), [D.k]: 1 }; A.coins = (A.coins ?? COIN_START) + D.c; await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, got: D.c, coins: A.coins }); }
+      if (JSON.stringify([A.ss, A.ssEnd]) !== before) await db.from('profiles').update({ ach: A }).eq('id', user.id);
+      const { data: rows } = await db.from('profiles').select('id,name,av,ach->ss').eq('ach->ss->>s', S.s).limit(2000);
+      const L = (rows || []).map((r: any) => ({ id: r.id, n: r.name || '', av: r.av || '', pk: r.ss?.pk | 0, g: r.ss?.g | 0, w: r.ss?.w | 0 })).filter((r: any) => r.g >= SS_MIN && r.pk > 0).sort((a: any, b: any) => b.pk - a.pk || b.w - a.w);
+      const meI = L.findIndex((r: any) => r.id === user.id);
+      const end = A.ssEnd ? { ...A.ssEnd, t: ssTier(A.ssEnd.pk), prize: SS_PRIZE[ssTier(A.ssEnd.pk)] } : null;
+      return json({ ok: true, s: S.s, ends: ssEnds(), min: SS_MIN, th: SS_TH, prize: SS_PRIZE, n: L.length, me: { g: S.g | 0, w: S.w | 0, m: S.m | 0, bs: S.bs | 0, pk: S.pk | 0, r0: S.r0 | 0, rank: meI + 1 },
+        ach: SS_ACH.map((D) => ({ k: D.k, n: D.n, c: D.c, v: ssProg(S, D.k), cl: !!(S.cl && S.cl[D.k]) })), top: L.slice(0, 50).map((r: any) => ({ n: r.n, av: r.av, pk: r.pk, w: r.w, g: r.g, me: r.id === user.id ? 1 : 0 })), end, bad: A.sbad || [] }); }
     if (action === 'rem') { const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400); const A = { ...(p.ach || {}) }; if (args?.on) delete A.noRem; else A.noRem = 1; await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, on: !A.noRem }); }
     if (action === 'title') { const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
       const A = { ...(p.ach || {}) }; const k = String(args?.k || ''); if (k && !(A.ach2 && A.ach2[k])) return json({ error: 'locked' }, 400);
@@ -1236,6 +1261,7 @@ Deno.serve(async (req) => {
         if (ach.A.refBy && !ach.A.ref5 && ((p?.played ?? 0) + 1) >= 5) { const dec = new Date(Date.now() + 2 * 3600e3).getUTCMonth() === 11, bonus = dec ? 600 : 300;
           ach.A.ref5 = Date.now(); ach.A.coins = (ach.A.coins ?? COIN_START) + bonus; refPay.push([ach.A.refBy, bonus]); }
         if (fullGame && LG_ON) await lgAdd(db, id, ach.A, p?.name || '', p?.av || '', won ? (st.result.mars ? 4 : 3) : 1);
+        if (fullGame && !tourG) try { ssUpd(ach.A, won, !!st.result.mars, myR, Math.max(100, myR + d[s]), !calSkip && rg + 1 >= CALIB); } catch (_) { /* never block the rating */ }
         await db.from('profiles').update({ rating: Math.max(100, myR + d[s]), rgames: (p?.rgames ?? 0) + (calSkip ? 0 : 1), played: (p?.played ?? 0) + 1, won: (p?.won ?? 0) + (won ? 1 : 0), ach: ach.A, updated_at: new Date().toISOString() }).eq('id', id);
       }
       if (gh) { const gw = st.result.winner === 'p2'; await db.from('ghosts').update({ rating: Math.max(100, gh.rating + dGhost), played: gh.played + 1, won: gh.won + (gw ? 1 : 0), updated_at: new Date().toISOString() }).eq('id', gh.id); }

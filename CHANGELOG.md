@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.76.2 (plan item 0.74 — rating seasons)
+- Monthly rating seasons (Kyiv calendar month): A.ss tracks games, wins, streak, mars and the best calibrated rating; ≥10 rated games for a reward by the best rank (150…4000 coins) plus a season badge (A.sbad). Five season achievements with coins. Server action 'season' (state, top 50, op end/ach). Home card, events row, season page, end-of-season modal. No rating reset.
+
 ## 0.76.1
 - UI audit fixes: bought frames listed in Collection → Frame (wear/remove), a bought frame hides the rank frame ring (no double ring); compact tournament tabs on phones; calendar button full row.
 
