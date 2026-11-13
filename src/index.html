@@ -2255,6 +2255,7 @@ body.calm [data-fr]{animation:none}
 .frmpv .av{width:120px;height:120px}
 .shth .av.frmth{width:52px;height:52px;margin:auto}
 .radp .cv.nk{background:linear-gradient(135deg,#3fb5c9,#a46bff)} .radseg{display:flex;gap:4px} .radseg button{padding:6px 12px;border-radius:999px;border:1px solid var(--line2,rgba(255,255,255,.15));background:transparent;color:inherit;font:600 13px var(--sans)} .radseg button.on{background:var(--ink,#fff);color:var(--panel,#111)}
+@media (min-width:700px){ .radp{cursor:grab;touch-action:none;user-select:none} .radp.drag{cursor:grabbing;box-shadow:0 18px 40px rgba(0,0,0,.55);transform:scale(1.02)} .radp button{cursor:pointer} }
 </style>
 <style>/* 0.38: home — one big «Play», three «Today» tiles */
 .h38modes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
@@ -4056,7 +4057,7 @@ function radDuckFor(ms){ if(!radA || radA.paused) return; radDk++; radApplyVol()
 function radPaint(){ try{ const tg=$('togRadio'); if(tg) tg.classList.toggle('on',radOn); const vr=$('radVolRow'); if(vr) vr.hidden=!radOn; radStPaint(); const vi=$('radVol'); if(vi && document.activeElement!==vi) vi.value=Math.round(radVol()*100);
   let el=$('radPill'); if(!radOn){ if(el) el.remove(); return; }
   if(!el){ el=uxH('div','radp'); el.id='radPill'; const cv=uxH('div','cv'); const tx=uxH('div','tx'); tx.append(uxH('b'), uxH('small')); const pp=uxH('button','rpp'); pp.type='button'; pp.onclick=()=>{ if(radA && !radA.paused){ radA.pause(); } else radPlay(); };
-    const st=uxH('button','rnx rst','⇄'); st.type='button'; st.title=t('radStNext'); st.setAttribute('aria-label',t('radStNext')); st.onclick=()=>radStation(radS+1); const nx=uxH('button','rnx','⏭'); nx.type='button'; nx.setAttribute('aria-label',t('radNext')); nx.onclick=()=>radNext(1); const x=uxH('button','rx','×'); x.type='button'; x.setAttribute('aria-label',t('radOff')); x.onclick=()=>radSet(false); el.append(cv,tx,pp,st,nx,x); document.body.appendChild(el); }
+    const st=uxH('button','rnx rst','⇄'); st.type='button'; st.title=t('radStNext'); st.setAttribute('aria-label',t('radStNext')); st.onclick=()=>radStation(radS+1); const nx=uxH('button','rnx','⏭'); nx.type='button'; nx.setAttribute('aria-label',t('radNext')); nx.onclick=()=>radNext(1); const x=uxH('button','rx','×'); x.type='button'; x.setAttribute('aria-label',t('radOff')); x.onclick=()=>radSet(false); el.append(cv,tx,pp,st,nx,x); document.body.appendChild(el); radDrag(el); }
   const it=RADIO.list[radI], cv=el.querySelector('.cv'); cv.classList.toggle('img',!!it[2]); cv.style.backgroundImage=it[2]?'url('+it[2]+')':''; cv.innerHTML=it[2]?'':RADIO.b; cv.classList.toggle('nk',RADIO.k==='nikow'); el.querySelector('.tx small').textContent=RADIO.by; const eq=uxH('i'); eq.innerHTML='<b></b><b></b><b></b>'; cv.appendChild(eq);
   el.querySelector('.tx b').textContent=it[1]; const playing=!!(radA && !radA.paused); el.classList.toggle('paused',!playing); const pp=el.querySelector('.rpp'); pp.textContent=playing?'❚❚':'▶'; pp.setAttribute('aria-label',t(playing?'radPause':'radPlay')); }catch(e){} }
 setTimeout(()=>{ try{ $('radStRow').querySelectorAll('button').forEach((b,i)=>b.onclick=()=>radStation(i)); }catch(e){} try{ $('togRadio').onclick=()=>radSet(!radOn); $('radVol').oninput=e=>{ store.set('radVol',(+e.target.value)/100); radApplyVol(); }; }catch(e){}
@@ -4554,6 +4555,16 @@ function frmHero(k){ const r=shopRar('frm',k), o=owns('frm',k), on=frmNow()===k;
   else { inf.appendChild(priceEl('frm',k)); const cost=shCost('frm',k), lack=cost-coinsNow(); const b=sH('button','s2main'); b.type='button'; b.textContent=lack>0 ? t('s2Missing',{n:lack.toLocaleString('uk-UA')}) : t('s2Buy'); b.disabled=lack>0;
     b.onclick=async()=>{ b.disabled=true; if(await shopBuy('frm',k)){ try{ confetti(60); }catch(e){} store.set('frame',k); frmApply(); shRender(); } else b.disabled=false; }; row.appendChild(b); if(lack>0) inf.appendChild(sH('p','s2note',t('s2Earn'))); }
   inf.appendChild(row); h.append(pv,inf); return h; }
+// 0.73.4: on a computer or a tablet the radio player can be dragged anywhere; the spot is remembered
+const radDragOk=()=>innerWidth>=700;
+function radPlace(el){ el=el||$('radPill'); if(!el) return; const P=store.get('radPos',null); if(!P || !radDragOk()){ el.style.left=el.style.top=el.style.right=el.style.bottom=''; el.classList.remove('moved'); return; }
+  const r=el.getBoundingClientRect(), x=Math.max(8,Math.min(innerWidth-r.width-8, P.x*innerWidth)), y=Math.max(8,Math.min(innerHeight-r.height-8, P.y*innerHeight)); el.style.left=x+'px'; el.style.top=y+'px'; el.style.bottom='auto'; el.style.right='auto'; el.classList.add('moved'); }
+function radDrag(el){ radPlace(el); el.addEventListener('pointerdown',e=>{ if(!radDragOk() || e.button || e.target.closest('button')) return; const r=el.getBoundingClientRect(), dx=e.clientX-r.left, dy=e.clientY-r.top; let moved=false; el.setPointerCapture(e.pointerId);
+    const mv=ev=>{ const x=Math.max(8,Math.min(innerWidth-r.width-8, ev.clientX-dx)), y=Math.max(8,Math.min(innerHeight-r.height-8, ev.clientY-dy)); if(!moved && Math.hypot(ev.clientX-e.clientX, ev.clientY-e.clientY)<4) return; moved=true; el.classList.add('drag','moved'); el.style.left=x+'px'; el.style.top=y+'px'; el.style.bottom='auto'; el.style.right='auto'; };
+    const up=()=>{ el.removeEventListener('pointermove',mv); el.removeEventListener('pointerup',up); el.removeEventListener('pointercancel',up); el.classList.remove('drag'); if(moved){ const q=el.getBoundingClientRect(); store.set('radPos',{x:q.left/innerWidth, y:q.top/innerHeight}); } };
+    el.addEventListener('pointermove',mv); el.addEventListener('pointerup',up); el.addEventListener('pointercancel',up); });
+  el.addEventListener('dblclick',e=>{ if(e.target.closest('button')) return; store.set('radPos',null); radPlace(el); }); }
+addEventListener('resize',()=>{ try{ radPlace(); }catch(e){} });
 // ================= 0.53: the juicy table =================
 // on a portrait phone the «your turn» panel moves from the middle of the board into the empty space under it
 function tb53(){ try{ const on=document.body.classList.contains('pg41'); const tr=$('tray'), pb=$('plBot'), tb=$('turnBanner'), qr=$('qrBar'); let low=false;
@@ -5534,7 +5545,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.73.3';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.73.4';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -7466,6 +7477,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+ {v:"0.73.4", d:"13.11.2026", uk:["Плеєр радіо на комп’ютері й планшеті можна перетягнути в будь-яке місце екрана — він запам’ятає позицію (подвійний клік повертає на місце)"], en:["On a computer or a tablet you can drag the radio player anywhere on the screen — it remembers the spot (double-click puts it back)"], ru:["Плеер радио на компьютере и планшете можно перетащить в любое место экрана — он запомнит позицию (двойной клик возвращает на место)"]},
  {v:"0.73.3", d:"13.11.2026", uk:["Столи «Зелений оксамит», «Чайхана», «Вогні міста» і «Захід на даху» отримали справжні фото"], en:["The Green velvet, Teahouse, City lights and Rooftop sunset tables got real photos"], ru:["Столы «Зелёный бархат», «Чайхана», «Огни города» и «Закат на крыше» получили настоящие фото"]},
  {v:"0.73.2", d:"13.11.2026", uk:["📻 Друга станція радіо — Nikow: «Залежність», «вірив і молив», «спокуслива», «Так солодко», «Бальзам» і «якщо це не по-справжньому»","Станцію можна перемкнути кнопкою ⇄ у плеєрі або в налаштуваннях"], en:["📻 A second radio station — Nikow: six tracks, from «Залежність» to «якщо це не по-справжньому»","Switch stations with the ⇄ button in the player or in Settings"], ru:["📻 Вторая станция радио — Nikow: шесть треков, от «Залежність» до «якщо це не по-справжньому»","Станцию можно переключить кнопкой ⇄ в плеере или в настройках"]},
  {v:"0.73.1", d:"13.11.2026", uk:["🖼 Рамки для портрета: «Срібло», «Перли», «Орнамент», «Сяйво» і анімована легендарна «Корона» — їх бачать усі суперники","Столи повернулись: шість нових — «Килим», «Плитка зеллідж», «Зелений оксамит», «Чайхана», «Вогні міста», «Захід на даху» — продаються окремо","Чотири нові дошки в магазині: «Льон», «Фісташка», «Кобальт» і легендарний «Султан»","Набір портретів «Схід»: аксакал, кепка-аеродром, бабуся в хустці, чайханщик і майстер тавли","Два нові сети зі знижкою −20%: «Ізнік» і «Султан»"], en:["🖼 Portrait frames: Silver, Pearl, Ornament, Aurora and the animated legendary Crown — every opponent sees them","Tables are back: six new ones — Kilim, Zellige tiles, Green velvet, Teahouse, City lights, Rooftop sunset — sold separately","Four new boards in the shop: Linen, Pistachio, Cobalt and the legendary Sultan","The East portrait pack: an elder, a big flat cap, a grandma in a headscarf, a teahouse keeper and a tavla master","Two new sets at −20%: Iznik and Sultan"], ru:["🖼 Рамки для портрета: «Серебро», «Жемчуг», «Орнамент», «Сияние» и анимированная легендарная «Корона» — их видят все соперники","Столы вернулись: шесть новых — «Килим», «Плитка зеллидж», «Зелёный бархат», «Чайхана», «Огни города», «Закат на крыше» — продаются отдельно","Четыре новые доски в магазине: «Лён», «Фисташка», «Кобальт» и легендарный «Султан»","Набор портретов «Восток»: аксакал, кепка-аэродром, бабушка в платке, чайханщик и мастер тавлы","Два новых сета со скидкой −20%: «Изник» и «Султан»"]},

@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.73.4
+- Radio player is draggable on screens ≥700px (position saved as a fraction of the viewport; double-click resets).
+
 ## 0.73.3
 - Tables Velvet, Teahouse, City lights, Rooftop now use photos Vlad sent (tb/*.webp, small swatches tb/*_s.webp).
 
