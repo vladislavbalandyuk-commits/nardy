@@ -129,7 +129,7 @@ def page(lg,i):
 <meta name="theme-color" content="#0d0e11"><link rel="icon" href="/favicon.svg"><style>{CSS}</style>
 <script type="application/ld+json">{json.dumps(ld,ensure_ascii=False)}</script></head>
 <body><div class="w"><header><a class="brand" href="{play}">нарди · nardy</a><nav>{nav}</nav></header>{body}{langs}</div></body></html>'''
-urls=['/']
+urls=['/', '/privacy/']
 for lg in L:
     for i in range(3):
         u=url(lg,i); d='.'+u; os.makedirs(d,exist_ok=True); open(d+'index.html','w').write(page(lg,i)); urls.append(u)

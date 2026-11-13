@@ -3,6 +3,10 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.72.10 — 13.11.2026
+- Privacy policy page `/privacy/` (English + Ukrainian) and a link in Settings → Help.
+- CrazyGames `disableChat`: the phrase wheel and the opponent's chat bubbles are off when the player disabled chat on CrazyGames.
+
 ## 0.72.9 — 13.11.2026
 - Fix: 0.72.6 declared `b64u` twice in the game server, so the server failed to start for ~14 minutes (13:21–13:35); the JWT decoder is now `b64d`. Checked with a redeclaration scan before deploy from now on.
 - Fair dice in the profile is compact: three stat chips (rolls, doubles vs 16.7%, pips per roll vs 8.17) and a small 1–6 bar strip in one row; “How are the dice rolled?” is a link in the header.
