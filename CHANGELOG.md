@@ -3,6 +3,12 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.68.0 — 13.11.2026
+- Game analysis in the replay viewer: every turn is re-searched with the strongest bot's evaluator (all distinct end positions of the turn), loss = best − played.
+- Verdicts: ≤1.5 fine, ≤4 inaccuracy, ≤9 mistake, more — blunder; accuracy = mean of 100·e^(−loss/5) over non-forced turns (a random player ≈ 45–55%, the best bot 100%).
+- Accuracy cards for both players, counts, jump chips to mistakes, the better move in the player's own point numbers. Runs in the browser in small slices.
+- Pasha's tour: g38.
+
 ## 0.67.0 — 13.11.2026
 - Fair dice: an explanation sheet (server rolls online, cryptographic generator, bots don't see rolls) from the profile and Settings → Help.
 - Server keeps `ach.dst` per player: rolls, doubles, number frequencies, pips — from each finished game's history. Shown in the profile as a 1–6 bar chart against 1/6.
