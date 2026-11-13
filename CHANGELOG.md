@@ -3,6 +3,11 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.69.0 — 13.11.2026
+- Replay: share a moment — a 1080×1350 picture of the current turn (board, players, the coach's verdict and the better move when analysed, a call to play) and a short video (the last 6 turns, MediaRecorder mp4/webm from a canvas).
+- Web Share with files on phones, a download elsewhere; no video recorder → falls back to the picture.
+- Pasha's tour: g39.
+
 ## 0.68.0 — 13.11.2026
 - Game analysis in the replay viewer: every turn is re-searched with the strongest bot's evaluator (all distinct end positions of the turn), loss = best − played.
 - Verdicts: ≤1.5 fine, ≤4 inaccuracy, ≤9 mistake, more — blunder; accuracy = mean of 100·e^(−loss/5) over non-forced turns (a random player ≈ 45–55%, the best bot 100%).
