@@ -3,6 +3,12 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.63.0 — 13.11.2026
+- Russian language (2385 strings): `src/ru.json` → `ru.js`, loaded only for Russian; missing keys fall back to Ukrainian.
+- Browser language ru/be/kk/ky opens Russian by default; new Telegram users with a Russian client get Russian.
+- Locale helper `LOC()` for dates/times; the Telegram login widget follows the language; «What's new» shows `ru` entries (falls back to English).
+- Pasha's tour: step g33.
+
 ## 0.62.0 — 13.11.2026
 - App manifest for installing / Google Play: id, dark splash and theme (#0d0e11), categories, launch handler, shortcuts (Play a bot `?go=bot`, Daily puzzle `?go=pz`, Daily gift `?gift=1`), four screenshots (`/shots/*.webp`, narrow + wide).
 - The browser/window colour follows the site background.
