@@ -716,6 +716,14 @@ Deno.serve(async (req) => {
       const A = { ...(p.ach || {}) }; const L = lvOf(lvXp(p, A)); const m = Math.round(Number(args?.m)); A.lv = Array.isArray(A.lv) ? A.lv : [];
       if (!(m >= 5 && m <= 50 && m % 5 === 0) || m > L || A.lv.includes(m)) return json({ error: 'not_ready', lv: L, got: A.lv }, 400);
       A.lv.push(m); A.coins = (A.coins ?? COIN_START) + m * 20; await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, got: m * 20, coins: A.coins, lv: L, claimed: A.lv }); }
+    // 0.70: reports (kept for the admin, the last 400) and the block list (kept on the profile)
+    if (action === 'report') { const to = String(args?.id || ''); if (!/^[0-9a-f-]{36}$/.test(to) || to === user.id) return json({ error: 'bad_args' }, 400);
+      const why = ['cheat', 'abuse', 'nick', 'afk', 'other'].includes(args?.why) ? args.why : 'other'; const note = String(args?.note || '').slice(0, 300); const gid = String(args?.gid || '').slice(0, 40);
+      const { data: P } = await db.from('profiles').select('id,name').in('id', [to, user.id]); const nm = (id: string) => (P || []).find((r: any) => r.id === id)?.name || '';
+      const R: any = (await lgFile(db, 'reports.json')) || { list: [] }; const mine = (R.list || []).filter((r: any) => r.from === user.id && Date.now() - r.at < 864e5).length; if (mine >= 10) return json({ ok: false, why: 'limit' });
+      R.list = [...(R.list || []), { at: Date.now(), from: user.id, fromN: nm(user.id), to, toN: nm(to), why, note, gid }].slice(-400); await lgSave(db, 'reports.json', R); return json({ ok: true }); }
+    if (action === 'block') { const id = String(args?.id || ''); if (!/^[0-9a-f-]{36}$/.test(id)) return json({ error: 'bad_args' }, 400); const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
+      const A = { ...(p.ach || {}) }; let L: string[] = Array.isArray(A.blk) ? A.blk.filter((x: string) => x !== id) : []; if (args?.on) L = [id, ...L].slice(0, 100); A.blk = L; await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, n: L.length }); }
     if (action === 'arena') { const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
       const A = { ...(p.ach || {}) }; const h = kyivHour(), today = kyivDay(); const day = h >= 21 ? today : prevDay(today); const live = h === 21 && day === today, over = !live;
       const { data: rows } = await db.from('profiles').select('id,name,av,ach->ar').eq('ach->ar->>d', day).limit(1000);
@@ -840,6 +848,7 @@ Deno.serve(async (req) => {
       if (!isAdminUser(user)) return json({ error: 'forbidden' }, 403);
       const op = String(args?.op || '');
       if (op === 'me') return json({ ok: true });
+      if (op === 'reports') { const R: any = (await lgFile(db, 'reports.json')) || { list: [] }; return json({ ok: true, list: (R.list || []).slice(-200) }); }
       // 0.33.2: the tester role — set by the admin; testers get the test mode (all skins on their device, campaign progress) and a badge
       if (op === 'tester') { const id = String(args?.id || ''); if (!/^[0-9a-f-]{36}$/.test(id)) return json({ error: 'bad_args' }, 400); const { data: p } = await db.from('profiles').select('ach,name').eq('id', id).maybeSingle(); if (!p) return json({ ok: false });
         const A = { ...(p.ach || {}) }; if (args?.on) A.tester = true; else delete A.tester; await db.from('profiles').update({ ach: A }).eq('id', id);
