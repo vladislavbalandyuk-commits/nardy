@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.76.3
+- League table: the points cell used the class .pt, which is the board point class (width: var(--cs); height: 100%) — renamed to .lpt; the numbers no longer overflow the row on desktop.
+
 ## 0.76.2 (plan item 0.74 — rating seasons)
 - Monthly rating seasons (Kyiv calendar month): A.ss tracks games, wins, streak, mars and the best calibrated rating; ≥10 rated games for a reward by the best rank (150…4000 coins) plus a season badge (A.sbad). Five season achievements with coins. Server action 'season' (state, top 50, op end/ach). Home card, events row, season page, end-of-season modal. No rating reset.
 
