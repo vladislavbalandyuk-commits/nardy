@@ -2997,6 +2997,7 @@ async function srv(action,args){
   if(r.data){ const data=r.data; if(data.state){ if(gs && data.state.seq<gs.seq) gs.seq=data.state.seq; applyRemote(data.state); } return data.state; }
   // a move the server does not accept (the screen was a step behind) is fixed by reloading the game, without an alarm
   if(r.status===409 && r.code!=='busy'){ resync(); return null; }
+  try{ if(PORTAL) cgd('srv '+action+' '+r.status+' '+r.code); }catch(e){}
   toast(t('srvRetry')+(r.code?' · '+r.code:'')); resync(); return null;
 }
 async function resync(){ if(!ref) return; try{ const d=await ref.get(); if(d){ gs.seq=-1; applyRemote(d); } }catch(e){} }
