@@ -3,6 +3,12 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.72.9 — 13.11.2026
+- Fix: 0.72.6 declared `b64u` twice in the game server, so the server failed to start for ~14 minutes (13:21–13:35); the JWT decoder is now `b64d`. Checked with a redeclaration scan before deploy from now on.
+- Fair dice in the profile is compact: three stat chips (rolls, doubles vs 16.7%, pips per roll vs 8.17) and a small 1–6 bar strip in one row; “How are the dice rolled?” is a link in the header.
+- `tools/check_server.js` catches syntax errors and double declarations in the game server.
+- CrazyGames preview checked: load 2.2 s, instant multiplayer opens a friend table, `gameplayStart`, `inviteLink`, `updateRoom` detected.
+
 ## 0.72.8 — 13.11.2026
 - Portal guests get an anonymous guest account automatically (name “Player1234”), so online play, friend tables and instant multiplayer work without any sign-in.
 
