@@ -99,6 +99,9 @@ function act(state, uid, action, args, env){
   const now=env.now, d6=env.d6; const st=JSON.parse(JSON.stringify(state)); const me=slotOf(st,uid);
   if(action==='bot_step'){ if(!isBotId(st.p2)||st.p1!==uid) err('not_bot_game'); const rnd=env.rnd||Math.random, kind=st.p2.split(':')[1]; const B=BOTS[kind]||BOTS.ghost, NZ=st.botNoise!=null?st.botNoise:B.noise;
     if(st.phase==='opening'){ if(!st.open.p1) err('wait'); if(st.open.p2) err('already'); st.open.p2=d6(); st.rollId++; resolveOpening(st,now); return st; }
+    if(st.phase==='play' && RU(st).t && st.turn===colorOfSlot(st,'p1') && now-(st.turnAt||0)>=turnMs(st)){ st.strikes=st.strikes||{p1:0,p2:0}; st.strikes.p1++;
+      if(st.strikes.p1>=MAX_STRIKES){ const w=colorOfSlot(st,'p2'); finish(st,w,false,{c:OPP(w),mars:false,timeout:true}); return st; }
+      st.trail=[]; if(st.snap){ st.board=st.snap.board; st.off=st.snap.off; } passTurn(st,now); return st; }
     if(st.phase!=='play') err('bad_phase'); const c=colorOfSlot(st,'p2'); if(st.turn!==c) err('not_bot_turn');
     if(!st.rolled){ const a=d6(),b=d6(); st.dice=[a,b]; st.remaining=a===b?[a,a,a,a]:[a,b]; st.headLimit=(st.first[c]&&a===b&&[3,4,6].includes(a))?2:1; st.first[c]=false; st.headMoved=0; st.rolled=true; st.trail=[]; st.rollId++; st.snap=null; st.turnAt=now;
       st.botPlan = (st.botLvl ? botPathPro(st,c,st.botLvl,rnd) : botBestPath(st,c,NZ,rnd))||[]; if(!st.botPlan.length){ st.botPlan=null; passTurn(st,now); } return st; }
@@ -111,7 +114,7 @@ function act(state, uid, action, args, env){
   if(action==='open_roll'){ if(st.phase!=='opening'||!st.p2) err('bad_phase'); if(st.open[me]) err('already'); st.open[me]=d6(); st.rollId++; resolveOpening(st,now); return st; }
   // a match to N points: the next game keeps the score
   if(action==='next'){ if(st.phase!=='over') err('bad_phase'); const to=RU(st).to||0; if(!to || Math.max(st.score.p1,st.score.p2)>=to) err('match_over');
-    const ng=newGame(st.p1,st.p2,st.score); ng.rules=st.rules; ng.names=st.names; ng.avs=st.avs; ng.ratings=st.ratings; ng.frs=st.frs; ng.tts=st.tts; ng.seq=st.seq; ng.rollId=st.rollId; ng.game=(st.game||1)+1; lobbyStart(ng,now); return ng; }
+    const ng=newGame(st.p1,st.p2,st.score); for(const k of ['botNoise','botLvl','unrated']) if(st[k]!=null) ng[k]=st[k]; ng.rules=st.rules; ng.names=st.names; ng.avs=st.avs; ng.ratings=st.ratings; ng.frs=st.frs; ng.tts=st.tts; ng.seq=st.seq; ng.rollId=st.rollId; ng.game=(st.game||1)+1; lobbyStart(ng,now); return ng; }
   if(action==='rematch'){ if(st.phase!=='over') err('bad_phase'); st.rematch=st.rematch||{}; st.rematch[me]=true;
     if(st.rematch.p1&&st.rematch.p2){ const ng=newGame(st.p1,st.p2,st.rules&&st.rules.to?{p1:0,p2:0}:st.score); if(st.rules) ng.rules=st.rules; ng.names=st.names; ng.avs=st.avs; ng.ratings=st.ratings; ng.frs=st.frs; ng.tts=st.tts; ng.seq=st.seq; ng.rollId=st.rollId; lobbyStart(ng,now); return ng; } return st; }
   if(action==='timeout'){ if(st.phase!=='play') err('bad_phase'); const opp=me==='p1'?'p2':'p1'; if(colorOfSlot(st,opp)!==st.turn) err('not_their_turn'); if(now-(st.turnAt||0)<turnMs(st)) err('too_early');
@@ -1263,6 +1266,9 @@ Deno.serve(async (req) => {
       const cStep = bot === 'camp' && Number(args?.step) === 2 ? 2 : 3, cDone = me?.ach?.camp | 0, cs = me?.ach?.cs | 0;
       if (bot === 'camp' && cn === cDone + 1 && cs < cStep - 1) return json({ error: 'camp_step' }, 400);
       const st = C.newGame(user.id, bot ? 'bot:' + bot : null); if (bot && bot !== 'ghost' && bot !== 'camp' && args?.pr) st.unrated = 1;   // 0.58: practice with a bot — no rating
+      // 0.76: a match to 3/5/7 points and/or blitz (10 s a move) against a bot — practice, no rating
+      if (bot && bot !== 'ghost' && bot !== 'camp' && args?.fmt && typeof args.fmt === 'object') { const to = [1, 3, 5, 7].includes(Number(args.fmt.to)) ? Number(args.fmt.to) : 1, bz = !!args.fmt.bz;
+        if (to > 1 || bz) { st.rules = { to, t: bz ? 10 : 0, dbl: 'norm', head: 'one', noMars: false, noOdds: false, open: false, first: 'roll' }; st.unrated = 1; } }
       if (!bot && args?.rules && typeof args.rules === 'object') { const q = args.rules, pick = (v: any, L: any[], d: any) => L.includes(v) ? v : d;
         st.rules = { to: pick(Number(q.to), [1, 3, 5, 7], 1), t: pick(Number(q.t), [0, 10, 20, 30, 60], 60), dbl: pick(q.dbl, ['norm', 'none', 'pen'], 'norm'), head: pick(q.head, ['one', 'free'], 'one'), noMars: !!q.noMars, noOdds: !!q.noOdds, open: !!q.open, first: pick(q.first, ['roll', 'host', 'alt'], 'roll') };
         // the host's table, board, checkers and dice, shown to both players (names only; the site checks they exist)

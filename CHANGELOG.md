@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.76.0
+- Bots: format picker in the bot sheet — 1 game / to 3 / to 5 / to 7 (server bot games, signed-in) and Blitz (10 s a move, 3 timeouts = loss; also for guests on the device). Server: create accepts args.fmt for bots (rules + unrated), 'next' keeps bot settings, bot_step applies the player's timeout.
+
 ## 0.75.0
 - Tournaments 2.0: History tab (server action tour_hist: last 10 finished events, top 3 and every real player's place, cached 10 min), «Your path» progress strip, «Add to calendar» (.ics with a 15-minute alarm for both days). 0.74 (seasons) comes next.
 
