@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.79.0
+- Arena: 12 bosses (server table ARN), 3 lives, 500 coins / free weekly run; obstacles in the engine (st.blk: points closed for the player's colour, wind), the bot's one re-roll, the player's double = a lost turn (rules.dbl 'skip'), no doubles (dbl 'none'), boss moves first, fog / mirror / no-undo on the client. Rewards in rate(): coins + a first-time item per boss, 12 wins and 12–0 sets, titles arena12 / arena120, hall of fame (srv/arena/hall.json). 15 arena-only items.
+
 ## 0.78.0
 - Clubs: server action 'club' (mine/list/peek/create/join/leave/kick/say/claim), files srv/club/<id>.json + club/index.json, A.club. Weekly club tournament from rated games (clAdd next to lgAdd), prizes 300/200/100 collected by the members, chat (60 last, 2.5 s rate limit), invite link ?club=<id>. Ratings page: new «Club» tab.
 

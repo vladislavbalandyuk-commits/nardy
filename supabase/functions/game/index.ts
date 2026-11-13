@@ -13,7 +13,7 @@ function blockIllegal(B,c){ const o=OPP(c); let run=0;
   return false; }
 function genSingles(st,c,d){ const res=[], B=st.board, home=allHome(st,c); let minP=24; for(let p=0;p<24;p++) if(mine(B,c,p)>0){minP=p;break;}
   for(let p=0;p<24;p++){ if(mine(B,c,p)<=0) continue; if(p===0 && st.headMoved>=st.headLimit) continue; const t=p+d;
-    if(t<24){ const bi=b2(c,t); if(B[bi]*S(c)<0) continue; const nb=B.slice(); nb[b2(c,p)]-=S(c); nb[bi]+=S(c); if(blockIllegal(nb,c)) continue; res.push({from:p,to:t,die:d}); }
+    if(t<24){ if(st.blk && st.blk.c===c && st.blk.p && st.blk.p.includes(t)) continue; const bi=b2(c,t); if(B[bi]*S(c)<0) continue; const nb=B.slice(); nb[b2(c,p)]-=S(c); nb[bi]+=S(c); if(blockIllegal(nb,c)) continue; res.push({from:p,to:t,die:d}); }
     else if(home && (t===24 || p===minP)) res.push({from:p,to:24,die:d}); }
   return res; }
 function applyMove(st,c,m){ const B=st.board.slice(); B[b2(c,m.from)]-=S(c); const off={...st.off}; if(m.to===24) off[c]++; else B[b2(c,m.to)]+=S(c);
@@ -97,13 +97,16 @@ function autoPassIfStuck(st,now){ if(st.phase==='play' && st.rolled && !legalMov
 // act(state, uid, action, args, {now, d6}) -> new state (mutates a copy)
 function act(state, uid, action, args, env){
   const now=env.now, d6=env.d6; const st=JSON.parse(JSON.stringify(state)); const me=slotOf(st,uid);
+  if(st.blk && st.phase==='play'){ if(!st.blk.c) st.blk.c=colorOfSlot(st,'p1');
+    // 0.79 arena «wind»: on each of the player's turns one more random point closes (an empty one on the way)
+    if(st.arn && st.arn.wind && st.turn===st.blk.c && !st.rolled && st.windAt!==st.rollId){ st.windAt=st.rollId; const free=[]; for(let q=3;q<=17;q++){ if(q===12||(st.blk.base||[]).includes(q)) continue; if(st.board[b2(st.blk.c,q)]===0) free.push(q); } st.blk.p=(st.blk.base||[]).concat(free.length?[free[Math.floor(Math.random()*free.length)]]:[]); } }
   if(action==='bot_step'){ if(!isBotId(st.p2)||st.p1!==uid) err('not_bot_game'); const rnd=env.rnd||Math.random, kind=st.p2.split(':')[1]; const B=BOTS[kind]||BOTS.ghost, NZ=st.botNoise!=null?st.botNoise:B.noise;
     if(st.phase==='opening'){ if(!st.open.p1) err('wait'); if(st.open.p2) err('already'); st.open.p2=d6(); st.rollId++; resolveOpening(st,now); return st; }
     if(st.phase==='play' && RU(st).t && st.turn===colorOfSlot(st,'p1') && now-(st.turnAt||0)>=turnMs(st)){ st.strikes=st.strikes||{p1:0,p2:0}; st.strikes.p1++;
       if(st.strikes.p1>=MAX_STRIKES){ const w=colorOfSlot(st,'p2'); finish(st,w,false,{c:OPP(w),mars:false,timeout:true}); return st; }
       st.trail=[]; if(st.snap){ st.board=st.snap.board; st.off=st.snap.off; } passTurn(st,now); return st; }
     if(st.phase!=='play') err('bad_phase'); const c=colorOfSlot(st,'p2'); if(st.turn!==c) err('not_bot_turn');
-    if(!st.rolled){ const a=d6(),b=d6(); st.dice=[a,b]; st.remaining=a===b?[a,a,a,a]:[a,b]; st.headLimit=(st.first[c]&&a===b&&[3,4,6].includes(a))?2:1; st.first[c]=false; st.headMoved=0; st.rolled=true; st.trail=[]; st.rollId++; st.snap=null; st.turnAt=now;
+    if(!st.rolled){ let a=d6(),b=d6(); if(st.arn && st.arn.rr && !st.rrUsed && a!==b && a+b<=5){ st.rrUsed=1; a=d6(); b=d6(); st.note={c, rr:1, at:now}; } st.dice=[a,b]; st.remaining=a===b?[a,a,a,a]:[a,b]; st.headLimit=(st.first[c]&&a===b&&[3,4,6].includes(a))?2:1; st.first[c]=false; st.headMoved=0; st.rolled=true; st.trail=[]; st.rollId++; st.snap=null; st.turnAt=now;
       st.botPlan = (st.botLvl ? botPathPro(st,c,st.botLvl,rnd) : botBestPath(st,c,NZ,rnd))||[]; if(!st.botPlan.length){ st.botPlan=null; passTurn(st,now); } return st; }
     const m=(st.botPlan||[]).shift(); const ok=m&&legalMoves(st,c).find(x=>x.from===m.from&&x.to===m.to&&x.die===m.die); if(!ok){ st.botPlan=null; passTurn(st,now); return st; }
     Object.assign(st,applyMove(st,c,ok)); st.trail=(st.trail||[]).concat([b2(c,ok.from),ok.to===24?-1:b2(c,ok.to)]);
@@ -130,6 +133,7 @@ function act(state, uid, action, args, env){
   // turn actions
   if(st.phase!=='play') err('bad_phase'); const c=colorOfSlot(st,me); if(st.turn!==c) err('not_your_turn');
   if(action==='roll'){ if(st.rolled) err('already'); let a=d6(), b=d6(); const R=RU(st); if(R.dbl==='none'){ for(let g=0;g<40&&a===b;g++) b=d6(); }
+    if(R.dbl==='skip' && a===b){ st.dice=[a,b]; st.remaining=[]; st.rolled=true; st.trail=[]; st.rollId++; st.first[c]=false; st.note={c, skipd:1, at:now}; passTurn(st,now); return st; }
     if(R.dbl==='pen' && a===b){ st.dice=[a,b]; st.remaining=[]; st.rolled=true; st.trail=[]; st.rollId++; st.first[c]=false; st.skip=st.skip||{w:0,b:0}; st.skip[c]=a-1; st.note={c, pen:a, at:now}; passTurn(st,now); return st; }
     st.dice=[a,b]; st.remaining=a===b?[a,a,a,a]:[a,b]; st.headLimit=R.head==='free'?15:(st.first[c]&&a===b&&[3,4,6].includes(a))?2:1; st.first[c]=false; st.headMoved=0; st.rolled=true; st.trail=[]; st.rollId++; st.snap={board:st.board.slice(),off:{...st.off}}; st.turnAt=now;
     autoPassIfStuck(st,now); return st; }
@@ -608,6 +612,32 @@ function clRoll(C: any) { const wk = lgWeek(); if (C.wk === wk) return false;
 async function clIndex(db: any, C: any, drop = false) { const I = (await lgFile(db, 'club/index.json')) || {}; if (drop) delete I[C.id];
   else I[C.id] = { name: C.name, tag: C.tag, n: C.m.length, wp: Object.values(C.wp || {}).reduce((a: number, b: any) => a + (b | 0), 0), wk: C.wk }; await lgSave(db, 'club/index.json', I); }
 async function clAdd(db: any, A: any, uid: string, pts: number) { if (!A.club) return; try { const C = await lgFile(db, clPath(A.club)); if (!C || !C.m.includes(uid)) return; clRoll(C); C.wp = { ...(C.wp || {}) }; C.wp[uid] = (C.wp[uid] | 0) + pts; await lgSave(db, clPath(C.id), C); await clIndex(db, C); } catch (_) { /* never block the rating */ } }
+
+// ---- 0.79: the arena — 12 bosses, 3 lives. Each boss has a quirk and an obstacle on the board; every boss beaten for the first time gives its item;
+// 12 wins — the champion's rewards, 12–0 — the best ones and the hall of fame. A.arn = { run, st:'on'|'done', w, l }; A.arnBeat = { bossKey: 1 }; A.arnFree = the week of the free run.
+const ARN_COST = 500, ARN_LIVES = 3;
+const ARN: any[] = [   // 1–5 play with noise (no lookahead), 6–8 the strong evaluation, 9–12 the grandmaster lookahead
+  { k: 'petro', lvl: 0, nz: 3, coins: 50 },
+  { k: 'bazar', lvl: 0, nz: 2, t: 15, blk: [8], coins: 75, item: 'dice:bazaar' },
+  { k: 'blocks', lvl: 0, nz: 1.2, blk: [6, 9], coins: 100, item: 'ck:brick' },
+  { k: 'sharp', lvl: 0, nz: .8, blk: [10], rr: 1, coins: 150, item: 'dice:marked' },
+  { k: 'tea', lvl: 0, nz: .5, t: 30, blk: [5, 11], coins: 200, item: 'table:arenatea' },
+  { k: 'shadow', lvl: 1, nz: 0, blk: [9], fog: 1, coins: 300, item: 'frm:shadow' },
+  { k: 'aksakal', lvl: 1, nz: 0, t: 20, dbl: 'none', coins: 400, item: 'ck:aksakal' },
+  { k: 'mirror', lvl: 1, nz: 0, blk: [7, 15], mir: 1, coins: 500, item: 'board:mirror' },
+  { k: 'storm', lvl: 3, nz: 0, t: 10, wind: 1, coins: 650, item: 'dice:storm' },
+  { k: 'sultan', lvl: 3, nz: 0, first: 1, blk: [19, 21], coins: 800, item: 'ck:sultanic' },
+  { k: 'twin', lvl: 3, nz: 0, strict: 1, rr: 1, coins: 1000, item: 'frm:twin' },
+  { k: 'khan', lvl: 3, nz: 0, t: 10, blk: [8, 15], fog: 1, dbl: 'skip', first: 1, strict: 1, coins: 0 } ];
+function arnApply(A: any, won: boolean, st: any) { const R = A.arn; if (!R || R.st !== 'on' || R.run !== st.arn.run || (R.w | 0) !== st.arn.b) return null;
+  const out: any = { b: st.arn.b, won: won ? 1 : 0, coins: 0, items: [] }; A.owned = Array.isArray(A.owned) ? A.owned : [];
+  const give = (i: string) => { if (i && !A.owned.includes(i)) { A.owned.push(i); out.items.push(i); } };
+  if (won) { const B = ARN[st.arn.b]; let c = B.coins; A.arnBeat = { ...(A.arnBeat || {}) }; if (B.item && !A.arnBeat[B.k]) give(B.item); A.arnBeat[B.k] = 1; R.w = (R.w | 0) + 1;
+    if (R.w >= 12) { const flaw = (R.l | 0) === 0; c += flaw ? 6000 : 3000; ['frm:champ', 'board:khan'].forEach(give); if (flaw) ['frm:flawless', 'ck:khan', 'dice:khan'].forEach(give);
+      A.ach2 = { ...(A.ach2 || {}) }; if (!A.ach2.arena12) A.ach2.arena12 = Date.now(); if (flaw && !A.ach2.arena120) A.ach2.arena120 = Date.now(); R.st = 'done'; out.champ = 1; out.flaw = flaw ? 1 : 0; }
+    A.coins = (A.coins ?? COIN_START) + c; out.coins = c; }
+  else { R.l = (R.l | 0) + 1; if (R.l >= ARN_LIVES) { R.st = 'done'; out.over = 1; } }
+  A.arnBest = Math.max(A.arnBest | 0, R.w | 0); out.w = R.w; out.l = R.l; A.arn = R; return out; }
 // ---- weekly leagues: Bronze → Silver → Gold → Diamond. Groups of 20 (free places = league bots whose points grow
 // through the week). Points: a full game 1, a win 3, a mars win 4. Week = Monday 00:00 → Sunday 24:00 (Kyiv).
 // At the end: top 5 go up, bottom 5 go down; prizes for places 1–5. Group files live in storage: srv/league/<wk>/<g>.json.
@@ -801,6 +831,15 @@ Deno.serve(async (req) => {
       const can = over && me && A.ar && A.ar.d === day && !A.ar.cl ? prizeOf(me.rank, me.g) : 0;
       if (args?.op === 'claim') { if (!can) return json({ ok: false, why: 'none' }); A.ar = { ...A.ar, cl: Date.now() }; A.coins = (A.coins ?? COIN_START) + can; await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, got: can, coins: A.coins }); }
       return json({ ok: true, day, live, n: L.length, top: L.slice(0, 20).map((r: any) => ({ n: r.n, av: r.av, p: r.p, g: r.g, me: r.id === user.id ? 1 : 0 })), me: me ? { p: me.p, g: me.g, rank: me.rank } : null, prize: can, claimed: !!(A.ar && A.ar.d === day && A.ar.cl) }); }
+    if (action === 'arn') { const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
+      const A = { ...(p.ach || {}) }; const op = String(args?.op || 'state'), wk = lgWeek(), free = A.arnFree !== wk;
+      if (op === 'start') { if (A.arn && A.arn.st === 'on') return json({ error: 'on' }, 400);
+        if (!free) { if ((A.coins ?? COIN_START) < ARN_COST) return json({ error: 'coins' }, 400); A.coins = (A.coins ?? COIN_START) - ARN_COST; } else A.arnFree = wk;
+        A.arn = { run: Date.now(), st: 'on', w: 0, l: 0 }; await db.from('profiles').update({ ach: A }).eq('id', user.id); }
+      if (op === 'quit' && A.arn && A.arn.st === 'on') { A.arn = { ...A.arn, st: 'done' }; await db.from('profiles').update({ ach: A }).eq('id', user.id); }
+      const hall = (await lgFile(db, 'arena/hall.json')) || [];
+      return json({ ok: true, run: A.arn || null, best: A.arnBest | 0, beat: A.arnBeat || {}, free: A.arnFree !== wk, cost: ARN_COST, lives: ARN_LIVES, coins: A.coins ?? COIN_START, ends: lgEnd(wk), hall: hall.slice(-30).reverse(),
+        bosses: ARN.map((B) => ({ k: B.k, coins: B.coins, item: B.item || '', t: B.t || 0, blk: (B.blk || []).length, dbl: B.dbl || '', first: B.first ? 1 : 0, rr: B.rr ? 1 : 0, wind: B.wind ? 1 : 0, fog: B.fog ? 1 : 0, mir: B.mir ? 1 : 0, strict: B.strict ? 1 : 0 })) }); }
     if (action === 'club') { const { data: p } = await db.from('profiles').select('id,name,av,rating,ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
       const A = { ...(p.ach || {}) }; const op = String(args?.op || 'mine'); const saveA = async () => { await db.from('profiles').update({ ach: A }).eq('id', user.id); };
       const list = async () => { const I = (await lgFile(db, 'club/index.json')) || {}; const wk = lgWeek(); return Object.entries(I).map(([id, c]: any) => ({ id, name: c.name, tag: c.tag, n: c.n | 0, wp: c.wk === wk ? c.wp | 0 : 0 })).sort((a: any, b: any) => b.wp - a.wp || b.n - a.n).slice(0, 40); };
@@ -1321,6 +1360,7 @@ Deno.serve(async (req) => {
           ach.A.ref5 = Date.now(); ach.A.coins = (ach.A.coins ?? COIN_START) + bonus; refPay.push([ach.A.refBy, bonus]); }
         if (fullGame && LG_ON) await lgAdd(db, id, ach.A, p?.name || '', p?.av || '', won ? (st.result.mars ? 4 : 3) : 1);
         if (fullGame && !tourG && ach.A.club) await clAdd(db, ach.A, id, won ? (st.result.mars ? 4 : 3) : 1);
+        if (st.arn && s === 'p1') try { st.arnRes = arnApply(ach.A, won, st); if (st.arnRes?.flaw) { const H = (await lgFile(db, 'arena/hall.json')) || []; H.push({ n: String(p?.name || '').slice(0, 20), av: String(p?.av || '').slice(0, 24), at: Date.now() }); await lgSave(db, 'arena/hall.json', H.slice(-200)); } } catch (_) { /* never block the rating */ }
         if (fullGame && !tourG) try { ssUpd(ach.A, won, !!st.result.mars, myR, Math.max(100, myR + d[s]), !calSkip && rg + 1 >= CALIB); } catch (_) { /* never block the rating */ }
         await db.from('profiles').update({ rating: Math.max(100, myR + d[s]), rgames: (p?.rgames ?? 0) + (calSkip ? 0 : 1), played: (p?.played ?? 0) + 1, won: (p?.won ?? 0) + (won ? 1 : 0), ach: ach.A, updated_at: new Date().toISOString() }).eq('id', id);
       }
@@ -1355,6 +1395,11 @@ Deno.serve(async (req) => {
       // 0.76: a match to 3/5/7 points and/or blitz (10 s a move) against a bot — practice, no rating
       if (bot && bot !== 'ghost' && bot !== 'camp' && args?.fmt && typeof args.fmt === 'object') { const to = [1, 3, 5, 7].includes(Number(args.fmt.to)) ? Number(args.fmt.to) : 1, bz = !!args.fmt.bz;
         if (to > 1 || bz) { st.rules = { to, t: bz ? 10 : 0, dbl: 'norm', head: 'one', noMars: false, noOdds: false, open: false, first: 'roll' }; st.unrated = 1; } }
+      if (bot === 'hryts' && args?.arn) { const R = me?.ach?.arn; if (!R || R.st !== 'on' || (R.w | 0) >= 12 || (R.l | 0) >= ARN_LIVES) return json({ error: 'arena_off' }, 400);
+        const bi = R.w | 0, B = ARN[bi]; st.arn = { b: bi, k: B.k, run: R.run, rr: B.rr ? 1 : 0, wind: B.wind ? 1 : 0, fog: B.fog ? 1 : 0, mir: B.mir ? 1 : 0, strict: B.strict ? 1 : 0 };
+        st.unrated = 1; if (B.lvl) st.botLvl = B.lvl; else delete st.botLvl; st.botNoise = B.nz; st.rules = { to: 1, t: B.t || 0, dbl: B.dbl || 'norm', head: 'one', noMars: false, noOdds: false, open: false, first: 'roll' };
+        if (B.blk || B.wind) st.blk = { c: '', p: (B.blk || []).slice(), base: (B.blk || []).slice() };
+        if (B.first) { st.white = st.p2; st.black = st.p1; st.phase = 'play'; st.turn = 'w'; st.turnAt = Date.now(); if (st.blk) st.blk.c = 'b'; } }
       if (!bot && args?.rules && typeof args.rules === 'object') { const q = args.rules, pick = (v: any, L: any[], d: any) => L.includes(v) ? v : d;
         st.rules = { to: pick(Number(q.to), [1, 3, 5, 7], 1), t: pick(Number(q.t), [0, 10, 20, 30, 60], 60), dbl: pick(q.dbl, ['norm', 'none', 'pen'], 'norm'), head: pick(q.head, ['one', 'free'], 'one'), noMars: !!q.noMars, noOdds: !!q.noOdds, open: !!q.open, first: pick(q.first, ['roll', 'host', 'alt'], 'roll') };
         // the host's table, board, checkers and dice, shown to both players (names only; the site checks they exist)
