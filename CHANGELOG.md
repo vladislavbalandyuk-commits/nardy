@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.80.5
+- The «offline» chip is shown only to a participant (mySlot) about a real user id; spectators of a broadcast and tournament-bot seats no longer get it.
+
 ## 0.80.4
 - Bot picker: sticky «Play» button; descriptions hidden when the window is under 600px tall.
 

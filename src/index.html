@@ -5345,7 +5345,7 @@ function plCard(el, s){
   if(col){ const dot=document.createElement('span'); dot.className='chip mini '+col; chip.appendChild(dot); }
   if(timedGame()){ const tm=document.createElement('span'); tm.className='tmr'; tm.dataset.slot=s; chip.appendChild(tm); }
   const bub=document.createElement('span'); bub.className='bub hidden'; bub.dataset.slot=s; el.appendChild(bub);
-  if(mode==='online' && gs[s] && gs[s]!==uid && !oppOnline(gs[s])){ const off=document.createElement('span'); off.className='offl'; off.textContent=t('offline'); chip.appendChild(off); }
+  if(mode==='online' && mySlot() && gs[s] && gs[s]!==uid && /^[0-9a-f-]{36}$/i.test(String(gs[s])) && !(gs.botP||gs.srvBot) && !oppOnline(gs[s])){ const off=document.createElement('span'); off.className='offl'; off.textContent=t('offline'); chip.appendChild(off); }
   const box=document.createElement('div');
   const nm=document.createElement('div'); nm.className='nm'; nm.textContent=slotName(s); try{ const tk=ttOfSlot(s); if(tk){ const tt=document.createElement('span'); tt.className='ttl57'; tt.textContent=t('a2_'+tk); nm.appendChild(tt); } }catch(e){}
   const sub=document.createElement('div'); sub.className='sub';
@@ -5863,7 +5863,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.80.4';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.80.5';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -7798,6 +7798,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+ {v:"0.80.5", d:"14.11.2026", uk:["У трансляції біля гравців більше не пишеться хибне «офлайн»; позначку бачать лише учасники партії, і тільки коли суперник справді відключився"], en:["Broadcasts no longer show a false «offline» next to the players; only the players in the game see it, and only when the opponent has really disconnected"], ru:["В трансляции у игроков больше не пишется ложное «офлайн»; пометку видят только участники партии и только когда соперник действительно отключился"]},
  {v:"0.80.4", d:"14.11.2026", uk:["У виборі бота кнопка «Грати» завжди видна, навіть у невеликому вікні"], en:["In the bot picker the «Play» button is always in view, even in a small window"], ru:["В выборе бота кнопка «Играть» всегда видна, даже в небольшом окне"]},
  {v:"0.80.3", d:"14.11.2026", uk:["На CrazyGames кнопки входу ведуть лише в акаунт CrazyGames"], en:["On CrazyGames the sign-in buttons only lead to the CrazyGames account"], ru:["На CrazyGames кнопки входа ведут только в аккаунт CrazyGames"]},
  {v:"0.80.2", d:"14.11.2026", uk:["Профіль знову відкривається (його ламали досягнення арени без нагороди-предмета)","Нагадування «Турнір через годину» показує справжній час старту, а не завжди 18:00"], en:["The profile opens again (arena achievements without an item reward broke it)","The «Tournament in an hour» reminder shows the real start time, not always 18:00"], ru:["Профиль снова открывается (его ломали достижения арены без награды-предмета)","Напоминание «Турнир через час» показывает настоящее время старта, а не всегда 18:00"]},
