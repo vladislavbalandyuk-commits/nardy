@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.80.0
+- CrazyGames resubmission pass. Brand «Nardy Masters» everywhere (brandName, titles, manifest). Game-first start: a new player (site and portal) goes straight into a game with bot Marta; ob40 asks nothing; a direction-neutral goal tip comes first. Portal: guideSeen no longer blocks the first game, no own «Log in» label (Guest → CrazyGames account), invite/referral/tournament/club/friend-link share hidden or turned into a hint (game invites use the CrazyGames invite link). Board point numbers, tray counts and seat lines are at least 11px. «N bots waiting» removed. Admin stats: a CrazyGames platform (plat 'cg').
+
 ## 0.79.1
 - A MutationObserver turns every 🪙 text (the emoji is silver on most phones) into the gold coin icon everywhere; the boss tower for the arena.
 
