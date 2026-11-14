@@ -2367,6 +2367,10 @@ body.portal .xlink,body.portal .tshbtn,body.portal .frlinkb,body.portal .sfr-inv
 .pt .num{font-size:max(11px,calc(var(--cs)*.21))}
 .tslot .tc{font-size:max(11px,calc(var(--cs)*.24))}
 @media (max-height:560px) and (orientation:landscape){ body.ingame .ptip{left:auto!important;right:10px!important;bottom:10px!important;top:auto!important;transform:none!important;width:min(300px,34vw)!important} body.ingame .ptip.on{transform:none!important} }
+
+/* 0.80.4: the bot picker — «Play» always in view; compact on short windows */
+.bp58 .bx>.go{position:sticky;bottom:0;z-index:2;box-shadow:0 -14px 22px 6px var(--panel,#15161b)}
+@media (max-height:600px){ .bp58 .bx>p.d,.bp58 .op small,.bp58 .pr small,.bp58 .fmt76 .fh small{display:none} .bp58 .op{padding-top:6px!important;padding-bottom:6px!important} .bp58 .bx{max-height:96vh;padding-top:12px} }
 </style>
 <style>/* 0.38: home — one big «Play», three «Today» tiles */
 .h38modes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
@@ -5859,7 +5863,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.80.3';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.80.4';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -7794,6 +7798,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+ {v:"0.80.4", d:"14.11.2026", uk:["У виборі бота кнопка «Грати» завжди видна, навіть у невеликому вікні"], en:["In the bot picker the «Play» button is always in view, even in a small window"], ru:["В выборе бота кнопка «Играть» всегда видна, даже в небольшом окне"]},
  {v:"0.80.3", d:"14.11.2026", uk:["На CrazyGames кнопки входу ведуть лише в акаунт CrazyGames"], en:["On CrazyGames the sign-in buttons only lead to the CrazyGames account"], ru:["На CrazyGames кнопки входа ведут только в аккаунт CrazyGames"]},
  {v:"0.80.2", d:"14.11.2026", uk:["Профіль знову відкривається (його ламали досягнення арени без нагороди-предмета)","Нагадування «Турнір через годину» показує справжній час старту, а не завжди 18:00"], en:["The profile opens again (arena achievements without an item reward broke it)","The «Tournament in an hour» reminder shows the real start time, not always 18:00"], ru:["Профиль снова открывается (его ломали достижения арены без награды-предмета)","Напоминание «Турнир через час» показывает настоящее время старта, а не всегда 18:00"]},
  {v:"0.80.1", d:"14.11.2026", uk:["Після ходу на дошці більше не з’являється хибне «Немає ходів», поки триває секунда на «Скасувати»"], en:["After your move the board no longer shows a false «No moves» while the short undo window runs"], ru:["После хода на доске больше не появляется ложное «Нет ходов», пока идёт секунда на «Отменить»"]},
