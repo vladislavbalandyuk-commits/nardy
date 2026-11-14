@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.80.3
+- Portal: t('login') reads «Sign in with CrazyGames» (cg73B) on CrazyGames.
+
 ## 0.80.2
 - openProfile crashed in achRwEl for the arena achievements (arena12/arena120 have an empty reward): now shown as a title reward; achList calls are guarded. The client tournament reminder (ntfTourHB) had a hard-coded 18:00; it now formats the real start from nextSat().
 

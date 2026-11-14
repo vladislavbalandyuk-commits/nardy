@@ -2944,7 +2944,7 @@ let lang = store.get('lang', (()=>{ const n=(navigator.language||'en').toLowerCa
 T.ru=Object.assign({}, T.uk, window.__RU||{});
 const LOC=()=>lang==='uk'?'uk-UA':lang==='ru'?'ru-RU':'en-GB';
 const t_ = (k, vars) => t(k, vars);
-const t = (k, vars) => { let s = (T[lang][k] ?? T.en[k] ?? k); if(vars) for(const [a,b] of Object.entries(vars)) s=s.split('{'+a+'}').join(b); if(s.includes('{g}')||s.includes('{p}')){ try{ s=s.split('{g}').join(evG()).split('{p}').join(evP()); }catch(e){} } return s; };
+const t = (k, vars) => { if(PORTAL==='crazygames' && k==='login') k='cg73B'; let s = (T[lang][k] ?? T.en[k] ?? k); if(vars) for(const [a,b] of Object.entries(vars)) s=s.split('{'+a+'}').join(b); if(s.includes('{g}')||s.includes('{p}')){ try{ s=s.split('{g}').join(evG()).split('{p}').join(evP()); }catch(e){} } return s; };
 function applyLang(){ setTimeout(()=>{ try{ ntfPaint(); }catch(e){} },0); setTimeout(()=>{ try{ renderOnline(); }catch(e){} },0);
   document.documentElement.lang = lang;
   document.querySelectorAll('[data-t]').forEach(el=>el.textContent=t(el.dataset.t));
@@ -5859,7 +5859,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.80.2';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.80.3';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -7794,6 +7794,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+ {v:"0.80.3", d:"14.11.2026", uk:["На CrazyGames кнопки входу ведуть лише в акаунт CrazyGames"], en:["On CrazyGames the sign-in buttons only lead to the CrazyGames account"], ru:["На CrazyGames кнопки входа ведут только в аккаунт CrazyGames"]},
  {v:"0.80.2", d:"14.11.2026", uk:["Профіль знову відкривається (його ламали досягнення арени без нагороди-предмета)","Нагадування «Турнір через годину» показує справжній час старту, а не завжди 18:00"], en:["The profile opens again (arena achievements without an item reward broke it)","The «Tournament in an hour» reminder shows the real start time, not always 18:00"], ru:["Профиль снова открывается (его ломали достижения арены без награды-предмета)","Напоминание «Турнир через час» показывает настоящее время старта, а не всегда 18:00"]},
  {v:"0.80.1", d:"14.11.2026", uk:["Після ходу на дошці більше не з’являється хибне «Немає ходів», поки триває секунда на «Скасувати»"], en:["After your move the board no longer shows a false «No moves» while the short undo window runs"], ru:["После хода на доске больше не появляется ложное «Нет ходов», пока идёт секунда на «Отменить»"]},
  {v:"0.80.0", d:"14.11.2026", uk:["Нова назва — Nardy Masters","Новачок одразу потрапляє в партію з легким ботом, а Паша коротко підказує по ходу гри","Номери пунктів і дрібні написи на дошці стали більшими й читаються на невеликих екранах","Прибрано напис «N ботів у черзі»"], en:["New name — Nardy Masters","A new player lands straight in a game with an easy bot, and Pasha gives short tips as you play","Point numbers and small text on the board are bigger and readable on small screens","The «N bots waiting» text is gone"], ru:["Новое название — Nardy Masters","Новичок сразу попадает в партию с лёгким ботом, а Паша коротко подсказывает по ходу игры","Номера пунктов и мелкие надписи на доске стали крупнее и читаются на небольших экранах","Убрана надпись «N ботов в очереди»"]},
