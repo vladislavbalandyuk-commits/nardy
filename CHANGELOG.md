@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.82.4
+- tb53: the turn banner moves under the board only for wait/info states; whenever it carries a button (Roll dice etc.) it stays centred on the board. Bigger button on phones.
+
 ## 0.82.3
 - Dice: the board no longer rebuilds the dice when they have not changed (key on phase/dice/remaining/turn/rollId), so repeated renders during a roll do not restart the animation; each animated die drops its .roll class after the animation time, so a stalled CSS animation (iOS/Telegram) cannot leave a die invisible or mid-spin.
 

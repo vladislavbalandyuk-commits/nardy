@@ -2518,6 +2518,9 @@ body.v7 .topcard .tch{text-transform:none!important;letter-spacing:normal!import
 .tw-base{background:linear-gradient(rgba(4,6,12,.4),rgba(4,6,12,.7)),url(arena/stone.webp) 0 0/600px 400px!important}
 @media (max-width:520px){ .ww{width:66px;height:86px} .ww.wb{width:80px;height:104px} .ww .win .av{width:48px;height:48px;margin-bottom:8px} .ww.wb .win .av{width:60px;height:60px} .tw-roof{height:190px!important} .tw-roof .dome{width:190px!important;height:200px!important} }
 
+
+/* 0.82.4: the roll prompt sits in the middle of the board on phones — bigger tap target */
+@media (max-width:640px){ body.ingame #turnBanner:not(.wait) button{min-height:44px;padding:10px 20px;font-size:15px} }
 </style>
 <style>/* 0.38: home — one big «Play», three «Today» tiles */
 .h38modes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
@@ -5131,7 +5134,7 @@ function iconify(root){ if(!root || root.nodeType!==1 || root.closest(ICO_SKIP))
 // ================= 0.53: the juicy table =================
 // on a portrait phone the «your turn» panel moves from the middle of the board into the empty space under it
 function tb53(){ try{ const on=document.body.classList.contains('pg41'); const tr=$('tray'), pb=$('plBot'), tb=$('turnBanner'), qr=$('qrBar'); let low=false;
-  if(on && tr && pb && tb){ const a=tr.getBoundingClientRect().bottom; let b=pb.getBoundingClientRect().top; if(qr && qr.getBoundingClientRect().height>4 && getComputedStyle(qr).display!=='none') b=Math.min(b, qr.getBoundingClientRect().top); if(b-a>=66){ low=true; document.documentElement.style.setProperty('--tbY', Math.round((a+b)/2)+'px'); } }
+  if(on && tr && pb && tb){ const a=tr.getBoundingClientRect().bottom; let b=pb.getBoundingClientRect().top; if(qr && qr.getBoundingClientRect().height>4 && getComputedStyle(qr).display!=='none') b=Math.min(b, qr.getBoundingClientRect().top); const btn=[...tb.querySelectorAll('button')].some(x=>x.offsetParent||getComputedStyle(x).display!=='none'); if(b-a>=66 && !btn){ low=true; document.documentElement.style.setProperty('--tbY', Math.round((a+b)/2)+'px'); } }
   if(tb && !gs) tb.classList.add('hidden');
   if(tb){ const home=document.querySelector('#board .bar'); if(low && tb.parentElement!==document.body) document.body.appendChild(tb); else if(!low && tb.parentElement===document.body && home) home.after(tb); }
   document.body.classList.toggle('tblow', low); }catch(e){} }
@@ -6115,7 +6118,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.82.3';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.82.4';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -8056,6 +8059,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+ {v:"0.82.4", d:"15.11.2026", uk:["На телефоні кнопка «Кинути кубики» тепер посередині дошки, а не внизу під нею"], en:["On phones the «Roll dice» button is now in the middle of the board, not below it"], ru:["На телефоне кнопка «Бросить кубики» теперь посередине доски, а не внизу под ней"]},
  {v:"0.82.3", d:"15.11.2026", uk:["Виправлено: на телефоні під час кидка інколи видно було лише один кубик, що «завмирав» — тепер обидва кубики завжди докручуються й стають на місце"], en:["Fixed: on phones a roll sometimes showed only one die that looked frozen — both dice now always finish rolling and settle"], ru:["Исправлено: на телефоне при броске иногда был виден только один кубик, который «зависал» — теперь оба кубика всегда докручиваются и встают на место"]},
  {v:"0.82.2", d:"15.11.2026", uk:["Вежа арени тепер із справжнього темного каменю, вікна — східні арки різної форми з кам’яною рамкою, на даху — цибулястий купол","Позаду — нічне небо з мечеттю й мінаретами в місячному світлі"], en:["The arena tower is now real dark stone, the windows are eastern arches of different shapes with stone frames, and an onion dome sits on the roof","Behind it — a night sky with a mosque and minarets in the moonlight"], ru:["Башня арены теперь из настоящего тёмного камня, окна — восточные арки разной формы с каменной рамкой, на крыше — луковичный купол","Позади — ночное небо с мечетью и минаретами в лунном свете"]},
  {v:"0.82.1", d:"15.11.2026", uk:["Арена отримала справжню графіку: нічне небо з місяцем і хмарами, силует східного міста з вогниками у вікнах і кам’яну вежу з тесаних блоків"], en:["The arena got real art: a night sky with the moon and clouds, an eastern city skyline with lit windows and a tower of cut stone blocks"], ru:["Арена получила настоящую графику: ночное небо с луной и облаками, силуэт восточного города с огоньками в окнах и каменную башню из тёсаных блоков"]},
