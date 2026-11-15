@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.82.2
+- Arena art from Vlad's picks: arena/sky.webp (his B&W mosque photo tinted to night navy), arena/stone.webp (his dark slate wall made seamless), arch masks win1–4/winb and roof.png cut from his arch vector set (Freepik/Magnific, credited on the page). Windows: .ww wrapper with a stone frame and dark glass masked to the arch; the generated city layer removed.
+
 ## 0.82.1
 - Arena art generated in code (no third-party licences): arena/sky.webp (night gradient, clouds, moon), arena/city.webp (two-layer skyline with domes, minarets, lit windows), arena/stone.webp (seamless cut-stone masonry). Generators in tools/gen_arena_stone.py and tools/gen_arena_city.py.
 
