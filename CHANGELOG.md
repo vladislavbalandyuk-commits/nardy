@@ -3,6 +3,11 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.83.0 — 2026-11-15
+- Exclusive weekend-tournament set (board, onyx/pearl checkers, dice, hall table tb/cup.webp), applied only in tournament games, never in the shop.
+- Tournament FX and synthesized sounds: silver dust on roll, start gong, dice clack, low-time clock tick, hall ambience, applause on win.
+- Signature synthesized sounds for all 12 arena bosses (bubbles, taunts, fight start).
+
 ## 0.82.6
 - CL_ON=false: the Club tab, club bell item, club background load and ?club= invites are off in the UI; the server and data stay.
 
