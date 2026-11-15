@@ -6115,7 +6115,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.82.2';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.82.3';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -6204,6 +6204,7 @@ function build2D(){
     paint(anim ? 1+Math.floor(Math.random()*6) : v);
     if(anim && i===0) setTimeout(()=>{ try{ window.rollFx && window.rollFx(d); }catch(e){} }, 30);
     if(anim){ let n=0; const iv=setInterval(()=>{ n++; if(n>=7){ clearInterval(iv); paint(v); } else paint(1+Math.floor(Math.random()*6)); }, 60); }
+    if(anim) setTimeout(()=>{ d.classList.remove('roll'); d.style.animationDelay=''; paint(v); }, 720+i*60); // 0.82.3: never leave a die stuck mid-animation (iOS/Telegram may stall CSS animations)
     return d;
   }
 
@@ -6334,7 +6335,11 @@ function build2D(){
       };
       tray($('trayBot'), vc); tray($('trayTop'), OPP(vc));
       // dice
-      const dL=$('diceL'), dR=$('diceR'); dL.innerHTML=''; dR.innerHTML='';
+      const dL=$('diceL'), dR=$('diceR');
+      // 0.82.3: re-renders during the roll (phones re-render a lot: Telegram viewport, resize, timers) used to rebuild the dice and restart their animation — the second die stayed invisible and the first one "froze". Same dice → keep the elements.
+      const dKey = !gs ? '' : gs.phase==='opening' ? 'o|'+(gs.open&&gs.open.p1)+'|'+(gs.open&&gs.open.p2)+'|'+JSON.stringify(gs.openLast||0) : gs.phase==='play' && gs.dice && gs.dice.length ? 'p|'+gs.dice.join(',')+'|'+gs.remaining.join(',')+'|'+gs.turn+'|'+vc+'|'+(gs.rollId||'') : '';
+      if(dKey && dKey===dL._k && (dL.childElementCount+dR.childElementCount)){ /* unchanged */ } else {
+      dL.innerHTML=''; dR.innerHTML=''; dL._k=dKey;
       const anim = performance.now() < rollAnimUntil;
       if(gs && gs.phase==='opening'){
         const me = mode==='online' ? (mySlot()||'p1') : 'p1';
@@ -6344,6 +6349,7 @@ function build2D(){
         const dbl=gs.dice[0]===gs.dice[1], faces = dbl ? [gs.dice[0],gs.dice[0],gs.dice[0],gs.dice[0]] : gs.dice;
         let rem=gs.remaining.slice(); const host = gs.turn===vc ? dR : dL;
         faces.forEach((f,i)=>{ const j=rem.indexOf(f); const used=j<0; if(!used) rem.splice(j,1); host.appendChild(dieEl(f,used,anim,i)); });
+      }
       }
       if(pendingAnim && gs){ const a=pendingAnim; pendingAnim=null; if(noFlight) noFlight=false; else runFlights(a.col, a.flat, data.board); }
     }
@@ -8050,6 +8056,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+ {v:"0.82.3", d:"15.11.2026", uk:["Виправлено: на телефоні під час кидка інколи видно було лише один кубик, що «завмирав» — тепер обидва кубики завжди докручуються й стають на місце"], en:["Fixed: on phones a roll sometimes showed only one die that looked frozen — both dice now always finish rolling and settle"], ru:["Исправлено: на телефоне при броске иногда был виден только один кубик, который «зависал» — теперь оба кубика всегда докручиваются и встают на место"]},
  {v:"0.82.2", d:"15.11.2026", uk:["Вежа арени тепер із справжнього темного каменю, вікна — східні арки різної форми з кам’яною рамкою, на даху — цибулястий купол","Позаду — нічне небо з мечеттю й мінаретами в місячному світлі"], en:["The arena tower is now real dark stone, the windows are eastern arches of different shapes with stone frames, and an onion dome sits on the roof","Behind it — a night sky with a mosque and minarets in the moonlight"], ru:["Башня арены теперь из настоящего тёмного камня, окна — восточные арки разной формы с каменной рамкой, на крыше — луковичный купол","Позади — ночное небо с мечетью и минаретами в лунном свете"]},
  {v:"0.82.1", d:"15.11.2026", uk:["Арена отримала справжню графіку: нічне небо з місяцем і хмарами, силует східного міста з вогниками у вікнах і кам’яну вежу з тесаних блоків"], en:["The arena got real art: a night sky with the moon and clouds, an eastern city skyline with lit windows and a tower of cut stone blocks"], ru:["Арена получила настоящую графику: ночное небо с луной и облаками, силуэт восточного города с огоньками в окнах и каменную башню из тёсаных блоков"]},
  {v:"0.82.0", d:"15.11.2026", uk:["Нова арена: кам’яна вежа з 12 поверхів над нічним містом, кожен бос у своєму вікні; на комп’ютері справа екран «ти проти боса» з правилами й нагородою","Замість емодзі в інтерфейсі — власні лінійні іконки в одному стилі; дрібні заголовки КАПСОМ стали звичайними; менше неонових градієнтів","Ліги поки сховані — повернемо в новому вигляді"], en:["New arena: a 12-floor stone tower over a night city, each boss in their own window; on desktop a «you vs boss» panel with the rules and the reward on the right","Emoji in the interface replaced by our own line icons in one style; small CAPS headings are now normal text; fewer neon gradients","Leagues are hidden for now — they will come back in a new form"], ru:["Новая арена: каменная башня в 12 этажей над ночным городом, каждый босс в своём окне; на компьютере справа экран «ты против босса» с правилами и наградой","Вместо эмодзи в интерфейсе — свои линейные иконки в одном стиле; мелкие заголовки КАПСОМ стали обычными; меньше неоновых градиентов","Лиги пока скрыты — вернём в новом виде"]},
