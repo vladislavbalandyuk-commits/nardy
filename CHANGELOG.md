@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.81.0
+- Arena moved from a modal to a full page (#arnPg, like #campPg): sticky top bar with back, sticky run status, the tower with icon chips per boss (ARN_CH) instead of sentences, reward line coins + 🎁. Tapping a boss opens #arnSh with the rules spelled out row by row, rewards and «Fight» for the current boss (arnFight now opens that card). Mobile nav hidden on the page.
+
 ## 0.80.6
 - .die.used: opacity .62 + grayscale/brightness instead of opacity .3, which on dark boards (Druzi neon) looked like the second die was missing.
 
