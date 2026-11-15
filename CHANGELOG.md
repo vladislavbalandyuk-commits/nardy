@@ -3,6 +3,12 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.82.0
+- Arena redrawn: .tw2 stone tower (roof dome, crenellations, 12 floors .fl with arched .win windows — lit for the current boss, bars when locked, check when beaten), night sky with moon and an SVG city skyline; right column on ≥980px: run card (hearts, wins, best, progress) and the «you VS boss» card with rules and reward.
+- LICO/lico(): one line-icon set. iconify(): a MutationObserver turns interface emoji (🏆🎁⚔️🔒📅🛡🎯🧩💎🏁🔍💡⚠️👥📻🎓🏅🥇🎲⚡❄🖼🧪🪨💨💬👑⏱🔥⭐🚩🔁✅❌▶) into those icons, skipping chat, bubbles, phrases and inputs.
+- 58 caps-label rules switched to sentence case (rarity/new badges keep caps); the season bar and club badge lost the purple-pink gradient.
+- LG_ON=false: leagues hidden in the UI (server untouched).
+
 ## 0.81.1
 - Arena page ≥980px: two columns — tower left, sticky .arn-side right (status, .arnstats with progress, .arnnext with rules and Fight, final rewards, hall of fame); on phones the same blocks flow in one column via display:contents + order.
 - Talking bosses: every ~4 s a .arnbub pops by a boss in view (chA_<boss>_h/a), clamped to the page, with arnBabble — a short per-boss triangle-wave babble that respects sound and voice mute. In arena games botSay uses chA_<boss>_h/a/w/l (chatty bazar/storm/sharp talk more); 48 lines × uk/en/ru.
