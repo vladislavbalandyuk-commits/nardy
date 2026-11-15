@@ -1650,7 +1650,7 @@ body[data-table]:not([data-table=auto]) #stage .bw{filter:drop-shadow(0 30px 36p
 .tourban .intl{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:2px;padding-top:8px;border-top:1px solid rgba(255,255,255,.12);font-size:12.5px}
 .tourban .intl span{opacity:.8} .tourban .intl em{font-style:normal;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
 body.v7 .tourcard{display:none!important}
-.rptabs.t4{grid-template-columns:repeat(4,1fr)} .rptabs.t4 button{font-size:13px;padding:9px 2px}
+.rptabs.t3{grid-template-columns:repeat(3,1fr)} .rptabs.t4{grid-template-columns:repeat(4,1fr)} .rptabs.t4 button{font-size:13px;padding:9px 2px}
 .ricard{border-radius:18px;padding:16px;margin-bottom:14px;color:#f3eefc;background:radial-gradient(110% 120% at 100% 0%,rgba(255,79,216,.28),transparent 55%),radial-gradient(110% 120% at 0% 100%,rgba(62,230,255,.22),transparent 55%),#17121f;border:1px solid rgba(164,107,255,.45)}
 .ricard small{display:block;font-size:12px;opacity:.7;letter-spacing:.04em;text-transform:uppercase} .ricard h2{margin:2px 0 2px;font-size:22px} .ricard .when{font-size:13px;opacity:.8}
 .ricard .pool{display:flex;align-items:baseline;gap:8px;margin:12px 0 4px} .ricard .pool b{font-size:30px;font-weight:700;font-variant-numeric:tabular-nums} .ricard .pool span{font-size:13px;opacity:.8}
@@ -3906,7 +3906,8 @@ function pzCard(home){
 // ================= weekly leagues =================
 const LG_COL=['#c98a5a','#c7ccd6','#e0b84d','#7fd3ff'], LG_IC=['🥉','🥈','🥇','💎'];
 let LG=null, _lgAt=0;
-const LG_ON=false;  // 0.82: leagues hidden again at Vlad's request (the server keeps counting)
+const LG_ON=false; const CL_ON=false;  // 0.82.6: clubs hidden for now at Vlad's request (the server keeps them)
+  // 0.82: leagues hidden again at Vlad's request (the server keeps counting)
 async function lgLoad(force){ if(!LG_ON || !frReg()) return null; if(!force && LG && Date.now()-_lgAt<30e3) return LG; _lgAt=Date.now();
   try{ const {data}=await sb.functions.invoke('game',{body:{action:'league'}}); if(data && data.wk!=null){ LG=data; if(data.last && store.get('lgSeen',-1)!==data.last.w){ store.set('lgSeen',data.last.w); setTimeout(()=>lgResult(data.last),600); if(data.last.prize){ try{ const r=await sb.from('profiles').select('ach').eq('id',uid).maybeSingle(); if(r.data && r.data.ach){ profile.ach=r.data.ach; coinsPaint(); } }catch(e){} } } } }catch(e){} return LG; }
 const lgName=i=>t('lgT'+i);
@@ -4434,7 +4435,7 @@ function bell57Items(){ const out=[]; const S=rwState; try{ if(coinsOnline() && 
       else if(n>=E.gAt && n<E.end && reg) out.push([t('bellTourLive'),()=>openTour()]); } }catch(e){}
   try{ if(SS){ const k=(SS.ach||[]).filter(a=>!a.cl && a.v>=a.n).length; if(k) out.push([t('bellSsAch',{n:k}),()=>openSeason()]); const d=ssDaysLeft(); if(d>0 && d<=3 && !store.get('bellSsEnd_'+SS.s,0)) out.push([t('bellSsEnd',{n:d}),()=>{ store.set('bellSsEnd_'+SS.s,1); openSeason(); }]); } }catch(e){}
   try{ if(ARNS){ const R=ARNS.run; if(R && R.st==='on' && ARNS.bosses && ARNS.bosses[R.w]) out.push([t('bellArnOn',{b:t('arnB_'+ARNS.bosses[R.w].k),w:R.w}),()=>openArena()]); else if(ARNS.free && !store.get('bellArnFree_'+new Date().toISOString().slice(0,10),0)) out.push([t('bellArnFree'),()=>{ store.set('bellArnFree_'+new Date().toISOString().slice(0,10),1); openArena(); }]); } }catch(e){}
-  try{ if(CL && CL.club && CL.club.pz>0) out.push([t('bellClPz',{n:CL.club.pz}),()=>{ try{ openRankPage('club'); }catch(e){} }]); }catch(e){}
+  try{ if(CL_ON && CL && CL.club && CL.club.pz>0) out.push([t('bellClPz',{n:CL.club.pz}),()=>{ try{ openRankPage('club'); }catch(e){} }]); }catch(e){}
   try{ const seenF=store.get('bellFansSeen',[])||[]; const nf=(FR_FANS||[]).filter(f=>!seenF.includes(f.id||f)); if(nf.length) out.push([t('bellFans',{n:nf.length}),()=>{ store.set('bellFansSeen',(FR_FANS||[]).map(f=>f.id||f)); try{ openRankPage('friends'); }catch(e){} }]); }catch(e){}
   try{ if(store.get('verSeen57','')!==APP_VERSION) out.push([t('bellVer',{v:APP_VERSION}),()=>{ store.set('verSeen57',APP_VERSION); openNews(); }]); }catch(e){}
   return out; }
@@ -4443,7 +4444,7 @@ function bell57Open(){ let p=$('bellPop'); if(p){ p.remove(); return; } p=uxH('d
   if(!L.length) p.appendChild(uxH('p',null,t('bellNone'))); L.forEach(([tx,fn])=>{ const b=uxH('button',null,tx); b.type='button'; b.onclick=()=>{ p.remove(); fn(); setTimeout(bell57Paint,400); }; p.appendChild(b); });
   document.body.appendChild(p); setTimeout(()=>{ const off=e=>{ if(!p.contains(e.target) && e.target.closest('#btnBell')==null){ p.remove(); removeEventListener('pointerdown',off,true); } }; addEventListener('pointerdown',off,true); },0); }
 setTimeout(()=>{ try{ $('btnBell').onclick=bell57Open; if(!store.get('verSeen57','')) store.set('verSeen57',APP_VERSION); }catch(e){} setInterval(bell57Paint,3000); bell57Paint(); },0);
-setTimeout(function bellFeed(){ try{ if(frReg() && !document.hidden){ arnLoad().catch(()=>{}); clLoad().catch(()=>{}); ssLoad().catch(()=>{}); if(typeof frLoad==='function') frLoad().catch(()=>{}); } }catch(e){} setTimeout(bellFeed,180000); },4000);
+setTimeout(function bellFeed(){ try{ if(frReg() && !document.hidden){ arnLoad().catch(()=>{}); if(CL_ON) clLoad().catch(()=>{}); ssLoad().catch(()=>{}); if(typeof frLoad==='function') frLoad().catch(()=>{}); } }catch(e){} setTimeout(bellFeed,180000); },4000);
 
 // ================= 0.58: choose a bot, practice without rating, the coach's hint, the winter Snowman =================
 const PBOTS=[{k:'marta',av:'n9',r:900,noise:7,l:0},{k:'ostap',av:'m3',r:1000,noise:3,l:1},{k:'taras',av:'m6',r:1100,noise:.8,l:2},{k:'hryts',av:'m10',r:1250,noise:0,l:3},{k:'snowman',av:'snow',r:1000,noise:3,l:1,w:1}];
@@ -4945,7 +4946,7 @@ async function clLoad(force){ if(!frReg()) return null; if(!force && CL && Date.
 function clRe(){ if(rpMode==='club' && $('rankPg')) rpPaint(); }
 function clLink(id){ return location.origin+'/?club='+id; }
 (function(){ try{ const q=new URLSearchParams(location.search), id=q.get('club'); if(id && /^[a-z0-9]{4,12}$/.test(id)){ store.set('clPend',id); q.delete('club'); history.replaceState(null,'',location.pathname+(q.toString()?'?'+q:'')+location.hash); } }catch(e){} })();
-setInterval(async()=>{ try{ const id=store.get('clPend',''); if(!id || !frReg()) return; store.set('clPend',''); const d=await clCall('peek',{id}); if(!d || !d.ok) return; if(d.mine){ openRankPage('club'); return; }
+setInterval(async()=>{ try{ const id=store.get('clPend',''); if(!CL_ON || !id || !frReg()) return; store.set('clPend',''); const d=await clCall('peek',{id}); if(!d || !d.ok) return; if(d.mine){ openRankPage('club'); return; }
   let ov=$('clInvOv'); if(ov) ov.remove(); ov=document.createElement('div'); ov.id='clInvOv'; ov.className='overlay'; const m=document.createElement('div'); m.className='modal frinv';
   const r=uxH('div','r'); const no=uxH('button','ghost',t('frLater')); no.type='button'; no.onclick=()=>ov.remove(); const ok=uxH('button','cta',t('clJoin')); ok.type='button'; ok.onclick=async()=>{ ok.disabled=true; const x=await clCall('join',{id}); if(x && x.ok){ ov.remove(); CL=null; openRankPage('club'); toast(t('clJoined',{n:d.name})); } else { ok.disabled=false; toast(t(x&&x.error==='in_club'?'clInClub':x&&x.error==='full'?'clFull':'srvErr')); } };
   r.append(no,ok); m.append(uxH('div','clbadge big',d.tag), uxH('h2',null,t('clInvT',{n:d.name})), uxH('p',null,t('clInvD',{n:d.n,max:d.max})), r); ov.appendChild(m); document.body.appendChild(ov); }catch(e){} }, 3000);
@@ -6128,7 +6129,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.82.5';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.82.6';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -7918,11 +7919,11 @@ async function rpFriendsOld(){ const out=[]; if(sb && uid){ try{ const {data}=aw
     const by=profile.ach&&profile.ach.refBy; if(by && !out.some(r=>r.id===by)){ try{ const {data}=await sb.from('profiles').select('id,name,av,rating,won,played,rgames,fr:ach->fr').eq('id',by).maybeSingle(); if(data) out.push(data); }catch(e){} }
     out.push({id:uid, name:profile.name, av:profile.av, rating:profile.rating||1000, won:profile.won||0, played:profile.played||0}); }
   return out.sort((a,b)=>(b.rating||1000)-(a.rating||1000)); }
-function openRankPage(mode){ if(mode) rpMode=mode; if(rpMode==='league' && !LG_ON) rpMode='rating'; let pg=$('rankPg'); if(!pg){ pg=document.createElement('div'); pg.id='rankPg'; document.body.appendChild(pg); }
+function openRankPage(mode){ if(mode) rpMode=mode; if(rpMode==='league' && !LG_ON) rpMode='rating'; if(rpMode==='club' && !CL_ON) rpMode='rating'; let pg=$('rankPg'); if(!pg){ pg=document.createElement('div'); pg.id='rankPg'; document.body.appendChild(pg); }
   document.body.classList.add('rpopen'); pg.innerHTML=''; const w=document.createElement('div'); w.className='rpw'; pg.appendChild(w);
   const top=document.createElement('div'); top.className='rptop'; const bk=document.createElement('button'); bk.type='button'; bk.className='rpback'; bk.innerHTML='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>'; bk.setAttribute('aria-label',t('close')); bk.onclick=closeRankPage;
   const h1=document.createElement('h1'); h1.textContent=t('rplyT'); top.append(bk,h1); w.appendChild(top);
-  const tabs=document.createElement('div'); tabs.className='rptabs'+(LG_ON?' t5':' t4'); [...(LG_ON?[['league','lgTab']]:[]),['rating','lbRatingTab'],['friends','rpFriends'],['club','clTab'],['tour','rpTour']].forEach(([m,k])=>{ const b=document.createElement('button'); b.type='button'; b.dataset.m=m; b.textContent=t(k); b.onclick=()=>{ rpMode=m; rpPaint(); }; tabs.appendChild(b); }); w.appendChild(tabs);
+  const tabs=document.createElement('div'); tabs.className='rptabs'+(' t'+(3+(LG_ON?1:0)+(CL_ON?1:0))); [...(LG_ON?[['league','lgTab']]:[]),['rating','lbRatingTab'],['friends','rpFriends'],...(CL_ON?[['club','clTab']]:[]),['tour','rpTour']].forEach(([m,k])=>{ const b=document.createElement('button'); b.type='button'; b.dataset.m=m; b.textContent=t(k); b.onclick=()=>{ rpMode=m; rpPaint(); }; tabs.appendChild(b); }); w.appendChild(tabs);
   const body=document.createElement('div'); body.id='rpBody'; w.appendChild(body);
   try{ if(!_rpHist){ history.pushState({rp:1},''); _rpHist=true; } }catch(e){}
   rpPaint(); rpLoad().then(()=>{ if(rpMode==='rating') rpPaint(); }); rpFriends().then(r=>{ rpFr=r; if(rpMode==='friends') rpPaint(); }); }
@@ -8069,6 +8070,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+ {v:"0.82.6", d:"15.11.2026", uk:["Клуби поки сховані — повернемо в новому вигляді"], en:["Clubs are hidden for now — they will come back in a new form"], ru:["Клубы пока скрыты — вернём в новом виде"]},
  {v:"0.82.5", d:"15.11.2026", uk:["Дзвіночок тепер підказує більше: реєстрація й старт турніру, нагороди та кінець сезону, наступний бос арени й безкоштовний забіг, приз клубу і нові запити в друзі"], en:["The bell now tells you more: tournament sign-up and start, season rewards and its end, the next arena boss and the free run, the club prize and new friend requests"], ru:["Колокольчик теперь подсказывает больше: регистрация и старт турнира, награды и конец сезона, следующий босс арены и бесплатный забег, приз клуба и новые запросы в друзья"]},
  {v:"0.82.4", d:"15.11.2026", uk:["На телефоні кнопка «Кинути кубики» тепер посередині дошки, а не внизу під нею"], en:["On phones the «Roll dice» button is now in the middle of the board, not below it"], ru:["На телефоне кнопка «Бросить кубики» теперь посередине доски, а не внизу под ней"]},
  {v:"0.82.3", d:"15.11.2026", uk:["Виправлено: на телефоні під час кидка інколи видно було лише один кубик, що «завмирав» — тепер обидва кубики завжди докручуються й стають на місце"], en:["Fixed: on phones a roll sometimes showed only one die that looked frozen — both dice now always finish rolling and settle"], ru:["Исправлено: на телефоне при броске иногда был виден только один кубик, который «зависал» — теперь оба кубика всегда докручиваются и встают на место"]},
