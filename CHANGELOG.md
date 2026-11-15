@@ -3,6 +3,11 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.81.1
+- Arena page ≥980px: two columns — tower left, sticky .arn-side right (status, .arnstats with progress, .arnnext with rules and Fight, final rewards, hall of fame); on phones the same blocks flow in one column via display:contents + order.
+- Talking bosses: every ~4 s a .arnbub pops by a boss in view (chA_<boss>_h/a), clamped to the page, with arnBabble — a short per-boss triangle-wave babble that respects sound and voice mute. In arena games botSay uses chA_<boss>_h/a/w/l (chatty bazar/storm/sharp talk more); 48 lines × uk/en/ru.
+- Confetti palette without amber; phone header: the profile button shows only the avatar ≤760px, brand smaller ≤380px and hidden ≤340px.
+
 ## 0.81.0
 - Arena moved from a modal to a full page (#arnPg, like #campPg): sticky top bar with back, sticky run status, the tower with icon chips per boss (ARN_CH) instead of sentences, reward line coins + 🎁. Tapping a boss opens #arnSh with the rules spelled out row by row, rewards and «Fight» for the current boss (arnFight now opens that card). Mobile nav hidden on the page.
 
