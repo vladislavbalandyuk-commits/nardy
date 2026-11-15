@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.82.1
+- Arena art generated in code (no third-party licences): arena/sky.webp (night gradient, clouds, moon), arena/city.webp (two-layer skyline with domes, minarets, lit windows), arena/stone.webp (seamless cut-stone masonry). Generators in tools/gen_arena_stone.py and tools/gen_arena_city.py.
+
 ## 0.82.0
 - Arena redrawn: .tw2 stone tower (roof dome, crenellations, 12 floors .fl with arched .win windows — lit for the current boss, bars when locked, check when beaten), night sky with moon and an SVG city skyline; right column on ≥980px: run card (hearts, wins, best, progress) and the «you VS boss» card with rules and reward.
 - LICO/lico(): one line-icon set. iconify(): a MutationObserver turns interface emoji (🏆🎁⚔️🔒📅🛡🎯🧩💎🏁🔍💡⚠️👥📻🎓🏅🥇🎲⚡❄🖼🧪🪨💨💬👑⏱🔥⭐🚩🔁✅❌▶) into those icons, skipping chat, bubbles, phrases and inputs.
