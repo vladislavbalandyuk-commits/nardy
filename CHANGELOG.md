@@ -3,6 +3,10 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.83.2 — 2026-11-15
+- Tournament games show the match score (Bo3/Bo5) in the player panel.
+- Quick-phrase row under the board removed (QR_OFF).
+
 ## 0.83.1 — 2026-11-15
 - Tournament games against bot opponents are saved locally and resumed on re-entry or reload instead of restarting.
 
