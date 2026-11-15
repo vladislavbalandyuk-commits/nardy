@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.82.5
+- Bell (bell57Items): tournament (signed up and starting within 36 h / sign-up open, once per event / live), season (achievements to claim, ends in ≤3 days, once), arena (active run with the next boss / free run, once a day), club prize, new friend requests (fans not seen yet). A 3-minute background feed refreshes arena, club, season and friends while the tab is visible.
+
 ## 0.82.4
 - tb53: the turn banner moves under the board only for wait/info states; whenever it carries a button (Roll dice etc.) it stays centred on the board. Bigger button on phones.
 
