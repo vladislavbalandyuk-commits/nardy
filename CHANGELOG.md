@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.83.1 — 2026-11-15
+- Tournament games against bot opponents are saved locally and resumed on re-entry or reload instead of restarting.
+
 ## 0.83.0 — 2026-11-15
 - Exclusive weekend-tournament set (board, onyx/pearl checkers, dice, hall table tb/cup.webp), applied only in tournament games, never in the shop.
 - Tournament FX and synthesized sounds: silver dust on roll, start gong, dice clack, low-time clock tick, hall ambience, applause on win.
