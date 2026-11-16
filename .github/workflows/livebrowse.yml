@@ -1,0 +1,24 @@
+name: livebrowse
+# Opens the live site in a real browser (phone and computer), opens the main pages and reports page errors and any file that failed to load.
+on: workflow_dispatch
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          npm i playwright@1 >/dev/null 2>&1
+          npx playwright install --with-deps chromium >/dev/null 2>&1
+          cat > t.js <<'JS'
+          const pw=require('playwright');
+          (async()=>{ const b=await pw.chromium.launch(); for(const [w,h] of [[390,844],[1440,900]]){
+            const p=await (await b.newContext({viewport:{width:w,height:h}})).newPage(); const errs=[], bad=[];
+            p.on('pageerror',e=>errs.push(e.message)); p.on('response',r=>{ if(r.status()>=400) bad.push(r.status()+' '+r.url()); }); p.on('requestfailed',r=>bad.push('fail '+r.url()));
+            await p.addInitScript(()=>{ localStorage.setItem('nardy_guideSeen','1'); localStorage.setItem('nardy_ob40','"done"'); localStorage.setItem('nardy_lang','"uk"'); });
+            const t0=Date.now(); await p.goto('https://nardy-nine.vercel.app/',{waitUntil:'load'}); console.log(w,'load ms',Date.now()-t0);
+            await p.waitForTimeout(5000); console.log(w,'version',await p.evaluate(()=>APP_VERSION),'supabase',await p.evaluate(()=>typeof window.supabase),'font',await p.evaluate(()=>document.fonts.check('16px Jost')));
+            for(const f of ["openShopPg('cat')","shGo('case')","openTour()","openRankPage()","openCampaign()"]){ try{ await p.evaluate(x=>{ document.querySelectorAll('.overlay').forEach(o=>o.classList.add('hidden')); eval(x); },f); }catch(e){ errs.push('open '+f+': '+e.message); } await p.waitForTimeout(2500); }
+            await p.screenshot({path:'live_'+w+'.png'});
+            console.log(w,'errors',JSON.stringify(errs.slice(0,8))); console.log(w,'bad',JSON.stringify(bad.filter(x=>!x.includes('google-analytics')).slice(0,15))); }
+            await b.close(); })();
+          JS
+          node t.js
