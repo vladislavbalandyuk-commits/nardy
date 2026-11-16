@@ -3,6 +3,17 @@
 const fs=require('fs'), path=require('path'), crypto=require('crypto'), CleanCSS=require('clean-css'), {minify}=require('terser'), hm=require('html-minifier-terser');
 const md5=x=>crypto.createHash('md5').update(x).digest('hex').slice(0,8);
 // split minified CSS into [core, items]: top-level rules whose every selector is about an item skin go to items
+// 0.88: styles of the pages opened later (shop, arena, campaign, achievements, learn, rating, admin, tournament, cases) go to pages.css,
+// loaded right after the first paint like skins.css. Rules inside @media are split too, so the order between a rule and its media override is kept.
+const PAGE=/^\s*(#shopPg|#arnPg|#achPg|#rankPg|#admPg|\.arn|\.apv|\.s2|\.cs[a-z-]|\.tov |\.acc|\.acr|\.adm|\.rp[a-z]|\.thero|\.tflow|\.tfs|\.tinfo)/;
+function splitPages(css){ let core='', pages='', i=0;
+  while(i<css.length){ const ob=css.indexOf('{',i); if(ob<0){ core+=css.slice(i); break; } const head=css.slice(i,ob);
+    let d=1, j=ob+1; while(j<css.length && d){ if(css[j]==='{') d++; else if(css[j]==='}') d--; j++; } const rule=css.slice(i,j), body=css.slice(ob+1,j-1);
+    if(/^\s*@media/.test(head)){ const [c,p]=splitPages(body); if(c.trim()) core+=head+'{'+c+'}'; if(p.trim()) pages+=head+'{'+p+'}'; }
+    else if(head.trim().startsWith('@')) core+=rule;
+    else { const sels=head.split(','); if(sels.every(x=>PAGE.test(x))) pages+=rule; else core+=rule; }
+    i=j; }
+  return [core,pages]; }
 function splitCss(css){ const ITEM=/\[data-ck=|\[data-dice=|\[data-b=|data-table=[a-z]|\.fr-[a-z0-9]/; let core='', items='', i=0;
   while(i<css.length){ const ob=css.indexOf('{',i); if(ob<0){ core+=css.slice(i); break; } const head=css.slice(i,ob);
     let d=1, j=ob+1; while(j<css.length && d){ if(css[j]==='{') d++; else if(css[j]==='}') d--; j++; } const rule=css.slice(i,j);
@@ -37,8 +48,9 @@ boot();
 `);
   // 0.49: avatars after the page itself — on a slow network the page gets the whole bandwidth first
   s=s.replace(/<\/body>(?![\s\S]*<\/body>)/,'<script async src="av.js?v='+h+'"></script></body>');
-  let items='';
-  s=s.replace(/<style>([\s\S]*?)<\/style>/g,(m,c)=>{ const min=new CleanCSS({level:1}).minify(c).styles; const [core,it]=splitCss(min); items+=it; return '<style>'+core+'</style>'; });
+  let items='', pagesCss='';
+  s=s.replace(/<style>([\s\S]*?)<\/style>/g,(m,c)=>{ const min=new CleanCSS({level:1}).minify(c).styles; const [core0,it]=splitCss(min); items+=it; const [core,pg]=splitPages(core0); pagesCss+=pg; return '<style>'+core+'</style>'; });
+  { const hp2=md5(pagesCss); fs.writeFileSync(path.join(outDir,'pages.css'),pagesCss); s=s.replace(/<\/body>(?![\s\S]*<\/body>)/,'<link rel="stylesheet" href="pages.css?v='+hp2+'" media="print" onload="this.media=\'all\'"><noscript><link rel="stylesheet" href="pages.css?v='+hp2+'"></noscript></body>'); console.log('pages.css',pagesCss.length); }
   const hs=md5(items); fs.writeFileSync(path.join(outDir,'skins.css'),items);
   // the skins stylesheet: preloaded at once, applied without blocking the first paint
   s=s.replace(/<\/body>(?![\s\S]*<\/body>)/,'<link rel="stylesheet" href="skins.css?v='+hs+'" media="print" onload="this.media=\'all\'"><noscript><link rel="stylesheet" href="skins.css?v='+hs+'"></noscript></body>');

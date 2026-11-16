@@ -3,6 +3,12 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.88.2 — 2026-11-16
+- Arena bosses unified in the flat portrait style (pt48–pt54, tools/gen_pt_bosses.py).
+- ~80 UI strings rewritten without explanatory dashes (uk/en, ru where present).
+- Leagues and clubs code archived to tools/archive/leagues_clubs.js (stubs remain, flags off).
+- Build: later-page CSS (shop, arena, achievements, rating, admin, tournament, cases) split into pages.css loaded after first paint (index 1.19 MB → 1.04 MB); verified by pixel diff of 23 screens.
+
 ## 0.88.1 — 2026-11-16
 - Progressive reveal (nbApply/nbLocked; body.nb1/nb3/nb5; admin exempt): puzzle/gift/quests after 1 game, events/top after 3, arena/cases after 5; unlock hint under Play.
 - Arena guest preview with all bosses; friendlier campaign sign-in line.
