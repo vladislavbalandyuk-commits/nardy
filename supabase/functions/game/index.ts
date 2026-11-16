@@ -248,13 +248,13 @@ const packCost = (b: string, owned: string[]) => { const P = PT_PACKS[b]; if (!P
 // the story campaign «The way of a nardy player» (0.29.0): 8 chapters, each a game against a character; a win unlocks the next one and its prizes
 // (the site has the same list with the texts). Campaign games do not change the rating.
 const CAMP: any[] = [null,
-  { name: 'Дядько Толік', av: 'pt15', r: 900, noise: 4, lvl: 0, coins: 150, items: ['pt:pt15'] },
-  { name: 'Оксана Ігорівна', av: 'pt11', r: 1150, noise: 2.5, lvl: 0, coins: 200, items: ['dice:park'] },
-  { name: 'Марко', av: 'pt25', r: 1400, noise: 1.3, lvl: 0, coins: 250, items: ['fx:smoke'] },
-  { name: 'Рустам', av: 'pt26', r: 1700, noise: 0.6, lvl: 0, coins: 300, items: ['fx:rings', 'pt:pt26'] },
-  { name: 'Галина Петрівна', av: 'pt29', r: 2100, noise: 0, lvl: 0, coins: 350, items: ['board:coupe'] },
-  { name: 'Капітан Нугзар', av: 'pt28', r: 2700, noise: 0, lvl: 1, coins: 400, items: ['ck:sea', 'fx:sparkle'] },
-  { name: 'Тінь', av: 'pt31', r: 3600, noise: 0, lvl: 2, coins: 500, items: ['board:shadow', 'pt:pt31'] },
+  { name: 'Дядько Толік', av: 'pt55', r: 900, noise: 4, lvl: 0, coins: 150, items: ['pt:pt55'] },
+  { name: 'Оксана Ігорівна', av: 'pt56', r: 1150, noise: 2.5, lvl: 0, coins: 200, items: ['dice:park'] },
+  { name: 'Марко', av: 'pt57', r: 1400, noise: 1.3, lvl: 0, coins: 250, items: ['fx:smoke'] },
+  { name: 'Рустам', av: 'pt58', r: 1700, noise: 0.6, lvl: 0, coins: 300, items: ['fx:rings', 'pt:pt58'] },
+  { name: 'Галина Петрівна', av: 'pt59', r: 2100, noise: 0, lvl: 0, coins: 350, items: ['board:coupe'] },
+  { name: 'Капітан Нугзар', av: 'pt60', r: 2700, noise: 0, lvl: 1, coins: 400, items: ['ck:sea', 'fx:sparkle'] },
+  { name: 'Тінь', av: 'pt61', r: 3600, noise: 0, lvl: 2, coins: 500, items: ['board:shadow', 'pt:pt61'] },
   { name: 'Майстер', av: 'mask', r: 5200, noise: 0, lvl: 3, coins: 1000, items: ['ck:crown', 'dice:emerald', 'board:marblehall', 'fx:fireworks', 'pt:pt23'] },
   // 0.31.3: the secret chapter 9, opened by beating the Master — Vlad, the teacher who led you all the way to take the hall for himself
   { name: 'Влад', av: 'vladM', r: 6000, noise: 0, lvl: 3, coins: 1500, items: ['fx:confetti', 'av:vladM', 'av:pasha2'] }];

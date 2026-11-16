@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.89.0 — 2026-11-16
+- Campaign chapter characters redrawn in the flat style (pt55–pt61, tools/gen_pt_camp.py); chapter prizes pt15/pt26/pt31 → pt55/pt58/pt61 (client + server); owned portraits untouched.
+
 ## 0.88.2 — 2026-11-16
 - Arena bosses unified in the flat portrait style (pt48–pt54, tools/gen_pt_bosses.py).
 - ~80 UI strings rewritten without explanatory dashes (uk/en, ru where present).
