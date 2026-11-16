@@ -9357,6 +9357,15 @@ async function boot(){
   sb = window.supabase.createClient(SB_URL, SB_KEY, { auth:{ persistSession:true, autoRefreshToken:true } });
   // a call made with an expired session (a phone asleep, a tab in the background) is repeated once after refreshing the session
   { const inv=sb.functions.invoke.bind(sb.functions); sb.functions.invoke=async(n,o)=>{ let r=await inv(n,o); if(r && r.error && r.error.context && r.error.context.status===401 && authUser){ try{ await sb.auth.refreshSession(); }catch(e){} r=await inv(n,o); } return r; }; }
+  // 0.88: reading calls (season, arena, friends list, rewards…) asked by several places at once at start-up went out 2–6 times each.
+  // The same read now shares one request while it is in flight and is reused for a few seconds; any change (buy, claim…) clears the reuse.
+  { const inv2=sb.functions.invoke; const RD={season:1,arena:1,arn:1,friends:1,rewards:1,lvl:1,league:1,course:1,puzzle:1}; const RO={'':1,list:1,state:1,get:1,load:1,peek:1};
+    const fly=new Map(), keep=new Map();
+    sb.functions.invoke=(n,o)=>{ const bd=(o&&o.body)||{}, op=(bd.args&&bd.args.op)||'', read=n==='game' && RD[bd.action] && RO[op];
+      if(!read){ if(n==='game' && bd.action!=='onl' && bd.action!=='seen') keep.clear(); return inv2(n,o); }
+      const k=JSON.stringify(bd); const c=keep.get(k); if(c && Date.now()-c.at<4000) return Promise.resolve(c.r);
+      if(fly.has(k)) return fly.get(k);
+      const pr=inv2(n,o).then(r=>{ fly.delete(k); if(r && !r.error) keep.set(k,{at:Date.now(),r}); return r; },e=>{ fly.delete(k); throw e; }); fly.set(k,pr); return pr; }; }
   lobbyStart(); loadGhosts(); setInterval(loadGhosts, 300000);
   const {data:{session}} = await sb.auth.getSession();
   if(session && session.user) await onSignedIn(session.user);

@@ -1,0 +1,19 @@
+name: photos
+# Downloads the Unsplash photos the site uses (Unsplash License) into img/u/ so the site does not depend on images.unsplash.com.
+# Two sizes per photo: <id>.webp (1600 px) and <id>-s.webp (480 px). Commits them to main.
+on: workflow_dispatch
+permissions: { contents: write }
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          mkdir -p img/u
+          while read id; do
+            [ -z "$id" ] && continue
+            curl -sSfL "https://images.unsplash.com/$id?w=1600&q=62&fm=webp&fit=crop" -o "img/u/$id.webp" || echo "FAIL $id"
+            curl -sSfL "https://images.unsplash.com/$id?w=480&q=58&fm=webp&fit=crop" -o "img/u/$id-s.webp" || echo "FAIL small $id"
+          done < tools/unsplash_ids.txt
+          ls img/u | wc -l; du -sh img/u
+          git -c user.name=ci -c user.email=ci@x add img/u && git -c user.name=ci -c user.email=ci@x commit -qm "photos: self-hosted Unsplash images" && git push -q
