@@ -7194,7 +7194,7 @@ function lotSearch(on){ const h=$('lotSrch'); if(!h) return; if(!on){ if(h._stop
   const v=document.createElement('video'); fetch(LOT_HOOKAH).then(r=>{ if(!r.ok) throw 0; return r.blob(); }).then(b=>{ if(!live) return; v.src=URL.createObjectURL(new Blob([b],{type:'video/mp4'})); const pp=v.play(); if(pp&&pp.catch) pp.catch(()=>{}); }).catch(()=>{ h._stop&&h._stop(); h.innerHTML=''; }); v.muted=true; v.loop=true; v.autoplay=true; v.playsInline=true; v.setAttribute('playsinline','');
   const N=200, c=document.createElement('canvas'); c.width=N; c.height=N; h.appendChild(c); const ctx=c.getContext('2d',{willReadFrequently:true}); let raf=0, live=true;
   const seen=new Uint8Array(N*N), st=new Int32Array(N*N);
-  const frame=()=>{ if(!live) return; raf=requestAnimationFrame(frame); if(v.readyState<2) return; try{ ctx.clearRect(0,0,N,N); ctx.drawImage(v,0,0,N,N); const im=ctx.getImageData(0,0,N,N), d=im.data; seen.fill(0); let sp=0;
+  const frame=()=>{ if(!live) return; raf=requestAnimationFrame(frame); if(v.readyState<2) return; try{ ctx.clearRect(0,0,N,N); { const vw=v.videoWidth||640, vh=v.videoHeight||640, cw=vw*.72; ctx.drawImage(v,(vw-cw)/2,vh*.2,cw,Math.min(cw,vh*.8),0,0,N,N); } const im=ctx.getImageData(0,0,N,N), d=im.data; seen.fill(0); let sp=0;
       const wh=i=>{ const r=d[i*4],g=d[i*4+1],b=d[i*4+2]; return r>226&&g>226&&b>226; };
       for(let x=0;x<N;x++){ st[sp++]=x; st[sp++]=(N-1)*N+x; } for(let y=0;y<N;y++){ st[sp++]=y*N; st[sp++]=y*N+N-1; }
       while(sp){ const i=st[--sp]; if(seen[i]) continue; seen[i]=1; if(!wh(i)) continue; d[i*4+3]=0; const x=i%N, y=(i/N)|0; if(x>0) st[sp++]=i-1; if(x<N-1) st[sp++]=i+1; if(y>0) st[sp++]=i-N; if(y<N-1) st[sp++]=i+N; }
