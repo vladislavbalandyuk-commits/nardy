@@ -5539,8 +5539,20 @@ const AV_RANDOM=()=>AV_KEYS.filter(k=>!STORY_AV.includes(k)&&!AV_HIDDEN.includes
 let _uid=0;
 function uniqIds(svg){ const p='u'+(++_uid)+'_'; return svg.replace(/id="([^"]+)"/g,(m,a)=>'id="'+p+a+'"').replace(/url\(#([^)]+)\)/g,(m,a)=>'url(#'+p+a+')').replace(/href="#([^"]+)"/g,(m,a)=>'href="#'+p+a+'"'); }
 function initialsSVG(name){ const tx=initials((name||'?').split(' (')[0]).replace(/[<>&"]/g,''); return '<svg viewBox="0 0 100 100"><rect width="100" height="100" fill="#1d1915"/><text x="50" y="50" dy=".36em" text-anchor="middle" font-family="Jost,system-ui,sans-serif" font-size="38" font-weight="500" fill="#f6f2ea">'+tx+'</text></svg>'; }
-function avatarSVG(key,name){ return uniqIds(key && AVATARS[key] ? AVATARS[key] : initialsSVG(name)); }
-function avatarInto(el, key, name){ let fr=''; if(key && String(key).includes('~')){ const m=String(key).split('~'); key=m[0]; fr=(FRM_K.includes(m[1])?m[1]:''); } if(fr) el.dataset.fr=fr; else delete el.dataset.fr; if(key && /^pt\d/.test(key) && !AVATARS[key] && window.__ptLoad) window.__ptLoad(); el.innerHTML=avatarSVG(key,name); el.classList.add('img'); el.dataset.av=key||''; el.dataset.nm=name||''; }
+// 0.89: the flat portraits (arena bosses, campaign characters) have moods — 'pt48@w' is glad (won), 'pt48@l' is upset (lost).
+// Made on the fly from the same drawing: the eyes, the brows and a small sign (cheeks or a drop of sweat) change.
+function emoSvg(v,e){ if(!v || (e!=='w' && e!=='l')) return v;
+  const eye=(v.match(/<circle cx="118" cy="126" r="5" fill="([^"]+)"\/>/)||[])[1];
+  if(eye){ v=v.replace(/<circle cx="118" cy="126" r="5" fill="[^"]+"\/><circle cx="162" cy="126" r="5" fill="[^"]+"\/><circle cx="119.5" cy="124.5" r="1.4" fill="#fff"\/><circle cx="163.5" cy="124.5" r="1.4" fill="#fff"\/>/,
+      e==='w' ? '<path d="M110 129 Q118 118 126 129" stroke="'+eye+'" stroke-width="4.5" fill="none" stroke-linecap="round"/><path d="M154 129 Q162 118 170 129" stroke="'+eye+'" stroke-width="4.5" fill="none" stroke-linecap="round"/>'
+              : '<path d="M110 125 Q118 131 126 125" stroke="'+eye+'" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M154 125 Q162 131 170 125" stroke="'+eye+'" stroke-width="4" fill="none" stroke-linecap="round"/><circle cx="118" cy="129" r="3.2" fill="'+eye+'"/><circle cx="162" cy="129" r="3.2" fill="'+eye+'"/>'); }
+  v=v.replace(/d="M102 110 Q118 102 130 109"/, e==='w' ? 'd="M102 103 Q118 93 130 101"' : 'd="M102 111 Q117 108 130 101"')
+     .replace(/d="M150 109 Q162 102 178 110"/, e==='w' ? 'd="M150 101 Q162 93 178 103"' : 'd="M150 101 Q163 108 178 111"');
+  const extra = e==='w' ? '<circle cx="104" cy="150" r="9" fill="#ff8a7a" opacity=".35"/><circle cx="176" cy="150" r="9" fill="#ff8a7a" opacity=".35"/><path d="M214 70 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4z" fill="#fff" opacity=".85"/>'
+                        : '<path d="M192 92 Q200 108 192 114 Q184 108 192 92Z" fill="#bfe3f5" stroke="#7fb0cc" stroke-width="1.5"/>';
+  return v.replace('</svg>', extra+'</svg>'); }
+function avatarSVG(key,name){ let emo=''; if(key && String(key).includes('@')){ const m=String(key).split('@'); key=m[0]; emo=m[1]; } return uniqIds(key && AVATARS[key] ? emoSvg(AVATARS[key],emo) : initialsSVG(name)); }
+function avatarInto(el, key, name){ let fr=''; if(key && String(key).includes('~')){ const m=String(key).split('~'); key=m[0]; fr=(FRM_K.includes(m[1])?m[1]:''); } if(fr) el.dataset.fr=fr; else delete el.dataset.fr; if(key && /^pt\d/.test(key) && !AVATARS[String(key).split('@')[0]] && window.__ptLoad) window.__ptLoad(); el.innerHTML=avatarSVG(key,name); el.classList.add('img'); el.dataset.av=key||''; el.dataset.nm=name||''; }
 function avatarPicker(onPick){
   const wrap=document.createElement('div'); wrap.className='avpick';
   ['',...AV_KEYS.filter(k=>!AV_HIDDEN.includes(k) && (!STORY_AV.includes(k) || tutDone()) && (!/^pt\d/.test(k) || ptOwn(k)))].forEach(k=>{ const b=document.createElement('button'); b.type='button'; b.className='avopt'+((profile.av||'')===k?' on':''); b.title=k?t('av_'+k):t('av_none');
@@ -5741,7 +5753,7 @@ function renderHomeV7(){
 }
 setInterval(()=>{ if(!gs) try{ renderHomeV7(); }catch(e){} }, 15000);
 { const _ro=renderOnline; renderOnline=function(){ _ro.apply(this,arguments); if(!gs) try{ renderHomeV7(); }catch(e){} }; }
-function avOf(s){ if(!gs) return ''; if(mode==='bot') return s==='p1' ? selfAv() : ((gs.avs&&gs.avs.p2)||'n6'); if(mode==='tutor') return s==='p1' ? (profile.av||'') : ''; if(mode==='local') return s==='p1'?selfAv():''; if(gs[s]===uid) return selfAv(); return (gs.avs&&gs.avs[s])||''; }
+function avOf(s){ if(!gs) return ''; if(mode==='bot'){ if(s==='p1') return selfAv(); const a=(gs.avs&&gs.avs.p2)||'n6'; if((gs.arn||gs.camp) && /^pt(3[7-9]|4[01]|4[89]|5\d|6[01])$/.test(a)){ if(gs.phase==='over' && gs.winner) return a+'@'+(gs.winner===colorOfSlot('p2')?'w':'l'); if(gs._emo && Date.now()<gs._emo.until) return a+'@'+gs._emo.e; } return a; } if(mode==='tutor') return s==='p1' ? (profile.av||'') : ''; if(mode==='local') return s==='p1'?selfAv():''; if(gs[s]===uid) return selfAv(); return (gs.avs&&gs.avs[s])||''; }
 
 function plCard(el, s){
   const col = gs.phase==='opening' ? null : colorOfSlot(s);
@@ -6033,6 +6045,8 @@ function say_bot(x){ try{ showBubble('p2',x); }catch(e){} }
 const BC={key:'',last:0,n:0,once:{},prev:null,idleTurn:''};
 function botSay(event, opts, p){
   if(!gs || mode!=='bot' || mode==='tutor') return;
+  // 0.89: a boss or a campaign character shows the mood for a few seconds — glad when ahead or on a double, upset when behind or stuck
+  try{ if((gs.arn||gs.camp) && gs.phase!=='over'){ const m = /^(winning|firstoff|dbl)/.test(event) ? 'w' : /^(losing|nomove|oppdbl)/.test(event) ? 'l' : ''; if(m && !(gs._emo && Date.now()<gs._emo.until)){ gs._emo={e:m, until:Date.now()+3500}; render(); setTimeout(()=>{ try{ if(gs) render(); }catch(e){} }, 3700); } } }catch(e){}
   if(gs.arn && gs.arn.b){ const k=gs.arn.b, chatty=k==='bazar'||k==='storm'||k==='sharp'; const map={hello:'h',dbl:'a',oppdbl:'a',nomove:'l',losing:'l',winning:'w',idle:'a',firstoff:'w'}; const ev=Object.keys(map).find(x=>event.indexOf(x)===0);
     if(!ev || BC.once[event] || BC.n>=(chatty?14:9) || Date.now()-BC.last<(chatty?5000:7000)) return; if(ev!=='hello' && Math.random()>(chatty?.9:.65)) return;
     BC.once[event]=true; BC.n++; BC.last=Date.now(); const key=BC.key, x='chA_'+k+'_'+map[ev];
@@ -6286,7 +6300,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.89.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.89.1';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -8325,6 +8339,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+ {v:"0.89.1", d:"16.11.2026", uk:["Боси арени й персонажі кампанії тепер мають настрій: радіють, коли ведуть чи викинули дубль, засмучуються, коли відстають, а після партії видно, хто задоволений"], en:["Arena bosses and campaign characters now have moods: glad when ahead or after a double, upset when behind, and after the game you can see who is pleased"], ru:["Боссы арены и персонажи кампании теперь с настроением: радуются, когда ведут или выбросили дубль, расстраиваются, когда отстают, а после партии видно, кто доволен"]},
  {v:"0.89.0", d:"16.11.2026", uk:["Персонажі кампанії перемальовані в одному стилі з ареною: дядько Толік, Оксана Ігорівна, Марко, Рустам, Галина Петрівна, капітан Нугзар і Тінь","Портрети за глави 1, 4 і 7 тепер нові; ті, що ви вже виграли, лишаються з вами"], en:["The campaign characters are redrawn in the same style as the arena: Uncle Tolik, Oksana Ihorivna, Marko, Rustam, Halyna Petrivna, Captain Nugzar and the Shadow","The portraits for chapters 1, 4 and 7 are new; the ones you already won stay yours"], ru:["Персонажи кампании перерисованы в одном стиле с ареной: дядя Толик, Оксана Игоревна, Марко, Рустам, Галина Петровна, капитан Нугзар и Тень","Портреты за главы 1, 4 и 7 теперь новые; те, что вы уже выиграли, остаются с вами"]},
  {v:"0.88.2", d:"16.11.2026", uk:["Усі боси арени намальовані в одному стилі","Коротші й простіші підписи по всьому сайту","Сайт став легшим: стилі сторінок, які відкриваються пізніше, вантажаться після першого екрана; приховані ліги й клуби прибрані з коду"], en:["All arena bosses are drawn in one style","Shorter, simpler captions across the site","The site is lighter: styles of pages opened later load after the first screen; hidden leagues and clubs are out of the code"], ru:["Все боссы арены нарисованы в одном стиле","Короче и проще подписи по всему сайту","Сайт стал легче: стили страниц, которые открываются позже, грузятся после первого экрана; скрытые лиги и клубы убраны из кода"]},
  {v:"0.88.1", d:"16.11.2026", uk:["Новачок бачить не все одразу: після першої партії відкриваються задача дня й подарунки, після третьої — турнір і події, після п’ятої — арена й кейси; під «Грати» видно, що відкриється далі","Арена для гостя тепер показує всіх 12 босів, а не лише кнопку «Увійти»"], en:["Newcomers are not shown everything at once: the daily puzzle and gifts open after the first game, the tournament and events after the third, the arena and cases after the fifth; a line under «Play» shows what comes next","For guests the arena now shows all 12 bosses, not just a «Log in» button"], ru:["Новичок видит не всё сразу: после первой партии открываются задача дня и подарки, после третьей — турнир и события, после пятой — арена и кейсы; под «Играть» видно, что откроется дальше","Арена для гостя теперь показывает всех 12 боссов, а не только кнопку «Войти»"]},

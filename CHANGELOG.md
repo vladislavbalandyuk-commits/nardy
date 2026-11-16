@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.89.1 — 2026-11-16
+- Portrait moods: emoSvg makes glad/upset variants of the flat portraits on the fly ('pt48@w'/'@l'); bosses and campaign characters flash a mood for 3.5 s on game events and keep it after the game.
+
 ## 0.89.0 — 2026-11-16
 - Campaign chapter characters redrawn in the flat style (pt55–pt61, tools/gen_pt_camp.py); chapter prizes pt15/pt26/pt31 → pt55/pt58/pt61 (client + server); owned portraits untouched.
 
