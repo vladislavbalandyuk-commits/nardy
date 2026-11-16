@@ -3,6 +3,10 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.88.1 — 2026-11-16
+- Progressive reveal (nbApply/nbLocked; body.nb1/nb3/nb5; admin exempt): puzzle/gift/quests after 1 game, events/top after 3, arena/cases after 5; unlock hint under Play.
+- Arena guest preview with all bosses; friendlier campaign sign-in line.
+
 ## 0.88.0 — 2026-11-16
 - Read-call dedupe/cache for the game function (season ×6→1, arena ×2→1 at start).
 - Self-hosted: Jost (fonts/jo-*), supabase-js 2.118.0 and lottie-web 5.12.2 (lib/), 45 Unsplash photos (img/u, fetched by .github/workflows/photos.yml); Google Fonts and jsdelivr no longer used by the main site.
