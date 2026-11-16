@@ -183,10 +183,10 @@ function gameCoins(won: boolean, full: boolean, mars: boolean, tour = false) {
 }
 // ---- shop (0.15.1): prices and rarities of the main site's items; the base set is free; owned items in profiles.ach.owned ----
 const SHOP_P: any = { frm: { c: 500, r: 1200, e: 2500, l: 5000 }, board: { c: 200, r: 600, e: 1200, l: 2500 }, ck: { c: 150, r: 450, e: 1000, l: 1800 }, dice: { c: 100, r: 300, e: 750, l: 1350 }, table: { c: 300, e: 900 } };
-const SHOP_R: any = { frm: { silver: 'c', pearl: 'r', orn: 'e', aurora: 'e', crown: 'l' }, board: { cloud: 'r', choco: 'e', linen: 'c', pistachio: 'r', cobalt: 'e', sultan: 'l', modern: 'c', tri: 'c', walnut: 'r', midnight: 'r', druzi: 'r', sage: 'r', marble: 'e', oak: 'e', ocean: 'e', carbon: 'e', terrazzo: 'r', carrara: 'e', noir: 'e', contrast: 'c', mint: 'c', slate: 'r', rosewood: 'r', lavender: 'e' },
-  ck: { cloud: 'r', choco: 'e', wood: 'c', stone: 'c', flat: 'c', metal: 'r', glass: 'r', retro: 'r', pearl: 'e', amber: 'e', jade: 'e', neon: 'e', vyshyvanka: 'l', frost: 'r', spooky: 'e', royal: 'e', iximmo: 'l', contrast: 'c', ruby: 'r', copper: 'r', obsidian: 'e', opal: 'e' },
-  dice: { cloud: 'r', choco: 'r', onyx: 'c', wood: 'c', ruby: 'r', marble: 'r', glass: 'r', gold: 'e', neon: 'e', sapphire: 'r', jade: 'r', pearl: 'e' },
-  table: { linen: 'e', kilim: 'c', zellige: 'c', velvet: 'c', teahouse: 'e', bokeh: 'e', rooftop: 'e', wood: 'c', felt: 'c', carpet: 'c', marble: 'c', cafe: 'c', stone: 'c', leather: 'c', ct1: 'e', ct2: 'e', ct3: 'e', ct4: 'e', ct5: 'e', ct6: 'e', ct7: 'e', ct8: 'e', ct9: 'e' } };
+const SHOP_R: any = { frm: { silver: 'c', pearl: 'r', orn: 'e', aurora: 'e', crown: 'l' }, board: { burg: 'e', cloud: 'r', choco: 'e', linen: 'c', pistachio: 'r', cobalt: 'e', sultan: 'l', modern: 'c', tri: 'c', walnut: 'r', midnight: 'r', druzi: 'r', sage: 'r', marble: 'e', oak: 'e', ocean: 'e', carbon: 'e', terrazzo: 'r', carrara: 'e', noir: 'e', contrast: 'c', mint: 'c', slate: 'r', rosewood: 'r', lavender: 'e' },
+  ck: { burg: 'e', cloud: 'r', choco: 'e', wood: 'c', stone: 'c', flat: 'c', metal: 'r', glass: 'r', retro: 'r', pearl: 'e', amber: 'e', jade: 'e', neon: 'e', vyshyvanka: 'l', frost: 'r', spooky: 'e', royal: 'e', iximmo: 'l', contrast: 'c', ruby: 'r', copper: 'r', obsidian: 'e', opal: 'e' },
+  dice: { burg: 'r', cloud: 'r', choco: 'r', onyx: 'c', wood: 'c', ruby: 'r', marble: 'r', glass: 'r', gold: 'e', neon: 'e', sapphire: 'r', jade: 'r', pearl: 'e' },
+  table: { burg: 'e', linen: 'e', kilim: 'c', zellige: 'c', velvet: 'c', teahouse: 'e', bokeh: 'e', rooftop: 'e', wood: 'c', felt: 'c', carpet: 'c', marble: 'c', cafe: 'c', stone: 'c', leather: 'c', ct1: 'e', ct2: 'e', ct3: 'e', ct4: 'e', ct5: 'e', ct6: 'e', ct7: 'e', ct8: 'e', ct9: 'e' } };
 // 0.35.0: cases — open for coins, get one thing from the case. The rarity is rolled (c 55 / r 30 / e 12 / l 3 %, missing tiers move down),
 // then a thing of that rarity you do not own yet; if you own them all — a fixed refund. Every 10th case without an epic or better gives one.
 // 0.35.2: case-only things (boards, checkers, win effects you cannot buy) and their rarity
@@ -232,7 +232,7 @@ const fnv = (str: string) => { let h = 2166136261 >>> 0; for (let i = 0; i < str
 const shopDeal = (day = shopDay()) => { const L: string[] = []; for (const c of ['board', 'ck', 'dice']) for (const k of Object.keys(SHOP_R[c])) if (SHOP_R[c][k] === 'e' || SHOP_R[c][k] === 'l') L.push(c + ':' + k); return L[fnv('deal' + day) % L.length]; };
 const shopCost = (id: string) => { const p = shopPrice(id); return p && id === shopDeal() ? Math.round(p * 0.75 / 10) * 10 : p; };
 // sets: everything in a set you do not have yet, −20%
-const BUNDLES: any = { oak: ['board:oak', 'ck:wood', 'dice:wood', 'table:wood'], marble: ['board:marble', 'ck:stone', 'dice:marble', 'table:marble'],
+const BUNDLES: any = { burg: ['board:burg', 'ck:burg', 'dice:burg', 'table:burg'], oak: ['board:oak', 'ck:wood', 'dice:wood', 'table:wood'], marble: ['board:marble', 'ck:stone', 'dice:marble', 'table:marble'],
   night: ['board:carbon', 'ck:neon', 'dice:neon', 'table:cafe'], sea: ['board:ocean', 'ck:glass', 'dice:glass', 'table:stone'],
   mintset: ['board:mint', 'ck:pearl', 'dice:jade', 'table:felt'], ruby: ['board:rosewood', 'ck:ruby', 'dice:ruby', 'table:leather'], lavender: ['board:lavender', 'ck:opal', 'dice:pearl', 'table:carpet'],
   iznik: ['board:cobalt', 'ck:glass', 'dice:sapphire', 'table:zellige'], sultan: ['board:sultan', 'ck:royal', 'dice:pearl', 'table:teahouse'] };

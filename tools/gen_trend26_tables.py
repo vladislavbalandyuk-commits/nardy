@@ -41,3 +41,16 @@ img=np.clip(img,0,255).astype('uint8')
 Image.fromarray(img).save('/home/claude/nardy/tb/mahog.webp',quality=80)
 Image.fromarray(img).resize((960,540)).save('/home/claude/gen/mahog_prev.png')
 print('ok')
+# ---- burgundy velvet (0.85.1): deep wine cloth, soft folds, a low sheen
+wr=blurnoise(30,50,21); wr2=blurnoise(10,20,22)
+fold=np.sin((X*2.2+wr*1.6)*6.0)*0.5+0.5
+pile=blurnoise(1,0.5,23)
+base=np.array([92,18,34]); img=np.zeros((H,W,3))+base
+img*= (0.55+0.6*fold[...,None])*(0.9+0.15*wr2[...,None])
+img+= (pile[...,None]-.5)*8
+sheen=np.exp(-(((X-0.35)/0.3)**2+((Y-0.3)/0.25)**2))*fold; img+=sheen[...,None]*np.array([60,18,26])
+v=np.clip(1-((X-0.5)**2*1.2+(Y-0.45)**2*1.4)*1.3,0.3,1); img*=v[...,None]
+img=np.clip(img,0,255).astype('uint8')
+Image.fromarray(img).save('/home/claude/nardy/tb/burg.webp',quality=80)
+Image.fromarray(img).resize((960,540)).save('/home/claude/gen/burg_prev.png')
+print('burg ok')
