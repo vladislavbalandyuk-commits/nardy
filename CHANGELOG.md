@@ -3,6 +3,13 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.91.0 — 16.11.2026
+- Звуки кубиків і ходу — записи Kenney «Casino Audio» (CC0), синтез лишився запасним.
+- Дошки без форми пунктів (classic, cup, druzi, friends2–4, holo, midnight, modern, synth) отримали трикутники; фактура сукна на стандартній дошці; неонові світіння прибрано.
+- Кубики: втиснуті крапки, грані за матеріалом, без SVG-фільтрів (також безпечніше для iOS).
+- Шашки neon/lava/friends/holo без світіння.
+- Підказка про пробіл більше не показується на телефонах (uk/ru).
+
 ## 0.90.0 — 16.11.2026
 - Усі іконки замінено на Phosphor Icons (duotone, MIT): LICO, спрайт, ICO, нижнє меню, ігрове меню, дзвіник, замки, пошук, календар, гучність.
 

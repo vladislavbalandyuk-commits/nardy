@@ -20,3 +20,6 @@
 
 ## Icons
 - Phosphor Icons (duotone) — https://phosphoricons.com — MIT License, © Phosphor Icons.
+
+## Dice and checker sounds (0.91.0)
+- `sfx/roll1-3.mp3`, `sfx/step1-3.mp3` — Kenney «Casino Audio» (dice-throw, die-throw, chip-lay, chips-collide), CC0 1.0; trimmed and EQ'd for a wooden board.

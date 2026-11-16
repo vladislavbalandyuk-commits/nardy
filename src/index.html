@@ -2690,6 +2690,64 @@ body.nb1 .tdt.pz,body.nb1 .tdt.gift,body.nb1 .hs-quests,body.nb3 .ev55,body.nb3 
 /* 0.90: Phosphor duotone icons: filled shapes, so the stroke styles of the old line icons must not touch them */
 svg.ph{fill:currentColor;stroke:none}
 svg.i.ph,svg.ph{fill:currentColor!important;stroke:none!important}
+
+/* 0.91: real boards — every board gets proper triangles, no neon glow */
+.board,.tray,.mb{--p1:#d8ccb2;--p2:#7b2c24}
+.board:not([data-b]) .half,.board[data-b=classic] .half,.mb:not([data-b]) .mf,.mb[data-b=classic] .mf{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23f)' opacity='.35'/%3E%3C/svg%3E"),radial-gradient(130% 90% at 50% 50%,#2a4034,#1d2e25)!important;background-size:220px 220px,auto!important}
+.board:not([data-b]),.board[data-b=classic]{--frame:#3a2a1e;--frame2:#24190f}
+.board[data-shape=tri] .pt::before{box-shadow:none}
+.board[data-shape=tri] .pt::after{content:"";position:absolute;inset:0 6%;pointer-events:none;clip-path:polygon(0 0,100% 0,52% 90%,48% 90%);background:linear-gradient(90deg,rgba(255,255,255,.07) 50%,rgba(0,0,0,.07) 50%)}
+.board[data-shape=tri] .prow.bot .pt::after{clip-path:polygon(48% 10%,52% 10%,100% 100%,0 100%)}
+.board[data-b=cup],.tray[data-b=cup],.mb[data-b=cup]{--p1:#b4b9c1;--p2:#7a1626}
+.board[data-b=midnight],.tray[data-b=midnight],.mb[data-b=midnight]{--p1:#c9a46a;--p2:#3a4a6c}
+.board[data-b=modern],.tray[data-b=modern],.mb[data-b=modern]{--p1:#b89a72;--p2:#6e5640}
+.board[data-b=druzi],.tray[data-b=druzi],.mb[data-b=druzi]{--p1:#c3ced5;--p2:#3d4047}
+.board[data-b=druzi] .neon{opacity:.55}
+.mb[data-b=druzi] .mf::after{text-shadow:0 0 6px rgba(143,211,255,.5)!important}
+.board[data-b^=friends],.tray[data-b^=friends],.mb[data-b^=friends]{--p1:#45a8b8!important;--p2:#b9508f!important}
+.board[data-b^=friends] .pt::before,.board[data-b^=friends] .pt.alt::before{filter:none!important}
+.board[data-b=friends2],.tray[data-b=friends2]{box-shadow:0 0 0 1px rgba(185,80,143,.35),0 30px 70px -24px rgba(0,0,0,.8)!important}
+.board[data-b=friends3],.tray[data-b=friends3],.mb[data-b=friends3]{background:linear-gradient(135deg,#2c2440,#4a3466 55%,#2c2440)!important;animation:none!important;box-shadow:0 30px 70px -24px rgba(0,0,0,.8)!important}
+.board[data-b=friends4],.tray[data-b=friends4],.mb[data-b=friends4]{background:linear-gradient(135deg,#3a3050,#7a6496 40%,#c9b98f 55%,#7a6496 70%,#3a3050)!important;animation:none!important;box-shadow:0 30px 70px -24px rgba(0,0,0,.8)!important}
+.board[data-b=friends4] .half,.mb[data-b=friends4] .mf{background:radial-gradient(1.2px 1.2px at 12% 18%,rgba(255,255,255,.7),transparent),radial-gradient(1px 1px at 68% 32%,rgba(255,255,255,.6),transparent),radial-gradient(1px 1px at 38% 72%,rgba(233,216,255,.6),transparent),linear-gradient(180deg,#1d1730,#120e1c)!important}
+.board[data-b=synth],.tray[data-b=synth],.mb[data-b=synth]{--p1:#e07a5f;--p2:#3d8a9a;background:linear-gradient(165deg,#3a1a52,#160a24)!important}
+.board[data-b=synth] .half,.mb[data-b=synth] .mf{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23f)' opacity='.35'/%3E%3C/svg%3E"),linear-gradient(180deg,#241238,#1a0d2a)!important;background-size:220px 220px,auto!important}
+.board[data-b=synth] .pt::before{filter:none!important}
+.board[data-b=holo],.tray[data-b=holo],.mb[data-b=holo]{--p1:#4a4668;--p2:#aaa6c2}
+.board[data-b=holo] .half,.mb[data-b=holo] .mf{background:linear-gradient(115deg,#eceaf3,#e3e7f0 40%,#efe7ee 70%,#e6ecef)!important}
+.board[data-b=fib] .pt::before,.board[data-b=azulejo] .pt::before,.board[data-b=azulejo] .pt.alt::before{filter:none!important}
+.board[data-b=fib] .half,.mb[data-b=fib] .mf{background-blend-mode:normal}
+.board[data-b=vitrazh] .pt::before{filter:drop-shadow(0 0 1.2px #050407)!important}
+.board[data-b=carbon] .pt::before{filter:none!important}
+.board[data-b=shadow] .half{box-shadow:inset 0 0 0 1px rgba(138,108,255,.35)!important}
+/* 0.91 */
+.board[data-b=friends3],.tray[data-b=friends3],.mb[data-b=friends3]{--p1:#e8dcc4!important;--p2:#b9508f!important}
+.board[data-b=friends3] .half,.mb[data-b=friends3] .mf{background:radial-gradient(130% 90% at 50% 50%,#173338,#0f2226)!important}
+.board[data-b=friends4],.tray[data-b=friends4],.mb[data-b=friends4]{--p1:#ece5f4!important;--p2:#8a6cc4!important}
+
+/* 0.91: checkers without neon glow */
+[data-ck=neon]{--ckwRing:inset 0 0 0 2px #31c7ef,inset 0 -3px 6px rgba(0,0,0,.12);--ckbRing:inset 0 0 0 2px #c24c9e,inset 0 -3px 6px rgba(0,0,0,.35)}
+[data-ck=lava]{--ckwRing:inset 0 0 0 1.5px rgba(200,90,20,.6),inset 0 -3px 6px rgba(0,0,0,.2);--ckbRing:inset 0 0 0 1.5px rgba(220,86,10,.8),inset 0 -3px 6px rgba(0,0,0,.4)}
+[data-ck=friends]{--ckwRing:inset 0 0 0 1px rgba(255,255,255,.4),inset 0 -6px 10px rgba(0,0,0,.18);--ckbRing:inset 0 0 0 1px rgba(255,255,255,.3),inset 0 -6px 10px rgba(0,0,0,.3)}
+[data-ck=holo]{--ckwBg:radial-gradient(circle at 34% 26%,rgba(255,255,255,.85),transparent 36%),conic-gradient(from 30deg,#efe2ec,#e2eaf2,#e2efe8,#efe6e2,#efe2ec);--ckbBg:radial-gradient(circle at 34% 26%,rgba(255,255,255,.22),transparent 36%),radial-gradient(circle at 50% 50%,#17171d 0 40%,transparent 62%),conic-gradient(from 30deg,#8a6a86,#5f7590,#6a8a7c,#8a706a,#8a6a86)}
+
+/* 0.91: dice made of materials — drilled pips, per-material corners, no glow */
+.die .plip{fill:var(--pipLip,rgba(255,255,255,.4))}
+.die .pip,.die .pip1{stroke:rgba(0,0,0,.2);stroke-width:1}
+[data-dice=ruby] .die,[data-dice=sapphire] .die,[data-dice=emerald] .die,[data-dice=neon] .die,[data-dice=skyline] .die{border-radius:9%}
+[data-dice=gold] .die,[data-dice=onyx] .die,[data-dice=cup] .die,[data-dice=storm] .die,[data-dice=metro] .die,[data-dice=wood] .die{border-radius:14%}
+[data-dice=bone] .die{border-radius:17% 21% 18% 22%}
+[data-dice=ruby]{--dieBg:radial-gradient(90% 70% at 35% 25%,rgba(255,170,160,.35),transparent 60%),linear-gradient(160deg,rgba(200,36,30,.96),rgba(140,16,14,.97) 70%);--dieEdge:#5a0c09;--dieHi:rgba(255,200,190,.35);--pipLip:rgba(255,255,255,.18)}
+[data-dice=sapphire]{--dieBg:radial-gradient(90% 70% at 35% 25%,rgba(170,200,255,.35),transparent 60%),linear-gradient(160deg,rgba(40,80,190,.96),rgba(18,40,120,.97) 70%);--dieEdge:#0b1b55;--dieHi:rgba(200,220,255,.35);--pipLip:rgba(255,255,255,.18)}
+[data-dice=emerald]{--pipLip:rgba(255,255,255,.18)}
+[data-dice=emerald] .die svg,[data-dice=neon] .die svg,[data-dice=skyline] .die svg,[data-dice=ember] .die svg,[data-dice=candy] .die svg,[data-dice=glass] .die svg,[data-dice=mint] .die svg{filter:none!important}
+[data-dice=candy] .die .pip,[data-dice=candy] .die .pip1{stroke:#fff;stroke-width:3}
+[data-dice=neon]{--dieBg:linear-gradient(160deg,#1f2228,#0d0e12);--dieHi:rgba(255,255,255,.08);--pip:#6fd6e8;--pip1:#d65fb2;--pipLip:rgba(255,255,255,.07)}
+[data-dice=neon] .die{box-shadow:0 calc(var(--cs)*.07) 0 #000,0 calc(var(--cs)*.2) calc(var(--cs)*.35) -4px rgba(0,0,0,.6)!important}
+[data-dice=disco] .die{box-shadow:0 calc(var(--cs)*.07) 0 #5b6276,0 calc(var(--cs)*.2) calc(var(--cs)*.35) -4px rgba(0,0,0,.5)!important}
+[data-dice=onyx],[data-dice=cup],[data-dice=storm],[data-dice=scholar],[data-dice=choco],[data-dice=khan],[data-dice=ember],[data-dice=skyline],[data-dice=burg],[data-dice=plum],[data-dice=park],[data-dice=jade],[data-dice=tealx]{--pipLip:rgba(255,255,255,.12)}
+[data-dice=wood]{--dieHi:rgba(255,235,200,.25)}
+[data-dice=bone]{--dieHi:rgba(255,255,255,.35)}
 </style>
 <style>/* 0.38: home — one big «Play», three «Today» tiles */
 .h38modes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
@@ -3392,13 +3450,20 @@ let actx=null;
 function noiseBuf(){ if(!noiseBuf.b){ const len=Math.floor(actx.sampleRate*0.25), b=actx.createBuffer(1,len,actx.sampleRate), d=b.getChannelData(0); for(let i=0;i<len;i++) d[i]=Math.random()*2-1; noiseBuf.b=b; } return noiseBuf.b; }
 function knock(t0,freq,q,gain,dur){ const src=actx.createBufferSource(); src.buffer=noiseBuf(); const f=actx.createBiquadFilter(); f.type='bandpass'; f.frequency.value=freq; f.Q.value=q; const g=actx.createGain(); g.gain.setValueAtTime(0.0001,t0); g.gain.exponentialRampToValueAtTime(gain,t0+0.003); g.gain.exponentialRampToValueAtTime(0.0001,t0+dur); src.connect(f).connect(g).connect(actx.destination); src.start(t0); src.stop(t0+dur+0.03); }
 function tone(t0,freq,gain,dur,type){ const o=actx.createOscillator(), g=actx.createGain(); o.type=type||'sine'; o.frequency.setValueAtTime(freq,t0); g.gain.setValueAtTime(0.0001,t0); g.gain.exponentialRampToValueAtTime(gain,t0+0.008); g.gain.exponentialRampToValueAtTime(0.0001,t0+dur); o.connect(g).connect(actx.destination); o.start(t0); o.stop(t0+dur+0.02); }
+// 0.91: dice and checker sounds are real recordings (Kenney «Casino Audio», CC0), the synth stays as a fallback until they load
+const REC={buf:{},ld:false,last:{}}; const REC_N={dice:['roll1','roll2','roll3'],move:['step1','step2','step3']};
+function recLoad(){ if(REC.ld || !actx) return; REC.ld=true; Object.values(REC_N).flat().forEach(n=>{ fetch('sfx/'+n+'.mp3').then(r=>r.ok?r.arrayBuffer():null).then(a=>a&&new Promise((ok,no)=>actx.decodeAudioData(a,ok,no))).then(b=>{ if(b) REC.buf[n]=b; }).catch(()=>{}); }); }
+function recSfx(kind){ try{ recLoad(); const L=REC_N[kind].filter(n=>REC.buf[n]); if(!L.length) return false; let n=L[Math.floor(Math.random()*L.length)]; if(L.length>1 && n===REC.last[kind]) n=L[(L.indexOf(n)+1)%L.length]; REC.last[kind]=n;
+  const src=actx.createBufferSource(), g=actx.createGain(); src.buffer=REC.buf[n]; src.playbackRate.value=.94+Math.random()*.12; g.gain.value=kind==='dice'?.75:.9; src.connect(g); g.connect(actx.destination); src.start(); return true; }catch(e){ return false; } }
+document.addEventListener('pointerdown',()=>{ try{ if(prefs.sound){ actx=actx||new (window.AudioContext||window.webkitAudioContext)(); recLoad(); } }catch(e){} },{once:true,capture:true});
 let sfxMute=false;
 function sfx(kind){ if(sfxMute) return; if(kind==='dice' && typeof cupOn==='function' && cupOn()) setTimeout(()=>cupSnd('clack'),260); try{ vib(kind); }catch(e){}
   if(!prefs.sound) return;
   try{ actx = actx || new (window.AudioContext||window.webkitAudioContext)(); if(actx.state==='suspended') actx.resume();
     const t0=actx.currentTime+0.01;
     if(kind==='move' && prefs.board==='fib' && store.get('hkb',true)!==false) setTimeout(()=>{ try{ csSyn('bub'); }catch(e){} },60);
-    if(kind==='move'){ // wooden checker on wood
+    if((kind==='move'||kind==='dice') && recSfx(kind)){ /* 0.91: real recordings (Kenney casino audio, CC0) */ }
+    else if(kind==='move'){ // wooden checker on wood
       knock(t0,1500,1.4,0.55,0.06); tone(t0,170,0.25,0.09,'sine'); knock(t0+0.035,2600,3,0.12,0.03);
     } else if(kind==='dice'){ // dice rattling and settling
       let t=t0; for(let i=0;i<8;i++){ t+=0.03+Math.random()*0.05*(1+i*0.25); knock(t,2200+Math.random()*2200,4,0.35*(1-i/10),0.035); }
@@ -6264,13 +6329,13 @@ let scene3d=null;
 const BOARDS={
   burg:{name:'Burgundy', sw:['#3a0f1a','#ecdcc4'], shape:'tri'},
   cloud:{name:'Cloud', sw:['#efe9df','#b9aa95'], shape:'tri'}, choco:{name:'Chocolate', sw:['#3a2119','#e8d6bd'], shape:'tri'}, tealx:{name:'Teal', sw:['#1f4f4a','#e9dcc6'], shape:'tri'}, plum:{name:'Plum', sw:['#3c1c2e','#e7b7b0'], shape:'slim'},
-  cup:{name:'Cup', sw:['#0f1013','#132520']},
-  classic:{name:'Felt', sw:['#2c221b','#27392f']},
-  modern:{name:'Sand', sw:['#d9cdb9','#f1eadf']},
+  cup:{name:'Cup', sw:['#0f1013','#132520'], shape:'tri'},
+  classic:{name:'Felt', sw:['#2c221b','#27392f'], shape:'tri'},
+  modern:{name:'Sand', sw:['#d9cdb9','#f1eadf'], shape:'tri'},
   tri:{name:'Classic', sw:['#27392f','#b5533a'], shape:'tri'},
   walnut:{name:'Walnut', sw:['#4a2e1b','#e6cfa6'], shape:'tri'},
-  midnight:{name:'Midnight', sw:['#161c2e','#e3b26b']},
-  druzi:{name:'Druzi', sw:['#0e0e0f','#eaf8ff']},
+  midnight:{name:'Midnight', sw:['#161c2e','#e3b26b'], shape:'tri'},
+  druzi:{name:'Druzi', sw:['#0e0e0f','#eaf8ff'], shape:'tri'},
   marble:{name:'Marble', sw:['#4a4845','#f2f0ec'], shape:'arch'},
   sage:{name:'Sage', sw:['#c9cdbb','#8f9d84'], shape:'dots'},
   oak:{name:'Oak', sw:['#7a4f2a','#d9b183'], shape:'inlay'},
@@ -6279,7 +6344,7 @@ const BOARDS={
   terrazzo:{name:'Terrazzo', sw:['#e9e5df','#c8553d'], shape:'arch'},
   carrara:{name:'Carrara', sw:['#efedea','#1d1d20'], shape:'tri'},
   noir:{name:'Noir', sw:['#141416','#d6b062'], shape:'slim'},
-  vitrazh:{name:'Stained glass', sw:['#14111b','#d42a46'], shape:'tri'}, azulejo:{name:'Azulejo', sw:['#f4f1ea','#1d43a3'], shape:'tri'}, synth:{name:'Synthwave', sw:['#16052a','#ff3df0']}, holo:{name:'Hologram', sw:['#e9e6f5','#b9d4ff']}, fib:{name:'Fibonacci hookah', sw:['#1d1622','#e0b54a'], shape:'tri'},
+  vitrazh:{name:'Stained glass', sw:['#14111b','#d42a46'], shape:'tri'}, azulejo:{name:'Azulejo', sw:['#f4f1ea','#1d43a3'], shape:'tri'}, synth:{name:'Synthwave', sw:['#16052a','#ff3df0'], shape:'tri'}, holo:{name:'Hologram', sw:['#e9e6f5','#b9d4ff'], shape:'tri'}, fib:{name:'Fibonacci hookah', sw:['#1d1622','#e0b54a'], shape:'tri'},
   mint:{name:'Mint', sw:['#dfe9e2','#3f9a78'], shape:'tri'}, slate:{name:'Slate', sw:['#2a2f36','#cd7a6e'], shape:'slim'}, rosewood:{name:'Rosewood', sw:['#3b1d17','#e9d4c0'], shape:'tri'}, lavender:{name:'Lavender', sw:['#e9e4f5','#8a6cff'], shape:'arch'},
   contrast:{name:'Contrast', sw:['#f4f1ea','#1a1a1a'], shape:'tri'},
   inei:{name:'Hoarfrost', sw:['#e6f1f8','#5aa0d2'], shape:'tri'}, snowfall:{name:'Snowfall', sw:['#14233d','#cfe3f5'], shape:'tri'}, linen:{name:'Linen', sw:['#efe8da','#6e8462'], shape:'tri'}, pistachio:{name:'Pistachio', sw:['#eceed4','#8fa556'], shape:'tri'}, cobalt:{name:'Cobalt', sw:['#f3f6fb','#2f6fb0'], shape:'spear'}, sultan:{name:'Sultan', sw:['#5a1626','#f1e6d0'], shape:'arch'}, mirror:{name:'Mirror', sw:['#dfe6ee','#7d8ca0'], shape:'spear'}, khan:{name:'Khan', sw:['#1a1030','#c9b6ff'], shape:'arch'}, tavla:{name:'Tavla', sw:['#e8d6b4','#4a2814'], shape:'spear'}, usta:{name:'Workshop', sw:['#2e1d12','#d6b078'], shape:'tri'}, garland:{name:'Garland', sw:['#10291f','#e5484d'], shape:'arch'}, triumph:{name:'Triumph', sw:['#2b1f45','#b9a7ff'], shape:'spear'}, yard:{name:'Yard', sw:['#6b4a2e','#7a9b5a'], shape:'tri'},
@@ -6287,13 +6352,13 @@ const BOARDS={
   shadow:{name:'Shadow', sw:['#14121c','#8a6cff'], shape:'slim'},
   marblehall:{name:'Marble hall', sw:['#f1efe9','#0f5b45'], shape:'tri'},
   friends1:{name:'Friends', sw:['#221a2b','#3ee6ff']},
-  friends2:{name:'Friends · Neon', sw:['#221a2b','#ff4fd8']},
-  friends3:{name:'Friends · Wave', sw:['#a46bff','#3ee6ff']},
-  friends4:{name:'Friends · Legend', sw:['#ff4fd8','#7cf2c8']},
+  friends2:{name:'Friends · Neon', sw:['#221a2b','#ff4fd8'], shape:'tri'},
+  friends3:{name:'Friends · Wave', sw:['#a46bff','#3ee6ff'], shape:'tri'},
+  friends4:{name:'Friends · Legend', sw:['#ff4fd8','#7cf2c8'], shape:'tri'},
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.90.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.91.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -6329,7 +6394,7 @@ function build2D(){
   window._applyTheme=()=>applyTheme(); window._buildPickers=()=>buildPickers(); window._dieEl=(v)=>dieEl(v,false,false,0);
   function applyTheme(){
     const BB=(window._botBoard && BOARDS[window._botBoard]) ? window._botBoard : prefs.board; stage.dataset.b=BB;
-    $('board').dataset.b=BB; $('tray').dataset.b=BB; $('board').dataset.shape=BOARDS[BB].shape||'lane';
+    $('board').dataset.b=BB; $('tray').dataset.b=BB; $('board').dataset.shape=BOARDS[BB].shape||'tri';
     document.body.dataset.ck=prefs.ck; document.body.dataset.dice=prefs.dice; document.body.dataset.table=window._campTbl||prefs.table;
     buildPickers();
   }
@@ -6355,7 +6420,7 @@ function build2D(){
     buildPreview();
     const pb=$('pickBoard'); if(!pb) return; pb.innerHTML='';
     for(const k of Object.keys(BOARDS)){ if(!owns('board',k)) continue;
-      const mb=document.createElement('div'); mb.className='mb'; mb.dataset.b=k; mb.dataset.shape=BOARDS[k].shape||'lane'; const mf=document.createElement('div'); mf.className='mf';
+      const mb=document.createElement('div'); mb.className='mb'; mb.dataset.b=k; mb.dataset.shape=BOARDS[k].shape||'tri'; const mf=document.createElement('div'); mf.className='mf';
       for(let i=0;i<6;i++){ const p=document.createElement('span'); p.className='mp'+(i%2?' alt':''); mf.appendChild(p); } mb.appendChild(mf);
       const lk=k.startsWith('friends') && !refHas('board',k); const e=pickBtn(prefs.board===k, t('st_'+k), mb, ()=>{ if(k.startsWith('friends')) return refPreview(k); prefs.board=k; store.set('board2',k); applyTheme(); }, k.startsWith('friends')?'x':rarOf('board',k)); if(lk) e.classList.add('lk'); pb.appendChild(e);
     }
@@ -6382,7 +6447,7 @@ function build2D(){
   function dieEl(v, used, anim, i){
     const d=document.createElement('div'); d.className='die'+(used?' used':'')+(anim?' roll':'');
     if(anim) d.style.animationDelay=(i*60)+'ms';
-    const paint=x=>{ d.innerHTML='<svg viewBox="0 0 100 100" width="100%" height="100%">'+PIPS[x].map(([px,py])=>'<circle cx="'+px+'" cy="'+py+'" r="'+(x===1?12:9.5)+'" class="'+(x===1?'pip1':'pip')+'"/>').join('')+'</svg>'; };
+    const paint=x=>{ d.innerHTML='<svg viewBox="0 0 100 100" width="100%" height="100%">'+PIPS[x].map(([px,py])=>{ const r=(x===1?12:9.5); return '<circle cx="'+px+'" cy="'+(py+1.4)+'" r="'+(r+.6)+'" class="plip"/><circle cx="'+px+'" cy="'+py+'" r="'+r+'" class="'+(x===1?'pip1':'pip')+'"/>'; }).join('')+'</svg>'; };
     paint(anim ? 1+Math.floor(Math.random()*6) : v);
     if(anim && i===0) setTimeout(()=>{ try{ window.rollFx && window.rollFx(d); }catch(e){} }, 30);
     if(anim){ let n=0; const iv=setInterval(()=>{ n++; if(n>=7){ clearInterval(iv); paint(v); } else paint(1+Math.floor(Math.random()*6)); }, 60); }
@@ -6826,7 +6891,7 @@ function pfCamp(){ const d=campDone(), vis=campVis(); const b=uxH('button','blk 
 // ---- tips for the first games: Pasha says a line at the right moment, each once
 const TIP_MAX_GAMES=5;
 function tipShow(k){ const seen=store.get('tips',[])||[]; if(seen.includes(k)) return; seen.push(k); store.set('tips',seen);
-  document.querySelectorAll('.ptip').forEach(e=>e.remove()); const e=uxH('div','ptip'); const a=uxH('span','av'); avatarInto(a,'pasha','П'); const tx=uxH('div'); tx.append(uxH('b',null,t('stPasha')), uxH('p',null,(k==='roll' && matchMedia('(pointer:coarse)').matches) ? t('tip_roll').replace(/ — або пробіл на клавіатурі| — or the space bar/,'') : t('tip_'+k))); const x=uxH('button','ghost',t('tipOk')); x.type='button'; x.onclick=()=>e.remove(); e.append(a,tx,x); document.body.appendChild(e); setTimeout(()=>e.classList.add('on'),20); setTimeout(()=>{ if(e.isConnected){ e.classList.remove('on'); setTimeout(()=>e.remove(),400); } }, 9000); }
+  document.querySelectorAll('.ptip').forEach(e=>e.remove()); const e=uxH('div','ptip'); const a=uxH('span','av'); avatarInto(a,'pasha','П'); const tx=uxH('div'); tx.append(uxH('b',null,t('stPasha')), uxH('p',null,(k==='roll' && matchMedia('(pointer:coarse)').matches) ? t('tip_roll').replace(/,?\s*(—\s*)?(або пробіл на клавіатурі|или пробел на клавиатуре)|\.\s*Or the space bar/,'') : t('tip_'+k))); const x=uxH('button','ghost',t('tipOk')); x.type='button'; x.onclick=()=>e.remove(); e.append(a,tx,x); document.body.appendChild(e); setTimeout(()=>e.classList.add('on'),20); setTimeout(()=>{ if(e.isConnected){ e.classList.remove('on'); setTimeout(()=>e.remove(),400); } }, 9000); }
 function tipsTick(){ if(!gs || gs.phase!=='play' || !(mode==='bot'||mode==='online'||mode==='local') || (profile.played|0)>=TIP_MAX_GAMES || store.get('tipsOff',0)) return;
   const me=mySlot(), c= mode==='local' ? gs.turn : (gs.white && me ? colorOfSlot(me) : null); if(!c || gs.turn!==c) return;
   try{ if(!gs.rolled){ if(!(profile.played|0) && !(store.get('tips',[])||[]).includes('goal')) return tipShow('goal'); if(document.querySelector('.ptip.on')) return; return tipShow('roll'); }
@@ -8332,6 +8397,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+ {v:"0.91.0", d:"16.11.2026", uk:["Справжні звуки: кидок кубиків і стук шашок тепер записані, а не синтезовані","Усі дошки з трикутними пунктами, стандартне зелене сукно отримало фактуру","Неонові дошки Друзів, Синтвейв і Голограма перемальовані спокійніше, без світіння","Кубики: втиснуті крапки, гострі грані в казино-кубиків (Рубін, Сапфір, Смарагд), без неонового сяйва"], en:["Real sounds: dice rolls and checker clicks are now recordings, not synth","Every board has triangle points; the default green felt has texture","Friends neon boards, Synthwave and Hologram redrawn calmer, no glow","Dice: drilled pips, sharp casino edges (Ruby, Sapphire, Emerald), no neon glow"], ru:["Настоящие звуки: бросок кубиков и стук шашек теперь записи, а не синтез","У всех досок треугольные пункты, стандартное зелёное сукно получило фактуру","Неоновые доски Друзей, Синтвейв и Голограмма перерисованы спокойнее, без свечения","Кубики: вдавленные точки, острые грани у казино-кубиков (Рубин, Сапфир, Изумруд), без неона"]},
  {v:"0.90.0", d:"16.11.2026", uk:["Нові іконки по всьому сайту: м’якший двотоновий стиль замість тонких ліній","Нижнє меню, ігрове меню, сповіщення, замки, пошук і календар оновлено"], en:["New icons across the site: a softer two-tone style instead of thin lines","Bottom bar, game menu, notifications, locks, search and calendar updated"], ru:["Новые иконки по всему сайту: мягкий двухтоновый стиль вместо тонких линий","Обновлены нижнее меню, игровое меню, уведомления, замки, поиск и календарь"]},
  {v:"0.89.1", d:"16.11.2026", uk:["Боси арени й персонажі кампанії тепер мають настрій: радіють, коли ведуть чи викинули дубль, засмучуються, коли відстають, а після партії видно, хто задоволений"], en:["Arena bosses and campaign characters now have moods: glad when ahead or after a double, upset when behind, and after the game you can see who is pleased"], ru:["Боссы арены и персонажи кампании теперь с настроением: радуются, когда ведут или выбросили дубль, расстраиваются, когда отстают, а после партии видно, кто доволен"]},
  {v:"0.89.0", d:"16.11.2026", uk:["Персонажі кампанії перемальовані в одному стилі з ареною: дядько Толік, Оксана Ігорівна, Марко, Рустам, Галина Петрівна, капітан Нугзар і Тінь","Портрети за глави 1, 4 і 7 тепер нові; ті, що ви вже виграли, лишаються з вами"], en:["The campaign characters are redrawn in the same style as the arena: Uncle Tolik, Oksana Ihorivna, Marko, Rustam, Halyna Petrivna, Captain Nugzar and the Shadow","The portraits for chapters 1, 4 and 7 are new; the ones you already won stay yours"], ru:["Персонажи кампании перерисованы в одном стиле с ареной: дядя Толик, Оксана Игоревна, Марко, Рустам, Галина Петровна, капитан Нугзар и Тень","Портреты за главы 1, 4 и 7 теперь новые; те, что вы уже выиграли, остаются с вами"]},
@@ -8559,12 +8625,12 @@ function openInvite(){ if(PORTAL){ toast(t('cgInvHint')); return; } if(!isReg())
 function refCheck(){ if(!uid || !profile.ach) return; refEnforce(); const n=profile.ach.refN|0, k='refSeen_'+uid, seen=store.get(k,null); if(seen===null){ store.set(k,n); return; }
   if(n>seen){ store.set(k,n); toast(t('refPaid',{n:(Math.min(50,n)-Math.min(50,seen))*200})); try{ coinsPaint(); coinFly((Math.min(50,n)-Math.min(50,seen))*200); }catch(e){}
     const tier=REF_TIERS.map((x,i)=>[x,i]).filter(([x])=>seen<x && n>=x).pop(); if(tier) setTimeout(()=>toast(t('refBoard',{b:t('st_friends'+(tier[1]+1))})), 2600); } }
-function miniBoard(k){ const mb=document.createElement('div'); mb.className='mb'; mb.dataset.b=k; mb.dataset.shape=BOARDS[k].shape||'lane'; const mf=document.createElement('div'); mf.className='mf'; for(let i=0;i<6;i++){ const p=document.createElement('span'); p.className='mp'+(i%2?' alt':''); mf.appendChild(p); } mb.appendChild(mf); return mb; }
+function miniBoard(k){ const mb=document.createElement('div'); mb.className='mb'; mb.dataset.b=k; mb.dataset.shape=BOARDS[k].shape||'tri'; const mf=document.createElement('div'); mf.className='mf'; for(let i=0;i<6;i++){ const p=document.createElement('span'); p.className='mp'+(i%2?' alt':''); mf.appendChild(p); } mb.appendChild(mf); return mb; }
 // a close look at a Friends board (on the table, with the Druzi checkers) with the level switcher
 function refPreview(k){ const old=$('refPv'); if(old) old.remove(); show('setOv',false); const ov=document.createElement('div'); ov.id='refPv'; ov.className='overlay refpv'; ov.onclick=e=>{ if(e.target===ov) ov.remove(); };
   const m=document.createElement('div'); m.className='modal'; const i=+k.replace('friends','')-1, n=(profile.ach&&profile.ach.refN)|0, own=refHas('board',k);
   const h2=document.createElement('h2'); h2.textContent=t('st_'+k); const sub=document.createElement('p'); sub.className='sub'; sub.textContent= REF_TIERS[i]===1 ? t('fromRef1') : t('fromRef',{n:REF_TIERS[i]}); m.append(h2,sub);
-  const pv=document.createElement('div'); pv.className='spv2'; const src=$('board'); if(src){ const bd=src.cloneNode(true); bd.removeAttribute('id'); bd.querySelectorAll('[id]').forEach(e=>e.removeAttribute('id')); bd.querySelectorAll('.tb,.ub,.dice,.die').forEach(e=>e.remove()); bd.dataset.b=k; bd.dataset.shape='lane';
+  const pv=document.createElement('div'); pv.className='spv2'; const src=$('board'); if(src){ const bd=src.cloneNode(true); bd.removeAttribute('id'); bd.querySelectorAll('[id]').forEach(e=>e.removeAttribute('id')); bd.querySelectorAll('.tb,.ub,.dice,.die').forEach(e=>e.remove()); bd.dataset.b=k; bd.dataset.shape=BOARDS[k]&&BOARDS[k].shape||'tri';
     bd.querySelectorAll('.pt').forEach(pt=>pt.classList.remove('can','sel','tgt','full','last','lastTo'));
     const L={t:['w5','','','','b3','', '','b2','','','','w2'], b:['b5','','','','w3','', 'w2','','b2','','','']};
     ['top','bot'].forEach((r,ri)=>{ const pts=[...bd.querySelectorAll('.prow.'+r+' .pt')]; const lay=L[ri?'b':'t']; pts.forEach((pt,q)=>{ let st=pt.querySelector('.stack'); if(!st){ st=document.createElement('div'); st.className='stack'; pt.appendChild(st); } st.innerHTML=''; const v=lay[q]||''; if(!v) return; for(let z=0;z<+v.slice(1);z++){ const ck=document.createElement('div'); ck.className='ck '+v[0]+(z===+v.slice(1)-1?' tip':''); st.appendChild(ck); } }); });
@@ -8863,7 +8929,7 @@ async function bundleBuy(b){ const B=BUNDLES.find(x=>x[0]===b); if(!B) return fa
 const kindName=c=>t({board:'boardT',ck:'checkersT',dice:'diceT',table:'tableT',frm:'frmT'}[c]);
 // a real board with checkers and dice, on its table: what you see in a game
 function livePv(b,ck,dc,tb){ const src=$('board'); if(!src) return shScene(b,ck,dc,tb); const w=sH('div','shscene s2live'); if(tb && tb!=='auto'){ w.style.background=TABLE_SW[tb]; w.style.backgroundSize='cover'; }
-  const bd=src.cloneNode(true); bd.removeAttribute('id'); bd.querySelectorAll('[id]').forEach(e=>e.removeAttribute('id')); bd.querySelectorAll('.tb,.ub,.dice,.die,.sthl,#turnBanner,.tbanner,button').forEach(e=>e.remove()); bd.dataset.b=b; bd.dataset.shape=BOARDS[b]&&BOARDS[b].shape||'lane';
+  const bd=src.cloneNode(true); bd.removeAttribute('id'); bd.querySelectorAll('[id]').forEach(e=>e.removeAttribute('id')); bd.querySelectorAll('.tb,.ub,.dice,.die,.sthl,#turnBanner,.tbanner,button').forEach(e=>e.remove()); bd.dataset.b=b; bd.dataset.shape=BOARDS[b]&&BOARDS[b].shape||'tri';
   bd.querySelectorAll('.pt').forEach(pt=>pt.classList.remove('can','sel','tgt','full','last','lastTo'));
   const L={t:['w4','','','b2','','', 'w3','','','','b3',''], b:['b4','','w2','','','b3', '','','w3','','','w3']};
   ['top','bot'].forEach((r,ri)=>{ const pts=[...bd.querySelectorAll('.prow.'+r+' .pt')]; const lay=L[ri?'b':'t']; pts.forEach((pt,q)=>{ let st=pt.querySelector('.stack'); if(!st){ st=document.createElement('div'); st.className='stack'; pt.appendChild(st); } st.innerHTML=''; const v=lay[q]||''; if(!v) return; for(let z=0;z<+v.slice(1);z++){ const c=document.createElement('div'); c.className='ck '+v[0]+(z===+v.slice(1)-1?' tip':''); st.appendChild(c); } }); });
