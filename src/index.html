@@ -2608,6 +2608,15 @@ h3{font-weight:600;letter-spacing:-.01em}
  #vSearch .snear{order:4;width:100%;text-align:left}
  #vSearch .sec>*:not(h2):not(#lotSrch):not(.searchbox):not(#searchInfo):not(.snear){order:5}
 }
+/* 0.87.4: the radio's own volume */
+#radPill{overflow:visible}
+#radPill .rvol{flex:none;width:32px;height:32px;padding:0;display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:10px;background:transparent;color:inherit;cursor:pointer}
+#radPill .rvol:hover,#radPill.vol .rvol{background:rgba(255,255,255,.08)}
+#radPill .rvol svg{width:18px;height:18px}
+#radPill .rvolp{position:absolute;right:8px;bottom:calc(100% + 8px);display:none;align-items:center;gap:10px;padding:10px 14px;border-radius:14px;background:#1a1b21;border:1px solid rgba(255,255,255,.1);box-shadow:0 12px 30px -8px rgba(0,0,0,.6);z-index:5}
+#radPill.vol .rvolp{display:flex}
+#radPill .rvolp input{width:160px;accent-color:#4fb393;height:20px}
+#radPill .rvn{min-width:38px;text-align:right;font-size:12.5px;font-variant-numeric:tabular-nums;color:var(--muted)}
 /* bot picker: titles in the serif, the chosen card is outlined, not tinted */
 .bp58 .op.on{background:transparent!important}
 
@@ -4469,10 +4478,20 @@ function radDuckFor(ms){ if(!radA || radA.paused) return; radDk++; radApplyVol()
 function radPaint(){ try{ const tg=$('togRadio'); if(tg) tg.classList.toggle('on',radOn); const vr=$('radVolRow'); if(vr) vr.hidden=!radOn; radStPaint(); const vi=$('radVol'); if(vi && document.activeElement!==vi) vi.value=Math.round(radVol()*100);
   let el=$('radPill'); if(!radOn){ if(el) el.remove(); return; }
   if(!el){ el=uxH('div','radp'); el.id='radPill'; const cv=uxH('div','cv'); const tx=uxH('div','tx'); tx.append(uxH('b'), uxH('small')); const pp=uxH('button','rpp'); pp.type='button'; pp.onclick=()=>{ if(radA && !radA.paused){ radA.pause(); } else radPlay(); };
-    const st=uxH('button','rnx rst','⇄'); st.type='button'; st.title=t('radStNext'); st.setAttribute('aria-label',t('radStNext')); st.onclick=()=>radStation(radS+1); const nx=uxH('button','rnx','⏭'); nx.type='button'; nx.setAttribute('aria-label',t('radNext')); nx.onclick=()=>radNext(1); const x=uxH('button','rx','×'); x.type='button'; x.setAttribute('aria-label',t('radOff')); x.onclick=()=>radSet(false); el.append(cv,tx,pp,st,nx,x); document.body.appendChild(el); radDrag(el); }
+    const st=uxH('button','rnx rst','⇄'); st.type='button'; st.title=t('radStNext'); st.setAttribute('aria-label',t('radStNext')); st.onclick=()=>radStation(radS+1); const nx=uxH('button','rnx','⏭'); nx.type='button'; nx.setAttribute('aria-label',t('radNext')); nx.onclick=()=>radNext(1); const x=uxH('button','rx','×'); x.type='button'; x.setAttribute('aria-label',t('radOff')); x.onclick=()=>radSet(false);
+    // 0.87.4: volume right in the player — a speaker button opens a slider, no trip to the settings
+    const vb=uxH('button','rvol'); vb.type='button'; vb.setAttribute('aria-label',t('radVolT')); vb.title=t('radVolT');
+    const vp=uxH('div','rvolp'); const vr=uxH('input'); vr.type='range'; vr.min='0'; vr.max='100'; vr.step='5'; vr.setAttribute('aria-label',t('radVolT')); const vn=uxH('span','rvn');
+    const vpaint=()=>{ const v=Math.round(radVol()*100); if(document.activeElement!==vr) vr.value=v; vn.textContent=v+'%'; vr.style.setProperty('--v',v+'%'); vb.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/>'+(v>0?'<path d="M15.5 9.2a4 4 0 0 1 0 5.6"/>':'<path d="M16 9.5l5 5M21 9.5l-5 5"/>')+(v>55?'<path d="M18.4 6.6a8 8 0 0 1 0 10.8"/>':'')+'</svg>'; };
+    vr.oninput=()=>{ store.set('radVol',(+vr.value)/100); radApplyVol(); vpaint(); const si=$('radVol'); if(si) si.value=vr.value; };
+    vb.onclick=e=>{ e.stopPropagation(); el.classList.toggle('vol'); vpaint(); };
+    document.addEventListener('pointerdown',e=>{ if(el.classList.contains('vol') && !el.contains(e.target)) el.classList.remove('vol'); });
+    vp.append(vr,vn); el._vpaint=vpaint; vpaint();
+    el.append(cv,tx,pp,vb,st,nx,x,vp); document.body.appendChild(el); radDrag(el); }
+  try{ el._vpaint&&el._vpaint(); }catch(e){}
   const it=RADIO.list[radI], cv=el.querySelector('.cv'); cv.classList.toggle('img',!!it[2]); cv.style.backgroundImage=it[2]?'url('+it[2]+')':''; cv.innerHTML=it[2]?'':RADIO.b; cv.classList.toggle('nk',RADIO.k==='nikow'); el.querySelector('.tx small').textContent=RADIO.by; const eq=uxH('i'); eq.innerHTML='<b></b><b></b><b></b>'; cv.appendChild(eq);
   el.querySelector('.tx b').textContent=it[1]; const playing=!!(radA && !radA.paused); el.classList.toggle('paused',!playing); const pp=el.querySelector('.rpp'); pp.textContent=playing?'❚❚':'▶'; pp.setAttribute('aria-label',t(playing?'radPause':'radPlay')); }catch(e){} }
-setTimeout(()=>{ try{ $('radStRow').querySelectorAll('button').forEach((b,i)=>b.onclick=()=>radStation(i)); }catch(e){} try{ $('togRadio').onclick=()=>radSet(!radOn); $('radVol').oninput=e=>{ store.set('radVol',(+e.target.value)/100); radApplyVol(); }; }catch(e){}
+setTimeout(()=>{ try{ $('radStRow').querySelectorAll('button').forEach((b,i)=>b.onclick=()=>radStation(i)); }catch(e){} try{ $('togRadio').onclick=()=>radSet(!radOn); $('radVol').oninput=e=>{ store.set('radVol',(+e.target.value)/100); radApplyVol(); try{ const pl=$('radPill'); pl&&pl._vpaint&&pl._vpaint(); }catch(_){} }; }catch(e){}
 // a browser will not start sound by itself: if the radio was on last time, it starts with the first tap
 if(radOn){ radPaint(); const go=()=>{ removeEventListener('pointerdown',go,true); removeEventListener('keydown',go,true); if(radOn && (!radA || radA.paused)) radPlay(); }; addEventListener('pointerdown',go,true); addEventListener('keydown',go,true); } else radPaint(); },0);
 // ================= 0.54: winter — light snow on the home screen, 1 December … 14 January (Kyiv) =================
@@ -4983,7 +5002,7 @@ function frmHero(k){ const r=shopRar('frm',k), o=owns('frm',k), on=frmNow()===k;
 const radDragOk=()=>innerWidth>=700;
 function radPlace(el){ el=el||$('radPill'); if(!el) return; const P=store.get('radPos',null); if(!P || !radDragOk()){ el.style.left=el.style.top=el.style.right=el.style.bottom=''; el.classList.remove('moved'); return; }
   const r=el.getBoundingClientRect(), x=Math.max(8,Math.min(innerWidth-r.width-8, P.x*innerWidth)), y=Math.max(8,Math.min(innerHeight-r.height-8, P.y*innerHeight)); el.style.left=x+'px'; el.style.top=y+'px'; el.style.bottom='auto'; el.style.right='auto'; el.classList.add('moved'); }
-function radDrag(el){ radPlace(el); el.addEventListener('pointerdown',e=>{ if(!radDragOk() || e.button || e.target.closest('button')) return; const r=el.getBoundingClientRect(), dx=e.clientX-r.left, dy=e.clientY-r.top; let moved=false; el.setPointerCapture(e.pointerId);
+function radDrag(el){ radPlace(el); el.addEventListener('pointerdown',e=>{ if(!radDragOk() || e.button || e.target.closest('button,input,.rvolp')) return; const r=el.getBoundingClientRect(), dx=e.clientX-r.left, dy=e.clientY-r.top; let moved=false; el.setPointerCapture(e.pointerId);
     const mv=ev=>{ const x=Math.max(8,Math.min(innerWidth-r.width-8, ev.clientX-dx)), y=Math.max(8,Math.min(innerHeight-r.height-8, ev.clientY-dy)); if(!moved && Math.hypot(ev.clientX-e.clientX, ev.clientY-e.clientY)<4) return; moved=true; el.classList.add('drag','moved'); el.style.left=x+'px'; el.style.top=y+'px'; el.style.bottom='auto'; el.style.right='auto'; };
     const up=()=>{ el.removeEventListener('pointermove',mv); el.removeEventListener('pointerup',up); el.removeEventListener('pointercancel',up); el.classList.remove('drag'); if(moved){ const q=el.getBoundingClientRect(); store.set('radPos',{x:q.left/innerWidth, y:q.top/innerHeight}); } };
     el.addEventListener('pointermove',mv); el.addEventListener('pointerup',up); el.addEventListener('pointercancel',up); });
@@ -6328,7 +6347,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.87.3';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.87.4';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -8359,6 +8378,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+ {v:"0.87.4", d:"16.11.2026", uk:["Гучність радіо тепер прямо в плеєрі: кнопка з динаміком відкриває повзунок"], en:["Radio volume is now right in the player: the speaker button opens a slider"], ru:["Громкость радио теперь прямо в плеере: кнопка с динамиком открывает ползунок"]},
  {v:"0.87.3", d:"16.11.2026", uk:["Пошук суперника на телефоні — спокійний екран: кальянщик зверху, під ним час і хто онлайн, нижче діапазон рейтингу"], en:["Looking for an opponent on a phone is a calm screen: the hookah smoker on top, the time and who is online under it, then the rating range"], ru:["Поиск соперника на телефоне — спокойный экран: кальянщик сверху, под ним время и кто онлайн, ниже диапазон рейтинга"]},
  {v:"0.87.2", d:"16.11.2026", uk:["Кальянщик під час пошуку суперника — без білого фону","Блок «Ви записані» в турнірі на ПК більше не має порожнього місця зліва"], en:["The hookah smoker while searching has no white background now","The «You're registered» block in the tournament on a computer has no empty space on the left"], ru:["Кальянщик во время поиска соперника — без белого фона","Блок «Вы записаны» в турнире на ПК больше без пустого места слева"]},
  {v:"0.87.1", d:"16.11.2026", uk:["Кубок і бейджі в анімаціях тепер срібні, а іконка акаунта показує всі свої картинки"], en:["The trophy and badges in the animations are silver now, and the account icon shows all its pictures"], ru:["Кубок и бейджи в анимациях теперь серебряные, а иконка аккаунта показывает все свои картинки"]},
