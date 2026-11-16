@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.87.3 — 2026-11-16
+- Hookah clip played from a fetched blob (canvas can read it, white keyed out); centred mobile search layout.
+
 ## 0.87.2 — 2026-11-16
 - Search hookah video drawn on a canvas with the edge-connected white keyed out; tournament registered block left-aligned.
 

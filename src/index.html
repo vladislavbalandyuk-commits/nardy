@@ -2595,6 +2595,19 @@ h3{font-weight:600;letter-spacing:-.01em}
 .tov .trrow>.treginfo>.eic,.tov .trrow>.treginfo>svg,.tov .trrow>.treginfo>.li{flex:none;margin:0}
 .tov .trrow>.treginfo>div{min-width:0}
 .tov .trrow>.treginfo b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* 0.87.3: searching on a phone — a calm centred screen: the hookah smoker, a spinner with the time, then online and the rating range */
+@media (max-width:560px){
+ #vSearch .sec{display:flex;flex-direction:column;align-items:center;text-align:center;padding-top:8px}
+ #vSearch .sec>h2{order:0;margin:0 0 2px;font-size:20px}
+ #vSearch #lotSrch{order:1;width:170px;height:170px;margin:4px auto 0}
+ #vSearch .searchbox{order:2;margin-top:4px;justify-content:center;gap:12px}
+ #vSearch .searchbox .spin{width:30px;height:30px}
+ #vSearch .searchbox b{font-size:26px;display:inline}
+ #vSearch .searchbox span{display:block;text-align:left}
+ #vSearch #searchInfo{order:3;font-size:13px;margin:10px 8px 0;max-width:320px}
+ #vSearch .snear{order:4;width:100%;text-align:left}
+ #vSearch .sec>*:not(h2):not(#lotSrch):not(.searchbox):not(#searchInfo):not(.snear){order:5}
+}
 /* bot picker: titles in the serif, the chosen card is outlined, not tinted */
 .bp58 .op.on{background:transparent!important}
 
@@ -6315,7 +6328,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.87.2';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.87.3';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -7178,7 +7191,7 @@ function lotPop(k,title,ms){ if(typeof fxCalm==='function' && fxCalm()) return; 
 // the hookah smoker while we look for an opponent
 function lotSearch(on){ const h=$('lotSrch'); if(!h) return; if(!on){ if(h._stop) h._stop(); h.innerHTML=''; return; } if(h.firstChild) return;
   // the clip has a white background: draw it on a canvas and clear only the white that touches the edges (his light clothes stay)
-  const v=document.createElement('video'); v.crossOrigin='anonymous'; v.src=LOT_HOOKAH; v.muted=true; v.loop=true; v.autoplay=true; v.playsInline=true; v.setAttribute('playsinline','');
+  const v=document.createElement('video'); fetch(LOT_HOOKAH).then(r=>{ if(!r.ok) throw 0; return r.blob(); }).then(b=>{ if(!live) return; v.src=URL.createObjectURL(new Blob([b],{type:'video/mp4'})); const pp=v.play(); if(pp&&pp.catch) pp.catch(()=>{}); }).catch(()=>{ h._stop&&h._stop(); h.innerHTML=''; }); v.muted=true; v.loop=true; v.autoplay=true; v.playsInline=true; v.setAttribute('playsinline','');
   const N=200, c=document.createElement('canvas'); c.width=N; c.height=N; h.appendChild(c); const ctx=c.getContext('2d',{willReadFrequently:true}); let raf=0, live=true;
   const seen=new Uint8Array(N*N), st=new Int32Array(N*N);
   const frame=()=>{ if(!live) return; raf=requestAnimationFrame(frame); if(v.readyState<2) return; try{ ctx.clearRect(0,0,N,N); ctx.drawImage(v,0,0,N,N); const im=ctx.getImageData(0,0,N,N), d=im.data; seen.fill(0); let sp=0;
@@ -7188,8 +7201,7 @@ function lotSearch(on){ const h=$('lotSrch'); if(!h) return; if(!on){ if(h._stop
       for(let i=0;i<N*N;i++){ if(d[i*4+3]===255 && seen[i]){ const r=d[i*4],g=d[i*4+1],b=d[i*4+2]; const m=Math.min(r,g,b); if(m>200) d[i*4+3]=Math.max(0,Math.round((255-m)*4.5)); } }
       ctx.putImageData(im,0,0); }catch(e){ live=false; h.innerHTML=''; } };
   h._stop=()=>{ live=false; cancelAnimationFrame(raf); try{ v.pause(); }catch(e){} };
-  v.onerror=()=>{ h._stop(); h.innerHTML=''; }; v.onplaying=()=>{ cancelAnimationFrame(raf); frame(); };
-  try{ const pp=v.play(); if(pp&&pp.catch) pp.catch(()=>{}); }catch(e){} }
+  v.onerror=()=>{ h._stop(); h.innerHTML=''; }; v.onplaying=()=>{ cancelAnimationFrame(raf); frame(); }; }
 function loadAperol(){ return _aperolP || (_aperolP=fetch(APEROL_SRC).then(r=>r.arrayBuffer()).then(unzipFirstJson).then(J=>{
   const map=[[[0.929,0.427,0.427],[1,0.42,0.09]],[[0.973,0.557,0.506],[1,0.62,0.22]],[[0.008,0.251,0.404],[1,0.95,0.88]]];
   const near=(c,t)=>Math.abs(c[0]-t[0])<.02&&Math.abs(c[1]-t[1])<.02&&Math.abs(c[2]-t[2])<.02;
@@ -8347,6 +8359,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+ {v:"0.87.3", d:"16.11.2026", uk:["Пошук суперника на телефоні — спокійний екран: кальянщик зверху, під ним час і хто онлайн, нижче діапазон рейтингу"], en:["Looking for an opponent on a phone is a calm screen: the hookah smoker on top, the time and who is online under it, then the rating range"], ru:["Поиск соперника на телефоне — спокойный экран: кальянщик сверху, под ним время и кто онлайн, ниже диапазон рейтинга"]},
  {v:"0.87.2", d:"16.11.2026", uk:["Кальянщик під час пошуку суперника — без білого фону","Блок «Ви записані» в турнірі на ПК більше не має порожнього місця зліва"], en:["The hookah smoker while searching has no white background now","The «You're registered» block in the tournament on a computer has no empty space on the left"], ru:["Кальянщик во время поиска соперника — без белого фона","Блок «Вы записаны» в турнире на ПК больше без пустого места слева"]},
  {v:"0.87.1", d:"16.11.2026", uk:["Кубок і бейджі в анімаціях тепер срібні, а іконка акаунта показує всі свої картинки"], en:["The trophy and badges in the animations are silver now, and the account icon shows all its pictures"], ru:["Кубок и бейджи в анимациях теперь серебряные, а иконка аккаунта показывает все свои картинки"]},
  {v:"0.87.0", d:"16.11.2026", uk:["Анімації: кубок для переможця турніру, бейдж за виграний матч чи боса арени, бейдж за новий ранг і за досягнення","Зранку щоденний подарунок вітає чашкою кави, а кейс «Тренд 26» — кавою всередині","Поки шукаємо суперника — кальянщик; немає інтернету — астронавт; є нова сторінка «не знайдено»","Гостю — анімований заклик увійти через Telegram"], en:["Animations: a trophy for the tournament winner, a badge for a won match or arena boss, for a new rank and for an achievement","In the morning the daily gift greets you with a coffee, and so does the «Trend 26» case","A hookah smoker while we look for an opponent, an astronaut when the internet is gone, and a new «not found» page","For guests, an animated nudge to sign in with Telegram"], ru:["Анимации: кубок победителю турнира, бейдж за выигранный матч или босса арены, за новый ранг и за достижение","Утром ежедневный подарок встречает чашкой кофе, как и кейс «Тренд 26»","Кальянщик, пока ищем соперника; астронавт, когда нет интернета; новая страница «не найдено»","Гостю — анимированное приглашение войти через Telegram"]},
