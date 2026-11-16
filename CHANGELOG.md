@@ -3,6 +3,12 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.84.0 — 2026-11-16
+- UI de-templating: purple/pink UI accents → sage #4fb393 (skins untouched); no uppercase eyebrows; Playfair Display (self-hosted, OFL, fonts/) for brand and titles.
+- Shorter copy (bot picker, format, settings, find, cases, guest banner).
+- Tournament: icon share/calendar buttons, plain info list, inline flow, scrollable tabs.
+- Home: no empty form card for new players, no guest friends card, 3 nearby opponents; quiet in-game rules line; settings search hidden; gift dot coral.
+
 ## 0.83.3 — 2026-11-15
 - iOS: used die no longer uses CSS filter (WebKit could skip painting it); dimmed with an overlay instead.
 
