@@ -17,3 +17,6 @@
 - «Man account icon» — Sant Rojas
 - «404 error in space astronaut» — Abdul Latif (animoox); shown unmodified, as the author asks
 - «Telegram logo» — Didar Aizharyk
+
+## Icons
+- Phosphor Icons (duotone) — https://phosphoricons.com — MIT License, © Phosphor Icons.

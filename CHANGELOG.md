@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.90.0 — 16.11.2026
+- Усі іконки замінено на Phosphor Icons (duotone, MIT): LICO, спрайт, ICO, нижнє меню, ігрове меню, дзвіник, замки, пошук, календар, гучність.
+
 ## 0.89.1 — 2026-11-16
 - Portrait moods: emoSvg makes glad/upset variants of the flat portraits on the fly ('pt48@w'/'@l'); bosses and campaign characters flash a mood for 3.5 s on game events and keep it after the game.
 
