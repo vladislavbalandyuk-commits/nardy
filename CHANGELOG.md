@@ -3,6 +3,11 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.86.0 — 2026-11-16
+- Typography: Onest (self-hosted, OFL) replaces Playfair for brand and h1–h3; settings group labels quiet; case odds 11.5px.
+- Weekly tournament covers tb/tc1–tc4 (tools/gen_tour_covers.py), picked by tourCover(at).
+- Fixes: shop tabs on phones wrap to their own row; arena guest layout.
+
 ## 0.85.2 — 2026-11-16
 - «Trend 26» case grows to 22 items: fx beans (roll), petals, latte (win); av:somm; ck/dice latte; vo sip/spoon (synth); 6 text phrases ch26*. Generated tables get shop thumbnails (TABLE_SW).
 

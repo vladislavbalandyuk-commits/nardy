@@ -45,7 +45,7 @@ if(ch){var qs=q.toString();history.replaceState(null,'',location.pathname+(qs?'?
 :root{
   --paper:#ebe5d9; --panel:#f6f2ea; --ink:#1d1915; --ink2:#3a332b; --muted:#7a7166; --line:#d6ccbb; --line2:#e3dbcd;
   --accent:#8e2f1f; --hl:#e9a21a; --hl2:#e9a21a; --hlSoft:rgba(233,162,26,.28);
-  --serif:"Playfair Display",Georgia,serif; --sans:"Jost",system-ui,sans-serif; --mono:"Jost",system-ui,sans-serif;
+  --serif:"Onest",system-ui,sans-serif; --sans:"Jost",system-ui,sans-serif; --mono:"Jost",system-ui,sans-serif;
   --hud:340px;
 }
 *{box-sizing:border-box}
@@ -2537,11 +2537,11 @@ body.v7 .topcard .tch{text-transform:none!important;letter-spacing:normal!import
 body[data-table=cup] #stage::before{background-image:url("tb/cup.webp");filter:none}
 body.cupon .tb{border-color:rgba(214,218,226,.18)}
 
-@font-face{font-family:"Playfair Display";font-style:normal;font-display:swap;font-weight:400 900;src:url(fonts/pf-cyr.woff2) format("woff2-variations");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
-@font-face{font-family:"Playfair Display";font-style:normal;font-display:swap;font-weight:400 900;src:url(fonts/pf-lat.woff2) format("woff2-variations");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Onest";font-style:normal;font-display:swap;font-weight:100 900;src:url(fonts/on-cyr.woff2) format("woff2-variations");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:"Onest";font-style:normal;font-display:swap;font-weight:100 900;src:url(fonts/on-lat.woff2) format("woff2-variations");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 /* ===== 0.84: less template, more game — one sage accent, a real serif for the brand and big titles, fewer boxes ===== */
-.brand b{text-transform:none!important;font-family:"Playfair Display",Georgia,serif!important;font-weight:600!important;letter-spacing:-.015em!important}
-.hs-hero h2,.thd h2,.s2card h2,.s2hero h2,#shopPg h2,.bp58 h2,.modal h2,.cp-sheet h2,h1{font-family:"Playfair Display",Georgia,serif;font-weight:600;letter-spacing:-.01em}
+.brand b{text-transform:none!important;font-family:"Onest",system-ui,sans-serif!important;font-weight:600!important;letter-spacing:-.015em!important}
+.hs-hero h2,.thd h2,.s2card h2,.s2hero h2,#shopPg h2,.bp58 h2,.modal h2,.cp-sheet h2,h1{font-family:"Onest",system-ui,sans-serif;font-weight:600;letter-spacing:-.01em}
 .gdot{background:#e0675a}
 .setq{display:none!important}
 /* in a game: rules are a quiet line, not a coloured bar */
@@ -2566,6 +2566,28 @@ body.cupon .tb{border-color:rgba(214,218,226,.18)}
 .tinfo .ti1{display:flex!important;flex-direction:column;gap:2px!important}
 #vGame .sc,.pchip .sc{font-weight:500!important}
 .brand b{white-space:nowrap}
+/* 0.86 */
+/* ===== 0.86: one type system — Onest for titles and the name, Jost for text; a steady scale and spacing ===== */
+h1,h2,h3,.brand b{font-family:"Onest",system-ui,sans-serif}
+h1,h2{font-weight:650!important;letter-spacing:-.02em!important;line-height:1.15}
+h3{font-weight:600;letter-spacing:-.01em}
+.brand b{font-weight:650!important;letter-spacing:-.025em!important}
+.cp-ttl h1{font-size:24px} @media (max-width:560px){ .cp-ttl h1{font-size:21px} }
+/* settings: group names are quiet labels, not headings */
+.spsec>h2{font-family:inherit!important;font-size:12.5px!important;font-weight:600!important;letter-spacing:0!important;color:var(--muted)!important;margin:22px 4px 8px!important}
+/* the case odds labels were too small to read */
+.csod small,.csod span{font-size:11.5px!important}
+/* shop on a phone: back and coins on the first row, the four tabs on their own row so none hides under the back button */
+@media (max-width:520px){ .shbar{flex-wrap:wrap!important;row-gap:8px} .shbar .shcoins{margin-left:auto} .shbar .shtabs{order:3;flex:1 1 100%;display:flex;justify-content:space-between;overflow:visible} .shbar .shtabs button{flex:1 1 0;padding-left:4px;padding-right:4px} }
+/* arena for a guest: the line and the button sit together */
+#arnPg .cta{width:auto;min-width:160px}
+.thero.tc1,.thero.tc2,.thero.tc3,.thero.tc4{background-size:cover!important;background-position:center!important}
+.thero.tc1{background-image:linear-gradient(0deg,rgba(10,8,14,.88),rgba(10,8,14,.2) 62%,rgba(10,8,14,.05)),url("tb/tc1.webp")!important}
+.thero.tc2{background-image:linear-gradient(0deg,rgba(10,8,14,.88),rgba(10,8,14,.2) 62%,rgba(10,8,14,.05)),url("tb/tc2.webp")!important}
+.thero.tc3{background-image:linear-gradient(0deg,rgba(10,8,14,.88),rgba(10,8,14,.2) 62%,rgba(10,8,14,.05)),url("tb/tc3.webp")!important}
+.thero.tc4{background-image:linear-gradient(0deg,rgba(10,8,14,.88),rgba(10,8,14,.2) 62%,rgba(10,8,14,.05)),url("tb/tc4.webp")!important}
+.arn-wrap.guest{display:block!important;max-width:560px} .arn-wrap.guest .cta{margin-top:12px}
+@media (max-width:520px){ .shbar .shback{order:1!important} .shbar .shcoins{order:2!important} .shbar .shtabs{order:9!important} }
 /* bot picker: titles in the serif, the chosen card is outlined, not tinted */
 .bp58 .op.on{background:transparent!important}
 
@@ -5137,7 +5159,7 @@ async function openArena(){ const old=$('arnOv'); if(old) old.remove();
   const sky=uxH('div','arn-sky'); sky.innerHTML='<div class="city"></div>'; pg.appendChild(sky);
   const top=uxH('div','arn-top'); const bk=uxH('button','arn-bk'); bk.type='button'; bk.innerHTML=lico('back'); bk.setAttribute('aria-label','Back'); bk.onclick=arnClose; top.append(bk, uxH('b',null,t('arnT'))); pg.appendChild(top);
   const w=uxH('div','arn-wrap'); pg.appendChild(w); w.appendChild(uxH('p','sub',t('arnD')));
-  if(!frReg()){ w.appendChild(uxH('p',null,t('arnLogin'))); const b=uxH('button','cta',t('login')); b.onclick=()=>{ arnClose(); openProfile(); }; w.appendChild(b); return; }
+  if(!frReg()){ w.classList.add('guest'); w.appendChild(uxH('p',null,t('arnLogin'))); const b=uxH('button','cta',t('login')); b.onclick=()=>{ arnClose(); openProfile(); }; w.appendChild(b); return; }
   if(!ARNS){ w.appendChild(uxH('p','note',t('thLoading'))); await arnLoad(true); if(!ARNS){ w.lastChild.textContent=t('srvErr'); return; } return openArena(); }
   const A=ARNS, R=A.run, on=R&&R.st==='on', lives=A.lives||3, left=on?Math.max(0,lives-R.l):lives;
   const side=uxH('aside','arn-side'); w.appendChild(side);
@@ -6265,7 +6287,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.85.2';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.86.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -7503,6 +7525,8 @@ function tourEvent(now){ const KY=2*3600e3, MIN=60e3, kts=s=>Date.parse(s+':00Z'
 const tourCS=()=>{ const E=evNow(); return !!(E && E.cs); };
 const tregShut=()=>{ const E=evNow(), n=Date.now(); return !!(E && E.cs && (n<E.regStart || n>=E.regEnd)); };   // sign-up is closed (CS format: open Monday – Friday 18:00)
 // the next start of a tournament that has not started yet
+// 0.86: the weekend tournament's cover turns over every week: night city, hookah smoke, the yard at sunset, the hall
+function tourCover(at){ return ((Math.floor(((at||Date.now())+2*3600e3)/(7*864e5))%4)+4)%4+1; }
 function nextSat(now){ now=now||Date.now(); const E=tourEvent(now); if(E && now<E.gAt) return E.gAt; const E2=tourEvent((E?E.end:now)+60e3); return E2?E2.gAt:now+7*864e5; }
 const tourLiveWin=()=>{ const E=tourEvent(Date.now()), n=Date.now(); return !!(E && n>=E.gAt && n<E.end); };
 const hmK=ts=>new Date(ts+2*3600e3).toISOString().slice(11,16);
@@ -7753,6 +7777,7 @@ function renderTour(){
   const hd=h('div','thd thero'); const l=h('div'); l.append(h('h2',null,t('tourT')));
   const at0=T?T.at:(evNow()&&Date.now()<evNow().gAt?evNow().gAt:nextSat()); const when=new Date(at0+2*3600e3); const dstr=when.toLocaleDateString(LOC(),{weekday:'long',day:'numeric',month:'long',timeZone:'UTC'})+' · '+hmK(at0);
   l.append(h('div','tst', T ? (T.status==='done'?t('tourDone'):t('tourLive')) + ' · ' + t('tourPool',{n:tourPool().toLocaleString('uk-UA')}) : t('tourNextOn',{d:dstr})));
+  hd.classList.add('tc'+tourCover(at0)); // 0.86: a different cover every weekend
   const x=h('button','xbtn'); x.innerHTML='<svg class="i"><use href="#i-x"/></svg>'; x.onclick=()=>show('tourOv',false); hd.append(l,x); box.appendChild(hd);
   { const row=h('div','trrow'); row.append(tregBlock(), tourShareBtn()); if(!T || T.status!=='done') row.appendChild(tourCalBtn()); box.appendChild(row); } { const pth=tourPath(T,h); if(pth) box.appendChild(pth); } if(!tregRows) tregFetch().then(r=>{ if(r && !$('tourOv').classList.contains('hidden')) renderTour(); });
   const act=h('div','tact');
@@ -8243,6 +8268,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+ {v:"0.86.0", d:"16.11.2026", uk:["Новий шрифт заголовків і назви — Onest: чистий, сучасний і з українськими літерами","Турнір вихідного дня щотижня має нову заставку: нічне місто, кальянний дим, двір на заході сонця, турнірний зал","Магазин на телефоні: вкладки більше не ховаються під кнопкою «Назад»","Спокійніші заголовки розділів у налаштуваннях, читабельні шанси в кейсах, акуратніша арена для гостя"], en:["A new typeface for titles and the name, Onest: clean, modern and with Ukrainian letters","The weekend tournament has a new cover every week: a night city, hookah smoke, the yard at sunset, the hall","Shop on a phone: tabs no longer hide under the Back button","Quieter section names in settings, readable case odds, a tidier arena for guests"], ru:["Новый шрифт заголовков и названия — Onest: чистый, современный и с украинскими буквами","У турнира выходного дня каждую неделю новая заставка: ночной город, кальянный дым, двор на закате, турнирный зал","Магазин на телефоне: вкладки больше не прячутся под кнопкой «Назад»","Спокойнее заголовки разделов в настройках, читаемые шансы в кейсах, аккуратнее арена для гостя"]},
  {v:"0.85.2", d:"16.11.2026", uk:["Кейс «Тренд 26» тепер на 22 речі: латте-арт і пелюстки сливи на перемогу, кавові зерна над кубиками, портрет «Сомельє», шашки й кубики «Латте», звуки ковтка й ложечки, шість нових фраз"], en:["The «Trend 26» case now holds 22 things: latte-art and plum-petal wins, coffee beans over your dice, a «Sommelier» portrait, Latte checkers and dice, a sip and a spoon sound, six new phrases"], ru:["Кейс «Тренд 26» теперь на 22 вещи: латте-арт и лепестки сливы на победу, кофейные зёрна над кубиками, портрет «Сомелье», шашки и кубики «Латте», звуки глотка и ложечки, шесть новых фраз"]},
  {v:"0.85.1", d:"16.11.2026", uk:["Набір «Бургунді»: винна дошка з лаку, шашки бургунді й слонова кістка, кубики й стіл з бургундського оксамиту — окремо або набором зі знижкою"], en:["The «Burgundy» set: a wine lacquer board, burgundy and ivory checkers, dice and a burgundy velvet table — one by one or as a set at a discount"], ru:["Набор «Бургунди»: винная доска из лака, шашки бургунди и слоновая кость, кубики и стол из бургундского бархата — по отдельности или набором со скидкой"]},
  {v:"0.85.0", d:"16.11.2026", uk:["Нова колекція «Тренд 26» у кольорах 2026 року: дошки «Хмара» і «Шоколад», шашки, кубики й стіл «Льон» — у магазині","Кейс «Тренд 26»: дошки з бірюзового лаку й сливового оксамиту, шашки й кубики до них, стіл із червоного дерева і звук капучинатора","Портрети «Кав’ярня»: бариста, матча й навушники, панамка, дідусь із газетою і кучері","Звуки «Кав’ярня»: еспресо, чашка на блюдці, наливаю, дзвіночок і кавомолка"], en:["A new «Trend 26» collection in the colours of 2026: Cloud and Chocolate boards, checkers, dice and a Linen table — in the shop","The «Trend 26» case: teal lacquer and plum velvet boards with checkers and dice to match, a mahogany table and a milk-frother sound","«Café» portraits: a barista, matcha and headphones, a bucket hat, a grandpa with a newspaper and curls","«Café» sounds: espresso, a cup on a saucer, a pour, a door bell and a grinder"], ru:["Новая коллекция «Тренд 26» в цветах 2026 года: доски «Облако» и «Шоколад», шашки, кубики и стол «Лён» — в магазине","Кейс «Тренд 26»: доски из бирюзового лака и сливового бархата, шашки и кубики к ним, стол из красного дерева и звук капучинатора","Портреты «Кофейня»: бариста, матча и наушники, панама, дедушка с газетой и кудри","Звуки «Кофейня»: эспрессо, чашка на блюдце, наливаю, колокольчик и кофемолка"]},
