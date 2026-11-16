@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.85.2 — 2026-11-16
+- «Trend 26» case grows to 22 items: fx beans (roll), petals, latte (win); av:somm; ck/dice latte; vo sip/spoon (synth); 6 text phrases ch26*. Generated tables get shop thumbnails (TABLE_SW).
+
 ## 0.85.1 — 2026-11-16
 - «Burgundy» set: board/ck/dice/table burg (tb/burg.webp generated), bundle 'burg' (client + server).
 
