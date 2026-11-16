@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.86.1 — 2026-11-16
+- .s2kind vertically centred with the rarity chip; 16px page edge on phones (home, shop, learn, achievements, arena).
+
 ## 0.86.0 — 2026-11-16
 - Typography: Onest (self-hosted, OFL) replaces Playfair for brand and h1–h3; settings group labels quiet; case odds 11.5px.
 - Weekly tournament covers tb/tc1–tc4 (tools/gen_tour_covers.py), picked by tourCover(at).

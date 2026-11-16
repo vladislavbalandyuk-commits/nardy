@@ -561,7 +561,7 @@ body.simw #btnCopy2,body.simw #btnVoice,body.simw #btnSpk,body.simw #qrBar,body.
 #shopPg .s2ht{margin:0;font-size:36px;line-height:1.08;font-weight:700;letter-spacing:-.02em} #shopPg .s2inf h2{margin:0;font-size:28px;font-weight:700;letter-spacing:-.01em}
 #shopPg .s2kd{margin:0;color:#a8a29a;font-size:14.5px;line-height:1.5}
 #shopPg .s2chips{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-#shopPg .s2kind{align-self:flex-start;font-size:11.5px;font-weight:700;letter-spacing:0;text-transform:none;color:#a8a29a}
+#shopPg .s2kind{align-self:center;font-size:11.5px;font-weight:700;letter-spacing:0;text-transform:none;color:#a8a29a}
 #shopPg .s2off{display:inline-flex;align-items:center;padding:4px 10px;border-radius:99px;background:rgba(255,92,138,.16);color:#ff86a8;font-size:11.5px;font-weight:800;letter-spacing:0;text-transform:none}
 #shopPg .s2pr{display:flex;align-items:center;gap:10px;flex-wrap:wrap} #shopPg .s2pr s{color:#6f6a63;font-size:15px} #shopPg .s2pr b{display:flex;align-items:center;gap:7px;font-size:15px;font-weight:700} #shopPg .s2pr em{font-style:normal;color:#ff86a8;font-weight:700;font-size:13px}
 #shopPg .s2inf>.s2pr b{font-size:28px} #shopPg .s2inf>.s2pr b .coin{width:24px;height:24px}
@@ -2588,6 +2588,8 @@ h3{font-weight:600;letter-spacing:-.01em}
 .thero.tc4{background-image:linear-gradient(0deg,rgba(10,8,14,.88),rgba(10,8,14,.2) 62%,rgba(10,8,14,.05)),url("tb/tc4.webp")!important}
 .arn-wrap.guest{display:block!important;max-width:560px} .arn-wrap.guest .cta{margin-top:12px}
 @media (max-width:520px){ .shbar .shback{order:1!important} .shbar .shcoins{order:2!important} .shbar .shtabs{order:9!important} }
+/* one page edge on phones: 16px everywhere */
+@media (max-width:560px){ #vHome.hud-v,#shopPg .s2,.lnw,#arnPg .arn-wrap,#arnPg .arn-top{padding-left:16px!important;padding-right:16px!important} }
 /* bot picker: titles in the serif, the chosen card is outlined, not tinted */
 .bp58 .op.on{background:transparent!important}
 
@@ -6287,7 +6289,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.86.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.86.1';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -8268,6 +8270,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+ {v:"0.86.1", d:"16.11.2026", uk:["Підписи рідкості й типу в магазині стоять на одній лінії","Однакові відступи від краю екрана на телефоні на всіх сторінках"], en:["Rarity and type labels in the shop sit on one line","The same edge spacing on every page on a phone"], ru:["Подписи редкости и типа в магазине стоят на одной линии","Одинаковые отступы от края экрана на телефоне на всех страницах"]},
  {v:"0.86.0", d:"16.11.2026", uk:["Новий шрифт заголовків і назви — Onest: чистий, сучасний і з українськими літерами","Турнір вихідного дня щотижня має нову заставку: нічне місто, кальянний дим, двір на заході сонця, турнірний зал","Магазин на телефоні: вкладки більше не ховаються під кнопкою «Назад»","Спокійніші заголовки розділів у налаштуваннях, читабельні шанси в кейсах, акуратніша арена для гостя"], en:["A new typeface for titles and the name, Onest: clean, modern and with Ukrainian letters","The weekend tournament has a new cover every week: a night city, hookah smoke, the yard at sunset, the hall","Shop on a phone: tabs no longer hide under the Back button","Quieter section names in settings, readable case odds, a tidier arena for guests"], ru:["Новый шрифт заголовков и названия — Onest: чистый, современный и с украинскими буквами","У турнира выходного дня каждую неделю новая заставка: ночной город, кальянный дым, двор на закате, турнирный зал","Магазин на телефоне: вкладки больше не прячутся под кнопкой «Назад»","Спокойнее заголовки разделов в настройках, читаемые шансы в кейсах, аккуратнее арена для гостя"]},
  {v:"0.85.2", d:"16.11.2026", uk:["Кейс «Тренд 26» тепер на 22 речі: латте-арт і пелюстки сливи на перемогу, кавові зерна над кубиками, портрет «Сомельє», шашки й кубики «Латте», звуки ковтка й ложечки, шість нових фраз"], en:["The «Trend 26» case now holds 22 things: latte-art and plum-petal wins, coffee beans over your dice, a «Sommelier» portrait, Latte checkers and dice, a sip and a spoon sound, six new phrases"], ru:["Кейс «Тренд 26» теперь на 22 вещи: латте-арт и лепестки сливы на победу, кофейные зёрна над кубиками, портрет «Сомелье», шашки и кубики «Латте», звуки глотка и ложечки, шесть новых фраз"]},
  {v:"0.85.1", d:"16.11.2026", uk:["Набір «Бургунді»: винна дошка з лаку, шашки бургунді й слонова кістка, кубики й стіл з бургундського оксамиту — окремо або набором зі знижкою"], en:["The «Burgundy» set: a wine lacquer board, burgundy and ivory checkers, dice and a burgundy velvet table — one by one or as a set at a discount"], ru:["Набор «Бургунди»: винная доска из лака, шашки бургунди и слоновая кость, кубики и стол из бургундского бархата — по отдельности или набором со скидкой"]},
