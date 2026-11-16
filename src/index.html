@@ -6310,7 +6310,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.87.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.87.1';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -7147,7 +7147,23 @@ const LOT={coffee:'https://assets-v2.lottiefiles.com/a/1ec02070-1176-11ee-abd5-6
   tg:'https://assets-v2.lottiefiles.com/a/48c29252-66cd-11ee-831f-fbc75619a1c6/mYvWNeg3yO.lottie'};
 const LOT_HOOKAH='https://assets-v2.lottiefiles.com/a/c34df95a-1167-11ee-bf38-dfd2e33b98aa/DHCyowyhuq.mp4';   // this one is only offered as a video
 const _lotJ={};
-function lotJson(k){ return _lotJ[k] || (_lotJ[k]=fetch(LOT[k]).then(r=>{ if(!r.ok) throw 0; return r.arrayBuffer(); }).then(unzipFirstJson).catch(e=>{ delete _lotJ[k]; throw e; })); }
+// a .lottie is a zip: the animation JSON plus, for some, its pictures in images/ — those are put inline so the player finds them
+async function unzipLottie(buf){ const b=new Uint8Array(buf), dv=new DataView(b.buffer); let p=0, J=null; const img={};
+  const inflate=async(m,data)=> m===8 ? new Uint8Array(await new Response(new Blob([data]).stream().pipeThrough(new DecompressionStream('deflate-raw'))).arrayBuffer()) : data;
+  while(p+30<=b.length && dv.getUint32(p,true)===0x04034b50){ const m=dv.getUint16(p+8,true), cs=dv.getUint32(p+18,true), n=dv.getUint16(p+26,true), e=dv.getUint16(p+28,true); const name=new TextDecoder().decode(b.slice(p+30,p+30+n)); const data=b.slice(p+30+n+e,p+30+n+e+cs);
+    if(!J && name.startsWith('animations/') && name.endsWith('.json')) J=JSON.parse(new TextDecoder().decode(await inflate(m,data)));
+    else if(name.startsWith('images/')){ const raw=await inflate(m,data); let bin=''; for(let i=0;i<raw.length;i+=0x8000) bin+=String.fromCharCode.apply(null, raw.subarray(i,i+0x8000)); const ext=(name.split('.').pop()||'png').toLowerCase(); img[name.slice(7)]='data:image/'+(ext==='jpg'?'jpeg':ext)+';base64,'+btoa(bin); }
+    p+=30+n+e+cs; }
+  if(!J) throw new Error('no json'); (J.assets||[]).forEach(a=>{ if(a.p && img[a.p]){ a.p=img[a.p]; a.u=''; a.e=1; } }); return J; }
+// house rule: no yellow or amber outside the coins — the gold in trophies and badges turns to silver
+function lotSilver(J){ const fix=(r,g,b)=>{ const mx=Math.max(r,g,b), mn=Math.min(r,g,b), l=(mx+mn)/2, d=mx-mn; if(d<.18) return null; let h; if(mx===r) h=((g-b)/d)%6; else if(mx===g) h=(b-r)/d+2; else h=(r-g)/d+4; h*=60; if(h<0) h+=360; if(h<22||h>68) return null; const v=Math.min(.95,.35+l*.7); return [v*.93,v*.95,v*1.0]; };
+  const col=a=>{ if(Array.isArray(a)&&a.length>=3&&typeof a[0]==='number'){ const f=fix(a[0],a[1],a[2]); if(f){ a[0]=f[0]; a[1]=f[1]; a[2]=f[2]; } } };
+  (function walk(o){ if(Array.isArray(o)) return o.forEach(walk); if(!o||typeof o!=='object') return;
+    if((o.ty==='fl'||o.ty==='st') && o.c){ const k=o.c.k; if(Array.isArray(k) && typeof k[0]==='number') col(k); else if(Array.isArray(k)) k.forEach(f=>{ if(f.s) col(f.s); if(f.e) col(f.e); }); }
+    if((o.ty==='gf'||o.ty==='gs') && o.g && o.g.k){ const n=o.g.p|0, fixG=arr=>{ for(let i=0;i<n;i++){ const q=arr.slice(i*4+1,i*4+4); col(q); arr[i*4+1]=q[0]; arr[i*4+2]=q[1]; arr[i*4+3]=q[2]; } }; const k=o.g.k.k; if(Array.isArray(k) && typeof k[0]==='number') fixG(k); else if(Array.isArray(k)) k.forEach(f=>{ if(f.s) fixG(f.s); if(f.e) fixG(f.e); }); }
+    Object.values(o).forEach(walk); })(J); return J; }
+const LOT_SILVER=new Set(['trophy','badge','winner','rank']);
+function lotJson(k){ return _lotJ[k] || (_lotJ[k]=fetch(LOT[k]).then(r=>{ if(!r.ok) throw 0; return r.arrayBuffer(); }).then(unzipLottie).then(J=>LOT_SILVER.has(k)?lotSilver(J):J).catch(e=>{ delete _lotJ[k]; throw e; })); }
 function lotInto(el,k,opt){ opt=opt||{}; if(!el || (typeof fxCalm==='function' && fxCalm() && !opt.calmOk)) return Promise.resolve(null);
   return Promise.all([loadLottie(), lotJson(k)]).then(([L,J])=>{ if(!el.isConnected) return null; el.innerHTML=''; return L.loadAnimation({container:el, renderer:'svg', loop:!!opt.loop, autoplay:true, animationData:JSON.parse(JSON.stringify(J))}); }).catch(()=>null); }
 // a short pop in the middle of the screen: the animation, a title, then it fades
@@ -8313,6 +8329,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+ {v:"0.87.1", d:"16.11.2026", uk:["Кубок і бейджі в анімаціях тепер срібні, а іконка акаунта показує всі свої картинки"], en:["The trophy and badges in the animations are silver now, and the account icon shows all its pictures"], ru:["Кубок и бейджи в анимациях теперь серебряные, а иконка аккаунта показывает все свои картинки"]},
  {v:"0.87.0", d:"16.11.2026", uk:["Анімації: кубок для переможця турніру, бейдж за виграний матч чи боса арени, бейдж за новий ранг і за досягнення","Зранку щоденний подарунок вітає чашкою кави, а кейс «Тренд 26» — кавою всередині","Поки шукаємо суперника — кальянщик; немає інтернету — астронавт; є нова сторінка «не знайдено»","Гостю — анімований заклик увійти через Telegram"], en:["Animations: a trophy for the tournament winner, a badge for a won match or arena boss, for a new rank and for an achievement","In the morning the daily gift greets you with a coffee, and so does the «Trend 26» case","A hookah smoker while we look for an opponent, an astronaut when the internet is gone, and a new «not found» page","For guests, an animated nudge to sign in with Telegram"], ru:["Анимации: кубок победителю турнира, бейдж за выигранный матч или босса арены, за новый ранг и за достижение","Утром ежедневный подарок встречает чашкой кофе, как и кейс «Тренд 26»","Кальянщик, пока ищем соперника; астронавт, когда нет интернета; новая страница «не найдено»","Гостю — анимированное приглашение войти через Telegram"]},
  {v:"0.86.1", d:"16.11.2026", uk:["Підписи рідкості й типу в магазині стоять на одній лінії","Однакові відступи від краю екрана на телефоні на всіх сторінках"], en:["Rarity and type labels in the shop sit on one line","The same edge spacing on every page on a phone"], ru:["Подписи редкости и типа в магазине стоят на одной линии","Одинаковые отступы от края экрана на телефоне на всех страницах"]},
  {v:"0.86.0", d:"16.11.2026", uk:["Новий шрифт заголовків і назви — Onest: чистий, сучасний і з українськими літерами","Турнір вихідного дня щотижня має нову заставку: нічне місто, кальянний дим, двір на заході сонця, турнірний зал","Магазин на телефоні: вкладки більше не ховаються під кнопкою «Назад»","Спокійніші заголовки розділів у налаштуваннях, читабельні шанси в кейсах, акуратніша арена для гостя"], en:["A new typeface for titles and the name, Onest: clean, modern and with Ukrainian letters","The weekend tournament has a new cover every week: a night city, hookah smoke, the yard at sunset, the hall","Shop on a phone: tabs no longer hide under the Back button","Quieter section names in settings, readable case odds, a tidier arena for guests"], ru:["Новый шрифт заголовков и названия — Onest: чистый, современный и с украинскими буквами","У турнира выходного дня каждую неделю новая заставка: ночной город, кальянный дым, двор на закате, турнирный зал","Магазин на телефоне: вкладки больше не прячутся под кнопкой «Назад»","Спокойнее заголовки разделов в настройках, читаемые шансы в кейсах, аккуратнее арена для гостя"]},
