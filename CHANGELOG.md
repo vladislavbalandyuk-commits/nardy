@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.87.0 — 2026-11-16
+- LottieFiles animations (Lottie Simple License, loaded on demand via LOT/lotInto/lotPop): trophy (tournament final win), winner (match/arena win), rank badge (tier up), winner badge (achievement claim), coffee (morning daily gift, Trend 26 case sheet), account icon + Telegram logo (guest sign-in card), astronaut (offline line, new 404.html), hookah smoker MP4 (opponent search).
+
 ## 0.86.1 — 2026-11-16
 - .s2kind vertically centred with the rarity chip; 16px page edge on phones (home, shop, learn, achievements, arena).
 
