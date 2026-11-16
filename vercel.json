@@ -1,6 +1,15 @@
 {
   "headers": [
     {
+      "source": "/(fonts|lib|img)/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
       "source": "/beta/(emoji|fx|sfx)/(.*)",
       "headers": [
         {

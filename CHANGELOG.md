@@ -3,6 +3,12 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.88.0 — 2026-11-16
+- Read-call dedupe/cache for the game function (season ×6→1, arena ×2→1 at start).
+- Self-hosted: Jost (fonts/jo-*), supabase-js 2.118.0 and lottie-web 5.12.2 (lib/), 45 Unsplash photos (img/u, fetched by .github/workflows/photos.yml); Google Fonts and jsdelivr no longer used by the main site.
+- Phones held upright: --prow lengthens points (5.2→up to 7 cells), .half height follows.
+- Icon-only buttons get aria-labels.
+
 ## 0.87.4 — 2026-11-16
 - Radio pill: volume button with a popover slider synced with settings; drag ignores inputs.
 
