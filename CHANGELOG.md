@@ -3,6 +3,12 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.92.0 — 16.11.2026
+- Нова форма пунктів leaf (пелюстка з заокругленим кінчиком, SVG-маска) для всіх колишніх tri/slim дошок і класичної.
+- Повернуто lane (заокруглені смуги) на cup, druzi, friends2–4, holo, midnight, modern, synth.
+- Текстура волокон для дерев'яних дошок, медальйон у центрі половин (walnut, usta, tavla, classic).
+- Нові дошки beech, leather, resin (каталог на сервері й у клієнті).
+
 ## 0.91.0 — 16.11.2026
 - Звуки кубиків і ходу — записи Kenney «Casino Audio» (CC0), синтез лишився запасним.
 - Дошки без форми пунктів (classic, cup, druzi, friends2–4, holo, midnight, modern, synth) отримали трикутники; фактура сукна на стандартній дошці; неонові світіння прибрано.
