@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.98.1 — 17.11.2026
+- /licenses/ — ліцензії та подяки; посилання у футері, у «Подіях» і в налаштуваннях; privacy доповнено (ім'я, країна, турніри); sitemap.
+
 ## 0.98.0 — 17.11.2026
 - Сервер: action ident (A.idn {fn,ln} лише коли show, A.cc з білого списку 42 країн), pz у записах A.tp.
 - Клієнт: nameLine98, pfTour98, idnForm98, прапори img/flags (flag-icons, MIT); openPlayer тягне idn/cc/tp.
