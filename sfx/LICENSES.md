@@ -30,3 +30,9 @@ Live streams are played straight from each station's own server (nothing is copi
 
 ## New Year backgrounds (0.94.0)
 `tb/nykyiv`, `tb/nymoon`, `tb/nypodil`, `tb/nysnow`, `tb/nygreen` — images supplied by the site owner; `nygreen` may come from Freepik (check the licence and credit the author if required).
+
+## Interface sounds and jingles (0.97.0)
+`sfx/ui/*.mp3` — Kenney «Interface Sounds», «UI Audio», «Music Jingles» (kenney.nl), CC0 1.0.
+
+## Tables from the owner (0.97.0)
+`tb/f*.webp` — images supplied by the site owner from Freepik; check each licence and credit the authors where required.

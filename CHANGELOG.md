@@ -3,6 +3,10 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.97.0 — 17.11.2026
+- ui(): записані звуки sfx/ui/* (Kenney Interface Sounds, UI Audio, Music Jingles — CC0): win/lose, levelup, claim, yourturn, epic, caseopen, toggle/tab, error.
+- 12 столів з фото власника (fleather … fcarpet), fmarble перефарбований у срібло.
+
 ## 0.96.1 — 17.11.2026
 - hs-top знову flex-колонка з gap; arnhome з відступами й іконкою Phosphor; nbhint рядком; tdt.course без градієнта.
 
