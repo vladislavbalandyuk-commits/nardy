@@ -11,9 +11,9 @@ jobs:
           for r in Calinou/kenney-interface-sounds Calinou/kenney-ui-audio; do
             n=$(basename $r); curl -sSfL "https://github.com/$r/archive/HEAD.zip" -o $n.zip && unzip -qo $n.zip || echo "FAIL $r"
           done
-          find . -iname "*.ogg" | sort > ../list.txt; wc -l ../list.txt
+          find . -type f \( -iname "*.ogg" -o -iname "*.wav" \) | sort > ../list.txt; wc -l ../list.txt; find . -maxdepth 3 | head -30
           cd ..
           sudo apt-get -qq install -y ffmpeg >/dev/null 2>&1 || true
-          while read f; do b=$(basename "$f" .ogg); ffmpeg -loglevel error -y -i "raw/$f" -ac 1 -b:a 64k "out/$b.mp3"; done < list.txt
+          while read f; do b=$(basename "$f"); b=${b%.*}; ffmpeg -loglevel error -y -i "raw/$f" -ac 1 -b:a 64k "out/$b.mp3"; done < list.txt
           ls out | wc -l; ls out | tr '\n' ' '
           cd out && git init -q && git checkout -qb sfxraw && git add . && git -c user.name=ci -c user.email=ci@x commit -qm "sfx raw (Kenney interface + UI audio, CC0)" && git push -qf "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" sfxraw
