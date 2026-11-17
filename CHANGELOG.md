@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.94.2 — 17.11.2026
+- Кнопка ⇄ відкриває колесо/список станцій; одноразова підказка radHint.
+
 ## 0.94.1 — 17.11.2026
 - RAD_ART: обкладинки станцій (Phosphor + градієнт), rgen_* жанри; колесо лише на ПК, на телефоні список; Jazz24 → Kiss FM.
 
