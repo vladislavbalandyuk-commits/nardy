@@ -8,7 +8,7 @@ jobs:
     steps:
       - run: |
           mkdir -p raw out && cd raw
-          for r in Calinou/kenney-interface-sounds Calinou/kenney-ui-audio; do
+          for r in Calinou/kenney-interface-sounds Calinou/kenney-ui-audio Boyquotes/kenney-music-jingles-for-godot; do
             n=$(basename $r); curl -sSfL "https://github.com/$r/archive/HEAD.zip" -o $n.zip && unzip -qo $n.zip || echo "FAIL $r"
           done
           find . -type f \( -iname "*.ogg" -o -iname "*.wav" \) | sort > ../list.txt; wc -l ../list.txt; find . -maxdepth 3 | head -30
