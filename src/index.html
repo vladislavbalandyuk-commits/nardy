@@ -2770,6 +2770,48 @@ svg.i.ph,svg.ph{fill:currentColor!important;stroke:none!important}
 /* new: Walnut & resin — dark walnut with an emerald epoxy river across each half */
 .board[data-b=resin],.tray[data-b=resin],.mb[data-b=resin]{--frame:#2b1a10;--frame2:#170d07;--field:#4a2e1c;--field2:#3a2215;--p1:#e9dcc3;--p2:#1b6a55;--num:rgba(255,240,220,.55);--edge:rgba(0,0,0,.4);--bar:#170d07;--trayIn:rgba(0,0,0,.35);--tc:rgba(255,240,220,.8)}
 .board[data-b=resin] .half,.mb[data-b=resin] .mf{background:linear-gradient(104deg,rgba(0,0,0,0) 38%,rgba(10,90,70,.0) 40%,rgba(18,110,88,.85) 43%,rgba(40,160,125,.75) 49%,rgba(14,96,76,.85) 55%,rgba(0,0,0,0) 58%),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.006 .11' numOctaves='4' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .22  0 0 0 0 .12  0 0 0 0 .04  .9 0 0 0 -.32'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23g)'/%3E%3C/svg%3E") 0 0/400px 400px,radial-gradient(130% 90% at 50% 50%,#4a2e1c,#341f12)!important}
+
+/* 0.93: home right column — same paddings, same icon edge, headings inside the cards */
+.todayrow{padding:6px 0!important}
+.todayrow>.h38h,.ev55 h4{display:block;margin:0!important;padding:10px 16px 4px!important;font-size:15px!important;font-weight:650!important;color:#f3efe7!important;letter-spacing:0!important;text-transform:none!important;background:none!important}
+.tdt{grid-template-columns:28px 1fr auto!important;padding:10px 16px!important;column-gap:12px!important}
+.tdt .tdi{width:28px!important;height:28px!important}
+.tdt .tdi .av{width:28px!important;height:28px!important}
+.tdt+.tdt::before{left:56px!important}
+@media (min-width:861px){ .ev55{padding:6px 0!important;gap:0!important;border-radius:22px!important;background:rgba(255,255,255,.035)!important;border:1px solid rgba(255,255,255,.06)!important}
+.ev55 button{padding:10px 16px!important;border-radius:0!important;gap:12px!important}
+.ev55 .ei{width:28px!important;height:28px!important;background:none!important;border-radius:0!important;color:#a9dcc9!important}
+.ev55 .ei svg{width:24px;height:24px}
+.ev55 .evlk{margin:4px 16px 6px!important;padding:8px 0 2px!important}
+#homeStage~* .sshome,.sshome{display:none!important} }
+.ev55 em.rad93{width:30px;height:30px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.08);color:#f3efe7}
+.ev55 em.rad93 svg{width:16px;height:16px}
+.ev55 em.rad93.on{background:#4fb393;color:#0f1512}
+.sshome small{white-space:normal!important;overflow:visible!important;text-overflow:clip!important}
+/* friends with nobody online: a plain button, not a dashed box */
+.sfr .sfr-inv{border:0!important;background:rgba(255,255,255,.07)!important;border-radius:12px!important;min-height:40px;font-weight:600}
+/* collection: your portrait sits in the text column, not on the board */
+#shopPg .s2inf>.s2me{position:relative!important;right:auto!important;top:auto!important;transform:none!important;align-self:flex-start}
+/* cards keep their own height instead of stretching to the neighbour */
+#homeStage .hs-card,#shopPg .rwbox,#shopPg .rwbox~*{align-self:start}
+#homeStage .hs-top h3{justify-content:flex-start!important;text-align:left!important}
+#homeStage .hs-top{text-align:left}
+
+/* 0.93: free-today strip — cards hug their content, quests are rows not boxes */
+#shopPg .s2rw{align-items:start!important}
+#shopPg .s2gift>button{margin-top:4px!important}
+#shopPg .s2q{background:none!important;border:0!important;border-radius:0!important;padding:12px 2px!important;margin:0!important}
+#shopPg .s2q+.s2q{border-top:1px solid rgba(255,255,255,.06)!important}
+#shopPg .s2q.ch{background:linear-gradient(90deg,rgba(255,79,216,.09),transparent 80%)!important;border-radius:12px!important;padding:12px 10px!important}
+#shopPg .s2gi svg{width:22px;height:22px;color:#a9dcc9}
+
+.tdt .tdi .ico,.ev55 .ei .ico,.ev55 .ei .eic{background:none!important;box-shadow:none!important;border:0!important;width:28px!important;height:28px!important;border-radius:0!important}
+.tdt .tdi .ico svg,.ev55 .ei .ico svg,.ev55 .ei .eic svg{width:24px!important;height:24px!important}
+.tdt .tdi .ico{color:#a9dcc9}
+.ev55 .evlk button{padding:4px 0!important}
+.ev55>button{position:relative}
+.ev55>button+button::before{content:'';position:absolute;left:56px;right:16px;top:0;height:1px;background:rgba(255,255,255,.06)}
+.ev55 .ei .ico,.ev55 .ei .eic{color:#a9dcc9!important}
 </style>
 <style>/* 0.38: home — one big «Play», three «Today» tiles */
 .h38modes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
@@ -4596,7 +4638,14 @@ function nbApply(home){ const g=nbGames(), on=nbOn(); document.body.classList.to
 function nbWord(n,acc){ const L=(typeof lang!=='undefined'?lang:'uk'); const m10=n%10, m100=n%100, f= m10===1&&m100!==11 ? 0 : m10>=2&&m10<=4&&(m100<12||m100>14) ? 1 : 2;
   if(L==='en') return n===1?'game':'games'; if(L==='ru') return (acc?['партию','партии','партий']:['партия','партии','партий'])[f]; return (acc?['партію','партії','партій']:['партія','партії','партій'])[f]; }
 function nbLocked(n,title){ if(!nbOn() || nbGames()>=n) return false; { const k=n-nbGames(); toast(t('nbLock',{x:title,n:k,w:nbWord(k,true)})); } return true; }
-function ev55(home){ try{ nbApply(home); }catch(e){} let c=home.querySelector('.ev55'); const anchor=home.querySelector('.sfr') || home.querySelector('.todayrow'); if(!anchor) return;
+
+// 0.93: one rhythm for the right column — headings inside their cards, icons on one left edge, a small play button for the radio
+function fix93(home){ if(!home) return;
+  const row=home.querySelector('.todayrow'), hd=home.querySelector('.h38h'); if(row && hd && hd.parentNode!==row) row.prepend(hd);
+  const ev=home.querySelector('.ev55'); if(ev){ ev.querySelectorAll('button').forEach(b=>{ const em=b.querySelector(':scope>em'); if(!em) return; const tx=em.textContent;
+    if(tx===t('evRadOn')||tx===t('evRadOff')){ em.className='rad93'+(radOn?' on':''); em.innerHTML=lico(radOn?'pause':'play'); em.setAttribute('aria-label',tx); } }); }
+}
+function ev55(home){ try{ nbApply(home); }catch(e){} setTimeout(()=>{ try{ fix93(home); }catch(e){} },0); let c=home.querySelector('.ev55'); const anchor=home.querySelector('.sfr') || home.querySelector('.todayrow'); if(!anchor) return;
   if(!c){ c=uxH('div','ev55'); anchor.after(c); } c.innerHTML=''; c.appendChild(uxH('h4',null,t('evT')));
   const row=(ic,title,sub,fn,right)=>{ const b=uxH('button'); b.type='button'; const i=uxH('span','ei'); if(typeof ic==='string' && ICO[ic]) i.appendChild(ico(ic)); else i.textContent=ic; const tx=uxH('span','et'); tx.append(uxH('b',null,title), uxH('small',null,sub||'')); b.append(i,tx); if(right) b.appendChild(uxH('em',null,right)); b.onclick=fn; c.appendChild(b); };
   try{ const tb=home.querySelector('.tourban small'); row('trophy', t('evTour'), tb?tb.textContent:'', ()=>openTour(), '›'); }catch(e){}
@@ -5170,7 +5219,7 @@ function arnHome(home){ if(!home) return; let el=home.querySelector('.arnhome');
   const R=ARNS&&ARNS.run, on=R&&R.st==='on'; el.innerHTML=''; el.append(uxH('span',null,'⚔️'), uxH('b',null,t('arnT')), uxH('small',null, on ? t('arnHomeOn',{w:R.w,l:'❤️'.repeat(Math.max(0,(ARNS.lives||3)-R.l))}) : ARNS&&ARNS.free ? t('arnHomeFree') : t('arnHomeSub')), uxH('em',null,'›')); }
 // 0.82: one line-icon set instead of emoji in the UI (24px grid, 1.75 stroke, currentColor)
 // 0.90: Phosphor Icons, duotone (MIT, phosphoricons.com) — rounder and softer than the line set used before
-const LICO={
+const LICO={pause:'<path d="M208,48V208a8,8,0,0,1-8,8H160a8,8,0,0,1-8-8V48a8,8,0,0,1,8-8h40A8,8,0,0,1,208,48ZM96,40H56a8,8,0,0,0-8,8V208a8,8,0,0,0,8,8H96a8,8,0,0,0,8-8V48A8,8,0,0,0,96,40Z" opacity="0.2"/><path d="M200,32H160a16,16,0,0,0-16,16V208a16,16,0,0,0,16,16h40a16,16,0,0,0,16-16V48A16,16,0,0,0,200,32Zm0,176H160V48h40ZM96,32H56A16,16,0,0,0,40,48V208a16,16,0,0,0,16,16H96a16,16,0,0,0,16-16V48A16,16,0,0,0,96,32Zm0,176H56V48H96Z"/>',
  swords:'<path d="M141.66,201,129,213.66a8,8,0,0,1-11.32,0L92,188,58.35,221.66a8,8,0,0,1-11.32,0L34.34,209a8,8,0,0,1,0-11.31L68,164,42.34,138.36a8,8,0,0,1,0-11.32L55,114.34a8,8,0,0,1,11.32,0l75.3,75.3A8,8,0,0,1,141.66,201Z" opacity="0.2"/><path d="M216,32H152a8,8,0,0,0-6.34,3.12l-64,83.21L72,108.69a16,16,0,0,0-22.64,0l-12.69,12.7a16,16,0,0,0,0,22.63l20,20-28,28a16,16,0,0,0,0,22.63l12.69,12.68a16,16,0,0,0,22.62,0l28-28,20,20a16,16,0,0,0,22.64,0l12.69-12.7a16,16,0,0,0,0-22.63l-9.64-9.64,83.21-64A8,8,0,0,0,224,104V40A8,8,0,0,0,216,32ZM52.69,216,40,203.32l28-28L80.68,188Zm70.61-8L48,132.71,60.7,120,136,195.31ZM208,100.06l-81.74,62.88L115.32,152l50.34-50.34a8,8,0,0,0-11.32-11.31L104,140.68,93.07,129.74,155.94,48H208Z"/>',
  crown:'<path d="M216.71,99.73l-15.6,93.59a8,8,0,0,1-7.89,6.68H62.78a8,8,0,0,1-7.89-6.68L39.29,99.73l.08,0a19.82,19.82,0,0,0,9.22-4.16h0L88,144l32-73.65h0a20,20,0,0,0,15.92,0h0L168,144l39.39-48.48h0a19.82,19.82,0,0,0,9.22,4.16Z" opacity="0.2"/><path d="M248,80a28,28,0,1,0-51.12,15.77l-26.79,33L146,73.4a28,28,0,1,0-36.06,0L85.91,128.74l-26.79-33a28,28,0,1,0-26.6,12L47,194.63A16,16,0,0,0,62.78,208H193.22A16,16,0,0,0,209,194.63l14.47-86.85A28,28,0,0,0,248,80ZM128,40a12,12,0,1,1-12,12A12,12,0,0,1,128,40ZM24,80A12,12,0,1,1,36,92,12,12,0,0,1,24,80ZM193.22,192H62.78L48.86,108.52,81.79,149A8,8,0,0,0,88,152a7.83,7.83,0,0,0,1.08-.07,8,8,0,0,0,6.26-4.74l29.3-67.4a27,27,0,0,0,6.72,0l29.3,67.4a8,8,0,0,0,6.26,4.74A7.83,7.83,0,0,0,168,152a8,8,0,0,0,6.21-3l32.93-40.52ZM220,92a12,12,0,1,1,12-12A12,12,0,0,1,220,92Z"/>',
  trophy:'<path d="M200,48v63.1c0,39.7-31.75,72.6-71.45,72.9A72,72,0,0,1,56,112V48Z" opacity="0.2"/><path d="M232,64H208V48a8,8,0,0,0-8-8H56a8,8,0,0,0-8,8V64H24A16,16,0,0,0,8,80V96a40,40,0,0,0,40,40h3.65A80.13,80.13,0,0,0,120,191.61V216H96a8,8,0,0,0,0,16h64a8,8,0,0,0,0-16H136V191.58c31.94-3.23,58.44-25.64,68.08-55.58H208a40,40,0,0,0,40-40V80A16,16,0,0,0,232,64ZM48,120A24,24,0,0,1,24,96V80H48v32q0,4,.39,8Zm144-8.9c0,35.52-29,64.64-64,64.9a64,64,0,0,1-64-64V56H192ZM232,96a24,24,0,0,1-24,24h-.5a81.81,81.81,0,0,0,.5-8.9V80h24Z"/>',
@@ -6381,7 +6430,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.92.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.93.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -8420,6 +8469,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+ {v:"0.93.0", d:"17.11.2026", uk:["Права колонка головної вирівняна: однакові відступи, іконки на одній лінії, заголовки всередині карток","Радіо вмикається маленькою кнопкою ▶","Сторінка подарунків: картки без порожнього місця, завдання — простими рядками","Колекція: ваш портрет тепер поруч із назвою, а не поверх дошки"], en:["Home right column aligned: same paddings, icons on one line, headings inside cards","Radio has a small ▶ button","Free today: no empty space in cards, quests as simple rows","Collection: your portrait sits next to the title, not on top of the board"], ru:["Правая колонка главной выровнена: одинаковые отступы, иконки на одной линии, заголовки внутри карточек","Радио включается маленькой кнопкой ▶","Подарки: карточки без пустоты, задания — простыми строками","Коллекция: ваш портрет рядом с названием, а не поверх доски"]},
  {v:"0.92.0", d:"16.11.2026", uk:["Пункти як на справжніх нардах: видовжені пелюстки з заокругленим кінчиком замість трикутників","Повернули заокруглені смуги на Кубку, Друзях, Опівночі, Піску, Синтвейві й Голограмі","Дерев’яні дошки отримали справжню текстуру волокон, а горіх, уста й тавла — медальйон у центрі","Нові дошки: «Бук і сонце», «Шкіра» з прострочкою, «Горіх і смола»"], en:["Points like real nardy boards: long rounded petals instead of triangles","Rounded lanes are back on Cup, Friends, Midnight, Sand, Synthwave and Hologram","Wooden boards get real grain; walnut, usta and tavla get a centre medallion","New boards: Beech & sun, stitched Leather, Walnut & resin"], ru:["Пункты как на настоящих нардах: вытянутые лепестки со скруглённым концом вместо треугольников","Вернули скруглённые полосы на Кубке, Друзьях, Полночи, Песке, Синтвейве и Голограмме","Деревянные доски получили настоящую текстуру волокон, а орех, уста и тавла — медальон в центре","Новые доски: «Бук и солнце», «Кожа» с прострочкой, «Орех и смола»"]},
  {v:"0.91.0", d:"16.11.2026", uk:["Справжні звуки: кидок кубиків і стук шашок тепер записані, а не синтезовані","Усі дошки з трикутними пунктами, стандартне зелене сукно отримало фактуру","Неонові дошки Друзів, Синтвейв і Голограма перемальовані спокійніше, без світіння","Кубики: втиснуті крапки, гострі грані в казино-кубиків (Рубін, Сапфір, Смарагд), без неонового сяйва"], en:["Real sounds: dice rolls and checker clicks are now recordings, not synth","Every board has triangle points; the default green felt has texture","Friends neon boards, Synthwave and Hologram redrawn calmer, no glow","Dice: drilled pips, sharp casino edges (Ruby, Sapphire, Emerald), no neon glow"], ru:["Настоящие звуки: бросок кубиков и стук шашек теперь записи, а не синтез","У всех досок треугольные пункты, стандартное зелёное сукно получило фактуру","Неоновые доски Друзей, Синтвейв и Голограмма перерисованы спокойнее, без свечения","Кубики: вдавленные точки, острые грани у казино-кубиков (Рубин, Сапфир, Изумруд), без неона"]},
  {v:"0.90.0", d:"16.11.2026", uk:["Нові іконки по всьому сайту: м’якший двотоновий стиль замість тонких ліній","Нижнє меню, ігрове меню, сповіщення, замки, пошук і календар оновлено"], en:["New icons across the site: a softer two-tone style instead of thin lines","Bottom bar, game menu, notifications, locks, search and calendar updated"], ru:["Новые иконки по всему сайту: мягкий двухтоновый стиль вместо тонких линий","Обновлены нижнее меню, игровое меню, уведомления, замки, поиск и календарь"]},
@@ -8730,7 +8780,7 @@ function rwBlock(){ const box=aH('section','rwbox'); const S=rwState;
 // «Free today» on the showcase: the 7-day gift on the left, the three quests of the day on the right
 function rwStrip(){ const S=rwState, on=coinsOnline(); const w=sH('section','s2rw');
   const day=S&&S.daily?S.daily.day:1, ready=S&&S.daily?S.daily.ready:false, list=(S&&S.daily&&S.daily.list)||RW_DAILY;
-  const g=sH('div','s2gift'); const hd=sH('div','s2rwh'); const tt=sH('div'); tt.append(sH('b',null,t('rwDaily')), sH('small',null, on&&S ? t('rwDayN',{n:day}) : t('s2RwUpTo'))); hd.append(sH('span','s2gi','🎁'), tt); g.appendChild(hd);
+  const g=sH('div','s2gift'); const hd=sH('div','s2rwh'); const tt=sH('div'); tt.append(sH('b',null,t('rwDaily')), sH('small',null, on&&S ? t('rwDayN',{n:day}) : t('s2RwUpTo'))); { const gi=sH('span','s2gi'); gi.innerHTML=lico('gift'); hd.append(gi, tt); } g.appendChild(hd);
   const dots=sH('div','s2dots'); list.forEach((x,i)=>{ const n=i+1, done=!!S && (n<day || (n===day&&!ready)), now=n===day && on && (ready||!S); const d=sH('div','s2dot'+(done?' done':'')+(now?' now':'')); d.append(sH('i',null,done?'✓':String(n)), coinAmt(null,'+'+x)); dots.appendChild(d); }); g.appendChild(dots);
   let gb; if(!on){ gb=sH('button','s2main',t('rwSignB')); gb.onclick=()=>{ closeShopPg(); openProfile(); }; }
   else if(!S){ gb=sH('button','s2sec',t('lbLoading')); gb.disabled=true; }
@@ -9236,8 +9286,8 @@ function shStore(wrap){ if(!SH_NAV.some(g=>g[1].some(x=>x[0]===shCatF))) shCatF=
   if(!L.length) cont.appendChild(emptyEl('🔍', null, t('shEmpty'), t('esReset'), ()=>{ shOwnF='all'; shRender(); })); cont.appendChild(g); cont.appendChild(sH('p','s2foot',t('s2Foot'))); }
 // the collection: everything you have, one tap to wear; what is missing is greyed with its price
 function shCol(wrap){ const cats=['board','ck','dice','table']; let tot=0, own=0; cats.forEach(c=>shList(c).forEach(k=>{ if(c==='table'&&k==='auto') return; const r=shopRar(c,k); if(r==='x'&&!owns(c,k)) return; tot++; if(owns(c,k)) own++; }));
-  const hero=sH('section','s2hero col'); const sc=livePv(prefs.board,prefs.ck,prefs.dice,prefs.table); sc.classList.add('s2big'); const a=sH('span','av'); avatarInto(a, selfAv()||profile.av, profile.name||'?'); const f=framed(a, profile.rating||RANK0, 54, myFr()); f.removeAttribute('title'); f.classList.add('s2me'); sc.appendChild(f);
-  const inf=sH('div','s2inf'); inf.append(sH('span','s2kind',t('s2ColNow')), sH('h2','s2ht',t('s2ColT')), sH('p','s2kd',t('s2ColD')));
+  const hero=sH('section','s2hero col'); const sc=livePv(prefs.board,prefs.ck,prefs.dice,prefs.table); sc.classList.add('s2big'); const a=sH('span','av'); avatarInto(a, selfAv()||profile.av, profile.name||'?'); const f=framed(a, profile.rating||RANK0, 54, myFr()); f.removeAttribute('title'); f.classList.add('s2me'); f.title=t('s2ColNow');
+  const inf=sH('div','s2inf'); inf.append(f, sH('h2','s2ht',t('s2ColT')), sH('p','s2kd',t('s2ColD')));
   const pr=sH('div','s2prog'); const bar=sH('div','bar'); const fill=sH('i'); fill.style.width=Math.round(own/Math.max(1,tot)*100)+'%'; bar.appendChild(fill); pr.append(sH('b',null,t('s2Owned',{a:own,b:tot})), bar); inf.appendChild(pr);
   const row=sH('div','s2btns'); const sv=sH('button','s2main',t('s2SaveLook')); sv.type='button'; sv.onclick=()=>{ const A=myLooks(); let i=A.findIndex(x=>!x); if(i<0) i=0; A[i]=lookNow(t('lkN',{n:i+1})); saveLooks(A); toast(t('lkSaved')); shCat='looks'; shRender(); };
   const go=sH('button','s2sec',t('s2ToShop')); go.type='button'; go.onclick=()=>shGo('show'); row.append(sv,go); inf.appendChild(row); hero.append(sc,inf); wrap.appendChild(hero);
