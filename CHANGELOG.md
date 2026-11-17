@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.94.1 — 17.11.2026
+- RAD_ART: обкладинки станцій (Phosphor + градієнт), rgen_* жанри; колесо лише на ПК, на телефоні список; Jazz24 → Kiss FM.
+
 ## 0.94.0 — 17.11.2026
 - Кейс zodiac (500): av:zc1–12 (c) + av:ze1–12 (e), генератор tools/gen_zodiac.py; caseAvs() — усі аватари з кейсів у виборі аватара (також somm).
 - Медальйон (категорія med, 8 шт.): у рядку аватара третім полем av~frame~med, малюється в центрі половин (medPaint), магазин medHero.

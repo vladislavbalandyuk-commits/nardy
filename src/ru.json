@@ -2798,5 +2798,15 @@
 "radGrpFr":"Музыка друзей",
 "radGrpUa":"Украина",
 "radGrpUs":"Мир",
-"radTracks":"{n} треков"
+"radTracks":"{n} треков",
+"rgen_3k":"рэп · друзья",
+"rgen_nikow":"поп-рэп · друзья",
+"rgen_promin":"поп и инди",
+"rgen_roksua":"рок",
+"rgen_hitua":"украинские хиты",
+"rgen_kissua":"электроника",
+"rgen_jazzgold":"джаз",
+"rgen_jazzxmas":"рождественский джаз",
+"rgen_kexp":"инди · Сиэтл",
+"rgen_wwoz":"джаз и блюз · Новый Орлеан"
 }
