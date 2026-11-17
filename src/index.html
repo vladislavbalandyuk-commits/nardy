@@ -2908,7 +2908,9 @@ body:has(#radWheel.cwsheet) #radPill{visibility:hidden}
 .shwcap small{font-size:11.5px;color:#8a847c}
 .shw-it.empty{aspect-ratio:auto;min-height:150px!important;align-items:center!important;justify-content:center!important;text-align:center!important}
 /* home: the top-players card is a normal card, not the hero row */
-#homeStage section.hs-card.hs-top{display:block!important}
+#homeStage section.hs-card.hs-top{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:12px!important}
+#homeStage .hs-top h3{justify-content:space-between!important}
+#homeStage .hs-top .hs-empty{margin:2px 0 0;font-size:12.5px;color:#8a847c}
 .acic svg{width:24px;height:24px;color:#a9dcc9}
 .acc.got .acic svg{color:#f3efe7}
 
@@ -2955,6 +2957,22 @@ body:has(#radWheel.cwsheet) #radPill{visibility:hidden}
 /* 0.96: the toast sits at the bottom centre, above everything, never over tabs */
 #toast{position:fixed!important;left:50%!important;top:auto!important;bottom:calc(96px + env(safe-area-inset-bottom))!important;transform:translateX(-50%)!important;z-index:500!important;max-width:min(92vw,520px);white-space:normal!important;text-align:center;border-radius:12px!important;padding:10px 16px!important;box-shadow:0 14px 30px -10px rgba(0,0,0,.7)}
 @media (min-width:861px){ #toast{bottom:32px!important} }
+
+/* 0.96.1: the arena row breathes like the other home cards */
+.arnhome{margin:12px 0!important;padding:14px 16px!important;border-radius:18px!important;gap:12px!important;font-size:14px!important;min-height:56px}
+.arnhome .arni svg{width:22px;height:22px;color:#ff8fb0;display:block}
+.arnhome b{font-size:15px}
+.arnhome small{font-size:13px}
+.arnhome em{font-size:20px}
+
+.nbhint{flex-direction:row!important;flex-wrap:wrap!important;margin:0 0 12px!important}
+.nbhint .nbi{flex:none;display:flex}
+.nbhint .nbt b{white-space:nowrap;flex:none}
+.tdt.course{background:none!important;animation:none!important;box-shadow:none!important;border:0!important}
+.tdt .tdi .tdduo{width:30px;position:relative;justify-content:center;margin-left:4px}
+.tdt .tdi .tdduo .av{width:22px!important;height:22px!important;flex:none}
+.tdt .tdi .tdduo .av+.av{margin-left:-14px!important}
+.tdt .tdi .tdduo .av svg{width:100%;height:100%}
 </style>
 <style>/* 0.38: home — one big «Play», three «Today» tiles */
 .h38modes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
@@ -5412,7 +5430,7 @@ function arnItemName(it){ if(!it) return ''; const [c,k]=it.split(':'); return s
 function arnQuirks(B){ const q=[]; if(B.t) q.push(t('arnQt',{n:B.t})); if(B.blk) q.push(t('arnQblk',{n:B.blk})); if(B.dbl==='none') q.push(t('arnQnodbl')); if(B.dbl==='skip') q.push(t('arnQskip')); if(B.first) q.push(t('arnQfirst')); if(B.rr) q.push(t('arnQrr')); if(B.wind) q.push(t('arnQwind')); if(B.fog) q.push(t('arnQfog')); if(B.mir) q.push(t('arnQmir')); if(B.strict) q.push(t('arnQstrict')); return q.length?q.join(' · '):t('arnQnone'); }
 function arnHome(home){ if(!home) return; let el=home.querySelector('.arnhome'); if(!frReg()){ if(el) el.remove(); return; } const anchor=home.querySelector('.sshome')||home.querySelector('.lghome')||home.querySelector('.rkcard'); if(!anchor) return;
   if(!el){ el=document.createElement('button'); el.type='button'; el.className='arnhome'; el.onclick=()=>openArena(); } if(el.previousElementSibling!==anchor) anchor.after(el);
-  const R=ARNS&&ARNS.run, on=R&&R.st==='on'; el.innerHTML=''; el.append(uxH('span',null,'⚔️'), uxH('b',null,t('arnT')), uxH('small',null, on ? t('arnHomeOn',{w:R.w,l:'❤️'.repeat(Math.max(0,(ARNS.lives||3)-R.l))}) : ARNS&&ARNS.free ? t('arnHomeFree') : t('arnHomeSub')), uxH('em',null,'›')); }
+  const R=ARNS&&ARNS.run, on=R&&R.st==='on'; el.innerHTML=''; { const ic=uxH('span','arni'); ic.innerHTML=lico('swords'); el.append(ic); } el.append(uxH('b',null,t('arnT')), uxH('small',null, on ? t('arnHomeOn',{w:R.w,l:'❤️'.repeat(Math.max(0,(ARNS.lives||3)-R.l))}) : ARNS&&ARNS.free ? t('arnHomeFree') : t('arnHomeSub')), uxH('em',null,'›')); }
 // 0.82: one line-icon set instead of emoji in the UI (24px grid, 1.75 stroke, currentColor)
 // 0.90: Phosphor Icons, duotone (MIT, phosphoricons.com) — rounder and softer than the line set used before
 const LICO={pause:'<path d="M208,48V208a8,8,0,0,1-8,8H160a8,8,0,0,1-8-8V48a8,8,0,0,1,8-8h40A8,8,0,0,1,208,48ZM96,40H56a8,8,0,0,0-8,8V208a8,8,0,0,0,8,8H96a8,8,0,0,0,8-8V48A8,8,0,0,0,96,40Z" opacity="0.2"/><path d="M200,32H160a16,16,0,0,0-16,16V208a16,16,0,0,0,16,16h40a16,16,0,0,0,16-16V48A16,16,0,0,0,200,32Zm0,176H160V48h40ZM96,32H56A16,16,0,0,0,40,48V208a16,16,0,0,0,16,16H96a16,16,0,0,0,16-16V48A16,16,0,0,0,96,32Zm0,176H56V48H96Z"/>',
@@ -6626,7 +6644,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.96.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.96.1';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -8682,6 +8700,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+ {v:"0.96.1", d:"17.11.2026", uk:["Топ гравців і рядок арени на головній — з нормальними відступами","Підказка про відкриття розділів — акуратним рядком; рядок курсу без зайвої підсвітки"], en:["Top players and the arena row on home have proper spacing","Unlock hint as a tidy row; course row without the extra glow"], ru:["Топ игроков и строка арены на главной — с нормальными отступами","Подсказка об открытии разделов — аккуратной строкой"]},
  {v:"0.96.0", d:"17.11.2026", uk:["Кейси: речі показані як колекційні картки з кольором рідкісності, а не кружечки","Щоденний подарунок тепер і в профілі: сім днів і кнопка «Забрати»","Перша вкладка магазину тепер «Добірка», щоб не плутати з вітриною профілю","Навчання без дубля задачі дня, іконки без плиток","На комп’ютері «Шлях нардиста» більше не повторюється в «Сьогодні»; банер входу на телефоні — нижче картки рангу","Підказки знизу по центру і не налазять на вкладки; монети в шапці — «30 000»"], en:["Cases: items shown as collectible cards with a rarity colour","The daily gift is now in the profile too","The first shop tab is now «Featured»","Learn: no duplicate puzzle, icons without tiles","Small layout fixes on home; toasts at the bottom; coins shown as «30 000»"], ru:["Кейсы: вещи показаны как коллекционные карточки с цветом редкости","Ежедневный подарок теперь и в профиле","Первая вкладка магазина теперь «Подборка»","Обучение без дубля задачи дня","Мелкие правки главной; подсказки снизу; монеты «30 000»"]},
  {v:"0.95.0", d:"17.11.2026", uk:["12 нових досягнень: 250 перемог, 500 партій, 20 марсів, 10 перемог поспіль, 30 днів у грі, 50 речей у колекції, усі зоряні знаки «Зодіаку» та інші","Три медальйони, які не купиш: «Лавр 250», «Блискавка» і «Зоряний» — лише за досягнення","Іконки досягнень замість емодзі; виправлені описи досягнень арени","Головна на комп’ютері: картки в двох колонках без порожніх місць","Вітрина профілю: однакові картки з великим прев’ю, назвою і типом"], en:["12 new achievements: 250 wins, 500 games, 20 mars, 10 wins in a row, 30 days, 50 things, all starlit zodiac signs and more","Three medallions you cannot buy: Laurel 250, Thunderbolt and Starlit","Achievement icons instead of emoji; arena achievement descriptions fixed","Home on a computer: cards in two columns with no gaps","Profile showcase: equal tiles with a big preview, name and kind"], ru:["12 новых достижений: 250 побед, 500 партий, 20 марсов, 10 побед подряд, 30 дней, 50 вещей, все звёздные знаки «Зодиака» и другие","Три медальона, которые не купить: «Лавр 250», «Молния» и «Звёздный»","Иконки достижений вместо эмодзи; исправлены описания достижений арены","Главная на компьютере: карточки в двух колонках без пустот","Витрина профиля: одинаковые карточки с большим превью"]},
  {v:"0.94.2", d:"17.11.2026", uk:["Радіо: кнопка ⇄ у плеєрі тепер відкриває вибір станцій, а при першому ввімкненні з’являється підказка"], en:["Radio: the ⇄ button in the player now opens the station picker, with a hint the first time"], ru:["Радио: кнопка ⇄ в плеере теперь открывает выбор станций, при первом включении — подсказка"]},

@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.96.1 — 17.11.2026
+- hs-top знову flex-колонка з gap; arnhome з відступами й іконкою Phosphor; nbhint рядком; tdt.course без градієнта.
+
 ## 0.96.0 — 17.11.2026
 - Аудит: тексти без «30 цілей», формат монет, навчання (без pz, без плиток), tdt.camp прихований на ПК, gscard під rkcard на телефоні, nbhint як картка, toast унизу, s2Show/shTabShow → «Добірка», ширші налаштування.
 - pfDaily96: щоденний подарунок у профілі.
