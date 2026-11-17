@@ -3,6 +3,11 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.96.0 — 17.11.2026
+- Аудит: тексти без «30 цілей», формат монет, навчання (без pz, без плиток), tdt.camp прихований на ПК, gscard під rkcard на телефоні, nbhint як картка, toast унизу, s2Show/shTabShow → «Добірка», ширші налаштування.
+- pfDaily96: щоденний подарунок у профілі.
+- Кейси: csfan — колекційні картки з кольором рідкості.
+
 ## 0.95.0 — 17.11.2026
 - ACH2/A2: wins250, games500, mars20, streak10, comeback5, giant10, tour5, friend5, days30, case10, col50, zodiac12; med:laurel/bolt/star ('x').
 - ACH_IC: Phosphor іконки досягнень; a2D_arena12/120.
