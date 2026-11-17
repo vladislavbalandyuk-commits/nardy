@@ -1,0 +1,12 @@
+name: radiocheck
+# Looks up candidate stations in the Radio Browser directory and checks that each HTTPS stream answers with audio.
+on: workflow_dispatch
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          q(){ curl -s -A "nardy-radiocheck" "https://de1.api.radio-browser.info/json/stations/search?$1&hidebroken=true&order=votes&reverse=true&limit=4" | python3 -c "import sys,json;[print(x['name'][:40],'|',x['url_resolved'],'|',x['codec'],x['bitrate'],'|',x['homepage'],'|ok',x['lastcheckok']) for x in json.load(sys.stdin)]"; }
+          for s in "name=Promin" "name=Kultura&countrycode=UA" "name=Ukrainian%20Radio&countrycode=UA" "name=Radio%20ROKS" "name=Hromadske" "name=Jazz&countrycode=UA" "name=Groove%20Salad" "name=Illinois%20Street" "name=Lush&tag=somafm" "name=KEXP" "name=WWOZ" "name=Jazz24"; do echo "== $s"; q "$s"; done
+          echo "== streams"
+          for u in https://ice2.somafm.com/groovesalad-128-mp3 https://ice2.somafm.com/illstreet-128-mp3 https://ice2.somafm.com/lush-128-mp3 https://kexp.streamguys1.com/kexp160.aac https://live.wostreaming.net/direct/ppm-jazz24mp3-ibc1; do printf "%s " $u; curl -s -m 6 -o /tmp/x -w "%{http_code} %{content_type} %{size_download}\n" "$u"; done
