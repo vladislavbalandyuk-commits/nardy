@@ -553,7 +553,7 @@ async function tourTick(db: any, E: any) {
       try { await botPtsAdd(db, E.id, draw, C, res); } catch (_) {}
       for (let i = 0; i < 16; i++) { const P = draw.players[i]; if (P.bot) continue; const pl = C.places[i], prize = draw.fmt === 'cs' ? TR.PRIZE_CS(pl) : TR.PRIZE(pl), pts = (draw.fmt === 'cs' ? TR.TPTS_CS : TR.TPTS)(pl, C.wins ? C.wins[i] : TR.winsOf(all, res, i));
         const { data: p } = await db.from('profiles').select('ach').eq('id', P.id).maybeSingle(); if (!p) continue;
-        const A = { ...(p.ach || {}) }; A.tourAt = Date.now(); A.coins = (A.coins ?? COIN_START) + prize; A.tp = [...(A.tp || []), { at: A.tourAt, pl, pts, ev: E.id }].slice(-30);
+        const A = { ...(p.ach || {}) }; A.tourAt = Date.now(); A.coins = (A.coins ?? COIN_START) + prize; A.tp = [...(A.tp || []), { at: A.tourAt, pl, pts, ev: E.id, pz: prize }].slice(-30);
         await db.from('profiles').update({ ach: A }).eq('id', P.id);
         if (A.tg) { const en = A.lang === 'en'; await tgTell(A.tg, en ? `🏆 The weekend tournament is over: you are <b>#${pl}</b> of 16` + (prize ? ` and get <b>${prize}</b> coins.` : '.') + `\nThe next one is next weekend — sign up early.`
           : `🏆 Турнір вихідного дня завершено: ви на <b>${pl}-му місці</b> з 16` + (prize ? ` і отримуєте <b>${prize}</b> монет.` : '.') + `\nНаступний — на вихідних, записуйтесь заздалегідь.`, en ? 'Results' : 'Результати', 'tour'); } }
@@ -928,6 +928,22 @@ Deno.serve(async (req) => {
       const { data } = await db.from('games').select('id,p1,state,updated_at').is('p2', null).eq('state->rules->>open', 'true').eq('state->>phase', 'opening').gte('updated_at', since).order('updated_at', { ascending: false }).limit(30);
       return json({ rows: (data || []).filter((g: any) => !g.state?.p2).map((g: any) => ({ id: g.id, mine: g.p1 === user.id, name: g.state?.names?.p1 || '', av: g.state?.avs?.p1 || '', rating: g.state?.ratings?.p1 || 1000, rules: g.state.rules, at: g.updated_at })) });
     }
+    // 0.98: the player's real name and country (HLTV-style card). Optional; shown to everyone only when the player turns it on.
+    if (action === 'ident') {
+      const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
+      const A = { ...(p.ach || {}) };
+      const BAD = /(хуй|хуя|хуё|пизд|бляд|блят|єбан|ебан|ёбан|йоба|мудак|мудил|сука|шлюх|підор|пидор|пидар|гандон|залуп|fuck|shit|bitch|cunt|nigg|fagg|whore|pussy|hitler)/i;
+      const clean = (v: any) => String(v || '').replace(/\s+/g, ' ').trim().slice(0, 20);
+      const okName = (v: string) => !v || (/^[\p{L}][\p{L}'’ -]{0,19}$/u.test(v) && !BAD.test(v));
+      const fn = clean(args?.fn), ln = clean(args?.ln), cc = String(args?.cc || '').toLowerCase(), show = !!args?.show;
+      const CCS = ['ua','am','az','ge','kz','uz','kg','tj','tm','md','tr','il','cy','gr','pl','cz','sk','lt','lv','ee','de','at','ch','nl','be','fr','it','es','pt','gb','ie','se','no','fi','dk','us','ca','ae','ro','bg','hu','hr'];
+      if (!okName(fn) || !okName(ln)) return json({ ok: false, why: 'bad_name' });
+      if (cc && !CCS.includes(cc)) return json({ ok: false, why: 'bad_cc' });
+      if (cc) A.cc = cc; else delete A.cc;
+      if (show && (fn || ln)) A.idn = { fn, ln }; else delete A.idn;
+      const { error } = await db.from('profiles').update({ ach: A }).eq('id', user.id); if (error) return json({ error: error.message }, 500);
+      return json({ ok: true, idn: A.idn || null, cc: A.cc || '' });
+    }
     if (action === 'shop') {
       const op = String(args?.op || '');
       const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
@@ -1186,7 +1202,7 @@ Deno.serve(async (req) => {
       const A = { ...(p.ach || {}) }; if (A.tourAt && Date.now() - A.tourAt < 6 * 864e5) return json({ already: true, coins: A.coins ?? COIN_START, next: A.tourAt + 6 * 864e5 });
       const prize = pl === 1 ? 4000 : pl === 2 ? 2500 : pl === 3 ? 1500 : pl === 4 ? 1000 : pl <= 8 ? 250 : 0;
       const bonus = pl === 1 ? 100 : pl === 2 ? 60 : pl <= 4 ? 40 : pl <= 8 ? 20 : 0, pts = 10 + wins * 5 + bonus;
-      A.tourAt = Date.now(); A.coins = (A.coins ?? COIN_START) + prize; A.tp = [...(A.tp || []), { at: A.tourAt, pl, pts }].slice(-30);
+      A.tourAt = Date.now(); A.coins = (A.coins ?? COIN_START) + prize; A.tp = [...(A.tp || []), { at: A.tourAt, pl, pts, pz: prize }].slice(-30);
       await db.from('profiles').update({ ach: A }).eq('id', user.id);
       return json({ ok: true, coins: A.coins, prize, pts, tp: A.tp });
     }

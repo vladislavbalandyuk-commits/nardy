@@ -3,6 +3,10 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.98.0 — 17.11.2026
+- Сервер: action ident (A.idn {fn,ln} лише коли show, A.cc з білого списку 42 країн), pz у записах A.tp.
+- Клієнт: nameLine98, pfTour98, idnForm98, прапори img/flags (flag-icons, MIT); openPlayer тягне idn/cc/tp.
+
 ## 0.97.0 — 17.11.2026
 - ui(): записані звуки sfx/ui/* (Kenney Interface Sounds, UI Audio, Music Jingles — CC0): win/lose, levelup, claim, yourturn, epic, caseopen, toggle/tab, error.
 - 12 столів з фото власника (fleather … fcarpet), fmarble перефарбований у срібло.

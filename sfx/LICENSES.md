@@ -36,3 +36,6 @@ Live streams are played straight from each station's own server (nothing is copi
 
 ## Tables from the owner (0.97.0)
 `tb/f*.webp` — images supplied by the site owner from Freepik; check each licence and credit the authors where required.
+
+## Flags (0.98.0)
+`img/flags/*.svg` — flag-icons by Panayiotis Lipiridis, MIT License.
