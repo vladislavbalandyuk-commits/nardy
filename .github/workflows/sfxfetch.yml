@@ -1,5 +1,5 @@
 name: sfxfetch
-# Downloads CC0 Kenney audio packs (casino + impact), converts to mp3 and uploads them as an artifact to pick from.
+# Downloads CC0 Kenney audio packs (interface + UI), converts to mp3 and uploads them as an artifact to pick from.
 on: workflow_dispatch
 permissions: { contents: write }
 jobs:
@@ -8,13 +8,12 @@ jobs:
     steps:
       - run: |
           mkdir -p raw out && cd raw
-          for r in kenney-casino-audio-for-godot kenney-impact-sounds-for-godot; do
-            curl -sSfL "https://github.com/Loppansson/$r/archive/HEAD.zip" -o $r.zip && unzip -qo $r.zip || echo "FAIL $r"
+          for r in Calinou/kenney-interface-sounds Calinou/kenney-ui-audio; do
+            n=$(basename $r); curl -sSfL "https://github.com/$r/archive/HEAD.zip" -o $n.zip && unzip -qo $n.zip || echo "FAIL $r"
           done
-          curl -sSfL "https://opengameart.org/sites/default/files/kenney_casino-audio.zip" -o oga.zip && unzip -qo oga.zip -d oga || echo "FAIL oga"
           find . -iname "*.ogg" | sort > ../list.txt; wc -l ../list.txt
           cd ..
           sudo apt-get -qq install -y ffmpeg >/dev/null 2>&1 || true
           while read f; do b=$(basename "$f" .ogg); ffmpeg -loglevel error -y -i "raw/$f" -ac 1 -b:a 64k "out/$b.mp3"; done < list.txt
           ls out | wc -l; ls out | tr '\n' ' '
-          cd out && git init -q && git checkout -qb sfxraw && git add . && git -c user.name=ci -c user.email=ci@x commit -qm "sfx raw (Kenney casino audio, CC0)" && git push -qf "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" sfxraw
+          cd out && git init -q && git checkout -qb sfxraw && git add . && git -c user.name=ci -c user.email=ci@x commit -qm "sfx raw (Kenney interface + UI audio, CC0)" && git push -qf "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" sfxraw
