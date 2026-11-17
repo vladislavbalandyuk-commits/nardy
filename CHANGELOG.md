@@ -3,6 +3,13 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.94.0 — 17.11.2026
+- Кейс zodiac (500): av:zc1–12 (c) + av:ze1–12 (e), генератор tools/gen_zodiac.py; caseAvs() — усі аватари з кейсів у виборі аватара (також somm).
+- Медальйон (категорія med, 8 шт.): у рядку аватара третім полем av~frame~med, малюється в центрі половин (medPaint), магазин medHero.
+- Столи й фони картки: nykyiv, nymoon, nypodil, nysnow, nygreen.
+- Радіо: 8 живих станцій (HTTPS), колесо станцій (openRadWheel), select у налаштуваннях; CI radiocheck.
+- Профіль: pffacts — смуга з розділювачами, іконки Phosphor.
+
 ## 0.93.0 — 17.11.2026
 - fix93: «Сьогодні» і «Події» з однаковою сіткою (16px, іконка 28px, текст з 56px), заголовки всередині карток, без плиток під іконками; радіо — кнопка ▶/❚❚; на десктопі смужка сезону прихована (є рядок у Подіях).
 - Вітрина: s2rw align start, завдання рядками; іконка подарунка Phosphor.

@@ -23,3 +23,10 @@
 
 ## Dice and checker sounds (0.91.0)
 - `sfx/roll1-3.mp3`, `sfx/step1-3.mp3` — Kenney «Casino Audio» (dice-throw, die-throw, chip-lay, chips-collide), CC0 1.0; trimmed and EQ'd for a wooden board.
+
+## Radio «World» (0.94.0)
+Live streams are played straight from each station's own server (nothing is copied or re-hosted); the player shows the station name and links to its site:
+Радіо Промінь (Суспільне, ukr.radio), ROKS Українською (radioroks.ua), Hit FM Україна (hitfm.ua), Radio Jazz Gold / Christmas (radiojazz.ua), KEXP (kexp.org), Jazz24 (jazz24.org), WWOZ (wwoz.org). Stream URLs from the Radio Browser directory (radio-browser.info).
+
+## New Year backgrounds (0.94.0)
+`tb/nykyiv`, `tb/nymoon`, `tb/nypodil`, `tb/nysnow`, `tb/nygreen` — images supplied by the site owner; `nygreen` may come from Freepik (check the licence and credit the author if required).
