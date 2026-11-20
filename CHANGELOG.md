@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.103.1 — 20.11.2026
+- Tournament card on the home: photo plate + mint date tag, no overlay gradient.
+
 ## 0.103.0 — 20.11.2026
 - Design system start: --sans → Onest site-wide; --ds-* tokens (surfaces, ink, accent, radii, type scale).
 - Shared top-bar actions (h1Acts) on Learn, Rating and Shop on computers; back buttons hidden there (the sidebar navigates); page titles 24/700.
