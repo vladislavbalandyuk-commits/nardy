@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.102.4 — 20.11.2026
+- Home/Events card icons: no stray bottom margin, one size; tournament card uses the tournament hero photo.
+
 ## 0.102.3 — 20.11.2026
 - Fold toggle moved to the bottom of the sidebar as a labelled row.
 
