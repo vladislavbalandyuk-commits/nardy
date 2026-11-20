@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.102.3 — 20.11.2026
+- Fold toggle moved to the bottom of the sidebar as a labelled row.
+
 ## 0.102.2 — 20.11.2026
 - Sidebar: logo is a home button, fold-to-icons toggle (remembered), settings gear moved to the top bar.
 
