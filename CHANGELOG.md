@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.108.0 — 20.11.2026
+- Case «fair» (500): 3 boards, 3 checkers, 2 dice, 3 avatars, frm:garland, med:xstar, fx:tree, ph:vo:sleigh/crunch/shchedryk (syn108), new item kind atm:snow (#atm108 canvas, store 'atm', shown under effects). Server CASES/CASE_R updated.
+
 ## 0.107.0 — 20.11.2026
 - End-of-game window (ws42) reordered: hero → result → actions → coins/rating → foldable «Game details» (stats + chances chart) → links; neutral coins block.
 
