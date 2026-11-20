@@ -3,6 +3,11 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.99.0 — 20.11.2026
+- Ефект і звук перемоги — один раз на кінець партії (ключ gameId+seq+рахунок).
+- .lotpop: backdrop-filter blur.
+- Без згадок Dota/CS у текстах і старих новинах; формат монет у банері входу.
+
 ## 0.98.1 — 17.11.2026
 - /licenses/ — ліцензії та подяки; посилання у футері, у «Подіях» і в налаштуваннях; privacy доповнено (ім'я, країна, турніри); sitemap.
 
