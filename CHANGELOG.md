@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.102.1 — 20.11.2026
+- Overlays (profile, tournament, settings) are offset by the left menu width on computers.
+
 ## 0.102.0 — 20.11.2026
 - New home page (#h1Pg) over the old one: hero with the live board, start-here steps, puzzle, course, learn, weekly set, recent games, top; right panel with rank, tournament, arena, quests, players online.
 - Responsive menu: bottom bar on phones, 76 px icon rail up to 1199 px, 232 px labelled sidebar with radio above; pages offset by --sbw.
