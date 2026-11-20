@@ -3,6 +3,11 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.104.0 — 20.11.2026
+- Perf: h1Render coalesced to one rAF, skipped while hidden/covered (dirty flag), hero board node reused; Onest preloaded instead of Jost.
+- Light theme for the new home, Events and the sidebar via --ds-* tokens.
+- UI gradients removed: progress bars solid mint, segments for small counts (quests, chapters); yellow CTA/rank bar gone; club badge, radio cover, arena ring flat.
+
 ## 0.103.1 — 20.11.2026
 - Tournament card on the home: photo plate + mint date tag, no overlay gradient.
 
