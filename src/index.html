@@ -49,7 +49,7 @@ if(ch){var qs=q.toString();history.replaceState(null,'',location.pathname+(qs?'?
 :root{
   --paper:#ebe5d9; --panel:#f6f2ea; --ink:#1d1915; --ink2:#3a332b; --muted:#7a7166; --line:#d6ccbb; --line2:#e3dbcd;
   --accent:#8e2f1f; --hl:#e9a21a; --hl2:#e9a21a; --hlSoft:rgba(233,162,26,.28);
-  --serif:"Onest",system-ui,sans-serif; --sans:"Jost",system-ui,sans-serif; --mono:"Jost",system-ui,sans-serif;
+  --serif:"Onest",system-ui,sans-serif; --sans:"Onest",system-ui,sans-serif; --mono:"Jost",system-ui,sans-serif;
   --hud:340px;
 }
 *{box-sizing:border-box}
@@ -3246,6 +3246,27 @@ html body #h1Pg .ico svg,html body #evPg .ico svg{width:20px;height:20px}
 .h1ev .h1evtop{position:relative;min-height:176px;justify-content:flex-end;padding:20px;background:linear-gradient(0deg,rgba(10,8,14,.9),rgba(10,8,14,.35) 60%,rgba(10,8,14,.15)),url("img/u/photo-1781917389734-282472b03a2a.webp") center 40%/cover,url(/fx/druzi_table.webp) center/cover}
 .h1ev .h1evtop .ico{position:absolute;top:16px;left:20px;background:rgba(10,8,14,.45)!important;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);color:#f3efe7!important}
 .h1ev .h1evtop h3{color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.5)} .h1ev .h1evtop p{color:rgba(255,255,255,.82)}
+
+/* ===== 0.103 design system: one font, one set of tokens, one top bar ===== */
+:root{--ds-bg:#0d0e11;--ds-s1:#15171b;--ds-s2:#1c1f24;--ds-line:rgba(255,255,255,.07);--ds-line2:rgba(255,255,255,.12);--ds-ink:#f3efe7;--ds-ink2:#c9c5bd;--ds-mute:#9aa0a8;--ds-acc:#a9dcc9;--ds-acc-ink:#0f2a22;--ds-r1:8px;--ds-r2:12px;--ds-r3:16px;--ds-r4:24px;--ds-t1:12px;--ds-t2:14px;--ds-t3:16px;--ds-t4:20px;--ds-t5:24px;--ds-t6:32px}
+body,button,input,select,textarea{font-family:var(--sans)}
+body{font-feature-settings:"tnum" 0}
+.h1d,.h1coin,.lbr,.rk-r,.tnum{font-variant-numeric:tabular-nums}
+.h1acts{display:flex;align-items:center;gap:12px}
+.pgacts{display:none;margin-left:auto}
+@media not all and (max-width:860px) and (orientation:portrait){
+  body.h1on .pgacts{display:flex}
+  body.h1on #learnPg .spback,body.h1on #rankPg .rpback,body.h1on #shopPg .shback,body.h1on #shopPg .shcoins{display:none!important}
+  body.h1on #learnPg .sptop{min-height:72px;padding:0 32px;gap:16px}
+  body.h1on #learnPg .spttl h1,body.h1on #rankPg .rptop h1{font-size:var(--ds-t5);font-weight:700;letter-spacing:-.01em}
+  body.h1on #learnPg .spttl small{font-size:13px;color:var(--ds-mute)}
+  body.h1on #rankPg .rptop{min-height:56px;gap:16px}
+  body.h1on #shopPg .shbar{min-height:72px;padding:0 32px;gap:16px}
+  body.h1on #shopPg .shbar h1{display:block!important;margin:0;font-size:var(--ds-t5);font-weight:700;letter-spacing:-.01em;white-space:nowrap}
+}
+@media not all and (max-width:860px) and (orientation:portrait){ body.h1on #rankPg .pgacts{position:fixed;top:16px;right:32px;z-index:6} }
+@media (max-width:699px){ .h1brand{white-space:nowrap;font-size:16px} .h1brand span{white-space:nowrap} #h1Pg .h1modes .h38m{font-size:13px;padding:0 4px;gap:6px;white-space:nowrap} #h1Pg .h1modes .h38m svg{width:16px;height:16px;flex:none} }
+@media (max-width:359px){ .h1brand span{display:none} }
 </style>
 <style>/* 0.38: home — one big «Play», three «Today» tiles */
 .h38modes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
@@ -5007,7 +5028,7 @@ const RAD_ST=[{k:'3k', by:'3 кента', b:'3К', list:[['r1','Кальян в 
 let radS=Math.max(0,RAD_ST.findIndex(x=>x.k===store.get('radS','3k'))), RADIO=RAD_ST[radS];
 function radStation(i){ radS=((i%RAD_ST.length)+RAD_ST.length)%RAD_ST.length; RADIO=RAD_ST[radS]; store.set('radS',RADIO.k); radI=0; store.set('radI',0); radLoad(); if(radOn) radPlay(); radPaint(); try{ radStPaint(); }catch(e){} }
 function radStPaint(){ const r=$('radStRow'); if(!r) return; r.hidden=!radOn; const sel=$('radStSel'); if(!sel) return; if(!sel.options.length){ RAD_ST.forEach((x,i)=>{ const o=document.createElement('option'); o.value=i; o.textContent=x.by; sel.appendChild(o); }); sel.onchange=()=>radStation(+sel.value); } sel.value=radS; }
-let radA=null, radI=(store.get('radI',0)|0)%RADIO.list.length, radOn=!!store.get('radio',false), radDk=0, radWant=false;
+let radA=null, radI=(store.get('radI',0)|0)%RADIO.list.length, radOn=false /* 0.103: the radio never starts by itself; the station is remembered, playing is not */, radDk=0, radWant=false;
 const radVol=()=>Math.max(0,Math.min(1,+store.get('radVol',.35)));
 const radTitle=()=>RADIO.list[radI][1];
 function radEl(){ if(!radA){ radA=new Audio(); radA.preload='none'; radA.addEventListener('ended',()=>radNext(1)); radA.addEventListener('error',()=>{ if(!radOn) return; if(RADIO.live){ try{ toast(t('radLiveErr',{n:RADIO.by})); }catch(e){} } setTimeout(()=>radNext(1),2000); }); radA.addEventListener('play',radPaint); radA.addEventListener('pause',radPaint); } return radA; }
@@ -6928,7 +6949,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.102.4';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.103.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -7743,7 +7764,8 @@ function h1Extras(){ const home=$('vHome'); if(!home) return null; const box=uxH
   return box.children.length ? box : null; }
 // ---- the page ----
 function h1Head(title){ const h=uxH('header','h1top'); const br=uxH('div','h1brand'); br.innerHTML='<svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="12" cy="16" r="9" fill="#f3efe7"/><circle cx="20" cy="16" r="9" fill="none" stroke="#a9dcc9" stroke-width="2.5"/></svg>'; br.appendChild(uxH('span',null,'Nardy Masters'));
-  h.append(br, uxH('h1','h1title',title), uxH('div','h1sp'));
+  h.append(br, uxH('h1','h1title',title), uxH('div','h1sp'), h1Acts()); return h; }
+function h1Acts(){ const h=uxH('div','h1acts');
   const cp=h1Btn('h1pill','',()=>openShopPg('show')); cp.setAttribute('aria-label',t('mnShop')); cp.appendChild(h1Coin(coinsNow())); h.appendChild(cp);
   const gear=h1Btn('h1icon','',()=>{ const b=$('btnSet'); if(b) b.click(); }); gear.setAttribute('aria-label',t('settingsT')); gear.title=t('settingsT'); gear.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>'; h.appendChild(gear);
   const bell=h1Btn('h1icon','',()=>{ const b=$('btnBell'); if(b) b.click(); }); bell.setAttribute('aria-label',t('bellT')); bell.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15L6 16z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>';
@@ -7763,6 +7785,12 @@ function h1Render(){ try{ h1NavExtras(); }catch(e){} let pg=$('h1Pg'); if(!pg){ 
   add(rail,h1Rank(),3); add(rail,h1Tour(),4); add(rail,h1Extras(),4); add(rail,h1Arena(),7); add(rail,h1Quests(),9); add(rail,h1People(),11);
   w.append(main,rail); pg.appendChild(w); try{ coinify(pg); }catch(e){} pg.scrollTop=y; }
 
+
+// 0.103: «Learn», «Rating» and the shop carry the same top-bar actions as the home on a computer (the menu on the left replaces their back buttons)
+function dsActs(sel){ const bar=document.querySelector(sel); if(!bar || bar.querySelector('.h1acts')) return; const a=h1Acts(); a.classList.add('pgacts'); bar.appendChild(a); }
+{ const _ol=openLearn; openLearn=function(){ const r=_ol.apply(this,arguments); try{ dsActs('#learnPg .sptop'); }catch(e){} return r; }; }
+{ const _or=openRankPage; openRankPage=function(){ const r=_or.apply(this,arguments); try{ dsActs('#rankPg .rptop'); }catch(e){} return r; }; }
+{ const _sr=shRender; shRender=function(){ const r=_sr.apply(this,arguments); try{ dsActs('#shopPg .shbar'); }catch(e){} return r; }; }
 // ---- «Events»: the tournament, the arena, the rating and the quests on one page ----
 function openEvents(){ let pg=$('evPg'); if(!pg){ pg=uxH('div'); pg.id='evPg'; document.body.appendChild(pg); } document.body.classList.add('evopen'); evRender(); }
 function closeEvents(){ const pg=$('evPg'); if(pg) pg.remove(); document.body.classList.remove('evopen'); }
@@ -9170,6 +9198,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+ {v:"0.103.0", d:"20.11.2026", uk:["Увесь сайт тепер одним шрифтом — Onest, як на новій головній","На комп'ютері магазин, навчання і рейтинг мають ту саму верхню панель: монети, налаштування, сповіщення, профіль","Заголовки сторінок одного розміру","Радіо більше не вмикається саме — тільки коли ви натискаєте ▶"], en:["The whole site now uses one font — Onest, as on the new home","On a computer the shop, learning and the rating share the same top bar: coins, settings, notifications, profile","Page titles are the same size","The radio no longer starts by itself — only when you press ▶"], ru:["Весь сайт теперь одним шрифтом — Onest, как на новой главной","На компьютере магазин, обучение и рейтинг получили ту же верхнюю панель: монеты, настройки, уведомления, профиль","Заголовки страниц одного размера","Радио больше не включается само — только когда вы нажимаете ▶"]},
  {v:"0.102.4", d:"20.11.2026", uk:["Іконки в картках головної стоять на одній лінії із заголовком; картка турніру — з фото турніру","Кнопка «Згорнути меню» тепер унизу меню","Логотип у меню веде на головну; меню можна згорнути до іконок; налаштування — шестерінка вгорі","Профіль та інші вікна більше не ховаються під лівим меню","Нагороди за рівні в профілі — рівні плитки, отримані позначені галочкою","Нова головна: ваша дошка, «Грати онлайн» і режими зверху, далі задача дня, шлях нардиста, добірка тижня, останні партії і топ","На комп'ютері — меню зліва з підписами і радіо; на планшеті — компактне меню з іконками; на телефоні — панель знизу","Новий розділ «Події»: турнір, арена, рейтинг і завдання дня в одному місці","Права панель: ваш ранг, найближчий турнір, суперники онлайн, завдання й подарунок","Для новачків — «Почніть тут»: урок, партія з ботом, перша онлайн-гра","Вкладки магазину на комп'ютері більше не стиснуті"], en:["New home: your board, «Play online» and the modes on top, then the daily puzzle, the course, the weekly set, recent games and the top","On a computer — a left menu with labels and the radio; on a tablet — a compact icon menu; on a phone — the bottom bar","New «Events» section: the tournament, the arena, the rating and daily quests in one place","Right panel: your rank, the next tournament, players online, quests and the gift","For newcomers — «Start here»: a lesson, a bot game, the first online game","Shop tabs on a computer are no longer cramped","The profile and other windows no longer hide under the left menu","The menu logo leads home; the menu folds to icons; settings are a gear at the top","«Collapse the menu» is now at the bottom of the menu","Card icons line up with their titles; the tournament card shows the tournament photo"], ru:["Новая главная: ваша доска, «Играть онлайн» и режимы сверху, дальше задача дня, путь нардиста, подборка недели, последние партии и топ","На компьютере — меню слева с подписями и радио; на планшете — компактное меню с иконками; на телефоне — панель снизу","Новый раздел «События»: турнир, арена, рейтинг и задания дня в одном месте","Правая панель: ваш ранг, ближайший турнир, соперники онлайн, задания и подарок","Для новичков — «Начните здесь»: урок, партия с ботом, первая онлайн-игра","Вкладки магазина на компьютере больше не сжаты","Профиль и другие окна больше не прячутся под левым меню","Логотип в меню ведёт на главную; меню сворачивается до иконок; настройки — шестерёнка вверху","«Свернуть меню» теперь внизу меню","Иконки в карточках стоят на одной линии с заголовком; карточка турнира — с фото турнира"]},
  {v:"0.101.1", d:"20.11.2026", uk:["Усі ефекти тепер переглядаються однаково: у невеликому вікні над вашою дошкою, повністю й з кнопкою «Ще раз»","Плашка «Хід бота» більше не вилазить поверх інших сторінок","Столи в магазині показуються самі по собі, без дошки зверху, у повній якості","Вкладки турніру на телефоні прокручуються й не обрізаються","Біля числа рейтингу на головній з'явився підпис"], en:["Every effect now previews the same way: in a small window over your own board, in full, with «Play again»","The «Bot's turn» bar no longer shows over other pages","Tables in the shop are shown on their own, without a board on top, in full quality","Tournament tabs scroll on phones instead of being cut off","The rating number on the home page now has a label"], ru:["Все эффекты теперь смотрятся одинаково: в небольшом окне над вашей доской, полностью и с кнопкой «Ещё раз»","Плашка «Ход бота» больше не вылезает поверх других страниц","Столы в магазине показываются сами по себе, без доски сверху, в полном качестве","Вкладки турнира на телефоне прокручиваются и не обрезаются","У числа рейтинга на главной появилась подпись"]},
  {v:"0.100.0", d:"20.11.2026", uk:["Магазин перероблено: три великі вкладки — Магазин, Кейси, Моє","На головній магазину кожна категорія — коротким рядом із кнопкою «Усі ›»","На телефоні річ відкривається знизу, кнопки більше не переносяться","Замість «Приміряти» — кнопка з оком: показує, як набір виглядатиме у грі"], en:["Shop redesigned: three big tabs — Shop, Cases, Mine","Each category is a short row with an «All ›» button","On phones an item opens from the bottom; buttons no longer wrap","«Try on» is now an eye button that previews the set in a game"], ru:["Магазин переделан: три большие вкладки — Магазин, Кейсы, Моё","Каждая категория — короткий ряд с кнопкой «Все ›»","На телефоне вещь открывается снизу, кнопки больше не переносятся","Вместо «Примерить» — кнопка с глазом: показывает, как набор будет выглядеть в игре"]},
@@ -9681,7 +9710,7 @@ function shRender(top){ const pg=$('shopPg'); if(!pg) return; const keep=top?0:p
   const bar=sH('div','shbar'); const bk=sH('button','shback'); bk.type='button'; bk.setAttribute('aria-label',t('close')); bk.innerHTML='<svg class="ph" width="18" height="18" viewBox="0 0 256 256" aria-hidden="true"><g fill="currentColor" stroke="none"><path d="M160,48V208L80,128Z" opacity="0.2"/><path d="M163.06,40.61a8,8,0,0,0-8.72,1.73l-80,80a8,8,0,0,0,0,11.32l80,80A8,8,0,0,0,168,208V48A8,8,0,0,0,163.06,40.61ZM152,188.69,91.31,128,152,67.31Z"/></g></svg>'; bk.onclick=closeShopPg;
   const co=sH('div','shcoins'); co.innerHTML='<i class="coin"></i><b></b>'; co.querySelector('b').textContent=coinsNow().toLocaleString('uk-UA');
   const tabs=sH('div','shtabs'); [['show','s2Shop']].concat(casesOn()?[['case','s2Cases']]:[]).concat([['col','s2Mine']]).forEach(([k,l])=>{ const b=sH('button',(k===shTab||(k==='show'&&shTab==='shop'))?'on':'',t(l)); b.type='button'; b.onclick=()=>shGo(k); if(k==='show' && rwState && ((rwState.daily&&rwState.daily.ready)||(rwState.quests||[]).some(q=>!q.got&&q.p>=q.n))) b.appendChild(sH('i','gdot')); tabs.appendChild(b); }); requestAnimationFrame(()=>{ try{ const on=tabs.querySelector('button.on'); if(on && tabs.scrollWidth>tabs.clientWidth) tabs.scrollLeft=on.offsetLeft-(tabs.clientWidth-on.offsetWidth)/2; }catch(e){} });
-  bar.append(bk, sH('h1',null,t({show:'s2Show',shop:'s2Shop',case:'s2Cases',col:'s2Col'}[shTab])), tabs, co); pg.appendChild(bar);
+  bar.append(bk, sH('h1',null,t({show:'mnShop',shop:'mnShop',case:'s2Cases',col:'s2Mine'}[shTab])), tabs, co); pg.appendChild(bar);
   const wrap=sH('div','s2'); pg.appendChild(wrap);
   if(shTab==='shop'){ const bk2=sH('button','s2up','‹ '+t('s2Shop')); bk2.type='button'; bk2.onclick=()=>shGo('show'); wrap.appendChild(bk2); }
   if(shTab==='col') shCol(wrap); else if(shTab==='shop') shStore(wrap); else if(shTab==='case') shCases(wrap); else shShow(wrap);
