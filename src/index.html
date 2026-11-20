@@ -3300,6 +3300,14 @@ body.v7 button.cta:hover{filter:brightness(1.05)}
 .h1seg{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:4px} .h1seg i{height:6px;border-radius:3px;background:var(--ds-track)} .h1seg i.on{background:var(--ds-acc)}
 /* 0.105: on wide compact screens the score sits at the right edge of the player bar */
 body.pg41 .pl .sc{margin-left:auto;text-align:right}
+
+/* 0.106: the action button in your player bar */
+body.pg41.tbin #plBot #turnBanner{position:static!important;transform:none!important;left:auto!important;top:auto!important;min-width:0!important;max-width:none!important;width:auto!important;margin:0 0 0 auto!important;padding:0!important;background:none!important;box-shadow:none!important;border:0!important;backdrop-filter:none!important;display:flex!important;align-items:center;gap:8px;z-index:2}
+body.pg41.tbin #plBot #turnBanner .tbt,body.pg41.tbin #plBot #turnBanner .tbs{display:none!important}
+body.pg41.tbin #plBot #turnBanner button{margin:0!important;min-height:46px;height:46px;padding:0 20px!important;border-radius:14px!important;font-size:15.5px!important;font-weight:700;white-space:nowrap}
+body.pg41.tbin #plBot{display:flex;align-items:center}
+@media (max-width:430px){ body.pg41.tbin #plBot .sc{display:none} }
+body.pg41.tbin #plBot #turnBanner{max-width:calc(100% - 120px)!important} body.pg41.tbin #plBot #turnBanner button{min-width:0;overflow:hidden;text-overflow:ellipsis}
 </style>
 <style>/* 0.38: home — one big «Play», three «Today» tiles */
 .h38modes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
@@ -3854,7 +3862,7 @@ const T = {
   needLogin:'Увійдіть або грайте як гість, щоб грати онлайн. На одному пристрої можна й так.', onlineOk:'Гра зберігається онлайн. Можна закрити вкладку й повернутися за тим самим посиланням.', noOnline:'Онлайн-гра недоступна в цьому перегляді. На одному пристрої — можна.',
   waitK:'Крок 1 з 2', waitT:'Посилання готове', waitD:'Надішліть його другові. Гра почнеться, щойно він його відкриє.', copy:'Копіювати', copied:'Посилання скопійовано', cancel:'Скасувати', waiting:'Чекаємо на суперника',
   you:'Ви', opp:'Суперник', white:'Білі', black:'Чорні', p1:'Гравець 1', p2:'Гравець 2', waitingP:'Чекаємо…', off:'викинуто', toMove:'хід', undecided:'чекаємо жереб', rolledN:'викинув {n}',
-  rollFirst:'Кинути на перший хід', roll:'Кинути кубики', rolling:'Кидаємо…',
+  rollFirst:'Кинути жереб', roll:'Кинути кубики', rolling:'Кидаємо…',
   openYour:'Кожен кидає один кубик — <b>у кого більше, той грає білими</b> й ходить першим.', openLocal:'<b>{n}</b>, киньте на перший хід.', openWait:'Чекаємо, поки суперник кине…', openTie:'Нічия ({a} : {a}). Киньте ще раз.', openWon:'<b>{n}</b> викинув більше ({a} : {b}) і грає білими.',
   yourRoll:'<b>Ваш хід.</b> Киньте кубики.', localRoll:'Ходять <b>{c}</b>. Киньте кубики.', pick:'Натисніть або перетягніть підсвічену шашку.', where:'Поставте на позначене місце. Складені ходи (напр. 3+4) теж показано.', noMoves:'Ходів немає, хід переходить.', oppTurn:'Хід суперника…', spectator:'Ви глядач. Ходять {c}.', won:'Партію виграли: <b>{n}</b>.',
   newGame:'Нова партія', again:'Ще партію', close:'Закрити', gameOver:'Кінець партії', link:'Посилання на гру', localGame:'Гра на одному пристрої',
@@ -5973,12 +5981,17 @@ function bossSig(k){ if(!prefs.sound || sfxMute) return; try{ const A=cupAx(), t
 function tb53(){ try{ const on=document.body.classList.contains('pg41'); const tr=$('tray'), pb=$('plBot'), tb=$('turnBanner'), qr=$('qrBar'); let low=false;
   if(on && tr && pb && tb){ const a=tr.getBoundingClientRect().bottom; let b=pb.getBoundingClientRect().top; if(qr && qr.getBoundingClientRect().height>4 && getComputedStyle(qr).display!=='none') b=Math.min(b, qr.getBoundingClientRect().top); const btn=[...tb.querySelectorAll('button')].some(x=>x.offsetParent||getComputedStyle(x).display!=='none'); if(b-a>=66 && !btn){ low=true; document.documentElement.style.setProperty('--tbY', Math.round((a+b)/2)+'px'); } }
   if(tb && !gs) tb.classList.add('hidden');
-  if(tb){ const home=document.querySelector('#board .bar'); if(low && tb.parentElement!==document.body) document.body.appendChild(tb); else if(!low && tb.parentElement===document.body && home) home.after(tb); }
+  // 0.106: on phones and upright tablets an action button lives in your own player bar, under the thumb, and never covers the points
+  const btnOn = on && tb && pb && !tb.classList.contains('hidden') && [...tb.querySelectorAll('button')].some(x=>getComputedStyle(x).display!=='none' && !x.classList.contains('hidden'));
+  if(btnOn){ low=false; if(tb.parentElement!==pb) pb.appendChild(tb); }
+  else if(tb && pb && tb.parentElement===pb){ const home=document.querySelector('#board .bar'); if(home) home.after(tb); }
+  document.body.classList.toggle('tbin', !!btnOn);
+  if(tb && !btnOn){ const home=document.querySelector('#board .bar'); if(low && tb.parentElement!==document.body) document.body.appendChild(tb); else if(!low && tb.parentElement===document.body && home) home.after(tb); }
   document.body.classList.toggle('tblow', low); }catch(e){} }
 setInterval(tb53, 300); addEventListener('resize', ()=>setTimeout(tb53,60));
 // the opening roll happens by itself (games with a bot or online; two people on one phone still tap)
 let _ar53='';
-setInterval(()=>{ try{ if(!gs || gs.phase!=='opening' || !(mode==='bot'||mode==='online')) return; const s=openSlotToRoll(); if(!s) return; if(document.querySelector('.overlay:not(.hidden)')) return;
+setInterval(()=>{ try{ if(!gs || gs.phase!=='opening' || !(mode==='bot'||mode==='online'||mode==='local')) return; const s=openSlotToRoll(); if(!s) return; if(document.querySelector('.overlay:not(.hidden)')) return;
   const k=(gameId||'b')+':'+gs.rollId+':'+JSON.stringify(gs.open||{}); if(_ar53===k) return; _ar53=k; setTimeout(()=>{ try{ if(gs && gs.phase==='opening' && openSlotToRoll()===s){ vib('dice'); roll(); } }catch(e){} }, 900); }catch(e){} }, 300);
 // «Starfall»: violet and white shooting stars cross the sky, a few burst into sparkles
 function fxStars(host){ try{ csSyn('chime'); }catch(e){} const pal=['rgba(203,191,255,.95)','rgba(255,255,255,.95)','rgba(127,239,255,.9)','rgba(255,79,216,.85)'];
@@ -6982,7 +6995,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.105.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.106.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -9238,6 +9251,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+ {v:"0.106.0", d:"20.11.2026", uk:["На телефоні й планшеті кнопка дії («Кинути», «Готово») тепер у вашій картці внизу — під великим пальцем і не закриває дошку","Жереб на перший хід кидається сам і в грі вдвох на одному пристрої","Коротший напис: «Кинути жереб»"], en:["On phones and tablets the action button («Roll», «Done») is now in your own card at the bottom — under the thumb, never over the board","The roll for the first move is automatic in two-player games on one device too","A shorter label: «Roll for first move»"], ru:["На телефоне и планшете кнопка действия («Бросить», «Готово») теперь в вашей карточке внизу — под большим пальцем и не закрывает доску","Жребий на первый ход бросается сам и в игре вдвоём на одном устройстве","Короче надпись: «Бросить жребий»"]},
  {v:"0.105.0", d:"20.11.2026", uk:["Екран гри на телефоні: дошка займає всю висоту — довші пункти, без порожньої смуги","Планшет вертикально тепер грає в компактному режимі, як телефон: суперник зверху, дошка на всю ширину, ви знизу"], en:["Game screen on phones: the board uses the full height — longer points, no empty band","Tablets held upright now play in the compact mode like phones: the opponent on top, the board full-width, you below"], ru:["Экран игры на телефоне: доска занимает всю высоту — длиннее пункты, без пустой полосы","Планшет вертикально теперь играет в компактном режиме, как телефон: соперник сверху, доска на всю ширину, вы снизу"]},
  {v:"0.104.0", d:"20.11.2026", uk:["Сайт працює плавніше: головна оновлюється один раз замість кількох і не перебудовується, коли її не видно","Швидше перше відкриття: заздалегідь вантажиться основний шрифт","Нова головна, «Події» і меню тепер у світлій темі теж","Без кольорових градієнтів в інтерфейсі: прогрес — рівний м'ятний, а де кроків мало — сегменти","Жовті кнопки й смужки замінено на спокійні кольори сайту"], en:["The site runs smoother: the home updates once instead of several times and does not rebuild while hidden","Faster first load: the main font is fetched in advance","The new home, Events and the menu now follow the light theme too","No colourful gradients in the interface: progress is plain mint, and segments where there are few steps","Yellow buttons and bars replaced with the site's calm colours"], ru:["Сайт работает плавнее: главная обновляется один раз вместо нескольких и не перестраивается, когда её не видно","Быстрее первое открытие: основной шрифт загружается заранее","Новая главная, «События» и меню теперь и в светлой теме","Без цветных градиентов в интерфейсе: прогресс — ровный мятный, а где шагов мало — сегменты","Жёлтые кнопки и полоски заменены спокойными цветами сайта"]},
  {v:"0.103.1", d:"20.11.2026", uk:["Картка турніру на головній: чисте фото зверху, дата на м'ятній мітці, без темного градієнта","Увесь сайт тепер одним шрифтом — Onest, як на новій головній","На комп'ютері магазин, навчання і рейтинг мають ту саму верхню панель: монети, налаштування, сповіщення, профіль","Заголовки сторінок одного розміру","Радіо більше не вмикається саме — тільки коли ви натискаєте ▶"], en:["The whole site now uses one font — Onest, as on the new home","On a computer the shop, learning and the rating share the same top bar: coins, settings, notifications, profile","Page titles are the same size","The radio no longer starts by itself — only when you press ▶","The tournament card: a clean photo on top, the date on a mint tag, no dark gradient"], ru:["Весь сайт теперь одним шрифтом — Onest, как на новой главной","На компьютере магазин, обучение и рейтинг получили ту же верхнюю панель: монеты, настройки, уведомления, профиль","Заголовки страниц одного размера","Радио больше не включается само — только когда вы нажимаете ▶","Карточка турнира: чистое фото сверху, дата на мятной метке, без тёмного градиента"]},
