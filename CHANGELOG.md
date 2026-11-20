@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.107.0 — 20.11.2026
+- End-of-game window (ws42) reordered: hero → result → actions → coins/rating → foldable «Game details» (stats + chances chart) → links; neutral coins block.
+
 ## 0.106.0 — 20.11.2026
 - Compact game: the turn banner with a button moves into #plBot (thumb zone, class tbin); auto first roll also in local mode; rollFirst shortened.
 
