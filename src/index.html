@@ -3053,6 +3053,11 @@ body.lnopen #turnBanner,body.rpopen #turnBanner,body.storeopen #turnBanner,body:
 .rkr small{font-size:11px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;opacity:.8;margin-top:4px}
 @media (max-width:560px){ .tov .ttabs{scroll-snap-type:x proximity;-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent);mask-image:linear-gradient(90deg,#000 88%,transparent)} .tov .ttabs button{flex:0 0 auto!important;padding:8px 12px!important;font-size:13px!important;scroll-snap-align:center} }
 .fxstage .fxsc{inset:auto!important;left:0!important;right:0!important;top:50%!important;height:auto!important;transform:translateY(-50%);opacity:.55;filter:saturate(.85)}
+
+/* 0.101: a table is shown on its own, without a board on top */
+.shscene.s2tbpv{aspect-ratio:16/10;width:100%;min-height:200px;border-radius:18px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),inset 0 -60px 80px -40px rgba(0,0,0,.35)}
+.shscene.s2tbpv>*{display:none}
+html body.home:has(#shopPg .s2ov) #mNav.mnav,html body:has(#shopPg .s2ov) #mNav.mnav,html body.home:has(#fxOv) #mNav.mnav,html body:has(#fxOv) #mNav.mnav{display:none!important}
 </style>
 <style>/* 0.38: home — one big «Play», three «Today» tiles */
 .h38modes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
@@ -6735,7 +6740,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.101.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.101.1';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -8834,7 +8839,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
- {v:"0.101.0", d:"20.11.2026", uk:["Усі ефекти тепер переглядаються однаково: у невеликому вікні над вашою дошкою, повністю й з кнопкою «Ще раз»","Плашка «Хід бота» більше не вилазить поверх інших сторінок","Вкладки турніру на телефоні прокручуються й не обрізаються","Біля числа рейтингу на головній з'явився підпис"], en:["Every effect now previews the same way: in a small window over your own board, in full, with «Play again»","The «Bot's turn» bar no longer shows over other pages","Tournament tabs scroll on phones instead of being cut off","The rating number on the home page now has a label"], ru:["Все эффекты теперь смотрятся одинаково: в небольшом окне над вашей доской, полностью и с кнопкой «Ещё раз»","Плашка «Ход бота» больше не вылезает поверх других страниц","Вкладки турнира на телефоне прокручиваются и не обрезаются","У числа рейтинга на главной появилась подпись"]},
+ {v:"0.101.1", d:"20.11.2026", uk:["Усі ефекти тепер переглядаються однаково: у невеликому вікні над вашою дошкою, повністю й з кнопкою «Ще раз»","Плашка «Хід бота» більше не вилазить поверх інших сторінок","Столи в магазині показуються самі по собі, без дошки зверху, у повній якості","Вкладки турніру на телефоні прокручуються й не обрізаються","Біля числа рейтингу на головній з'явився підпис"], en:["Every effect now previews the same way: in a small window over your own board, in full, with «Play again»","The «Bot's turn» bar no longer shows over other pages","Tables in the shop are shown on their own, without a board on top, in full quality","Tournament tabs scroll on phones instead of being cut off","The rating number on the home page now has a label"], ru:["Все эффекты теперь смотрятся одинаково: в небольшом окне над вашей доской, полностью и с кнопкой «Ещё раз»","Плашка «Ход бота» больше не вылезает поверх других страниц","Столы в магазине показываются сами по себе, без доски сверху, в полном качестве","Вкладки турнира на телефоне прокручиваются и не обрезаются","У числа рейтинга на главной появилась подпись"]},
  {v:"0.100.0", d:"20.11.2026", uk:["Магазин перероблено: три великі вкладки — Магазин, Кейси, Моє","На головній магазину кожна категорія — коротким рядом із кнопкою «Усі ›»","На телефоні річ відкривається знизу, кнопки більше не переносяться","Замість «Приміряти» — кнопка з оком: показує, як набір виглядатиме у грі"], en:["Shop redesigned: three big tabs — Shop, Cases, Mine","Each category is a short row with an «All ›» button","On phones an item opens from the bottom; buttons no longer wrap","«Try on» is now an eye button that previews the set in a game"], ru:["Магазин переделан: три большие вкладки — Магазин, Кейсы, Моё","Каждая категория — короткий ряд с кнопкой «Все ›»","На телефоне вещь открывается снизу, кнопки больше не переносятся","Вместо «Примерить» — кнопка с глазом: показывает, как набор будет выглядеть в игре"]},
  {v:"0.99.0", d:"20.11.2026", uk:["Ефект перемоги більше не програється двічі","Коли з’являється анімація нагороди чи досягнення, фон позаду розмивається","Прибрали порівняння з іншими іграми з описів рейтингу й турнірів"], en:["The win effect no longer plays twice","The background blurs behind reward and achievement animations","Removed comparisons with other games from the rating and tournament texts"], ru:["Эффект победы больше не проигрывается дважды","Фон за анимацией награды и достижения размывается","Убрали сравнения с другими играми из описаний"]},
  {v:"0.98.1", d:"17.11.2026", uk:["Сторінка «Ліцензії та подяки»: звідки шрифти, іконки, звуки, анімації, фото, музика й радіо — посилання внизу головної та в налаштуваннях","Політика конфіденційності доповнена: ім’я, країна й історія турнірів"], en:["«Licences and credits» page — link at the bottom of home and in Settings","Privacy policy updated: name, country and tournament history"], ru:["Страница «Лицензии и благодарности» — ссылка внизу главной и в настройках","Политика конфиденциальности дополнена: имя, страна и история турниров"]},
@@ -9391,7 +9396,8 @@ function livePv(b,ck,dc,tb){ const src=$('board'); if(!src) return shScene(b,ck,
   w.appendChild(inn);
   const fit=()=>{ const W=w.clientWidth; if(!W){ requestAnimationFrame(fit); return; } const cs=Math.min(36, (W-28)/12.95); inn.style.setProperty('--cs', cs.toFixed(2)+'px'); inn.style.setProperty('--dcs', (cs*1.15).toFixed(2)+'px'); }; requestAnimationFrame(fit);
   return w; }
-const tryOn=(c,k)=>livePv(c==='board'?k:prefs.board, c==='ck'?k:prefs.ck, c==='dice'?k:prefs.dice, c==='table'?k:prefs.table);
+function tablePv(k){ const w=sH('div','shscene s2tbpv'); const bg=(TABLE_SW[k]||'').replace('_s.webp','.webp'); w.style.background=bg; if(/url\(/.test(bg)) w.style.backgroundSize='cover'; return w; }
+const tryOn=(c,k)=> (c==='table' && k && k!=='auto' && TABLE_SW[k]) ? tablePv(k) : livePv(c==='board'?k:prefs.board, c==='ck'?k:prefs.ck, c==='dice'?k:prefs.dice, c==='table'?k:prefs.table);
 function priceEl(c,k){ const w=sH('span','s2pr'); const p=shCost(c,k), full=shopPrice(c,k); if(p!==full) w.appendChild(sH('s',null,full.toLocaleString('uk-UA'))); const b=sH('b'); b.innerHTML='<i class="coin"></i>'; b.appendChild(document.createTextNode(p.toLocaleString('uk-UA'))); w.appendChild(b); return w; }
 function rarChip(r){ const rr=sH('span','shrar',t('rar_'+r)); rr.style.setProperty('--rc',SH_RC[r]); return rr; }
 // a product card (shop catalog, picks, collection)

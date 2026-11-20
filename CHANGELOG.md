@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.101.1 — 20.11.2026
+- Shop: tables preview on their own (full-size image, no board).
+
 ## 0.101.0 — 20.11.2026
 - Effects: one preview stage (modal over your board) for every roll and win effect; canvas and DOM effects can render into a host.
 - Turn banner hidden over pages and modals; tournament tabs scroll; rating label on the home rank card.
