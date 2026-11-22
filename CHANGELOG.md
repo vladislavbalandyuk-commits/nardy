@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.110.0 — 22.11.2026
+- Profile redesign (p110 after openProfile): the left card column becomes a full-width banner (card background + gradient), avatar/name/tier left, rating + bar right; .hstats is a strip of tiles + the last-10 form dots; overview tab is a 2-column grid (.p110m main / .p110s sticky side: path, daily gift, looks, name form, invites). Showcase items larger; #1 tournament badge mint. Phone: centred banner, 3 stat tiles, close button hidden (the bottom bar is there).
+
 ## 0.109.0 — 22.11.2026
 - Tournament window: width min(100vw-32, max(640, 74vw), 1180); ≥1100px two columns (.t109L status/info, .t109R tabs+tbody, each scrolls); ≤560px full-screen sheet with sticky tabs; tabs fade when scrollable.
 - tov109(): .trrow + .tpath + .tnext merged into one .tst109 line (chip with nick, compact stepper, message, share/calendar). Header shows «running» when the weekend has started but the bracket is not loaded.
