@@ -109,7 +109,7 @@ def page(lg,i):
     body=f'<h1>{e(h1)}</h1>'
     ld={"@context":"https://schema.org"}
     if i==0:
-        body+=''.join(f'<p>{e(x)}</p>' for x in c['p0'][:1])+f'<div class="cta"><a class="btn" href="{play}">{e(c["play"])}</a><a class="btn s" href="{bot}">{e(c["bot"])}</a></div>'
+        body+=''.join(f'<p>{e(x)}</p>' for x in c['p0'][:1])+f'<div class="cta"><a class="btn" href="{play}" rel="nofollow">{e(c["play"])}</a><a class="btn s" href="{bot}" rel="nofollow">{e(c["bot"])}</a></div>'
         body+=f'<img class="shot" src="/shots/game.webp" alt="{e(h1)}" width="540" height="1170" loading="lazy" style="max-width:300px;display:block">'
         body+=''.join(f'<p>{e(x)}</p>' for x in c['p0'][1:])+'<div class="grid">'+''.join(f'<div class="card"><b>{e(a)}</b>{e(b)}</div>' for a,b in c['f'])+'</div>'
         ld.update({"@type":"VideoGame","name":h1,"url":SITE+url(lg,0),"description":desc,"inLanguage":lg,"genre":"Board game","gamePlatform":"Web browser","applicationCategory":"Game","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}})
@@ -117,10 +117,10 @@ def page(lg,i):
         body+=f'<h2>{e(c["rt"])}</h2><ol>'+''.join(f'<li>{e(x)}</li>' for x in c['rules'])+'</ol>'
         body+=f'<h2>{e(c["tt"])}</h2><dl>'+''.join(f'<dt>{e(a)}</dt><dd>{e(b)}</dd>' for a,b in c['terms'])+'</dl>'
         body+=f'<h2>{e(c["fq"])}</h2><dl>'+''.join(f'<dt>{e(a)}</dt><dd>{e(b)}</dd>' for a,b in c['faq'])+'</dl>'
-        body+=f'<div class="cta"><a class="btn" href="{bot}">{e(c["bot"])}</a><a class="btn s" href="{play}">{e(c["play"])}</a></div>'
+        body+=f'<div class="cta"><a class="btn" href="{bot}" rel="nofollow">{e(c["bot"])}</a><a class="btn s" href="{play}" rel="nofollow">{e(c["play"])}</a></div>'
         ld.update({"@type":"FAQPage","mainEntity":[{"@type":"Question","name":a,"acceptedAnswer":{"@type":"Answer","text":b}} for a,b in c['faq']]})
     else:
-        body+=''.join(f'<p>{e(x)}</p>' for x in c['p2'])+f'<div class="cta"><a class="btn" href="{pz}">{e(c["pz"])}</a><a class="btn s" href="{url(lg,1)}">{e(c["nav"][1])}</a></div>'
+        body+=''.join(f'<p>{e(x)}</p>' for x in c['p2'])+f'<div class="cta"><a class="btn" href="{pz}" rel="nofollow">{e(c["pz"])}</a><a class="btn s" href="{url(lg,1)}">{e(c["nav"][1])}</a></div>'
         ld.update({"@type":"WebPage","name":title,"description":desc,"inLanguage":lg})
     langs='<div class="langs">'+''.join(f'<a href="{url(o,i)}" hreflang="{o}">{e(L[o]["name"])}</a>' for o in L)+'</div>'
     return f'''<!DOCTYPE html><html lang="{lg}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -128,11 +128,12 @@ def page(lg,i):
 <meta property="og:title" content="{e(title)}"><meta property="og:description" content="{e(desc)}"><meta property="og:image" content="{SITE}/og.png"><meta property="og:url" content="{SITE}{url(lg,i)}">
 <meta name="theme-color" content="#0d0e11"><link rel="icon" href="/favicon.svg"><style>{CSS}</style>
 <script type="application/ld+json">{json.dumps(ld,ensure_ascii=False)}</script></head>
-<body><div class="w"><header><a class="brand" href="{play}">нарди · nardy</a><nav>{nav}</nav></header>{body}{langs}</div></body></html>'''
-urls=['/', '/privacy/']
+<body><div class="w"><header><a class="brand" href="{play}" rel="nofollow">нарди · nardy</a><nav>{nav}</nav></header>{body}{langs}</div></body></html>'''
+urls=['/', '/privacy/', '/licenses/']
 for lg in L:
     for i in range(3):
         u=url(lg,i); d='.'+u; os.makedirs(d,exist_ok=True); open(d+'index.html','w').write(page(lg,i)); urls.append(u)
-open('sitemap.xml','w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+''.join(f'<url><loc>{SITE}{u}</loc></url>\n' for u in urls)+'</urlset>\n')
-open('robots.txt','w').write(f'User-agent: *\nAllow: /\nDisallow: /beta/\nSitemap: {SITE}/sitemap.xml\n')
+TODAY=__import__('datetime').date.today().isoformat()
+open('sitemap.xml','w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+''.join(f'<url><loc>{SITE}{u}</loc><lastmod>{TODAY}</lastmod></url>\n' for u in urls)+'</urlset>\n')
+open('robots.txt','w').write(f'User-agent: *\nAllow: /\nDisallow: /beta/\n# app states, not pages: the game opens these and they have no content of their own\nDisallow: /*?go=\nDisallow: /*&go=\nDisallow: /*?fr=\nDisallow: /*?club=\nDisallow: /*?portal=\nDisallow: /*?lang=\nSitemap: {SITE}/sitemap.xml\n')
 print(len(urls),'urls')

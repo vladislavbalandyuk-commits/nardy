@@ -1,4 +1,11 @@
 User-agent: *
 Allow: /
 Disallow: /beta/
+# app states, not pages: the game opens these and they have no content of their own
+Disallow: /*?go=
+Disallow: /*&go=
+Disallow: /*?fr=
+Disallow: /*?club=
+Disallow: /*?portal=
+Disallow: /*?lang=
 Sitemap: https://nardy-nine.vercel.app/sitemap.xml
