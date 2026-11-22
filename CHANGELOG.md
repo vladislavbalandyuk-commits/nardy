@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.112.1 — 22.11.2026
+- p110 also runs from a MutationObserver on #profBox: btnMe etc. were bound to the original openProfile at start-up, so the menu opened the old layout.
+
 ## 0.112.0 — 22.11.2026
 - Home banner: .h1ban (card photo 1600px, gradient into the page) behind the header and the top cards; greeting .h1greet (time of day + nick, tier · rating · games; guests get a welcome line); hero and the first two rail cards become frosted glass; light theme variant.
 - rad111: icon viewBox measured with getBBox and centred.
