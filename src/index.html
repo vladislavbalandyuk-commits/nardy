@@ -5290,7 +5290,7 @@ try{ new MutationObserver(()=>{ const o=$('winOv'); if(o && !o.classList.contain
 // ================= 0.54: Nardy radio — tracks by «3 кента» =================
 // 0.73.2: two stations — «3 кента» and Nikow (tracks used with the artist's permission)
 const RAD_ST=[{k:'3k', by:'3 кента', b:'3К', list:[['r1','Кальян в друзях'],['r2','Дві по пʼятдесят','fx/radio2.webp'],['r3','Дим не йде'],['r4','Густий туман'],['r5','Торт'],['r6','Вдих-Вдих']]},
-  {k:'nikow', by:'Nikow', b:'N', list:[['n1','Залежність'],['n2','вірив і молив'],['n3','спокуслива'],['n4','Так солодко'],['n5','Бальзам'],['n6','якщо це не по-справжньому']]},
+  {k:'nikow', by:'Nikow', b:'N', list:[['n1','Залежність'],['n2','вірив і молив'],['n3','спокуслива'],['n4','Так солодко'],['n5','Бальзам'],['n6','якщо це не по-справжньому'],['n7','Тобі про тебе'],['n8','Розмова з містом'],['n9','Допоки її не відніме']]},
   {k:'promin', s:'Промінь', by:'Радіо Промінь', b:'П', live:'https://radio.ukr.radio/ur2-mp3', home:'https://ukr.radio/', grp:'ua', list:[['live','Радіо Промінь']]},
   {k:'roksua', s:'ROKS UA', by:'ROKS Українською', b:'R', live:'https://online.radioroks.ua/RadioROKS_Ukr_HD', home:'https://www.radioroks.ua/', grp:'ua', list:[['live','ROKS Українською']]},
   {k:'hitua', s:'Hit FM', by:'Hit FM · Українські хіти', b:'H', live:'https://online.hitfm.ua/HitFM_Ukr_HD', home:'https://www.hitfm.ua/', grp:'ua', list:[['live','Hit FM · Українські хіти']]},
@@ -7230,7 +7230,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.111.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.111.1';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -9489,6 +9489,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+ {v:"0.111.1", d:"22.11.2026", uk:["На радіо Nikow ще три пісні: «Тобі про тебе», «Розмова з містом» і «Допоки її не відніме»"], en:["Three more songs on the Nikow station: «Тобі про тебе», «Розмова з містом» and «Допоки її не відніме»"]},
  {v:"0.111.0", d:"22.11.2026", uk:["Радіо по-новому: колесо станцій як в іграх — темні кнопки з іконкою станції в її кольорі, кільце-доріжка, назва в центрі","Коли відкрите колесо, сайт позаду затемнюється й розмивається","Плеєр у меню: іконка станції — це кнопка «грати», а поки грає, біля назви танцюють смужки еквалайзера","Плаваючий плеєр більше не налазить на меню на ПК","Профіль: прибрано вертикальні смуги на фоні банера"], en:["A new radio: a station wheel like in games — dark buttons with the station icon in its colour, a ring track, the name in the middle","The site dims and blurs behind the wheel","The menu player: the station icon is the play button, equaliser bars dance while it plays","The floating player no longer covers the menu on desktop","Profile: the vertical stripes on the banner are gone"]},
  {v:"0.110.1", d:"22.11.2026", uk:["Картка турніру на головній: зверху коротка мітка («Ви вибули», «Ви записані», «Триває»), а повний текст — під назвою, нічого не перекриває"], en:["The tournament card on the home screen: a short tag on top («You are out», «Signed up», «Live»), the full text under the title, nothing overlaps"]},
  {v:"0.110.0", d:"22.11.2026", uk:["Новий профіль: зверху банер із фоном вашої картки, аватар у рамці, ім’я і великий рейтинг","Головні цифри одним рядком — партії, перемоги, відсоток і форма за останні 10 партій кружечками","Огляд у дві колонки: вітрина й статистика зліва, шлях нардиста, оформлення та налаштування справа","Вітрина показує речі крупно, а місце #1 у турнірах більше не жовте"], en:["A new profile: a banner with your card background, your framed avatar, name and a big rating","The key numbers in one row — games, wins, win rate and your last 10 games as dots","The overview in two columns: showcase and stats on the left, the path, looks and settings on the right","The showcase shows items large, and #1 in tournaments is no longer yellow"]},

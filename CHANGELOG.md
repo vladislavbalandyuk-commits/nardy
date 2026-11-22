@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.111.1 — 22.11.2026
+- Nikow station: n7–n9 added (128 kbps, 48 kHz, tags stripped), with the artist's permission.
+
 ## 0.111.0 — 22.11.2026
 - Radio: rad111(k) takes the Phosphor icon and tint out of RAD_ART; wheel tiles are dark glass with the tinted icon, ring track behind (.ring111), labels only on hover, centre shows the name + eq bars; blurred dim backdrop for the ring and the phone sheet; side-menu player rebuilt (icon = play/pause, eq bars); #radPill cover uses the same icon and moves right of the sidebar.
 - Profile banner: the striped ::before overlay is hidden.
