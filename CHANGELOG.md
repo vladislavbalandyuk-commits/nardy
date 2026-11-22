@@ -3,6 +3,10 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.109.0 — 22.11.2026
+- Tournament window: width min(100vw-32, max(640, 74vw), 1180); ≥1100px two columns (.t109L status/info, .t109R tabs+tbody, each scrolls); ≤560px full-screen sheet with sticky tabs; tabs fade when scrollable.
+- tov109(): .trrow + .tpath + .tnext merged into one .tst109 line (chip with nick, compact stepper, message, share/calendar). Header shows «running» when the weekend has started but the bracket is not loaded.
+
 ## 0.108.1 — 22.11.2026
 - SEO after a Search Console notice: robots.txt blocks app-state URLs (?go=, ?fr=, ?club=, ?portal=, ?lang=); landing-page play links are nofollow; sitemap has lastmod and /licenses/; settings link to all five landing pages in static HTML.
 
