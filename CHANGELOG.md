@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.113.0 — 23.11.2026
+- Light home (h1RenderNow replaced): banner + greeting, hero, onboarding steps for new players, and «Today» — four tiles (h1Tile: tournament status, daily puzzle, path with progress, quests with a «Claim» badge). The right rail, learn row, weekly set, last games, top players and old-home extras are no longer on the home (each lives in its section).
+
 ## 0.112.6 — 23.11.2026
 - mnCloseAll also closes #arnPg (z 12, sat above the shop), #campPg, #achPg, #admPg; the coins pill goes through mnCloseAll('shop'). Fixes «logo does nothing» and «coins do nothing» from the Arena.
 
