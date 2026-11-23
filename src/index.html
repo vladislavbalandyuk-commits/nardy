@@ -7331,7 +7331,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.114.4';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.114.5';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -9591,6 +9591,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+{v:"0.114.5", d:"23.11.2026", uk:["Дошка «Друзі»: неоновий напис світиться всюди — у грі, на головній, у магазині й навчанні"], en:["«Druzi» board: the neon sign glows everywhere — in games, on the home page, in the shop and lessons"], ru:["Доска «Друзья»: неоновый знак светится везде — в игре, на главной, в магазине и обучении"]},
 {v:"0.114.4", d:"23.11.2026", uk:["Кнопка «назад» на телефоні та Escape тепер закривають «Події» і профіль","Логотип на телефоні веде на головну з будь-якої сторінки"], en:["Back on phones and Escape now close Events and the profile","The logo on phones goes home from any page"], ru:["Кнопка «назад» на телефоне и Escape теперь закрывают «События» и профиль","Логотип на телефоне ведёт на главную с любой страницы"]},
 {v:"0.114.3", d:"23.11.2026", uk:["Вікно кінця партії тепер на весь екран: на широкому — дві колонки","Дошка «Друзі»: на мініатюрах знову видно неоновий напис","Вітрина в профілі: дошки показуються справжньою мініатюрою з шашками, а не темною смугою","Радіо: натисніть на назву пісні в плеєрі — відкриється вибір станцій","Графік шансів більше не падає до 0% в кінці виграної партії"], en:["The game-over window now fills the screen: two columns on wide screens","«Druzi» board: the neon sign shows on previews again","Profile showcase: boards show as a real preview with checkers, not a dark strip","Radio: tap the song title in the player to pick a station","The chances chart no longer drops to 0% at the end of a won game"], ru:["Окно конца партии теперь на весь экран: на широком — две колонки","Доска «Друзья»: на миниатюрах снова виден неоновый знак","Витрина в профиле: доски показываются настоящей миниатюрой с шашками, а не тёмной полосой","Радио: нажмите на название песни в плеере — откроется выбор станций","График шансов больше не падает до 0% в конце выигранной партии"]},
 {v:"0.114.0", d:"23.11.2026", uk:["Профіль тепер на весь екран і підлаштовується під пристрій","Колесо чату: розмитий фон, як у радіо, і фрази завжди вміщаються в плитку","Гра готова до нових порталів: Playgama, GameDistribution, itch.io — там можна грати онлайн одразу, без реєстрації"], en:["The profile now fills the screen and fits any device","Chat wheel: a blurred backdrop like the radio, and phrases always fit their tile","Ready for more game portals: Playgama, GameDistribution, itch.io — play online right away, no sign-up"], ru:["Профиль теперь на весь экран и подстраивается под устройство","Колесо чата: размытый фон, как у радио, и фразы всегда помещаются в плитку","Игра готова к новым порталам: Playgama, GameDistribution, itch.io — там можно играть онлайн сразу, без регистрации"]},
@@ -10931,6 +10932,12 @@ window.addEventListener('popstate',()=>{ if(_evHist && $('evPg')){ _evHist=false
 document.addEventListener('keydown',e=>{ if(e.key!=='Escape' || !$('evPg')) return; if(document.querySelector('.overlay:not(.hidden)')) return; closeEvents(); try{ mnMark(); }catch(x){} });
 document.addEventListener('click',e=>{ const b=e.target.closest && e.target.closest('.h1brand, .mn-brand'); if(!b || (typeof gs!=='undefined' && gs)) return; if(mnCur()!=='play'){ e.preventDefault(); mnGo('play'); } }, true);
 
+
+// 0.114.5: every neon sign on the page gets mask ids of its own — wherever a board is drawn or copied, now or later
+function neonAll(root){ try{ (root||document).querySelectorAll('svg mask[id]').forEach(m=>{ const svg=m.ownerSVGElement; if(!svg || m.dataset.nu) return; const old=m.id, id=old.replace(/_[cu]\d+$/,'')+'_u'+(NEON_SEQ=(NEON_SEQ||0)+1); m.id=id; m.dataset.nu='1';
+  svg.querySelectorAll('[mask]').forEach(e=>{ if(e.getAttribute('mask')==='url(#'+old+')') e.setAttribute('mask','url(#'+id+')'); }); }); }catch(e){} }
+neonAll(document);
+new MutationObserver(ms=>{ for(const m of ms) for(const n of m.addedNodes){ if(n.nodeType!==1) continue; if(n.tagName==='mask' || (n.querySelector && n.querySelector('mask'))) neonAll(n.tagName==='mask'?n.parentNode:n); } }).observe(document.documentElement,{childList:true,subtree:true});
 </script>
 </body>
 </html>

@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.114.5 — 23.11.2026
+- Neon masks: a MutationObserver gives every <mask id> on the page a unique id (neonAll), so no copied board ever points at a hidden board's mask.
+
 ## 0.114.4 — 23.11.2026
 - Back (browser/Android) and Escape close Events and the profile (history states like shop/friends); mnCloseAll drops those states so switching tabs never bounces.
 - The logo (.h1brand/.mn-brand) goes home from any page on phones.
