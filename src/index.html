@@ -7331,7 +7331,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.114.3';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.114.4';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -9591,6 +9591,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+{v:"0.114.4", d:"23.11.2026", uk:["Кнопка «назад» на телефоні та Escape тепер закривають «Події» і профіль","Логотип на телефоні веде на головну з будь-якої сторінки"], en:["Back on phones and Escape now close Events and the profile","The logo on phones goes home from any page"], ru:["Кнопка «назад» на телефоне и Escape теперь закрывают «События» и профиль","Логотип на телефоне ведёт на главную с любой страницы"]},
 {v:"0.114.3", d:"23.11.2026", uk:["Вікно кінця партії тепер на весь екран: на широкому — дві колонки","Дошка «Друзі»: на мініатюрах знову видно неоновий напис","Вітрина в профілі: дошки показуються справжньою мініатюрою з шашками, а не темною смугою","Радіо: натисніть на назву пісні в плеєрі — відкриється вибір станцій","Графік шансів більше не падає до 0% в кінці виграної партії"], en:["The game-over window now fills the screen: two columns on wide screens","«Druzi» board: the neon sign shows on previews again","Profile showcase: boards show as a real preview with checkers, not a dark strip","Radio: tap the song title in the player to pick a station","The chances chart no longer drops to 0% at the end of a won game"], ru:["Окно конца партии теперь на весь экран: на широком — две колонки","Доска «Друзья»: на миниатюрах снова виден неоновый знак","Витрина в профиле: доски показываются настоящей миниатюрой с шашками, а не тёмной полосой","Радио: нажмите на название песни в плеере — откроется выбор станций","График шансов больше не падает до 0% в конце выигранной партии"]},
 {v:"0.114.0", d:"23.11.2026", uk:["Профіль тепер на весь екран і підлаштовується під пристрій","Колесо чату: розмитий фон, як у радіо, і фрази завжди вміщаються в плитку","Гра готова до нових порталів: Playgama, GameDistribution, itch.io — там можна грати онлайн одразу, без реєстрації"], en:["The profile now fills the screen and fits any device","Chat wheel: a blurred backdrop like the radio, and phrases always fit their tile","Ready for more game portals: Playgama, GameDistribution, itch.io — play online right away, no sign-up"], ru:["Профиль теперь на весь экран и подстраивается под устройство","Колесо чата: размытый фон, как у радио, и фразы всегда помещаются в плитку","Игра готова к новым порталам: Playgama, GameDistribution, itch.io — там можно играть онлайн сразу, без регистрации"]},
  {v:"0.113.0", d:"23.11.2026", uk:["Головна стала набагато легшою: привітання, гра і чотири плитки «Сьогодні» — турнір, задача дня, шлях нардиста й завдання","Решта переїхала у свої розділи: рейтинг і друзі — у «Друзі», події та арена — у «Події», останні партії — у профіль, набір тижня — у магазин"], en:["A much lighter home: a greeting, the game and four «Today» tiles — tournament, daily puzzle, the path and quests","Everything else moved to its own section: rating and friends to Friends, events and the arena to Events, recent games to the profile, the weekly set to the shop"]},
@@ -10914,6 +10915,22 @@ function shwFit(pv){ const go=()=>{ const inn=pv.querySelector('.spvIn'), bd=inn
     const cs=Math.max(4, Math.min((W-12-aw)/bw, (H-10-ah)/bh));
     inn.style.setProperty('--cs', cs.toFixed(2)+'px'); inn.style.setProperty('--dcs', (cs*1.1).toFixed(2)+'px'); };
   requestAnimationFrame(go); try{ new ResizeObserver(()=>go()).observe(pv); }catch(e){} }
+// 0.114.4: Back (browser / Android) and Escape close Events and the profile, like the shop and friends already do; the logo always goes home
+let _evHist=false, _pfHist=false;
+(function(){ const oe=openEvents, ce=closeEvents;
+  openEvents=function(){ oe.apply(this, arguments); if(!_evHist){ try{ history.pushState({ev:1},''); _evHist=true; }catch(e){} } };
+  closeEvents=function(){ const had=!!$('evPg'); ce.apply(this, arguments); if(had && _evHist){ _evHist=false; try{ history.back(); }catch(e){} } };
+  const mc=mnCloseAll; mnCloseAll=function(except){ _evHist=false; if(except!=='me') _pfHist=false; return mc.apply(this, arguments); };
+})();
+window.addEventListener('popstate',()=>{ if(_evHist && $('evPg')){ _evHist=false; closeEvents(); try{ mnMark(); }catch(e){} }
+  if(_pfHist){ const o=$('profOv'); _pfHist=false; if(o && !o.classList.contains('hidden')){ show('profOv',false); try{ mnMark(); }catch(e){} } } });
+(function(){ const o=$('profOv'); if(!o) return; let was=!o.classList.contains('hidden');
+  new MutationObserver(()=>{ const now=!o.classList.contains('hidden'); if(now===was) return; was=now;
+    if(now){ if(!_pfHist){ try{ history.pushState({pf:1},''); _pfHist=true; }catch(e){} } }
+    else if(_pfHist){ _pfHist=false; try{ history.back(); }catch(e){} } }).observe(o,{attributes:true,attributeFilter:['class']}); })();
+document.addEventListener('keydown',e=>{ if(e.key!=='Escape' || !$('evPg')) return; if(document.querySelector('.overlay:not(.hidden)')) return; closeEvents(); try{ mnMark(); }catch(x){} });
+document.addEventListener('click',e=>{ const b=e.target.closest && e.target.closest('.h1brand, .mn-brand'); if(!b || (typeof gs!=='undefined' && gs)) return; if(mnCur()!=='play'){ e.preventDefault(); mnGo('play'); } }, true);
+
 </script>
 </body>
 </html>

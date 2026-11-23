@@ -3,6 +3,10 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.114.4 — 23.11.2026
+- Back (browser/Android) and Escape close Events and the profile (history states like shop/friends); mnCloseAll drops those states so switching tabs never bounces.
+- The logo (.h1brand/.mn-brand) goes home from any page on phones.
+
 ## 0.114.3 — 23.11.2026
 - Profile showcase: a board item is the real board preview (livePv) fitted by width and height (shwFit), point numbers hidden.
 - «Interesting numbers»: tournaments count reads an array or {n}.
