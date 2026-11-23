@@ -3609,6 +3609,26 @@ body:not(.dark) .h1tlb{color:#fff;background:color-mix(in srgb,var(--tc) 60%,#1d
 #chatWheel .cwi.isph .wph{display:block;width:100%;max-width:100%;white-space:normal;text-align:center;line-height:1.12;font-weight:700;overflow-wrap:normal;word-break:normal;hyphens:manual}
 #chatWheel.cwsheet .cwi{overflow:hidden}
 
+/* 0.114: the result window fills the screen; two columns on wide screens */
+#winOv:has(.ws42):not(.hidden){padding:0!important;align-items:stretch!important;justify-content:stretch!important;background:rgba(8,9,12,.7)!important;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+#winOv .modal.ws42{width:100%!important;max-width:none!important;height:100%!important;max-height:none!important;margin:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;overflow-y:auto!important;box-sizing:border-box;background:var(--ds-bg,#0d0e11)!important;padding:clamp(20px,5vh,56px) clamp(16px,4vw,48px) calc(24px + env(safe-area-inset-bottom))!important;animation:none}
+#winOv .modal.ws42>*{width:100%;max-width:560px;align-self:center;box-sizing:border-box}
+#winOv .ws42 .w114c{display:flex;flex-direction:column;gap:12px;min-width:0}
+#winOv .ws42 .w114c>*{margin-top:0!important;margin-bottom:0!important}
+#winOv .ws42 .w114c>.r{order:4;display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+#winOv .ws42 .w114c>.r>button{width:100%;margin:0!important;min-height:52px}
+#winOv .ws42 .w114c>.r>button[hidden],#winOv .ws42 .w114c>.r>button.hidden{display:none!important}
+#winOv .ws42 .w114c>.r>#btnNew2{grid-column:1/-1}
+#winOv .ws42 .w114c>.r:not(:has(#btnNewOpp:not([hidden]))) #btnShareWin{grid-column:1/-1}
+@media (min-width:1000px){
+  #winOv .modal.ws42.w114{display:grid!important;grid-template-columns:minmax(0,540px) minmax(0,440px);justify-content:center;align-content:center;column-gap:clamp(28px,4vw,56px);row-gap:0}
+  #winOv .modal.ws42.w114>.w114c{max-width:none;align-self:start}
+  #winOv .ws42.w114 .w42hero{padding-top:8px}
+}
+@media (max-width:600px){ #winOv .modal.ws42{padding-top:calc(18px + env(safe-area-inset-top))!important} }
+
+/* 0.114.1: the floating radio — the title opens the stations too */
+#radPill .tx{cursor:pointer;border-radius:8px} #radPill .tx:hover b{text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(255,255,255,.35)} #radPill .rst{display:grid;place-items:center}
 </style>
 <style>/* 0.38: home — one big «Play», three «Today» tiles */
 .h38modes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
@@ -4524,7 +4544,7 @@ function whiteChance(st){
 }
 function pushHist(){
   if(!gs || gs.phase!=='play' || !gs.dice || !gs.dice.length) return;
-  const pw = gs.off[gs.turn]===15 ? (gs.turn==='w'?1:0) : 1-winChanceOnRoll(gs, OPP(gs.turn));
+  const pw = gs.off[gs.turn]===15 ? 1 : 1-winChanceOnRoll(gs, OPP(gs.turn));
   const wc = gs.turn==='w' ? pw : 1-pw;
   gs.hist=(gs.hist||[]).concat([{c:gs.turn, d:gs.dice.slice(), t:(gs.trail||[]).slice(), p:Math.round(Math.min(.995,Math.max(.005,wc))*100)}]);
 }
@@ -5408,7 +5428,7 @@ function openRadWheel(){ const old=$('radWheel'); if(old){ old.remove(); return;
 function radPaint(){ try{ const tg=$('togRadio'); if(tg) tg.classList.toggle('on',radOn); const vr=$('radVolRow'); if(vr) vr.hidden=!radOn; radStPaint(); const vi=$('radVol'); if(vi && document.activeElement!==vi) vi.value=Math.round(radVol()*100);
   let el=$('radPill'); if(!radOn){ if(el) el.remove(); return; }
   if(!el){ el=uxH('div','radp'); el.id='radPill'; const cv=uxH('div','cv'); const tx=uxH('div','tx'); tx.append(uxH('b'), uxH('small')); const pp=uxH('button','rpp'); pp.type='button'; pp.onclick=()=>{ if(radA && !radA.paused){ radA.pause(); } else radPlay(); };
-    const st=uxH('button','rnx rst','⇄'); st.type='button'; st.title=t('radStPick'); st.setAttribute('aria-label',t('radStPick')); st.onclick=e=>{ e.stopPropagation(); openRadWheel(); }; cv.onclick=e=>{ e.stopPropagation(); openRadWheel(); }; const nx=uxH('button','rnx','⏭'); nx.type='button'; nx.setAttribute('aria-label',t('radNext')); nx.onclick=()=>radNext(1); const x=uxH('button','rx','×'); x.type='button'; x.setAttribute('aria-label',t('radOff')); x.onclick=()=>radSet(false);
+    const st=uxH('button','rnx rst','⇄'); st.type='button'; st.title=t('radStPick'); st.setAttribute('aria-label',t('radStPick')); st.onclick=e=>{ e.stopPropagation(); openRadWheel(); }; cv.onclick=e=>{ e.stopPropagation(); if(Date.now()-(el._dragAt||0)<400) return; openRadWheel(); }; tx.onclick=e=>{ e.stopPropagation(); if(Date.now()-(el._dragAt||0)<400) return; openRadWheel(); }; tx.title=t('radStPick'); st.innerHTML='<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2.2"/><path d="M12 4v3M20 12h-3M12 20v-3M4 12h3"/></svg>'; const nx=uxH('button','rnx','⏭'); nx.type='button'; nx.setAttribute('aria-label',t('radNext')); nx.onclick=()=>radNext(1); const x=uxH('button','rx','×'); x.type='button'; x.setAttribute('aria-label',t('radOff')); x.onclick=()=>radSet(false);
     // 0.87.4: volume right in the player — a speaker button opens a slider, no trip to the settings
     const vb=uxH('button','rvol'); vb.type='button'; vb.setAttribute('aria-label',t('radVolT')); vb.title=t('radVolT');
     const vp=uxH('div','rvolp'); const vr=uxH('input'); vr.type='range'; vr.min='0'; vr.max='100'; vr.step='5'; vr.setAttribute('aria-label',t('radVolT')); const vn=uxH('span','rvn');
@@ -5975,7 +5995,7 @@ function radPlace(el){ el=el||$('radPill'); if(!el) return; const P=store.get('r
   const r=el.getBoundingClientRect(), x=Math.max(8,Math.min(innerWidth-r.width-8, P.x*innerWidth)), y=Math.max(8,Math.min(innerHeight-r.height-8, P.y*innerHeight)); el.style.left=x+'px'; el.style.top=y+'px'; el.style.bottom='auto'; el.style.right='auto'; el.classList.add('moved'); }
 function radDrag(el){ radPlace(el); el.addEventListener('pointerdown',e=>{ if(!radDragOk() || e.button || e.target.closest('button,input,.rvolp')) return; const r=el.getBoundingClientRect(), dx=e.clientX-r.left, dy=e.clientY-r.top; let moved=false; el.setPointerCapture(e.pointerId);
     const mv=ev=>{ const x=Math.max(8,Math.min(innerWidth-r.width-8, ev.clientX-dx)), y=Math.max(8,Math.min(innerHeight-r.height-8, ev.clientY-dy)); if(!moved && Math.hypot(ev.clientX-e.clientX, ev.clientY-e.clientY)<4) return; moved=true; el.classList.add('drag','moved'); el.style.left=x+'px'; el.style.top=y+'px'; el.style.bottom='auto'; el.style.right='auto'; };
-    const up=()=>{ el.removeEventListener('pointermove',mv); el.removeEventListener('pointerup',up); el.removeEventListener('pointercancel',up); el.classList.remove('drag'); if(moved){ const q=el.getBoundingClientRect(); store.set('radPos',{x:q.left/innerWidth, y:q.top/innerHeight}); } };
+    const up=()=>{ el.removeEventListener('pointermove',mv); el.removeEventListener('pointerup',up); el.removeEventListener('pointercancel',up); el.classList.remove('drag'); if(moved){ el._dragAt=Date.now(); const q=el.getBoundingClientRect(); store.set('radPos',{x:q.left/innerWidth, y:q.top/innerHeight}); } };
     el.addEventListener('pointermove',mv); el.addEventListener('pointerup',up); el.addEventListener('pointercancel',up); });
   el.addEventListener('dblclick',e=>{ if(e.target.closest('button')) return; store.set('radPos',null); radPlace(el); }); }
 addEventListener('resize',()=>{ try{ radPlace(); }catch(e){} });
@@ -7304,7 +7324,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.114.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.114.1';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -9563,6 +9583,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+{v:"0.114.1", d:"23.11.2026", uk:["Вікно кінця партії тепер на весь екран: на широкому — дві колонки","Радіо: натисніть на назву пісні в плеєрі — відкриється вибір станцій","Графік шансів більше не падає до 0% в кінці виграної партії"], en:["The game-over window now fills the screen: two columns on wide screens","Radio: tap the song title in the player to pick a station","The chances chart no longer drops to 0% at the end of a won game"], ru:["Окно конца партии теперь на весь экран: на широком — две колонки","Радио: нажмите на название песни в плеере — откроется выбор станций","График шансов больше не падает до 0% в конце выигранной партии"]},
 {v:"0.114.0", d:"23.11.2026", uk:["Профіль тепер на весь екран і підлаштовується під пристрій","Колесо чату: розмитий фон, як у радіо, і фрази завжди вміщаються в плитку","Гра готова до нових порталів: Playgama, GameDistribution, itch.io — там можна грати онлайн одразу, без реєстрації"], en:["The profile now fills the screen and fits any device","Chat wheel: a blurred backdrop like the radio, and phrases always fit their tile","Ready for more game portals: Playgama, GameDistribution, itch.io — play online right away, no sign-up"], ru:["Профиль теперь на весь экран и подстраивается под устройство","Колесо чата: размытый фон, как у радио, и фразы всегда помещаются в плитку","Игра готова к новым порталам: Playgama, GameDistribution, itch.io — там можно играть онлайн сразу, без регистрации"]},
  {v:"0.113.0", d:"23.11.2026", uk:["Головна стала набагато легшою: привітання, гра і чотири плитки «Сьогодні» — турнір, задача дня, шлях нардиста й завдання","Решта переїхала у свої розділи: рейтинг і друзі — у «Друзі», події та арена — у «Події», останні партії — у профіль, набір тижня — у магазин"], en:["A much lighter home: a greeting, the game and four «Today» tiles — tournament, daily puzzle, the path and quests","Everything else moved to its own section: rating and friends to Friends, events and the arena to Events, recent games to the profile, the weekly set to the shop"]},
  {v:"0.112.6", d:"23.11.2026", uk:["Логотип і монети працюють з будь-якої сторінки: з Арени, Шляху нардиста чи Досягнень вони відкривають головну й магазин"], en:["The logo and the coins work from every page: from the Arena, the Path or Achievements they open the home screen and the shop"]},
@@ -10859,6 +10880,19 @@ function p114Fit(ov){ ov.querySelectorAll('.cwi.isph .wph').forEach(s=>{ const b
 (function(){ const o=openWheel; openWheel=function(){ o.apply(this, arguments); const ov=$('chatWheel'); if(!ov) return;
   if(ov.classList.contains('cwring')) ov.querySelectorAll('.cwi.isph').forEach(b=>{ const w=parseFloat(b.style.width)||70, n=Math.min(w+8, 80); b.style.width=b.style.height=n+'px'; });
   requestAnimationFrame(()=>p114Fit(ov)); }; })();
+
+// 0.114: the result window — on wide screens the score and buttons on the left, coins, rating and details on the right
+const W114R=['#winCamp','#w42Coins','#winRate','.w42det'];
+function w114Lay(){ const ov=$('winOv'); const m=ov && ov.querySelector('.modal.ws42'); if(!m) return;
+  const wide=innerWidth>=1000; let L=m.querySelector(':scope>.w114L'), R=m.querySelector(':scope>.w114R');
+  if(!wide){ if(L||R){ [L,R].forEach(c=>{ if(!c) return; [...c.children].forEach(x=>m.appendChild(x)); c.remove(); }); m.classList.remove('w114'); } return; }
+  if(!L){ L=uxH('div','w114c w114L'); R=uxH('div','w114c w114R'); m.prepend(R); m.prepend(L); m.classList.add('w114'); }
+  const isR=x=>W114R.some(s=>x.matches(s));
+  [...m.children].forEach(x=>{ if(x===L||x===R) return; (isR(x)?R:L).appendChild(x); });
+  [...L.children].forEach(x=>{ if(isR(x)) R.appendChild(x); });
+  [...R.children].forEach(x=>{ if(!isR(x)) L.appendChild(x); }); }
+setInterval(()=>{ const ov=$('winOv'); if(ov && !ov.classList.contains('hidden')) w114Lay(); }, 300);
+addEventListener('resize', ()=>{ try{ w114Lay(); }catch(e){} });
 
 </script>
 </body>

@@ -3,6 +3,10 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.114.1 — 23.11.2026
+- The result window fills the screen; two columns at ≥1000px (w114Lay).
+- Fix: the last chances point when the side to move has borne off was computed for white, so a black win ended at 0%.
+
 ## 0.114.0 — 23.11.2026
 - The profile fills the screen (side menu to edge; above the bottom bar on phones).
 - Portals: Playgama Bridge (game_ready, gameplay events, audio/pause, interstitials between games), GameDistribution SDK (pause/mute, interstitials), itch.io; guests sign in anonymously on every portal; portal-neutral texts.
