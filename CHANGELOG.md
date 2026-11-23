@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.115.0 — 23.11.2026
+- Tournament hall (tov115): full screen; hero with one ticking clock (to draw / start / play-off) and a 5-stage stepper; prize pool and seats in the hero; the crowded stat strip removed; labelled share/calendar; prize podium; seats grid (16, free ones dashed); opens on Participants before the draw.
+
 ## 0.114.5 — 23.11.2026
 - Neon masks: a MutationObserver gives every <mask id> on the page a unique id (neonAll), so no copied board ever points at a hidden board's mask.
 
