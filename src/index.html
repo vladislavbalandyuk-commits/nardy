@@ -5335,9 +5335,11 @@ function radStPaint(){ const r=$('radStRow'); if(!r) return; r.hidden=!radOn; co
 let radA=null, radI=(store.get('radI',0)|0)%RADIO.list.length, radOn=false /* 0.103: the radio never starts by itself; the station is remembered, playing is not */, radDk=0, radWant=false;
 const radVol=()=>Math.max(0,Math.min(1,+store.get('radVol',.35)));
 const radTitle=()=>RADIO.list[radI][1];
-function radEl(){ if(!radA){ radA=new Audio(); radA.preload='none'; radA.addEventListener('ended',()=>radNext(1)); radA.addEventListener('error',()=>{ if(!radOn) return; if(RADIO.live){ try{ toast(t('radLiveErr',{n:RADIO.by})); }catch(e){} } setTimeout(()=>radNext(1),2000); }); radA.addEventListener('play',radPaint); radA.addEventListener('pause',radPaint); } return radA; }
+function radEl(){ if(!radA){ radA=new Audio(); radA.preload='none'; radA.addEventListener('ended',()=>radNext(1)); radA.addEventListener('error',()=>{ if(!radOn) return; if(!RADIO.live && radCdn<RAD_CDN.length-1){ radCdn++; radLoad(); try{ radA.play().catch(()=>{}); }catch(e){} return; } if(RADIO.live){ try{ toast(t('radLiveErr',{n:RADIO.by})); }catch(e){} } setTimeout(()=>radNext(1),2000); }); radA.addEventListener('play',radPaint); radA.addEventListener('pause',radPaint); } return radA; }
 function radApplyVol(){ if(radA) radA.volume=radVol()*(radDk>0?.25:1); }
-function radLoad(){ const a=radEl(); a.src= RADIO.live ? RADIO.live : 'snd/radio/'+RADIO.list[radI][0]+'.mp3'; radApplyVol(); }
+// 0.112.5: the music no longer ships with every site deployment (it filled Vercel's storage); it streams from the public repo through a CDN, with GitHub itself as the spare
+const RAD_CDN=['https://cdn.jsdelivr.net/gh/vladislavbalandyuk-commits/nardy@main/','https://raw.githubusercontent.com/vladislavbalandyuk-commits/nardy/main/']; let radCdn=0;
+function radLoad(){ const a=radEl(); a.src= RADIO.live ? RADIO.live : RAD_CDN[radCdn]+'snd/radio/'+RADIO.list[radI][0]+'.mp3'; radApplyVol(); }
 function radPlay(){ const a=radEl(); if(!a.getAttribute('src')) radLoad(); radApplyVol(); radWant=false; const p=a.play(); if(p && p.catch) p.catch(()=>{ radWant=true; radPaint(); }); radPaint(); }
 function radSet(on){ radOn=!!on; store.set('radio',radOn); if(radOn && !store.get('radHint95',0)){ store.set('radHint95',1); setTimeout(()=>{ try{ toast(t('radHint')); }catch(e){} },900); } if(radOn) radPlay(); else if(radA) radA.pause(); radPaint(); }
 function radNext(d){ if(RADIO.live) return radStation(radS+d); const n=RADIO.list.length; radI=(radI+d+n)%n; store.set('radI',radI); radLoad(); if(radOn) radPlay(); radPaint(); }
@@ -7261,7 +7263,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.112.4';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.112.5';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -9520,6 +9522,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+ {v:"0.112.5", d:"23.11.2026", uk:["Радіо грає з окремого сервера для файлів — сайт став легшим, і Vercel не забиває місце старими версіями"], en:["The radio streams from a separate file server — the site got lighter and old versions no longer fill Vercel storage"]},
  {v:"0.112.4", d:"23.11.2026", uk:["Адмінпанель: нова вкладка «Хто онлайн» — хто зараз на сайті, хто грає й хто шукає гру, оновлюється кожні 5 секунд"], en:["Admin panel: a new «Who is online» tab — who is on the site, playing or searching, refreshed every 5 seconds"]},
  {v:"0.112.3", d:"23.11.2026", uk:["Історія турнірів: просто «16 гравців», без підрахунку людей","Плаваючий плеєр радіо: іконка станції по центру"], en:["Tournament history: just «16 players», no head count of people","Floating radio player: the station icon is centred"]},
  {v:"0.112.2", d:"23.11.2026", uk:["Історія турнірів: на п’єдесталі замість «?» тепер імена й аватари ботів"], en:["Tournament history: the podium shows bot names and avatars instead of «?»"]},

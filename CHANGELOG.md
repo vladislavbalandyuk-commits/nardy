@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.112.5 — 23.11.2026
+- Vercel Deployment Storage was at 75% of 10 GB (~93 MB per deploy). .vercelignore drops dist/ (CrazyGames zip), src/, tools/, supabase/, shots/, snd/radio/, notes; radio tracks stream from jsDelivr (GitHub fallback) via RAD_CDN.
+
 ## 0.112.4 — 23.11.2026
 - Admin: «Who is online» tab (admOnlineView) built from lobby.presenceState(): counts by status, rows sorted playing → searching → idle, click opens the player in «Players»; refreshes every 5 s while open.
 

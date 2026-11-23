@@ -1,0 +1,10 @@
+# 0.112.5: only what the site serves goes to Vercel — every deployment used to carry ~93 MB
+dist/
+src/
+tools/
+supabase/
+.github/
+snd/radio/
+CHANGELOG.md
+README.md
+*.zip

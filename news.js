@@ -1,4 +1,5 @@
 window.__NEWS=[
+ {v:"0.112.5", d:"23.11.2026", uk:["Радіо грає з окремого сервера для файлів — сайт став легшим, і Vercel не забиває місце старими версіями"], en:["The radio streams from a separate file server — the site got lighter and old versions no longer fill Vercel storage"]},
  {v:"0.112.4", d:"23.11.2026", uk:["Адмінпанель: нова вкладка «Хто онлайн» — хто зараз на сайті, хто грає й хто шукає гру, оновлюється кожні 5 секунд"], en:["Admin panel: a new «Who is online» tab — who is on the site, playing or searching, refreshed every 5 seconds"]},
  {v:"0.112.3", d:"23.11.2026", uk:["Історія турнірів: просто «16 гравців», без підрахунку людей","Плаваючий плеєр радіо: іконка станції по центру"], en:["Tournament history: just «16 players», no head count of people","Floating radio player: the station icon is centred"]},
  {v:"0.112.2", d:"23.11.2026", uk:["Історія турнірів: на п’єдесталі замість «?» тепер імена й аватари ботів"], en:["Tournament history: the podium shows bot names and avatars instead of «?»"]},
