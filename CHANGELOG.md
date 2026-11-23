@@ -3,6 +3,10 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.112.3 — 23.11.2026
+- History header shows only the player count (thPl; the ru string was Ukrainian, fixed).
+- #radPill cover: the old .art rule made the icon absolute and pinned it top-left; c111 drops .art and the svg is static, 20px.
+
 ## 0.112.2 — 23.11.2026
 - Tournament history podium: bot entries (tb<season>_<i>, empty name/av) are filled from tourBots(season) via thBot().
 
