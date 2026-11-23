@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.112.4 — 23.11.2026
+- Admin: «Who is online» tab (admOnlineView) built from lobby.presenceState(): counts by status, rows sorted playing → searching → idle, click opens the player in «Players»; refreshes every 5 s while open.
+
 ## 0.112.3 — 23.11.2026
 - History header shows only the player count (thPl; the ru string was Ukrainian, fixed).
 - #radPill cover: the old .art rule made the icon absolute and pinned it top-left; c111 drops .art and the svg is static, 20px.
