@@ -3,6 +3,11 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.114.2 — 23.11.2026
+- Fix: board copies (home, shop, showcase) lost their neon mask ids, so the «Druzi» sign pointed at the hidden board and did not render (neonIds).
+- Floating radio: the title opens the stations; a station icon instead of «⇄».
+- tools/portal_zip.py --lite: assets from jsDelivr pinned to the commit, ~1 MB zips.
+
 ## 0.114.1 — 23.11.2026
 - The result window fills the screen; two columns at ≥1000px (w114Lay).
 - Fix: the last chances point when the side to move has borne off was computed for white, so a black win ended at 0%.

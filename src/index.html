@@ -7324,7 +7324,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.114.1';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.114.2';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -7369,7 +7369,7 @@ function build2D(){
   function buildPreview(){
     const pv=$('setPrev'); if(!pv) return; pv.innerHTML=''; pv.className='spv2'; pv.dataset.b=prefs.board;
     const src=$('board'); if(!src) return;
-    const bd=src.cloneNode(true); bd.removeAttribute('id'); bd.querySelectorAll('[id]').forEach(e=>e.removeAttribute('id'));
+    const bd=src.cloneNode(true); bd.removeAttribute('id'); bd.querySelectorAll('[id]').forEach(e=>{ if(e.tagName.toLowerCase()!=='mask') e.removeAttribute('id'); }); neonIds(bd);
     bd.querySelectorAll('.tb,.ub,.dice,.die').forEach(e=>e.remove());
     bd.querySelectorAll('.pt').forEach(pt=>{ pt.classList.remove('can','sel','tgt','full','last','lastTo'); });
     const L={t:['w5','','','','b3','', '','b2','','','','w2'], b:['b5','','','','w3','', 'w2','','b2','','','']};
@@ -9583,7 +9583,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
-{v:"0.114.1", d:"23.11.2026", uk:["Вікно кінця партії тепер на весь екран: на широкому — дві колонки","Радіо: натисніть на назву пісні в плеєрі — відкриється вибір станцій","Графік шансів більше не падає до 0% в кінці виграної партії"], en:["The game-over window now fills the screen: two columns on wide screens","Radio: tap the song title in the player to pick a station","The chances chart no longer drops to 0% at the end of a won game"], ru:["Окно конца партии теперь на весь экран: на широком — две колонки","Радио: нажмите на название песни в плеере — откроется выбор станций","График шансов больше не падает до 0% в конце выигранной партии"]},
+{v:"0.114.2", d:"23.11.2026", uk:["Вікно кінця партії тепер на весь екран: на широкому — дві колонки","Дошка «Друзі»: на мініатюрах знову видно неоновий напис","Радіо: натисніть на назву пісні в плеєрі — відкриється вибір станцій","Графік шансів більше не падає до 0% в кінці виграної партії"], en:["The game-over window now fills the screen: two columns on wide screens","«Druzi» board: the neon sign shows on previews again","Radio: tap the song title in the player to pick a station","The chances chart no longer drops to 0% at the end of a won game"], ru:["Окно конца партии теперь на весь экран: на широком — две колонки","Доска «Друзья»: на миниатюрах снова виден неоновый знак","Радио: нажмите на название песни в плеере — откроется выбор станций","График шансов больше не падает до 0% в конце выигранной партии"]},
 {v:"0.114.0", d:"23.11.2026", uk:["Профіль тепер на весь екран і підлаштовується під пристрій","Колесо чату: розмитий фон, як у радіо, і фрази завжди вміщаються в плитку","Гра готова до нових порталів: Playgama, GameDistribution, itch.io — там можна грати онлайн одразу, без реєстрації"], en:["The profile now fills the screen and fits any device","Chat wheel: a blurred backdrop like the radio, and phrases always fit their tile","Ready for more game portals: Playgama, GameDistribution, itch.io — play online right away, no sign-up"], ru:["Профиль теперь на весь экран и подстраивается под устройство","Колесо чата: размытый фон, как у радио, и фразы всегда помещаются в плитку","Игра готова к новым порталам: Playgama, GameDistribution, itch.io — там можно играть онлайн сразу, без регистрации"]},
  {v:"0.113.0", d:"23.11.2026", uk:["Головна стала набагато легшою: привітання, гра і чотири плитки «Сьогодні» — турнір, задача дня, шлях нардиста й завдання","Решта переїхала у свої розділи: рейтинг і друзі — у «Друзі», події та арена — у «Події», останні партії — у профіль, набір тижня — у магазин"], en:["A much lighter home: a greeting, the game and four «Today» tiles — tournament, daily puzzle, the path and quests","Everything else moved to its own section: rating and friends to Friends, events and the arena to Events, recent games to the profile, the weekly set to the shop"]},
  {v:"0.112.6", d:"23.11.2026", uk:["Логотип і монети працюють з будь-якої сторінки: з Арени, Шляху нардиста чи Досягнень вони відкривають головну й магазин"], en:["The logo and the coins work from every page: from the Arena, the Path or Achievements they open the home screen and the shop"]},
@@ -9853,7 +9853,7 @@ function miniBoard(k){ const mb=document.createElement('div'); mb.className='mb'
 function refPreview(k){ const old=$('refPv'); if(old) old.remove(); show('setOv',false); const ov=document.createElement('div'); ov.id='refPv'; ov.className='overlay refpv'; ov.onclick=e=>{ if(e.target===ov) ov.remove(); };
   const m=document.createElement('div'); m.className='modal'; const i=+k.replace('friends','')-1, n=(profile.ach&&profile.ach.refN)|0, own=refHas('board',k);
   const h2=document.createElement('h2'); h2.textContent=t('st_'+k); const sub=document.createElement('p'); sub.className='sub'; sub.textContent= REF_TIERS[i]===1 ? t('fromRef1') : t('fromRef',{n:REF_TIERS[i]}); m.append(h2,sub);
-  const pv=document.createElement('div'); pv.className='spv2'; const src=$('board'); if(src){ const bd=src.cloneNode(true); bd.removeAttribute('id'); bd.querySelectorAll('[id]').forEach(e=>e.removeAttribute('id')); bd.querySelectorAll('.tb,.ub,.dice,.die').forEach(e=>e.remove()); bd.dataset.b=k; bd.dataset.shape=BOARDS[k]&&BOARDS[k].shape||'lane';
+  const pv=document.createElement('div'); pv.className='spv2'; const src=$('board'); if(src){ const bd=src.cloneNode(true); bd.removeAttribute('id'); bd.querySelectorAll('[id]').forEach(e=>{ if(e.tagName.toLowerCase()!=='mask') e.removeAttribute('id'); }); neonIds(bd); bd.querySelectorAll('.tb,.ub,.dice,.die').forEach(e=>e.remove()); bd.dataset.b=k; bd.dataset.shape=BOARDS[k]&&BOARDS[k].shape||'lane';
     bd.querySelectorAll('.pt').forEach(pt=>pt.classList.remove('can','sel','tgt','full','last','lastTo'));
     const L={t:['w5','','','','b3','', '','b2','','','','w2'], b:['b5','','','','w3','', 'w2','','b2','','','']};
     ['top','bot'].forEach((r,ri)=>{ const pts=[...bd.querySelectorAll('.prow.'+r+' .pt')]; const lay=L[ri?'b':'t']; pts.forEach((pt,q)=>{ let st=pt.querySelector('.stack'); if(!st){ st=document.createElement('div'); st.className='stack'; pt.appendChild(st); } st.innerHTML=''; const v=lay[q]||''; if(!v) return; for(let z=0;z<+v.slice(1);z++){ const ck=document.createElement('div'); ck.className='ck '+v[0]+(z===+v.slice(1)-1?' tip':''); st.appendChild(ck); } }); });
@@ -10154,7 +10154,7 @@ async function bundleBuy(b){ const B=BUNDLES.find(x=>x[0]===b); if(!B) return fa
 const kindName=c=>t({board:'boardT',ck:'checkersT',dice:'diceT',table:'tableT',frm:'frmT',med:'medT'}[c]);
 // a real board with checkers and dice, on its table: what you see in a game
 function livePv(b,ck,dc,tb){ const src=$('board'); if(!src) return shScene(b,ck,dc,tb); const w=sH('div','shscene s2live'); if(tb && tb!=='auto'){ w.style.background=TABLE_SW[tb]; w.style.backgroundSize='cover'; }
-  const bd=src.cloneNode(true); bd.removeAttribute('id'); bd.querySelectorAll('[id]').forEach(e=>e.removeAttribute('id')); bd.querySelectorAll('.tb,.ub,.dice,.die,.sthl,#turnBanner,.tbanner,button').forEach(e=>e.remove()); bd.dataset.b=b; bd.dataset.shape=BOARDS[b]&&BOARDS[b].shape||'lane';
+  const bd=src.cloneNode(true); bd.removeAttribute('id'); bd.querySelectorAll('[id]').forEach(e=>{ if(e.tagName.toLowerCase()!=='mask') e.removeAttribute('id'); }); neonIds(bd); bd.querySelectorAll('.tb,.ub,.dice,.die,.sthl,#turnBanner,.tbanner,button').forEach(e=>e.remove()); bd.dataset.b=b; bd.dataset.shape=BOARDS[b]&&BOARDS[b].shape||'lane';
   bd.querySelectorAll('.pt').forEach(pt=>pt.classList.remove('can','sel','tgt','full','last','lastTo'));
   const L={t:['w4','','','b2','','', 'w3','','','','b3',''], b:['b4','','w2','','','b3', '','','w3','','','w3']};
   ['top','bot'].forEach((r,ri)=>{ const pts=[...bd.querySelectorAll('.prow.'+r+' .pt')]; const lay=L[ri?'b':'t']; pts.forEach((pt,q)=>{ let st=pt.querySelector('.stack'); if(!st){ st=document.createElement('div'); st.className='stack'; pt.appendChild(st); } st.innerHTML=''; const v=lay[q]||''; if(!v) return; for(let z=0;z<+v.slice(1);z++){ const c=document.createElement('div'); c.className='ck '+v[0]+(z===+v.slice(1)-1?' tip':''); st.appendChild(c); } }); });
@@ -10894,6 +10894,10 @@ function w114Lay(){ const ov=$('winOv'); const m=ov && ov.querySelector('.modal.
 setInterval(()=>{ const ov=$('winOv'); if(ov && !ov.classList.contains('hidden')) w114Lay(); }, 300);
 addEventListener('resize', ()=>{ try{ w114Lay(); }catch(e){} });
 
+
+// 0.114.1: a copied board keeps its own neon masks (the «Druzi» sign) — the copy points at them, not at the hidden board's
+var NEON_SEQ=0;
+function neonIds(root){ try{ root.querySelectorAll('svg').forEach(svg=>{ svg.querySelectorAll('mask[id]').forEach(m=>{ const old=m.id, id=old+'_c'+(NEON_SEQ=(NEON_SEQ||0)+1); m.id=id; svg.querySelectorAll('[mask]').forEach(e=>{ if(e.getAttribute('mask')==='url(#'+old+')') e.setAttribute('mask','url(#'+id+')'); }); }); }); }catch(e){} }
 </script>
 </body>
 </html>

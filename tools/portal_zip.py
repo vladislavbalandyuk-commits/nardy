@@ -5,11 +5,20 @@
 # playgama: the Playgama Bridge SDK (LGPL-3.0, unmodified) and its config sit next to index.html.
 # gd: the GameDistribution SDK with the game id from the GameDistribution dashboard.
 import os, sys, zipfile
-portal = sys.argv[1] if len(sys.argv) > 1 else 'crazygames'
-gd_id = sys.argv[2] if len(sys.argv) > 2 else 'GD_GAME_ID'
+import re, subprocess
+args = [a for a in sys.argv[1:] if not a.startswith('--')]
+lite = '--lite' in sys.argv  # pictures, fonts and sounds from the jsDelivr CDN (pinned to this commit): a zip under 4 MB
+portal = args[0] if args else 'crazygames'
+gd_id = args[1] if len(args) > 1 else 'GD_GAME_ID'
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.makedirs(os.path.join(root, 'dist'), exist_ok=True)
-out = os.path.join(root, 'dist', f'nardy-{portal}.zip')
+out = os.path.join(root, 'dist', f'nardy-{portal}' + ('-lite' if lite else '') + '.zip')
+CDN = ''
+if lite:
+    sha = subprocess.check_output(['git', '-C', root, 'rev-parse', 'HEAD'], text=True).strip()
+    CDN = f'https://cdn.jsdelivr.net/gh/vladislavbalandyuk-commits/nardy@{sha}/'
+ASSET = re.compile(r'''(["'(`])(?:\./)?((?:img|tb|arena|fonts|lib|fx|sfx|snd)/)''')
+def cdnify(txt): return ASSET.sub(lambda m: m.group(1) + CDN + m.group(2), txt) if CDN else txt
 files = ['index.html', 'av.js', 'pt.js', 'en.js', 'ru.js', 'news.js', 'skins.css', 'pages.css', 'qr.js',
          'favicon.svg', 'icon-192.png', 'icon-512.png', 'og.png']
 dirs = ['fx', 'sfx', 'snd', 'img', 'tb', 'arena', 'fonts', 'lib']
@@ -31,12 +40,14 @@ with zipfile.ZipFile(out, 'w', zipfile.ZIP_DEFLATED) as z:
         p = os.path.join(root, f)
         if not os.path.exists(p): continue
         if f == 'index.html':
-            s = open(p, encoding='utf-8').read().replace('<head>', '<head>' + head, 1)
+            s = cdnify(open(p, encoding='utf-8').read()).replace('<head>', '<head>' + head, 1)
             z.writestr(f, s)
+        elif lite and f.endswith(('.js', '.css')):
+            z.writestr(f, cdnify(open(p, encoding='utf-8').read()))
         else:
             z.write(p, f)
         n += 1
-    for d in dirs:
+    for d in ([] if lite else dirs):
         for dp, _, fs in os.walk(os.path.join(root, d)):
             rel = os.path.relpath(dp, root)
             if any(rel == k or rel.startswith(k + os.sep) for k in skip): continue
