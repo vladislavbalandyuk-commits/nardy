@@ -7263,7 +7263,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.112.5';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.112.6';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -8084,7 +8084,7 @@ function h1Extras(){ const home=$('vHome'); if(!home) return null; const box=uxH
 function h1Head(title){ const h=uxH('header','h1top'); const br=uxH('div','h1brand'); br.innerHTML='<svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="12" cy="16" r="9" fill="#f3efe7"/><circle cx="20" cy="16" r="9" fill="none" stroke="#a9dcc9" stroke-width="2.5"/></svg>'; br.appendChild(uxH('span',null,'Nardy Masters'));
   h.append(br, uxH('h1','h1title',title), uxH('div','h1sp'), h1Acts()); return h; }
 function h1Acts(){ const h=uxH('div','h1acts');
-  const cp=h1Btn('h1pill','',()=>openShopPg('show')); cp.setAttribute('aria-label',t('mnShop')); cp.appendChild(h1Coin(coinsNow())); h.appendChild(cp);
+  const cp=h1Btn('h1pill','',()=>{ try{ mnCloseAll('shop'); }catch(e){} openShopPg('show'); }); cp.setAttribute('aria-label',t('mnShop')); cp.appendChild(h1Coin(coinsNow())); h.appendChild(cp);
   const gear=h1Btn('h1icon','',()=>{ const b=$('btnSet'); if(b) b.click(); }); gear.setAttribute('aria-label',t('settingsT')); gear.title=t('settingsT'); gear.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>'; h.appendChild(gear);
   const bell=h1Btn('h1icon','',()=>{ const b=$('btnBell'); if(b) b.click(); }); bell.setAttribute('aria-label',t('bellT')); bell.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15L6 16z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>';
   { const ob=$('btnBell'); const dot=ob && ob.querySelector('.dot,.bdot,i'); if(ob && (ob.classList.contains('has')||ob.querySelector('.n,.cnt,.badge'))) bell.classList.add('has'); } h.appendChild(bell);
@@ -9522,6 +9522,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+ {v:"0.112.6", d:"23.11.2026", uk:["Логотип і монети працюють з будь-якої сторінки: з Арени, Шляху нардиста чи Досягнень вони відкривають головну й магазин"], en:["The logo and the coins work from every page: from the Arena, the Path or Achievements they open the home screen and the shop"]},
  {v:"0.112.5", d:"23.11.2026", uk:["Радіо грає з окремого сервера для файлів — сайт став легшим, і Vercel не забиває місце старими версіями"], en:["The radio streams from a separate file server — the site got lighter and old versions no longer fill Vercel storage"]},
  {v:"0.112.4", d:"23.11.2026", uk:["Адмінпанель: нова вкладка «Хто онлайн» — хто зараз на сайті, хто грає й хто шукає гру, оновлюється кожні 5 секунд"], en:["Admin panel: a new «Who is online» tab — who is on the site, playing or searching, refreshed every 5 seconds"]},
  {v:"0.112.3", d:"23.11.2026", uk:["Історія турнірів: просто «16 гравців», без підрахунку людей","Плаваючий плеєр радіо: іконка станції по центру"], en:["Tournament history: just «16 players», no head count of people","Floating radio player: the station icon is centred"]},
@@ -10739,6 +10740,9 @@ function admOnlineView(body){ let L=[]; try{ if(lobby && lobby._ready){ const st
     r.append(a,mm,st); if(m.uid && m.name){ r.title=t('admOnOpen'); r.onclick=async()=>{ admTab='players'; admQ=m.name; admRows='loading'; admRender(); try{ admRows=(await admCall('find',{q:admQ})).rows; }catch(e){ admRows=[]; } admRender(); }; } else r.disabled=true;
     list.appendChild(r); }); body.appendChild(list);
   clearTimeout(_admOnT); _admOnT=setTimeout(()=>{ if(admTab==='online' && $('admPg') && !document.hidden) admRender(); }, 5000); }
+
+// 0.112.6: pages that sit above the shop and the home (arena, the nardist's path, achievements, admin) are closed too when you go somewhere from the menu, the logo or the coins
+{ const _mc=mnCloseAll; mnCloseAll=function(except){ try{ if($('arnPg')) arnClose(); }catch(e){} try{ if($('campPg')) closeCampaign(); }catch(e){} try{ if($('achPg')) closeAch(); }catch(e){} try{ if(except!=='adm' && $('admPg')) closeAdmin(); }catch(e){} return _mc.apply(this,arguments); }; }
 </script>
 </body>
 </html>
