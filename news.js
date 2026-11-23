@@ -1,4 +1,5 @@
 window.__NEWS=[
+ {v:"0.112.2", d:"23.11.2026", uk:["Історія турнірів: на п’єдесталі замість «?» тепер імена й аватари ботів"], en:["Tournament history: the podium shows bot names and avatars instead of «?»"]},
  {v:"0.112.1", d:"22.11.2026", uk:["Новий профіль тепер відкривається з будь-якої кнопки — раніше аватар у меню відкривав стару версію"], en:["The new profile now opens from every button — the menu avatar used to open the old one"]},
  {v:"0.112.0", d:"22.11.2026", uk:["Головна як профіль: зверху фото вашого фону картки, привітання з ім’ям, рангом і кількістю партій","Картки на фото — темне скло з розмиттям; у світлій темі — світле скло","Іконки станцій радіо тепер точно по центру"], en:["Home like the profile: your card background photo on top, a greeting with your name, rank and games","Cards on the photo are dark frosted glass; light glass in the light theme","Radio station icons are now exactly centred"]},
  {v:"0.111.1", d:"22.11.2026", uk:["На радіо Nikow ще три пісні: «Тобі про тебе», «Розмова з містом» і «Допоки її не відніме»"], en:["Three more songs on the Nikow station: «Тобі про тебе», «Розмова з містом» and «Допоки її не відніме»"]},

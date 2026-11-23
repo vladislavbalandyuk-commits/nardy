@@ -5945,11 +5945,13 @@ function tourIcs(){ const E0=evNow(), sat=E0?E0.gAt:nextSat(), sun=E0?E0.pAt:sat
   try{ const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([L.join('\r\n')],{type:'text/calendar'})); a.download='nardy-tournament.ics'; document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); },800); toast(t('icsOk')); }catch(e){} }
 let THIST=null, THT=0, THbusy=false;
 async function tourHistLoad(){ if(!sb || THbusy) return THIST; if(THIST && Date.now()-THT<300000) return THIST; THbusy=true; try{ const {data}=await sb.functions.invoke('game',{body:{action:'tour_hist'}}); if(data && Array.isArray(data.list)){ THIST=data.list; THT=Date.now(); } }catch(e){} THbusy=false; return THIST; }
+// 0.112.2: bots in the history come without a name or face — take them from the same seeded list the bracket uses
+function thBot(p,E){ if(p.name && p.av) return p; const m=/^tb(\d+)_/.exec(p.id||''); if(!m && !p.bot) return p; try{ const S=m?+m[1]:(E&&E.season)|0, b=tourBots(S).find(x=>x.id===p.id); if(b) return Object.assign({},p,{name:p.name||(b.treg&&b.treg.nick)||'bot', av:p.av||b.av||''}); }catch(e){} return p; }
 function tourHistView(body,h){ if(!THIST){ body.appendChild(h('p','note',t(sb?'thLoading':'thEmpty'))); if(sb) tourHistLoad().then(()=>{ if(tourTab==='hist' && !$('tourOv').classList.contains('hidden')) renderTour(); }); return; }
   if(!THIST.length){ body.appendChild(h('p','note',t('thEmpty'))); return; }
   const L=h('div','thist'); THIST.forEach(E=>{ const c=h('div','thc'); const y=2000+(+E.id.slice(0,2)), d=new Date(Date.UTC(y, +E.id.slice(2,4)-1, +E.id.slice(4,6)));
     const hd=h('div','thhd'); hd.append(h('b',null,d.toLocaleDateString(LOC(),{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'})), h('small',null,t('thPl',{n:E.n, r:E.reals||0}))); c.appendChild(hd);
-    const pod=h('div','thpod'); (E.top||[]).forEach((p,k)=>{ if(!p) return; const r=h('div','thp'+(uid && p.id===uid?' me':'')); const a=h('span','av'); avatarInto(a,p.av,p.name); r.append(h('i',null,['🥇','🥈','🥉'][k]), a, h('b',null,p.name)); pod.appendChild(r); }); c.appendChild(pod);
+    const pod=h('div','thpod'); (E.top||[]).forEach((p,k)=>{ if(!p) return; p=thBot(p,E); const r=h('div','thp'+(uid && p.id===uid?' me':'')); const a=h('span','av'); avatarInto(a,p.av,p.name); r.append(h('i',null,['🥇','🥈','🥉'][k]), a, h('b',null,p.name)); pod.appendChild(r); }); c.appendChild(pod);
     const my=uid && E.pl ? E.pl[uid] : 0; if(my) c.appendChild(h('div','thme',t('tourYouPlace',{n:my})));
     L.appendChild(c); }); body.appendChild(L); }
 // ================= 0.76: blitz and matches to 3, 5 and 7 points against the bots =================
@@ -7252,7 +7254,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.112.1';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.112.2';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -9511,6 +9513,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+ {v:"0.112.2", d:"23.11.2026", uk:["Історія турнірів: на п’єдесталі замість «?» тепер імена й аватари ботів"], en:["Tournament history: the podium shows bot names and avatars instead of «?»"]},
  {v:"0.112.1", d:"22.11.2026", uk:["Новий профіль тепер відкривається з будь-якої кнопки — раніше аватар у меню відкривав стару версію"], en:["The new profile now opens from every button — the menu avatar used to open the old one"]},
  {v:"0.112.0", d:"22.11.2026", uk:["Головна як профіль: зверху фото вашого фону картки, привітання з ім’ям, рангом і кількістю партій","Картки на фото — темне скло з розмиттям; у світлій темі — світле скло","Іконки станцій радіо тепер точно по центру"], en:["Home like the profile: your card background photo on top, a greeting with your name, rank and games","Cards on the photo are dark frosted glass; light glass in the light theme","Radio station icons are now exactly centred"]},
  {v:"0.111.1", d:"22.11.2026", uk:["На радіо Nikow ще три пісні: «Тобі про тебе», «Розмова з містом» і «Допоки її не відніме»"], en:["Three more songs on the Nikow station: «Тобі про тебе», «Розмова з містом» and «Допоки її не відніме»"]},
