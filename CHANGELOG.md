@@ -3,6 +3,10 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.114.3 — 23.11.2026
+- Profile showcase: a board item is the real board preview (livePv) fitted by width and height (shwFit), point numbers hidden.
+- «Interesting numbers»: tournaments count reads an array or {n}.
+
 ## 0.114.2 — 23.11.2026
 - Fix: board copies (home, shop, showcase) lost their neon mask ids, so the «Druzi» sign pointed at the hidden board and did not render (neonIds).
 - Floating radio: the title opens the stations; a station icon instead of «⇄».

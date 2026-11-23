@@ -3629,6 +3629,13 @@ body:not(.dark) .h1tlb{color:#fff;background:color-mix(in srgb,var(--tc) 60%,#1d
 
 /* 0.114.1: the floating radio — the title opens the stations too */
 #radPill .tx{cursor:pointer;border-radius:8px} #radPill .tx:hover b{text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(255,255,255,.35)} #radPill .rst{display:grid;place-items:center}
+/* 0.114.2: a board in the showcase */
+.shw-it>.shscene.shwlive{width:100%!important;aspect-ratio:2/1;height:auto!important;margin:0!important;border-radius:0!important;padding:7px;box-sizing:border-box;display:flex;align-items:center;justify-content:center;overflow:hidden;pointer-events:none;background:radial-gradient(120% 90% at 50% 40%,rgba(255,255,255,.05),rgba(0,0,0,.15))}
+.shw-it>.shwlive .spvIn{position:relative;display:flex;justify-content:center}
+.shw-it>.shwlive .num{display:none!important}
+.shw-it>.shwlive .board{box-shadow:0 10px 22px -12px rgba(0,0,0,.8)!important;margin:0!important}
+.shw-it>.shwlive .s2dd{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);gap:5px;filter:drop-shadow(0 6px 10px rgba(0,0,0,.5))}
+.shw-it>.shwlive .s2dd .die{width:var(--dcs,20px)!important;height:var(--dcs,20px)!important}
 </style>
 <style>/* 0.38: home — one big «Play», three «Today» tiles */
 .h38modes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
@@ -7324,7 +7331,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.114.2';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.114.3';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -7834,6 +7841,7 @@ function showItemEl(id){ const [c,k]=id.split(':'); const w=uxH('div','shw-it');
   if(c==='pt'||c==='av'){ const a=uxH('span','av'); avatarInto(a,k,'?'); w.append(a, shwCap(c==='pt'?t('cpPortrait'):t('av_'+k), t('avKind'))); return w; }
   if(c==='card'){ const cd=CARDS.find(x=>x.k===k); const im=uxH('div','cp-card'); if(cd&&cd.img) im.style.backgroundImage='url("'+CARD_U(cd.img,360)+'")'; w.append(im, shwCap(t('card_'+k), t('cardT'))); return w; }
   if(c==='fx'){ const f=uxH('div','fxth',FX_ICON[k]); f.style.setProperty('--fxc',FX_TINT[k]); w.append(f, shwCap(t('fx_'+k),'')); return w; }
+  if(c==='board' && $('board')){ try{ const pv=livePv(k, prefs.ck||'classic', prefs.dice||'classic'); pv.classList.add('shwlive'); shwFit(pv); w.classList.add('k-board'); w.append(pv, shwCap(shName(c,k), kindName(c)||'')); return w; }catch(e){} }
   try{ const th=shThumb(c,k); if(c==='table'){ th.style.background=TABLE_SW[k]||''; } w.classList.add('k-'+c); w.append(th, shwCap(shName(c,k), kindName(c)||'')); }catch(e){ w.append(uxH('span',null,id)); } return w; }
 function showOptions(){ const A=profile.ach||{}; const L=(A.owned||[]).filter(id=>/^(board|ck|dice|table|card|fx|pt):/.test(id)); if((A.camp|0)>=9) L.unshift('badge:camp'); if(A.tester) L.unshift('badge:tester'); return [...new Set(L)]; }
 
@@ -8752,7 +8760,7 @@ function pfForm(h){ const b=h('div','blk pfform'); const G=myGames().slice(-20);
   else b.appendChild(h('p','plnone',t('pfNoGames')));
   return b; }
 function pfFacts(h){ const c=(profile.ach&&profile.ach.c)||{}; const b=h('div','blk'); b.appendChild(h('h3',null,t('pfFactsT'))); const g=h('div','pffacts');
-  [['flame',c.bestStreak||0,t('pfF_streak')],['flag',c.mars||0,t('pfF_mars')],['repeat',c.comeback||0,t('pfF_comeback')],['swords',c.giant||0,t('pfF_giant')],['star',Math.max(myPeak(), profile.rating||RANK0),t('pfF_peak')],['trophy',(v=>Array.isArray(v)?v.length:(+v||0))(profile.ach&&profile.ach.tp),t('pfF_tours')]]
+  [['flame',c.bestStreak||0,t('pfF_streak')],['flag',c.mars||0,t('pfF_mars')],['repeat',c.comeback||0,t('pfF_comeback')],['swords',c.giant||0,t('pfF_giant')],['star',Math.max(myPeak(), profile.rating||RANK0),t('pfF_peak')],['trophy',(v=>Array.isArray(v)?v.length:v&&typeof v==='object'?(v.n|0):(+v||0))(profile.ach&&profile.ach.tp),t('pfF_tours')]]
     .forEach(([ic,v,l])=>{ const d=h('div','pff'); const lb=h('small'); lb.innerHTML=lico(ic); lb.appendChild(document.createTextNode(l)); d.append(h('b',null,Number(v).toLocaleString('uk-UA')), lb); g.appendChild(d); }); b.appendChild(g); return b; }
 function pfActivity(h){ const gd=(profile.ach&&Array.isArray(profile.ach.gd))?profile.ach.gd:[]; const M={}; gd.forEach(x=>M[x.d]=(x.h||0)+(x.b||0));
   const b=h('div','blk'); const hd=h('h3',null,t('pfActT')); const grid=h('div','pfact'); const today=kyivDay(); const td=new Date(today+'T12:00:00Z'); const dow=(td.getUTCDay()+6)%7;   // Monday first
@@ -9583,7 +9591,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
-{v:"0.114.2", d:"23.11.2026", uk:["Вікно кінця партії тепер на весь екран: на широкому — дві колонки","Дошка «Друзі»: на мініатюрах знову видно неоновий напис","Радіо: натисніть на назву пісні в плеєрі — відкриється вибір станцій","Графік шансів більше не падає до 0% в кінці виграної партії"], en:["The game-over window now fills the screen: two columns on wide screens","«Druzi» board: the neon sign shows on previews again","Radio: tap the song title in the player to pick a station","The chances chart no longer drops to 0% at the end of a won game"], ru:["Окно конца партии теперь на весь экран: на широком — две колонки","Доска «Друзья»: на миниатюрах снова виден неоновый знак","Радио: нажмите на название песни в плеере — откроется выбор станций","График шансов больше не падает до 0% в конце выигранной партии"]},
+{v:"0.114.3", d:"23.11.2026", uk:["Вікно кінця партії тепер на весь екран: на широкому — дві колонки","Дошка «Друзі»: на мініатюрах знову видно неоновий напис","Вітрина в профілі: дошки показуються справжньою мініатюрою з шашками, а не темною смугою","Радіо: натисніть на назву пісні в плеєрі — відкриється вибір станцій","Графік шансів більше не падає до 0% в кінці виграної партії"], en:["The game-over window now fills the screen: two columns on wide screens","«Druzi» board: the neon sign shows on previews again","Profile showcase: boards show as a real preview with checkers, not a dark strip","Radio: tap the song title in the player to pick a station","The chances chart no longer drops to 0% at the end of a won game"], ru:["Окно конца партии теперь на весь экран: на широком — две колонки","Доска «Друзья»: на миниатюрах снова виден неоновый знак","Витрина в профиле: доски показываются настоящей миниатюрой с шашками, а не тёмной полосой","Радио: нажмите на название песни в плеере — откроется выбор станций","График шансов больше не падает до 0% в конце выигранной партии"]},
 {v:"0.114.0", d:"23.11.2026", uk:["Профіль тепер на весь екран і підлаштовується під пристрій","Колесо чату: розмитий фон, як у радіо, і фрази завжди вміщаються в плитку","Гра готова до нових порталів: Playgama, GameDistribution, itch.io — там можна грати онлайн одразу, без реєстрації"], en:["The profile now fills the screen and fits any device","Chat wheel: a blurred backdrop like the radio, and phrases always fit their tile","Ready for more game portals: Playgama, GameDistribution, itch.io — play online right away, no sign-up"], ru:["Профиль теперь на весь экран и подстраивается под устройство","Колесо чата: размытый фон, как у радио, и фразы всегда помещаются в плитку","Игра готова к новым порталам: Playgama, GameDistribution, itch.io — там можно играть онлайн сразу, без регистрации"]},
  {v:"0.113.0", d:"23.11.2026", uk:["Головна стала набагато легшою: привітання, гра і чотири плитки «Сьогодні» — турнір, задача дня, шлях нардиста й завдання","Решта переїхала у свої розділи: рейтинг і друзі — у «Друзі», події та арена — у «Події», останні партії — у профіль, набір тижня — у магазин"], en:["A much lighter home: a greeting, the game and four «Today» tiles — tournament, daily puzzle, the path and quests","Everything else moved to its own section: rating and friends to Friends, events and the arena to Events, recent games to the profile, the weekly set to the shop"]},
  {v:"0.112.6", d:"23.11.2026", uk:["Логотип і монети працюють з будь-якої сторінки: з Арени, Шляху нардиста чи Досягнень вони відкривають головну й магазин"], en:["The logo and the coins work from every page: from the Arena, the Path or Achievements they open the home screen and the shop"]},
@@ -10898,6 +10906,14 @@ addEventListener('resize', ()=>{ try{ w114Lay(); }catch(e){} });
 // 0.114.1: a copied board keeps its own neon masks (the «Druzi» sign) — the copy points at them, not at the hidden board's
 var NEON_SEQ=0;
 function neonIds(root){ try{ root.querySelectorAll('svg').forEach(svg=>{ svg.querySelectorAll('mask[id]').forEach(m=>{ const old=m.id, id=old+'_c'+(NEON_SEQ=(NEON_SEQ||0)+1); m.id=id; svg.querySelectorAll('[mask]').forEach(e=>{ if(e.getAttribute('mask')==='url(#'+old+')') e.setAttribute('mask','url(#'+id+')'); }); }); }); }catch(e){} }
+
+// 0.114.2: a board in the showcase — the real board picture fitted into the card by width and height
+function shwFit(pv){ const go=()=>{ const inn=pv.querySelector('.spvIn'), bd=inn&&inn.querySelector('.board'); const W=pv.clientWidth, H=pv.clientHeight; if(!W||!H||!bd){ requestAnimationFrame(go); return; }
+    const m=v=>{ inn.style.setProperty('--cs',v+'px'); return [bd.offsetWidth, bd.offsetHeight]; }; const [w1,h1]=m(10), [w2,h2]=m(20);
+    const bw=Math.max(.1,(w2-w1)/10), bh=Math.max(.1,(h2-h1)/10), aw=w1-10*bw, ah=h1-10*bh;
+    const cs=Math.max(4, Math.min((W-12-aw)/bw, (H-10-ah)/bh));
+    inn.style.setProperty('--cs', cs.toFixed(2)+'px'); inn.style.setProperty('--dcs', (cs*1.1).toFixed(2)+'px'); };
+  requestAnimationFrame(go); try{ new ResizeObserver(()=>go()).observe(pv); }catch(e){} }
 </script>
 </body>
 </html>
