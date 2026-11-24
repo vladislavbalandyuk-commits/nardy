@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.127.0 — 24.11.2026
+- `?ui2`: the shop showcase — the week set on its table photo, the exclusive table as one photo, a red offer stamp, sticky shelves (scroll-spy), display-case cards with a rarity edge and a pedestal.
+
 ## 0.126.0 — 24.11.2026
 - A test look behind `?ui2` (remembered; `?ui2=0` turns it off): the table photo as the home stage with checker-chips for modes, four halls, a HUD (level ring, streak, rewards; gear and bell in the avatar menu), a dock (104 px strip / bottom dock with a raised Play), ring and path progress, Unbounded headings (OFL), felt and wood materials.
 
