@@ -3,6 +3,11 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.120.0 — 24.11.2026
+- Christmas in the shop: tables xm1 «Holiday shop window» (e), xm2 «Blue window» (e), xm3 «Gingerbread cabin» (c) from Freepik photos (credited); each table also unlocks the card background of the same photo (CARDS own:).
+- Checkers xorn (e), xsnow (r), xholly (r); dice xfrost (r), xribbon (c), xpine (e) — CSS only.
+- Avatar pack «xmas» pt62–pt66 (1500) and voice pack «xmas» (1000): xbells, xmbox (an original tune), xcrack, xfire, xgift — synthesised in syn120. Server SHOP_R, PT_PACKS, PH_PACKS updated.
+
 ## 0.119.0 — 24.11.2026
 - Search as a duel screen (#mm119): full screen over a blurred home; your card vs an opponent card shuffling players of your level (160 ms), a ring timer with the online count, the widening rating range, one rotating tip, Cancel / Play a bot while I wait, Esc cancels. A found ghost is shown on the card for 1.2 s («Opponent found!») before the game. The old side panel stays underneath as the engine.
 
