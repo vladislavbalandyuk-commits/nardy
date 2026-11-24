@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.115.1 — 24.11.2026
+- Shown online: 10…200; hourly bands scaled by the day of the week (weekdays ~0.6–0.68, Friday evening 0.93, Saturday 1, Sunday 0.92 / 0.74 late) and a ±9% mood of the day.
+
 ## 0.115.0 — 23.11.2026
 - Tournament hall (tov115): full screen; hero with one ticking clock (to draw / start / play-off) and a 5-stage stepper; prize pool and seats in the hero; the crowded stat strip removed; labelled share/calendar; prize podium; seats grid (16, free ones dashed); opens on Participants before the draw.
 
