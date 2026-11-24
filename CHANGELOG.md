@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.123.0 — 24.11.2026
+- Review: move-by-move analysis with `pzOutcomes` (accuracy ring, up to 3 turns with a better play, yours/better on `rpBoardSvg`), computed in 24 ms slices.
+
 ## 0.122.0 — 24.11.2026
 - Bot styles on the server (`BOTS.sty`): Ostap `run`, Taras `wall`, new Lida `safe`; new Professor plays `botPathPro` level 1. Each bot has its own lines (BV) for hello, doubles, no moves, ahead/behind, the end.
 
