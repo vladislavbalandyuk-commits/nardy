@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.129.0 — 24.11.2026
+- Materials for 13 plain boards (modern, midnight, sage, ocean, mint, slate, lavender, contrast, linen, pistachio, sultan, khan, carbon): textured fields, bevelled frames with an inner line, shaded points; midnight points silver instead of amber.
+
 ## 0.128.0 — 24.11.2026
 - The new look is the default (`?ui2=0` keeps the old one); the test pill is gone.
 - Performance: no backdrop blur, a static PNG noise instead of SVG turbulence, no fixed backgrounds or photo filters; shop scroll frame p50 76 → 29 ms at 4× CPU throttle.
