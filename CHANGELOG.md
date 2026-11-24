@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.130.0 — 24.11.2026
+- Cases (new look): a shelf of CSS chests, the selected case with its contents by rarity beside it (no separate «inside» sheet); the opening is a shaking chest whose seam light climbs c→r→e→l up to the prize, then the lid flies off (tap skips). Old reel kept for `?ui2=0`.
+
 ## 0.129.1 — 24.11.2026
 - `#arnPg`, `#campPg`, `#achPg` start at `--sbw` on wide screens (the side menu covered their left part, the arena title read «на»).
 
