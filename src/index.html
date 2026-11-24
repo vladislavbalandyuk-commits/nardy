@@ -4397,6 +4397,114 @@ html body.ui2.h1on #mNav .mn-rcv .mn-rpp{animation:inherit;animation-direction:r
 @keyframes u3rise{from{transform:translateY(40px) scale(.9);opacity:0}}
 .u3ov:has(.u3res) .u3chest.big{width:150px;height:125px;margin-bottom:-10px;transition:width .4s,height .4s}
 
+/* 0.131: part II — the map, the scenes, the challenges */
+#c2Pg{position:fixed;inset:0;z-index:40;overflow-y:auto;background:radial-gradient(120% 70% at 50% -10%,#1c2a44 0%,#0c111c 55%,#07090e 100%);color:#eef0f4;-webkit-overflow-scrolling:touch}
+#c2Pg::before{content:"";position:fixed;inset:0;pointer-events:none;background-image:radial-gradient(1px 1px at 12% 18%,#fff8,transparent),radial-gradient(1px 1px at 72% 9%,#fff6,transparent),radial-gradient(1.5px 1.5px at 40% 30%,#fff5,transparent),radial-gradient(1px 1px at 86% 42%,#fff5,transparent),radial-gradient(1px 1px at 22% 60%,#fff4,transparent),radial-gradient(1px 1px at 60% 75%,#fff3,transparent);opacity:.8}
+body.h1on #c2Pg{left:var(--sbw,0)}
+@media (max-width:860px) and (orientation:portrait){ body.h1on #c2Pg{left:0} }
+.c2w{position:relative;max-width:720px;margin:0 auto;padding:18px 16px 120px}
+.c2top{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+.c2back{width:42px;height:42px;border-radius:14px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);color:#fff;font-size:26px;line-height:1;cursor:pointer;flex:none}
+.c2ttl{flex:1;min-width:0}.c2ttl small{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#c48c78}
+.c2ttl h1{margin:2px 0 0;font:700 clamp(22px,5vw,32px)/1.1 'Unbounded',system-ui,sans-serif;letter-spacing:-.01em}
+.c2cw{display:flex;flex-direction:column;align-items:center;gap:4px;flex:none}.c2cw small{font-size:10px;color:#9aa3b5;max-width:70px;text-align:center;line-height:1.2}
+.c2cand{position:relative;width:34px;height:52px}
+.c2cand .wax{position:absolute;left:9px;right:9px;bottom:0;height:26px;border-radius:4px 4px 6px 6px;background:linear-gradient(90deg,#e9e3da,#fffaf2 40%,#cfc6ba)}
+.c2cand .fl{position:absolute;left:0;right:0;bottom:24px;height:26px;display:flex;justify-content:center;gap:2px}
+.c2cand .fl i{width:9px;height:20px;border-radius:50% 50% 45% 45%/62% 62% 38% 38%;background:radial-gradient(60% 70% at 50% 70%,#fff 0 22%,var(--fc,#f08f6e) 55%,transparent 72%);filter:blur(.3px);animation:c2fl 1.6s ease-in-out infinite;transform-origin:50% 100%;box-shadow:0 0 14px var(--fc,#f08f6e)}
+.c2cand .fl i.b{animation-delay:-.7s;height:16px;align-self:flex-end}
+.c2cand.one .fl i.b{display:none}
+.c2cand.warm{--fc:#ff7a52}.c2cand.cold{--fc:#6fa8ff}
+@keyframes c2fl{0%,100%{transform:scaleY(1) rotate(-2deg)}50%{transform:scaleY(1.12) rotate(2deg)}}
+.c2lock{padding:16px 18px;border-radius:18px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);color:#c9cfdb;margin-bottom:16px;text-align:center}
+.c2road{position:relative;display:flex;flex-direction:column;gap:12px}
+.c2road::before{content:"";position:absolute;left:46px;top:30px;bottom:30px;border-left:2px dashed rgba(196,140,120,.35)}
+.c2card{position:relative;display:flex;align-items:center;gap:14px;width:100%;padding:12px 14px 12px 12px;border-radius:20px;border:1px solid rgba(255,255,255,.1);background:linear-gradient(100deg,rgba(15,20,32,.92) 40%,rgba(15,20,32,.55)),var(--ph) center/cover;color:inherit;text-align:left;cursor:pointer;transition:transform .18s,border-color .18s}
+.c2card:hover{transform:translateY(-2px);border-color:rgba(196,140,120,.5)}
+.c2card .ph{flex:none;width:68px;height:68px;border-radius:16px;background:var(--ph) center/cover;box-shadow:0 0 0 3px #0c111c,0 0 0 4px rgba(196,140,120,.45)}
+.c2card .tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.c2card .tx small{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#9aa3b5}
+.c2card .tx b{font:700 18px/1.15 'Unbounded',system-ui,sans-serif}
+.c2card .bs{display:flex;align-items:center;gap:8px;margin-top:3px}.c2card .bs .av{width:24px;height:24px;flex:none}.c2card .bs em{font-style:normal;font-size:12.5px;color:#c9cfdb;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.c2card .sd{display:flex;gap:5px;margin-top:5px}.c2card .sd i{width:22px;height:5px;border-radius:3px;background:rgba(255,255,255,.14)}.c2card .sd i.ok{background:#3fd39a}.c2card .sd i.now{background:#c48c78;box-shadow:0 0 8px rgba(196,140,120,.8)}
+.c2card .go{flex:none;padding:10px 14px;border-radius:999px;background:#3fd39a;color:#06130d;font-weight:800;font-size:14px}
+.c2card .tag.lk{display:grid;place-items:center;width:34px;height:34px;padding:0}.c2card .tag.lk svg{width:16px;height:16px}
+.c2card .tag{flex:none;font-size:12px;font-weight:700;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.08);color:#c9cfdb}.c2card .tag.ok{background:rgba(63,211,154,.16);color:#3fd39a}
+.c2card.soon,.c2card.lock{filter:saturate(.25);opacity:.62}.c2card.soon .ph,.c2card.lock .ph{filter:blur(1px) brightness(.7)}
+.c2card.cur{border-color:rgba(63,211,154,.45);box-shadow:0 10px 30px rgba(0,0,0,.35),0 0 0 1px rgba(63,211,154,.2)}
+.c2rp{display:flex;gap:8px;flex-wrap:wrap;margin:-4px 0 4px 94px}
+.c2scn{padding:6px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.04);color:#c9cfdb;font-size:12.5px;cursor:pointer}
+.c2next{margin-top:22px;text-align:center;font:600 14px/1.4 'Unbounded',system-ui,sans-serif;color:#c48c78;letter-spacing:.02em}
+/* the entry card on part one's page */
+.c2entry{position:relative;display:flex;align-items:center;gap:14px;width:100%;margin:4px 0 16px;padding:14px 16px;border-radius:20px;border:1px solid rgba(196,140,120,.45);background:linear-gradient(100deg,rgba(14,19,32,.95) 45%,rgba(14,19,32,.5)),var(--ph) center/cover;color:#eef0f4;text-align:left;cursor:pointer;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+.c2entry .tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}.c2entry small{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#c48c78}.c2entry b{font:700 19px/1.15 'Unbounded',system-ui,sans-serif}.c2entry em{font-style:normal;font-size:13px;color:#aeb6c6}
+.c2entry .go{flex:none;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:#3fd39a;color:#06130d;font-weight:900}
+.c2entry.locked{filter:saturate(.4)}.c2entry.locked .go{background:rgba(255,255,255,.12);color:#fff}
+/* the scene */
+.c2vn{position:fixed;inset:0;z-index:120;display:flex;flex-direction:column;background:linear-gradient(180deg,rgba(6,8,14,.55),rgba(6,8,14,.15) 35%,rgba(6,8,14,.85) 78%),var(--bg) center/cover #07090e;color:#f2f3f6;cursor:pointer;animation:c2in .35s ease;user-select:none;-webkit-user-select:none}
+.c2vn.out{animation:c2out .26s ease forwards}
+@keyframes c2in{from{opacity:0}to{opacity:1}}@keyframes c2out{to{opacity:0}}
+.c2vn::after{content:"";position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 160px rgba(0,0,0,.75)}
+.c2vn.w-N::before{content:"";position:absolute;inset:0;background:rgba(5,7,12,.35);pointer-events:none;transition:background .4s}
+.c2vn-top{position:relative;z-index:2;display:flex;gap:12px;justify-content:space-between;align-items:center;padding:max(14px,env(safe-area-inset-top)) 18px 0;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#d7dbe4}
+.c2vn-skip{border:1px solid rgba(255,255,255,.22);background:rgba(0,0,0,.3);color:#fff;border-radius:999px;padding:7px 14px;font-size:12px;letter-spacing:.06em;cursor:pointer;white-space:nowrap;flex:none}
+.c2vn-stg{position:relative;flex:1;display:flex;align-items:flex-end;justify-content:space-between;padding:0 6vw;max-width:1100px;width:100%;margin:0 auto;box-sizing:border-box}
+.c2p{position:relative;width:min(34vh,38vw,300px);aspect-ratio:1;margin-bottom:-6px;transition:filter .3s,transform .3s,opacity .3s;z-index:1}
+.c2p .av{display:block;width:100%;height:100%;border-radius:50%;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.6),0 0 0 2px rgba(255,255,255,.12)}
+.c2p .av>*{width:100%!important;height:100%!important}
+.c2p .ring{position:absolute;inset:-7px;border-radius:50%;border:2px solid transparent;transition:border-color .3s}
+.c2p:not(.dim) .ring{border-color:rgba(196,140,120,.7)}
+.c2p.off{visibility:hidden}
+.c2p.dim{filter:brightness(.42) saturate(.5);transform:scale(.92) translateY(10px)}
+.c2p.pop{animation:c2pop .4s cubic-bezier(.3,1.6,.5,1)}
+@keyframes c2pop{from{transform:translateY(24px) scale(.9);opacity:.3}to{transform:none;opacity:1}}
+.c2p[data-m=w]:not(.dim){animation:c2hop .5s ease}
+.c2p[data-m=a]:not(.dim){animation:c2shake .45s ease}
+.c2p[data-m=l]:not(.dim) .av{filter:saturate(.7) brightness(.9) hue-rotate(-8deg)}
+@keyframes c2hop{40%{transform:translateY(-12px)}}
+@keyframes c2shake{20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
+.c2vn.phone .c2p.l:not(.dim) .av{filter:grayscale(.3) contrast(1.05);box-shadow:0 20px 50px rgba(0,0,0,.6),0 0 0 2px rgba(111,168,255,.6),0 0 30px rgba(111,168,255,.35)}
+.c2vn.phone .c2p.l:not(.dim)::after{content:"📞";position:absolute;right:-8px;top:-8px;width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:#1c2a44;font-size:20px;box-shadow:0 4px 14px rgba(0,0,0,.5)}
+.c2vn.fake .c2p.l:not(.dim) .av{animation:c2gl .3s steps(2) infinite}
+@keyframes c2gl{0%{transform:translate(0)}50%{transform:translate(2px,-1px);filter:hue-rotate(40deg) contrast(1.4)}}
+.c2vn-box{position:relative;z-index:2;margin:0 auto max(16px,env(safe-area-inset-bottom));width:min(860px,calc(100% - 24px));box-sizing:border-box;padding:18px 22px 16px;border-radius:22px;background:rgba(10,13,22,.88);border:1px solid rgba(255,255,255,.12);box-shadow:0 20px 60px rgba(0,0,0,.55);min-height:132px}
+.c2vn-box.nar{background:rgba(10,13,22,.7);text-align:center}
+.c2vn-box.nar p{font-style:italic;color:#d7dbe4}
+.c2who{display:inline-block;margin:-34px 0 8px;padding:6px 14px;border-radius:12px;background:#c48c78;color:#1a0f0b;font:700 13px/1 'Unbounded',system-ui,sans-serif;letter-spacing:.02em}
+.c2who:empty{display:none}
+.c2who[data-w=P]{background:#3fd39a;color:#06130d}.c2who[data-w=V],.c2who[data-w=Q]{background:#6fa8ff;color:#08142b}.c2who[data-w=X]{background:#8e7cc3;color:#120b26}.c2who[data-w=U]{background:#eef0f4;color:#111}.c2who[data-w=M]{background:#e07a9a;color:#2a0b16}
+.c2vn-box p{margin:0;font-size:clamp(16px,2.2vw,19px);line-height:1.5;min-height:3em;white-space:pre-wrap}
+.c2hint{display:block;margin-top:8px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#7f889a;text-align:right;animation:c2blink 1.6s ease-in-out infinite}
+@keyframes c2blink{50%{opacity:.35}}
+.c2chs{display:flex;flex-direction:column;gap:10px}.c2chs:empty{display:none}
+.c2ch{display:flex;align-items:center;gap:12px;width:100%;padding:14px 16px;border-radius:16px;border:1px solid rgba(196,140,120,.5);background:linear-gradient(90deg,rgba(196,140,120,.18),rgba(196,140,120,.04));color:#fff;font-size:16px;text-align:left;cursor:pointer;animation:c2up .35s ease both;transition:transform .15s,background .15s}
+.c2ch:nth-child(2){animation-delay:.08s}.c2ch:hover{transform:translateX(4px);background:linear-gradient(90deg,rgba(196,140,120,.32),rgba(196,140,120,.08))}
+.c2ch i{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#c48c78;color:#1a0f0b;font-style:normal;font-weight:800;font-size:13px}
+@keyframes c2up{from{opacity:0;transform:translateY(10px)}}
+@media (max-width:600px){ .c2vn-stg{padding:0 10px} .c2p{width:44vw} .c2p.off{visibility:hidden}
+.c2p.dim{opacity:.0;transform:scale(.8)} .c2vn-box{padding:16px 16px 14px} }
+/* challenges */
+.c2q{max-width:560px}.c2q h2{margin:4px 0 6px}.c2qd{margin:0 0 12px;color:var(--mut,#9aa3b5);font-size:14px}
+.c2qb{border-radius:16px;overflow:hidden;background:#1d1611;padding:6px;margin-bottom:12px}.c2qb svg{display:block;width:100%;height:auto}
+.c2qb.carved{background:repeating-linear-gradient(95deg,#5a3a24 0 6px,#4e3220 6px 11px);box-shadow:inset 0 2px 10px rgba(0,0,0,.6)}.c2qb.carved svg{filter:sepia(.55) contrast(1.05) brightness(.92)}
+.c2qo{display:flex;flex-direction:column;gap:8px}
+.c2opt{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.04);color:inherit;text-align:left;cursor:pointer;flex-wrap:wrap}
+.c2opt i{flex:none;width:26px;height:26px;border-radius:8px;display:grid;place-items:center;background:rgba(255,255,255,.1);font-style:normal;font-weight:800}
+.c2opt b{font-variant-numeric:tabular-nums;letter-spacing:.02em}.c2opt small{width:100%;padding-left:38px;color:#3fd39a;font-size:12px}
+.c2opt.bad{border-color:rgba(255,94,94,.5);opacity:.55;animation:c2shake .4s}.c2opt.good{border-color:#3fd39a;background:rgba(63,211,154,.14)}
+.c2says{margin:0 0 10px;padding:10px 12px;border-radius:12px;background:rgba(111,168,255,.12);color:#bcd3ff;font-size:13.5px}
+.c2qf{min-height:1.4em;margin:10px 0 6px;font-weight:600}.c2q .cta{width:100%;margin-top:6px}
+.c2rec{display:flex;flex-direction:column;gap:5px;max-height:46vh;overflow-y:auto;padding-right:2px}
+.c2row{display:grid;grid-template-columns:28px 104px auto 1fr;align-items:center;gap:8px;padding:8px 10px;border-radius:12px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03);color:inherit;text-align:left;cursor:pointer;font-size:13px}
+.c2row em{font-style:normal;color:#7f889a;font-variant-numeric:tabular-nums}.c2row b{font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.c2row.b b{color:#e07a9a}
+.c2row .dd{display:flex;gap:3px}.c2row .die{width:20px;height:20px;border-radius:5px;display:grid;place-items:center;background:#f1ebdf;color:#1b1b20;font-style:normal;font-weight:800;font-size:12px}
+.c2row.b .die{background:#1d1d24;color:#f1ebdf;border:1px solid #55556a}
+.c2row .mv{font-variant-numeric:tabular-nums;color:#c9cfdb;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.c2row.bad{opacity:.45;border-color:rgba(255,94,94,.45)}.c2row.good{border-color:#3fd39a;background:rgba(63,211,154,.14)}.c2row.hint{box-shadow:0 0 0 2px rgba(111,168,255,.7)}
+.c2hintb{display:flex;align-items:center;gap:10px;margin-top:10px;padding:8px 14px 8px 8px;border-radius:999px;border:1px solid rgba(111,168,255,.4);background:rgba(111,168,255,.1);color:#bcd3ff;cursor:pointer;font-weight:600}.c2hintb .av{width:28px;height:28px}.c2hintb:disabled{opacity:.5}
+@media (max-width:480px){ .c2row{grid-template-columns:24px 82px auto 1fr;font-size:12px} }
+.c2endm{text-align:center}.c2endm>.av{display:block;width:96px;height:96px;margin:4px auto 10px}.c2endb{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+
 </style>
 <style>/* 0.38: home — one big «Play», three «Today» tiles */
 .h38modes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
@@ -8113,7 +8221,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.130.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.131.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -10374,6 +10482,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+{v:"0.131.0", d:"24.11.2026", uk:["«Шлях нардиста II — Спадок Майстра»: нова історія після першої частини. Вхід — зі сторінки кампанії","Сцени як у візуальній новелі: портрети з емоціями, у кожного персонажа свій голос, звуки місця. Влад цього разу допомагає — дзвонить, підказує, сидить за сусіднім столиком","Наприкінці кожної глави — вибір із двох відповідей. Він змінює сцени далі, а свічка на мапі показує, яким шляхом ви йдете","Нові випробування: шифр у дошці, детектив у записі партії, рятунок партії Паші, тандем. Боси грають із фішками арени","Відкрито глави 1–4: Вінниця, Львів, Карпати, Кам’янець. Далі буде"], en:["“The Way of the Nardy Player II — The Master’s Legacy”: a new story after part one. Enter from the campaign page","Visual-novel scenes: portraits with moods, a voice for every character, the sounds of the place. This time Vlad helps — he calls, hints, sits at the next table","Each chapter ends with a choice of two answers. It changes later scenes, and a candle on the map shows which way you are going","New challenges: a cipher in the board, a detective in a game record, saving Pasha’s game, a tandem. Bosses play with arena twists","Chapters 1–4 are open: Vinnytsia, Lviv, the Carpathians, Kamianets. To be continued"], ru:["«Путь нардиста II — Наследие Мастера»: новая история после первой части. Вход — со страницы кампании","Сцены как в визуальной новелле: портреты с эмоциями, у каждого персонажа свой голос, звуки места. Влад в этот раз помогает — звонит, подсказывает, сидит за соседним столиком","В конце каждой главы — выбор из двух ответов. Он меняет дальнейшие сцены, а свеча на карте показывает, каким путём вы идёте","Новые испытания: шифр в доске, детектив в записи партии, спасение партии Паши, тандем. Боссы играют с фишками арены","Открыты главы 1–4: Винница, Львов, Карпаты, Каменец. Продолжение следует"]},
 {v:"0.130.0", d:"24.11.2026", uk:["Кейси — тепер скрині: обираєте скриню на полиці, а все, що в ній, видно одразу поруч","Відкриття: скриня труситься, світло в щілинах росте від звичайного до вашої рідкості — і кришка злітає. Торкніться, щоб відкрити одразу"], en:["Cases are now chests: pick one on the shelf and see everything inside right next to it","Opening: the chest shakes, the light in its seams climbs up to your rarity, and the lid flies off. Tap to open at once"], ru:["Кейсы — теперь сундуки: выбираете сундук на полке, а всё, что внутри, видно сразу рядом","Открытие: сундук трясётся, свет в щелях растёт от обычного до вашей редкости — и крышка слетает. Нажмите, чтобы открыть сразу"]},
 {v:"0.129.1", d:"24.11.2026", uk:["Арена, кампанія і досягнення на комп’ютері більше не ховаються під лівим меню"], en:["On a computer the arena, the campaign and achievements no longer hide under the left menu"], ru:["Арена, кампания и достижения на компьютере больше не прячутся под левым меню"]},
 {v:"0.129.0", d:"24.11.2026", uk:["Старі дошки отримали матеріали: тиньк, оксамит, сланець, мармур, льон, карбон, зоряне небо — з об’ємною рамкою і відблиском на трикутниках","«Опівніч» тепер у сріблі"], en:["The older boards got materials: plaster, velvet, slate, marble, linen, carbon, a starry sky, with a bevelled frame and a sheen on the points","«Midnight» is now in silver"], ru:["Старые доски получили материалы: штукатурка, бархат, сланец, мрамор, лён, карбон, звёздное небо — с объёмной рамкой и бликом на треугольниках","«Полночь» теперь в серебре"]},
@@ -12406,6 +12515,542 @@ function u3Open(K,d){ const C=CASES[K], order=['c','r','e','l'], top=Math.max(0,
   const step=820; for(let i=1;i<=top;i++){ at(420+i*step,()=>{ ch.classList.remove('s1','s2','s3'); ch.classList.add('s'+Math.min(3,i+1)); glow(order[i]); try{ csSyn('swell'); }catch(e){} try{ cs75Tick(K); }catch(e){} }); }
   at(420+(top+1)*step+200, finish); }
 { const _cr=caseReel; caseReel=function(K,d){ if(!UI2()) return _cr.apply(this,arguments); return u3Open(K,d); }; }
+
+// ================= 0.131: «Шлях нардиста II — Спадок Майстра» =================
+// Part II of the story: a visual-novel scene, a challenge, the boss with arena twists and a choice in each chapter.
+// The choices move two hidden scales (honour ↔ cunning, together ↔ alone); the server keeps them in ach.c2.
+const C2CH=[null,
+  {bg:'fcity', amb:21, boss:'S', twist:'blk1', ch:'cipher'},
+  {bg:'fwindow', amb:22, boss:'T', twist:'t15', ch:'detective'},
+  {bg:'fcabin', amb:23, boss:'D', twist:'fog', ch:'rescue'},
+  {bg:'nypodil', amb:24, boss:'I', twist:'blk2', ch:'tandem'},
+  {bg:'ftrain'}, {bg:'fbeach'}, {bg:'rooftop'}, {bg:'fmarble'}];
+const C2_OPEN_N=4;
+try{ Object.assign(CP_AMB,{21:[['fountain',.8],['yard',.35]],22:[['cafe',.9]],23:[['fire',.7],['wind',.5]],24:[['wind',.55],['hall',.35]]}); }catch(e){}
+// who is who: a portrait, a voice (for the typing blips) and a side of the scene
+const C2W={
+  P:{av:'pasha2', side:'l', v:[330,'square',.035]},
+  V:{av:'vladM', side:'l', v:[210,'triangle',.06]},
+  Q:{av:'vladM', side:'l', v:[230,'triangle',.05], phone:1},
+  X:{av:'vladM', side:'l', v:[240,'sawtooth',.03], phone:1, fake:1},
+  U:{av:null, side:'l', v:[400,'sine',.04]},
+  M:{av:'pt46', side:'r', v:[0,'type',.06]},
+  S:{av:'pt45', side:'r', v:[150,'sine',.07]},
+  T:{av:'pt42', side:'r', v:[560,'square',.025]},
+  D:{av:'pt44', side:'r', v:[175,'triangle',.07], wob:1},
+  I:{av:'pt59', side:'r', v:[260,'sawtooth',.025]},
+  N:{}};
+const C2TX={
+uk:{
+  t:'Шлях нардиста II', sub:'Спадок Майстра', ch:'Глава {n}', soon:'Скоро', lock:'Спершу пройди першу частину — усі 8 глав',
+  back:'Назад', play:'Грати', cont:'Далі', again:'Ще раз', toMap:'До сюжету', skip:'Пропустити', tap:'Натисни, щоб продовжити',
+  st1:'Сцена', st2:'Випробування', st3:'Бос', st4:'Вибір', done:'Главу пройдено', scenes:'Переглянути сцени',
+  you:'Ти', n_P:'Паша', n_V:'Влад', n_Q:'Влад · дзвінок', n_X:'Влад · дзвінок', n_M:'Мирослава', n_S:'Сторож Степан', n_T:'Бариста Тарасик', n_D:'Дід Микола', n_I:'Каштелян Ігор',
+  p1:'Вінниця', p2:'Львів', p3:'Карпати', p4:'Кам’янець-Подільський', p5:'Харків', p6:'Одеса', p7:'Київ', p8:'Мармурова зала',
+  l1:'Фонтан на Бузі', l2:'Кав’ярня під дощем', l3:'Колиба в тумані', l4:'Фортеця', l5:'Нічне метро', l6:'Повернення в таверну', l7:'Дах над Подолом', l8:'Аукціон',
+  c_cipher:'Шифр у дошці', c_detective:'Детектив', c_rescue:'Рятунок', c_tandem:'Тандем із Пашею',
+  w_blk1:'Закрита лунка', w_t15:'15 секунд на хід', w_fog:'Туман', w_blk2:'Дві закриті лунки',
+  cand:'Свічка шляху', candH:'Тепла — честь, холодна — хитрість. Два вогники — разом, один — сам.',
+  qCip:'Вирізана позиція. Найкращий хід укаже дорогу.', qCipD:'Обери хід білих. Кубики вже на дошці.',
+  qTan:'Ваш хід у парі. Паша радить своє, Влад — по телефону.', qTanD:'Обери хід, який зіграєте разом.',
+  qOk:'Так! Саме цей хід.', qNo:'Не той. Подумай ще.', qBest:'Найкращий',
+  saysP:'Паша: «Я б зіграв оце»', saysQ:'Влад: «Не віддавай шосту лунку!»',
+  dT:'Запис партії: хто хитрував?', dD:'Знайди хід, де шашки пройшли не на ті кубики. Спроб: {n}', dHint:'Підказка Влада', dHintT:'Влад тихо: «Хід двадцять другий».',
+  dMiss:'Тут усе чесно. Спроб лишилося: {n}', dOut:'Спроби скінчились. Мирослава дістає інший запис.', dOk:'Знайдено! Кубики {a}–{b}, а шашки пройшли {m}.',
+  rT:'Рятунок · Глава 3', rTask:'Позиція Паші. Кубики {a} і {b} — врятуй партію.', rHint:'Знайди найкращий хід — і дід визнає поразку.', rOk:'Врятовано!', rOkD:'Дід Микола крутить вуса: «Добре. Тепер — зі мною».', rMiss:'Дід усміхається: «Ні, синку».', rMissD:'Спробуй інакше.', rMiss2:'Найкращий був: {m}',
+  bossW:'Бос переможений · +{c} 🪙', stepW:'Випробування пройдено · +{c} 🪙', lost:'Бос виграв цього разу', lostD:'Фішки арени лишаються. Спробуй ще.',
+  next:'Далі буде: Харків, нічне метро', fin:'Глави 5–8 — скоро',
+  btnPart2:'Частина II', btnPart2D:'Спадок Майстра · нова історія з вибором', newL:'Нове'
+},
+en:{
+  t:'The Way of the Nardy Player II', sub:'The Master’s Legacy', ch:'Chapter {n}', soon:'Soon', lock:'Finish part one first — all 8 chapters',
+  back:'Back', play:'Play', cont:'Next', again:'Again', toMap:'To the story', skip:'Skip', tap:'Tap to continue',
+  st1:'Scene', st2:'Challenge', st3:'Boss', st4:'Choice', done:'Chapter done', scenes:'Watch scenes',
+  you:'You', n_P:'Pasha', n_V:'Vlad', n_Q:'Vlad · call', n_X:'Vlad · call', n_M:'Myroslava', n_S:'Stepan the guard', n_T:'Taras the barista', n_D:'Grandpa Mykola', n_I:'Castellan Ihor',
+  p1:'Vinnytsia', p2:'Lviv', p3:'Carpathians', p4:'Kamianets-Podilskyi', p5:'Kharkiv', p6:'Odesa', p7:'Kyiv', p8:'The Marble Hall',
+  l1:'The fountain on the Buh', l2:'A café in the rain', l3:'A hut in the fog', l4:'The fortress', l5:'The night metro', l6:'Back to the tavern', l7:'A roof over Podil', l8:'The auction',
+  c_cipher:'The cipher in the board', c_detective:'Detective', c_rescue:'Rescue', c_tandem:'Tandem with Pasha',
+  w_blk1:'A closed point', w_t15:'15 seconds a move', w_fog:'Fog', w_blk2:'Two closed points',
+  cand:'The candle of your way', candH:'Warm — honour, cold — cunning. Two flames — together, one — alone.',
+  qCip:'The carved position. The best move shows the way.', qCipD:'Pick White’s move. The dice are on the board.',
+  qTan:'Your move as a pair. Pasha suggests his, Vlad calls in.', qTanD:'Pick the move you play together.',
+  qOk:'Yes! That’s the move.', qNo:'Not that one. Think again.', qBest:'Best',
+  saysP:'Pasha: “I’d play this”', saysQ:'Vlad: “Don’t give up the six-point!”',
+  dT:'A game record: who cheated?', dD:'Find the move where the checkers went with the wrong dice. Tries: {n}', dHint:'Vlad’s hint', dHintT:'Vlad, quietly: “Move twenty-two.”',
+  dMiss:'That one is fair. Tries left: {n}', dOut:'Out of tries. Myroslava pulls out another record.', dOk:'Found it! Dice {a}–{b}, but the checkers went {m}.',
+  rT:'Rescue · Chapter 3', rTask:'Pasha’s position. Dice {a} and {b} — save the game.', rHint:'Find the best move and Grandpa gives up.', rOk:'Saved!', rOkD:'Grandpa Mykola twirls his moustache: “Good. Now play me.”', rMiss:'Grandpa smiles: “No, son.”', rMissD:'Try another way.', rMiss2:'The best was: {m}',
+  bossW:'Boss beaten · +{c} 🪙', stepW:'Challenge done · +{c} 🪙', lost:'The boss won this time', lostD:'The arena twists stay. Try again.',
+  next:'To be continued: Kharkiv, the night metro', fin:'Chapters 5–8 — soon',
+  btnPart2:'Part II', btnPart2D:'The Master’s Legacy · a new story with choices', newL:'New'
+},
+ru:{
+  t:'Путь нардиста II', sub:'Наследие Мастера', ch:'Глава {n}', soon:'Скоро', lock:'Сначала пройди первую часть — все 8 глав',
+  back:'Назад', play:'Играть', cont:'Дальше', again:'Ещё раз', toMap:'К сюжету', skip:'Пропустить', tap:'Нажми, чтобы продолжить',
+  st1:'Сцена', st2:'Испытание', st3:'Босс', st4:'Выбор', done:'Глава пройдена', scenes:'Пересмотреть сцены',
+  you:'Ты', n_P:'Паша', n_V:'Влад', n_Q:'Влад · звонок', n_X:'Влад · звонок', n_M:'Мирослава', n_S:'Сторож Степан', n_T:'Бариста Тарасик', n_D:'Дед Мыкола', n_I:'Кастелян Игорь',
+  p1:'Винница', p2:'Львов', p3:'Карпаты', p4:'Каменец-Подольский', p5:'Харьков', p6:'Одесса', p7:'Киев', p8:'Мраморный зал',
+  l1:'Фонтан на Буге', l2:'Кофейня под дождём', l3:'Колыба в тумане', l4:'Крепость', l5:'Ночное метро', l6:'Возвращение в таверну', l7:'Крыша над Подолом', l8:'Аукцион',
+  c_cipher:'Шифр в доске', c_detective:'Детектив', c_rescue:'Спасение', c_tandem:'Тандем с Пашей',
+  w_blk1:'Закрытая лунка', w_t15:'15 секунд на ход', w_fog:'Туман', w_blk2:'Две закрытые лунки',
+  cand:'Свеча пути', candH:'Тёплая — честь, холодная — хитрость. Два огонька — вместе, один — сам.',
+  qCip:'Вырезанная позиция. Лучший ход укажет дорогу.', qCipD:'Выбери ход белых. Кубики уже на доске.',
+  qTan:'Ваш ход в паре. Паша советует своё, Влад — по телефону.', qTanD:'Выбери ход, который сыграете вместе.',
+  qOk:'Да! Именно этот ход.', qNo:'Не тот. Подумай ещё.', qBest:'Лучший',
+  saysP:'Паша: «Я бы сыграл это»', saysQ:'Влад: «Не отдавай шестую лунку!»',
+  dT:'Запись партии: кто жульничал?', dD:'Найди ход, где шашки прошли не на те кубики. Попыток: {n}', dHint:'Подсказка Влада', dHintT:'Влад тихо: «Ход двадцать второй».',
+  dMiss:'Здесь всё честно. Осталось попыток: {n}', dOut:'Попытки кончились. Мирослава достаёт другую запись.', dOk:'Нашёл! Кубики {a}–{b}, а шашки прошли {m}.',
+  rT:'Спасение · Глава 3', rTask:'Позиция Паши. Кубики {a} и {b} — спаси партию.', rHint:'Найди лучший ход — и дед признает поражение.', rOk:'Спасено!', rOkD:'Дед Мыкола крутит усы: «Хорошо. Теперь — со мной».', rMiss:'Дед улыбается: «Нет, сынок».', rMissD:'Попробуй иначе.', rMiss2:'Лучший был: {m}',
+  bossW:'Босс побеждён · +{c} 🪙', stepW:'Испытание пройдено · +{c} 🪙', lost:'Босс выиграл в этот раз', lostD:'Фишки арены остаются. Попробуй ещё.',
+  next:'Продолжение следует: Харьков, ночное метро', fin:'Главы 5–8 — скоро',
+  btnPart2:'Часть II', btnPart2D:'Наследие Мастера · новая история с выбором', newL:'Новое'
+}};
+function c2t(k,v){ const L=C2TX[lang]||C2TX.uk; let s=L[k]!=null?L[k]:(C2TX.uk[k]!=null?C2TX.uk[k]:k); if(v) for(const x in v) s=s.split('{'+x+'}').join(v[x]); return s; }
+
+// ---- the scenes. A line: [who, mood, text, sound]. mood: '' calm · 'w' glad · 'l' sad · 'a' angry. {ch:[[text,'a'],[text,'b']], a:[…], b:[…]} is a choice; {if:fn, l:[…]} a line for one path.
+const C2SC={
+uk:{
+ c1a:[['N','','Вінниця. Вечір, фонтан на Бузі переливається світлом. Минув тиждень після Мармурової зали.'],
+  ['P','l','Залу закрили. Повісили замок і табличку «Продано». Новий власник — якийсь Барон.'],
+  ['P','','А Влад тільки оце залишив. Каже — тобі.','paper'],
+  ['N','','Стара Владова дошка. На внутрішній кришці вирізана позиція. Ні підпису, ні дати.'],
+  ['Q','','Не шукай мене. Шукай те, що заховане в дошці.','phone'],
+  ['Q','w','Цього разу я поруч, навіть коли мене не видно. І ще… якщо зателефоную — спитай, який був наш перший хід.'],
+  ['P','','Дивна фраза. Навіщо питати про хід?'],
+  ['U','','Не знаю. Але позицію я розгадаю.'],
+  ['P','w','Тоді рахуй. Найкращий хід — мабуть, і є дорога.']],
+ c1b:[['N','','Хід веде на склад біля вокзалу. Туди вивезли все з Мармурової зали.','steps'],
+  ['S','a','Стій! Хто такий? Склад зачинено. Наказ Барона.','door'],
+  ['P','','Ми тільки подивитись. Там речі… ну, зали.'],
+  ['S','','Речі тепер Баронові. Хочеш пройти — обіграй мене. Я тут ночами сам із собою граю, нудно.'],
+  ['S','w','Тільки одну лунку закрию. Як двері складу. Чесно ж?'],
+  ['N','','Фішка боса: закрита лунка — на неї не можна ставити шашки.']],
+ c1w:[['S','l','Ех… Добре граєш. Як той хлопець, що колись приносив сюди цю саму дошку.'],
+  ['S','','Слухай. У мене ключ від складу. Візьми. Але як Барон дізнається — мене звільнять.'],
+  ['P','','Це ж шанс. Там можуть бути його записи…'],
+  {ch:[['Не треба. Знайду інший шлях.','a'],['Давай ключ.','b']],
+   a:[['S','w','Ти… дякую. Я цього не забуду.'],['Q','w','Чув про сторожа. Ось тепер ти граєш, а не кидаєш кубики. Наступне місто — Львів.','phone']],
+   b:[['S','l','Бери. І забудь, де взяв.','keys'],['N','','На складі — кейс із печаткою Барона. Усередині 300 монет.','coins'],['Q','l','Ключ, кейс… Я вчив тебе не цьому. Але я розумію. Наступне місто — Львів.','phone']]}],
+ c2a:[['N','','Львів. Дощ стукає в шибки кав’ярні біля Ринку.','rain'],
+  ['M','','Ви від Влада? Я Мирослава. Пишу про лігу Барона, пів року збираю записи.'],
+  ['M','','Ось партія, після якої чемпіон Львова раптом продав свою дошку. Барону, звісно.'],
+  ['M','a','Тут хтось хитрував. Кубики не ті. Але я не можу знайти, де саме.'],
+  ['N','','За сусіднім столиком — хтось у капюшоні. Знайома манера тримати чашку.'],
+  ['V','','Не дивись на мене. Дивись на запис. Якщо треба — підкажу раз.'],
+  ['P','','Ти щось сказав? Ні? Ну добре.']],
+ c2b:[['M','w','Хід двадцять другий! Кубики не ті, а шашки пішли. Гравець — Kalian17. Хтось чув такий нік?'],
+  ['P','l','Ні. Тобто… ні.','clink'],
+  ['P','','А давно це було? Ну, ця партія?'],
+  ['M','','Сім років тому.'],
+  ['N','','Паша дивиться у вікно й більше нічого не питає.'],
+  ['T','a','Каву допили? Тоді звільніть стіл. Або граємо — я тут на Барона працюю, не на чайові.'],
+  ['T','w','П’ятнадцять секунд на хід. Думати — то для клієнтів.'],
+  ['N','','Фішка боса: 15 секунд на хід.']],
+ c2w:[['T','l','Барону це не сподобається. Ой, не сподобається.'],
+  ['M','','Мені потрібна ця історія. Можна я напишу про тебе?'],
+  {ch:[['Пиши все як є. І про Пашу теж.','a'],['Без імен. Я граю сам.','b']],
+   a:[['P','w','Про мене? …Гаразд. Разом — то разом.'],['M','w','Буде гучно.','type']],
+   b:[['M','','Як скажеш. Тоді Барон не знатиме, хто ти.'],['P','l','Сам, значить…']]},
+  ['Q','','Львів позаду. Дід Микола в Карпатах колись зробив цю дошку. Він знає більше, ніж скаже.','phone'],
+  ['Q','l','І ще. Якщо Паша щось приховує — не тисни. Сам розкаже.']],
+ c3a:[['N','','Карпати. Туман такий густий, що смереки стоять, як тіні.','wind'],
+  ['D','w','О, гості! Та ще й з моєю дошкою. Я її впізнаю із заплющеними очима.'],
+  ['D','w','Твій Владик сидів отут, синку, їв бануш і програвав мені щодня.'],
+  ['D','l','Дошок я зробив три. Одну — йому. Одну — собі. А третю він попросив для свого першого учня. Як же його звали…'],
+  ['P','','Першого? Хіба не ти був перший?'],
+  ['U','','Я думав, що так.'],
+  ['D','','А тепер справа. Твій друг поставив на кін вашу дорогу — і програє мені. Дограй за нього.'],
+  ['P','l','Я тільки на хвилинку відволікся!']],
+ c3b:[['D','w','Врятував! Добре. А тепер зі мною самим. Але в тумані.','wind'],
+  ['D','','Кількох моїх шашок ти не побачиш. Як у житті: не все видно одразу.'],
+  ['N','','Фішка боса: туман — частину шашок суперника сховано.']],
+ c3w:[['D','w','Ото маєш! Владова школа.'],
+  ['D','','Візьми. Кубик-талісман. Кажуть, часом падає як треба.'],
+  {ch:[['Дякую, але я граю своїми.','a'],['Беру.','b']],
+   a:[['D','w','Правильно. Влад так само колись відмовився.']],
+   b:[['D','','Раз за партію перекинеш, як випаде зовсім погано. Не зловживай.','dice'],['N','','Талісман: у боях наступних глав поганий кидок (до 5 очок) один раз перекидається.']]},
+  ['Q','l','Дід розповів про третю дошку? …Я хотів сам. Не телефоном. Їдь у Кам’янець, там турнір.','phone']],
+ c4a:[['N','','Кам’янець-Подільський. Фортеця, прапори, лицарі в обладунках. Турнір — у нарди.','horn'],
+  ['P','w','Граємо в парі! Я ходжу, ти підстраховуєш. Як у старі часи.'],
+  {if:S=>S.c[1]==='a', l:[['S','w','Гей! Це я, Степан, сторож. Казав же, що не забуду. Каштелян Ігор їздив до Барона. Тричі.'],['P','a','Ось тобі й лицар.']]},
+  ['Q','','Я на зв’язку, дивлюсь трансляцію. Не віддавай шосту лунку!','phone']],
+ c4b:[['I','','Вітаю переможців першого кола. Я Ігор — каштелян і суддя.'],
+  ['I','w','Фінал — зі мною. Мури фортеці закриють дві лунки. Традиція.','gate'],
+  ['P','a','Він домовився з Бароном. По очах видно.'],
+  ['N','','Фішка боса: дві закриті лунки.']],
+ c4w:[['I','l','Нечувано. Барон мені голову зніме.'],
+  ['I','','Слухайте. Ліга Барона бере одного з вас. Гроші, турніри, дошки. Тільки одного.'],
+  ['P','','…'],
+  {ch:[['Або обоє, або ніхто.','a'],['Я піду.','b']],
+   a:[['I','a','Тоді ніхто.'],['P','w','Дякую. Я б зробив так само.']],
+   b:[['P','l','Зрозумів.'],['N','','Зранку Паша мовчки бере квиток до Одеси. Сам.','train']]},
+  ['X','','Слухай… це я… їдь у Харків… ——','glitch'],
+  ['N','','Дзвінок обривається. Номер прихований.']]
+},
+en:{
+ c1a:[['N','','Vinnytsia. Evening; the fountain on the Buh shimmers with light. A week has passed since the Marble Hall.'],
+  ['P','l','They closed the hall. A lock and a “Sold” sign. The new owner is some Baron.'],
+  ['P','','And Vlad left only this. Says it’s for you.','paper'],
+  ['N','','Vlad’s old board. On the inside of the lid, a position is carved. No name, no date.'],
+  ['Q','','Don’t look for me. Look for what’s hidden in the board.','phone'],
+  ['Q','w','This time I’m near, even when you can’t see me. And… if I ever call — ask what our first move was.'],
+  ['P','','Strange thing to say. Why ask about a move?'],
+  ['U','','No idea. But I’ll crack the position.'],
+  ['P','w','Then count. The best move is probably the road.']],
+ c1b:[['N','','The move points to a warehouse by the station. Everything from the Marble Hall was taken there.','steps'],
+  ['S','a','Stop! Who’s there? The warehouse is closed. Baron’s orders.','door'],
+  ['P','','We just want a look. There are things… from the hall.'],
+  ['S','','The things are the Baron’s now. Want in — beat me. I play myself all night here, it’s boring.'],
+  ['S','w','I’ll close one point, though. Like the warehouse door. Fair?'],
+  ['N','','Boss twist: a closed point — no checkers may land on it.']],
+ c1w:[['S','l','Eh… You play well. Like the lad who used to bring that very board here.'],
+  ['S','','Listen. I’ve got the key to the warehouse. Take it. But if the Baron finds out, I’m fired.'],
+  ['P','','That’s our chance. His records could be in there…'],
+  {ch:[['No need. I’ll find another way.','a'],['Give me the key.','b']],
+   a:[['S','w','You… thank you. I won’t forget it.'],['Q','w','Heard about the guard. Now you’re playing, not just rolling dice. Next city — Lviv.','phone']],
+   b:[['S','l','Take it. And forget where you got it.','keys'],['N','','In the warehouse — a case with the Baron’s seal. 300 coins inside.','coins'],['Q','l','A key, a case… I didn’t teach you that. But I understand. Next city — Lviv.','phone']]}],
+ c2a:[['N','','Lviv. Rain taps on the windows of a café near the Market Square.','rain'],
+  ['M','','You’re from Vlad? I’m Myroslava. I write about the Baron’s league; I’ve been collecting records for half a year.'],
+  ['M','','Here’s the game after which Lviv’s champion suddenly sold his board. To the Baron, of course.'],
+  ['M','a','Someone cheated here. Wrong dice. But I can’t find where.'],
+  ['N','','At the next table — someone in a hood. A familiar way of holding a cup.'],
+  ['V','','Don’t look at me. Look at the record. If you need, I’ll hint once.'],
+  ['P','','Did you say something? No? Okay.']],
+ c2b:[['M','w','Move twenty-two! Wrong dice, yet the checkers moved. The player — Kalian17. Anyone heard that name?'],
+  ['P','l','No. I mean… no.','clink'],
+  ['P','','Was it long ago? That game?'],
+  ['M','','Seven years ago.'],
+  ['N','','Pasha looks out of the window and asks nothing more.'],
+  ['T','a','Finished your coffee? Then free the table. Or we play — I work for the Baron, not for tips.'],
+  ['T','w','Fifteen seconds a move. Thinking is for customers.'],
+  ['N','','Boss twist: 15 seconds a move.']],
+ c2w:[['T','l','The Baron won’t like this. Oh, he won’t.'],
+  ['M','','I need this story. Can I write about you?'],
+  {ch:[['Write it as it is. Pasha too.','a'],['No names. I play alone.','b']],
+   a:[['P','w','About me? …Fine. Together is together.'],['M','w','It’ll be loud.','type']],
+   b:[['M','','As you wish. Then the Baron won’t know who you are.'],['P','l','Alone, then…']]},
+  ['Q','','Lviv is behind you. Grandpa Mykola in the Carpathians made this board once. He knows more than he’ll say.','phone'],
+  ['Q','l','And one more thing. If Pasha is hiding something — don’t push. He’ll tell you himself.']],
+ c3a:[['N','','The Carpathians. The fog is so thick the spruces stand like shadows.','wind'],
+  ['D','w','Oh, guests! And with my board. I’d know it with my eyes shut.'],
+  ['D','w','Your Vlad sat right here, son, ate banosh and lost to me every day.'],
+  ['D','l','I made three boards. One for him. One for me. And the third he asked for his first student. What was his name…'],
+  ['P','','First? Weren’t you the first?'],
+  ['U','','I thought so.'],
+  ['D','','Now, business. Your friend bet your road on a game — and he’s losing to me. Finish it for him.'],
+  ['P','l','I only looked away for a minute!']],
+ c3b:[['D','w','Saved it! Good. Now play me. But in the fog.','wind'],
+  ['D','','You won’t see some of my checkers. Like in life: not everything shows at once.'],
+  ['N','','Boss twist: fog — some of the opponent’s checkers are hidden.']],
+ c3w:[['D','w','Well, I never! Vlad’s school.'],
+  ['D','','Take this. A lucky die. They say it sometimes falls right.'],
+  {ch:[['Thanks, but I play with my own.','a'],['I’ll take it.','b']],
+   a:[['D','w','Right. Vlad turned it down too, back then.']],
+   b:[['D','','Once a game it rerolls a really bad throw. Don’t overuse it.','dice'],['N','','Talisman: in the next chapters’ boss games a bad roll (5 or less) is rerolled once.']]},
+  ['Q','l','Grandpa told you about the third board? …I wanted to tell you myself. Not on the phone. Go to Kamianets, there’s a tournament.','phone']],
+ c4a:[['N','','Kamianets-Podilskyi. A fortress, banners, knights in armour. The tournament is in nardy.','horn'],
+  ['P','w','We play as a pair! I move, you back me up. Like the old days.'],
+  {if:S=>S.c[1]==='a', l:[['S','w','Hey! It’s me, Stepan, the guard. Told you I wouldn’t forget. Castellan Ihor went to the Baron. Three times.'],['P','a','So much for a knight.']]},
+  ['Q','','I’m on the line, watching the stream. Don’t give up the six-point!','phone']],
+ c4b:[['I','','Congratulations to the winners of round one. I’m Ihor — castellan and judge.'],
+  ['I','w','The final is against me. The fortress walls will close two points. Tradition.','gate'],
+  ['P','a','He made a deal with the Baron. You can see it in his eyes.'],
+  ['N','','Boss twist: two closed points.']],
+ c4w:[['I','l','Unheard of. The Baron will have my head.'],
+  ['I','','Listen. The Baron’s league takes one of you. Money, tournaments, boards. Only one.'],
+  ['P','','…'],
+  {ch:[['Both of us or no one.','a'],['I’ll go.','b']],
+   a:[['I','a','Then no one.'],['P','w','Thanks. I’d have done the same.']],
+   b:[['P','l','Got it.'],['N','','In the morning Pasha silently buys a ticket to Odesa. Alone.','train']]},
+  ['X','','Listen… it’s me… go to Kharkiv… ——','glitch'],
+  ['N','','The call drops. Number hidden.']]
+},
+ru:{
+ c1a:[['N','','Винница. Вечер, фонтан на Буге переливается светом. Прошла неделя после Мраморного зала.'],
+  ['P','l','Зал закрыли. Повесили замок и табличку «Продано». Новый владелец — какой-то Барон.'],
+  ['P','','А Влад оставил только это. Говорит — тебе.','paper'],
+  ['N','','Старая доска Влада. На внутренней крышке вырезана позиция. Ни подписи, ни даты.'],
+  ['Q','','Не ищи меня. Ищи то, что спрятано в доске.','phone'],
+  ['Q','w','В этот раз я рядом, даже когда меня не видно. И ещё… если позвоню — спроси, какой был наш первый ход.'],
+  ['P','','Странная фраза. Зачем спрашивать про ход?'],
+  ['U','','Не знаю. Но позицию я разгадаю.'],
+  ['P','w','Тогда считай. Лучший ход — наверное, и есть дорога.']],
+ c1b:[['N','','Ход ведёт на склад у вокзала. Туда вывезли всё из Мраморного зала.','steps'],
+  ['S','a','Стой! Кто такой? Склад закрыт. Приказ Барона.','door'],
+  ['P','','Мы только посмотреть. Там вещи… ну, зала.'],
+  ['S','','Вещи теперь Бароновы. Хочешь пройти — обыграй меня. Я тут ночами сам с собой играю, скучно.'],
+  ['S','w','Только одну лунку закрою. Как дверь склада. Честно же?'],
+  ['N','','Фишка босса: закрытая лунка — на неё нельзя ставить шашки.']],
+ c1w:[['S','l','Эх… Хорошо играешь. Как тот парень, что когда-то приносил сюда эту самую доску.'],
+  ['S','','Слушай. У меня ключ от склада. Возьми. Но если Барон узнает — меня уволят.'],
+  ['P','','Это же шанс. Там могут быть его записи…'],
+  {ch:[['Не надо. Найду другой путь.','a'],['Давай ключ.','b']],
+   a:[['S','w','Ты… спасибо. Я этого не забуду.'],['Q','w','Слышал про сторожа. Вот теперь ты играешь, а не бросаешь кубики. Следующий город — Львов.','phone']],
+   b:[['S','l','Бери. И забудь, где взял.','keys'],['N','','На складе — кейс с печатью Барона. Внутри 300 монет.','coins'],['Q','l','Ключ, кейс… Я учил тебя не этому. Но я понимаю. Следующий город — Львов.','phone']]}],
+ c2a:[['N','','Львов. Дождь стучит в окна кофейни у Рынка.','rain'],
+  ['M','','Вы от Влада? Я Мирослава. Пишу о лиге Барона, полгода собираю записи.'],
+  ['M','','Вот партия, после которой чемпион Львова вдруг продал свою доску. Барону, конечно.'],
+  ['M','a','Здесь кто-то жульничал. Кубики не те. Но я не могу найти, где именно.'],
+  ['N','','За соседним столиком — кто-то в капюшоне. Знакомая манера держать чашку.'],
+  ['V','','Не смотри на меня. Смотри в запись. Если нужно — подскажу один раз.'],
+  ['P','','Ты что-то сказал? Нет? Ну ладно.']],
+ c2b:[['M','w','Ход двадцать второй! Кубики не те, а шашки пошли. Игрок — Kalian17. Кто-то слышал такой ник?'],
+  ['P','l','Нет. То есть… нет.','clink'],
+  ['P','','А давно это было? Ну, эта партия?'],
+  ['M','','Семь лет назад.'],
+  ['N','','Паша смотрит в окно и больше ничего не спрашивает.'],
+  ['T','a','Кофе допили? Тогда освободите стол. Или играем — я тут на Барона работаю, не за чаевые.'],
+  ['T','w','Пятнадцать секунд на ход. Думать — это для клиентов.'],
+  ['N','','Фишка босса: 15 секунд на ход.']],
+ c2w:[['T','l','Барону это не понравится. Ой, не понравится.'],
+  ['M','','Мне нужна эта история. Можно я напишу о тебе?'],
+  {ch:[['Пиши всё как есть. И про Пашу тоже.','a'],['Без имён. Я играю сам.','b']],
+   a:[['P','w','Про меня? …Ладно. Вместе — так вместе.'],['M','w','Будет громко.','type']],
+   b:[['M','','Как скажешь. Тогда Барон не узнает, кто ты.'],['P','l','Сам, значит…']]},
+  ['Q','','Львов позади. Дед Мыкола в Карпатах когда-то сделал эту доску. Он знает больше, чем скажет.','phone'],
+  ['Q','l','И ещё. Если Паша что-то скрывает — не дави. Сам расскажет.']],
+ c3a:[['N','','Карпаты. Туман такой густой, что ели стоят, как тени.','wind'],
+  ['D','w','О, гости! Да ещё с моей доской. Я её узнаю с закрытыми глазами.'],
+  ['D','w','Твой Владик сидел вот тут, сынок, ел банош и проигрывал мне каждый день.'],
+  ['D','l','Досок я сделал три. Одну — ему. Одну — себе. А третью он попросил для своего первого ученика. Как же его звали…'],
+  ['P','','Первого? Разве не ты был первым?'],
+  ['U','','Я думал, что да.'],
+  ['D','','А теперь дело. Твой друг поставил на кон вашу дорогу — и проигрывает мне. Доиграй за него.'],
+  ['P','l','Я только на минутку отвлёкся!']],
+ c3b:[['D','w','Спас! Хорошо. А теперь со мной самим. Но в тумане.','wind'],
+  ['D','','Нескольких моих шашек ты не увидишь. Как в жизни: не всё видно сразу.'],
+  ['N','','Фишка босса: туман — часть шашек соперника спрятана.']],
+ c3w:[['D','w','Вот это да! Владова школа.'],
+  ['D','','Возьми. Кубик-талисман. Говорят, иногда падает как надо.'],
+  {ch:[['Спасибо, но я играю своими.','a'],['Беру.','b']],
+   a:[['D','w','Правильно. Влад тоже когда-то отказался.']],
+   b:[['D','','Раз за партию перебросишь, если выпадет совсем плохо. Не злоупотребляй.','dice'],['N','','Талисман: в боях следующих глав плохой бросок (до 5 очков) один раз перебрасывается.']]},
+  ['Q','l','Дед рассказал про третью доску? …Я хотел сам. Не по телефону. Езжай в Каменец, там турнир.','phone']],
+ c4a:[['N','','Каменец-Подольский. Крепость, флаги, рыцари в доспехах. Турнир — в нарды.','horn'],
+  ['P','w','Играем в паре! Я хожу, ты подстраховываешь. Как в старые времена.'],
+  {if:S=>S.c[1]==='a', l:[['S','w','Эй! Это я, Степан, сторож. Говорил же, не забуду. Кастелян Игорь ездил к Барону. Трижды.'],['P','a','Вот тебе и рыцарь.']]},
+  ['Q','','Я на связи, смотрю трансляцию. Не отдавай шестую лунку!','phone']],
+ c4b:[['I','','Поздравляю победителей первого круга. Я Игорь — кастелян и судья.'],
+  ['I','w','Финал — со мной. Стены крепости закроют две лунки. Традиция.','gate'],
+  ['P','a','Он договорился с Бароном. По глазам видно.'],
+  ['N','','Фишка босса: две закрытые лунки.']],
+ c4w:[['I','l','Неслыханно. Барон мне голову снимет.'],
+  ['I','','Слушайте. Лига Барона берёт одного из вас. Деньги, турниры, доски. Только одного.'],
+  ['P','','…'],
+  {ch:[['Или оба, или никто.','a'],['Я пойду.','b']],
+   a:[['I','a','Тогда никто.'],['P','w','Спасибо. Я бы сделал так же.']],
+   b:[['P','l','Понял.'],['N','','Утром Паша молча берёт билет до Одессы. Один.','train']]},
+  ['X','','Слушай… это я… езжай в Харьков… ——','glitch'],
+  ['N','','Звонок обрывается. Номер скрыт.']]
+}};
+
+// ---- state (the server keeps it; a copy lives in profile.ach.c2)
+let C2S=null, C2open=false;
+const c2St=()=>C2S||{ch:0,w:{},s:{},c:{}};
+async function c2Load(){ if(!coinsOnline()) return null; try{ const r=await fnCall({action:'c2', args:{op:'state'}}); if(r.data && r.data.ok){ C2S=Object.assign({ch:0,w:{},s:{},c:{}},r.data.c2); C2open=!!r.data.open; return r.data; } }catch(e){} return null; }
+async function c2Op(op,n,x){ const r=await fnCall({action:'c2', args:Object.assign({op, ch:n},x||{})}); const d=r.data; if(!d || !d.ok){ toast(t('srvRetry')+(r.code?' · '+r.code:'')); return null; }
+  C2S=Object.assign({ch:0,w:{},s:{},c:{}},d.c2); profile.ach=Object.assign({},profile.ach||{},{coins:d.coins, c2:C2S}); coinsPaint(); if(d.got){ try{ coinFly(d.got); }catch(e){} } return d; }
+const c2Seen=k=>!!(store.get('c2seen',{})||{})[k];
+const c2Mark=k=>{ const s=store.get('c2seen',{})||{}; s[k]=1; store.set('c2seen',s); };
+// a chapter's next step: 1 scene, 2 challenge, 3 boss, 4 choice, 5 done
+function c2Step(n){ const S=c2St(); if(n>(S.ch|0)+1 || n>C2_OPEN_N) return 0; if((S.ch|0)>=n) return 5; if(S.w[n]) return 4; if(S.s[n]) return 3; return c2Seen('c'+n+'a')?2:1; }
+// the hidden scales, for the candle: h — honour (+) / cunning (−), t — together (+) / alone (−)
+function c2Scales(){ const c=c2St().c||{}; let h=0, tg=0; [1,3,5,7].forEach(i=>{ if(c[i]) h+= c[i]==='a'?1:-1; }); [2,4,6].forEach(i=>{ if(c[i]) tg+= c[i]==='a'?1:-1; }); return {h, t:tg}; }
+
+// ---- sounds: typing blips per speaker and a few small effects, all made in code
+let C2A=null;
+function c2Ctx(){ if(!prefs.sound || sfxMute) return null; try{ C2A=C2A||actx||new (window.AudioContext||window.webkitAudioContext)(); if(C2A.state==='suspended') C2A.resume(); return C2A; }catch(e){ return null; } }
+function c2Tone(f,type,vol,dur,at,bend){ const a=c2Ctx(); if(!a) return; const t0=a.currentTime+(at||0), o=a.createOscillator(), g=a.createGain(); o.type=type; o.frequency.setValueAtTime(f,t0); if(bend) o.frequency.exponentialRampToValueAtTime(Math.max(30,f*bend),t0+dur);
+  g.gain.setValueAtTime(0,t0); g.gain.linearRampToValueAtTime(vol,t0+.008); g.gain.exponentialRampToValueAtTime(.0001,t0+dur); o.connect(g); g.connect(a.destination); o.start(t0); o.stop(t0+dur+.02); }
+function c2Noise(vol,dur,at,lo,hi){ const a=c2Ctx(); if(!a) return; const t0=a.currentTime+(at||0), len=Math.max(1,Math.floor(a.sampleRate*dur)), b=a.createBuffer(1,len,a.sampleRate), d=b.getChannelData(0); for(let i=0;i<len;i++) d[i]=Math.random()*2-1;
+  const s=a.createBufferSource(); s.buffer=b; const f=a.createBiquadFilter(); f.type='bandpass'; f.frequency.value=(lo+hi)/2; f.Q.value=(lo+hi)/2/Math.max(1,hi-lo); const g=a.createGain(); g.gain.setValueAtTime(vol,t0); g.gain.exponentialRampToValueAtTime(.0001,t0+dur); s.connect(f); f.connect(g); g.connect(a.destination); s.start(t0); s.stop(t0+dur+.02); }
+function c2Blip(w){ const W=C2W[w]; if(!W || !W.v) return; const [f,type,vol]=W.v;
+  if(type==='type'){ c2Noise(vol*2,.03,0,1800,4200); return; }
+  const j=1+(Math.random()-.5)*.18; c2Tone(f*j, type, vol, .055, 0, W.wob?1.12:1);
+  if(W.phone) c2Noise(.012,.05,0,900,2600); if(W.fake && Math.random()<.35) c2Noise(.05,.08,0,200,5000); }
+function c2Fx(k){ switch(k){
+  case 'phone': [0,.18].forEach(d=>{ c2Tone(1320,'sine',.05,.12,d); c2Tone(1660,'sine',.04,.12,d); }); break;
+  case 'paper': c2Noise(.12,.22,0,2500,7000); c2Noise(.08,.15,.2,2000,6000); break;
+  case 'door': c2Tone(90,'square',.08,.3,0,.6); c2Noise(.2,.25,0,80,600); break;
+  case 'steps': [0,.32,.64].forEach(d=>c2Noise(.18,.08,d,120,900)); break;
+  case 'keys': [0,.06,.13,.2].forEach((d,i)=>c2Tone(2400+i*300,'triangle',.03,.12,d)); break;
+  case 'coins': [0,.08,.16,.26].forEach((d,i)=>c2Tone(1500+i*180,'triangle',.05,.18,d)); break;
+  case 'clink': c2Tone(2900,'sine',.06,.5); c2Tone(4100,'sine',.03,.35); break;
+  case 'rain': for(let i=0;i<14;i++) c2Noise(.03,.05,Math.random()*1.2,3000,8000); break;
+  case 'wind': c2Noise(.09,1.6,0,250,900); break;
+  case 'dice': [0,.09,.2,.27].forEach(d=>c2Noise(.2,.04,d,900,3000)); break;
+  case 'horn': c2Tone(233,'sawtooth',.05,.9,0); c2Tone(349,'sawtooth',.04,.9,.05); break;
+  case 'gate': c2Tone(70,'sawtooth',.07,1.1,0,.7); c2Noise(.15,.6,.1,60,400); break;
+  case 'train': c2Noise(.1,1.2,0,150,700); c2Tone(520,'square',.03,.5,.3); c2Tone(410,'square',.03,.6,.8); break;
+  case 'type': [0,.07,.15,.2,.29].forEach(d=>c2Noise(.12,.03,d,1800,4200)); break;
+  case 'glitch': for(let i=0;i<6;i++) c2Tone(200+Math.random()*900,'square',.04,.05,i*.07); c2Noise(.08,.5,.4,200,5000); break;
+  case 'choice': c2Tone(660,'triangle',.06,.2); c2Tone(990,'triangle',.05,.3,.08); break;
+  case 'ok': [0,.1,.2].forEach((d,i)=>c2Tone([523,659,784][i],'triangle',.07,.35,d)); break;
+  case 'no': c2Tone(220,'square',.05,.25,0,.7); break; } }
+
+// ---- the scene player: background, two portraits, typed text, choices
+function c2Who(w){ return w==='U' ? (profile.name||c2t('you')) : c2t('n_'+w); }
+function c2AvKey(w,mood){ const W=C2W[w]; const a = w==='U' ? selfAv() : W.av; if(!a) return a; if(/^pt(3[7-9]|4[01]|4[89]|5\d|6[01])$/.test(a) && (mood==='w'||mood==='l'||mood==='a')) return a+'@'+(mood==='a'?'l':mood); return a; }
+function c2Scene(key, done){
+  const n=+key[1], L=(C2SC[lang]||C2SC.uk)[key]||C2SC.uk[key]; if(!L){ done&&done(); return; } c2Mark(key);
+  const S=c2St(); const lines=[]; for(const x of L){ if(Array.isArray(x)) lines.push(x); else if(x.if){ if(x.if(S)) lines.push(...x.l); } else lines.push(x); }
+  const ov=uxH('div','c2vn'); ov.style.setProperty('--bg','url("tb/'+C2CH[n].bg+'.webp")');
+  const top=uxH('div','c2vn-top'); top.append(uxH('span',null,c2t('ch',{n})+' · '+c2t('p'+n))); const sk=uxH('button','c2vn-skip',c2t('skip')+' ›'); sk.type='button'; top.appendChild(sk); ov.appendChild(top);
+  const stg=uxH('div','c2vn-stg'); const pl=uxH('div','c2p l'), pr=uxH('div','c2p r'); [pl,pr].forEach(p=>{ p.append(uxH('span','av'), uxH('i','ring')); p.classList.add('off'); }); stg.append(pl,pr); ov.appendChild(stg);
+  const box=uxH('div','c2vn-box'); const who=uxH('b','c2who'); const p=uxH('p'); const hint=uxH('small','c2hint',c2t('tap')); const chs=uxH('div','c2chs'); box.append(who,p,chs,hint); ov.appendChild(box);
+  let i=-1, typing=null, waiting=false; const fin=()=>{ clearInterval(typing); ov.classList.add('out'); setTimeout(()=>ov.remove(),260); done&&done(); setTimeout(()=>{ try{ ambSync(); }catch(e){} },0); };
+  try{ ambPlay(C2CH[n].amb); }catch(e){}
+  const show=w=>{ const W=C2W[w]||{}; const side=W.side==='r'?pr:pl, other=side===pl?pr:pl; return {side, other}; };
+  const put=(ln)=>{ const [w,mood,txt,snd]=ln; ov.className='c2vn w-'+w+(C2W[w]&&C2W[w].phone?' phone':'')+(C2W[w]&&C2W[w].fake?' fake':'');
+    if(w==='N'){ pl.classList.add('dim'); pr.classList.add('dim'); who.textContent=''; box.classList.add('nar'); }
+    else { box.classList.remove('nar'); const {side,other}=show(w); const a=side.querySelector('.av'), key=c2AvKey(w,mood);
+      if(a.dataset.k!==key){ a.dataset.k=key; avatarInto(a,key,c2Who(w)); side.classList.remove('pop'); void side.offsetWidth; side.classList.add('pop'); }
+      side.classList.remove('off','dim'); other.classList.add('dim'); side.dataset.m=mood||''; side.dataset.w=w; who.textContent=c2Who(w); who.dataset.w=w; }
+    if(snd) try{ c2Fx(snd); }catch(e){}
+    p.dataset.full=txt; clearInterval(typing); hint.hidden=false;
+    if(noMotion()){ p.textContent=txt; return; } let c=0; p.textContent='';
+    typing=setInterval(()=>{ c+=1; p.textContent=txt.slice(0,c); const ch=txt[c-1]; if(c%2===0 && ch && /\S/.test(ch)) c2Blip(w); if(c>=txt.length) clearInterval(typing); }, w==='N'?22:26); };
+  const choose=(x)=>{ waiting=true; hint.hidden=true; chs.innerHTML=''; c2Fx('choice'); x.ch.forEach(([txt,k],j)=>{ const b=uxH('button','c2ch'); b.type='button'; b.append(uxH('i',null,String(j+1)), uxH('span',null,txt));
+      b.onclick=e=>{ e.stopPropagation(); if(!waiting) return; waiting=false; chs.innerHTML=''; c2Fx('ok'); const pick=x[k]||[]; lines.splice(i+1,0,['U','',txt],...pick); ov._pick=k; next(); }; chs.appendChild(b); }); };
+  const next=()=>{ if(waiting) return; if(typing && p.textContent.length<(p.dataset.full||'').length){ clearInterval(typing); p.textContent=p.dataset.full; return; }
+    i++; if(i>=lines.length) return fin(); const ln=lines[i]; if(!Array.isArray(ln)){ if(ln.ch) choose(ln); return; } put(ln); };
+  ov.onclick=e=>{ if(e.target.closest('.c2vn-skip')) return; next(); };
+  sk.onclick=e=>{ e.stopPropagation(); // skipping jumps to a choice if there is one ahead
+    const j=lines.findIndex((x,k)=>k>i && !Array.isArray(x)); if(j<0) return fin(); clearInterval(typing); i=j; p.textContent=''; p.dataset.full=''; who.textContent=''; choose(lines[j]); };
+  const done0=done; done=()=>{ done0 && done0(ov._pick); };
+  document.body.appendChild(ov); next(); }
+
+// ---- the map of part II
+function openC2(){ let pg=$('c2Pg'); if(!pg){ pg=uxH('div'); pg.id='c2Pg'; document.body.appendChild(pg); } document.body.classList.add('storeopen'); c2Paint();
+  if(!C2S) c2Load().then(()=>{ if($('c2Pg')) c2Paint(); }); }
+function closeC2(){ const pg=$('c2Pg'); if(pg) pg.remove(); if(!$('shopPg') && !$('campPg')) document.body.classList.remove('storeopen'); setTimeout(()=>{ try{ ambSync(); }catch(e){} },0); try{ if(!gs) renderHomeV7(); }catch(e){} }
+function c2Candle(){ const s=c2Scales(); const c=uxH('div','c2cand'+(s.h>0?' warm':s.h<0?' cold':'')+(s.t<0?' one':'')); c.title=c2t('candH');
+  const f=uxH('span','fl'); f.append(uxH('i','a'), uxH('i','b')); c.append(f, uxH('span','wax')); return c; }
+function c2Paint(){ const pg=$('c2Pg'); if(!pg) return; pg.innerHTML=''; const S=c2St();
+  const w=uxH('div','c2w'); pg.appendChild(w);
+  const top=uxH('div','c2top'); const bk=uxH('button','c2back','‹'); bk.type='button'; bk.setAttribute('aria-label',c2t('back')); bk.onclick=closeC2;
+  const tt=uxH('div','c2ttl'); tt.append(uxH('small',null,c2t('sub')), uxH('h1',null,c2t('t'))); const cd=c2Candle(); const cw=uxH('div','c2cw'); cw.append(cd, uxH('small',null,c2t('cand'))); top.append(bk,tt,cw); w.appendChild(top);
+  if(!coinsOnline()){ const s=uxH('div','c2lock'); s.append(uxH('p',null,t('campSign'))); const b=uxH('button','cta',t('login')); b.type='button'; b.onclick=()=>{ closeC2(); openProfile(); }; s.appendChild(b); w.appendChild(s); return; }
+  if(C2S && !C2open){ w.appendChild(uxH('div','c2lock',c2t('lock'))); }
+  const road=uxH('div','c2road'); w.appendChild(road);
+  for(let n=1;n<=8;n++){ const C=C2CH[n], st=n>C2_OPEN_N?-1:c2Step(n); const card=uxH('button','c2card'+(st===-1?' soon':st===0?' lock':st===5?' done':' cur')); card.type='button'; card.style.setProperty('--ph','url("tb/'+C.bg+'_s.webp")');
+    const ph=uxH('span','ph'); const tx=uxH('span','tx'); tx.append(uxH('small',null,c2t('ch',{n})+' · '+c2t('l'+n)), uxH('b',null,c2t('p'+n)));
+    if(st>0 && C.boss){ const bs=uxH('span','bs'); const a=uxH('span','av'); avatarInto(a,C2W[C.boss].av,c2t('n_'+C.boss)); bs.append(a, uxH('em',null,c2t('n_'+C.boss)+' · '+c2t('w_'+C.twist))); tx.appendChild(bs); }
+    if(st>0){ const dots=uxH('span','sd'); for(let k=1;k<=4;k++){ const d=uxH('i', k<st?'ok':k===st&&st<5?'now':''); d.title=c2t('st'+k)+(k===2?' · '+c2t('c_'+C.ch):''); dots.appendChild(d); } tx.appendChild(dots); }
+    card.append(ph,tx);
+    if(st===-1) card.appendChild(uxH('span','tag',c2t('soon'))); else if(st===0) card.appendChild(Object.assign(uxH('span','tag lk'),{innerHTML:CP_LOCK})); else if(st===5) card.appendChild(uxH('span','tag ok','✓')); else card.appendChild(uxH('span','go',(st===1?c2t('play'):c2t('cont'))+' →'));
+    card.onclick=()=>{ if(st>0) c2Go(n); else if(st===-1) toast(c2t('fin')); };
+    road.appendChild(card);
+    if(st===5){ const rp=uxH('div','c2rp'); [['a',1],['b',3],['w',4]].forEach(([k,s])=>{ const b=uxH('button','c2scn','▶ '+c2t('st'+s)); b.type='button'; b.onclick=e=>{ e.stopPropagation(); c2Scene('c'+n+k, ()=>{}); }; rp.appendChild(b); }); road.appendChild(rp); } }
+  if((S.ch|0)>=C2_OPEN_N) w.appendChild(uxH('div','c2next',c2t('next')));
+  try{ coinify(pg); }catch(e){} }
+// one tap moves the chapter forward: scene → challenge → boss → choice
+function c2Go(n){ const st=c2Step(n);
+  if(st===1) return c2Scene('c'+n+'a', ()=>c2Go(n));
+  if(st===2) return c2Chal(n);
+  if(st===3){ const k='c'+n+'b'; return c2Seen(k) ? c2Boss(n) : c2Scene(k, ()=>c2Boss(n)); }
+  if(st===4) return c2Choice(n);
+  if(st===5) return c2Scene('c'+n+'w', ()=>{}); }
+async function c2Choice(n){ c2Scene('c'+n+'w', async k=>{ if(!k) k='a'; const d=await c2Op('choice',n,{k}); if(!$('c2Pg')) openC2(); else c2Paint(); }); }
+function c2StepDone(n){ return c2Op('step',n).then(d=>{ if(d && d.got) toast(c2t('stepW',{c:d.got})); return d; }); }
+
+// ---- challenges
+function c2Chal(n){ const k=C2CH[n].ch; if(k==='detective') return c2Det(n); if(k==='rescue') return c2Rescue(n); return c2Quiz(n); }
+// a position and its moves ranked — the same engine as the daily puzzle
+function c2Pos(seed){ const pz=pzMake(seed); if(!pz) return null; const st={board:pz.board.slice(), off:{...pz.off}, remaining:pz.dice[0]===pz.dice[1]?Array(4).fill(pz.dice[0]):pz.dice.slice(), headMoved:0, headLimit:1, first:{w:false,b:false}};
+  const outs=pzOutcomes(st,'w'); return {pz, outs}; }
+function c2Quiz(n){ let tries=0; const K=C2CH[n].ch, att=(store.get('c2q',{})||{})[n]|0; const P=c2Pos('c2-'+n+'-'+att); if(!P || P.outs.length<3){ toast(t('pzNone')); return; }
+  const o=P.outs, mid=o[Math.min(o.length-2,Math.max(1,Math.floor(o.length*.35)))], low=o[o.length-1]; const opts=[o[0],mid,low].filter((x,i,a)=>a.findIndex(y=>pzLine(y.path)===pzLine(x.path))===i);
+  for(let i=opts.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [opts[i],opts[j]]=[opts[j],opts[i]]; }
+  const ov=uxH('div','cp-ov c2qov'); const m=uxH('div','cp-sheet c2q'); ov.appendChild(m); const x=uxH('button','cp-x','×'); x.type='button'; x.onclick=()=>ov.remove(); m.appendChild(x);
+  m.append(uxH('div','cp-place',c2t('ch',{n})+' · '+c2t('c_'+K)), uxH('h2',null,c2t(K==='tandem'?'qTan':'qCip')), uxH('p','c2qd',c2t(K==='tandem'?'qTanD':'qCipD')));
+  const bd=uxH('div','c2qb'+(K==='cipher'?' carved':'')); bd.innerHTML=rpBoardSvg({B:P.pz.board, off:P.pz.off, d:P.pz.dice, c:'w', tr:[]},'w'); m.appendChild(bd);
+  const fb=uxH('p','c2qf'); const list=uxH('div','c2qo');
+  opts.forEach((op,j)=>{ const b=uxH('button','c2opt'); b.type='button'; b.append(uxH('i',null,'ABC'[j]), uxH('b',null,pzLine(op.path)));
+    if(K==='tandem' && op===mid) b.appendChild(uxH('small',null,c2t('saysP')));
+    b.onclick=async()=>{ if(m.classList.contains('solved')) return; const ok=op===o[0] || (o[0].v-op.v<=.25);
+      if(!ok){ tries++; b.classList.add('bad'); b.disabled=true; fb.textContent=c2t('qNo'); c2Fx('no'); if(tries>=2){ const s=store.get('c2q',{})||{}; s[n]=(s[n]|0)+1; store.set('c2q',s); } return; }
+      b.classList.add('good'); m.classList.add('solved'); fb.textContent=c2t('qOk'); c2Fx('ok'); try{ sfx('win'); }catch(e){}
+      bd.innerHTML=rpBoardSvg(c2After(P.pz,op.path),'w');
+      const go=uxH('button','cta',c2t('cont')+' →'); go.type='button'; go.onclick=()=>{ ov.remove(); c2Go(n); }; m.appendChild(go); await c2StepDone(n); };
+    list.appendChild(b); });
+  if(K==='tandem') m.appendChild(uxH('p','c2says',c2t('saysQ')));
+  m.append(list,fb); document.body.appendChild(ov); }
+function c2After(pz,path){ let s={board:pz.board.slice(), off:{...pz.off}, remaining:pz.dice[0]===pz.dice[1]?Array(4).fill(pz.dice[0]):pz.dice.slice(), headMoved:0, headLimit:1, first:{w:false,b:false}}; const tr=[];
+  for(const m of path){ s=applyMove(s,'w',m); tr.push(b2('w',m.from)); if(m.to!==24) tr.push(b2('w',m.to)); } return {B:s.board, off:s.off, tr}; }
+// the detective: a record of moves, one of them made with dice that were not rolled
+function c2DetGame(seed){ const R=Math.random, G=gs; gs=null; try{
+  for(let tryN=0;tryN<30;tryN++){ const rng=seededRng(seed+tryN*104729); Math.random=rng; const d6r=()=>1+Math.floor(rng()*6);
+    let st={board:freshBoard(), off:{w:0,b:0}, remaining:[], headMoved:0, headLimit:1, first:{w:true,b:true}}; let c='w'; const rows=[]; let ok=true;
+    for(let k=1;k<=24;k++){ const d1=d6r(), d2=d6r(); st.remaining=d1===d2?[d1,d1,d1,d1]:[d1,d2]; st.headLimit=(st.first[c]&&d1===d2&&[3,4,6].includes(d1))?2:1; st.first={...st.first,[c]:false}; st.headMoved=0;
+      const path=botBestPath(st,c)||[]; for(const m of path) st=applyMove(st,c,m); if(st.off.w>=15||st.off.b>=15){ ok=false; break; } rows.push({k, c, d:[d1,d2], path}); c=OPP(c); }
+    if(!ok) continue; const r=rows[21]; if(!r || r.d[0]===r.d[1] || r.path.length<2) continue;
+    // the cheat: show one die that does not match any step that was taken
+    const used=r.path.map(m=>(m.to===24?24:m.to)-m.from); const fake=[1,2,3,4,5,6].filter(v=>!used.includes(v)&&v!==r.d[0]&&v!==r.d[1]); if(!fake.length) continue;
+    const real=r.d.slice(); r.d=[fake[Math.floor(rng()*fake.length)], r.d[1]]; r.real=real; r.cheat=1; return rows; }
+  return null; } finally { Math.random=R; gs=G; } }
+function c2Det(n){ let att=(store.get('c2d',0)|0), left=3, hint=false; const rows0=c2DetGame(9001+att*31); if(!rows0){ toast(t('pzNone')); return; }
+  const rows=rows0.slice(14); const ov=uxH('div','cp-ov c2qov'); const m=uxH('div','cp-sheet c2q c2det'); ov.appendChild(m); const x=uxH('button','cp-x','×'); x.type='button'; x.onclick=()=>ov.remove(); m.appendChild(x);
+  const sub=uxH('p','c2qd',c2t('dD',{n:left}));
+  m.append(uxH('div','cp-place',c2t('ch',{n})+' · '+c2t('c_detective')), uxH('h2',null,c2t('dT')), sub);
+  const tb=uxH('div','c2rec'); const fb=uxH('p','c2qf');
+  const nameOf=c=>c==='b'?'Kalian17':'Lev_Champion';
+  rows.forEach(r=>{ const b=uxH('button','c2row'+(r.c==='w'?' w':' b')); b.type='button'; b.dataset.k=r.k;
+    const dd=uxH('span','dd'); r.d.forEach(v=>dd.appendChild(uxH('i','die',String(v))));
+    b.append(uxH('em',null,String(r.k)), uxH('b',null,nameOf(r.c)), dd, uxH('span','mv',r.path.length?pzLine(r.path):'—'));
+    b.onclick=async()=>{ if(m.classList.contains('solved') || b.disabled) return;
+      if(!r.cheat){ left--; b.classList.add('bad'); b.disabled=true; c2Fx('no'); if(left<=0){ store.set('c2d',att+1); fb.textContent=c2t('dOut'); setTimeout(()=>{ ov.remove(); c2Det(n); },1300); return; } fb.textContent=c2t('dMiss',{n:left}); sub.textContent=c2t('dD',{n:left}); return; }
+      b.classList.add('good'); m.classList.add('solved'); c2Fx('ok'); try{ sfx('win'); }catch(e){} fb.textContent=c2t('dOk',{a:r.d[0], b:r.d[1], m:r.path.map(q=>(q.to===24?24:q.to)-q.from).join('+')});
+      const go=uxH('button','cta',c2t('cont')+' →'); go.type='button'; go.onclick=()=>{ ov.remove(); c2Go(n); }; m.appendChild(go); await c2StepDone(n); };
+    tb.appendChild(b); });
+  const hb=uxH('button','c2hintb'); hb.type='button'; const ha=uxH('span','av'); avatarInto(ha,'vladM','V'); hb.append(ha, uxH('span',null,c2t('dHint')));
+  hb.onclick=()=>{ if(hint) return; hint=true; hb.disabled=true; fb.textContent=c2t('dHintT'); c2Blip('V'); const r=tb.querySelector('[data-k="22"]'); if(r){ r.classList.add('hint'); r.scrollIntoView({block:'nearest',behavior:'smooth'}); } };
+  m.append(tb, hb, fb); document.body.appendChild(ov); }
+// the rescue: Pasha's position, played on the real board with the puzzle engine
+function c2Rescue(n){ const att=(store.get('c2q',{})||{})[n]|0; const pz=pzMake('c2r-'+n+'-'+att); if(!pz){ toast(t('pzNone')); return; }
+  closeC2(); stopSearch(true); leave(); window._campTbl=C2CH[n].bg; try{ window._applyTheme(); }catch(e){}
+  mode='tutor'; gameId='puzzle'; tut={i:0, done:false, pz:{k:'pz', dice:pz.dice, data:pz, res:null, camp:'c2', c2:n, miss:0}}; pzLoad(); }
+{ const _j=campPzJudge; campPzJudge=function(){ if(!tut || !tut.pz || !tut.pz.c2) return _j.apply(this,arguments);
+    const pz=tut.pz.data, k=gs.board.join()+'|'+gs.off.w, rank=pz.keys.indexOf(k), v=rank<0?null:pz.vals[rank]; const ok = rank===0 || (rank>0 && pz.vals[0]-v<=0.8);
+    tut.pz.res={res: ok?'best':'miss'}; if(!ok){ tut.pz.miss++; if(tut.pz.miss>=2){ const s=store.get('c2q',{})||{}; s[tut.pz.c2]=(s[tut.pz.c2]|0)+1; store.set('c2q',s); } }
+    try{ sfx(ok?'win':'turn'); }catch(e){} renderCoach(); if(ok) c2StepDone(tut.pz.c2).then(d=>{ if(d && tut && tut.pz){ tut.pz.prize=d.got; renderCoach(); } }); };
+  const _c=campPzCoach; campPzCoach=function(){ if(!tut || !tut.pz || !tut.pz.c2) return _c.apply(this,arguments);
+    const pz=tut.pz.data, r=tut.pz.res, back=$('coachBack'), next=$('coachNext'); $('coachStep').textContent=c2t('rT'); back.textContent=c2t('toMap'); back.disabled=false; next.disabled=false;
+    if(!r){ $('coachT').textContent=c2t('rTask',{a:pz.dice[0],b:pz.dice[1]}); $('coachD').textContent=c2t('rHint'); next.textContent=t('pzReset'); next.disabled=!gs.rolled; return; }
+    if(r.res!=='miss'){ $('coachT').textContent=c2t('rOk'); $('coachD').textContent=c2t('rOkD')+(tut.pz.prize?' '+t('pzPrize',{n:tut.pz.prize}):''); next.textContent=c2t('cont')+' →'; return; }
+    $('coachT').textContent=c2t('rMiss'); $('coachD').textContent= tut.pz.miss>=2 ? c2t('rMiss2',{m:pzLine(pz.best.path)}) : c2t('rMissD'); next.textContent=c2t('again'); };
+  const _n=campPzNext; campPzNext=function(){ if(!tut || !tut.pz || !tut.pz.c2) return _n.apply(this,arguments); const n=tut.pz.c2, r=tut.pz.res;
+    if(!tut.done || !r || r.res==='miss'){ pzLoad(); return; } leave(); route(); openC2(); c2Go(n); };
+  const _b=campPzBack; campPzBack=function(){ if(!tut || !tut.pz || !tut.pz.c2) return _b.apply(this,arguments); leave(); route(); openC2(); }; }
+
+// ---- the boss: a server game with the arena's twists on the chapter's table
+async function c2Boss(n){ const C=C2CH[n]; closeC2(); stopSearch(true); leave(); window._campTbl=C.bg; try{ window._applyTheme(); }catch(e){}
+  mode='bot'; gameId='b'+rid(); ref=db.doc('games/'+gameId); gs=newGame('ME','BOT'); gs.seq=-1; gs.server=true;
+  const st=await srv('create',{bot:'c2', ch:n, name:c2t('n_'+C.boss), av:C2W[C.boss].av}); if(!st){ leave(); route(); return; }
+  gs.server=true; toast(c2t('ch',{n})+' · '+c2t('w_'+C.twist)); try{ ambPlay(C.amb); }catch(e){} route(); }
+// after the game: a win goes to the server and on to the choice; a loss offers another try
+let _c2Key='';
+setInterval(()=>{ try{ if(!gs || !gs.c2 || mode!=='bot' || gs.phase!=='over') return; const key=gameId+':'+gs.c2; if(_c2Key===key) return; _c2Key=key; const n=gs.c2, won=slotOfColor(gs.winner)===mySlot();
+  setTimeout(()=>c2After2(n,won), 1100); }catch(e){} }, 700);
+async function c2After2(n,won){ let d=null; if(won){ d=await c2Op('win',n,{gid:gameId}); if(d && d.got) toast(c2t('bossW',{c:d.got})); }
+  document.querySelectorAll('.c2end').forEach(o=>o.remove()); const ov=uxH('div','cp-ov c2end'); const m=uxH('div','cp-sheet c2q c2endm'); ov.appendChild(m);
+  const a=uxH('span','av'); avatarInto(a, c2AvKey(C2CH[n].boss, won?'l':'w'), c2t('n_'+C2CH[n].boss)); m.append(a, uxH('div','cp-place',c2t('ch',{n})+' · '+c2t('st3')), uxH('h2',null, won ? c2t('n_'+C2CH[n].boss) : c2t('lost')));
+  if(!won) m.appendChild(uxH('p','c2qd',c2t('lostD')));
+  const row=uxH('div','c2endb');
+  if(won && d){ const b=uxH('button','cta',c2t('st4')+' →'); b.type='button'; b.onclick=()=>{ ov.remove(); leave(); route(); openC2(); c2Choice(n); }; row.appendChild(b); }
+  else { const b=uxH('button','cta',c2t('again')); b.type='button'; b.onclick=()=>{ ov.remove(); c2Boss(n); }; row.appendChild(b); }
+  const bk=uxH('button','ghost',c2t('toMap')); bk.type='button'; bk.onclick=()=>{ ov.remove(); leave(); route(); openC2(); }; row.appendChild(bk); m.appendChild(row);
+  document.body.appendChild(ov); }
+
+// ---- the way in: a card on the campaign page (and a link from part one's finale)
+{ const _o=openCampaign; openCampaign=function(){ const r=_o.apply(this,arguments); try{ c2Entry(); }catch(e){} return r; }; }
+function c2Entry(){ const w=document.querySelector('#campPg .cp-w'); if(!w || w.querySelector('.c2entry')) return; const top=w.querySelector('.cp-top'); c2EntryCard(w, top && top.nextSibling); if(innerWidth<900) c2EntryCard(w, null); }
+function c2EntryCard(w, before){
+  const b=uxH('button','c2entry'); b.type='button'; b.style.setProperty('--ph','url("tb/fmarble_s.webp")'); const tx=uxH('span','tx'); tx.append(uxH('small',null,c2t('btnPart2')+' · '+c2t('newL')), uxH('b',null,c2t('t')), uxH('em',null,c2t('btnPart2D')));
+  const fl=c2Candle(); b.append(fl,tx,uxH('span','go','→')); b.onclick=()=>{ closeCampaign(); openC2(); };
+  if(before) w.insertBefore(b, before); else w.appendChild(b);
+  const ok=()=>{ b.classList.toggle('locked', !!C2S && !C2open); if(C2S && !C2open) tx.querySelector('em').textContent=c2t('lock'); };
+  if(C2S) ok(); else c2Load().then(ok); }
+if(/[?&]c2\b/.test(location.search)) setTimeout(()=>{ try{ openC2(); }catch(e){} }, 1200);
 
 </script>
 </body>

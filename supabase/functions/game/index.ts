@@ -34,7 +34,7 @@ function eloDelta(my,opp,score,mars){ const E=1/(1+Math.pow(10,(opp-my)/ELO_D));
 
 
 // ---- server-side bots (practice bots and online personas) ----
-const BOTS={ marta:{r:900,noise:7,factor:.4}, ostap:{r:1000,noise:3,factor:.4,sty:'run'}, taras:{r:1100,noise:.8,factor:.4,sty:'wall'}, lida:{r:1050,noise:2,factor:.4,sty:'safe'}, prof:{r:1350,noise:0,factor:.4,lvl:1}, hryts:{r:1250,noise:0,factor:.4}, snowman:{r:1000,noise:3,factor:.4}, ghost:{r:null,noise:0,factor:1}, camp:{r:null,noise:0,factor:0} };
+const BOTS={ c2:{r:1250,noise:1,factor:.4}, marta:{r:900,noise:7,factor:.4}, ostap:{r:1000,noise:3,factor:.4,sty:'run'}, taras:{r:1100,noise:.8,factor:.4,sty:'wall'}, lida:{r:1050,noise:2,factor:.4,sty:'safe'}, prof:{r:1350,noise:0,factor:.4,lvl:1}, hryts:{r:1250,noise:0,factor:.4}, snowman:{r:1000,noise:3,factor:.4}, ghost:{r:null,noise:0,factor:1}, camp:{r:null,noise:0,factor:0} };
 function botEval(st,c,sty){ const o=OPP(c); let made=0,run=0,best=0,stack=0,back=0,zone=0;
   for(let p=0;p<24;p++){ const k=mine(st.board,c,p); if(k>0){ made++; run++; if(run>best) best=run; if(k>3) stack+=k-3; if(p<12) back+=k; if(p>=4&&p<=16) zone++; } else run=0; }
   let oppPips=0; for(let p=0;p<24;p++){ const k=mine(st.board,o,p); if(k>0) oppPips+=k*(24-p); } const head=Math.max(0,mine(st.board,c,0)-1);
@@ -134,7 +134,7 @@ function act(state, uid, action, args, env){
   if(action==='resign'){ if(st.phase!=='play') err('bad_phase'); if((st.hist||[]).length<RESIGN_MIN) err('too_early'); const c=colorOfSlot(st,me), w=OPP(c), mars=st.off[c]===0&&(st.off[w]>0||allHome(st,w)); finish(st,w,mars,{c,mars}); return st; }
   // turn actions
   if(st.phase!=='play') err('bad_phase'); const c=colorOfSlot(st,me); if(st.turn!==c) err('not_your_turn');
-  if(action==='roll'){ if(st.rolled) err('already'); let a=d6(), b=d6(); const R=RU(st); if(R.dbl==='none'){ for(let g=0;g<40&&a===b;g++) b=d6(); }
+  if(action==='roll'){ if(st.rolled) err('already'); let a=d6(), b=d6(); const R=RU(st); if(R.dbl==='none'){ for(let g=0;g<40&&a===b;g++) b=d6(); } if(st.arn&&st.arn.tal&&!st.talUsed&&uid===st.p1&&a!==b&&a+b<=5){ st.talUsed=1; a=d6(); b=d6(); st.note={c:colorOfSlot(st,'p1'), tal:1, at:Date.now()}; }
     if(R.dbl==='skip' && a===b){ st.dice=[a,b]; st.remaining=[]; st.rolled=true; st.trail=[]; st.rollId++; st.first[c]=false; st.note={c, skipd:1, at:now}; passTurn(st,now); return st; }
     if(R.dbl==='pen' && a===b){ st.dice=[a,b]; st.remaining=[]; st.rolled=true; st.trail=[]; st.rollId++; st.first[c]=false; st.skip=st.skip||{w:0,b:0}; st.skip[c]=a-1; st.note={c, pen:a, at:now}; passTurn(st,now); return st; }
     st.dice=[a,b]; st.remaining=a===b?[a,a,a,a]:[a,b]; st.headLimit=R.head==='free'?15:(st.first[c]&&a===b&&[3,4,6].includes(a))?2:1; st.first[c]=false; st.headMoved=0; st.rolled=true; st.trail=[]; st.rollId++; st.snap={board:st.board.slice(),off:{...st.off}}; st.turnAt=now;
@@ -252,6 +252,14 @@ const phPackCost = (b: string, owned: string[]) => { const P = PH_PACKS[b]; if (
 const packCost = (b: string, owned: string[]) => { const P = PT_PACKS[b]; if (!P) return { miss: [], price: 0 }; const miss = P[0].map((k: string) => 'pt:' + k).filter((id: string) => !owned.includes(id)); return { miss, price: Math.round(P[1] * miss.length / P[0].length / 10) * 10 }; };
 // the story campaign «The way of a nardy player» (0.29.0): 8 chapters, each a game against a character; a win unlocks the next one and its prizes
 // (the site has the same list with the texts). Campaign games do not change the rating.
+// 0.131: «The way of a nardy player II — the Master's legacy». A.c2 = { ch: chapters done, w: { ch: 1 } bosses beaten, s: { ch: 1 } challenges done, c: { ch: 'a'|'b' } choices }.
+// Each chapter: a scene, a challenge (solved on the site), the boss with arena twists (a server game), a choice that moves two hidden scales.
+const C2: any[] = [null,
+  { lvl: 0, nz: 2.5, blk: [8], coins: 150, sc: 50 },
+  { lvl: 0, nz: 1.5, t: 15, coins: 200, sc: 60 },
+  { lvl: 0, nz: .8, fog: 1, coins: 250, sc: 70 },
+  { lvl: 1, nz: 0, blk: [6, 9], coins: 300, sc: 80 } ];
+const C2_OPEN = (A: any, u: any) => (A.camp | 0) >= 8 || !!A.tester || isAdminUser(u);
 const CAMP: any[] = [null,
   { name: 'Дядько Толік', av: 'pt55', r: 900, noise: 4, lvl: 0, coins: 150, items: ['pt:pt55'] },
   { name: 'Оксана Ігорівна', av: 'pt56', r: 1150, noise: 2.5, lvl: 0, coins: 200, items: ['dice:park'] },
@@ -905,6 +913,25 @@ const handle = async (req: Request): Promise<Response> => {
       if (k) A.tt = k; else delete A.tt; await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, tt: A.tt || '' }); }
     // the campaign: a won chapter game gives its prizes once and opens the next chapter
     // the campaign puzzle (step 1) of the current chapter, solved on the site
+    if (action === 'c2') {   // 0.131: part II — state, a challenge done, a boss won, a choice made
+      const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
+      const A = { ...(p.ach || {}) }; const S = { ch: 0, w: {}, s: {}, c: {}, ...(A.c2 || {}) }; const op = String(args?.op || 'state'), n = Math.round(Number(args?.ch) || 0);
+      const out = () => json({ ok: true, open: C2_OPEN(A, user), c2: S, coins: A.coins ?? COIN_START, n: C2.length - 1 });
+      if (op === 'state') return out();
+      if (!C2_OPEN(A, user)) return json({ error: 'c2_locked' }, 400);
+      if (!C2[n] || n > (S.ch | 0) + 1) return json({ error: 'c2_locked' }, 400);
+      let got = 0;
+      if (op === 'step') { if (!S.s[n]) { S.s = { ...S.s, [n]: 1 }; got = C2[n].sc; A.coins = (A.coins ?? COIN_START) + got; } }
+      else if (op === 'win') { const gid = String(args?.gid || ''); if (!/^[a-z0-9]{4,16}$/.test(gid)) return json({ error: 'bad_game' }, 400);
+        const { data: g } = await db.from('games').select('p1,state').eq('id', gid).maybeSingle(); const st = g?.state;
+        if (!st || g.p1 !== user.id || !st.c2 || st.c2 !== n || st.phase !== 'over' || st.result?.winner !== 'p1') return json({ error: 'not_won' }, 400);
+        if (!S.w[n]) { S.w = { ...S.w, [n]: 1 }; got = C2[n].coins; A.coins = (A.coins ?? COIN_START) + got; } }
+      else if (op === 'choice') { const k = args?.k === 'b' ? 'b' : 'a'; if (!S.w[n]) return json({ error: 'not_won' }, 400);
+        if (!S.c[n]) { S.c = { ...S.c, [n]: k }; if (n === 1 && k === 'b') { got = 300; A.coins = (A.coins ?? COIN_START) + got; } } if ((S.ch | 0) < n) S.ch = n; }
+      else if (op === 'reset' && (A.tester || isAdminUser(user))) { S.ch = 0; S.w = {}; S.s = {}; S.c = {}; }
+      else return json({ error: 'bad_args' }, 400);
+      A.c2 = S; await db.from('profiles').update({ ach: A }).eq('id', user.id); const r = await out(); const j = await r.json(); return json({ ...j, got });
+    }
     if (action === 'campstep') {
       const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
       const A = { ...(p.ach || {}) }; const done = A.camp | 0, n = Math.round(Number(args?.n));
@@ -1434,6 +1461,11 @@ const handle = async (req: Request): Promise<Response> => {
       // 0.76: a match to 3/5/7 points and/or blitz (10 s a move) against a bot — practice, no rating
       if (bot && bot !== 'ghost' && bot !== 'camp' && args?.fmt && typeof args.fmt === 'object') { const to = [1, 3, 5, 7].includes(Number(args.fmt.to)) ? Number(args.fmt.to) : 1, bz = !!args.fmt.bz;
         if (to > 1 || bz) { st.rules = { to, t: bz ? 10 : 0, dbl: 'norm', head: 'one', noMars: false, noOdds: false, open: false, first: 'roll' }; st.unrated = 1; } }
+      if (bot === 'c2') { const S = me?.ach?.c2 || {}, n = Math.round(Number(args?.ch) || 0), B = C2[n];
+        if (!B || !C2_OPEN(me?.ach || {}, user) || n > (S.ch | 0) + 1) return json({ error: 'c2_locked' }, 400);
+        st.c2 = n; st.unrated = 1; st.arn = { b: 0, k: 'c2', run: 0, rr: B.rr ? 1 : 0, wind: B.wind ? 1 : 0, fog: B.fog ? 1 : 0, mir: B.mir ? 1 : 0, strict: B.strict ? 1 : 0, c2: n, tal: n >= 4 && S.c && S.c[3] === 'b' ? 1 : 0 };
+        if (B.lvl) st.botLvl = B.lvl; else delete st.botLvl; st.botNoise = B.nz; st.rules = { to: 1, t: B.t || 0, dbl: B.dbl || 'norm', head: 'one', noMars: false, noOdds: false, open: false, first: 'roll' };
+        if (B.blk || B.wind) st.blk = { c: '', p: (B.blk || []).slice(), base: (B.blk || []).slice() }; }
       if (bot === 'hryts' && args?.arn) { const R = me?.ach?.arn; if (!R || R.st !== 'on' || (R.w | 0) >= 12 || (R.l | 0) >= ARN_LIVES) return json({ error: 'arena_off' }, 400);
         const bi = R.w | 0, B = ARN[bi]; st.arn = { b: bi, k: B.k, run: R.run, rr: B.rr ? 1 : 0, wind: B.wind ? 1 : 0, fog: B.fog ? 1 : 0, mir: B.mir ? 1 : 0, strict: B.strict ? 1 : 0 };
         st.unrated = 1; if (B.lvl) st.botLvl = B.lvl; else delete st.botLvl; st.botNoise = B.nz; st.rules = { to: 1, t: B.t || 0, dbl: B.dbl || 'norm', head: 'one', noMars: false, noOdds: false, open: false, first: 'roll' };
