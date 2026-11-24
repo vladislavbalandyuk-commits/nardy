@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.129.1 — 24.11.2026
+- `#arnPg`, `#campPg`, `#achPg` start at `--sbw` on wide screens (the side menu covered their left part, the arena title read «на»).
+
 ## 0.129.0 — 24.11.2026
 - Materials for 13 plain boards (modern, midnight, sage, ocean, mint, slate, lavender, contrast, linen, pistachio, sultan, khan, carbon): textured fields, bevelled frames with an inner line, shaded points; midnight points silver instead of amber.
 

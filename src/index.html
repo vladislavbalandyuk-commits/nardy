@@ -4325,6 +4325,9 @@ html body.ui2.h1on #mNav .mn-rcv .mn-rpp{animation:inherit;animation-direction:r
 .board[data-b=khan] .pt::before,.mb[data-b=khan] .pt::before{background:linear-gradient(90deg,rgba(255,255,255,.22),transparent 38%,transparent 62%,rgba(0,0,0,.2)),linear-gradient(180deg,var(--p1),color-mix(in srgb,var(--p1) 78%,#000))!important}.board[data-b=khan] .pt.alt::before,.mb[data-b=khan] .pt.alt::before{background:linear-gradient(90deg,rgba(255,255,255,.22),transparent 38%,transparent 62%,rgba(0,0,0,.2)),linear-gradient(180deg,var(--p2),color-mix(in srgb,var(--p2) 78%,#000))!important}
 .board[data-b=carbon] .half,.mb[data-b=carbon] .mf{background:linear-gradient(45deg,#1a1b1e 25%,transparent 25% 75%,#1a1b1e 75%) 0 0/8px 8px,linear-gradient(45deg,#1a1b1e 25%,transparent 25% 75%,#1a1b1e 75%) 4px 4px/8px 8px,linear-gradient(180deg,#26282c,#1d1f22)!important}
 .board[data-b=carbon],.tray[data-b=carbon]{background:var(--skn),linear-gradient(160deg,#2e3034,#16171a 55%,#0a0a0b)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.14),inset 0 -2px 0 rgba(0,0,0,.35),0 18px 40px -18px rgba(0,0,0,.8)!important}.board[data-b=carbon] .half{box-shadow:inset 0 0 0 1.5px rgba(255,106,43,.35),inset 0 0 0 3px rgba(0,0,0,.25),inset 0 10px 26px rgba(0,0,0,.28),inset 0 -6px 18px rgba(0,0,0,.18)!important}
+
+/* 0.129.1: the arena, the campaign and the achievements open next to the side menu, not under it */
+@media not all and (max-width:860px) and (orientation:portrait){ body.h1on #arnPg,body.h1on #campPg,body.h1on #achPg{left:var(--sbw)} }
 </style>
 <style>/* 0.38: home — one big «Play», three «Today» tiles */
 .h38modes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
@@ -8041,7 +8044,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.129.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.129.1';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -10302,6 +10305,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+{v:"0.129.1", d:"24.11.2026", uk:["Арена, кампанія і досягнення на комп’ютері більше не ховаються під лівим меню"], en:["On a computer the arena, the campaign and achievements no longer hide under the left menu"], ru:["Арена, кампания и достижения на компьютере больше не прячутся под левым меню"]},
 {v:"0.129.0", d:"24.11.2026", uk:["Старі дошки отримали матеріали: тиньк, оксамит, сланець, мармур, льон, карбон, зоряне небо — з об’ємною рамкою і відблиском на трикутниках","«Опівніч» тепер у сріблі"], en:["The older boards got materials: plaster, velvet, slate, marble, linen, carbon, a starry sky, with a bevelled frame and a sheen on the points","«Midnight» is now in silver"], ru:["Старые доски получили материалы: штукатурка, бархат, сланец, мрамор, лён, карбон, звёздное небо — с объёмной рамкой и бликом на треугольниках","«Полночь» теперь в серебре"]},
 {v:"0.128.0", d:"24.11.2026", uk:["Новий вигляд для всіх: стіл як сцена, зали, ігрове меню, шрифт із характером і матеріали — сукно, дерево, мідь","Магазин: кожна категорія — один рядок, який гортається стрілками, а «Усі» — поруч із назвою","Нагороди тепер у профілі, а в меню знову п’ять кнопок","Радіо — як маленький програвач: обкладинка-платівка крутиться, поки грає","Новий вигляд став легшим: прокрутка магазину вдвічі плавніша"], en:["The new look for everyone: the table as a stage, halls, a game-like menu, a heading font with character and materials: felt, wood, copper","Shop: every category is one row you scroll with arrows, with «All» next to its title","Rewards now live in the profile; the menu has five buttons again","The radio is a little record player: the cover spins while it plays","The new look got lighter: scrolling the shop is twice as smooth"], ru:["Новый вид для всех: стол как сцена, залы, игровое меню, шрифт с характером и материалы — сукно, дерево, медь","Магазин: каждая категория — одна строка, которая листается стрелками, а «Все» — рядом с названием","Награды теперь в профиле, а в меню снова пять кнопок","Радио — как маленький проигрыватель: обложка-пластинка крутится, пока играет","Новый вид стал легче: прокрутка магазина вдвое плавнее"]},
 {v:"0.127.1", d:"24.11.2026", uk:["Тестовий вигляд: у вузькому меню прибрано кнопку «Згорнути»"], en:["Test look: no «Collapse» button in the narrow menu"], ru:["Тестовый вид: в узком меню убрана кнопка «Свернуть»"]},
