@@ -3,6 +3,11 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.132.0 — 24.11.2026
+- Part II rewritten around the new scenario and completed: chapter 1 is the Druzi hookah bar in Mohyliv-Podilskyi (boss: the Grey courier, he moves first), chapters 2–9 Vinnytsia → the Marble Hall auction, scenes in uk/en/ru with choice-dependent lines.
+- New challenges: blitz race (timed quiz), call check, stake (all-in = ×2 coins, 10 s a move), interrogation (a clean one lifts the fog for the Shadow and the Baron). The mirror scene flips one scale; the Baron keeps the twists your choices did not remove.
+- Four endings (final battles 10–13) with titles c2e1–c2e4, the secret epilogue (14) with c2all, achievements c2druzi / c2voice; `fork` replays any finished chapter, keeping collected endings. Server state v2 (old 4-chapter progress is migrated as already-paid rewards).
+
 ## 0.131.1 — 24.11.2026
 - Home header: z-index above the ui2 cards, solid background once scrolled (`body.h1scl`). Phone radio pill moved up to clear the raised Play button.
 

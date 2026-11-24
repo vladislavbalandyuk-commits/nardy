@@ -252,14 +252,36 @@ const phPackCost = (b: string, owned: string[]) => { const P = PH_PACKS[b]; if (
 const packCost = (b: string, owned: string[]) => { const P = PT_PACKS[b]; if (!P) return { miss: [], price: 0 }; const miss = P[0].map((k: string) => 'pt:' + k).filter((id: string) => !owned.includes(id)); return { miss, price: Math.round(P[1] * miss.length / P[0].length / 10) * 10 }; };
 // the story campaign «The way of a nardy player» (0.29.0): 8 chapters, each a game against a character; a win unlocks the next one and its prizes
 // (the site has the same list with the texts). Campaign games do not change the rating.
-// 0.131: «The way of a nardy player II — the Master's legacy». A.c2 = { ch: chapters done, w: { ch: 1 } bosses beaten, s: { ch: 1 } challenges done, c: { ch: 'a'|'b' } choices }.
-// Each chapter: a scene, a challenge (solved on the site), the boss with arena twists (a server game), a choice that moves two hidden scales.
-const C2: any[] = [null,
-  { lvl: 0, nz: 2.5, blk: [8], coins: 150, sc: 50 },
-  { lvl: 0, nz: 1.5, t: 15, coins: 200, sc: 60 },
-  { lvl: 0, nz: .8, fog: 1, coins: 250, sc: 70 },
-  { lvl: 1, nz: 0, blk: [6, 9], coins: 300, sc: 80 } ];
+// 0.132: «The way of a nardy player II — the Master's legacy», the whole story. A.c2 = { v: 2, ch: chapters done (0–9), s/w/c: challenge done / boss beaten / choice per chapter,
+// f: { 8: 1 } a clean interrogation, vb: all-in at Odesa, m: the mirror flipped a scale ('h'|'t'), end: this run's ending 1–4, ef: its final won, e: { 1..4 } endings ever won, x: the secret epilogue, ps/pw: steps/bosses already paid }.
+// Chapters 1–9, then the ending's final battle (10–13 = ending 1–4) and the secret game with Vlad (14).
+const C2B: any[] = [null,
+  { lvl: 0, nz: 2.2, first: 1, coins: 150, sc: 50 },            // 1 Mohyliv-Podilskyi, Druzi · the Grey courier
+  { lvl: 0, nz: 1.6, blk: [8], coins: 180, sc: 50 },             // 2 Vinnytsia · Stepan
+  { lvl: 0, nz: 1.2, t: 15, coins: 220, sc: 60 },                // 3 Lviv · Taras
+  { lvl: 0, nz: .8, fog: 1, coins: 260, sc: 60 },                // 4 Carpathians · Grandpa Mykola
+  { lvl: 1, nz: 0, blk: [6, 9], coins: 300, sc: 70 },            // 5 Kamianets · Ihor
+  { lvl: 1, nz: 0, mir: 1, coins: 350, sc: 70 },                 // 6 Kharkiv · Lida
+  { lvl: 1, nz: 0, wind: 1, coins: 400, sc: 80 },                // 7 Odesa · Nugzar
+  { lvl: 3, nz: 0, fog: 1, dbl: 'none', coins: 450, sc: 90 },    // 8 Kyiv · the Shadow
+  { lvl: 3, nz: 0, t: 15, blk: [8, 15], fog: 1, dbl: 'none', first: 1, strict: 1, coins: 600 },   // 9 the auction · the Baron
+  { lvl: 1, nz: 0, coins: 1000 },                                // 10 ending 1 · with Pasha against the Grey champion
+  { lvl: 3, nz: 0, t: 10, strict: 1, coins: 1000 },              // 11 ending 2 · the mask's trial
+  { lvl: 3, nz: 0, rr: 1, coins: 1000 },                         // 12 ending 3 · the basement, loaded dice on both sides
+  { lvl: 3, nz: 0, mir: 1, coins: 1000 },                        // 13 ending 4 · against Pasha
+  { lvl: 3, nz: 0, first: 1, coins: 2000 } ];                    // 14 the fifth die · against Vlad
 const C2_OPEN = (A: any, u: any) => (A.camp | 0) >= 8 || !!A.tester || isAdminUser(u);
+function c2State(A: any) { let S = A.c2 || {}; if (S.v !== 2) { const sh = (m: any) => { const o: any = {}; for (const k of Object.keys(m || {})) o[+k + 1] = 1; return o; }; S = { v: 2, ch: 0, s: {}, w: {}, c: {}, ps: sh(S.s), pw: sh(S.w) }; }
+  return { ch: 0, s: {}, w: {}, c: {}, f: {}, e: {}, ps: {}, pw: {}, vb: 0, m: '', end: 0, ef: 0, x: 0, ...S, v: 2 }; }
+// the boss of chapter n, with what the player's choices took away
+function c2Boss(n: number, S: any) { const B = { ...C2B[n] }; const c = S.c || {};
+  if (n === 7 && S.vb) { B.t = 10; B.coins *= 2; }
+  if ((n === 8 || n === 9) && S.f && S.f[8]) B.fog = 0;
+  if (n === 9) { if (c[5] === 'a') B.blk = [8]; if (c[7] === 'a') B.first = 0; if (c[3] === 'a') B.t = 30; if (c[8] === 'b') B.dbl = 'norm'; if (S.m) B.t = Math.min(B.t || 99, 10); }
+  B.tal = n === 12 || (n >= 5 && n <= 9 && c[4] === 'b') ? 1 : 0; return B; }
+// the ending: honour/cunning from the even chapters, together/alone from the odd ones; the mirror flips one; the last choice breaks a tie
+function c2End(S: any) { const c = S.c || {}, v = (k: number) => c[k] === 'a' ? 1 : c[k] === 'b' ? -1 : 0; let h = v(2) + v(4) + v(6) + v(8), t = v(1) + v(3) + v(5) + v(7);
+  if (S.m === 'h') h = -h; if (S.m === 't') t = -t; const tie = c[9] === 'b' ? -1 : 1; if (!h) h = tie; if (!t) t = tie; return h > 0 ? (t > 0 ? 1 : 2) : (t > 0 ? 3 : 4); }
 const CAMP: any[] = [null,
   { name: 'Дядько Толік', av: 'pt55', r: 900, noise: 4, lvl: 0, coins: 150, items: ['pt:pt55'] },
   { name: 'Оксана Ігорівна', av: 'pt56', r: 1150, noise: 2.5, lvl: 0, coins: 200, items: ['dice:park'] },
@@ -913,22 +935,36 @@ const handle = async (req: Request): Promise<Response> => {
       if (k) A.tt = k; else delete A.tt; await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, tt: A.tt || '' }); }
     // the campaign: a won chapter game gives its prizes once and opens the next chapter
     // the campaign puzzle (step 1) of the current chapter, solved on the site
-    if (action === 'c2') {   // 0.131: part II — state, a challenge done, a boss won, a choice made
+    if (action === 'c2') {   // 0.132: part II — state, a challenge, a boss, a choice, the mirror, a fork back to a chapter
       const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
-      const A = { ...(p.ach || {}) }; const S = { ch: 0, w: {}, s: {}, c: {}, ...(A.c2 || {}) }; const op = String(args?.op || 'state'), n = Math.round(Number(args?.ch) || 0);
-      const out = () => json({ ok: true, open: C2_OPEN(A, user), c2: S, coins: A.coins ?? COIN_START, n: C2.length - 1 });
+      const A = { ...(p.ach || {}) }; const S = c2State(A); const op = String(args?.op || 'state'), n = Math.round(Number(args?.ch) || 0);
+      const out = () => json({ ok: true, open: C2_OPEN(A, user), c2: S, coins: A.coins ?? COIN_START, ach2: A.ach2 || {} });
       if (op === 'state') return out();
       if (!C2_OPEN(A, user)) return json({ error: 'c2_locked' }, 400);
-      if (!C2[n] || n > (S.ch | 0) + 1) return json({ error: 'c2_locked' }, 400);
+      const pay = (c: number) => { A.coins = (A.coins ?? COIN_START) + c; return c; }, ach = (k: string) => { A.ach2 = { ...(A.ach2 || {}) }; if (!A.ach2[k]) A.ach2[k] = Date.now(); };
+      const allE = () => [1, 2, 3, 4].every((k) => S.e[k]);
+      const can = n >= 1 && n <= 9 ? n <= (S.ch | 0) + 1 : n >= 10 && n <= 13 ? (S.ch | 0) >= 9 && S.end === n - 9 : n === 14 ? allE() : false;
       let got = 0;
-      if (op === 'step') { if (!S.s[n]) { S.s = { ...S.s, [n]: 1 }; got = C2[n].sc; A.coins = (A.coins ?? COIN_START) + got; } }
+      if (op === 'fork') { if (n < 1 || n > 9 || n > (S.ch | 0) + 1) return json({ error: 'c2_locked' }, 400);
+        S.ch = Math.min(S.ch | 0, n - 1); for (const K of ['s', 'w', 'c', 'f']) { const o: any = {}; for (const k of Object.keys(S[K] || {})) if (+k < n) o[k] = S[K][k]; S[K] = o; }
+        if (n <= 7) S.vb = 0; S.m = ''; S.end = 0; S.ef = 0; }
+      else if (!can) return json({ error: 'c2_locked' }, 400);
+      else if (op === 'step') { if (n > 8 || S.s[n]) return out(); S.s = { ...S.s, [n]: 1 };
+        if (n === 7) S.vb = args?.vb ? 1 : 0; if (n === 8 && args?.clean) S.f = { ...S.f, 8: 1 }; if (n === 6 && args?.clean) ach('c2voice');
+        if (!S.ps[n]) { S.ps = { ...S.ps, [n]: 1 }; got = pay(C2B[n].sc); } }
+      else if (op === 'mirror') { if (n !== 9 || S.w[9]) return json({ error: 'bad_args' }, 400); const k = String(args?.k || ''); S.m = k === 'h' || k === 't' ? k : ''; }
       else if (op === 'win') { const gid = String(args?.gid || ''); if (!/^[a-z0-9]{4,16}$/.test(gid)) return json({ error: 'bad_game' }, 400);
         const { data: g } = await db.from('games').select('p1,state').eq('id', gid).maybeSingle(); const st = g?.state;
-        if (!st || g.p1 !== user.id || !st.c2 || st.c2 !== n || st.phase !== 'over' || st.result?.winner !== 'p1') return json({ error: 'not_won' }, 400);
-        if (!S.w[n]) { S.w = { ...S.w, [n]: 1 }; got = C2[n].coins; A.coins = (A.coins ?? COIN_START) + got; } }
-      else if (op === 'choice') { const k = args?.k === 'b' ? 'b' : 'a'; if (!S.w[n]) return json({ error: 'not_won' }, 400);
-        if (!S.c[n]) { S.c = { ...S.c, [n]: k }; if (n === 1 && k === 'b') { got = 300; A.coins = (A.coins ?? COIN_START) + got; } } if ((S.ch | 0) < n) S.ch = n; }
-      else if (op === 'reset' && (A.tester || isAdminUser(user))) { S.ch = 0; S.w = {}; S.s = {}; S.c = {}; }
+        if (!st || g.p1 !== user.id || st.c2 !== n || st.phase !== 'over' || st.result?.winner !== 'p1') return json({ error: 'not_won' }, 400);
+        if (n <= 8 && !S.s[n]) return json({ error: 'c2_step' }, 400);
+        S.w = { ...S.w, [n]: 1 }; if (!S.pw[n]) { S.pw = { ...S.pw, [n]: 1 }; got = pay(c2Boss(n, S).coins); }
+        if (n === 1) ach('c2druzi');
+        if (n >= 10 && n <= 13) { const e = n - 9; S.e = { ...S.e, [e]: 1 }; S.ef = 1; ach('c2e' + e); }
+        if (n === 14) { S.x = 1; ach('c2all'); } }
+      else if (op === 'choice') { const k = args?.k === 'b' ? 'b' : 'a'; if (n > 9 || !S.w[n]) return json({ error: 'not_won' }, 400);
+        S.c = { ...S.c, [n]: k }; if (n === 2 && k === 'b' && !S.ps.key) { S.ps = { ...S.ps, key: 1 }; got = pay(300); }
+        if ((S.ch | 0) < n) S.ch = n; if (n === 9) S.end = c2End(S); }
+      else if (op === 'reset' && (A.tester || isAdminUser(user))) { A.c2 = { v: 2 }; Object.assign(S, c2State({ c2: { v: 2 } })); }
       else return json({ error: 'bad_args' }, 400);
       A.c2 = S; await db.from('profiles').update({ ach: A }).eq('id', user.id); const r = await out(); const j = await r.json(); return json({ ...j, got });
     }
@@ -1461,11 +1497,13 @@ const handle = async (req: Request): Promise<Response> => {
       // 0.76: a match to 3/5/7 points and/or blitz (10 s a move) against a bot — practice, no rating
       if (bot && bot !== 'ghost' && bot !== 'camp' && args?.fmt && typeof args.fmt === 'object') { const to = [1, 3, 5, 7].includes(Number(args.fmt.to)) ? Number(args.fmt.to) : 1, bz = !!args.fmt.bz;
         if (to > 1 || bz) { st.rules = { to, t: bz ? 10 : 0, dbl: 'norm', head: 'one', noMars: false, noOdds: false, open: false, first: 'roll' }; st.unrated = 1; } }
-      if (bot === 'c2') { const S = me?.ach?.c2 || {}, n = Math.round(Number(args?.ch) || 0), B = C2[n];
-        if (!B || !C2_OPEN(me?.ach || {}, user) || n > (S.ch | 0) + 1) return json({ error: 'c2_locked' }, 400);
-        st.c2 = n; st.unrated = 1; st.arn = { b: 0, k: 'c2', run: 0, rr: B.rr ? 1 : 0, wind: B.wind ? 1 : 0, fog: B.fog ? 1 : 0, mir: B.mir ? 1 : 0, strict: B.strict ? 1 : 0, c2: n, tal: n >= 4 && S.c && S.c[3] === 'b' ? 1 : 0 };
+      if (bot === 'c2') { const A0 = me?.ach || {}, S = c2State(A0), n = Math.round(Number(args?.ch) || 0);
+        const ok = C2B[n] && C2_OPEN(A0, user) && (n <= 9 ? n <= (S.ch | 0) + 1 && (n === 9 || S.s[n]) : n <= 13 ? (S.ch | 0) >= 9 && S.end === n - 9 : [1, 2, 3, 4].every((k) => S.e[k]));
+        if (!ok) return json({ error: 'c2_locked' }, 400); const B = c2Boss(n, S);
+        st.c2 = n; st.unrated = 1; st.arn = { b: 0, k: 'c2', run: 0, rr: B.rr ? 1 : 0, wind: B.wind ? 1 : 0, fog: B.fog ? 1 : 0, mir: B.mir ? 1 : 0, strict: B.strict ? 1 : 0, c2: n, tal: B.tal ? 1 : 0 };
         if (B.lvl) st.botLvl = B.lvl; else delete st.botLvl; st.botNoise = B.nz; st.rules = { to: 1, t: B.t || 0, dbl: B.dbl || 'norm', head: 'one', noMars: false, noOdds: false, open: false, first: 'roll' };
-        if (B.blk || B.wind) st.blk = { c: '', p: (B.blk || []).slice(), base: (B.blk || []).slice() }; }
+        if ((B.blk && B.blk.length) || B.wind) st.blk = { c: '', p: (B.blk || []).slice(), base: (B.blk || []).slice() };
+        if (B.first) { st.white = st.p2; st.black = st.p1; st.phase = 'play'; st.turn = 'w'; st.turnAt = Date.now(); if (st.blk) st.blk.c = 'b'; } }
       if (bot === 'hryts' && args?.arn) { const R = me?.ach?.arn; if (!R || R.st !== 'on' || (R.w | 0) >= 12 || (R.l | 0) >= ARN_LIVES) return json({ error: 'arena_off' }, 400);
         const bi = R.w | 0, B = ARN[bi]; st.arn = { b: bi, k: B.k, run: R.run, rr: B.rr ? 1 : 0, wind: B.wind ? 1 : 0, fog: B.fog ? 1 : 0, mir: B.mir ? 1 : 0, strict: B.strict ? 1 : 0 };
         st.unrated = 1; if (B.lvl) st.botLvl = B.lvl; else delete st.botLvl; st.botNoise = B.nz; st.rules = { to: 1, t: B.t || 0, dbl: B.dbl || 'norm', head: 'one', noMars: false, noOdds: false, open: false, first: 'roll' };
