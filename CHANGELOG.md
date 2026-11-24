@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.119.0 — 24.11.2026
+- Search as a duel screen (#mm119): full screen over a blurred home; your card vs an opponent card shuffling players of your level (160 ms), a ring timer with the online count, the widening rating range, one rotating tip, Cancel / Play a bot while I wait, Esc cancels. A found ghost is shown on the card for 1.2 s («Opponent found!») before the game. The old side panel stays underneath as the engine.
+
 ## 0.118.1 — 24.11.2026
 - Server bot / matched-opponent games are remembered (activeBot) and offered back after a reload; with nothing remembered, the newest unfinished bot game of the player (≤ 6 h) is looked up in «games». Leaving on purpose forgets it; × hides it.
 
