@@ -3,6 +3,10 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.116.0 — 24.11.2026
+- Server: the handler is a named function; a new public wrapper action «boot» runs up to 6 whitelisted reads (season, arn/state, rewards/get, friends/list) one after another with the player's token and returns them in one response.
+- Client: one «boot» call right after sign-in; for 8 s the old loaders read its answers (sb.functions.invoke hook), then the season, arena, rewards and friends are painted at once. Falls back to the old calls if boot fails.
+
 ## 0.115.1 — 24.11.2026
 - Shown online: 10…200; hourly bands scaled by the day of the week (weekdays ~0.6–0.68, Friday evening 0.93, Saturday 1, Sunday 0.92 / 0.74 late) and a ±9% mood of the day.
 

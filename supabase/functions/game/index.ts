@@ -680,7 +680,7 @@ async function lgAdd(db: any, id: string, A: any, name: string, av: string, pts:
     A.lg.p = (A.lg.p || 0) + pts; const path = 'league/' + wk + '/' + A.lg.g + '.json'; const F = (await lgFile(db, path)) || { m: {} };
     F.m[id] = { n: String(name || '').slice(0, 20), av: av || '', p: A.lg.p }; await lgSave(db, path, F);
   } catch (_) {} }
-Deno.serve(async (req) => {
+const handle = async (req: Request): Promise<Response> => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: cors });
   try {
     const url = Deno.env.get('SUPABASE_URL')!, svc = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? Deno.env.get('SUPABASE_SECRET_KEY')!;
@@ -1452,4 +1452,20 @@ Deno.serve(async (req) => {
     }
     return json({ error: 'busy' }, 409);
   } catch (e) { return json({ error: 'server', detail: String(e) }, 500); }
+};
+// 0.116: «boot» — the reads a signed-in player needs at the start, in one request instead of four.
+// Only these reads are allowed; they run one after another (no two writes to a profile at once) and each goes through the
+// same checks as a normal call (the player's token is passed on).
+const BOOT_OK = (s: any) => s && ((s.action === 'season' && !s.args?.op) || (s.action === 'arn' && s.args?.op === 'state')
+  || (s.action === 'rewards' && s.args?.op === 'get' && !s.args?.k) || (s.action === 'friends' && s.args?.op === 'list'));
+Deno.serve(async (req) => {
+  if (req.method !== 'POST') return handle(req);
+  const raw = await req.text(); let b: any = {}; try { b = JSON.parse(raw || '{}'); } catch (_) {}
+  if (b && b.action === 'boot') {
+    const subs = (Array.isArray(b.args?.list) ? b.args.list : []).filter(BOOT_OK).slice(0, 6); const res: any[] = [];
+    for (const sb0 of subs) { try { const r = await handle(new Request(req.url, { method: 'POST', headers: req.headers, body: JSON.stringify(sb0) })); res.push({ status: r.status, data: await r.json() }); }
+      catch (_) { res.push({ status: 500, data: { error: 'server' } }); } }
+    return new Response(JSON.stringify({ ok: true, res }), { headers: { ...cors, 'Content-Type': 'application/json' } });
+  }
+  return handle(new Request(req.url, { method: 'POST', headers: req.headers, body: raw }));
 });
