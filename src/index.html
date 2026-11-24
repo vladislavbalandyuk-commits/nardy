@@ -7413,7 +7413,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.118.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.118.1';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -9673,6 +9673,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+{v:"0.118.1", d:"24.11.2026", uk:["Партія з ботом або з підібраним суперником не губиться після перезавантаження сторінки — з'являється «Повернутися до гри»"], en:["A game with a bot or a matched opponent is no longer lost on reload — «Back to the game» appears"], ru:["Партия с ботом или с подобранным соперником не теряется после перезагрузки — появляется «Вернуться к игре»"]},
 {v:"0.118.0", d:"24.11.2026", uk:["Сайт відкривається швидше: код і стилі тепер зберігаються в браузері до наступного оновлення","Телефон менше гріється: усі фонові перевірки працюють від одного годинника, а значок «онлайн» більше не навантажує екран"], en:["The site opens faster: code and styles are now kept in the browser until the next update","Phones stay cooler: all background checks run on one clock, and the «online» dot no longer loads the screen"], ru:["Сайт открывается быстрее: код и стили теперь хранятся в браузере до следующего обновления","Телефон меньше греется: все фоновые проверки работают от одних часов, а значок «онлайн» больше не нагружает экран"]},
 {v:"0.116.0", d:"24.11.2026", uk:["Швидший старт: сезон, арена, нагороди й друзі приходять одним запитом, а не чотирма по черзі"], en:["Faster start: season, arena, rewards and friends arrive in one request instead of four in a row"], ru:["Быстрее старт: сезон, арена, награды и друзья приходят одним запросом, а не четырьмя по очереди"]},
 {v:"0.115.1", d:"24.11.2026", uk:["Більше гравців онлайн увечері та на вихідних"], en:["More players online in the evenings and at weekends"], ru:["Больше игроков онлайн вечером и на выходных"]},
@@ -11089,6 +11090,29 @@ async function b116Boot(){ try{ if(!sb || !authUser || authUser.is_anonymous || 
 function fetchBoot(){ const F=sb.functions; return F._b116orig('game',{body:{action:'boot', args:{list:BOOT_LIST}}}); }
 { const _os=onSignedIn; onSignedIn=async function(){ const r=await _os.apply(this,arguments); try{ b116Boot(); }catch(e){} return r; }; }
 
+
+// ================= 0.118.1: a game against a bot or a matched opponent survives a reload =================
+// (the server keeps it; until now only games between two people were remembered). On reload the «Back to the game» bar appears.
+setInterval(()=>{ try{ if(mode==='bot' && gs && gs.server && gameId && uid && !tut && !(typeof story!=='undefined' && story)){ if(gs.phase==='over') store.set('activeBot',null); else store.set('activeBot',{id:gameId, at:Date.now(), ghost:gs.ghost!=null?gs.ghost:null}); } }catch(e){} }, 3000);
+{ const _lv=leave; leave=function(){ try{ if(mode==='bot' && gs && gs.server && gs.phase!=='over') store.set('activeBot',null); }catch(e){} return _lv.apply(this,arguments); }; }
+async function rcBotFind(){ const A=store.get('activeBot',null); if(A && A.id && Date.now()-A.at<6*3600e3) return A;
+  if(A) store.set('activeBot',null);
+  // not remembered (a reload before this version): ask for the newest unfinished bot game of this player
+  try{ const since=new Date(Date.now()-6*3600e3).toISOString();
+    const {data}=await sb.from('games').select('id,state,updated_at').eq('p1',uid).is('p2',null).eq('state->>phase','play').like('state->>p2','bot:%').gte('updated_at',since).order('updated_at',{ascending:false}).limit(1);
+    const r=data&&data[0]; if(r && !store.get('rcBotNo_'+r.id,0)) return {id:r.id, at:Date.parse(r.updated_at)||Date.now(), ghost:null, found:1}; }catch(e){}
+  return null; }
+async function rcBotCheck(){ try{ if(gs || location.hash.length>1 || !db || !uid || !sb || $('rcBar')) return; const A=await rcBotFind(); if(!A || gs) return;
+    const d=snapData(await db.doc('games/'+A.id).get()); if(!d || d.phase==='over' || d.p1!==uid){ store.set('activeBot',null); return; }
+    const op=(d.names&&d.names.p2)||t('opp'); const bar=uxH('div','rcbar'); bar.id='rcBar'; const a=uxH('span','av'); try{ avatarInto(a,(d.avs&&d.avs.p2)||'',op); }catch(e){}
+    const tx=uxH('div'); tx.append(uxH('b',null,t('rcResT')), uxH('small',null,t('rcResD',{n:op, s:(d.score?d.score.p1+' : '+d.score.p2:'')})));
+    const go=uxH('button','cta',t('rcGo')); go.type='button'; go.onclick=()=>{ bar.remove(); rcBotResume(A, d); };
+    const x=uxH('button','rcx','×'); x.type='button'; x.setAttribute('aria-label',t('close')); x.onclick=()=>{ bar.remove(); store.set('activeBot',null); store.set('rcBotNo_'+A.id,1); };
+    bar.append(a,tx,go,x); document.body.appendChild(bar); }catch(e){} }
+function rcBotResume(A, d){ try{ mnCloseAll(); }catch(e){} mode='bot'; gameId=A.id; ref=db.doc('games/'+A.id); gs=d; gs.server=true;
+  if(A.ghost!=null) gs.ghost=A.ghost; else if(String(d.p2||'')==='bot:ghost') gs.ghost=0;
+  botToken++; botBusy=false; route(); try{ botTick(); }catch(e){} }
+setTimeout(function rcBotBoot(){ if(!db || !uid || !sb){ if((rcBotBoot.n=(rcBotBoot.n||0)+1)<20) setTimeout(rcBotBoot,1500); return; } setTimeout(rcBotCheck, 1200); }, 2500);
 </script>
 </body>
 </html>

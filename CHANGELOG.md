@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.118.1 — 24.11.2026
+- Server bot / matched-opponent games are remembered (activeBot) and offered back after a reload; with nothing remembered, the newest unfinished bot game of the player (≤ 6 h) is looked up in «games». Leaving on purpose forgets it; × hides it.
+
 ## 0.118.0 — 24.11.2026 (with 0.117)
 - Build: the app script (~920 KB) and its main stylesheet (~320 KB) go to app.js / app.css with ?v=hash (cached for a year by Vercel and the service worker); index.html 1.29 MB → 56 KB; <meta name="nardy-version">; portal zips and livecheck include them.
 - One clock: every setInterval ≥ 200 ms joins a single scheduler (4 Hz, 1 Hz when hidden); ~46 timers / ~50 wake-ups a second → 4.
