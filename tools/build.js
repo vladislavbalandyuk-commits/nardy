@@ -57,4 +57,13 @@ boot();
   const parts=[]; let re=/<script>([\s\S]*?)<\/script>/g, m; while((m=re.exec(s))) parts.push(m);
   for(const p of parts.reverse()){ const r=await minify(p[1],{compress:{passes:1},mangle:true,format:{comments:false}}); s=s.slice(0,p.index)+'<script>'+r.code+'</script>'+s.slice(p.index+p[0].length); }
   s=await hm.minify(s,{collapseWhitespace:true,conservativeCollapse:true,removeComments:true});
+  // 0.117: the app code and its main stylesheet go to app.js / app.css with the version in the address — the browser and the
+  // service worker keep them until the next release, so a repeat visit downloads only the small page. The script stays where it was
+  // (a plain blocking <script src>), so the order of execution does not change.
+  { const ver=(src && fs.readFileSync(src,'utf8').match(/const APP_VERSION='([^']+)'/)||[])[1]||'';
+    let big=null, re2=/<script>([\s\S]*?)<\/script>/g, m2; while((m2=re2.exec(s))) if(!big || m2[1].length>big[1].length) big=m2;
+    if(big && big[1].length>100000){ const js=big[1], hj=md5(js); fs.writeFileSync(path.join(outDir,'app.js'),js); s=s.slice(0,big.index)+'<script src="app.js?v='+hj+'"></script>'+s.slice(big.index+big[0].length); console.log('app.js',js.length); }
+    let bs=null, re3=/<style>([\s\S]*?)<\/style>/g, m3; while((m3=re3.exec(s))) if(!bs || m3[1].length>bs[1].length) bs=m3;
+    if(bs && bs[1].length>50000){ const css=bs[1], hc=md5(css); fs.writeFileSync(path.join(outDir,'app.css'),css); s=s.slice(0,bs.index)+'<link rel="stylesheet" href="app.css?v='+hc+'">'+s.slice(bs.index+bs[0].length); console.log('app.css',css.length); }
+    if(ver) s=s.replace(/<meta charset="?utf-8"?>/i, m=>m+'<meta name="nardy-version" content="'+ver+'">'); }
   fs.writeFileSync(path.join(outDir,'index.html'),s); console.log('index',s.length,'av',av.length,'pt',ptjs.length,'skins',items.length); })();

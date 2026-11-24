@@ -19,7 +19,7 @@ if lite:
     CDN = f'https://cdn.jsdelivr.net/gh/vladislavbalandyuk-commits/nardy@{sha}/'
 ASSET = re.compile(r'''(["'(`])(?:\./)?((?:img|tb|arena|fonts|lib|fx|sfx|snd)/)''')
 def cdnify(txt): return ASSET.sub(lambda m: m.group(1) + CDN + m.group(2), txt) if CDN else txt
-files = ['index.html', 'av.js', 'pt.js', 'en.js', 'ru.js', 'news.js', 'skins.css', 'pages.css', 'qr.js',
+files = ['index.html', 'app.js', 'app.css', 'av.js', 'pt.js', 'en.js', 'ru.js', 'news.js', 'skins.css', 'pages.css', 'qr.js',
          'favicon.svg', 'icon-192.png', 'icon-512.png', 'og.png']
 dirs = ['fx', 'sfx', 'snd', 'img', 'tb', 'arena', 'fonts', 'lib']
 skip = [os.path.join('snd', 'radio')]  # the radio streams from the CDN (and is off inside portals)

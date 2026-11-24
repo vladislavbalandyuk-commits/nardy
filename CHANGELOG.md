@@ -3,6 +3,11 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.118.0 — 24.11.2026 (with 0.117)
+- Build: the app script (~920 KB) and its main stylesheet (~320 KB) go to app.js / app.css with ?v=hash (cached for a year by Vercel and the service worker); index.html 1.29 MB → 56 KB; <meta name="nardy-version">; portal zips and livecheck include them.
+- One clock: every setInterval ≥ 200 ms joins a single scheduler (4 Hz, 1 Hz when hidden); ~46 timers / ~50 wake-ups a second → 4.
+- The «online» dot pulses by opacity (compositor) instead of box-shadow: phone idle style recalcs 60/s → 4/s.
+
 ## 0.116.0 — 24.11.2026
 - Server: the handler is a named function; a new public wrapper action «boot» runs up to 6 whitelisted reads (season, arn/state, rewards/get, friends/list) one after another with the player's token and returns them in one response.
 - Client: one «boot» call right after sign-in; for 8 s the old loaders read its answers (sb.functions.invoke hook), then the season, arena, rewards and friends are painted at once. Falls back to the old calls if boot fails.

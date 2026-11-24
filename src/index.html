@@ -1340,7 +1340,8 @@ body.v7 .ico svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-wid
 body.v7 .avstack{display:flex;align-items:center;margin:2px 0 14px}
 body.v7 .avstack .av{width:30px;height:30px;margin-right:-8px;box-shadow:0 0 0 2px var(--panel);border-radius:50%}
 body.v7 .avstack em{font-style:normal;font-size:12.5px;color:var(--muted);margin-left:16px;display:flex;align-items:center;gap:7px}
-body.v7 .avstack em::before{content:"";width:7px;height:7px;border-radius:50%;background:#34d399;box-shadow:0 0 0 0 rgba(52,211,153,.6);animation:livePulse 2s infinite}
+body.v7 .avstack em::before{content:"";width:7px;height:7px;border-radius:50%;background:#34d399;box-shadow:0 0 0 3px rgba(52,211,153,.22);animation:live118 2.2s ease-in-out infinite;will-change:opacity}
+@keyframes live118{50%{opacity:.4}}
 @keyframes livePulse{70%{box-shadow:0 0 0 8px rgba(52,211,153,0)}100%{box-shadow:0 0 0 0 rgba(52,211,153,0)}}
 body.v7 #vHome .sec:first-child .onl,body.v7 #vHome>.sec:has(>h1) .onl{display:none}
 body.v7 .rkcard{grid-column:1/-1;display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;background:var(--surf);border:1px solid var(--line2);border-radius:22px;padding:14px 16px;cursor:pointer;transition:border-color .2s}
@@ -4192,6 +4193,21 @@ body:not(.dark) .rcbar{background:#fff;border-color:rgba(98,195,160,.4)} body:no
 <div id="revOv" class="overlay hidden"><div class="modal wide rev"><div class="mhead"><h2 data-t="review"></h2><button class="xbtn" id="btnRevClose" aria-label="Close"><svg class="i"><use href="#i-x"/></svg></button></div><div id="revBody"></div></div></div>
 
 <script>
+
+// ---- 0.118: one clock for the whole app. Every repeating timer of 200 ms or more joins one scheduler that wakes 4 times a
+// second (once a second when the tab is hidden) and runs the timers that are due — instead of ~46 separate timers waking the
+// phone ~50 times a second. Shorter timers (animations) keep their own. clearInterval works for both.
+(function(){ const nSI=window.setInterval.bind(window), nCI=window.clearInterval.bind(window), nST=window.setTimeout.bind(window);
+  const L=new Map(); let seq=1e7, timer=null;
+  function tick(){ timer=null; const now=performance.now();
+    for(const [id,e] of L){ if(now<e.next) continue; e.next=now-e.next>e.ms ? now+e.ms : e.next+e.ms; try{ e.f.apply(window,e.a); }catch(err){ try{ console.error(err); }catch(_){} } }
+    arm(); }
+  function arm(){ if(timer || !L.size) return; timer=nST(tick, document.hidden?1000:250); }
+  document.addEventListener('visibilitychange',()=>{ if(!document.hidden && timer==null) arm(); });
+  window.setInterval=function(f,ms,...a){ ms=+ms||0; if(typeof f!=='function' || ms<200) return nSI(f,ms,...a);
+    const id=++seq; L.set(id,{f,ms,a,next:performance.now()+ms}); arm(); return id; };
+  window.clearInterval=function(id){ if(L.has(id)){ L.delete(id); return; } return nCI(id); };
+  window.__clock118=()=>L.size; })();
 
 // ---- error log: the first few errors of a session go to the client_errors table ----
 let errSent=0;
@@ -7397,7 +7413,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.116.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.118.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -9657,6 +9673,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+{v:"0.118.0", d:"24.11.2026", uk:["Сайт відкривається швидше: код і стилі тепер зберігаються в браузері до наступного оновлення","Телефон менше гріється: усі фонові перевірки працюють від одного годинника, а значок «онлайн» більше не навантажує екран"], en:["The site opens faster: code and styles are now kept in the browser until the next update","Phones stay cooler: all background checks run on one clock, and the «online» dot no longer loads the screen"], ru:["Сайт открывается быстрее: код и стили теперь хранятся в браузере до следующего обновления","Телефон меньше греется: все фоновые проверки работают от одних часов, а значок «онлайн» больше не нагружает экран"]},
 {v:"0.116.0", d:"24.11.2026", uk:["Швидший старт: сезон, арена, нагороди й друзі приходять одним запитом, а не чотирма по черзі"], en:["Faster start: season, arena, rewards and friends arrive in one request instead of four in a row"], ru:["Быстрее старт: сезон, арена, награды и друзья приходят одним запросом, а не четырьмя по очереди"]},
 {v:"0.115.1", d:"24.11.2026", uk:["Більше гравців онлайн увечері та на вихідних"], en:["More players online in the evenings and at weekends"], ru:["Больше игроков онлайн вечером и на выходных"]},
 {v:"0.115.0", d:"23.11.2026", uk:["Турнірна зала: турнір на весь екран, великий таймер до наступної події і шкала з п'яти етапів","До старту — сітка з 16 місць і п'єдестал призів; кнопки «Поділитися» і «У календар» з підписами"], en:["Tournament hall: the tournament fills the screen, with a big clock to the next event and five stages","Before the start — 16 seats and a prize podium; «Share» and «To calendar» buttons are labelled"], ru:["Турнирный зал: турнир на весь экран, большой таймер до следующего события и шкала из пяти этапов","До старта — сетка из 16 мест и пьедестал призов; кнопки «Поделиться» и «В календарь» с подписями"]},
