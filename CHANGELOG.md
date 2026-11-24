@@ -3,6 +3,13 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.128.0 — 24.11.2026
+- The new look is the default (`?ui2=0` keeps the old one); the test pill is gone.
+- Performance: no backdrop blur, a static PNG noise instead of SVG turbulence, no fixed backgrounds or photo filters; shop scroll frame p50 76 → 29 ms at 4× CPU throttle.
+- Shop showcase: each category one scrolling row of up to 10 with ‹ › and «All» by the title, an «All →» tile at the end.
+- Rewards moved into a profile tab; the menu has five tabs, the counter is on «Profile».
+- Radio pill and the dock radio button restyled as records; mode chips sit under the board.
+
 ## 0.127.1 — 24.11.2026
 - `?ui2`: the «Collapse» button is hidden in the narrow dock.
 
