@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.124.0 — 24.11.2026
+- The final (`gf`/`f`) live: banner on home and in `#tourBox`; spectators get a viewer count (realtime presence on `watch-<gid>`) and reactions (broadcast), the bots' broadcast gets ambient reactions on doubles and bear-offs.
+
 ## 0.123.0 — 24.11.2026
 - Review: move-by-move analysis with `pzOutcomes` (accuracy ring, up to 3 turns with a better play, yours/better on `rpBoardSvg`), computed in 24 ms slices.
 

@@ -3110,5 +3110,7 @@
 "anYours":"Ваш",
 "anBetter":"Лучше",
 "anYouPlayed":"Вы сыграли",
-"anBetterIs":"Лучше"
+"anBetterIs":"Лучше",
+"finLive":"Финал вживую",
+"finWatch":"{n} смотрят"
 }
