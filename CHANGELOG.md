@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.133.0 — 24.11.2026
+- Part II page: a map of Ukraine (Natural Earth outline via world-atlas, public domain; Crimea drawn as part of Ukraine) with the route between the nine chapters; a side panel on a computer, a sheet on a phone. The finale and the secret epilogue stay as cards below.
+
 ## 0.132.0 — 24.11.2026
 - Part II rewritten around the new scenario and completed: chapter 1 is the Druzi hookah bar in Mohyliv-Podilskyi (boss: the Grey courier, he moves first), chapters 2–9 Vinnytsia → the Marble Hall auction, scenes in uk/en/ru with choice-dependent lines.
 - New challenges: blitz race (timed quiz), call check, stake (all-in = ×2 coins, 10 s a move), interrogation (a clean one lifts the fog for the Shadow and the Baron). The mirror scene flips one scale; the Baron keeps the twists your choices did not remove.

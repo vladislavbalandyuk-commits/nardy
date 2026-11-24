@@ -4531,6 +4531,42 @@ body.ui2 #h1Pg>.h1top{z-index:40}
 body.h1scl #h1Pg>.h1top,body.h1scl #h1Pg.hasban>.h1top{background:rgba(13,14,17,.96)!important;border-bottom-color:rgba(255,255,255,.07)!important;box-shadow:0 8px 24px -12px rgba(0,0,0,.7)}
 @media (max-width:860px) and (orientation:portrait){ body.ui2 #radPill.radp{bottom:calc(116px + env(safe-area-inset-bottom))!important} body.ui2:has(#radPill) #h1Pg{padding-bottom:84px} }
 
+/* 0.133: the map of Ukraine for part II */
+#c2Pg .c2w{max-width:1180px}
+.c2lay{display:grid;grid-template-columns:1fr;gap:18px;margin-bottom:22px}
+@media (min-width:900px){ .c2lay{grid-template-columns:1fr 360px;align-items:start} .c2side{position:sticky;top:16px;padding:18px;border-radius:24px;background:#131722;border:1px solid rgba(255,255,255,.08)} }
+@media (max-width:899px){ .c2side{display:none} }
+.c2map{position:relative;width:100%;border-radius:24px;background:radial-gradient(120% 90% at 50% 30%,rgba(28,42,68,.55),rgba(7,9,14,0) 70%);}
+.c2ua{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.c2ua .ua-glow{fill:none;stroke:rgba(111,168,255,.35);stroke-width:10}
+.c2ua .ua-edge{fill:none;stroke:rgba(196,140,120,.75);stroke-width:4;stroke-linejoin:round}
+.c2ua .ua-fill{stroke:none}
+.c2ua .river{fill:none;stroke:rgba(111,168,255,.35);stroke-width:3;stroke-dasharray:2 6;stroke-linecap:round}
+.c2ua .rt{fill:none;stroke:rgba(255,255,255,.22);stroke-width:3;stroke-dasharray:3 10;stroke-linecap:round}
+.c2ua .rt.next{stroke:rgba(196,140,120,.8);animation:c2dash 1.4s linear infinite}
+.c2ua .rd .rt{stroke:#3fd39a;stroke-dasharray:none;stroke-width:5;filter:drop-shadow(0 0 6px rgba(63,211,154,.8))}
+@keyframes c2dash{to{stroke-dashoffset:-26}}
+.c2pin{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:4px;padding:0;border:0;background:none;color:#eef0f4;cursor:pointer;z-index:1}
+.c2pin i{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font:700 13px/1 'Unbounded',system-ui,sans-serif;font-style:normal;background:#1c2233;border:2px solid rgba(255,255,255,.25);box-shadow:0 4px 14px rgba(0,0,0,.5);transition:transform .18s}
+.c2pin .lb{position:absolute;top:100%;margin-top:4px;font-size:11.5px;font-weight:700;white-space:nowrap;padding:2px 7px;border-radius:999px;background:rgba(10,13,22,.8);color:#d7dbe4;pointer-events:none}
+.c2pin.done i{background:#3fd39a;color:#06130d;border-color:#3fd39a}
+.c2pin.cur i{background:#c48c78;color:#1a0f0b;border-color:#f1d6cb;animation:c2pulse 1.8s ease-in-out infinite}
+.c2pin.lock i{background:#121620;color:#59627a;border-color:rgba(255,255,255,.12);width:22px;height:22px;font-size:10px}.c2pin.lock .lb{display:none}
+.c2pin.sel i{transform:scale(1.25);box-shadow:0 0 0 4px rgba(241,214,203,.35),0 6px 18px rgba(0,0,0,.6)}
+.c2pin:hover i{transform:scale(1.15)}
+@keyframes c2pulse{0%,100%{box-shadow:0 0 0 0 rgba(196,140,120,.6),0 4px 14px rgba(0,0,0,.5)}50%{box-shadow:0 0 0 10px rgba(196,140,120,0),0 4px 14px rgba(0,0,0,.5)}}
+@media (max-width:600px){ .c2pin .lb.l,.c2pin .lb.r,.c2pin .lb.u{top:100%;bottom:auto;left:auto;right:auto;margin:4px 0 0;transform:none} .c2pin i{width:24px;height:24px;font-size:11px} .c2pin.lock i{width:16px;height:16px;font-size:0} .c2pin .lb{font-size:10px;padding:2px 6px;display:none} .c2pin.sel .lb,.c2pin.cur .lb{display:block;z-index:2} .c2map{margin:0 -8px;width:calc(100% + 16px)} }
+.c2ban{min-height:130px;border-radius:18px;background-size:cover;background-position:center;display:flex;flex-direction:column;justify-content:flex-end;padding:14px 16px;margin-bottom:12px}
+.c2ban h2{margin:2px 0 0;font:700 22px/1.1 'Unbounded',system-ui,sans-serif}
+.c2side .cp-opp,.c2sh .cp-opp{display:flex;align-items:center;gap:12px;margin-bottom:12px}.c2side .cp-opp .av,.c2sh .cp-opp .av{width:48px;height:48px;flex:none}.c2side .cp-opp small,.c2sh .cp-opp small{display:block;color:#9aa3b5;font-size:12.5px}
+.c2go{width:100%;margin-top:12px}
+.c2below{margin-top:4px}.c2below::before{display:none}
+.c2side .c2rp,.c2sh .c2rp{margin:12px 0 0}
+.c2pin.hall i{border-radius:9px}
+.c2pin .lb.r{top:50%;left:100%;margin:0 0 0 6px;transform:translateY(-50%)}.c2pin .lb.l{top:50%;right:100%;margin:0 6px 0 0;transform:translateY(-50%)}.c2pin .lb.u{top:auto;bottom:100%;margin:0 0 4px}
+.c2now{margin-top:-6px}
+@media (max-width:600px){ .c2pin .lb.l,.c2pin .lb.r,.c2pin .lb.u{top:100%!important;bottom:auto!important;left:auto!important;right:auto!important;margin:4px 0 0!important;transform:none!important} }
+
 </style>
 <style>/* 0.38: home — one big «Play», three «Today» tiles */
 .h38modes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
@@ -8247,7 +8283,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.132.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.133.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -10508,6 +10544,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+{v:"0.133.0", d:"24.11.2026", uk:["Друга частина «Шляху нардиста» тепер на мапі України: дорога від Druzi в Могилеві-Подільському до Мармурової зали, пройдені міста світяться","Натисніть на місто — побачите главу, боса, його фішки й що робити далі"], en:["Part II of the story is now on a map of Ukraine: the road from Druzi in Mohyliv-Podilskyi to the Marble Hall, cities you’ve passed light up","Tap a city to see its chapter, its boss, the twists and what to do next"], ru:["Вторая часть «Пути нардиста» теперь на карте Украины: дорога от Druzi в Могилёве-Подольском до Мраморного зала, пройденные города светятся","Нажмите на город — увидите главу, босса, его фишки и что делать дальше"]},
 {v:"0.132.0", d:"24.11.2026", uk:["«Шлях нардиста II» тепер повністю: дев’ять глав від кальянної Druzi в Могилеві-Подільському до аукціону в Мармуровій залі","Нові випробування: бліц-гонка до зміни варти, перевірка підробленого дзвінка, ставка капітана, допит Тіні","Чотири кінцівки з власним фінальним боєм і титулом, а для тих, хто збере всі, — таємний епілог «П’ята кістка»","«Пройти інакше»: будь-яку пройдену главу можна переграти з іншим вибором, побачені кінцівки лишаються"], en:["“The Way of the Nardy Player II” is now complete: nine chapters from the Druzi hookah bar in Mohyliv-Podilskyi to the auction in the Marble Hall","New challenges: a blitz race before the guard changes, checking a fake call, the captain’s stake, the Shadow’s interrogation","Four endings, each with its own final battle and title, and a secret epilogue, “The Fifth Die”, for those who collect them all","“Play it differently”: replay any finished chapter with another choice; endings you’ve seen stay"], ru:["«Путь нардиста II» теперь полностью: девять глав от кальянной Druzi в Могилёве-Подольском до аукциона в Мраморном зале","Новые испытания: блиц-гонка до смены охраны, проверка поддельного звонка, ставка капитана, допрос Тени","Четыре концовки со своим финальным боем и титулом, а для тех, кто соберёт все, — тайный эпилог «Пятая кость»","«Пройти иначе»: любую пройденную главу можно переиграть с другим выбором, увиденные концовки остаются"]},
 {v:"0.131.1", d:"24.11.2026", uk:["Верхня панель на головній більше не ховається під картками й стає суцільною, коли гортаєте","Плеєр радіо на телефоні більше не накриває кнопку «Грати»"], en:["The top bar on the home page no longer hides under the cards and turns solid as you scroll","On a phone the radio player no longer covers the Play button"], ru:["Верхняя панель на главной больше не прячется под карточками и становится сплошной при прокрутке","Плеер радио на телефоне больше не накрывает кнопку «Играть»"]},
 {v:"0.131.0", d:"24.11.2026", uk:["«Шлях нардиста II — Спадок Майстра»: нова історія після першої частини. Вхід — зі сторінки кампанії","Сцени як у візуальній новелі: портрети з емоціями, у кожного персонажа свій голос, звуки місця. Влад цього разу допомагає — дзвонить, підказує, сидить за сусіднім столиком","Наприкінці кожної глави — вибір із двох відповідей. Він змінює сцени далі, а свічка на мапі показує, яким шляхом ви йдете","Нові випробування: шифр у дошці, детектив у записі партії, рятунок партії Паші, тандем. Боси грають із фішками арени","Відкрито глави 1–4: Вінниця, Львів, Карпати, Кам’янець. Далі буде"], en:["“The Way of the Nardy Player II — The Master’s Legacy”: a new story after part one. Enter from the campaign page","Visual-novel scenes: portraits with moods, a voice for every character, the sounds of the place. This time Vlad helps — he calls, hints, sits at the next table","Each chapter ends with a choice of two answers. It changes later scenes, and a candle on the map shows which way you are going","New challenges: a cipher in the board, a detective in a game record, saving Pasha’s game, a tandem. Bosses play with arena twists","Chapters 1–4 are open: Vinnytsia, Lviv, the Carpathians, Kamianets. To be continued"], ru:["«Путь нардиста II — Наследие Мастера»: новая история после первой части. Вход — со страницы кампании","Сцены как в визуальной новелле: портреты с эмоциями, у каждого персонажа свой голос, звуки места. Влад в этот раз помогает — звонит, подсказывает, сидит за соседним столиком","В конце каждой главы — выбор из двух ответов. Он меняет дальнейшие сцены, а свеча на карте показывает, каким путём вы идёте","Новые испытания: шифр в доске, детектив в записи партии, спасение партии Паши, тандем. Боссы играют с фишками арены","Открыты главы 1–4: Винница, Львов, Карпаты, Каменец. Продолжение следует"]},
@@ -13594,6 +13631,51 @@ if(/[?&]c2\b/.test(location.search)) setTimeout(()=>{ try{ openC2(); }catch(e){}
 // 0.131.1: the home header turns solid once the page scrolls
 { const f=()=>{ const pg=$('h1Pg'); const y=Math.max(window.scrollY||0, pg?pg.scrollTop:0); document.body.classList.toggle('h1scl', y>24); };
   document.addEventListener('scroll', f, {capture:true, passive:true}); }
+
+
+// ---- 0.133: the map of Ukraine for part II — the road from Druzi to the Marble Hall, a panel for the chapter (a sheet on a phone)
+const C2MAP={"W":1000,"H":679,"d":"M881 443L860 442L857 443L845 444L834 457L827 457L818 460L811 464L804 474L798 470L791 470L784 472L776 478L771 479L762 478L751 481L728 501L720 515L718 518L714 522L710 524L718 513L722 509L722 506L722 502L719 496L710 510L705 512L698 516L698 526L699 533L702 542L707 554L704 554L696 549L695 541L690 534L681 534L677 535L671 527L664 524L659 525L654 523L642 515L634 514L633 520L630 524L625 526L621 527L612 522L609 518L595 522L587 521L569 525L561 521L545 511L540 509L534 509L531 506L535 504L539 504L543 502L544 497L536 494L528 493L523 490L519 487L528 487L537 489L551 490L563 493L566 490L574 484L575 482L563 486L550 483L546 480L542 474L540 468L541 462L540 452L536 442L535 437L530 433L535 443L536 450L539 456L538 473L537 479L531 480L525 480L518 478L520 468L516 472L511 481L506 482L497 481L478 487L477 493L474 502L471 507L470 510L463 523L447 543L445 544L435 549L429 552L425 554L418 552L415 555L413 558L413 565L417 570L420 586L419 593L416 588L411 584L402 580L393 581L382 588L375 590L371 589L369 589L368 592L369 594L351 590L343 586L338 577L341 574L343 573L352 572L353 570L354 567L354 563L353 559L357 554L362 549L366 544L366 537L372 534L378 528L379 522L381 518L377 509L377 502L377 497L378 495L383 491L388 489L391 491L392 501L394 500L397 494L399 496L402 496L404 495L407 496L411 499L414 499L417 498L419 495L421 496L426 503L428 503L439 501L441 499L431 488L431 481L432 473L430 468L428 464L420 460L413 455L412 453L411 451L411 446L408 443L408 440L410 435L410 430L408 426L405 426L401 423L399 419L391 414L389 413L388 410L387 407L389 403L391 396L392 390L392 387L391 378L387 371L382 372L379 374L376 372L373 369L368 359L359 356L355 356L351 361L349 356L347 355L345 356L345 351L342 349L335 349L331 347L330 344L328 342L324 341L320 338L316 334L311 332L303 330L297 332L294 334L290 333L284 338L272 338L266 338L263 337L252 344L251 347L249 348L242 350L234 352L233 359L230 363L226 369L212 371L200 374L188 376L172 383L167 389L162 391L157 391L154 388L144 379L140 374L135 373L129 373L124 376L118 376L112 373L109 374L93 370L91 369L77 369L65 361L62 361L59 364L57 368L50 371L48 373L46 369L47 366L45 363L43 361L38 360L32 357L28 352L23 348L19 347L17 345L16 342L15 339L14 335L7 335L8 322L16 312L18 307L21 297L24 292L26 288L28 284L29 281L32 280L38 283L44 285L46 283L46 280L41 275L38 272L39 267L40 262L39 258L36 247L35 242L38 237L48 224L52 219L56 213L69 199L77 190L82 186L90 178L93 174L107 171L109 167L112 163L114 161L114 154L111 145L109 142L108 140L108 138L112 137L114 136L114 133L108 128L105 123L101 112L93 101L90 97L90 94L91 90L90 86L87 80L87 73L90 71L93 70L97 71L101 72L106 75L116 68L124 59L126 54L128 52L136 51L142 50L146 50L156 49L162 48L167 47L178 46L195 47L206 47L213 48L232 53L239 54L242 56L248 57L259 60L269 61L276 60L279 61L286 73L291 74L296 73L304 74L309 76L308 83L312 83L315 80L317 76L327 77L330 77L334 74L336 73L342 75L349 77L355 77L359 78L361 85L364 87L369 81L372 79L377 77L379 76L381 74L384 72L388 72L390 75L393 82L397 89L399 91L406 89L411 87L419 87L430 85L438 83L443 84L447 86L452 90L453 96L459 100L464 101L466 97L469 94L468 89L468 84L465 79L464 74L467 66L469 60L471 56L476 50L481 45L488 37L494 35L498 36L501 37L508 32L520 32L531 33L537 35L542 37L546 37L550 37L555 34L559 32L563 19L565 17L567 16L571 16L579 18L587 20L592 20L606 13L613 12L622 14L631 14L638 13L642 15L648 20L653 28L658 43L674 59L674 62L673 64L665 66L659 67L658 70L660 73L663 78L664 83L663 88L665 93L667 95L667 97L665 100L665 103L679 103L686 106L691 109L693 109L699 107L706 106L710 106L711 108L713 113L715 118L717 119L721 119L723 119L725 121L723 124L724 127L725 131L727 139L729 142L730 145L730 149L729 152L728 155L729 161L733 167L736 169L739 174L743 176L750 171L755 169L761 170L767 171L771 175L774 179L777 182L781 180L788 182L791 185L794 188L799 185L802 181L815 177L822 176L825 175L829 172L834 170L838 171L842 177L847 181L848 187L854 196L867 208L872 211L876 211L878 208L879 203L881 200L884 200L894 208L900 208L905 209L912 214L919 219L925 219L930 218L933 217L936 218L937 222L940 226L944 227L949 227L958 233L966 240L972 240L976 238L980 238L983 239L983 242L981 246L981 251L985 256L985 261L984 266L982 270L977 276L972 281L965 284L961 286L962 290L965 294L971 297L978 299L979 301L973 303L967 302L965 304L962 308L960 314L959 320L965 322L969 324L971 329L972 334L972 339L970 341L970 344L974 345L976 346L976 349L972 355L968 365L966 371L966 378L964 381L960 381L945 382L933 382L927 381L918 380L914 382L909 392L904 396L897 399L890 400L885 405L884 411L883 417L883 420L881 422L881 426L885 428L884 431L882 433L881 436L881 439L881 443ZM544 515L552 519L544 518L527 514L520 511L518 507L517 502L521 507L524 510L544 515ZM630 524L633 520L634 514L642 515L654 523L659 525L664 524L671 527L677 535L681 534L690 534L695 541L696 549L704 554L707 554L708 557L721 577L727 585L731 588L737 589L747 582L752 581L762 584L765 579L770 577L777 577L784 578L792 582L789 589L785 595L784 601L782 609L773 612L764 611L754 614L750 611L748 608L743 606L738 604L732 606L726 616L715 622L711 630L700 628L691 630L678 637L667 652L656 661L647 664L639 663L633 660L622 650L623 647L625 645L627 640L631 622L630 615L628 606L619 599L612 600L608 598L593 585L585 585L577 587L574 585L571 581L588 565L606 553L613 551L623 545L634 536L632 529L630 524Z","pts":{"1":[315,332],"2":[352,268],"3":[110,218],"4":[139,332],"5":[249,313],"6":[773,205],"7":[474,493],"8":[463,168],"9":[503,201]}};
+let c2Sel=0, c2SelU=0;
+const C2LB={1:'r',2:'u',5:'l',8:'u',9:'r',4:'l'};
+const C2SH={uk:[0,'Могилів','Вінниця','Львів','Карпати','Кам’янець','Харків','Одеса','Київ','Мармурова зала'],en:[0,'Mohyliv','Vinnytsia','Lviv','Carpathians','Kamianets','Kharkiv','Odesa','Kyiv','Marble Hall'],ru:[0,'Могилёв','Винница','Львов','Карпаты','Каменец','Харьков','Одесса','Киев','Мраморный зал']};
+function c2MapSvg(){ const M=C2MAP, S=c2St(), done=S.ch|0; const P=n=>M.pts[n];
+  const seg=(a,b)=>{ const [x1,y1]=P(a),[x2,y2]=P(b), mx=(x1+x2)/2, my=(y1+y2)/2, dx=x2-x1, dy=y2-y1, cx=mx-dy*.18, cy=my+dx*.18; return 'M'+x1+' '+y1+' Q'+cx.toFixed(0)+' '+cy.toFixed(0)+' '+x2+' '+y2; };
+  let r='', rd=''; for(let n=1;n<9;n++){ const s=seg(n,n+1); if(n<=done) rd+='<path d="'+s+'" class="rt done"/>'; else r+='<path d="'+s+'" class="rt'+(n===done+1?' next':'')+'"/>'; }
+  return '<svg viewBox="0 0 '+M.W+' '+M.H+'" class="c2ua" aria-hidden="true"><defs><filter id="c2gl" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="6"/></filter><radialGradient id="c2uaf" cx="45%" cy="40%" r="70%"><stop offset="0" stop-color="#1c2a44"/><stop offset="1" stop-color="#0e1524"/></radialGradient></defs>'
+    +'<path d="'+M.d+'" class="ua-glow" filter="url(#c2gl)"/><path d="'+M.d+'" class="ua-edge"/><path d="'+M.d+'" class="ua-fill" fill="url(#c2uaf)"/>'
+
+    +r+'<g class="rd">'+rd+'</g></svg>'; }
+function c2MapEl(onPick){ const M=C2MAP, S=c2St(); const box=uxH('div','c2map'); box.style.aspectRatio=M.W+'/'+M.H; box.innerHTML=c2MapSvg();
+  for(let n=1;n<=9;n++){ const st=c2Step(n), [x,y]=M.pts[n]; const b=uxH('button','c2pin'+(st===0?' lock':st===5?' done':' cur')+(n===c2Sel?' sel':'')+(n===9?' hall':'')); b.type='button'; b.dataset.n=n;
+    b.style.left=(x/M.W*100)+'%'; b.style.top=(y/M.H*100)+'%'; b.append(uxH('i',null, st===5?'✓':n===9?'♛':String(n)), uxH('span','lb '+(C2LB[n]||''), st===0 && n>(S.ch|0)+2 ? '?' : (C2SH[lang]||C2SH.uk)[n]));
+    b.onclick=()=>onPick(n); box.appendChild(b); }
+  return box; }
+// the chapter's panel: its place, its boss, the four steps and what to do next
+function c2Panel(box,n){ box.innerHTML=''; const C=C2CH[n], st=c2Step(n), S=c2St();
+  const ban=uxH('div','cp-ban c2ban'); ban.style.backgroundImage='linear-gradient(180deg,rgba(13,14,17,.1),rgba(13,14,17,.88)),url("tb/'+C.bg+'.webp")'; if(st===0) ban.classList.add('lock');
+  ban.append(uxH('div','cp-place',c2t('ch',{n})+' · '+c2t('l'+n)), uxH('h2',null, st===0 && n>(S.ch|0)+2 ? '???' : c2t('p'+n))); box.appendChild(ban);
+  if(st===0){ box.appendChild(uxH('p','cp-line n',t('cpLockD',{n:n-1}))); return; }
+  const opp=uxH('div','cp-opp'); const a=uxH('span','av'); avatarInto(a,C2W[C.boss].av,c2t('n_'+C.boss)); const d=uxH('div'); d.append(uxH('b',null,c2t('n_'+C.boss)), uxH('small',null,c2Tw(n))); opp.append(a,d); box.appendChild(opp);
+  const steps=uxH('div','cp-steps'); const ks=n===9?[1,3,4]:[1,2,3,4];
+  ks.forEach(k=>{ const ss= st===5||k<st ? 'done' : k===st ? 'cur' : 'lock'; const r=uxH('div','cp-step '+ss); const ic=uxH('span','ic', ss==='done'?'✓':String(k===2?'✦':k===3?'♚':k===4?'⑂':'▶'));
+    const mid=uxH('div'); mid.append(uxH('b',null,c2t('st'+k)), uxH('small',null, k===2&&C.ch?c2t('c_'+C.ch):k===3?c2t('n_'+C.boss):k===1?c2t('l'+n):'')); r.append(ic,mid); steps.appendChild(r); });
+  box.appendChild(steps);
+  if(st<5){ const go=uxH('button','cta c2go',(st===1?c2t('play'):c2t('cont'))+' →'); go.type='button'; go.onclick=()=>{ document.querySelectorAll('.c2sh').forEach(o=>o.remove()); c2Go(n); }; box.appendChild(go); }
+  else { const rp=uxH('div','c2rp'); [['a',1],['b',3],['w',4]].forEach(([k,s])=>{ const b=uxH('button','c2scn','▶ '+c2t('st'+s)); b.type='button'; b.onclick=()=>c2Scene('c'+n+k, ()=>{}); rp.appendChild(b); });
+    const fk=uxH('button','c2scn fork','↺ '+c2t('fork')); fk.type='button'; fk.onclick=()=>{ document.querySelectorAll('.c2sh').forEach(o=>o.remove()); c2Fork(n); }; rp.appendChild(fk); box.appendChild(rp); } }
+function c2Pick(n){ c2Sel=n; c2SelU=1; document.querySelectorAll('#c2Pg .c2pin').forEach(b=>b.classList.toggle('sel', +b.dataset.n===n)); const side=document.querySelector('#c2Pg .c2side');
+  try{ c2Fx('tick'); }catch(e){}
+  if(side && innerWidth>=900){ c2Panel(side,n); return; }
+  document.querySelectorAll('.c2sh').forEach(o=>o.remove()); const ov=uxH('div','cp-ov c2sh'); const m=uxH('div','cp-sheet c2q'); ov.appendChild(m); ov.onclick=e=>{ if(e.target===ov) ov.remove(); };
+  const x=uxH('button','cp-x','×'); x.type='button'; x.onclick=()=>ov.remove(); const body=uxH('div'); m.append(x,body); c2Panel(body,n); document.body.appendChild(ov); }
+// the map replaces the list of chapters on the part II page; the finale and the secret stay below it
+{ const _p=c2Paint; c2Paint=function(){ _p.apply(this,arguments); const pg=$('c2Pg'), road=pg&&pg.querySelector('.c2road'); if(!road) return; const S=c2St();
+  const kids=[...road.children]; kids.forEach((e,i)=>{ const keep=e.classList.contains('fin') || (e.classList.contains('c2rp') && kids[i-1] && kids[i-1].classList.contains('fin')); if(!keep) e.remove(); });
+  if(!c2SelU || !c2Sel || c2Step(c2Sel)===0) c2Sel=Math.min(9,(S.ch|0)+1);
+  const lay=uxH('div','c2lay'); const mp=c2MapEl(c2Pick); const side=uxH('aside','c2side'); lay.append(mp, side); road.parentNode.insertBefore(lay, road); road.classList.add('c2below');
+  if(innerWidth>=900) c2Panel(side,c2Sel);
+  else { const cur=Math.min(9,(S.ch|0)+1), st=c2Step(cur); if(st>0 && st<5){ const C=C2CH[cur]; const {card,tx}=c2Card(cur, st, c2t('p'+cur), c2t('ch',{cur:cur,n:cur})+' · '+c2t('st'+st)+(st===2&&C.ch?' · '+c2t('c_'+C.ch):''), C.boss, c2Tw(cur));
+      card.classList.add('c2now'); card.appendChild(uxH('span','go',(st===1?c2t('play'):c2t('cont'))+' →')); card.onclick=()=>c2Go(cur); lay.appendChild(card); } } }; }
 
 </script>
 </body>
