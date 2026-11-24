@@ -34,13 +34,15 @@ function eloDelta(my,opp,score,mars){ const E=1/(1+Math.pow(10,(opp-my)/ELO_D));
 
 
 // ---- server-side bots (practice bots and online personas) ----
-const BOTS={ marta:{r:900,noise:7,factor:.4}, ostap:{r:1000,noise:3,factor:.4}, taras:{r:1100,noise:.8,factor:.4}, hryts:{r:1250,noise:0,factor:.4}, snowman:{r:1000,noise:3,factor:.4}, ghost:{r:null,noise:0,factor:1}, camp:{r:null,noise:0,factor:0} };
-function botEval(st,c){ const o=OPP(c); let made=0,run=0,best=0,stack=0,back=0;
-  for(let p=0;p<24;p++){ const k=mine(st.board,c,p); if(k>0){ made++; run++; if(run>best) best=run; if(k>3) stack+=k-3; if(p<12) back+=k; } else run=0; }
+const BOTS={ marta:{r:900,noise:7,factor:.4}, ostap:{r:1000,noise:3,factor:.4,sty:'run'}, taras:{r:1100,noise:.8,factor:.4,sty:'wall'}, lida:{r:1050,noise:2,factor:.4,sty:'safe'}, prof:{r:1350,noise:0,factor:.4,lvl:1}, hryts:{r:1250,noise:0,factor:.4}, snowman:{r:1000,noise:3,factor:.4}, ghost:{r:null,noise:0,factor:1}, camp:{r:null,noise:0,factor:0} };
+function botEval(st,c,sty){ const o=OPP(c); let made=0,run=0,best=0,stack=0,back=0,zone=0;
+  for(let p=0;p<24;p++){ const k=mine(st.board,c,p); if(k>0){ made++; run++; if(run>best) best=run; if(k>3) stack+=k-3; if(p<12) back+=k; if(p>=4&&p<=16) zone++; } else run=0; }
   let oppPips=0; for(let p=0;p<24;p++){ const k=mine(st.board,o,p); if(k>0) oppPips+=k*(24-p); } const head=Math.max(0,mine(st.board,c,0)-1);
-  return 22*st.off[c]+3*made+5*Math.min(best,5)-1.2*stack-0.25*back-0.6*head+0.02*oppPips; }
-function botBestPath(st,c,noise,rnd){ const total=maxUse(st,c); if(!total) return null; let best=null,bestV=-1e9,nodes=0; const seen=new Set();
-  (function dfs(s,path,first){ if(nodes++>6000) return; if(path.length===total){ const v=botEval(s,c)+rnd()*(noise+0.05); if(v>bestV){bestV=v;best=path;} return; }
+  const base=22*st.off[c]+3*made+5*Math.min(best,5)-1.2*stack-0.25*back-0.6*head+0.02*oppPips;
+  // 0.122: a bot's character — Ostap races, Taras builds a fence, Lida keeps her checkers spread out
+  return !sty ? base : sty==='run' ? base-1.8*back-2*head-2*Math.min(best,5) : sty==='wall' ? base+3*zone+3*Math.min(best,5) : sty==='safe' ? base-4*stack-1.5*head+2*made : base; }
+function botBestPath(st,c,noise,rnd,sty){ const total=maxUse(st,c); if(!total) return null; let best=null,bestV=-1e9,nodes=0; const seen=new Set();
+  (function dfs(s,path,first){ if(nodes++>6000) return; if(path.length===total){ const v=botEval(s,c,sty)+rnd()*(noise+0.05); if(v>bestV){bestV=v;best=path;} return; }
     const key=s.board.join()+'|'+s.off[c]+'|'+s.remaining.join()+'|'+s.headMoved; if(seen.has(key)) return; seen.add(key);
     const cand=first?legalMoves(s,c):[].concat(...[...new Set(s.remaining)].map(d=>genSingles(s,c,d))); for(const m of cand) dfs(applyMove(s,c,m),path.concat([m]),false); })(st,[],true);
   return best; }
@@ -107,7 +109,7 @@ function act(state, uid, action, args, env){
       st.trail=[]; if(st.snap){ st.board=st.snap.board; st.off=st.snap.off; } passTurn(st,now); return st; }
     if(st.phase!=='play') err('bad_phase'); const c=colorOfSlot(st,'p2'); if(st.turn!==c) err('not_bot_turn');
     if(!st.rolled){ let a=d6(),b=d6(); if(st.arn && st.arn.rr && !st.rrUsed && a!==b && a+b<=5){ st.rrUsed=1; a=d6(); b=d6(); st.note={c, rr:1, at:now}; } st.dice=[a,b]; st.remaining=a===b?[a,a,a,a]:[a,b]; st.headLimit=(st.first[c]&&a===b&&[3,4,6].includes(a))?2:1; st.first[c]=false; st.headMoved=0; st.rolled=true; st.trail=[]; st.rollId++; st.snap=null; st.turnAt=now;
-      st.botPlan = (st.botLvl ? botPathPro(st,c,st.botLvl,rnd) : botBestPath(st,c,NZ,rnd))||[]; if(!st.botPlan.length){ st.botPlan=null; passTurn(st,now); } return st; }
+      const LV=st.botLvl||(st.arn?0:(B.lvl||0)); st.botPlan = (LV ? botPathPro(st,c,LV,rnd) : botBestPath(st,c,NZ,rnd,st.arn?null:B.sty))||[]; if(!st.botPlan.length){ st.botPlan=null; passTurn(st,now); } return st; }
     const m=(st.botPlan||[]).shift(); const ok=m&&legalMoves(st,c).find(x=>x.from===m.from&&x.to===m.to&&x.die===m.die); if(!ok){ st.botPlan=null; passTurn(st,now); return st; }
     Object.assign(st,applyMove(st,c,ok)); st.trail=(st.trail||[]).concat([b2(c,ok.from),ok.to===24?-1:b2(c,ok.to)]);
     if(st.off[c]===15){ pushHist(st); finish(st,c,st.off[OPP(c)]===0); st.botPlan=null; return st; }
