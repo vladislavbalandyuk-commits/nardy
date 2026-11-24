@@ -3,6 +3,10 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.121.0 — 24.11.2026
+- Day streak: a chip next to «Today» and a sheet with the last 7 days and rewards for 3/7/14/30/60 days (server action `streak`, paid once per streak).
+- «The year in nardy»: a story of cards from 1 December to 15 January (or `?recap`), with a 1080×1350 picture to share.
+
 ## 0.120.0 — 24.11.2026
 - Christmas in the shop: tables xm1 «Holiday shop window» (e), xm2 «Blue window» (e), xm3 «Gingerbread cabin» (c) from Freepik photos (credited); each table also unlocks the card background of the same photo (CARDS own:).
 - Checkers xorn (e), xsnow (r), xholly (r); dice xfrost (r), xribbon (c), xpine (e) — CSS only.

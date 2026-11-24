@@ -326,6 +326,11 @@ const kyivHour = (t = Date.now()) => (new Date(t).getUTCHours() + 2) % 24;
 const primeOn = (t = Date.now()) => kyivHour(t) === 21;
 const AR_PRIZE = [500, 300, 200], AR_PLAY = 100, AR_MIN = 3;
 // activity: the days a player was here (last 60) and games per day (last 60), kept in the profile for the admin statistics
+const SK_M: [number, number][] = [[3, 50], [7, 150], [14, 300], [30, 700], [60, 1500]];
+function skInfo(A: any) { const S = new Set<string>(); (Array.isArray(A.gd) ? A.gd : []).forEach((x: any) => { if (x && ((x.h | 0) + (x.b | 0)) > 0) S.add(x.d); });
+  if (A.pz?.day) S.add(A.pz.day); if (A.pz?.last) S.add(A.pz.last);
+  const sh = (d: string, n: number) => new Date(new Date(d + 'T12:00:00Z').getTime() + n * 864e5).toISOString().slice(0, 10);
+  const today = kyivDay(); let d = S.has(today) ? today : sh(today, -1), n = 0; while (S.has(d)) { n++; d = sh(d, -1); } return { n, start: n ? sh(d, 1) : null }; }
 function markDay(A: any, field: string, day = kyivDay()) { const L: string[] = Array.isArray(A[field]) ? A[field] : []; if (!L.includes(day)) L.push(day); A[field] = L.slice(-60); }
 function markGame(A: any, human: boolean, day = kyivDay()) { const L: any[] = Array.isArray(A.gd) ? A.gd : []; let e = L.find((x) => x.d === day); if (!e) { e = { d: day, h: 0, b: 0 }; L.push(e); } if (human) e.h++; else e.b++; A.gd = L.slice(-60); markDay(A, 'days', day); }
 
@@ -1132,6 +1137,18 @@ const handle = async (req: Request): Promise<Response> => {
         G[k] = Date.now(); A.ach2 = G; await db.from('profiles').update({ ach: A }).eq('id', user.id);
         return json({ ok: true, got, item: R.item || null, ach2: G, coins: A.coins ?? COIN_START, owned: A.owned }); }
       return json({ error: 'bad_op' }, 400); }
+    if (action === 'streak') {   // 0.121: a day streak — any game (a person or a bot) or the daily puzzle; rewards once per streak
+      const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
+      const A = { ...(p.ach || {}) }; const I = skInfo(A); let dirty = false, got = 0;
+      if (A.sks !== I.start) { A.sks = I.start; A.skm = []; dirty = true; }
+      if (I.n > (A.skb | 0)) { A.skb = I.n; dirty = true; }
+      const M: number[] = Array.isArray(A.skm) ? A.skm : [];
+      if (args?.op === 'claim') { const m = Number(args?.m) | 0, R = SK_M.find((x) => x[0] === m); if (!R) return json({ error: 'bad_args' }, 400);
+        if (I.n < m) { if (dirty) await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: false, why: 'not_done', n: I.n, skm: M, sks: A.sks, skb: A.skb | 0 }); }
+        if (!M.includes(m)) { A.skm = [...M, m]; got = R[1]; A.coins = (A.coins ?? COIN_START) + got; dirty = true; } }
+      if (dirty) await db.from('profiles').update({ ach: A }).eq('id', user.id);
+      return json({ ok: true, got, n: I.n, skm: A.skm || [], sks: A.sks || null, skb: A.skb | 0, coins: A.coins ?? COIN_START });
+    }
     if (action === 'puzzle') {
       const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
       const A = { ...(p.ach || {}) }; const P = { ...(A.pz || {}) }; const today = kyivDay(), y = kyivDay(Date.now() - 864e5);
