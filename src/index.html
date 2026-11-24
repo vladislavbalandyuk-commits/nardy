@@ -4168,6 +4168,9 @@ html body #h1Pg .h1set .h1lk:hover{background:rgba(255,255,255,.08)!important}
 body.ui2 #h1Pg .ui2stage .h1set{margin-top:22px!important;padding-top:14px;border-top:1px solid rgba(255,255,255,.08);width:100%;max-width:380px;box-sizing:border-box;min-width:0}
 body.ui2 #h1Pg .ui2stage .h1set .h1lk{border-color:var(--u2-cu2)!important;background:rgba(8,9,11,.45)!important}
 body.ui2 #shopPg .s2card .s2nb{position:absolute!important;top:10px;right:10px;left:auto!important;margin:0!important;z-index:2}
+
+/* 0.127.1: the dock is narrow already — no «Collapse» button, and a collapsed state from the usual look does not apply */
+html body.ui2 #mNav .mn-mini{display:none!important}
 </style>
 <style>/* 0.38: home — one big «Play», three «Today» tiles */
 .h38modes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
@@ -7884,7 +7887,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.127.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.127.1';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -10145,6 +10148,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+{v:"0.127.1", d:"24.11.2026", uk:["Тестовий вигляд: у вузькому меню прибрано кнопку «Згорнути»"], en:["Test look: no «Collapse» button in the narrow menu"], ru:["Тестовый вид: в узком меню убрана кнопка «Свернуть»"]},
 {v:"0.127.0", d:"24.11.2026", uk:["Тестовий вигляд: вітрина магазину — набір тижня на своєму столі, полиці для швидкого переходу, картки-вітринки з підсвіткою рідкості"], en:["Test look: the shop showcase — the set of the week on its own table, shelves to jump between sections, display-case cards lit in the rarity colour"], ru:["Тестовый вид: витрина магазина — набор недели на своём столе, полки для быстрого перехода, карточки-витрины с подсветкой редкости"]},
 {v:"0.126.0", d:"24.11.2026", uk:["Готуємо новий вигляд сайту: стіл як сцена, зали, ігрове меню. Поки що він тестовий і вмикається окремим посиланням"], en:["A new look for the site is on the way: the table as a stage, halls, a game-like menu. For now it is a test, turned on by a separate link"], ru:["Готовим новый вид сайта: стол как сцена, залы, игровое меню. Пока он тестовый и включается отдельной ссылкой"]},
 {v:"0.125.0", d:"24.11.2026", uk:["Нова вкладка «Нагороди»: щоденний подарунок, завдання дня й тижня, серія днів і досягнення в одному місці. На вкладці — лічильник того, що можна забрати, і кнопка «Забрати все»"], en:["A new «Rewards» tab: the daily gift, daily and weekly quests, the day streak and achievements in one place, with a counter of what is ready and a «Take all» button"], ru:["Новая вкладка «Награды»: ежедневный подарок, задания дня и недели, серия дней и достижения в одном месте. На вкладке — счётчик того, что можно забрать, и кнопка «Забрать всё»"]},
