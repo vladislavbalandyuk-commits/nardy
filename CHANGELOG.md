@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.133.1 — 24.11.2026
+- Removed every `text-transform:uppercase` (and the wide letter-spacing that went with it). Back buttons (part II, admin) and shop row arrows use a drawn chevron instead of a text glyph. Phone radio pill shows «next» again and hides the station-swap glyph (the cover/title open the station list).
+
 ## 0.133.0 — 24.11.2026
 - Part II page: a map of Ukraine (Natural Earth outline via world-atlas, public domain; Crimea drawn as part of Ukraine) with the route between the nine chapters; a side panel on a computer, a sheet on a phone. The finale and the secret epilogue stay as cards below.
 
