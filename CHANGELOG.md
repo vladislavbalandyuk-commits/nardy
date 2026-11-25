@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.136.3 — 25.11.2026
+- Light buttons (h1play, s2main and the like): the cream glow under them is now a dark drop shadow.
+
 ## 0.136.2 — 25.11.2026
 - Case reel: a full-width band (up to 1100px) with copper hairlines and faded edges, 120px tiles (88px on a phone) that show the whole item.
 
