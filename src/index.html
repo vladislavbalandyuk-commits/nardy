@@ -5056,6 +5056,17 @@ body.ui2 .mn-home{justify-content:center!important;width:100%!important;margin-l
 .gm2back{padding:0!important;line-height:0}
 .gm2back svg{display:block}
 
+/* 0.136.2: the case reel is a wide band across the screen — bigger tiles, whole items, the edges fade out so it reads as a moving strip */
+.u3reel{width:min(1100px,100vw)!important;height:150px!important;margin:14px auto 0!important;border-radius:0!important;background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.05) 50%,rgba(255,255,255,.02))!important;box-shadow:inset 0 1px 0 rgba(196,140,120,.35),inset 0 -1px 0 rgba(196,140,120,.35)!important;-webkit-mask:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)!important;mask:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)!important}
+.u3strip{gap:12px!important;padding:15px 0!important}
+.u3tile{width:120px!important;height:120px!important;border-radius:18px!important;padding:10px;box-sizing:border-box}
+.u3tile>*{width:100%!important;height:100%!important;max-width:none!important;max-height:none!important;border-radius:12px;overflow:hidden}
+.u3tile .shth{background:transparent!important}
+.u3tile.win{transform:scale(1.06);transition:transform .3s}
+.u3mark{width:2px!important;margin-left:-1px!important;background:linear-gradient(180deg,#f1ebdf,rgba(241,235,223,.2) 50%,#f1ebdf)!important}
+.u3mark::before,.u3mark::after{border-width:9px!important}
+@media (max-width:600px){ .u3reel{height:112px!important} .u3strip{gap:9px!important;padding:12px 0!important} .u3tile{width:88px!important;height:88px!important;padding:7px;border-radius:14px!important} }
+
 </style>
 </head>
 <body>
@@ -8470,7 +8481,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.136.1';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.136.2';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -10731,6 +10742,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+{v:"0.136.2", d:"25.11.2026", uk:["Стрічка під скринею при відкритті кейса тепер на всю ширину: більші плитки, речі видно повністю"], en:["The reel under the chest when opening a case now spans the screen: bigger tiles, items shown in full"], ru:["Лента под сундуком при открытии кейса теперь во всю ширину: плитки больше, вещи видно целиком"]},
 {v:"0.136.1", d:"25.11.2026", uk:["Логотип у бічній панелі стоїть рівно над іконками, кнопка «Назад» у грі — по центру","Підказки Паші з гри більше не залишаються на екрані, коли виходите з партії"], en:["The logo in the side panel sits straight above the icons, and the Back button in the game is centred","Pasha’s in-game tips no longer stay on screen after you leave the game"], ru:["Логотип в боковой панели стоит ровно над иконками, кнопка «Назад» в игре — по центру","Подсказки Паши из игры больше не остаются на экране после выхода из партии"]},
 {v:"0.136.0", d:"25.11.2026", uk:["Новий вигляд ігрового столу для всіх: дошка на столі зали з мідною облямівкою, гравці в картках, «Ваш хід» одним рядком, лотки на 15 шашок","Шанси на перемогу точніші й помітніші: нова модель навчена на 50 000 партій (влучає у 72% проти 69% раніше, а в ендшпілі — 89% проти 82%). Відсоток видно на картці кожного гравця, а під смугою — графік, як мінялися шанси протягом партії","Фрази й голосові в кейсах: великий значок посередині замість обрізаної бульбашки"], en:["The new game table for everyone: the board on the hall’s table with a copper rim, players in cards, a one-line “Your turn”, 15-slot trays","Winning chances are more accurate and easier to see: a new model trained on 50,000 games (right 72% of the time vs 69% before; 89% vs 82% in the endgame). The percentage is on each player’s card, and a chart shows how the chances moved through the game","Phrases and voice lines in cases: a big sign in the middle instead of a cut-off bubble"], ru:["Новый вид игрового стола для всех: доска на столе зала с медной окантовкой, игроки в карточках, «Ваш ход» одной строкой, лотки на 15 шашек","Шансы на победу точнее и заметнее: новая модель обучена на 50 000 партий (попадает в 72% против 69% раньше, а в эндшпиле — 89% против 82%). Процент виден на карточке каждого игрока, а под полосой — график, как менялись шансы за партию","Фразы и голосовые в кейсах: большой значок посередине вместо обрезанного пузыря"]},
 {v:"0.135.0", d:"25.11.2026", uk:["Можливі ходи, останній хід і цілі тепер підсвічуються мідним, а не жовтим — у тон новому вигляду"], en:["Possible moves, the last move and targets are now lit in copper instead of yellow, to match the new look"], ru:["Возможные ходы, последний ход и цели теперь подсвечиваются медным, а не жёлтым — в тон новому виду"]},
@@ -12775,7 +12787,7 @@ function u3Open(K,d){ const C=CASES[K], order=['c','r','e','l'], top=Math.max(0,
   const RD=3600; at(420,()=>{ ch.classList.add('shake','s1'); glow('c'); try{ csSyn('thud'); }catch(e){}
     const tl=strip.children[WIN]; const off=tl.offsetLeft+tl.offsetWidth/2-reel.clientWidth/2+(Math.random()-.5)*tl.offsetWidth*.6; strip.style.transition='transform '+RD+'ms cubic-bezier(.12,.8,.14,1)'; strip.style.transform='translateX('+(-off)+'px)';
     // a tick each time a tile passes the marker, slowing down with the reel
-    let last=-1; const tw=tl.offsetWidth+8, t0=performance.now(); const tick=()=>{ if(done) return; const m=new DOMMatrix(getComputedStyle(strip).transform); const k=Math.floor(-m.m41/tw); if(k!==last){ last=k; try{ cs75Tick(K); }catch(e){} } if(performance.now()-t0<RD) requestAnimationFrame(tick); }; requestAnimationFrame(tick); });
+    let last=-1; const tw=tl.offsetWidth+(innerWidth<=600?9:12), t0=performance.now(); const tick=()=>{ if(done) return; const m=new DOMMatrix(getComputedStyle(strip).transform); const k=Math.floor(-m.m41/tw); if(k!==last){ last=k; try{ cs75Tick(K); }catch(e){} } if(performance.now()-t0<RD) requestAnimationFrame(tick); }; requestAnimationFrame(tick); });
   const step=RD/(top+1); for(let i=1;i<=top;i++){ at(420+i*step,()=>{ ch.classList.remove('s1','s2','s3'); ch.classList.add('s'+Math.min(3,i+1)); glow(order[i]); try{ csSyn('swell'); }catch(e){} }); }
   at(420+RD+150, finish); }
 function rarOf2(id){ try{ if(typeof CASE_R!=='undefined' && CASE_R[id]) return CASE_R[id]; const [c,k]=id.split(':'); const r=rarOf(c,k); return SH_RC[r]?r:'c'; }catch(e){ return 'c'; } }
@@ -13931,7 +13943,7 @@ function c2Case(cs, onDone){ const K='road', C=CASES[K], order=['c','r','e','l']
   if(noMotion()){ finish(); return; }
   try{ csSnd('open',.7); }catch(e){} const RD=3400;
   at(420,()=>{ ch.classList.add('shake','s1'); glow('c'); const tl=strip.children[WIN]; const off=tl.offsetLeft+tl.offsetWidth/2-reel.clientWidth/2+(Math.random()-.5)*tl.offsetWidth*.6; strip.style.transition='transform '+RD+'ms cubic-bezier(.12,.8,.14,1)'; strip.style.transform='translateX('+(-off)+'px)';
-    let last=-1; const tw=tl.offsetWidth+8, t0=performance.now(); const tick=()=>{ if(done) return; const m=new DOMMatrix(getComputedStyle(strip).transform); const k=Math.floor(-m.m41/tw); if(k!==last){ last=k; try{ cs75Tick(K); }catch(e){} } if(performance.now()-t0<RD) requestAnimationFrame(tick); }; requestAnimationFrame(tick); });
+    let last=-1; const tw=tl.offsetWidth+(innerWidth<=600?9:12), t0=performance.now(); const tick=()=>{ if(done) return; const m=new DOMMatrix(getComputedStyle(strip).transform); const k=Math.floor(-m.m41/tw); if(k!==last){ last=k; try{ cs75Tick(K); }catch(e){} } if(performance.now()-t0<RD) requestAnimationFrame(tick); }; requestAnimationFrame(tick); });
   const step=RD/(top+1); for(let i=1;i<=top;i++) at(420+i*step,()=>{ ch.classList.remove('s1','s2','s3'); ch.classList.add('s'+Math.min(3,i+1)); glow(order[i]); try{ csSyn('swell'); }catch(e){} });
   at(420+RD+150, finish); }
 // the win: the chapter case first, then the choice (or the ending's card with what it gave)

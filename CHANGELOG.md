@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.136.2 — 25.11.2026
+- Case reel: a full-width band (up to 1100px) with copper hairlines and faded edges, 120px tiles (88px on a phone) that show the whole item.
+
 ## 0.136.1 — 25.11.2026
 - Icon audit (every button with a lone icon, 11 pages × 2 sizes): the dock logo and the game's back chevron were off-centre — fixed. Pasha's game tips are removed when the game ends. Mobile player cards: smaller percentage and score.
 
