@@ -3,6 +3,11 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.136.0 — 25.11.2026
+- «Стіл у залі» is the default game look (`?gm2=0` brings back the old one).
+- Win chances: a 9-input / 16-hidden tanh net replaces the 5-term logistic fit (same function on client and server). Trained on 1.83M on-roll positions from 50,000 bot-vs-bot games (5 noise levels, the game's own rules and bot); holdout (5,000 games, 182k positions): log-loss 0.547 → 0.503, Brier 0.189 → 0.173, accuracy 69.4% → 72.1%; last quarter of the game 81.8% → 89.4%; calibration within ±1 pt in every decile. Sim/fit scripts in tools/odds/.
+- Odds UI: percentage chip on each player card, bigger bar and a chart of the chances through the game. Case phrase/voice tiles: a big emoji/quote mark and a waveform instead of a clipped bubble.
+
 ## 0.135.0 — 25.11.2026
 - Amber removed for good: --hl/--hlSoft, last-move rings, legal-move glows, the old v7 CTA gradient and the voice-wait button are copper (#e0896f).
 - Test look «Стіл у залі» for the game screen behind `?gm2` (off: `?gm2=0`): back chevron + mode in the header, the board lifted with a copper rim, player cards with a «Хід» tag, a one-line turn prompt, tile actions, 15-slot trays.

@@ -23,9 +23,16 @@ function maxUse(st,c){ if(!st.remaining.length) return 0; let best=0;
 function legalMoves(st,c){ if(!st.remaining||!st.remaining.length) return []; const total=maxUse(st,c); if(!total) return []; let res=[];
   for(const d of new Set(st.remaining)) for(const m of genSingles(st,c,d)) if(1+maxUse(applyMove(st,c,m),c)===total) res.push(m);
   if(total===1 && st.remaining.length===2 && st.remaining[0]!==st.remaining[1]){ const mx=Math.max(...res.map(m=>m.die)); res=res.filter(m=>m.die===mx); } return res; }
-function winChanceOnRoll(st,c){ const o=OPP(c); let pm=0,po=0; for(let q=0;q<24;q++){ const a=mine(st.board,c,q); if(a>0) pm+=a*(24-q); const b=mine(st.board,o,q); if(b>0) po+=b*(24-q); }
-  if(st.off[c]===15) return 1; if(st.off[o]===15) return 0; const Sq=Math.sqrt(pm+po+1), hm=Math.max(0,mine(st.board,c,0)), ho=Math.max(0,mine(st.board,o,0));
-  return 1/(1+Math.exp(-(0.1702+0.5114*(po-pm)/Sq-6.3696*hm/Sq+6.4309*ho/Sq+4.7955*(st.off[c]-st.off[o])/Sq))); }
+const ODDS_W1=[-0.4485,-5.0543,-20.9921,-0.5519,-1.2487,0.5857,0.5696,-0.627,-0.02,0.4471,1.5428,2.1653,9.6369,1.6605,-1.0889,1.713,-0.7837,-0.4041,-0.0294,1.8464,0.5544,0.3458,1.7897,0.3844,-1.9789,4.5326,0.1942,-0.0099,0.4517,-0.3313,-0.4058,-0.0362,0.0582,0.0067,0.0591,0.0224,0.043,0.7047,-0.6656,0.1749,0.1227,0.0533,-0.0206,0.0308,-0.0638,-0.3596,1.3029,3.4159,4.3931,-0.9405,-0.0558,1.6802,-3.8337,0.299,0.4205,-24.2313,-4.5713,1.6336,1.8415,0.442,1.1564,-0.629,0.0381,0.3466,-0.4603,2.4692,3.5892,-1.7283,-0.8717,1.2875,2.0888,-0.367,0.0081,-0.8802,0.5244,0.1428,-0.085,-0.1013,-0.0393,-0.1732,-0.0145,0.1217,0.9194,-1.1632,0.769,-1.1929,-2.1202,0.1133,4.3819,-0.2408,0.177,-1.4096,0.527,45.7413,3.7067,0.118,0.0881,-1.0605,-0.1398,-0.1458,-2.9492,-3.6724,2.4025,-1.8778,-1.922,0.0215,4.725,-0.0392,-0.7743,2.9136,1.6292,-0.5059,3.2201,0.6533,0.616,1.166,0.8113,0.2827,0.7696,2.7727,-0.8369,-2.1857,0.3506,-0.5414,-0.3479,-0.0008,-0.0041,-0.4845,0.361,0.342,0.0415,-0.063,-0.0122,-0.0554,0.0004,-0.5505,1.2428,-1.3586,1.7021,3.3333,0.0159,0.245,0.2419,0.2897], ODDS_B1=[-1.8785,0.111,-2.7177,-0.0915,-0.0573,0.9009,-2.2096,-0.2516,0.244,-2.1004,0.7084,-1.1948,-0.2425,0.8907,0.0998,-0.1378], ODDS_W2=[-2.0663,-0.9616,3.2486,0.0017,-0.0381,1.8457,2.0011,1.6122,0.0097,-2.4751,1.7513,1.6881,-1.3451,0.9382,-0.0006,-0.683], ODDS_B2=0.154;
+function winChanceOnRoll(st,c){
+  const o=OPP(c), B=st.board, off=st.off; if(off[c]===15) return 1; if(off[o]===15) return 0;
+  let pm=0,po=0,inM=0,inO=0,rm=0,mm=0,ro=0,mo=0;
+  for(let q=0;q<24;q++){ const a=mine(B,c,q); if(a>0){ pm+=a*(24-q); if(q>=18) inM+=a; rm++; if(rm>mm) mm=rm; } else rm=0; const b=mine(B,o,q); if(b>0){ po+=b*(24-q); if(q>=18) inO+=b; ro++; if(ro>mo) mo=ro; } else ro=0; }
+  const S=Math.sqrt(pm+po+1), hm=Math.max(0,mine(B,c,0)), ho=Math.max(0,mine(B,o,0)), late=1-(pm+po)/720;
+  const x=[(po-pm)/S, hm/S, ho/S, (off[c]-off[o])/S, ((15-off[c]-inM)-(15-off[o]-inO))/S, mm/6, mo/6, late, (po-pm)/Math.max(30,pm+po)*10];
+  let z=ODDS_B2; for(let j=0;j<16;j++){ let a=ODDS_B1[j]; for(let k=0;k<9;k++) a+=ODDS_W1[j*9+k]*x[k]; z+=ODDS_W2[j]*Math.tanh(a); }
+  return 1/(1+Math.exp(-z));
+}
 function baseGain(r){ const lo=1000,hi=1600; if(r<=lo) return 50; if(r>=hi) return 25; return 50-25*(r-lo)/(hi-lo); }
 // rating (0.26.1): Elo on a wide scale. An equal opponent ±30; beating a much stronger one up to +60, a much weaker one only a few points;
 // losing to a much weaker one up to −60. A mars ×2 (0.30.4). (The scale is 1500 per «10×», so 4000 vs 2500 is still a game, as dice allow.)
