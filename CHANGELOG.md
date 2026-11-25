@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.136.1 — 25.11.2026
+- Icon audit (every button with a lone icon, 11 pages × 2 sizes): the dock logo and the game's back chevron were off-centre — fixed. Pasha's game tips are removed when the game ends. Mobile player cards: smaller percentage and score.
+
 ## 0.136.0 — 25.11.2026
 - «Стіл у залі» is the default game look (`?gm2=0` brings back the old one).
 - Win chances: a 9-input / 16-hidden tanh net replaces the 5-term logistic fit (same function on client and server). Trained on 1.83M on-roll positions from 50,000 bot-vs-bot games (5 noise levels, the game's own rules and bot); holdout (5,000 games, 182k positions): log-loss 0.547 → 0.503, Brier 0.189 → 0.173, accuracy 69.4% → 72.1%; last quarter of the game 81.8% → 89.4%; calibration within ±1 pt in every decile. Sim/fit scripts in tools/odds/.
