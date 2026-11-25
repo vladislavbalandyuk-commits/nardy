@@ -3,6 +3,10 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.135.0 — 25.11.2026
+- Amber removed for good: --hl/--hlSoft, last-move rings, legal-move glows, the old v7 CTA gradient and the voice-wait button are copper (#e0896f).
+- Test look «Стіл у залі» for the game screen behind `?gm2` (off: `?gm2=0`): back chevron + mode in the header, the board lifted with a copper rim, player cards with a «Хід» tag, a one-line turn prompt, tile actions, 15-slot trays.
+
 ## 0.134.0 — 24.11.2026
 - Case opening (ui2): a reel of the case's items spins under the shaking chest and lands on the prize, then the lid pops and the prize hops out.
 - Part II rewards: the server grants the chapter's road item on the first boss win (`case` in the c2 response, shown with the same chest + reel), the endings' items (board:reborn, frm:mmask, dice:cheat, ck:oneway) and, for the secret epilogue, av:vdawn (animated SVG) and fx:dawn (win effect). New case «road» (400) with the nine road items. The map panel shows each chapter's item.

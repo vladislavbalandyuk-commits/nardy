@@ -48,7 +48,7 @@ if(ch){var qs=q.toString();history.replaceState(null,'',location.pathname+(qs?'?
 
 :root{
   --paper:#ebe5d9; --panel:#f6f2ea; --ink:#1d1915; --ink2:#3a332b; --muted:#7a7166; --line:#d6ccbb; --line2:#e3dbcd;
-  --accent:#8e2f1f; --hl:#e9a21a; --hl2:#e9a21a; --hlSoft:rgba(233,162,26,.28);
+  --accent:#8e2f1f; --hl:#e0896f; --hl2:#e0896f; --hlSoft:rgba(224,137,111,.28);
   --serif:"Onest",system-ui,sans-serif; --sans:"Onest",system-ui,sans-serif; --mono:"Jost",system-ui,sans-serif;
   --hud:340px;
 }
@@ -288,7 +288,7 @@ body[data-card=aurora] .pc .hero{background:linear-gradient(140deg,#2a6e55,#1f4f
 .cardpick button.lock{cursor:pointer;opacity:.5;filter:grayscale(.6)}
 .cardpick button.lock::after{content:"";position:absolute;inset:0;margin:auto;width:11px;height:11px;background:no-repeat center/contain url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAyNCAyNCcgZmlsbD0nbm9uZScgc3Ryb2tlPSd3aGl0ZScgc3Ryb2tlLXdpZHRoPScyLjQnPjxyZWN0IHg9JzUnIHk9JzExJyB3aWR0aD0nMTQnIGhlaWdodD0nMTAnIHJ4PScyJy8+PHBhdGggZD0nTTggMTFWOGE0IDQgMCAwIDEgOCAwdjMnLz48L3N2Zz4=")}
 .stars{display:inline-flex;gap:2px;margin-left:6px;letter-spacing:0;font-size:1.15em;line-height:1}
-.stars.pos{font-weight:700;color:var(--tc,#ace0cd)} .stars i{font-style:normal;opacity:.28} .stars i.on{opacity:1;color:var(--tc,#e9a21a);text-shadow:0 0 6px rgba(255,210,120,.35)}
+.stars.pos{font-weight:700;color:var(--tc,#ace0cd)} .stars i{font-style:normal;opacity:.28} .stars i.on{opacity:1;color:var(--tc,#e0896f);text-shadow:0 0 6px rgba(255,210,120,.35)}
 .pc .tierpill .stars{margin-left:4px} .pc .tierpill .stars i{width:auto;height:auto;border-radius:0;background:none}
 .pc .hbar.seg{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;background:transparent;overflow:visible}
 .pc .hbar.seg i{position:relative;height:5px;border-radius:3px;background:rgba(255,255,255,.14);overflow:hidden}
@@ -325,9 +325,9 @@ body[data-card=aurora] .pc .hero{background:linear-gradient(140deg,#2a6e55,#1f4f
 .chatbar button{padding:6px 10px;border-radius:99px;font-size:13.5px}
 .chatbar button.em{font-size:19px;padding:4px 8px;border:0;background:transparent}
 .chatbar button.em:hover{transform:scale(1.2)}
-.pt.lastTo .stack .ck.tip::after{content:"";position:absolute;inset:-4px;border-radius:50%;box-shadow:0 0 0 2px rgba(233,162,26,.85);animation:lastP 1.6s ease-out 2}
-.pt.last::before{box-shadow:inset 0 0 0 2px rgba(233,162,26,.6)!important}
-@keyframes lastP{from{box-shadow:0 0 0 2px rgba(233,162,26,.9),0 0 0 2px rgba(233,162,26,.6)}to{box-shadow:0 0 0 2px rgba(233,162,26,.85),0 0 0 12px rgba(233,162,26,0)}}
+.pt.lastTo .stack .ck.tip::after{content:"";position:absolute;inset:-4px;border-radius:50%;box-shadow:0 0 0 2px rgba(224,137,111,.85);animation:lastP 1.6s ease-out 2}
+.pt.last::before{box-shadow:inset 0 0 0 2px rgba(224,137,111,.6)!important}
+@keyframes lastP{from{box-shadow:0 0 0 2px rgba(224,137,111,.9),0 0 0 2px rgba(224,137,111,.6)}to{box-shadow:0 0 0 2px rgba(224,137,111,.85),0 0 0 12px rgba(224,137,111,0)}}
 .rmt{margin:0 0 10px!important;color:var(--accent)!important;font-size:14px!important;min-height:0}
 .rev .revc{width:100%;height:auto;display:block;margin:6px 0 10px}
 .revl{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
@@ -342,7 +342,7 @@ body[data-card=aurora] .pc .hero{background:linear-gradient(140deg,#2a6e55,#1f4f
 @keyframes achIn{from{opacity:0;transform:translate(-50%,-30px) scale(.9)}}
 @media (max-width:760px){ .achg{grid-template-columns:repeat(4,1fr)} .bub{font-size:13px} }
 #btnVoice.von{background:#2fae6e;border-color:#2fae6e;color:#fff}
-#btnVoice.vwait{background:#e9a21a;border-color:#e9a21a;color:#fff;animation:vPulse 1.2s ease-in-out infinite alternate}
+#btnVoice.vwait{background:#e0896f;border-color:#e0896f;color:#fff;animation:vPulse 1.2s ease-in-out infinite alternate}
 @keyframes vPulse{to{opacity:.6}}
 #btnSpk.muted .w{display:none} #btnSpk.muted{color:var(--accent)}
 .claimbar{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:60;display:flex;align-items:center;gap:12px;padding:10px 10px 10px 16px;border-radius:16px;background:#1d1915;color:#fff;box-shadow:0 18px 40px -12px rgba(0,0,0,.6);font-size:14px;max-width:calc(100vw - 24px)}
@@ -908,7 +908,7 @@ body:not(.dark) .hs-stats b{color:#1d1915}
 .prow.bot .pt::before{top:0;bottom:calc(var(--cs)*.06);background:linear-gradient(0deg,var(--p1) 0%,var(--p1) 45%,transparent 100%)}
 .pt.alt::before{background:linear-gradient(180deg,var(--p2) 0%,var(--p2) 45%,transparent 100%)}
 .prow.bot .pt.alt::before{background:linear-gradient(0deg,var(--p2) 0%,var(--p2) 45%,transparent 100%)}
-.pt.last::before{box-shadow:inset 0 0 0 1.5px rgba(233,162,26,.45)}
+.pt.last::before{box-shadow:inset 0 0 0 1.5px rgba(224,137,111,.45)}
 .board[data-b=walnut],.tray[data-b=walnut],.mb[data-b=walnut]{--frame:#4a2e1b;--frame2:#2c190d;--field:#e6cfa6;--field2:#d6b986;--p1:#5b3820;--p2:#b9834c;--num:rgba(255,240,215,.75);--edge:rgba(70,40,15,.35);--bar:#2c190d;--trayIn:rgba(0,0,0,.25);--tc:rgba(255,240,220,.8)}
 .board[data-b=midnight],.tray[data-b=midnight],.mb[data-b=midnight]{--frame:#161c2e;--frame2:#0b0f1a;--field:#1d2742;--field2:#161e35;--p1:rgba(240,196,120,.40);--p2:rgba(140,170,230,.10);--num:rgba(255,255,255,.42);--edge:rgba(0,0,0,.45);--bar:#0b0f1a;--trayIn:rgba(0,0,0,.3);--tc:rgba(255,255,255,.6)}
 #stage[data-b=druzi]{overflow:hidden;background-color:#24160d;background-image:radial-gradient(ellipse 55% 50% at 50% 48%,rgba(255,196,128,.22),rgba(255,170,90,.06) 55%,transparent 75%),radial-gradient(ellipse 105% 90% at 50% 50%,transparent 35%,rgba(0,0,0,.85) 100%),repeating-linear-gradient(180deg,transparent 0 178px,rgba(0,0,0,.55) 178px 180px,rgba(255,220,180,.05) 180px 181px),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='900'%3E%3Cfilter id='w' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.0022 .07' numOctaves='5' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='.5 0 0 0 .03  .3 0 0 0 .015  .17 0 0 0 .005  0 0 0 0 1'/%3E%3C/filter%3E%3Crect width='900' height='900' filter='url(%23w)'/%3E%3C/svg%3E");background-size:auto,auto,auto,900px 900px}
@@ -1052,7 +1052,7 @@ body:not(.dark) .hs-stats b{color:#1d1915}
 .ck.b::before{box-shadow:var(--ckbRing)}
 .ck[data-n]::after{content:attr(data-n);position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:500 calc(var(--cs)*.32)/1 var(--mono);z-index:1}
 .ck.w[data-n]::after{color:var(--ckwTx)} .ck.b[data-n]::after{color:var(--ckbTx)}
-.pt.can .ck.tip{box-shadow:0 0 0 calc(var(--cs)*.06) var(--hl), 0 0 calc(var(--cs)*.35) rgba(233,162,26,.45), 0 calc(var(--cs)*.09) calc(var(--cs)*.14) rgba(0,0,0,.35);cursor:grab}
+.pt.can .ck.tip{box-shadow:0 0 0 calc(var(--cs)*.06) var(--hl), 0 0 calc(var(--cs)*.35) rgba(224,137,111,.45), 0 calc(var(--cs)*.09) calc(var(--cs)*.14) rgba(0,0,0,.35);cursor:grab}
 .prow.top .pt.sel .ck.tip{transform:translateY(calc(var(--cs)*.16)) scale(1.06)}
 .prow.bot .pt.sel .ck.tip{transform:translateY(calc(var(--cs)*-.16)) scale(1.06)}
 .pt.sel .ck.tip{box-shadow:0 0 0 calc(var(--cs)*.08) #fff, 0 0 0 calc(var(--cs)*.13) var(--hl), 0 calc(var(--cs)*.22) calc(var(--cs)*.3) rgba(0,0,0,.35)}
@@ -1061,10 +1061,10 @@ body:not(.dark) .hs-stats b{color:#1d1915}
 .gh{width:calc(var(--cs)*.92);height:calc(var(--cs)*.92);border-radius:50%;flex-shrink:0;box-sizing:border-box;position:relative;
   background:radial-gradient(circle,rgba(255,255,255,.95) 0 calc(var(--cs)*.07),transparent calc(var(--cs)*.075)),rgba(18,14,10,.5);
   border:calc(var(--cs)*.06) solid var(--hl);
-  box-shadow:0 0 0 calc(var(--cs)*.03) rgba(0,0,0,.45),inset 0 0 0 calc(var(--cs)*.03) rgba(255,255,255,.6),0 0 calc(var(--cs)*.3) rgba(233,162,26,.65);
+  box-shadow:0 0 0 calc(var(--cs)*.03) rgba(0,0,0,.45),inset 0 0 0 calc(var(--cs)*.03) rgba(255,255,255,.6),0 0 calc(var(--cs)*.3) rgba(224,137,111,.65);
   animation:gh 1.1s ease-in-out infinite alternate}
 .gh.combo{border-style:dashed;background:radial-gradient(circle,rgba(255,255,255,.75) 0 calc(var(--cs)*.06),transparent calc(var(--cs)*.065)),rgba(18,14,10,.5)}
-.pt.tgt.full .ck.tip{box-shadow:0 0 0 calc(var(--cs)*.06) var(--hl) , 0 0 calc(var(--cs)*.4) rgba(233,162,26,.55)}
+.pt.tgt.full .ck.tip{box-shadow:0 0 0 calc(var(--cs)*.06) var(--hl) , 0 0 calc(var(--cs)*.4) rgba(224,137,111,.55)}
 @keyframes gh{from{opacity:.8;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
 .drag{position:fixed;z-index:60;pointer-events:none;transform:translate(-50%,-50%) scale(1.12);filter:drop-shadow(0 14px 10px rgba(0,0,0,.35))}
 .board{touch-action:none}
@@ -1277,12 +1277,12 @@ body:not(.dark) .hs-stats b{color:#1d1915}
 /* =====================================================================
    v7 "modern" layer: dark-first palette, bento home, glass panels
    ===================================================================== */
-body.dark{--paper:#0d0e11;--panel:#15161b;--ink:#f3efe7;--ink2:#cfc8bc;--muted:#958e83;--line:rgba(255,255,255,.10);--line2:rgba(255,255,255,.06);--accent:#f2b33d;--hl:#f2b33d;--hl2:#f2b33d;--hlSoft:rgba(242,179,61,.28);
-  --surf:rgba(255,255,255,.035);--surf2:rgba(255,255,255,.06);--glow:rgba(242,179,61,.16)}
-body.v7:not(.dark){--surf:rgba(255,255,255,.62);--surf2:#fff;--glow:rgba(233,162,26,.18);--accent:#c9861a}
+body.dark{--paper:#0d0e11;--panel:#15161b;--ink:#f3efe7;--ink2:#cfc8bc;--muted:#958e83;--line:rgba(255,255,255,.10);--line2:rgba(255,255,255,.06);--accent:#e0896f;--hl:#e0896f;--hl2:#e0896f;--hlSoft:rgba(224,137,111,.28);
+  --surf:rgba(255,255,255,.035);--surf2:rgba(255,255,255,.06);--glow:rgba(224,137,111,.16)}
+body.v7:not(.dark){--surf:rgba(255,255,255,.62);--surf2:#fff;--glow:rgba(224,137,111,.18);--accent:#c9861a}
 body.v7{background:var(--paper);--hud:400px}
 body.dark kbd,body.dark .keys kbd{background:var(--surf2);color:var(--ink2);border-color:var(--line);box-shadow:none}
-body.v7.dark{background:radial-gradient(1200px 700px at 12% -10%,rgba(242,179,61,.07),transparent 60%),radial-gradient(900px 600px at 100% 110%,rgba(52,211,153,.05),transparent 60%),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E"),var(--paper);background-attachment:fixed}
+body.v7.dark{background:radial-gradient(1200px 700px at 12% -10%,rgba(224,137,111,.07),transparent 60%),radial-gradient(900px 600px at 100% 110%,rgba(52,211,153,.05),transparent 60%),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E"),var(--paper);background-attachment:fixed}
 body.v7 header{background:color-mix(in srgb,var(--paper) 72%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line2);align-items:center}
 body.v7 .brand b{font-weight:600;letter-spacing:-.02em}
 body.dark .brand .bmark circle:first-child{fill:#f3efe7;stroke:#f3efe7} body.dark .brand .bmark circle:nth-child(3){fill:#2a2b31;stroke:var(--paper)} body.dark .brand .bmark circle:nth-child(4){stroke:#55565e}
@@ -1290,8 +1290,8 @@ body.v7 button{border-radius:12px;transition:background .18s,color .18s,border-c
 body.v7 button:active{transform:scale(.97)}
 body.v7 button:not(.cta):not(.gear):not(.seg button):not(.avopt):not(.pick){border-color:var(--line)}
 body.dark button:hover{background:rgba(255,255,255,.06)}
-body.v7 button.cta{background:linear-gradient(180deg,#f6c25a,#eaa526);border-color:transparent;color:#1a1408;font-weight:600;box-shadow:0 8px 24px -10px rgba(242,179,61,.65),inset 0 1px 0 rgba(255,255,255,.35)}
-body.v7 button.cta:hover{background:linear-gradient(180deg,#f9cd6e,#f0ae31);box-shadow:0 10px 30px -8px rgba(242,179,61,.75),inset 0 1px 0 rgba(255,255,255,.4)}
+body.v7 button.cta{background:linear-gradient(180deg,#eaa08a,#c9785f);border-color:transparent;color:#1a1408;font-weight:600;box-shadow:0 8px 24px -10px rgba(224,137,111,.65),inset 0 1px 0 rgba(255,255,255,.35)}
+body.v7 button.cta:hover{background:linear-gradient(180deg,#f0ae98,#d6876c);box-shadow:0 10px 30px -8px rgba(224,137,111,.75),inset 0 1px 0 rgba(255,255,255,.4)}
 body.v7 button.cta:disabled{background:var(--surf2);color:var(--muted);box-shadow:none}
 body.v7 .hud{background:transparent;border-left:1px solid var(--line2)}
 body.v7 .gear,body.v7 #btnMe{border-radius:50%}
@@ -1305,7 +1305,7 @@ body.dark .pick:hover{background:var(--surf2)}
 body.dark .pc .ladder{box-shadow:inset 0 0 0 1px var(--line)}
 body.dark .pick.on{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}
 body.dark .avopt.on{box-shadow:0 0 0 2px var(--accent)}
-body.dark .lb .lbrow.me{background:rgba(242,179,61,.08)}
+body.dark .lb .lbrow.me{background:rgba(224,137,111,.08)}
 body.dark input,body.dark .field input{background:rgba(255,255,255,.05);color:var(--ink);border-color:var(--line)}
 /* ---- home: bento grid ---- */
 body.v7 #vHome{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:16px}
@@ -1401,7 +1401,7 @@ body.dark .pt .num{opacity:.9}
 #btnChat{font-size:19px;line-height:1}
 
 /* ---- v8: calmer, monochrome accents instead of amber ---- */
-body.dark{--accent:#f3efe7;--hl:#e9a21a;--hl2:#e9a21a;--hlSoft:rgba(233,162,26,.28);--glow:rgba(255,255,255,.05)}
+body.dark{--accent:#f3efe7;--hl:#e0896f;--hl2:#e0896f;--hlSoft:rgba(224,137,111,.28);--glow:rgba(255,255,255,.05)}
 body.v7:not(.dark){--accent:#1d1915;--glow:rgba(29,25,21,.05)}
 body.v7 button.cta{background:var(--ink);color:var(--paper);border:1px solid var(--ink);box-shadow:none;font-weight:600;letter-spacing:.01em}
 body.v7 button.cta:hover{background:var(--ink);opacity:.88;box-shadow:none}
@@ -4977,6 +4977,58 @@ body.pg41 .rcline{top:calc(66px + env(safe-area-inset-top))} .rcbar small{font-s
 .rcbar .cta{flex:none;padding:10px 14px;border-radius:12px;font-weight:800;font-size:14px}
 .rcbar .rcx{flex:none;width:34px;height:34px;padding:0;border:0;background:none;box-shadow:none;color:#8a847c;font-size:22px}
 body:not(.dark) .rcbar{background:#fff;border-color:rgba(98,195,160,.4)} body:not(.dark) .rcbar small{color:#6b645c}
+/* 0.135: no amber anywhere — legal moves and targets are lit in copper (applies to every look) */
+:root,body,.board{--hl:#e0896f!important;--hlSoft:rgba(224,137,111,.26)!important}
+.pt.can .ck.tip{box-shadow:0 0 0 calc(var(--cs)*.06) var(--hl),0 0 calc(var(--cs)*.35) rgba(224,137,111,.5),0 calc(var(--cs)*.09) calc(var(--cs)*.14) rgba(0,0,0,.35)!important}
+.pt.tgt.full .ck.tip{box-shadow:0 0 0 calc(var(--cs)*.06) var(--hl),0 0 calc(var(--cs)*.4) rgba(224,137,111,.6)!important}
+
+/* «Стіл у залі» (test, body.gm2) */
+body.gm2.ingame header #brand,body.gm2.ingame header #btnLearn,body.gm2.ingame header #btnLb{display:none!important}
+body.gm2.ingame header{background:linear-gradient(180deg,rgba(8,9,12,.85),rgba(8,9,12,0))!important;border-bottom:0!important;position:relative;z-index:5}
+#gm2Top{display:flex;align-items:center;gap:12px;min-width:0}
+.gm2back{width:40px;height:40px;flex:none;display:grid;place-items:center;border-radius:14px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);color:#eef0f4;cursor:pointer}
+.gm2back:hover{background:rgba(255,255,255,.1)}
+.gm2t{display:flex;flex-direction:column;min-width:0}.gm2t b{font:700 16px/1.15 'Unbounded',system-ui,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.gm2t small{font-size:12px;color:#9aa3b5}.gm2t small:empty{display:none}
+/* the table: a darker room around the board, the board lifted with a copper rim */
+body.gm2.ingame #stage{background:radial-gradient(70% 60% at 50% 55%,rgba(255,255,255,.04),transparent 70%),radial-gradient(120% 100% at 50% 50%,transparent 45%,rgba(0,0,0,.65))!important}
+body.gm2.ingame #board{box-shadow:0 40px 90px -20px rgba(0,0,0,.85),0 0 0 1px rgba(196,140,120,.35),0 0 0 7px rgba(10,11,14,.55)!important;border-radius:22px}
+body.gm2.ingame #board .num{font-family:'Unbounded',system-ui,sans-serif;font-size:10.5px;opacity:.7}
+/* trays: fifteen slots and a counter */
+body.gm2.ingame #tray .tslot{background-image:repeating-linear-gradient(180deg,transparent 0 calc(100%/15 - 2px),rgba(255,255,255,.07) calc(100%/15 - 2px) calc(100%/15))!important;border-radius:16px}
+body.gm2.ingame #tray .tc{font-weight:800;font-size:13px;line-height:1;font-variant-numeric:tabular-nums;background:rgba(10,11,14,.7);border:1px solid rgba(196,140,120,.4);border-radius:999px;padding:5px 9px;color:#f1d6cb}
+/* the turn prompt: one compact line instead of a card over the points */
+body.gm2.ingame #turnBanner.tb{display:flex!important;flex-direction:row;align-items:center;gap:14px;padding:10px 10px 10px 18px!important;border-radius:999px!important;background:rgba(12,14,20,.86)!important;border:1px solid rgba(196,140,120,.45);box-shadow:0 20px 50px rgba(0,0,0,.55)}
+body.gm2.ingame #turnBanner .tbt{font:700 15px/1.1 'Unbounded',system-ui,sans-serif!important}
+body.gm2.ingame #turnBanner .tbs{display:none}
+body.gm2.ingame #turnBanner .tbc{margin:0!important;padding:4px 8px;border-radius:999px;background:rgba(255,255,255,.08);font-size:12px!important;opacity:1!important}
+body.gm2.ingame #turnBanner .cta{margin:0!important;border-radius:999px!important;padding:10px 18px!important;background:#3fd39a!important;color:#06130d!important;font-weight:800}
+/* the side: players as cards like on the home page */
+body.gm2.ingame aside.hud{background:transparent!important;border-left:0!important}
+body.gm2.ingame #vGame>.sec{background:#12151c!important;border:1px solid rgba(255,255,255,.07)!important;border-radius:22px!important}
+body.gm2.ingame #vGame>.sec:first-of-type{background:transparent!important;border:0!important;padding:0!important}
+body.gm2.ingame .pl{border:1px solid rgba(255,255,255,.08)!important;border-radius:20px;padding:14px 16px!important;margin-bottom:10px;background:var(--u2-noise,none),#12151c}
+body.gm2.ingame .pl.turn{border-color:rgba(196,140,120,.7)!important;box-shadow:0 0 0 1px rgba(196,140,120,.25),0 14px 40px -14px rgba(196,140,120,.45)}
+body.gm2.ingame .pl.turn::before{content:"";position:absolute;left:auto!important;right:14px;top:-9px!important;bottom:auto!important;width:auto!important;height:auto!important;background:#c48c78!important;border-radius:999px!important;padding:3px 9px;font:700 10.5px/1 'Unbounded',system-ui,sans-serif;color:#1a0f0b}
+body.gm2.ingame[data-lang=uk] .pl.turn::before,body.gm2.ingame .pl.turn::before{content:"Хід"}
+body.gm2.ingame .pl .nm{font:700 16px/1.2 'Unbounded',system-ui,sans-serif}
+body.gm2.ingame .pl .sub{font-size:12.5px;color:#9aa3b5}
+body.gm2.ingame .pl .sc{font-weight:800;font-size:28px;line-height:1;font-variant-numeric:tabular-nums;min-width:44px;text-align:center;padding:8px 6px;border-radius:14px;background:rgba(255,255,255,.05)}
+body.gm2.ingame #odds{padding:12px 16px;border-radius:18px;background:#12151c;border:1px solid rgba(255,255,255,.07)}
+body.gm2.ingame #odds .obar{height:8px!important;border-radius:999px;overflow:hidden}
+body.gm2.ingame #odds .ocap{font-size:11px;opacity:.6}
+/* actions as tiles */
+body.gm2.ingame .share #shareLbl{display:none}
+body.gm2.ingame .share{gap:8px!important}
+body.gm2.ingame .share>button:not(.hidden){min-width:48px;height:48px;display:inline-flex;align-items:center;justify-content:center;gap:6px;border-radius:14px!important;border:1px solid rgba(255,255,255,.1)!important;background:rgba(255,255,255,.04)!important;padding:0 12px!important}
+body.gm2.ingame .share #btnResign{margin-left:auto}
+body.gm2.ingame #vGame details,body.gm2.ingame #vGame .sec h3{font-family:'Unbounded',system-ui,sans-serif}
+/* phone: the two player bars become cards too */
+@media (max-width:860px) and (orientation:portrait){
+  body.gm2.ingame .pl{margin:6px 8px!important;padding:10px 12px!important}
+  body.gm2.ingame #tray{border-radius:14px}
+  body.gm2.ingame #turnBanner.tb{padding:8px 8px 8px 14px!important}
+}
+
 </style>
 </head>
 <body>
@@ -8192,7 +8244,7 @@ function openReview(){
   const X=x=>(x/n*(W-20)+10).toFixed(1), Y=y=>(Hh-10-(y/100)*(Hh-20)).toFixed(1);
   let svg='<svg viewBox="0 0 '+W+' '+Hh+'" class="revc"><rect x="10" y="'+Y(50)+'" width="'+(W-20)+'" height="1" fill="#d6ccbb"/>';
   svg+='<path d="M'+pts.map(p=>X(p.x)+' '+Y(p.y)).join('L')+'" fill="none" stroke="#1d1915" stroke-width="2" stroke-linejoin="round"/>';
-  svg+='<path d="M'+X(0)+' '+Y(50)+'L'+pts.map(p=>X(p.x)+' '+Y(p.y)).join('L')+'L'+X(n)+' '+Y(50)+'Z" fill="rgba(233,162,26,.18)"/>';
+  svg+='<path d="M'+X(0)+' '+Y(50)+'L'+pts.map(p=>X(p.x)+' '+Y(p.y)).join('L')+'L'+X(n)+' '+Y(50)+'Z" fill="rgba(224,137,111,.18)"/>';
   drops.slice(0,3).forEach(dp=>{ svg+='<circle cx="'+X(dp.i+1)+'" cy="'+Y(pts[dp.i+1].y)+'" r="5" fill="#8e2f1f" stroke="#fff" stroke-width="1.5"/>'; });
   svg+='<text x="12" y="16" font-size="11" fill="#7a7166">100%</text><text x="12" y="'+(Hh-4)+'" font-size="11" fill="#7a7166">0%</text></svg>';
   const body=$('revBody'); body.innerHTML='<p class="note" style="margin:0 0 8px">'+t('revSub')+'</p>'+svg;
@@ -8389,7 +8441,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.134.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.135.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -10650,6 +10702,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+{v:"0.135.0", d:"25.11.2026", uk:["Можливі ходи, останній хід і цілі тепер підсвічуються мідним, а не жовтим — у тон новому вигляду"], en:["Possible moves, the last move and targets are now lit in copper instead of yellow, to match the new look"], ru:["Возможные ходы, последний ход и цели теперь подсвечиваются медным, а не жёлтым — в тон новому виду"]},
 {v:"0.134.0", d:"24.11.2026", uk:["Кейси відкриваються по-новому: поки скриня трясеться, під нею крутиться стрічка з речами, а коли вона зупиняється — кришка злітає й річ вистрибує","«Шлях нардиста II»: за кожного переможеного боса — дорожній кейс із річчю цього міста (шашки «Дністер», кубики «Кава під дощем», рамка «Туман Карпат», дошка «Фортеця» та інші). Що дає глава, видно на мапі","Новий кейс «Дорога» в магазині — усі дев’ять речей сюжету","За кожну кінцівку — своя річ: дошка «Мармурова зала. Відродження», анімована рамка «Маска Майстра», кубики «Шулерські», шашки «Квиток в один бік»","За таємний епілог — анімований аватар «Влад на світанку» й ефект перемоги «Світанок над Дністром»"], en:["Cases open in a new way: while the chest shakes, a reel of items spins under it; when it stops, the lid flies off and the item hops out","“The Way of the Nardy Player II”: every boss you beat gives a road case with that city’s item (Dniester checkers, Coffee-in-the-rain dice, the Carpathian fog frame, the Fortress board and more). The map shows what each chapter gives","A new case in the shop, “The Road” — all nine items of the story","Every ending gives its own item: the “Marble Hall. Reborn” board, the animated “Master’s mask” frame, “Loaded” dice, “One-way ticket” checkers","The secret epilogue gives the animated avatar “Vlad at dawn” and the win effect “Dawn over the Dniester”"], ru:["Кейсы открываются по-новому: пока сундук трясётся, под ним крутится лента с вещами, а когда она останавливается — крышка слетает и вещь выпрыгивает","«Путь нардиста II»: за каждого побеждённого босса — дорожный кейс с вещью этого города (шашки «Днестр», кубики «Кофе под дождём», рамка «Туман Карпат», доска «Крепость» и другие). Что даёт глава, видно на карте","Новый кейс «Дорога» в магазине — все девять вещей сюжета","За каждую концовку — своя вещь: доска «Мраморный зал. Возрождение», анимированная рамка «Маска Мастера», кубики «Шулерские», шашки «Билет в один конец»","За тайный эпилог — анимированный аватар «Влад на рассвете» и эффект победы «Рассвет над Днестром»"]},
 {v:"0.133.1", d:"24.11.2026", uk:["Жодних заголовків і підписів великими літерами — увесь сайт пише звичайним регістром","Кнопка «Назад» у другій частині сюжету та стрілки в магазині тепер рівні, по центру","Кожен кейс тепер має власну скриню: ярмарок у снігу й цукерковій стрічці, зодіак у зорях, неоновий «Тренд 26», кальянна з димком, східний купол, крижана зима з бурульками, шоу з лампочками, фрази й нічне місто з вогнями вікон","Іконки в кільцях на головній тепер круглі","Радіо на телефоні: повернулася кнопка «Наступна» — для пісень друзів перемикає трек, для живих станцій — станцію. Список станцій відкривається, якщо натиснути на обкладинку чи назву"], en:["No more all-caps headings and captions — the whole site uses normal case","The Back button in part II of the story and the arrows in the shop now sit straight and centred","Every case now has its own chest: a snowy fair with candy-cane straps, starry Zodiac, sleek Trend 26, the hookah bar with a wisp of smoke, an eastern dome, icy winter with icicles, show lights, phrases and the night city with lit windows","The icons inside the rings on the home page are round now","Radio on a phone: the Next button is back — it skips the track for friends’ songs and switches the station for live radio. The station list opens from the cover or the title"], ru:["Никаких заголовков и подписей заглавными буквами — весь сайт пишет обычным регистром","Кнопка «Назад» во второй части сюжета и стрелки в магазине теперь ровные, по центру","У каждого кейса теперь свой сундук: ярмарка в снегу и леденцовой ленте, звёздный зодиак, гладкий «Тренд 26», кальянная с дымком, восточный купол, ледяная зима с сосульками, шоу с лампочками, фразы и ночной город с огнями окон","Иконки в кольцах на главной теперь круглые","Радио на телефоне: вернулась кнопка «Следующая» — для песен друзей переключает трек, для живых станций — станцию. Список станций открывается по нажатию на обложку или название"]},
 {v:"0.133.0", d:"24.11.2026", uk:["Друга частина «Шляху нардиста» тепер на мапі України: дорога від Druzi в Могилеві-Подільському до Мармурової зали, пройдені міста світяться","Натисніть на місто — побачите главу, боса, його фішки й що робити далі"], en:["Part II of the story is now on a map of Ukraine: the road from Druzi in Mohyliv-Podilskyi to the Marble Hall, cities you’ve passed light up","Tap a city to see its chapter, its boss, the twists and what to do next"], ru:["Вторая часть «Пути нардиста» теперь на карте Украины: дорога от Druzi в Могилёве-Подольском до Мраморного зала, пройденные города светятся","Нажмите на город — увидите главу, босса, его фишки и что делать дальше"]},
@@ -13868,6 +13921,21 @@ function c2EndSheet(n,won,d){ const B=C2CH[n].boss; document.querySelectorAll('.
 { const _pn=c2Panel; c2Panel=function(box,n){ _pn.apply(this,arguments); if(c2Step(n)===0) return; const id=C2_ROAD[n]; if(!id) return; const own=myOwned().includes(id);
   const r=uxH('div','c2prize'+(own?' own':'')); r.style.setProperty('--rc',SH_RC[CASE_R[id]]); const th=uxH('div','th'); th.appendChild(csThumb(id)); const tx=uxH('div'); tx.append(uxH('small',null,t('cs_road')), uxH('b',null,csName(id)), uxH('em',null, own?'✓ '+csKind(id):csKind(id))); r.append(th,tx);
   const steps=box.querySelector('.cp-steps'); if(steps) steps.after(r); else box.appendChild(r); }; }
+
+// ================= 0.135 (test): «Стіл у залі» — the game screen in the new look =================
+// Turn on with ?gm2 (off again with ?gm2=0). The board floats on the hall's table, the players are cards like on the home page,
+// the turn prompt is one compact line, moves are lit in copper, the trays count 15 slots.
+const GM2=()=>store.get('gm2',0)===1;
+if(/[?&]gm2=0\b/.test(location.search)) store.set('gm2',0); else if(/[?&]gm2\b/.test(location.search)) store.set('gm2',1);
+function gm2Sync(){ const on=GM2(); document.body.classList.toggle('gm2',on); const ig=document.body.classList.contains('ingame');
+  let top=$('gm2Top'); if(!on || !ig){ if(top) top.remove(); return; }
+  if(!top){ const hd=document.querySelector('header'); if(!hd) return; top=uxH('div'); top.id='gm2Top';
+    const bk=uxH('button','gm2back'); bk.type='button'; bk.setAttribute('aria-label',t('back')||'Back'); bk.innerHTML='<svg width="20" height="20" viewBox="0 0 256 256" aria-hidden="true"><path d="M160 48 80 128l80 80" fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    bk.onclick=()=>{ const b=$('btnLeave2'); if(b) b.click(); };
+    const tx=uxH('div','gm2t'); tx.append(uxH('b'), uxH('small')); top.append(bk,tx); hd.prepend(top); }
+  const lbl=($('shareLbl')||{}).textContent||''; const b=top.querySelector('b'), s=top.querySelector('small'); if(b.textContent!==lbl) b.textContent=lbl;
+  const sub=(gs&&gs.rules&&gs.rules.t)?(gs.rules.t+' '+(lang==='en'?'s a move':lang==='ru'?'с на ход':'с на хід')):''; if(s.textContent!==sub) s.textContent=sub; }
+setInterval(gm2Sync, 600);
 
 </script>
 </body>
