@@ -3,6 +3,10 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.140.4
+- Телефон: нижня панель-капсула (tv6) без підписів, кругла «Грати» по центру.
+- Логотип у меню: кубики 6+5.
+
 ## 0.140.3
 - Головне меню «B · карти режимів»: фото-картки, сталий фон fcabin (з 15.12 по 14.01 — nysnow).
 - Телефон: cover-flow карток зі свайпом, нижня панель-плитки замість кутових кнопок.
