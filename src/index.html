@@ -5071,6 +5071,42 @@ body.ui2 .mn-home{justify-content:center!important;width:100%!important;margin-l
 html body.ui2 #h1Pg .h1play.h1play,html body.ui2 #shopPg .s2main.s2main,html body.ui2 #profOv .rwpg .s2main.s2main,html body.ui2 #evPg .rwpg .s2main.s2main,html body .u3ov .s2main.s2main,html body .c2caseov .s2main.s2main{background:#f3efe7!important;box-shadow:0 12px 28px -14px rgba(0,0,0,.6)!important}
 html body.ui2 #h1Pg .h1play.h1play:hover,html body.ui2 #shopPg .s2main.s2main:hover{background:#ffffff!important}
 
+
+/* 0.136.5: the search screen covers the whole page with its own scene — pulses from the timer, drifting checkers, the board's points at the edges */
+.mm119,body.h1on .mm119{left:0;z-index:2600;background:radial-gradient(90% 70% at 50% 42%,#16201d 0%,#0b0e10 55%,#07080a 100%)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+.mmbg{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.mm119 .mmin{position:relative;z-index:1}
+.mmpts{position:absolute;left:0;right:0;height:min(26vh,200px);opacity:.07;background:repeating-linear-gradient(90deg,transparent 0 0);
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='200' viewBox='0 0 120 200' preserveAspectRatio='none'%3E%3Cpath d='M0 0h60L30 200zM60 0h60L90 200z'/%3E%3C/svg%3E") 0 0/120px 100% repeat-x;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='200' viewBox='0 0 120 200' preserveAspectRatio='none'%3E%3Cpath d='M0 0h60L30 200zM60 0h60L90 200z'/%3E%3C/svg%3E") 0 0/120px 100% repeat-x;
+  background:linear-gradient(90deg,#e0896f 0 50%,#f3efe7 50% 100%) 0 0/120px 100%}
+.mmpts.top{top:0}
+.mmpts.bot{bottom:0;transform:scaleY(-1)}
+.mmpulse{position:absolute;left:var(--cx,50%);top:var(--cy,45%);width:150px;height:150px;margin:-75px 0 0 -75px;border-radius:50%;border:1.5px solid rgba(169,220,201,.45);opacity:0;animation:mmPulse 3.9s cubic-bezier(.2,.6,.3,1) infinite}
+@keyframes mmPulse{0%{transform:scale(.9);opacity:.55}100%{transform:scale(7);opacity:0}}
+.mm119.found .mmpulse{border-color:rgba(224,137,111,.6);animation-duration:1.4s}
+.mmck{position:absolute;bottom:-60px;border-radius:50%;opacity:.13;animation:mmDrift linear infinite;will-change:transform}
+.mmck.lt{background:radial-gradient(circle at 35% 30%,#fffaf0,#d9d1c3 55%,#a79e90);box-shadow:inset 0 0 0 3px rgba(0,0,0,.08)}
+.mmck.dk{background:radial-gradient(circle at 35% 30%,#4a4f55,#1c1f23 60%,#0c0d0f);box-shadow:inset 0 0 0 3px rgba(255,255,255,.08);opacity:.35}
+@keyframes mmDrift{from{transform:translateY(0) rotate(0)}to{transform:translateY(calc(-100vh - 120px)) rotate(200deg)}}
+body.calm .mmck,body.calm .mmpulse{animation:none;opacity:0}
+@media (prefers-reduced-motion:reduce){ .mmck,.mmpulse{animation:none;opacity:0} }
+/* 0.136.5: the case opening is centred as one column — the reel no longer overflows a narrow box and pushes it aside */
+.u3ov{display:flex!important;align-items:center;justify-content:center;padding:16px 0!important;overflow-x:hidden}
+.u3obox{width:100%!important;max-width:none}
+.u3obox>.cs-ttl,.u3obox>.u3hint{text-align:center;padding:0 16px}
+.u3obox .u3reel{width:min(1100px,100%)!important;margin-left:auto!important;margin-right:auto!important}
+/* the reveal: chest and reel step aside, the prize hops out in the same spot, with rays behind it */
+.u3obox.rv>.u3chest,.u3obox.rv>.u3reel{display:none!important}
+.u3ov:has(.u3res) .u3chest.big{width:240px;height:200px;margin-bottom:0}
+.u3obox.rv{gap:14px}
+.u3obox .u3res{position:relative;width:min(420px,92vw);display:flex;flex-direction:column;align-items:center;animation:u3out .55s cubic-bezier(.2,1.3,.4,1) both}
+@keyframes u3out{from{transform:translateY(-30px) scale(.55);opacity:0}}
+.u3rays{position:absolute;left:50%;top:120px;width:520px;height:520px;margin:-260px 0 0 -260px;border-radius:50%;pointer-events:none;z-index:-1;opacity:.55;
+  background:repeating-conic-gradient(from 0deg,color-mix(in srgb,var(--rc) 40%,transparent) 0 6deg,transparent 6deg 22deg);-webkit-mask:radial-gradient(closest-side,#000 20%,transparent 100%);mask:radial-gradient(closest-side,#000 20%,transparent 100%);animation:u3spin 18s linear infinite}
+@keyframes u3spin{to{transform:rotate(360deg)}}
+@media (max-width:600px){ .u3rays{width:380px;height:380px;margin:-190px 0 0 -190px;top:105px} }
+body.calm .u3rays{animation:none}
+.u3obox .u3res>.shrar{position:static!important;align-self:center!important;margin:0 0 10px!important;transform:none!important}
 </style>
 </head>
 <body>
@@ -8487,7 +8523,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.136.4';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.136.5';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -10748,6 +10784,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+{v:"0.136.5", d:"27.11.2026", uk:["Пошук суперника тепер на власному екрані: хвилі від таймера, шашки, що пливуть угору, і зубці дошки по краях — сторінки позаду більше не видно","Відкриття кейса стоїть рівно по центру, а виграна річ вистрибує на місці скрині, без порожнечі"], en:["Opponent search has its own screen now: pulses from the timer, drifting checkers and board points at the edges — the page behind is gone","Case opening sits dead centre, and the prize hops out where the chest was, with no empty gap"], ru:["Поиск соперника теперь на своём экране: волны от таймера, плывущие вверх шашки и зубцы доски по краям — страницы позади больше не видно","Открытие кейса стоит ровно по центру, а выигранная вещь выпрыгивает на месте сундука, без пустоты"]},
 {v:"0.136.4", d:"27.11.2026", uk:["Виправили: на телефоні інколи зникала кнопка «Кинути кубики», і гра зупинялась"], en:["Fixed: on phones the “Roll” button could vanish and the game got stuck"], ru:["Исправили: на телефоне иногда пропадала кнопка «Бросить кубики», и игра останавливалась"]},
 {v:"0.136.3", d:"25.11.2026", uk:["Світлі кнопки («Грати онлайн», «Відкрити», «Забрати») більше не мають білої тіні під собою"], en:["Light buttons (“Play online”, “Open”, “Claim”) no longer have a white glow under them"], ru:["У светлых кнопок («Играть онлайн», «Открыть», «Забрать») больше нет белой тени снизу"]},
 {v:"0.136.2", d:"25.11.2026", uk:["Стрічка під скринею при відкритті кейса тепер на всю ширину: більші плитки, речі видно повністю"], en:["The reel under the chest when opening a case now spans the screen: bigger tiles, items shown in full"], ru:["Лента под сундуком при открытии кейса теперь во всю ширину: плитки больше, вещи видно целиком"]},
@@ -12219,6 +12256,10 @@ setTimeout(function rcBotBoot(){ if(!db || !uid || !sb){ if((rcBotBoot.n=(rcBotB
 const MM={el:null, on:false, found:false, spin:null, i:0, list:[], tip:0, tipAt:0};
 function mmBuild(){ if(MM.el) return MM.el; const H=(t0,c,x)=>uxH(t0,c,x);
   const el=H('div','mm119'); el.id='mm119'; el.setAttribute('role','dialog'); el.setAttribute('aria-live','polite');
+  const bg=H('div','mmbg'); bg.setAttribute('aria-hidden','true'); bg.append(H('i','mmpts top'), H('i','mmpts bot'));
+  for(let i=0;i<3;i++){ const r=H('i','mmpulse'); r.style.animationDelay=(i*1.3)+'s'; bg.appendChild(r); }
+  for(let i=0;i<9;i++){ const c=H('i','mmck '+(i%2?'dk':'lt')); const sz=26+Math.round(Math.random()*30); c.style.cssText='left:'+(4+Math.random()*92).toFixed(1)+'%;width:'+sz+'px;height:'+sz+'px;animation-duration:'+(16+Math.random()*14).toFixed(1)+'s;animation-delay:-'+(Math.random()*20).toFixed(1)+'s'; bg.appendChild(c); }
+  el.appendChild(bg);
   const inn=H('div','mmin');
   const hd=H('div','mmhd'); hd.append(H('h2','mmh',t('searchT')), H('p','mmsub',''));
   const duel=H('div','mmduel');
@@ -12244,6 +12285,7 @@ function mmShow(on){ const el=mmBuild(); if(on===MM.on) return; MM.on=on; el.cla
     MM.spin=setInterval(()=>{ if(!MM.list.length||MM.found) return; const g=MM.list[MM.i++%MM.list.length]; mmCard(op, g.av, g.name, mmTier(g.rating), g.rating); }, 160);
     mmTick(); } }
 function mmTick(){ if(!MM.on || !MM.el) return; const el=MM.el, sec=Math.floor((Date.now()-(searchSince||Date.now()))/1000);
+  try{ const rr=el.querySelector('.mmring').getBoundingClientRect(), er=el.getBoundingClientRect(); el.style.setProperty('--cx',Math.round(rr.left-er.left+rr.width/2)+'px'); el.style.setProperty('--cy',Math.round(rr.top-er.top+rr.height/2+el.scrollTop)+'px'); }catch(e){}
   el.querySelector('.mmt').textContent=Math.floor(sec/60)+':'+String(sec%60).padStart(2,'0');
   const on=($('searchOnline')||{}).textContent||''; el.querySelector('.mmon').textContent=on.replace(/^\s*·\s*/,'');
   const r=mmR(), w=Math.min(800,150+sec*20); el.querySelector('.mmrl').innerHTML=''; el.querySelector('.mmrl').append(uxH('small',null,t('snRange')), uxH('b',null,Math.max(100,r-w)+' – '+(r+w)));
@@ -12780,7 +12822,7 @@ function u3Open(K,d){ const C=CASES[K], order=['c','r','e','l'], top=Math.max(0,
   const glow=r=>{ ch.style.setProperty('--gc',SH_RC[r]); ch.dataset.r=r; };
   const reelEnd=()=>{ const tl=strip.children[WIN]; if(!tl) return; const off=tl.offsetLeft+tl.offsetWidth/2-reel.clientWidth/2; strip.style.transition='none'; strip.style.transform='translateX('+(-off)+'px)'; tl.classList.add('win'); };
   const finish=()=>{ if(done) return; done=true; T.forEach(clearTimeout); reelEnd(); setTimeout(()=>reel.classList.add('gone'),250); glow(d.rar); ch.classList.remove('shake','s1','s2','s3'); ch.classList.add('openx'); try{ csSyn('thud'); }catch(e){} setTimeout(reveal, noMotion()?0:520); };
-  const reveal=()=>{ hint.remove(); const [c,k]=bSplit(d.got); const res=sH('div','cs-res u3res'); res.style.setProperty('--rc',SH_RC[d.rar]); const bg=sH('div','cs-big'); bg.appendChild(csThumb(d.got));
+  const reveal=()=>{ hint.remove(); box.classList.add('rv'); const [c,k]=bSplit(d.got); const res=sH('div','cs-res u3res'); res.style.setProperty('--rc',SH_RC[d.rar]); res.appendChild(sH('i','u3rays')); const bg=sH('div','cs-big'); bg.appendChild(csThumb(d.got));
     res.append(rarChip(d.rar), bg, sH('h2',null,csName(d.got)), sH('p',null,csKind(d.got)+(d.dup?' · '+t('csDup',{n:d.refund}):' · '+t('csNew'))));
     try{ csSnd(d.rar,.75); }catch(e){} try{ cs75Reveal(K,d.rar); }catch(e){} if(d.rar==='l') csSyn('fanfare'); else if(d.rar==='e') csSyn('shine'); if(d.dup) setTimeout(()=>{ try{ csSnd('coins',.6); }catch(e){} },500);
     if(c==='fx' && !d.dup) setTimeout(()=>{ try{ previewFx(k); }catch(e){} },900);

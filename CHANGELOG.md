@@ -3,6 +3,10 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.136.5 — 27.11.2026
+- Search screen (mm119): opaque full-screen scene over the sidebar too (z 2600), copper/cream board points at the top and bottom, three pulse rings centred on the timer ring (--cx/--cy set in mmTick), nine checkers drifting up; still under calm / reduced motion.
+- Case opening (u3Open): .u3obox is full width so the 1100px reel and the chest share one centre. On reveal the chest and reel are hidden (.rv) and the result card hops out in the chest's place with slow rarity-tinted rays behind it.
+
 ## 0.136.4 — 27.11.2026
 - Phones: the roll button sits inside the player card (#plBot); redrawing the card (plCard → innerHTML='') destroyed it, so the game could not be continued. plCard now keeps #turnBanner, and renderBanner recreates it if it is ever missing.
 
