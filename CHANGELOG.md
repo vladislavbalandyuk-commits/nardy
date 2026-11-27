@@ -3,6 +3,11 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.141.0
+- Турнір: етапи sw/po/f зі своїми дошкою, шашками, столом (TR_ST) — застосовуються лише на час турнірної партії, вибір гравця не змінюється.
+- Звук етапів (CP_AMB 120–122 + синтез trPad), прев'ю на сторінці.
+- Сторінка турніру: фон етапу, «Три етапи — три столи».
+
 ## 0.140.5
 - Виправлено: старі стилі .hsMode.main:hover робили картку онлайн білою.
 

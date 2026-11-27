@@ -5762,6 +5762,70 @@ html body #hsHome .hsMode.hsMode.main,html body #hsHome .hsMode.hsMode.main:hove
 html body #hsHome .hsMode.hsMode.main small{color:#c9c1b6!important}
 html body #hsHome .hsMode.hsMode.main .ic{background:rgba(14,13,16,.72)!important;border-color:rgba(255,255,255,.12)!important;color:#e0896f!important}
 html body #hsHome .hsMode.hsMode.main .tag{background:rgba(14,13,16,.82)!important;color:#f0a58d!important}
+
+/* 0.141.0 tournament: three stages, three tables, three moods */
+#tourOv.overlay{background:#0d0c0f!important}
+#tourOv::before{content:"";position:fixed;inset:0;background:var(--trbg,url("tb/fhookah.webp")) center/cover no-repeat;filter:brightness(.34) saturate(.9);z-index:0;pointer-events:none}
+#tourOv::after{content:"";position:fixed;inset:0;background:radial-gradient(70% 60% at 70% 0%,rgba(224,137,111,.18),transparent 60%),linear-gradient(180deg,rgba(13,12,15,.2),rgba(13,12,15,.75));z-index:0;pointer-events:none}
+#tourOv>*{position:relative;z-index:1}
+#tourOv .thd.thero{border:1px solid rgba(224,137,111,.35)!important;background:linear-gradient(120deg,rgba(30,20,22,.92),rgba(16,14,17,.92))!important}
+#tourOv .thd.thero::before,#tourOv .thd.thero::after{opacity:.35}
+#tourOv .ttabs{background:rgba(18,16,19,.86)!important;backdrop-filter:blur(8px)}
+#tourOv .ttabs button.on{background:#f3efe7!important;color:#1a1412!important}
+#tourOv .trrow,#tourOv .prz,#tourOv .tbody>*,#tourOv .tact{backdrop-filter:blur(6px)}
+#tourOv .trroad{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:14px;border-radius:20px;background:rgba(18,16,19,.86);border:1px solid rgba(255,255,255,.08)}
+#tourOv .trroad>h4{grid-column:1/-1;margin:0 0 2px;font-size:14px;display:flex;justify-content:space-between;align-items:baseline}
+#tourOv .trroad>h4 small{color:#8d867d;font-weight:500;font-size:12px}
+#tourOv .trst{position:relative;display:flex;flex-direction:column;gap:8px;padding:10px;border-radius:16px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.08);min-width:0}
+#tourOv .trst.on{border-color:#e0896f;box-shadow:0 0 0 4px rgba(224,137,111,.12)}
+#tourOv .trst.fin{border-color:rgba(176,58,72,.55);background:linear-gradient(160deg,rgba(176,58,72,.16),rgba(255,255,255,.02))}
+#tourOv .trst .n{display:flex;justify-content:space-between;align-items:baseline;gap:6px}
+#tourOv .trst .n b{font-family:'Unbounded',system-ui,sans-serif;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#tourOv .trst .n small{color:#8d867d;font-size:11px;white-space:nowrap}
+#tourOv .trst .pv{position:relative;aspect-ratio:1.4;border-radius:11px;overflow:hidden;background:var(--tb) center/cover}
+#tourOv .trst .pv .shth{position:absolute;inset:12% 10%;width:80%;height:76%;border-radius:6px;box-shadow:0 8px 18px rgba(0,0,0,.5)}
+#tourOv .trst .pv .ckp{position:absolute;right:8%;bottom:8%;width:26%;height:auto;aspect-ratio:1}
+#tourOv .trst .mus{display:flex;align-items:center;gap:8px;padding:0;border:0;background:none!important;color:#b9b2a8;font-weight:600;font-size:11.5px!important;line-height:1.2;min-height:0!important;height:auto!important;text-align:left;cursor:pointer;box-shadow:none;min-width:0}
+#tourOv .trst .mus i{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:#f3efe7;color:#1a1412}
+#tourOv .trst .mus i svg{width:11px;height:11px}
+#tourOv .trst .mus.pl i{background:#e0896f}
+#tourOv .trst .mus span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#tourOv .trst .now{position:absolute;top:-9px;left:10px;padding:3px 8px;border-radius:99px;background:#e0896f;color:#1a1412;font-size:10.5px;font-weight:800}
+
+#tourOv.overlay{padding:0!important;overflow:auto;display:block}
+#tourOv .modal.tov.tr2{max-width:none!important;width:100%!important;min-height:100%;margin:0!important;padding:0!important;border:0!important;border-radius:0!important;background:none!important;box-shadow:none!important;display:block!important;grid-template-columns:none!important}
+#tourOv .tr2bar{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:14px;min-height:72px;padding:0 28px;background:rgba(14,13,16,.78);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.07)}
+#tourOv .tr2bar h1{margin:0;flex:1;font-family:'Unbounded',system-ui,sans-serif;font-size:24px;white-space:nowrap}
+#tourOv .tr2tabs{display:flex;gap:4px;padding:4px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);overflow-x:auto;scrollbar-width:none}
+#tourOv .tr2tabs button{flex:none;height:38px;padding:0 16px;border-radius:10px;border:0;background:none;color:#a8a29a;font:650 14px/1 inherit;cursor:pointer;box-shadow:none}
+#tourOv .tr2tabs button.on{background:#f3efe7;color:#1a1412}
+#tourOv .tr2pill{display:flex;align-items:center;gap:8px;height:40px;padding:0 14px;border-radius:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);font-weight:700}
+#tourOv .tr2w{max-width:1240px;margin:0 auto;padding:24px 28px 60px;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:18px;align-items:start}
+#tourOv .tr2hero{display:flex;flex-direction:column;align-items:flex-start;gap:14px;padding:30px;border-radius:26px;background:linear-gradient(120deg,rgba(30,20,22,.92),rgba(16,14,17,.92));border:1px solid rgba(224,137,111,.35)}
+#tourOv .tr2chip{display:inline-flex;align-items:center;gap:7px;padding:6px 11px;border-radius:99px;background:rgba(224,137,111,.16);color:#f0a58d;font-size:12.5px;font-weight:700}
+#tourOv .tr2chip.live::before{content:"";width:7px;height:7px;border-radius:50%;background:#ff6b5a;box-shadow:0 0 0 4px rgba(255,107,90,.2)}
+#tourOv .tr2hero h2{margin:0;font-family:'Unbounded',system-ui,sans-serif;font-size:40px;line-height:1.03}
+#tourOv .tr2d{margin:0;color:#a8a29a;font-size:15px;line-height:1.5;max-width:52ch}
+#tourOv .tr2cd{display:flex;gap:10px}
+#tourOv .tr2cd div{min-width:78px;padding:12px 10px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);text-align:center}
+#tourOv .tr2cd b{display:block;font-family:'Unbounded',system-ui,sans-serif;font-size:30px;font-variant-numeric:tabular-nums}
+#tourOv .tr2cd small{color:#8d867d;font-size:12px}
+#tourOv .tr2hero>.tst109,#tourOv .tr2hero>.trrow,#tourOv .tr2hero>.tact{width:100%;margin:0;padding:0;background:none!important;border:0!important}
+#tourOv .tr2hero>.trroad{width:100%;padding:0;background:none;border:0}
+#tourOv .tr2side{display:flex;flex-direction:column;gap:18px}
+#tourOv .tr2card{padding:22px;border-radius:22px;background:rgba(18,16,19,.86);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(6px);min-width:0}
+#tourOv .tr2card h3{margin:0 0 10px;font-family:'Unbounded',system-ui,sans-serif;font-size:20px}
+#tourOv .tr2h{display:flex;justify-content:space-between;align-items:baseline}
+#tourOv .tr2h small{color:#8d867d;font-size:13px}
+#tourOv .tr2card .tbody{margin:0}
+#tourOv .tr2how{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+#tourOv .tr2how li{display:flex;gap:12px;color:#a8a29a;font-size:14px;line-height:1.45}
+#tourOv .tr2how em{flex:none;width:26px;height:26px;border-radius:8px;background:rgba(224,137,111,.16);color:#f0a58d;display:grid;place-items:center;font-style:normal;font-weight:800;font-size:13px}
+#tourOv .tr2full{grid-column:1/-1}
+@media (max-width:900px){#tourOv .tr2w{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:700px){#tourOv .tpl{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px}#tourOv .tpl>div{min-width:0}#tourOv .tr2bar{flex-wrap:wrap;padding:10px 12px;gap:10px}#tourOv .tr2bar h1{font-size:19px}#tourOv .tr2tabs{order:3;width:100%}#tourOv .tr2tabs button{padding:0 12px;font-size:13px}
+#tourOv .tr2w{padding:12px 12px 50px;gap:12px}#tourOv .tr2hero{padding:18px}#tourOv .tr2hero h2{font-size:26px}#tourOv .tr2cd{width:100%}#tourOv .tr2cd div{min-width:0;flex:1}#tourOv .tr2cd b{font-size:22px}#tourOv .tr2card{padding:16px}}
+@media (max-width:600px){#tourOv .trroad{grid-template-columns:repeat(3,70%);overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}#tourOv .trroad>h4{position:sticky;left:0}#tourOv .trst{scroll-snap-align:start}}
 </style>
 </head>
 <body>
@@ -9182,7 +9246,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.140.5';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.141.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -10577,7 +10641,7 @@ function autoRollTick(){ if(store.get('autoRoll',false)!==true || !gs || gs.phas
 // in a lobby with the host's table on, both players see the host's board, checkers, dice and table; your own are back after the game
 var _hostLook='';
 function hostLookSync(){
-  if(cupOn()){ const key='cup:'+(gameId||'')+(gs.tour?':'+gs.tour.mid+':'+(gs.tour.gi||0):''); if(_hostLook!==key){ _hostLook=key; prefs.board='cup'; prefs.ck='cup'; prefs.dice='cup'; prefs.table='cup'; try{ window._applyTheme(); }catch(e){} cupStart(key); } return; }
+  if(cupOn()){ let stg='sw'; try{ stg=trStageNow(tourState()); }catch(e){} const key='cup:'+(gameId||'')+(gs.tour?':'+gs.tour.mid+':'+(gs.tour.gi||0):'')+':'+stg; if(_hostLook!==key){ const S=(typeof TR_ST!=='undefined'&&TR_ST[stg])||{board:'cup',ck:'cup',table:'cup'}; _hostLook=key; prefs.board=S.board; prefs.ck=S.ck; prefs.dice='cup'; prefs.table=S.table; try{ window._applyTheme(); }catch(e){} cupStart(key); try{ if(S.amb){ cupAmbOff(); ambPlay(S.amb); } }catch(e){} } return; }
   if(_hostLook && _hostLook.startsWith('cup:')) cupStop();
   const S=gs && gs.rules && gs.rules.sty, on=!!(S && mode==='online' && gameId && !gs.tour);
   if(on){ const key=gameId+JSON.stringify(S); if(_hostLook===key) return; _hostLook=key;
@@ -11442,6 +11506,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+{v:'0.141.0',d:'27.11.2026',uk:['Турнір: три етапи — три різні столи. Швейцарка за дерев’яним столом таверни, плей-оф у мармурі, фінал у бордо','У кожного етапу свій звук: вогонь і гомін таверни, напружений ритм, тепла музика фіналу — послухати можна прямо на сторінці турніру','Сторінка турніру в новому оформленні'],en:['Tournament: three stages, three tables. Swiss rounds at the tavern table, the play-off in marble, the final in burgundy','Each stage has its own sound — listen right on the tournament page','The tournament page has a new look']},
 {v:'0.140.5',d:'27.11.2026',uk:['Картка «Грати онлайн» більше не біліє при дотику'],en:['The «Play online» card no longer turns white when tapped']},
 {v:'0.140.4',d:'27.11.2026',uk:['Нова нижня панель на телефоні — капсула з круглою кнопкою «Грати»','Новий знак гри: кубики 6 і 5'],en:['A new bottom bar on phones — a capsule with a round Play button','A new game mark: dice 6 and 5']},
 {v:'0.140.3',d:'27.11.2026',uk:['Нове головне меню: чотири картки режимів з фото, «Грати онлайн» — по центру','На телефоні картки гортаються пальцем, а знизу — панель з магазином, завданнями, колекцією і друзями','Головне меню тепер завжди в затишному будиночку, на Новий рік — святковий фон'],en:['New main menu: four photo cards, «Play online» in the middle','On phones the cards swipe, with a bottom bar for the shop, tasks, collection and friends','The main menu now always sits in the cosy cabin, with a festive one for New Year']},
@@ -15199,6 +15264,71 @@ setInterval(hsRadPaint,500); setTimeout(hsRadPaint,300);
       const pl=md.querySelector('.hs-play'); if(pl){ md.scrollLeft=pl.offsetLeft+pl.offsetWidth/2-md.clientWidth/2; } }
     cf(md); }
   setInterval(setup,700); setTimeout(setup,250); window.addEventListener('resize',()=>{ bound=null; setup(); }); })();
+
+/* 0.141.0 tournament stages: Swiss rounds at the tavern table, the play-off in marble, the final in burgundy — each with its own sound */
+const TR_ST={sw:{board:'walnut',ck:'wood',table:'fwood',amb:120,bg:'tb/fwood.webp'},po:{board:'marble',ck:'stone',table:'fmarble',amb:121,bg:'tb/fmarble.webp'},f:{board:'burg',ck:'burg',table:'burg',amb:122,bg:'tb/burg.webp'}};
+const TR_TX={uk:{road:'Три етапи — три столи',roadD:'стіл і музика змінюються',sw:'1 · Швейцарка',po:'2 · Плей-оф',f:'3 · Фінал',swM:'Таверна · вогонь і гомін',poM:'Мармур · напружений ритм',fM:'Бордо · софіти',now:'зараз'},
+en:{road:'Three stages — three tables',roadD:'the table and music change',sw:'1 · Swiss',po:'2 · Play-off',f:'3 · Final',swM:'Tavern · fire and chatter',poM:'Marble · a tense beat',fM:'Burgundy · spotlights',now:'now'},
+ru:{road:'Три этапа — три стола',roadD:'стол и музыка меняются',sw:'1 · Швейцарка',po:'2 · Плей-офф',f:'3 · Финал',swM:'Таверна · огонь и гомон',poM:'Мрамор · напряжённый ритм',fM:'Бордо · софиты',now:'сейчас'}};
+const trT=k=>(TR_TX[lang]||TR_TX.en)[k]||TR_TX.en[k]||k;
+CP_AMB[120]=[['fire',.55],['cafe',.38]]; CP_AMB[121]=[['hall',.4],['midnight',.25]]; CP_AMB[122]=[['hall',.45]];
+function trStageOf(m){ if(!m) return 'sw'; const st=String(m.st||''); if(st==='f'||st==='gf') return 'f'; if(st) return 'po'; return 'sw'; }
+function trStageNow(T){ if(!T) return 'sw'; try{ const m=myMatch(T); if(m) return trStageOf(m); }catch(e){} try{ if(T.poAll&&T.poAll.length || T.po&&T.po.length) return (T.poAll||T.po).some(x=>(x.st==='f'||x.st==='gf')&&x.av!=null&&tNow()>=x.av)?'f':'po'; }catch(e){} return 'sw'; }
+// a tense pulse for the play-off and a warm slow pad for the final, on top of the room sound
+function trPad(ctx,out,tok,fin){ const hz=m=>440*Math.pow(2,(m-69)/12); const CH=fin?[[48,55,64,67],[45,52,60,64],[41,48,57,60],[43,50,59,62]]:[[45,52,57],[45,52,57],[41,48,53],[43,50,55]];
+  const lp=ctx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=fin?1400:900; const g0=ctx.createGain(); g0.gain.value=fin?.07:.06; lp.connect(g0); g0.connect(out); let i=0; const D=fin?8:4.8;
+  const bar=()=>{ if(tok!==AMB.tok){ clearInterval(iv); return; } const t0=ctx.currentTime+.05;
+    CH[i%4].forEach((m,j)=>{ const o=ctx.createOscillator(); o.type=fin?(j?'triangle':'sine'):'sawtooth'; o.frequency.value=hz(m); const g=ctx.createGain(); const pk=fin?(j?.1:.2):(.05); g.gain.setValueAtTime(0,t0); g.gain.linearRampToValueAtTime(pk,t0+(fin?2:.6)); g.gain.setValueAtTime(pk,t0+D-1.2); g.gain.linearRampToValueAtTime(0,t0+D); o.connect(g); g.connect(lp); o.start(t0); o.stop(t0+D+.1); AMB.src.push(o); });
+    if(!fin) for(let b=0;b<8;b++){ const tb=t0+b*(D/8); const o=ctx.createOscillator(); o.type='sine'; o.frequency.setValueAtTime(70,tb); o.frequency.exponentialRampToValueAtTime(40,tb+.14); const g=ctx.createGain(); g.gain.setValueAtTime(0,tb); g.gain.linearRampToValueAtTime(b%2?.05:.1,tb+.01); g.gain.exponentialRampToValueAtTime(.0005,tb+.25); o.connect(g); g.connect(out); o.start(tb); o.stop(tb+.3); AMB.src.push(o); }
+    i++; }; bar(); const iv=setInterval(bar,D*1000); }
+{ const _ap=ambPlay; ambPlay=function(n){ const r=_ap.apply(this,arguments); try{ if((n===121||n===122) && AMB.n===n && AMB.ctx){ trPad(AMB.ctx, AMB.g||AMB.ctx.destination, AMB.tok, n===122); } }catch(e){} return r; }; }
+let trPrev=null, trApplied='';
+function trApply(){ try{ const inT=typeof gs!=='undefined' && gs && gs.tour; if(inT){ let T=null; try{ T=tourState(); }catch(e){} const k=trStageNow(T), S=TR_ST[k]; if(trApplied!==k){ if(!trPrev) trPrev={board:prefs.board,ck:prefs.ck,table:prefs.table}; prefs.board=S.board; prefs.ck=S.ck; prefs.table=S.table; trApplied=k; try{ applyTheme(); }catch(e){} try{ ambPlay(S.amb); }catch(e){} } }
+  else if(trApplied){ if(trPrev){ prefs.board=trPrev.board; prefs.ck=trPrev.ck; prefs.table=trPrev.table; } trPrev=null; trApplied=''; try{ applyTheme(); }catch(e){} try{ ambStop(); ambSync(); }catch(e){} } }catch(e){} }
+
+const TR_PLAY='<svg viewBox="0 0 24 24"><path d="M7 4.5v15l12.5-7.5Z" fill="currentColor"/></svg>', TR_STOP='<svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2" fill="currentColor"/></svg>';
+let trPrevT=0;
+function trRoad(T){ const now=T?trStageNow(T):''; const road=sH('section','trroad'); const h=sH('h4'); h.append(document.createTextNode(trT('road')+' '), sH('small',null,trT('roadD'))); road.appendChild(h);
+  ['sw','po','f'].forEach(k=>{ const S=TR_ST[k]; const c=sH('div','trst'+(k==='f'?' fin':'')+(T&&now===k?' on':'')); if(T&&now===k) c.appendChild(sH('span','now',trT('now')));
+    const n=sH('div','n'); n.append(sH('b',null,trT(k))); c.appendChild(n);
+    const pv=sH('div','pv'); pv.style.setProperty('--tb','url("'+S.bg+'")'); try{ pv.appendChild(shThumb('board',S.board)); }catch(e){} c.appendChild(pv);
+    const mu=sH('button','mus'); mu.type='button'; const ic=sH('i'); ic.innerHTML=TR_PLAY; mu.append(ic, sH('span',null,trT(k+'M')));
+    mu.onclick=()=>{ const on=mu.classList.contains('pl'); road.querySelectorAll('.mus.pl').forEach(b=>{ b.classList.remove('pl'); b.querySelector('i').innerHTML=TR_PLAY; }); clearTimeout(trPrevT); if(on){ ambStop(); return; } mu.classList.add('pl'); ic.innerHTML=TR_STOP; const was=ambOn; try{ const sv=store.get('amb',true); store.set('amb',true); ambPlay(S.amb); store.set('amb',sv); }catch(e){ ambPlay(S.amb); } trPrevT=setTimeout(()=>{ ambStop(); mu.classList.remove('pl'); ic.innerHTML=TR_PLAY; },12000); };
+    c.appendChild(mu); road.appendChild(c); });
+  return road; }
+let trTab='hall', trCdT=0;
+const TR_TX2={uk:{t:'Кубок вихідних',hall:'Зал',sw:'Швейцарка',po:'Плей-оф',pl:'Учасники',hist:'Історія',h2:'Три етапи —\nтри різні столи',d:'Швейцарка грається за теплим дерев’яним столом таверни. Плей-оф — під мармуром і напружений ритм. Фінал — бордовий стіл під софітами.',chip:'{d} · 16 гравців',live:'Іде зараз',done:'Турнір завершено',dd:'дн',hh:'год',mm:'хв',ss:'сек',prz:'Призи',fund:'фонд {n}',how:'Як це йде',h1:'Швейцарка: суперник з таким самим рахунком. 3 перемоги — у плей-оф, 3 поразки — виліт.',h2s:'Плей-оф на вибування. Стіл і музика змінюються.',h3:'Фінал — бордовий стіл під софітами, дивитись можуть усі.',place:'{n} місце'},
+en:{t:'Weekend Cup',hall:'Hall',sw:'Swiss',po:'Play-off',pl:'Players',hist:'History',h2:'Three stages —\nthree tables',d:'Swiss rounds are played at the warm wooden tavern table. The play-off — in marble to a tense beat. The final — a burgundy table under the spotlights.',chip:'{d} · 16 players',live:'Live now',done:'Tournament over',dd:'d',hh:'h',mm:'min',ss:'sec',prz:'Prizes',fund:'pool {n}',how:'How it goes',h1:'Swiss: you meet someone with the same score. 3 wins — play-off, 3 losses — out.',h2s:'Knock-out play-off. The table and the music change.',h3:'The final — a burgundy table under the spotlights, everyone can watch.',place:'place {n}'},
+ru:{t:'Кубок выходных',hall:'Зал',sw:'Швейцарка',po:'Плей-офф',pl:'Участники',hist:'История',h2:'Три этапа —\nтри разных стола',d:'Швейцарка играется за тёплым деревянным столом таверны. Плей-офф — под мрамором и напряжённый ритм. Финал — бордовый стол под софитами.',chip:'{d} · 16 игроков',live:'Идёт сейчас',done:'Турнир завершён',dd:'дн',hh:'ч',mm:'мин',ss:'сек',prz:'Призы',fund:'фонд {n}',how:'Как это идёт',h1:'Швейцарка: соперник с таким же счётом. 3 победы — в плей-офф, 3 поражения — вылет.',h2s:'Плей-офф на выбывание. Стол и музыка меняются.',h3:'Финал — бордовый стол под софитами, смотреть могут все.',place:'{n} место'}};
+const trT2=(k,v)=>{ let x=(TR_TX2[lang]||TR_TX2.en)[k]||TR_TX2.en[k]||k; if(v) for(const q in v) x=x.replace('{'+q+'}',v[q]); return x; };
+const _rt0=renderTour;
+renderTour=function(){ const box=$('tourBox'); if(!box) return; let T=null; try{ T=tourState(); }catch(e){}
+  const map={hall:'prizes',sw:'groups',po:'bracket',pl:'players',hist:'hist'}; const keepTab=tourTab; tourTab=map[trTab]||'prizes';
+  try{ _rt0.apply(this,arguments); }catch(e){ console.error(e); } tourTab=keepTab;
+  const grab=q=>{ const e=box.querySelector(q); if(e) e.remove(); return e; };
+  const act=grab('.tact'), live=grab('.tlive'), body=grab('.tbody'), row=grab('.trrow')||grab('.tst109'), pod=grab('.pod'); let path=null; try{ path=[...box.children].find(e=>e.classList&&(e.classList.contains('tpath')||e.classList.contains('tps'))); if(path) path.remove(); }catch(e){}
+  box.innerHTML=''; box.classList.add('tr2'); clearInterval(trCdT);
+  const k=T?trStageNow(T):'sw'; $('tourOv').style.setProperty('--trbg','url("'+(T&&T.status!=='done'?TR_ST[k].bg:'tb/fhookah.webp')+'")');
+  // top bar
+  const bar=sH('div','tr2bar'); const bk=sH('button','shback'); bk.type='button'; bk.setAttribute('aria-label',t('close')); bk.innerHTML=lico('back'); bk.onclick=()=>show('tourOv',false);
+  const tabs=sH('div','tr2tabs'); [['hall','hall'],['sw','sw'],['po','po'],['pl','pl'],['hist','hist']].forEach(([key,lb])=>{ const b=sH('button',trTab===key?'on':'',trT2(lb)); b.type='button'; b.onclick=()=>{ trTab=key; renderTour(); box.scrollTop=0; $('tourOv').scrollTop=0; }; tabs.appendChild(b); });
+  const co=sH('div','tr2pill'); co.innerHTML='<i class="coin"></i><b></b>'; co.querySelector('b').textContent=(coinsNow()||0).toLocaleString('uk-UA');
+  bar.append(bk, sH('h1',null,trT2('t')), tabs, co); box.appendChild(bar);
+  const w=sH('div','tr2w'); box.appendChild(w);
+  if(trTab!=='hall'){ const c=sH('section','tr2card tr2full'); if(act&&T&&T.status!=='done') c.appendChild(act); if(body) c.appendChild(body); w.appendChild(c); if(live) w.appendChild(live); return; }
+  // hall: hero on the left, prizes and «how it goes» on the right
+  const hero=sH('section','tr2hero'); const at0=T?T.at:(evNow()&&Date.now()<evNow().gAt?evNow().gAt:nextSat()); const when=new Date(at0+2*3600e3); const dstr=when.toLocaleDateString(LOC(),{weekday:'long',timeZone:'UTC'})+' · '+hmK(at0);
+  hero.appendChild(sH('span','tr2chip'+(T&&T.status!=='done'?' live':''), T ? (T.status==='done'?trT2('done'):trT2('live')) : trT2('chip',{d:dstr})));
+  const h2=sH('h2'); trT2('h2').split('\n').forEach((ln,i)=>{ if(i) h2.appendChild(sH('br')); h2.appendChild(document.createTextNode(ln)); }); hero.append(h2, sH('p','tr2d',trT2('d')));
+  if(!T){ const cd=sH('div','tr2cd'); const cells=['dd','hh','mm','ss'].map(u=>{ const d=sH('div'); const b=sH('b'); d.append(b, sH('small',null,trT2(u))); cd.appendChild(d); return b; });
+    const tick=()=>{ let r=Math.max(0,at0-Date.now()); const v=[Math.floor(r/864e5),Math.floor(r/36e5)%24,Math.floor(r/6e4)%60,Math.floor(r/1e3)%60]; v.forEach((x,i)=>{ const s2=String(x).padStart(2,'0'); if(cells[i].textContent!==s2) cells[i].textContent=s2; }); if(!$('tourBox').isConnected||$('tourOv').classList.contains('hidden')) clearInterval(trCdT); };
+    tick(); trCdT=setInterval(tick,1000); hero.appendChild(cd); }
+  if(pod) hero.appendChild(pod); if(row) hero.appendChild(row); if(act) hero.appendChild(act); if(path) hero.appendChild(path);
+  hero.appendChild(trRoad(T)); w.appendChild(hero);
+  const side=sH('div','tr2side'); const pc=sH('section','tr2card'); const ph=sH('div','tr2h'); let pool=''; try{ pool=tourPool().toLocaleString('uk-UA'); }catch(e){} ph.append(sH('h3',null,trT2('prz')), sH('small',null,trT2('fund',{n:pool}))); pc.appendChild(ph); if(body) pc.appendChild(body); side.appendChild(pc);
+  const hw=sH('section','tr2card'); hw.appendChild(sH('h3',null,trT2('how'))); const ul=sH('ul','tr2how'); ['h1','h2s','h3'].forEach((x,i)=>{ const li=sH('li'); li.append(sH('em',null,String(i+1)), sH('span',null,trT2(x))); ul.appendChild(li); }); hw.appendChild(ul); side.appendChild(hw);
+  if(live) side.appendChild(live); w.appendChild(side); };
+try{ new MutationObserver(()=>{ try{ if($('tourOv').classList.contains('hidden') && AMB.n>=120 && AMB.n<=122 && !(gs&&gs.tour)){ ambStop(); ambSync(); } }catch(e){} }).observe($('tourOv'),{attributes:true,attributeFilter:['class']}); }catch(e){}
 </script>
 </body>
 </html>
