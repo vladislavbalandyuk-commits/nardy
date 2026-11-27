@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.139.4 — 27.11.2026
+- Part II map soundscape (ambient slot 101): wind, a quiet night and a distant train (CC0 recordings already in snd/) plus a slow synthesized chord pad (Am–F–C–G, 8 s per chord, low-passed, quiet bell notes). Starts when the Part II page opens, stops when it closes or a game starts; follows the «Campaign sounds» switch; a speaker button on the map toggles it.
+
 ## 0.139.3 — 27.11.2026
 - Search: the new home layer stays (with its own photo background) while searching and is shown right on cancel; the search screen is opened at once — the legacy screen showed for a moment.
 - «What's new»: a wide window (up to 1120 px) — the latest update as a big copper card, earlier ones as cards in a grid; full screen on phones.
