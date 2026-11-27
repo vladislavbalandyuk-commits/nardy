@@ -5638,6 +5638,23 @@ html body #turnBanner.tb.hidden.hidden,html body.gm2.ingame #turnBanner.tb.hidde
 #shopPg .ncmain .s2grid,#shopPg .ncmain .s2h{margin:0}
 @media (max-width:900px){#shopPg .nc{grid-template-columns:minmax(0,1fr)}#shopPg .ncset{position:static}}
 @media (max-width:600px){#shopPg .ncset,#shopPg .ncmain{padding:14px;border-radius:20px}#shopPg .ncmain .nsgrid{grid-template-columns:repeat(2,minmax(0,1fr))}#shopPg .ncset .shscene{max-height:220px}}
+
+/* 0.140.2 news stories on phones: no description over the picture */
+@media (max-width:600px){html body #newsOv .nw3p{display:none!important}}
+
+/* 0.140.2 point numbers 1–24 hidden by default; on in settings, in lessons and the tutorial */
+html body:not(.pnums) .pt .num{display:none!important}
+
+/* 0.140.2 radio on the home bar */
+#hsHome .hsRad{position:relative}
+#hsHome .hsIb>em[hidden]{display:none!important}
+#hsHome .hsRad.on{background:rgba(224,137,111,.18)!important;border-color:rgba(224,137,111,.55)!important}
+#hsHome .hsRad .eq{position:absolute;right:6px;bottom:6px;display:none;gap:1.5px;align-items:flex-end;height:8px}
+#hsHome .hsRad.on .eq{display:flex}
+#hsHome .hsRad .eq i{width:2px;height:100%;border-radius:1px;background:#e0896f;animation:hsEq .9s ease-in-out infinite alternate}
+#hsHome .hsRad .eq i:nth-child(2){animation-delay:.3s}#hsHome .hsRad .eq i:nth-child(3){animation-delay:.55s}
+@keyframes hsEq{0%{transform:scaleY(.3)}100%{transform:scaleY(1)}}
+#hsHome .hsRad .eq i{transform-origin:bottom}
 </style>
 </head>
 <body>
@@ -9058,7 +9075,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.140.1';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.140.2';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -11318,6 +11335,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+{v:'0.140.2',d:'27.11.2026',uk:['Номери пунктів 1–24 на дошці сховані — увімкнути можна в налаштуваннях, у навчанні вони є завжди','Кнопка радіо в головному меню — вмикається одним дотиком','«Що нового» на телефоні: опис більше не лізе на картинку'],en:['Point numbers 1–24 are hidden — turn them on in settings; lessons always show them','A radio button on the main menu — one tap on or off','What\'s new on phones: the description no longer covers the picture']},
 {v:'0.140.1',d:'27.11.2026',uk:['Нова сторінка «Подарунки»: календар на 7 днів, завдання дня і тижня — відкривається кнопкою-подарунком','Нова Колекція: «Твій набір» з 8 слотами, образами і фільтрами Усі / Мої / Не мої / З кейсів','Подарунок і завдання прибрано з вітрини магазину'],en:['New Gifts page: a 7-day calendar, quests of the day and the week — opened with the gift button','New Collection: «Your set» with 8 slots, looks and filters All / Mine / Not mine / From cases','The gift and quests are gone from the shop showcase']},
 {v:'0.140.0',d:'27.11.2026',uk:['Новий магазин: Вітрина і Кейси в одному вікні, вкладки більше не стрибають','Набір тижня і кейси на першому екрані, «Сьогодні на вітрині», каталог з фільтрами','Картка речі: примірка на столі, зблизька, гра з ботом, звуки і список бажань','Колекція тепер окреме вікно — відкривається з головного меню','Тихий фоновий звук під час пошуку суперника','Після кидка кнопка «Кинути кубики» більше не лишається на дошці','Коли суперника знайдено, картка пошуку тримається до відкриття партії — без миготіння'],en:['New shop: Showcase and Cases in one window, tabs no longer jump','Set of the week and cases on the first screen, today\'s picks, catalog with filters','Item card: try on the table, close-up, play a bot, sounds and a wishlist','Collection is now its own window, opened from the main menu','A quiet background sound while searching for an opponent','The roll button no longer stays on the board after you roll','When an opponent is found, the search card stays until the game opens — no flicker']},
 {v:'0.139.7',d:'27.11.2026',uk:['Нові іконки «назад» і «закрити» по всьому сайту'],en:['New back and close icons across the site']},
@@ -15028,6 +15046,24 @@ function nsCol(wrap){ wrap.classList.add('nsw'); const G=['board','ck','dice','t
     const g=sH('div','nsgrid'); Ls.forEach(k=>g.appendChild(ncCard(c,k))); main.appendChild(g); }
   else { try{ if(shCat==='looks') looksView(main); else if(shCat==='ph') shPhrases(main); else if(shCat==='fx') shFx(main); else if(shCat==='avatar') shAvatars(main); else if(shCat==='frame') shFrames(main); else if(shCat==='card') shCards(main); }catch(e){ console.error(e); } } }
 shCol=nsCol;
+
+/* 0.140.2 point numbers: off by default, a toggle in settings, always on while learning */
+prefs.pnums=!!store.get('pnums',false);
+function pnSync(){ let learn=false; try{ learn=(typeof mode!=='undefined'&&mode==='tutor') || (typeof guide!=='undefined'&&!!guide) || (typeof tut!=='undefined'&&!!tut&&!!gs); }catch(e){} document.body.classList.toggle('pnums', prefs.pnums||learn); }
+setInterval(pnSync,400); pnSync();
+(function(){ try{ const o=$('togOdds'); if(!o) return; const row=o.closest('.set'); const r=document.createElement('div'); r.className='set';
+  const L={uk:['Номери пунктів','Цифри 1–24 біля лунок. У навчанні показуються завжди.'],en:['Point numbers','Numbers 1–24 by the points. Always shown in lessons.'],ru:['Номера пунктов','Цифры 1–24 у лунок. В обучении показываются всегда.']};
+  const tx=()=>L[lang]||L.en; r.innerHTML='<span><span></span><small></small></span><div class="tog" id="togNums"></div>'; const paint=()=>{ r.querySelector('span>span').textContent=tx()[0]; r.querySelector('small').textContent=tx()[1]; $('togNums').classList.toggle('on',prefs.pnums); };
+  row.after(r); paint(); $('togNums').onclick=()=>{ prefs.pnums=!prefs.pnums; store.set('pnums',prefs.pnums); paint(); pnSync(); };
+  document.addEventListener('click',e=>{ if(e.target.closest&&e.target.closest('#langSeg')) setTimeout(paint,50); },true); }catch(e){} })();
+
+/* 0.140.2 radio button on the home bar: one tap on/off, no trip to settings */
+const HS_RAD_SVG='<svg class="hsi" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="8.5" width="17" height="11.5" rx="3" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M7 8.5 16.5 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="15.5" cy="14.2" r="2.6" fill="none" stroke="#e0896f" stroke-width="1.7"/><path d="M7 12.5h3.5M7 15.8h3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
+function hsRadPaint(){ const tp=document.querySelector('#hsHome .hsTop'); if(!tp) return; let b=tp.querySelector('.hsRad'); const L={uk:'Радіо',en:'Radio',ru:'Радио'};
+  if(!b){ const bell=tp.querySelector('.hsBell'); if(!bell) return; b=document.createElement('button'); b.type='button'; b.className='hsIb hsRad'; b.innerHTML=HS_RAD_SVG+'<span class="eq"><i></i><i></i><i></i></span>'; b.onclick=()=>{ try{ radSet(!radOn); }catch(e){} setTimeout(hsRadPaint,60); }; bell.before(b); }
+  try{ tp.querySelectorAll('.hsIb>em').forEach(e=>{ const z=!e.textContent.trim()||e.textContent.trim()==='0'; if(e.hidden!==z) e.hidden=z; }); }catch(e){}
+  const on=typeof radOn!=='undefined' && !!radOn; b.classList.toggle('on',on); const lb=(L[lang]||L.en)+(on?' ✓':''); if(b.getAttribute('aria-label')!==lb){ b.setAttribute('aria-label',lb); b.title=L[lang]||L.en; } }
+setInterval(hsRadPaint,500); setTimeout(hsRadPaint,300);
 </script>
 </body>
 </html>
