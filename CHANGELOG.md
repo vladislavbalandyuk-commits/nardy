@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.140.5
+- Виправлено: старі стилі .hsMode.main:hover робили картку онлайн білою.
+
 ## 0.140.4
 - Телефон: нижня панель-капсула (tv6) без підписів, кругла «Грати» по центру.
 - Логотип у меню: кубики 6+5.

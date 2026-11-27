@@ -5756,6 +5756,12 @@ html body #hsHome .hsQuick.hsQuick button{padding:0 12px!important;font-size:13p
 }
 
 #hsHome .hsLogo svg{width:36px!important;height:36px!important;overflow:visible;background:none!important;border-radius:0!important;padding:0!important}
+
+/* 0.140.5 the online card never turns white (old hover/active styles of the previous menu) */
+html body #hsHome .hsMode.hsMode.main,html body #hsHome .hsMode.hsMode.main:hover,html body #hsHome .hsMode.hsMode.main:active,html body #hsHome .hsMode.hsMode.main:focus{background:#141215 var(--hsimg) center/cover no-repeat!important;color:#f3efe7!important}
+html body #hsHome .hsMode.hsMode.main small{color:#c9c1b6!important}
+html body #hsHome .hsMode.hsMode.main .ic{background:rgba(14,13,16,.72)!important;border-color:rgba(255,255,255,.12)!important;color:#e0896f!important}
+html body #hsHome .hsMode.hsMode.main .tag{background:rgba(14,13,16,.82)!important;color:#f0a58d!important}
 </style>
 </head>
 <body>
@@ -9176,7 +9182,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.140.4';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.140.5';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -11436,6 +11442,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+{v:'0.140.5',d:'27.11.2026',uk:['Картка «Грати онлайн» більше не біліє при дотику'],en:['The «Play online» card no longer turns white when tapped']},
 {v:'0.140.4',d:'27.11.2026',uk:['Нова нижня панель на телефоні — капсула з круглою кнопкою «Грати»','Новий знак гри: кубики 6 і 5'],en:['A new bottom bar on phones — a capsule with a round Play button','A new game mark: dice 6 and 5']},
 {v:'0.140.3',d:'27.11.2026',uk:['Нове головне меню: чотири картки режимів з фото, «Грати онлайн» — по центру','На телефоні картки гортаються пальцем, а знизу — панель з магазином, завданнями, колекцією і друзями','Головне меню тепер завжди в затишному будиночку, на Новий рік — святковий фон'],en:['New main menu: four photo cards, «Play online» in the middle','On phones the cards swipe, with a bottom bar for the shop, tasks, collection and friends','The main menu now always sits in the cosy cabin, with a festive one for New Year']},
 {v:'0.140.2',d:'27.11.2026',uk:['Номери пунктів 1–24 на дошці сховані — увімкнути можна в налаштуваннях, у навчанні вони є завжди','Кнопка радіо в головному меню — вмикається одним дотиком','«Що нового» на телефоні: опис більше не лізе на картинку'],en:['Point numbers 1–24 are hidden — turn them on in settings; lessons always show them','A radio button on the main menu — one tap on or off','What\'s new on phones: the description no longer covers the picture']},
