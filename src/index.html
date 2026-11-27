@@ -5834,149 +5834,158 @@ body.brOn #board .pt.brWall{background-image:linear-gradient(180deg,rgba(224,137
 
 
 
-/* 0.142.0 «Таверна» — auto-battler on a round burgundy table */
-#tavPg{position:fixed;inset:0;z-index:40;overflow:hidden;color:#f3efe7;background:#0b0a0c;user-select:none;-webkit-user-select:none}
-#tavPg .zroom{position:absolute;inset:0;background:url("tb/fcabin.webp") center/cover;filter:brightness(.22) blur(3px)}
-#tavPg .ztable{position:absolute;left:50%;top:66px;bottom:182px;width:min(1200px,94vw);transform:translateX(-50%);border-radius:48px;background:url("tb/fwood.webp") center/cover;box-shadow:0 0 0 10px #2a1810,0 0 0 13px rgba(224,137,111,.35),0 60px 120px rgba(0,0,0,.8)}
-#tavPg .ztable::before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(60% 55% at 50% 50%,rgba(255,196,150,.16),transparent 70%),linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,.1) 40%,rgba(0,0,0,.35))}
-#tavPg .zfelt{position:absolute;left:9%;right:9%;top:16%;bottom:16%;border-radius:999px;background:radial-gradient(70% 70% at 50% 50%,#7a1f2b,#4a1219 80%);box-shadow:inset 0 0 0 3px rgba(224,137,111,.55),inset 0 0 0 9px #2a1014,inset 0 10px 40px rgba(0,0,0,.6),0 10px 30px rgba(0,0,0,.5)}
-#tavPg .zfelt::after{content:"";position:absolute;left:8%;right:8%;top:50%;height:2px;background:linear-gradient(90deg,transparent,rgba(240,201,184,.5),transparent)}
+
+/* 0.143.0 «Таверна» v2 — Battlegrounds layout: shelf on top, your band below, cards in hand */
+#tavPg{position:fixed;inset:0;z-index:40;overflow:hidden;color:#f3efe7;background:#0b0a0c;user-select:none;-webkit-user-select:none;font-family:inherit}
+#tavPg .zroom{position:absolute;inset:0;background:url("tb/fcabin.webp") center/cover;filter:brightness(.2) blur(4px)}
+#tavPg .ztable{position:absolute;left:150px;right:24px;top:16px;bottom:118px;border-radius:44px;background:url("tb/fwood.webp") center/cover;box-shadow:0 0 0 8px #24150e,0 0 0 10px rgba(224,137,111,.3),0 50px 100px rgba(0,0,0,.75)}
+#tavPg .ztable::before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(60% 60% at 50% 45%,rgba(255,196,150,.14),transparent 70%),linear-gradient(180deg,rgba(0,0,0,.4),rgba(0,0,0,.08) 35%,rgba(0,0,0,.4))}
+#tavPg .zfelt{position:absolute;left:7%;right:7%;top:19%;bottom:15%;border-radius:999px;background:radial-gradient(75% 75% at 50% 50%,#7a1f2b,#4a1219 82%);box-shadow:inset 0 0 0 3px rgba(224,137,111,.5),inset 0 0 0 9px #2a1014,inset 0 10px 40px rgba(0,0,0,.6),0 10px 30px rgba(0,0,0,.5)}
+#tavPg .zfelt::after{content:"";position:absolute;left:10%;right:10%;top:50%;height:2px;background:linear-gradient(90deg,transparent,rgba(240,201,184,.35),transparent)}
 #tavPg .zrow{position:absolute;left:0;right:0;display:flex;justify-content:center;gap:12px;z-index:2}
-#tavPg .zop{top:21%}#tavPg .zme{bottom:21%}
-#tavPg .zu{position:relative;width:92px;height:120px;border-radius:50% 50% 16px 16px/36% 36% 16px 16px;background:linear-gradient(180deg,#2c2226,#151215);border:2px solid var(--rc);box-shadow:0 14px 24px rgba(0,0,0,.6);display:flex;flex-direction:column;align-items:center;padding-top:8px;gap:3px;cursor:pointer;transition:transform .18s,opacity .25s,box-shadow .2s;flex:none}
-#tavPg .zu .av{width:62px;height:62px;border-radius:50%;box-shadow:0 0 0 2px var(--rc)}
-#tavPg .zu b{font-size:11px;text-align:center;line-height:1.1;padding:0 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
-#tavPg .zu .za,#tavPg .zu .zh{position:absolute;bottom:-9px;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font:800 13px 'Unbounded',system-ui,sans-serif;border:2px solid #120f11}
+#tavPg .zop{top:24%}#tavPg .zme{bottom:22%}
+/* board piece */
+#tavPg .zu{position:relative;width:92px;height:116px;border-radius:50% 50% 18px 18px/38% 38% 18px 18px;background:linear-gradient(180deg,#2c2226,#151215);border:2px solid var(--rc);box-shadow:0 14px 24px rgba(0,0,0,.6);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:7px;gap:2px;cursor:pointer;flex:none;transition:transform .45s cubic-bezier(.3,.7,.3,1),opacity .4s,box-shadow .2s}
+#tavPg .zu .av{width:64px;height:64px;border-radius:50%;box-shadow:0 0 0 2px var(--rc)}
+#tavPg .zu b{font-size:10.5px;text-align:center;line-height:1.1;padding:0 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+#tavPg .zu .za,#tavPg .zu .zh{position:absolute;bottom:-9px;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font:800 13px 'Unbounded',system-ui,sans-serif;border:2px solid #120f11;transition:transform .2s}
 #tavPg .zu .za{left:-6px;background:#e0896f;color:#1a1412}#tavPg .zu .zh{right:-6px;background:#f3efe7;color:#7a1f2b}
-#tavPg .zu .zt{position:absolute;top:-9px;left:50%;transform:translateX(-50%);padding:1px 7px;border-radius:99px;background:#120f11;border:1px solid var(--rc);font-size:10px;font-weight:800}
-#tavPg .zu .zab{position:absolute;top:28px;right:-8px;width:22px;height:22px;border-radius:50%;background:#120f11;border:1px solid rgba(255,255,255,.2);display:grid;place-items:center;font-size:11px}
-#tavPg .zu.sh{box-shadow:0 0 0 3px rgba(240,201,184,.85),0 0 18px rgba(240,201,184,.6),0 14px 24px rgba(0,0,0,.6)}
-#tavPg .zu.tn{border-style:double;border-width:5px}
+#tavPg .zu .zh.low{background:#b0303f;color:#fff}
+#tavPg .zu .zt{position:absolute;top:-9px;left:50%;transform:translateX(-50%);padding:1px 7px;border-radius:99px;background:#120f11;border:1px solid var(--rc);font-size:10px;font-weight:800;white-space:nowrap}
+#tavPg .zu .zkw{position:absolute;top:24px;right:-9px;display:flex;flex-direction:column;gap:3px}
+#tavPg .zu .zkw i{width:20px;height:20px;border-radius:50%;background:#120f11;border:1px solid rgba(255,255,255,.22);display:grid;place-items:center;font-style:normal;font-size:10px}
+#tavPg .zu .zfa{position:absolute;top:24px;left:-9px;width:20px;height:20px;border-radius:50%;background:#120f11;border:1px solid rgba(255,255,255,.22);display:grid;place-items:center;font-size:10px}
+#tavPg .zu.sh{box-shadow:0 0 0 3px rgba(240,201,184,.9),0 0 20px rgba(240,201,184,.6),0 14px 24px rgba(0,0,0,.6)}
+#tavPg .zu.tn{border-width:4px;border-style:double}
+#tavPg .zu.gd{background:linear-gradient(180deg,#5a2a2e,#1d1416);box-shadow:0 0 0 2px #f0c9b8,0 0 22px rgba(240,201,184,.45),0 14px 24px rgba(0,0,0,.6)}
 #tavPg .zu.sel{transform:translateY(-10px);box-shadow:0 0 0 3px #e0896f,0 20px 30px rgba(0,0,0,.6)}
-#tavPg .zu.hit{transform:translateY(var(--dy,-30px)) scale(1.06);z-index:5}
-#tavPg .zu.hurt{animation:zHurt .35s}
-@keyframes zHurt{30%{transform:translateX(-6px)}60%{transform:translateX(6px)}}
-#tavPg .zu.dead{opacity:0;transform:scale(.6)}
-#tavPg .zu .dmg{position:absolute;top:30%;left:50%;transform:translateX(-50%);font:900 22px 'Unbounded',system-ui,sans-serif;color:#ff8a7a;text-shadow:0 2px 8px #000;animation:zDmg .7s forwards;pointer-events:none}
-@keyframes zDmg{to{transform:translate(-50%,-30px);opacity:0}}
-#tavPg .zslot{width:92px;height:120px;border-radius:50% 50% 16px 16px/36% 36% 16px 16px;border:2px dashed rgba(240,201,184,.18);flex:none}
-#tavPg .zhero{position:absolute;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:4px;z-index:2}
-#tavPg .zhero .av{width:84px;height:84px;border-radius:50%;box-shadow:0 0 0 4px #e0896f,0 0 0 9px #2a1810,0 16px 30px rgba(0,0,0,.6)}
-#tavPg .zhero em{font-style:normal;margin-top:-18px;padding:3px 10px;border-radius:99px;background:#7a1f2b;border:2px solid #f3efe7;font:800 13px 'Unbounded',system-ui,sans-serif;z-index:1}
-#tavPg .zhero b{font-size:13px;text-shadow:0 2px 6px #000}
-#tavPg .zht{top:2%}#tavPg .zhb{bottom:2%;flex-direction:column-reverse}#tavPg .zhb em{margin:0 0 -18px}
-#tavPg .zmid{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:3;text-align:center;font:800 15px 'Unbounded',system-ui,sans-serif;color:#f0c9b8;text-shadow:0 2px 10px #000;pointer-events:none;max-width:70%}
-#tavPg .zlb{position:absolute;left:14px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:6px;z-index:6}
-#tavPg .zlb div{display:flex;align-items:center;gap:6px;padding:3px 9px 3px 3px;border-radius:99px;background:rgba(18,16,19,.88);border:1px solid rgba(255,255,255,.08);font-size:11.5px;font-weight:700}
-#tavPg .zlb div.me{border-color:#e0896f}#tavPg .zlb div.vs{border-color:#f0c9b8;background:rgba(122,31,43,.6)}#tavPg .zlb div.out{opacity:.3}
-#tavPg .zlb .av{width:28px;height:28px;border-radius:50%}
-#tavPg .zbar{position:absolute;left:14px;right:14px;top:12px;display:flex;align-items:center;gap:8px;z-index:8}
-#tavPg .zbar h1{margin:0 auto 0 6px;font-family:'Unbounded',system-ui,sans-serif;font-size:20px;white-space:nowrap}
-#tavPg .zp{display:flex;align-items:center;gap:7px;height:40px;padding:0 13px;border-radius:12px;background:rgba(18,16,19,.9);border:1px solid rgba(255,255,255,.12);color:#f3efe7;font:700 14px/1 inherit;white-space:nowrap;cursor:pointer;box-shadow:none}
-#tavPg button.zp:disabled{opacity:.45;cursor:default}
-#tavPg .zp.go{background:#f3efe7;color:#1a1412}
-#tavPg .zp.ic{width:40px;padding:0;justify-content:center}
-#tavPg .zshop{position:absolute;left:50%;bottom:0;transform:translateX(-50%);display:flex;align-items:flex-end;gap:12px;padding:20px 22px 16px;border-radius:26px 26px 0 0;background:linear-gradient(180deg,#3a241a,#24160f);border:2px solid #5a3826;border-bottom:0;box-shadow:0 -20px 50px rgba(0,0,0,.6);z-index:7;transition:transform .3s}
-#tavPg .zshop.hid{transform:translate(-50%,110%)}
-#tavPg .zshop h4{position:absolute;top:-34px;left:22px;margin:0;padding:6px 14px;border-radius:12px 12px 0 0;background:#3a241a;font:800 12.5px 'Unbounded',system-ui,sans-serif;border:2px solid #5a3826;border-bottom:0;white-space:nowrap}
-#tavPg .zshop .zw{position:relative}
-#tavPg .zshop .pr{position:absolute;top:-14px;left:50%;transform:translateX(-50%);padding:2px 8px;border-radius:99px;background:#120f11;font-size:11px;font-weight:800;display:flex;gap:4px;align-items:center;z-index:2}
-#tavPg .zshop .zu.no{opacity:.45}
-#tavPg .zsell{position:absolute;left:50%;bottom:calc(20% + 128px);transform:translateX(-50%);display:flex;gap:8px;z-index:9}
-#tavPg .ztip{position:absolute;left:50%;bottom:calc(20% + 170px);transform:translateX(-50%);max-width:300px;padding:10px 14px;border-radius:14px;background:rgba(18,16,19,.95);border:1px solid rgba(224,137,111,.5);font-size:13px;line-height:1.4;z-index:9;text-align:center}
-#tavPg .ztip b{display:block;font-family:'Unbounded',system-ui,sans-serif;font-size:14px;margin-bottom:2px}
-#tavPg .zend{position:absolute;inset:0;z-index:20;display:grid;place-items:center;background:rgba(8,7,9,.72)}
+#tavPg .zu.no{filter:saturate(.4) brightness(.7)}
+#tavPg .zu.lunge{z-index:6;transition:transform .48s cubic-bezier(.55,0,.75,.4)}
+#tavPg .zu.dead{opacity:0;transform:scale(.5) rotate(-8deg);transition:opacity .45s,transform .45s}
+#tavPg .zu.hurt{animation:zHurt .4s}
+@keyframes zHurt{20%{transform:translateX(-7px) rotate(-3deg);filter:brightness(1.8)}50%{transform:translateX(6px) rotate(2deg)}100%{transform:none}}
+#tavPg .zu.glow{animation:zGlow .7s}
+@keyframes zGlow{30%{box-shadow:0 0 0 4px #9fe0b6,0 0 30px rgba(159,224,182,.7)}}
+#tavPg .zu .dmg{position:absolute;top:28%;left:50%;transform:translateX(-50%);font:900 26px 'Unbounded',system-ui,sans-serif;color:#ff8a7a;text-shadow:0 2px 8px #000;animation:zDmg 1.05s ease-out forwards;pointer-events:none;z-index:8;white-space:nowrap}
+#tavPg .zu .dmg.up{color:#9fe0b6;font-size:20px}
+@keyframes zDmg{0%{transform:translate(-50%,6px) scale(.6);opacity:0}20%{transform:translate(-50%,-6px) scale(1.25);opacity:1}100%{transform:translate(-50%,-44px) scale(1);opacity:0}}
+#tavPg .zslash{position:absolute;inset:-14px;pointer-events:none;z-index:7}
+#tavPg .zslash::before,#tavPg .zslash::after{content:"";position:absolute;left:50%;top:50%;width:140%;height:5px;margin:-2px 0 0 -70%;border-radius:4px;background:linear-gradient(90deg,transparent,#fff,#f0c9b8,transparent);box-shadow:0 0 14px #e0896f;transform:rotate(-35deg) scaleX(0);animation:zSl .45s ease-out forwards}
+#tavPg .zslash::after{--r:35deg;animation-delay:.09s}
+@keyframes zSl{0%{transform:rotate(var(--r,-35deg)) scaleX(0);opacity:1}60%{opacity:1}100%{transform:rotate(var(--r,-35deg)) scaleX(1);opacity:0}}
+#tavPg .zslot{width:92px;height:116px;border-radius:50% 50% 18px 18px/38% 38% 18px 18px;border:2px dashed rgba(240,201,184,.16);flex:none}
+#tavPg .zslot.drop{border-color:#e0896f;background:rgba(224,137,111,.1)}
+/* top: keeper (or opponent) with the tavern buttons */
+#tavPg .zkeep{position:absolute;left:50%;top:1.5%;transform:translateX(-50%);display:flex;align-items:center;gap:14px;z-index:4}
+#tavPg .zhp{position:relative;display:flex;flex-direction:column;align-items:center}
+#tavPg .zhp .av{width:86px;height:86px;border-radius:50% 50% 22px 22px;box-shadow:0 0 0 4px #e0896f,0 0 0 8px #2a1810,0 16px 30px rgba(0,0,0,.6)}
+#tavPg .zhp em{position:absolute;bottom:-8px;right:-12px;min-width:30px;height:30px;padding:0 6px;border-radius:10px;background:#7a1f2b;border:2px solid #f3efe7;display:grid;place-items:center;font:800 13px 'Unbounded',system-ui,sans-serif;font-style:normal}
+#tavPg .zhp .stars{position:absolute;bottom:-12px;left:50%;transform:translateX(-50%);padding:2px 8px;border-radius:99px;background:#120f11;border:1px solid #e0896f;color:#f0a58d;font-size:11px;white-space:nowrap}
+#tavPg .zk{position:relative;width:54px;height:58px;border-radius:16px 16px 22px 22px;border:2px solid rgba(224,137,111,.6);background:linear-gradient(180deg,#3a2229,#1c1417);color:#f3efe7;font-size:22px;display:grid;place-items:center;cursor:pointer;padding:0;box-shadow:0 10px 20px rgba(0,0,0,.5);transition:transform .15s}
+#tavPg .zk:hover:not(:disabled){transform:translateY(-3px)}
+#tavPg .zk small{position:absolute;top:-10px;left:50%;transform:translateX(-50%);min-width:24px;height:24px;padding:0 5px;border-radius:12px;background:radial-gradient(circle at 35% 30%,#fff3b0,#f0c23a 45%,#b8860b);color:#1a1412;font:800 12px/24px system-ui}
+#tavPg .zk:disabled{opacity:.4;cursor:default}#tavPg .zk.on{border-color:#6fa8ff;background:linear-gradient(180deg,#24344a,#141a22);box-shadow:0 0 18px rgba(111,168,255,.45)}
+#tavPg .zop.fz .zu{box-shadow:0 0 0 2px #6fa8ff,0 0 16px rgba(111,168,255,.5)}
+#tavPg .zop .zw{position:relative}
+#tavPg .zop .pr{position:absolute;top:-14px;right:-6px;z-index:3;width:26px;height:26px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff3b0,#f0c23a 45%,#b8860b);color:#1a1412;display:grid;place-items:center;font:800 12px system-ui;box-shadow:0 4px 8px rgba(0,0,0,.5)}
+#tavPg .zop .pr.fr{background:#7a1f2b;color:#f3efe7;width:auto;padding:0 7px;border-radius:99px;font-size:11px}
+/* bottom: your hero */
+#tavPg .zme-hero{position:absolute;left:18%;bottom:3%;transform:translateX(-50%);z-index:4}
+#tavPg .zme-hero .zhp .av{width:78px;height:78px}
+/* right rail: timer, go, gold */
+#tavPg .zrail{position:absolute;right:-12px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:flex-end;gap:10px;z-index:5}
+#tavPg .ztimer{display:flex;align-items:center;gap:6px;height:44px;padding:0 16px;border-radius:14px 0 0 14px;background:linear-gradient(180deg,#3a2a22,#1f1612);border:2px solid #5a3826;border-right:0;font:800 16px 'Unbounded',system-ui,sans-serif;font-variant-numeric:tabular-nums;min-width:110px;justify-content:center}
+#tavPg .ztimer.hurry{color:#ff8a7a;border-color:#b0303f;animation:zHur .5s ease-in-out infinite alternate}
+@keyframes zHur{to{transform:translateX(-4px)}}
+#tavPg .zgo{height:46px;padding:0 18px;border-radius:14px 0 0 14px;border:0;background:#f3efe7;color:#1a1412;font:800 14px/1 inherit;cursor:pointer;box-shadow:0 10px 20px rgba(0,0,0,.5);white-space:nowrap}
+#tavPg .zgold{position:absolute;right:28px;bottom:-56px;display:flex;align-items:center;gap:8px;z-index:5}
+#tavPg .zgold b{font:800 15px 'Unbounded',system-ui,sans-serif;padding:4px 10px;border-radius:10px;background:rgba(18,16,19,.9);border:1px solid rgba(255,255,255,.12)}
+#tavPg .zgold .pips{display:flex;gap:3px}
+#tavPg .zgold .pips i{width:16px;height:16px;border-radius:50%;background:#2a2020;border:1px solid rgba(255,255,255,.12)}
+#tavPg .zgold .pips i.on{background:radial-gradient(circle at 35% 30%,#fff3b0,#f0c23a 45%,#b8860b);border-color:transparent}
+/* left: the lobby */
+#tavPg .zlb{position:absolute;left:12px;top:16px;bottom:118px;width:122px;display:flex;flex-direction:column;justify-content:center;gap:6px;z-index:6}
+#tavPg .zlb .zpl{position:relative;display:flex;align-items:center;gap:8px;padding:5px;border-radius:14px;background:linear-gradient(90deg,rgba(30,24,27,.95),rgba(18,16,19,.85));border:1px solid rgba(255,255,255,.08);transition:transform .3s}
+#tavPg .zlb .zpl .av{width:38px;height:38px;border-radius:10px;flex:none}
+#tavPg .zlb .zpl div{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+#tavPg .zlb .zpl small{font-size:10.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#d6d0c7}
+#tavPg .zlb .zpl .hb{height:6px;border-radius:9px;background:rgba(255,255,255,.1);overflow:hidden}
+#tavPg .zlb .zpl .hb i{display:block;height:100%;background:linear-gradient(90deg,#b0303f,#e0896f)}
+#tavPg .zlb .zpl em{position:absolute;right:6px;top:4px;font-style:normal;font-size:10px;font-weight:800;color:#f0a58d}
+#tavPg .zlb .zpl .tr{position:absolute;left:-4px;top:-4px;width:18px;height:18px;border-radius:50%;background:#120f11;border:1px solid #e0896f;font-size:9.5px;font-weight:800;display:grid;place-items:center}
+#tavPg .zlb .zpl.me{border-color:#e0896f;background:linear-gradient(90deg,rgba(224,137,111,.28),rgba(18,16,19,.85))}
+#tavPg .zlb .zpl.vs{border-color:#f0c9b8;transform:translateX(8px);box-shadow:0 0 0 2px rgba(240,201,184,.3)}
+#tavPg .zlb .zpl.out{opacity:.28;filter:grayscale(1)}
+/* hand */
+#tavPg .zhand{position:absolute;left:150px;right:24px;bottom:-62px;height:150px;display:flex;justify-content:center;align-items:flex-end;z-index:7;pointer-events:none}
+#tavPg .zc{pointer-events:auto;position:relative;width:128px;height:176px;margin:0 -10px;border-radius:14px;background:linear-gradient(180deg,#2a1d20,#141114);border:2px solid var(--rc);box-shadow:0 12px 26px rgba(0,0,0,.6);transform:rotate(var(--rot,0deg)) translateY(var(--ty,0px));transform-origin:50% 120%;transition:transform .2s,box-shadow .2s;cursor:pointer;display:flex;flex-direction:column;align-items:center;padding:8px 8px 10px;gap:4px;overflow:visible}
+#tavPg .zc:hover,#tavPg .zc.sel{transform:rotate(0) translateY(-110px) scale(1.2);z-index:9;box-shadow:0 0 0 3px #e0896f,0 26px 40px rgba(0,0,0,.7)}
+#tavPg .zc .av{width:66px;height:66px;border-radius:50%;box-shadow:0 0 0 2px var(--rc)}
+#tavPg .zc b{font-size:11.5px;font-weight:800;text-align:center;line-height:1.1}
+#tavPg .zc .fx{font-size:9.5px;line-height:1.25;color:#d6d0c7;text-align:center;flex:1;overflow:hidden}
+#tavPg .zc .fc{font-size:9px;color:#f0c9b8}
+#tavPg .zc .za,#tavPg .zc .zh{position:absolute;bottom:-8px;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font:800 12px 'Unbounded',system-ui,sans-serif;border:2px solid #120f11}
+#tavPg .zc .za{left:-6px;background:#e0896f;color:#1a1412}#tavPg .zc .zh{right:-6px;background:#f3efe7;color:#7a1f2b}
+#tavPg .zc .zt{position:absolute;top:-9px;left:-6px;padding:1px 7px;border-radius:99px;background:#120f11;border:1px solid var(--rc);font-size:10px;font-weight:800}
+/* big hover card */
+#tavPg .zcard{position:fixed;z-index:30;width:250px;padding:14px;border-radius:20px;background:linear-gradient(160deg,#2a1d20,#141114);border:2px solid var(--rc);box-shadow:0 30px 60px rgba(0,0,0,.7);pointer-events:none;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;animation:zIn .14s ease-out}
+@keyframes zIn{from{opacity:0;transform:scale(.95)}}
+#tavPg .zcard .av{width:110px;height:110px;border-radius:50%;box-shadow:0 0 0 3px var(--rc)}
+#tavPg .zcard h3{margin:4px 0 0;font-family:'Unbounded',system-ui,sans-serif;font-size:18px}
+#tavPg .zcard .tags{display:flex;gap:5px;flex-wrap:wrap;justify-content:center}
+#tavPg .zcard .tags span{padding:3px 8px;border-radius:99px;background:rgba(255,255,255,.07);font-size:11px;font-weight:700}
+#tavPg .zcard p{margin:0;font-size:13px;line-height:1.4;color:#e6dfd5}
+#tavPg .zcard p.f{color:#f0c9b8;font-size:12px}
+#tavPg .zcard .st{display:flex;gap:10px;margin-top:4px}
+#tavPg .zcard .st span{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font:800 16px 'Unbounded',system-ui,sans-serif}
+#tavPg .zcard .st .a{background:#e0896f;color:#1a1412}#tavPg .zcard .st .h{background:#f3efe7;color:#7a1f2b}
+/* misc */
+#tavPg .zmid{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:3;text-align:center;font:800 15px 'Unbounded',system-ui,sans-serif;color:#f0c9b8;text-shadow:0 2px 10px #000;pointer-events:none;max-width:60%}
+#tavPg .zmid.big{font-size:24px;animation:zIn .3s}
+#tavPg .zback{position:absolute;left:12px;top:12px;width:40px;height:40px;border-radius:12px;border:1px solid rgba(255,255,255,.14);background:rgba(18,16,19,.9);color:#f3efe7;display:grid;place-items:center;z-index:9;cursor:pointer;padding:0}
+#tavPg .zback svg.uic{width:20px;height:20px}
+#tavPg .zround{position:absolute;left:62px;top:16px;z-index:9;padding:6px 12px;border-radius:10px;background:rgba(18,16,19,.85);font:800 12px 'Unbounded',system-ui,sans-serif}
+#tavPg .zsell{position:absolute;left:50%;bottom:calc(22% + 128px);transform:translateX(-50%);display:flex;gap:8px;z-index:9}
+#tavPg .zsell button{height:40px;padding:0 14px;border-radius:12px;border:1px solid rgba(255,255,255,.14);background:rgba(18,16,19,.92);color:#f3efe7;font:700 14px/1 inherit;cursor:pointer}
+#tavPg .zsell button:disabled{opacity:.4}
+#tavPg .zfc{position:absolute;left:50%;top:calc(50% - 16px);transform:translateX(-50%);display:flex;gap:6px;z-index:3;flex-wrap:wrap;justify-content:center;max-width:70%}
+#tavPg .zfc span{padding:4px 10px;border-radius:99px;background:rgba(18,16,19,.75);border:1px solid rgba(240,201,184,.25);font-size:12px;font-weight:700}
+#tavPg .zend{position:absolute;inset:0;z-index:40;display:grid;place-items:center;background:rgba(8,7,9,.72)}
 #tavPg .zend>div{width:min(420px,92vw);padding:28px;border-radius:26px;background:#151216;border:1px solid rgba(224,137,111,.45);text-align:center;display:flex;flex-direction:column;gap:12px;align-items:center}
 #tavPg .zend h2{margin:0;font-family:'Unbounded',system-ui,sans-serif;font-size:30px}
 #tavPg .zend p{margin:0;color:#b9b2a8}
-#tavPg .zend .row{display:flex;gap:10px;width:100%}#tavPg .zend .zp{flex:1;justify-content:center;height:50px}
-@media (max-width:760px){
-#tavPg .ztable{width:100vw;top:96px;bottom:136px;border-radius:0;box-shadow:none}
-#tavPg .zfelt{left:2%;right:2%;top:15%;bottom:15%;border-radius:48px}
-#tavPg .zrow{gap:3px;padding:0 3px}#tavPg .zop{top:19%}#tavPg .zme{bottom:19%}
-#tavPg .zu,#tavPg .zslot{width:min(13.2vw,62px);height:min(18vw,82px);padding-top:5px}
-#tavPg .zu .av{width:min(9vw,40px);height:min(9vw,40px)}
-#tavPg .zu b{font-size:8.5px}
-#tavPg .zu .zt{font-size:8.5px;padding:0 4px;top:-8px}
+#tavPg .zend .row{display:flex;gap:10px;width:100%}
+#tavPg .zend button{flex:1;height:50px;border-radius:14px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:#f3efe7;font:800 15px inherit;cursor:pointer}
+#tavPg .zend button.go{background:#f3efe7;color:#1a1412;border:0}
+@media (max-width:900px){
+#tavPg .ztable{left:0;right:0;top:58px;bottom:150px;border-radius:0;box-shadow:none}
+#tavPg .zfelt{left:2%;right:2%;top:18%;bottom:14%;border-radius:44px}
+#tavPg .zrow{gap:3px;padding:0 3px}#tavPg .zop{top:23%}#tavPg .zme{bottom:20%}
+#tavPg .zu,#tavPg .zslot{width:min(13vw,62px);height:min(17vw,80px);padding-top:4px}
+#tavPg .zu .av{width:min(9.4vw,42px);height:min(9.4vw,42px)}
+#tavPg .zu b{font-size:8.5px}#tavPg .zu .zt{font-size:8.5px;padding:0 4px;top:-8px}
 #tavPg .zu .za,#tavPg .zu .zh{width:20px;height:20px;font-size:10px;bottom:-7px}
-#tavPg .zu .zab{width:17px;height:17px;font-size:9px;top:16px;right:-6px}
-#tavPg .zhero .av{width:50px;height:50px;box-shadow:0 0 0 3px #e0896f,0 0 0 6px #2a1810}
-#tavPg .zhero em{font-size:11px;margin-top:-14px}#tavPg .zhb em{margin:0 0 -14px}#tavPg .zhero b{font-size:11px}
-#tavPg .zlb{left:6px;right:6px;top:54px;transform:none;flex-direction:row;overflow-x:auto;scrollbar-width:none;gap:4px}
-#tavPg .zlb div{flex:none;padding:2px 7px 2px 2px;font-size:10.5px}#tavPg .zlb .av{width:22px;height:22px}
-#tavPg .zbar{left:6px;right:6px;top:8px;gap:5px}#tavPg .zbar h1{display:none}
-#tavPg .zbar .zp{padding:0 10px;font-size:12.5px;height:38px}#tavPg .zbar .zp.go{margin-left:auto}
-#tavPg .zbar .lg{display:none}
-#tavPg .zshop{gap:3px;padding:18px 4px calc(8px + env(safe-area-inset-bottom));width:100vw;justify-content:center;border-radius:20px 20px 0 0}
-#tavPg .zshop .zu{width:min(15vw,66px);height:min(20vw,88px)}
-#tavPg .zsell{bottom:calc(136px + 19% + 90px)}#tavPg .ztip{bottom:calc(136px + 19% + 130px)}
+#tavPg .zu .zkw{top:14px;right:-6px}#tavPg .zu .zkw i,#tavPg .zu .zfa{width:15px;height:15px;font-size:8px}#tavPg .zu .zfa{top:14px;left:-6px}
+#tavPg .zkeep{gap:6px;top:1%}#tavPg .zhp .av{width:54px;height:54px}#tavPg .zk{width:40px;height:42px;font-size:16px;border-radius:12px 12px 16px 16px}#tavPg .zk small{min-width:20px;height:20px;font-size:10.5px;line-height:20px;top:-8px}
+#tavPg .zme-hero .zhp .av{width:50px;height:50px}#tavPg .zhp em{min-width:24px;height:24px;font-size:11px}
+#tavPg .zlb{left:52px;right:8px;top:8px;bottom:auto;width:auto;height:44px;flex-direction:row;justify-content:flex-start;overflow-x:auto;scrollbar-width:none;gap:4px}
+#tavPg .zlb .zpl{flex:none;width:auto;padding:3px}#tavPg .zlb .zpl div{display:none}#tavPg .zlb .zpl .av{width:32px;height:32px}#tavPg .zlb .zpl em{position:static;font-size:10px;padding-right:3px}#tavPg .zlb .zpl.vs{transform:translateY(3px)}#tavPg .zlb .zpl .tr{display:none}
+#tavPg .zback{top:10px;left:6px}#tavPg .zround{display:none}
+#tavPg .zrail{right:0;top:auto;bottom:-6px;transform:none;flex-direction:row;align-items:center}
+#tavPg .ztimer{height:38px;min-width:0;padding:0 10px;font-size:13px;border-radius:12px;border-right:2px solid #5a3826}#tavPg .zgo{height:38px;border-radius:12px;padding:0 12px;font-size:13px}
+#tavPg .zgold{left:8px;right:auto;bottom:-46px}#tavPg .zgold .pips{display:none}
+#tavPg .zhand{left:0;right:0;bottom:-44px;height:120px}#tavPg .zme-hero{left:12%;bottom:2%}
+#tavPg .zc{width:84px;height:118px;margin:0 -12px;padding:5px 5px 8px}#tavPg .zc .av{width:42px;height:42px}#tavPg .zc b{font-size:9px}#tavPg .zc .fx{font-size:7.5px}#tavPg .zc .fc{display:none}
+#tavPg .zc:hover,#tavPg .zc.sel{transform:translateY(-60px) scale(1.3)}
+#tavPg .zsell{bottom:calc(20% + 92px)}#tavPg .zcard{width:210px}#tavPg .zcard .av{width:80px;height:80px}
 #tavPg .zmid{font-size:12px;max-width:86%}
 }
+
 
 html body #hsHome .hsMode.hs-tav{order:5;--hsimg:url("tb/tavern.webp")}
 @media (min-width:761px){html body #hsHome .hsModes.hsModes{gap:14px}html body #hsHome .hsMode.hsMode{width:212px;height:380px}html body #hsHome .hsMode.hs-play{width:268px;height:440px}}
 @media (min-width:761px) and (max-width:1180px){html body #hsHome .hsMode.hsMode{width:170px;height:320px}html body #hsHome .hsMode.hs-play{width:220px;height:380px}html body #hsHome .hsMode .tx b{font-size:18px!important}}
 
-#tavPg .zu .zfa{position:absolute;top:28px;left:-8px;width:22px;height:22px;border-radius:50%;background:#120f11;border:1px solid rgba(255,255,255,.2);display:grid;place-items:center;font-size:11px}
-#tavPg .ztip .zf{color:#f0c9b8;margin-bottom:4px}
-#tavPg .zfc{position:absolute;left:50%;top:calc(50% + 14px);transform:translateX(-50%);display:flex;gap:6px;z-index:3;flex-wrap:wrap;justify-content:center;max-width:80%}
-#tavPg .zfc span{padding:4px 10px;border-radius:99px;background:rgba(18,16,19,.75);border:1px solid rgba(240,201,184,.25);font-size:12px;font-weight:700}
-@media (max-width:760px){#tavPg .zu .zfa{width:17px;height:17px;font-size:9px;top:16px;left:-6px}#tavPg .zfc span{font-size:10.5px;padding:3px 7px}}
-
-#tavPg .ztable .zsell{bottom:calc(21% + 132px)}#tavPg .ztable .ztip{bottom:calc(21% + 186px)}
-@media (max-width:760px){#tavPg .ztable .zsell{bottom:calc(19% + 94px)}#tavPg .ztable .ztip{bottom:calc(19% + 146px);max-width:86vw}}
-#tavPg .zshop:not(:has(.zw)){min-width:220px;min-height:60px}
-
-/* 0.142.1 tavern patch */
-#tavPg .zu{transition:transform .45s cubic-bezier(.3,.7,.3,1),opacity .4s,box-shadow .2s}
-#tavPg .zu.lunge{z-index:6;transition:transform .48s cubic-bezier(.55,0,.75,.4)}
-#tavPg .zu.dead{opacity:0;transform:scale(.5) rotate(-8deg);transition:opacity .45s,transform .45s}
-#tavPg .zu.gd{background:linear-gradient(180deg,#5a2a2e,#1d1416);box-shadow:0 0 0 2px #f0c9b8,0 0 22px rgba(240,201,184,.45),0 14px 24px rgba(0,0,0,.6)}
-#tavPg .zslash{position:absolute;inset:-14px;pointer-events:none;z-index:7}
-#tavPg .zslash::before,#tavPg .zslash::after{content:"";position:absolute;left:50%;top:50%;width:140%;height:5px;margin:-2px 0 0 -70%;border-radius:4px;background:linear-gradient(90deg,transparent,#fff,#f0c9b8,transparent);box-shadow:0 0 14px #e0896f;transform:rotate(-35deg) scaleX(0);animation:zSl .45s ease-out forwards}
-#tavPg .zslash::after{transform:rotate(35deg) scaleX(0);animation-delay:.09s}
-@keyframes zSl{0%{transform:rotate(var(--r,-35deg)) scaleX(0);opacity:1}60%{opacity:1}100%{transform:rotate(var(--r,-35deg)) scaleX(1);opacity:0}}
-#tavPg .zslash::after{--r:35deg}
-#tavPg .zu.hurt{animation:zHurt .4s}
-@keyframes zHurt{20%{transform:translateX(-7px) rotate(-3deg);filter:brightness(1.8)}50%{transform:translateX(6px) rotate(2deg)}100%{transform:none}}
-#tavPg .zu .dmg{font-size:26px;animation:zDmg 1.05s ease-out forwards;z-index:8}
-#tavPg .zu .dmg.up{color:#9fe0b6}
-@keyframes zDmg{0%{transform:translate(-50%,6px) scale(.6);opacity:0}20%{transform:translate(-50%,-6px) scale(1.25);opacity:1}100%{transform:translate(-50%,-44px) scale(1);opacity:0}}
-#tavPg .zgo{position:relative;overflow:hidden;gap:10px;min-width:150px;justify-content:space-between}
-#tavPg .zgo::before{content:"";position:absolute;left:0;bottom:0;height:3px;width:var(--p,100%);background:#e0896f;transition:width .5s linear}
-#tavPg .zgo em{font-style:normal;font-variant-numeric:tabular-nums;padding:3px 8px;border-radius:8px;background:#1a1412;color:#f3efe7;font-size:13px}
-#tavPg .zgo.hurry em{background:#b0303f;animation:zHur .5s ease-in-out infinite alternate}
-@keyframes zHur{to{transform:scale(1.12)}}
-#tavPg .ztip{display:none!important}
-#tavPg .zcard{position:absolute;left:50%;top:19%;transform:translateX(-50%);z-index:8;display:grid;grid-template-columns:110px minmax(0,1fr) auto;align-items:center;gap:18px;width:min(560px,80%);padding:16px 22px 16px 16px;border-radius:24px;background:linear-gradient(160deg,#2a1d20,#151215);border:2px solid var(--rc);box-shadow:0 30px 60px rgba(0,0,0,.6);pointer-events:none;animation:zIn .18s ease-out}
-@keyframes zIn{from{opacity:0;transform:translate(-50%,8px)}}
-#tavPg .zcard .av{width:110px;height:110px;border-radius:50%;box-shadow:0 0 0 3px var(--rc)}
-#tavPg .zcard h3{margin:4px 0 6px;font-family:'Unbounded',system-ui,sans-serif;font-size:22px}
-#tavPg .zcard p{margin:4px 0 0;color:#d6d0c7;font-size:13.5px;line-height:1.4}
-#tavPg .zcard .zfd{color:#f0c9b8}
-#tavPg .zct{display:flex;gap:6px;flex-wrap:wrap}
-#tavPg .zct span{padding:3px 9px;border-radius:99px;background:rgba(255,255,255,.07);font-size:11.5px;font-weight:700}
-#tavPg .zct .zst{border:1px solid var(--rc)}
-#tavPg .zcs{display:flex;flex-direction:column;gap:10px}
-#tavPg .zcs span{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font:800 18px 'Unbounded',system-ui,sans-serif;border:2px solid #120f11}
-#tavPg .zcs .za{background:#e0896f;color:#1a1412}#tavPg .zcs .zh{background:#f3efe7;color:#7a1f2b}
-#tavPg .zshop{padding:14px 18px 14px 14px;gap:14px;align-items:center;background:linear-gradient(180deg,#4a2e20 0%,#2e1c13 100%);box-shadow:inset 0 2px 0 rgba(255,255,255,.08),0 -20px 50px rgba(0,0,0,.6)}
-#tavPg .zshop h4{display:none}
-#tavPg .zkeep{display:flex;flex-direction:column;align-items:center;gap:6px;padding:4px 14px 2px 4px;border-right:1px solid rgba(255,255,255,.1)}
-#tavPg .zkeep .av{width:58px;height:58px;border-radius:50%;box-shadow:0 0 0 3px #e0896f}
-#tavPg .zkt{display:flex;flex-direction:column;align-items:center;line-height:1.1}
-#tavPg .zkt b{font-family:'Unbounded',system-ui,sans-serif;font-size:12px}
-#tavPg .zstars{color:#f0a58d;font-size:13px;letter-spacing:1px}
-#tavPg .zkb{display:flex;gap:5px}
-#tavPg .zk{position:relative;width:40px;height:40px;border-radius:12px;border:1px solid rgba(255,255,255,.16);background:rgba(18,16,19,.7);color:#f3efe7;font-size:17px;display:grid;place-items:center;cursor:pointer;padding:0;box-shadow:none}
-#tavPg .zk small{position:absolute;bottom:-6px;right:-6px;min-width:18px;height:18px;padding:0 4px;border-radius:9px;background:#e0896f;color:#1a1412;font:800 10.5px/18px system-ui}
-#tavPg .zk:disabled{opacity:.4}#tavPg .zk.on{background:#6fa8ff33;border-color:#6fa8ff}
-#tavPg .zshelf{display:flex;align-items:flex-end;gap:12px;padding:16px 6px 4px;border-radius:14px;background:linear-gradient(180deg,transparent 70%,rgba(0,0,0,.25) 70%,rgba(0,0,0,.35));min-width:200px;min-height:130px}
-#tavPg .zshelf.fz{box-shadow:inset 0 0 0 2px #6fa8ff,inset 0 0 30px rgba(111,168,255,.25)}
-#tavPg .zempty{align-self:center;color:#a8a29a;font-size:13px;padding:0 20px}
-#tavPg .zshop .pr.fr{background:#7a1f2b;color:#f3efe7}
-@media (max-width:760px){#tavPg .zcard{top:16%;grid-template-columns:64px minmax(0,1fr) auto;gap:10px;width:92%;padding:10px 12px 10px 10px}#tavPg .zcard .av{width:64px;height:64px}#tavPg .zcard h3{font-size:16px}#tavPg .zcard p{font-size:12px}#tavPg .zcs span{width:34px;height:34px;font-size:14px}
-#tavPg .zshop{padding:10px 6px calc(8px + env(safe-area-inset-bottom));gap:6px}#tavPg .zkeep{padding:0 6px 0 0}#tavPg .zkeep .av,#tavPg .zkt{display:none}#tavPg .zkb{flex-direction:column}#tavPg .zk{width:34px;height:30px;font-size:14px}#tavPg .zshelf{gap:3px;padding:14px 0 2px;min-width:0;min-height:96px}#tavPg .zgo{min-width:0}}
 </style>
 </head>
 <body>
@@ -9397,7 +9406,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.142.1';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.143.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -11657,6 +11666,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+{v:'0.143.0',d:'28.11.2026',uk:['Таверна 2.0: як у Battlegrounds — вітрина зверху з корчмарем і кнопками, твій стіл знизу, куплені герої йдуть у руку','У кожного героя своя механіка: клич, смерть, початок бою, кінець ходу, помста, провокатор, щит, подвійний удар','Ліворуч — лобі з серцями й рівнями таверни, праворуч — таймер і «До бою», внизу — золото','Наведи на героя — велика картка з описом поруч, без накладань'],en:['Tavern 2.0: Battlegrounds layout — the shelf with the innkeeper on top, your band below, bought heroes go to your hand','Every hero has its own effect: battlecry, death, start of combat, end of turn, avenge, taunt, shield, double strike','Lobby with hearts on the left, timer and «To battle» on the right, gold at the bottom','Hover a hero for a big card beside it, no overlaps']},
 {v:'0.142.1',d:'28.11.2026',uk:['Таверна: повільніші удари з ефектом меча й летючими цифрами','Таймер найму, як у Battlegrounds — час росте з кожним раундом, «До бою» можна натиснути раніше','Нова шухляда з корчмарем: оновити, заморозити вітрину, підвищити таверну','Велика картка героя замість підказок, що налазили одна на одну','Своя музика для найму й для бою, золотий герой дає нагороду, баланс ботів і ліміт шкоди в перших раундах'],en:['Tavern: slower strikes with a sword effect and floating numbers','A hire timer like Battlegrounds — more time each round, press «To battle» to go early','A new counter with the innkeeper: refresh, freeze, upgrade','A big hero card instead of overlapping tips','Separate music for hiring and fighting, golden heroes give a reward, bot balance and a damage cap early on']},
 {v:'0.142.0',d:'28.11.2026',uk:['Новий режим «Таверна» (бета): наймай героїв за круглим столом — вони б’ються самі. Вісім гравців, 30 сердець, хто встоїть останнім — господар таверни','П’ять фракцій зі своїми механіками: Двір, Кальянна, Варта, Шулери, Майстри','Героїв можна переставляти — порядок важливий: б’ються зліва направо','Три однакові герої зливаються в золотого з подвійною силою'],en:['New mode «Tavern» (beta): hire heroes at the round table and they fight on their own. Eight players, 30 hearts, last one standing runs the tavern','Three of the same hero merge into a golden one with double stats']},
 {v:'0.141.3',d:'27.11.2026',uk:['Повернули попередній вигляд радіо з кнопкою перемикання станцій'],en:['The previous radio look is back, with the station switch button']},
@@ -15521,115 +15531,183 @@ function c2Breach(n){ const att=(store.get('c2q',{})||{})[n]|0; const pz=c2Breac
 setInterval(()=>{ try{ const on=!!(tut && tut.pz && tut.pz.breach && gs); document.body.classList.toggle('brOn',on); if(!on) return; const W=tut.pz.data.wall; document.querySelectorAll('#board .pt').forEach(e=>{ const i=+e.dataset.b; const w=!isNaN(i) && i>=W.a && i<=W.b && gs.board[i]<0; e.classList.toggle('brWall',w); }); }catch(e){} },500);
 
 
-/* 0.142.0 «Таверна» (beta): hire heroes between rounds, they fight by themselves; 8 players, 30 hearts, last one standing wins */
-const TV_TX={uk:{t:'Таверна',keeper:'Корчмар',freeze:'Заморозити вітрину',gift:'🎁 нагорода',empty:'Вітрина порожня — онови',triple:'Золотий герой! Нагорода — на вітрині',beta:'бета',sub:'Наймай героїв · вони б’ються самі',hire:'Таверна ★{n} · найм',gold:'{n} золота',re:'Оновити',up:'Підвищити ★ · {n}',go:'До бою',sell:'Продати +1',close:'Закрити',vs:'Бій з {n}',win:'Перемога в раунді',lose:'Поразка: −{n} ♥',draw:'Нічия',you:'Ти',round:'Раунд {n}',full:'Немає місця за столом',poor:'Не вистачає золота',endW:'Ти — господар таверни!',endP:'{n} місце',endD:'Протримався {r} раундів.',again:'Ще раз',home:'У меню',hint:'Торкнись героя в шухляді, щоб найняти. Торкнись свого — щоб продати.'},
-en:{t:'Tavern',keeper:'Innkeeper',freeze:'Freeze the shelf',gift:'🎁 reward',empty:'Shelf is empty — refresh',triple:'Golden hero! A reward is on the shelf',beta:'beta',sub:'Hire heroes · they fight on their own',hire:'Tavern ★{n} · hire',gold:'{n} gold',re:'Refresh',up:'Upgrade ★ · {n}',go:'To battle',sell:'Sell +1',close:'Close',vs:'Fight vs {n}',win:'Round won',lose:'Lost: −{n} ♥',draw:'Draw',you:'You',round:'Round {n}',full:'No room at the table',poor:'Not enough gold',endW:'You run the tavern!',endP:'Place {n}',endD:'You lasted {r} rounds.',again:'Again',home:'Menu',hint:'Tap a hero in the drawer to hire. Tap yours to sell.'},
-ru:{t:'Таверна',keeper:'Корчмарь',freeze:'Заморозить витрину',gift:'🎁 награда',empty:'Витрина пуста — обнови',triple:'Золотой герой! Награда — на витрине',beta:'бета',sub:'Нанимай героев · они дерутся сами',hire:'Таверна ★{n} · наём',gold:'{n} золота',re:'Обновить',up:'Повысить ★ · {n}',go:'В бой',sell:'Продать +1',close:'Закрыть',vs:'Бой с {n}',win:'Победа в раунде',lose:'Поражение: −{n} ♥',draw:'Ничья',you:'Ты',round:'Раунд {n}',full:'Нет места за столом',poor:'Не хватает золота',endW:'Ты — хозяин таверны!',endP:'{n} место',endD:'Продержался {r} раундов.',again:'Ещё раз',home:'В меню',hint:'Нажми на героя в ящике, чтобы нанять. Нажми на своего — чтобы продать.'}};
+/* 0.143.0 «Таверна» v2 (beta): Battlegrounds-style. Buy heroes from the shelf into your hand, put them on the table, they fight by themselves.
+   Every hero has its own effect; five factions add their own small passive. 8 players, 30 hearts, last one standing runs the tavern. */
+const TV_TX={uk:{t:'Таверна',beta:'бета',round:'Раунд {n}',vs:'Бій з {n}',win:'Перемога в раунді',lose:'Поразка: −{n} ♥',draw:'Нічия',you:'Ти',full:'Немає місця',poor:'Не вистачає золота',hand:'Рука повна',endW:'Ти — господар таверни!',endP:'{n} місце',endD:'Протримався {r} раундів.',again:'Ще раз',home:'У меню',go:'До бою',sell:'Продати +1',keeper:'Корчмар',re:'Оновити вітрину',freeze:'Заморозити вітрину',up:'Підвищити таверну',triple:'Золотий герой! Нагорода — у руці',gift:'🎁',hint:'Купи героя з вітрини — він піде в руку. Торкнись карти в руці, щоб поставити на стіл.',hint2:'Торкнись карти в руці, щоб поставити героя на стіл',tier:'Таверна ★{n}',kw_taunt:'Провокатор: вороги б’ють його першим',kw_shield:'Щит: перший удар не проходить',kw_wind:'Двічі б’є: атакує двічі за хід',
+  cry:'Клич',death:'Смерть',start:'Початок бою',eot:'Кінець ходу',avenge:'Помста'},
+en:{t:'Tavern',beta:'beta',round:'Round {n}',vs:'Fight vs {n}',win:'Round won',lose:'Lost: −{n} ♥',draw:'Draw',you:'You',full:'No room',poor:'Not enough gold',hand:'Hand is full',endW:'You run the tavern!',endP:'Place {n}',endD:'You lasted {r} rounds.',again:'Again',home:'Menu',go:'To battle',sell:'Sell +1',keeper:'Innkeeper',re:'Refresh the shelf',freeze:'Freeze the shelf',up:'Upgrade the tavern',triple:'Golden hero! A reward is in your hand',gift:'🎁',hint:'Buy a hero from the shelf — it goes to your hand. Tap a card in hand to put it on the table.',hint2:'Tap a card in hand to put the hero on the table',tier:'Tavern ★{n}',kw_taunt:'Taunt: enemies hit him first',kw_shield:'Shield: the first hit is blocked',kw_wind:'Double strike: attacks twice',
+  cry:'Battlecry',death:'Death',start:'Start of combat',eot:'End of turn',avenge:'Avenge'}};
+TV_TX.ru=TV_TX.uk;
 const tvT=(k,v)=>{ let x=(TV_TX[lang]||TV_TX.en)[k]||TV_TX.en[k]||k; if(v) for(const q in v) x=x.replace('{'+q+'}',v[q]); return x; };
-// heroes: k, name uk, name en, tier, attack, health, ability, faction
-// factions: yard (Двір) — when one dies, another yard friend gets +2⚔; hook (Кальянна) — hiring one gives +1♥ to all Кальянна;
-// guard (Варта) — start of combat: +2♥ to neighbours; sharp (Шулери) — each hit rolls a die, a 6 hits double; master (Майстри) — start of combat: +1/+1 for every other master
-const TV_U=[['ap','Учень','Apprentice',1,1,1,'','yard'],
- ['yard','Дворовий','Yard kid',1,2,1,'','yard'],['guard','Вартовий','Guard',1,1,3,'taunt','guard'],['tea','Чайник','Tea boy',1,1,2,'','hook'],['dice1','Кубик','Dicey',1,2,2,'','sharp'],
- ['bro','Двоюрідний','Cousin',2,3,2,'rattle','yard'],['dj','Діджей','DJ',2,2,3,'','hook'],['wall','Стіна','Wall',2,1,5,'taunt','guard'],['cheat2','Хитрун','Trickster',2,2,3,'trick','sharp'],
- ['bench','Лавочник','Bench boss',3,4,3,'wind','yard'],['hook','Кальянник','Hookah man',3,3,4,'grow','hook'],['bear','Ведмідь','Bear',3,3,6,'taunt','guard'],['cheat','Шулер','Card sharp',3,4,3,'trick','sharp'],['liza','Бабця Ліда','Granny Lida',3,3,4,'shield','master'],
- ['king','Король двору','Yard king',4,6,5,'rattle','yard'],['somm','Сомельє','Sommelier',4,4,6,'shield','hook'],['khan','Хан','Khan',4,5,7,'taunt','guard'],['ace','Туз','Ace',4,6,4,'wind','sharp'],['pasha','Паша','Pasha',4,5,5,'shield','master'],['vlad','Влад','Vlad',4,6,5,'wind','master']];
-const TV_AB={grow:'↑',wind:'⚡',trick:'🎲',rattle:'☠',shield:'◈',taunt:'⛨'};
-const TV_ABD={uk:{grow:'Кінець ходу: +1 ⚔',wind:'Б’є двічі',trick:'На початку бою: випадковий ворог −1 ⚔',rattle:'Смерть: лишає Учня 1/1',shield:'Перший удар не проходить',taunt:'Вороги б’ють його першим'},
- en:{grow:'End of turn: +1 ⚔',wind:'Attacks twice',trick:'Start of combat: a random enemy −1 ⚔',rattle:'Death: leaves a 1/1 Apprentice',shield:'Blocks the first hit',taunt:'Enemies hit him first'}};
-const TV_F={yard:{ic:'🏘',uk:'Двір',en:'Yard',d:{uk:'Коли дворовий гине — інший дворовий +2 ⚔',en:'When a yard hero dies, another gets +2 ⚔'}},
- hook:{ic:'💨',uk:'Кальянна',en:'Hookah',d:{uk:'Наймаєш кальянного — усі кальянні +1 ♥',en:'Hire one — all Hookah heroes +1 ♥'}},
- guard:{ic:'🛡',uk:'Варта',en:'Guard',d:{uk:'На початку бою: +2 ♥ сусідам',en:'Start of combat: +2 ♥ to neighbours'}},
- sharp:{ic:'🎲',uk:'Шулери',en:'Sharps',d:{uk:'Кожен удар — кидок кубика: на 6 б’є вдвічі',en:'Each hit rolls a die: a 6 hits double'}},
- master:{ic:'♛',uk:'Майстри',en:'Masters',d:{uk:'На початку бою: +1/+1 за кожного іншого майстра',en:'Start of combat: +1/+1 for each other master'}}};
+const TV_F={yard:{ic:'🏘',uk:'Двір',en:'Yard',d:{uk:'Коли дворовий гине — інший дворовий +1 ⚔',en:'When a yard hero dies, another gets +1 ⚔'}},
+ hook:{ic:'💨',uk:'Кальянна',en:'Hookah',d:{uk:'Ставиш кальянного — інші кальянні +1 ♥',en:'Play one — other Hookah heroes +1 ♥'}},
+ guard:{ic:'🛡',uk:'Варта',en:'Guard',d:{uk:'Початок бою: +1 ♥ сусідам',en:'Start of combat: +1 ♥ to neighbours'}},
+ sharp:{ic:'🎲',uk:'Шулери',en:'Sharps',d:{uk:'Кожен удар — кидок: на 6 б’є вдвічі',en:'Each hit rolls a die: a 6 hits double'}},
+ master:{ic:'♛',uk:'Майстри',en:'Masters',d:{uk:'Початок бою: +1/+1 за кожного іншого майстра',en:'Start of combat: +1/+1 per other master'}}};
 const tvFN=f=>{ const F=TV_F[f]; return F ? F.ic+' '+(lang==='en'?F.en:F.uk) : ''; };
+const TV_KW={taunt:'⛨',shield:'◈',wind:'⚡'};
+// k, uk, en, tier, atk, hp, faction, keywords, trigger, text uk, text en
+const TV_U=[
+ ['ap','Учень','Apprentice',1,1,1,'yard',[],'','',''],
+ ['yard','Дворовий','Yard kid',1,2,1,'yard',[],'death','Найправіший друг +2 ⚔','Rightmost friend +2 ⚔'],
+ ['guard','Вартовий','Guard',1,1,3,'guard',['taunt'],'cry','Сусіди +1 ♥','Neighbours +1 ♥'],
+ ['tea','Чайник','Tea boy',1,1,2,'hook',[],'eot','Випадковий кальянний +1 ♥','A random Hookah hero +1 ♥'],
+ ['dice1','Кубик','Dicey',1,2,2,'sharp',[],'cry','Кидає кубик: на 4–6 +2 ⚔','Rolls a die: on 4–6 +2 ⚔'],
+ ['bro','Двоюрідний','Cousin',2,3,2,'yard',[],'death','Лишає Учня 1/1','Leaves a 1/1 Apprentice'],
+ ['dj','Діджей','DJ',2,2,3,'hook',[],'play','Ставиш кальянного — він +1/+1','Play a Hookah hero — it gets +1/+1'],
+ ['wall','Стіна','Wall',2,1,5,'guard',['taunt','shield'],'','',''],
+ ['trick','Хитрун','Trickster',2,2,3,'sharp',[],'start','Випадковий ворог −2 ⚔','A random enemy −2 ⚔'],
+ ['bench','Лавочник','Bench boss',3,4,3,'yard',[],'avenge','(3): +3/+3','(3): +3/+3'],
+ ['hook','Кальянник','Hookah man',3,3,4,'hook',[],'eot','Усі кальянні +1 ⚔','All Hookah heroes +1 ⚔'],
+ ['bear','Ведмідь','Bear',3,3,6,'guard',['taunt'],'survive','Пережив удар — +1 ⚔','Survives a hit — +1 ⚔'],
+ ['cheat','Шулер','Card sharp',3,4,3,'sharp',[],'atk','Кидок після удару: на 5–6 б’є ще раз','Rolls after a hit: on 5–6 strikes again'],
+ ['liza','Бабця Ліда','Granny Lida',3,3,4,'master',[],'cry','Дає Щит другові','Gives a friend a Shield'],
+ ['king','Король двору','Yard king',4,6,5,'yard',[],'death','Усі дворові +2/+2','All yard heroes +2/+2'],
+ ['somm','Сомельє','Sommelier',4,4,6,'hook',[],'eot','Інші кальянні +1/+1','Other Hookah heroes +1/+1'],
+ ['khan','Хан','Khan',4,5,7,'guard',['taunt'],'start','Інша варта +2 ♥','Other guards +2 ♥'],
+ ['ace','Туз','Ace',4,6,4,'sharp',['wind'],'','',''],
+ ['pasha','Паша','Pasha',4,5,5,'master',['shield'],'start','Найлівіший друг б’є двічі','Leftmost friend strikes twice'],
+ ['vlad','Влад','Vlad',4,6,5,'master',[],'fdie','Гине друг — +1/+1','A friend dies — +1/+1']];
+const TV_TRG={cry:'cry',death:'death',start:'start',eot:'eot',avenge:'avenge',play:'',survive:'',atk:'',fdie:''};
 const TV_RC={1:'#9aa3ad',2:'#7fcf9c',3:'#6fa8ff',4:'#c08bff'};
 const TV_NAMES=['Олег','Марина','Остап','Ірина','Тарас','Софія','Денис'];
 let TV=null;
 const tvAvK=i=>{ const K=Object.keys(AVATARS); return K[(i*5+31)%K.length]; };
-const tvMk=(d,i)=>({id:Math.random().toString(36).slice(2), k:d[0], n:lang==='uk'||lang==='ru'?d[1]:d[2], t:d[3], a:d[4], h:d[5], ab:d[6], f:d[7], av:tvAvK(TV_U.indexOf(d)), sh:d[6]==='shield'});
-const tvPool=t=>TV_U.filter(d=>d[3]<=t);
+const tvDef=k=>TV_U.find(d=>d[0]===k);
+const tvMk=d=>({id:Math.random().toString(36).slice(2), k:d[0], n:lang==='en'?d[2]:d[1], t:d[3], a:d[4], h:d[5], f:d[6], kw:d[7].slice(), tr:d[8], av:tvAvK(TV_U.indexOf(d)), sh:d[7].includes('shield'), g:1, ac:0});
+const tvText=u=>{ const d=tvDef(u.k); if(!d||!d[9]) return ''; const lab=TV_TRG[d[8]]?tvT(TV_TRG[d[8]])+': ':''; return lab+(lang==='en'?d[10]:d[9])+(u.g>1?' ×2':''); };
+const tvPool=t=>TV_U.filter(d=>d[3]<=t && d[0]!=='ap');
 const tvRand=a=>a[Math.floor(Math.random()*a.length)];
-function tvRoll(){ const n=Math.min(6,2+TV.tier); TV.shop=Array.from({length:n},()=>tvMk(tvRand(tvPool(TV.tier)))); }
+const tvCl=u=>({...u, id:Math.random().toString(36).slice(2), kw:u.kw.slice()});
+function tvRoll(){ const n=[0,3,4,4,5][TV.tier]||5; TV.shop=Array.from({length:n},()=>tvMk(tvRand(tvPool(TV.tier)))); }
 function tvBotBand(r,t){ const n=Math.min(7,Math.max(1,Math.round(r*0.85))); const band=[]; for(let i=0;i<n;i++){ const u=tvMk(tvRand(tvPool(Math.max(1,Math.min(4,t-(i%2)))))); const g=Math.floor((r-1)/4); u.a+=g; u.h+=g; band.push(u); } return band; }
-function openTavern(){ try{ closeShopPg&&$('shopPg')&&closeShopPg(); }catch(e){}
-  TV={round:1, gold:3, tier:1, upCost:6, frozen:false, hp:30, band:[], shop:[], phase:'hire', sel:-1, bots:TV_NAMES.map((n,i)=>({n, hp:30, av:tvAvK(40+i*3), tier:1}))}; tvRoll();
-  TV.until=Date.now()+tvHireTime()*1000; let pg=$('tavPg'); if(!pg){ pg=sH('div'); pg.id='tavPg'; document.body.appendChild(pg); } tvPaint(); try{ hsSync(); }catch(e){} try{ ambPlay(120); }catch(e){} }
+function tvHireTime(){ return Math.min(80, 40+TV.round*5); }
+function openTavern(){ try{ $('shopPg')&&closeShopPg(); }catch(e){}
+  TV={round:1, gold:3, tier:1, upCost:6, frozen:false, hp:30, band:[], hand:[], shop:[], phase:'hire', sel:-1, bots:TV_NAMES.map((n,i)=>({n, hp:30, av:tvAvK(40+i*3), tier:1}))}; tvRoll(); TV.until=Date.now()+tvHireTime()*1000;
+  let pg=$('tavPg'); if(!pg){ pg=sH('div'); pg.id='tavPg'; document.body.appendChild(pg); } tvPaint(); try{ hsSync(); }catch(e){} try{ ambPlay(120); }catch(e){} }
 function closeTavern(){ const pg=$('tavPg'); if(pg) pg.remove(); TV=null; try{ ambStop(); ambSync(); }catch(e){} try{ hsSync(); }catch(e){} try{ route(); }catch(e){} }
 try{ UI_PAGES.unshift('tavPg'); }catch(e){}
-function tvUnit(u,cls){ const d=sH('div','zu'+(cls?' '+cls:'')+(u.sh?' sh':'')+(u.ab==='taunt'?' tn':'')+(u.gold?' gd':'')); d.style.setProperty('--rc',TV_RC[u.t]); d.dataset.id=u.id; d.appendChild(sH('span','zt','★'+u.t)); const a=sH('span','av'); try{ avatarInto(a,u.av,u.n); }catch(e){} d.append(a, sH('b',null,u.n)); if(u.f) d.appendChild(sH('span','zfa',TV_F[u.f].ic)); if(u.ab) d.appendChild(sH('span','zab',TV_AB[u.ab])); d.append(sH('span','za',String(u.a)), sH('span','zh',String(u.h))); return d; }
-// the big card: shown in the empty opponent half while you hire, never over other heroes
-function tvCard(u){ const tb=$('tavPg')&&$('tavPg').querySelector('.ztable'); if(!tb) return; const old=tb.querySelector('.zcard'); if(old) old.remove(); if(!u || (TV&&TV.phase!=='hire')) return;
-  const c=sH('div','zcard'); c.style.setProperty('--rc',TV_RC[u.t]); const a=sH('span','av'); try{ avatarInto(a,u.av,u.n); }catch(e){} const inf=sH('div','zci');
-  const top=sH('div','zct'); top.append(sH('span','zst','★'+u.t)); if(u.f) top.append(sH('span','zfc1',tvFN(u.f))); inf.append(top, sH('h3',null,u.n));
-  if(u.f) inf.appendChild(sH('p','zfd',TV_F[u.f].d[lang==='en'?'en':'uk'])); if(u.ab) inf.appendChild(sH('p','zad',TV_AB[u.ab]+' '+(TV_ABD[lang==='en'?'en':'uk'])[u.ab]));
-  const st=sH('div','zcs'); st.append(sH('span','za',String(u.a)), sH('span','zh',String(u.h))); c.append(a,inf,st); tb.appendChild(c); }
-function tvHireTime(){ return Math.min(80, 40+TV.round*5); }
-function tvTick(){ if(!TV || TV.phase!=='hire') return; const left=Math.max(0,Math.ceil((TV.until-Date.now())/1000)); const g=$('tavPg')&&$('tavPg').querySelector('.zgo'); if(g){ g.querySelector('em').textContent=Math.floor(left/60)+':'+String(left%60).padStart(2,'0'); g.classList.toggle('hurry',left<=10); g.style.setProperty('--p',(left/tvHireTime()*100).toFixed(1)+'%'); }
-  if(left===10 && !TV._t10){ TV._t10=1; try{ sfx('turn'); }catch(e){} } if(left<=0) tvFight(); }
-function tvPaint(msg){ const pg=$('tavPg'); if(!pg||!TV) return; pg.innerHTML='';
-  pg.appendChild(sH('div','zroom'));
-  const tb=sH('div','ztable'); tb.appendChild(sH('div','zfelt')); pg.appendChild(tb);
-  const opp=TV.opp; const ht=sH('div','zhero zht'); const ha=sH('span','av'); try{ avatarInto(ha, opp?opp.av:tvAvK(60), opp?opp.n:'?'); }catch(e){} ht.append(ha, sH('em',null,String(opp?Math.max(0,opp.hp):'·')), sH('b',null,opp?opp.n:tvT('round',{n:TV.round}))); tb.appendChild(ht);
-  const ro=sH('div','zrow zop'); (TV.fight?TV.fight.B:[]).forEach(u=>ro.appendChild(tvUnit(u))); tb.appendChild(ro);
+// ---- view
+function tvUnit(u,cls){ const d=sH('div','zu'+(cls?' '+cls:'')+(u.sh?' sh':'')+(u.kw.includes('taunt')?' tn':'')+(u.g>1?' gd':'')); d.style.setProperty('--rc',TV_RC[u.t]); d.dataset.id=u.id; d.appendChild(sH('span','zt','★'+u.t)); const a=sH('span','av'); try{ avatarInto(a,u.av,u.n); }catch(e){} d.append(a, sH('b',null,u.n+(u.g>1?' ✦':'')));
+  if(u.f && u.k!=='ap') d.appendChild(sH('span','zfa',TV_F[u.f].ic)); const kw=sH('span','zkw'); u.kw.filter(k=>k!=='shield').forEach(k=>kw.appendChild(sH('i',null,TV_KW[k]))); if(u.tr) kw.appendChild(sH('i',null,'✦')); if(kw.childNodes.length) d.appendChild(kw);
+  const hh=sH('span','zh'+(u.h<=2?' low':''),String(Math.max(0,u.h))); d.append(sH('span','za',String(Math.max(0,u.a))), hh);
+  d.onmouseenter=()=>tvCard(u,d); d.onmouseleave=()=>tvCard(null); return d; }
+function tvCard(u,el){ const pg=$('tavPg'); if(!pg) return; const old=pg.querySelector('.zcard'); if(old) old.remove(); if(!u||!el) return;
+  const c=sH('div','zcard'); c.style.setProperty('--rc',TV_RC[u.t]); const a=sH('span','av'); try{ avatarInto(a,u.av,u.n); }catch(e){}
+  const tg=sH('div','tags'); tg.append(sH('span',null,'★'+u.t)); if(u.f&&u.k!=='ap') tg.append(sH('span',null,tvFN(u.f))); c.append(a, sH('h3',null,u.n+(u.g>1?' ✦':'')), tg);
+  const tx=tvText(u); if(tx) c.appendChild(sH('p',null,tx)); u.kw.forEach(k=>c.appendChild(sH('p',null,TV_KW[k]+' '+tvT('kw_'+k)))); if(u.f&&u.k!=='ap') c.appendChild(sH('p','f',TV_F[u.f].d[lang==='en'?'en':'uk']));
+  const st=sH('div','st'); st.append(sH('span','a',String(u.a)), sH('span','h',String(u.h))); c.appendChild(st); pg.appendChild(c);
+  const r=el.getBoundingClientRect(), W=c.offsetWidth, H=c.offsetHeight; let x=r.right+14; if(x+W>innerWidth-8) x=r.left-W-14; if(x<8) x=Math.max(8,(innerWidth-W)/2); let y=r.top+r.height/2-H/2; y=Math.max(8,Math.min(innerHeight-H-8,y)); c.style.left=x+'px'; c.style.top=y+'px'; }
+function tvHandCard(u,i,n){ const c=sH('div','zc'+(TV.hsel===i?' sel':'')); c.style.setProperty('--rc',TV_RC[u.t]); const mid=(n-1)/2; c.style.setProperty('--rot',((i-mid)*4)+'deg'); c.style.setProperty('--ty',(Math.abs(i-mid)*6)+'px');
+  c.appendChild(sH('span','zt','★'+u.t)); const a=sH('span','av'); try{ avatarInto(a,u.av,u.n); }catch(e){} c.append(a, sH('b',null,u.n+(u.g>1?' ✦':'')));
+  if(u.f&&u.k!=='ap') c.appendChild(sH('span','fc',tvFN(u.f))); const kws=u.kw.map(k=>TV_KW[k]).join(' '); c.appendChild(sH('span','fx',(kws?kws+' ':'')+tvText(u)));
+  c.append(sH('span','za',String(u.a)), sH('span','zh',String(u.h))); c.onclick=()=>tvPlay(i); c.onmouseenter=()=>tvCard(u,c); c.onmouseleave=()=>tvCard(null); return c; }
+function tvHero(av,name,hp,extra){ const w=sH('div','zhp'); const a=sH('span','av'); try{ avatarInto(a,av,name); }catch(e){} w.appendChild(a); if(hp!=null) w.appendChild(sH('em',null,String(Math.max(0,hp)))); if(extra) w.appendChild(extra); return w; }
+function tvPaint(msg,big){ const pg=$('tavPg'); if(!pg||!TV) return; const old=pg.querySelector('.zcard'); pg.innerHTML='';
+  pg.appendChild(sH('div','zroom')); const tb=sH('div','ztable'); tb.appendChild(sH('div','zfelt')); pg.appendChild(tb);
+  const hire=TV.phase==='hire', opp=TV.opp;
+  // top: keeper with buttons, or the opponent
+  const kp=sH('div','zkeep');
+  if(hire){ const up=sH('button','zk'); up.type='button'; up.title=tvT('up'); up.innerHTML='★'+(TV.tier<4?'<small>'+TV.upCost+'</small>':''); up.disabled=TV.tier>=4||TV.gold<TV.upCost; up.onclick=()=>{ if(TV.tier>=4||TV.gold<TV.upCost) return; TV.gold-=TV.upCost; TV.tier++; TV.upCost=[0,0,7,8,99][TV.tier]; try{ sfx('win'); }catch(e){} tvRoll(); tvPaint(tvT('tier',{n:TV.tier}),1); };
+    const st=sH('span','stars','★'.repeat(TV.tier)+'☆'.repeat(4-TV.tier)); const kh=tvHero(tvAvK(77),tvT('keeper'),null,st); kh.title=tvT('keeper');
+    const re=sH('button','zk'); re.type='button'; re.title=tvT('re'); re.innerHTML='⟳<small>1</small>'; re.disabled=TV.gold<1; re.onclick=()=>{ if(TV.gold<1) return; TV.gold--; TV.frozen=false; tvRoll(); try{ sfx('dice'); }catch(e){} tvPaint(); };
+    const fr=sH('button','zk'+(TV.frozen?' on':'')); fr.type='button'; fr.title=tvT('freeze'); fr.textContent='❄'; fr.onclick=()=>{ TV.frozen=!TV.frozen; tvPaint(); };
+    kp.append(up,kh,re,fr); }
+  else kp.appendChild(tvHero(opp?opp.av:tvAvK(60), opp?opp.n:'?', opp?opp.hp:null));
+  tb.appendChild(kp);
+  // top row: the shelf, or the enemy band
+  const ro=sH('div','zrow zop'+(hire&&TV.frozen?' fz':''));
+  if(hire) TV.shop.forEach((u,i)=>{ const w=sH('div','zw'); const d=tvUnit(u, TV.gold<(u.free?0:3)?'no':''); d.onclick=()=>tvBuy(i); const pr=sH('span','pr'+(u.free?' fr':''),u.free?tvT('gift'):'3'); w.append(pr,d); ro.appendChild(w); });
+  else (TV.fight?TV.fight.B:[]).forEach(u=>ro.appendChild(tvUnit(u)));
+  tb.appendChild(ro);
+  // your band
   const rm=sH('div','zrow zme'); const band=TV.fight?TV.fight.A:TV.band;
-  band.forEach((u,i)=>{ const d=tvUnit(u, TV.sel===i&&!TV.fight?'sel':''); if(!TV.fight){ d.onclick=()=>{ TV.sel=TV.sel===i?-1:i; tvPaint(); }; d.onmouseenter=()=>{ if(TV.sel<0) tvCard(u); }; d.onmouseleave=()=>{ if(TV.sel<0) tvCard(null); }; } rm.appendChild(d); });
-  if(!TV.fight) for(let i=band.length;i<7;i++) rm.appendChild(sH('div','zslot')); tb.appendChild(rm);
-  const hb=sH('div','zhero zhb'); const hm=sH('span','av'); try{ avatarInto(hm, selfAv()||profile.av, profile.name||'?'); }catch(e){} hb.append(hm, sH('em',null,String(Math.max(0,TV.hp))), sH('b',null,tvT('you'))); tb.appendChild(hb);
-  if(msg) tb.appendChild(sH('div','zmid',msg)); else if(TV.round===1 && TV.phase==='hire' && !TV.band.length) tb.appendChild(sH('div','zmid',tvT('hint')));
-  if(TV.phase==='hire' && TV.band.length && TV.sel<0){ const fc=sH('div','zfc'); const cnt={}; TV.band.forEach(u=>{ if(u.f) cnt[u.f]=(cnt[u.f]||0)+1; }); Object.keys(cnt).forEach(f=>{ const c=sH('span',null,tvFN(f)+' ×'+cnt[f]); c.title=TV_F[f].d[lang==='en'?'en':'uk']; fc.appendChild(c); }); tb.appendChild(fc); }
-  const lb=sH('div','zlb'); const all=[{n:tvT('you'),hp:TV.hp,av:selfAv()||profile.av,me:1}].concat(TV.bots).sort((a,b)=>b.hp-a.hp);
-  all.forEach(p=>{ const r=sH('div',(p.me?'me':'')+(opp&&p===opp?' vs':'')+(p.hp<=0?' out':'')); const a=sH('span','av'); try{ avatarInto(a,p.av,p.n); }catch(e){} r.append(a, document.createTextNode(Math.max(0,p.hp)+'♥')); r.title=p.n; lb.appendChild(r); }); pg.appendChild(lb);
-  const bar=sH('div','zbar'); const bk=sH('button','zp ic'); bk.type='button'; bk.innerHTML=lico('back'); bk.setAttribute('aria-label',t('close')); bk.onclick=closeTavern; bar.append(bk, sH('h1',null,tvT('t')));
-  if(TV.phase==='hire'){ const g=sH('span','zp'); g.innerHTML='<i class="coin"></i><b>'+TV.gold+'</b><span class="lg">'+tvT('gold',{n:''})+'</span>'; const go=sH('button','zp go zgo'); go.type='button'; go.innerHTML='<span>'+tvT('go')+'</span><em></em>'; go.onclick=tvFight; bar.append(g,go); }
-  else bar.appendChild(sH('span','zp',tvT('round',{n:TV.round})));
-  pg.appendChild(bar);
-  // the counter: the tavern keeper with his buttons on the left, heroes on the shelf
-  const sh=sH('div','zshop'+(TV.phase==='hire'?'':' hid')); const kp=sH('div','zkeep'); const ka=sH('span','av'); try{ avatarInto(ka,tvAvK(77),'К'); }catch(e){} const kt=sH('div','zkt'); kt.append(sH('b',null,tvT('keeper')), sH('span','zstars','★'.repeat(TV.tier)+'☆'.repeat(4-TV.tier)));
-  const kb=sH('div','zkb'); const re=sH('button','zk'); re.type='button'; re.title=tvT('re'); re.innerHTML='⟳<small>1</small>'; re.disabled=TV.gold<1; re.onclick=()=>{ if(TV.gold<1) return; TV.gold--; TV.frozen=false; tvRoll(); try{ sfx('dice'); }catch(e){} tvPaint(); };
-  const fr=sH('button','zk'+(TV.frozen?' on':'')); fr.type='button'; fr.title=tvT('freeze'); fr.innerHTML='❄<small>0</small>'; fr.onclick=()=>{ TV.frozen=!TV.frozen; tvPaint(); };
-  const up=sH('button','zk'); up.type='button'; up.title=tvT('up',{n:TV.upCost}); up.innerHTML='★<small>'+(TV.tier>=4?'—':TV.upCost)+'</small>'; up.disabled=TV.tier>=4||TV.gold<TV.upCost; up.onclick=()=>{ if(TV.tier>=4||TV.gold<TV.upCost) return; TV.gold-=TV.upCost; TV.tier++; TV.upCost=[0,0,7,8,99][TV.tier]; try{ sfx('win'); }catch(e){} tvRoll(); tvPaint(); };
-  kb.append(re,fr,up); kp.append(ka,kt,kb); sh.appendChild(kp);
-  const shelf=sH('div','zshelf'+(TV.frozen?' fz':'')); TV.shop.forEach((u,i)=>{ const w=sH('div','zw'); const cost=u.free?0:3; const d=tvUnit(u, TV.gold<cost?'no':''); d.onclick=()=>tvBuy(i); d.onmouseenter=()=>tvCard(u); d.onmouseleave=()=>tvCard(null); const pr=sH('span','pr'+(u.free?' fr':'')); pr.innerHTML=u.free?tvT('gift'):'<i class="coin"></i>3'; w.append(pr,d); shelf.appendChild(w); });
-  if(!TV.shop.length) shelf.appendChild(sH('span','zempty',tvT('empty'))); sh.appendChild(shelf); pg.appendChild(sh);
-  if(TV.phase==='hire' && TV.sel>=0 && TV.band[TV.sel]){ const u=TV.band[TV.sel]; const sl=sH('div','zsell'); const mv=d=>{ const j=TV.sel+d; if(j<0||j>=TV.band.length) return; const t0=TV.band[TV.sel]; TV.band[TV.sel]=TV.band[j]; TV.band[j]=t0; TV.sel=j; tvPaint(); };
-    const L1=sH('button','zp','←'); L1.type='button'; L1.disabled=TV.sel===0; L1.onclick=()=>mv(-1); const R1=sH('button','zp','→'); R1.type='button'; R1.disabled=TV.sel===TV.band.length-1; R1.onclick=()=>mv(1);
-    const b=sH('button','zp',tvT('sell')); b.type='button'; b.onclick=()=>{ TV.band.splice(TV.sel,1); TV.gold=Math.min(10,TV.gold+1); TV.sel=-1; try{ sfx('move'); }catch(e){} tvPaint(); }; const c=sH('button','zp ic','✕'); c.type='button'; c.onclick=()=>{ TV.sel=-1; tvPaint(); };
-    sl.append(L1,b,R1,c); tb.appendChild(sl); tvCard(u); }
-  if(TV.phase==='hire') tvTick();
+  band.forEach((u,i)=>{ const d=tvUnit(u, TV.sel===i&&hire?'sel':''); if(hire) d.onclick=()=>{ TV.sel=TV.sel===i?-1:i; tvPaint(); }; rm.appendChild(d); });
+  if(hire) for(let i=band.length;i<7;i++) rm.appendChild(sH('div','zslot'+(TV.hand.length?' drop':''))); tb.appendChild(rm);
+  const mh=sH('div','zme-hero'); mh.appendChild(tvHero(selfAv()||profile.av, tvT('you'), TV.hp)); tb.appendChild(mh);
+  if(msg) tb.appendChild(sH('div','zmid'+(big?' big':''),msg));
+  else if(hire && TV.round===1 && !TV.band.length) tb.appendChild(sH('div','zmid',TV.hand.length?tvT('hint2'):tvT('hint')));
+  else if(hire && TV.band.length && TV.sel<0){ const fc=sH('div','zfc'); const cnt={}; TV.band.forEach(u=>{ if(u.f&&u.k!=='ap') cnt[u.f]=(cnt[u.f]||0)+1; }); Object.keys(cnt).forEach(f=>{ const c=sH('span',null,tvFN(f)+' ×'+cnt[f]); c.title=TV_F[f].d[lang==='en'?'en':'uk']; fc.appendChild(c); }); tb.appendChild(fc); }
+  // right rail
+  if(hire){ const rl=sH('div','zrail'); const tm=sH('div','ztimer'); tm.id='tvTimer'; const go=sH('button','zgo',tvT('go')+' →'); go.type='button'; go.onclick=tvFight; rl.append(tm,go); tb.appendChild(rl);
+    const gd=sH('div','zgold'); const pips=sH('span','pips'); for(let i=0;i<10;i++) pips.appendChild(sH('i',i<TV.gold?'on':'')); gd.append(sH('b',null,String(TV.gold)), pips); tb.appendChild(gd); }
+  // lobby
+  const lb=sH('div','zlb'); const all=[{n:tvT('you'),hp:TV.hp,av:selfAv()||profile.av,me:1,tier:TV.tier}].concat(TV.bots).sort((a,b)=>b.hp-a.hp);
+  all.forEach(p=>{ const r=sH('div','zpl'+(p.me?' me':'')+(opp&&p===opp?' vs':'')+(p.hp<=0?' out':'')); const a=sH('span','av'); try{ avatarInto(a,p.av,p.n); }catch(e){} const inf=sH('div'); const hb=sH('span','hb'); const fi=sH('i'); fi.style.width=Math.max(0,p.hp/30*100)+'%'; hb.appendChild(fi); inf.append(sH('small',null,p.n), hb); r.append(sH('span','tr',String(p.tier||1)), a, inf, sH('em',null,Math.max(0,p.hp)+'♥')); lb.appendChild(r); }); pg.appendChild(lb);
+  // hand
+  if(hire){ const hd=sH('div','zhand'); TV.hand.forEach((u,i)=>hd.appendChild(tvHandCard(u,i,TV.hand.length))); pg.appendChild(hd); }
+  const bk=sH('button','zback'); bk.type='button'; bk.innerHTML=lico('back'); bk.setAttribute('aria-label',t('close')); bk.onclick=closeTavern; pg.appendChild(bk); pg.appendChild(sH('span','zround',tvT('round',{n:TV.round})));
+  if(hire && TV.sel>=0 && TV.band[TV.sel]){ const sl=sH('div','zsell'); const mv=d=>{ const j=TV.sel+d; if(j<0||j>=TV.band.length) return; const t0=TV.band[TV.sel]; TV.band[TV.sel]=TV.band[j]; TV.band[j]=t0; TV.sel=j; tvPaint(); };
+    const L1=sH('button',null,'←'); L1.disabled=TV.sel===0; L1.onclick=()=>mv(-1); const R1=sH('button',null,'→'); R1.disabled=TV.sel===TV.band.length-1; R1.onclick=()=>mv(1);
+    const b=sH('button',null,tvT('sell')); b.onclick=()=>{ TV.band.splice(TV.sel,1); TV.gold=Math.min(10,TV.gold+1); TV.sel=-1; try{ sfx('move'); }catch(e){} tvPaint(); }; const c=sH('button',null,'✕'); c.onclick=()=>{ TV.sel=-1; tvPaint(); };
+    sl.append(L1,b,R1,c); tb.appendChild(sl); }
+  if(hire) tvTick();
   if(TV.end) tvEnd(); }
-function tvBuy(i){ if(TV.phase!=='hire') return; const u0=TV.shop[i]; if(!u0) return; const cost=u0.free?0:3; if(TV.gold<cost){ toast(tvT('poor')); return; } if(TV.band.length>=7){ toast(tvT('full')); return; }
-  const u=TV.shop.splice(i,1)[0]; TV.gold-=cost; delete u.free; TV.band.push(u); if(u.f==='hook') TV.band.forEach(x=>{ if(x.f==='hook'&&x!==u) x.h++; });
-  const same=TV.band.filter(x=>x.k===u.k && !x.gold); if(same.length>=3){ const at=TV.band.indexOf(same[0]); const g={...same[0], id:Math.random().toString(36).slice(2), a:same[0].a*2, h:same[0].h*2, gold:1, n:same[0].n+' ✦'}; TV.band=TV.band.filter(x=>!same.slice(0,3).includes(x)); TV.band.splice(Math.min(at,TV.band.length),0,g);
-    const rw=tvMk(tvRand(TV_U.filter(d=>d[3]===Math.min(4,TV.tier+1)))); rw.free=1; TV.shop.unshift(rw); toast(tvT('triple')); try{ sfx('win'); }catch(e){} }
-  else try{ sfx('move'); }catch(e){}
-  tvPaint(); }
+function tvTick(){ if(!TV || TV.phase!=='hire') return; const left=Math.max(0,Math.ceil((TV.until-Date.now())/1000)); const el=$('tvTimer'); if(el){ el.textContent=left+(lang==='en'?' s':' сек'); el.classList.toggle('hurry',left<=10); }
+  if(left===10 && !TV._t10){ TV._t10=1; try{ sfx('turn'); }catch(e){} } if(left<=0) tvFight(); }
+setInterval(()=>{ try{ tvTick(); }catch(e){} },500);
+// ---- hire
+function tvBuy(i){ if(TV.phase!=='hire') return; const u0=TV.shop[i]; if(!u0) return; const cost=u0.free?0:3; if(TV.gold<cost){ toast(tvT('poor')); return; } if(TV.hand.length>=10){ toast(tvT('hand')); return; }
+  const u=TV.shop.splice(i,1)[0]; TV.gold-=cost; delete u.free; TV.hand.push(u); try{ sfx('move'); }catch(e){} tvTriple(u); tvPaint(); }
+function tvTriple(u){ const all=TV.band.concat(TV.hand).filter(x=>x.k===u.k && x.g===1); if(all.length<3) return; const three=all.slice(0,3);
+  const g={...tvMk(tvDef(u.k)), a:Math.max(...three.map(x=>x.a))*2-tvDef(u.k)[4], h:Math.max(...three.map(x=>x.h))*2-tvDef(u.k)[5], g:2}; g.a=Math.max(g.a,tvDef(u.k)[4]*2); g.h=Math.max(g.h,tvDef(u.k)[5]*2);
+  TV.band=TV.band.filter(x=>!three.includes(x)); TV.hand=TV.hand.filter(x=>!three.includes(x)); TV.hand.push(g);
+  const rw=tvMk(tvRand(TV_U.filter(d=>d[3]===Math.min(4,TV.tier+1)))); rw.free=1; TV.shop.unshift(rw); toast(tvT('triple')); try{ sfx('win'); }catch(e){} }
+function tvPlay(i){ if(TV.phase!=='hire') return; if(TV.band.length>=7){ toast(tvT('full')); return; } const u=TV.hand.splice(i,1)[0]; if(!u) return; TV.band.push(u); const B=TV.band, gm=u.g;
+  const glow=[];
+  if(u.f==='hook') B.forEach(x=>{ if(x!==u&&x.f==='hook'){ x.h++; glow.push(x); } });
+  B.forEach(x=>{ if(x!==u && x.k==='dj' && u.f==='hook'){ u.a+=x.g; u.h+=x.g; glow.push(u); } });
+  if(u.k==='guard'){ const j=B.indexOf(u); [B[j-1],B[j+1]].forEach(x=>{ if(x){ x.h+=gm; glow.push(x); } }); }
+  if(u.k==='dice1'){ const r=1+Math.floor(Math.random()*6); if(r>=4){ u.a+=2*gm; glow.push(u); } toast('🎲 '+r); }
+  if(u.k==='liza'){ const o=B.filter(x=>x!==u&&!x.sh); for(let k=0;k<gm&&o.length;k++){ const x=o.splice(Math.floor(Math.random()*o.length),1)[0]; x.sh=true; glow.push(x); } }
+  try{ sfx('move'); }catch(e){} tvPaint(); glow.forEach(x=>{ const e=tvEl(x); if(e) e.classList.add('glow'); }); }
+function tvEot(B){ const hooks=()=>B.filter(x=>x.f==='hook'); B.forEach(u=>{ const g=u.g;
+  if(u.k==='tea'){ const h=hooks(); for(let k=0;k<g&&h.length;k++) tvRand(h).h++; }
+  if(u.k==='hook') hooks().forEach(x=>x.a+=g);
+  if(u.k==='somm') hooks().forEach(x=>{ if(x!==u){ x.a+=g; x.h+=g; } }); }); }
+// ---- combat
 const tvWait=ms=>new Promise(r=>setTimeout(r,ms));
 const tvEl=u=>document.querySelector('#tavPg [data-id="'+u.id+'"]');
-function tvUpd(u){ const e=tvEl(u); if(!e) return; e.querySelector('.za').textContent=Math.max(0,u.a); e.querySelector('.zh').textContent=Math.max(0,u.h); e.classList.toggle('sh',!!u.sh); }
-function tvFx(u,txt,kind){ const e=tvEl(u); if(!e) return; if(kind==='slash'){ const sl=sH('span','zslash'); e.appendChild(sl); setTimeout(()=>sl.remove(),700); } e.classList.remove('hurt'); void e.offsetWidth; e.classList.add('hurt'); if(txt){ const m=sH('span','dmg'+(kind==='buff'?' up':''),txt); e.appendChild(m); setTimeout(()=>m.remove(),1100); } }
-async function tvFight(){ if(!TV||TV.phase!=='hire') return; TV.phase='fight'; TV.sel=-1; TV._t10=0;
+function tvUpd(u){ const e=tvEl(u); if(!e) return; e.querySelector('.za').textContent=Math.max(0,u.a); const h=e.querySelector('.zh'); h.textContent=Math.max(0,u.h); h.classList.toggle('low',u.h<=2); e.classList.toggle('sh',!!u.sh); }
+function tvFx(u,txt,kind){ const e=tvEl(u); if(!e) return; if(kind==='slash'){ const sl=sH('span','zslash'); e.appendChild(sl); setTimeout(()=>sl.remove(),700); e.classList.remove('hurt'); void e.offsetWidth; e.classList.add('hurt'); } if(kind==='buff'){ e.classList.remove('glow'); void e.offsetWidth; e.classList.add('glow'); } if(txt){ const m=sH('span','dmg'+(kind==='buff'?' up':''),txt); e.appendChild(m); setTimeout(()=>m.remove(),1100); } }
+async function tvFight(){ if(!TV||TV.phase!=='hire') return; TV.phase='fight'; TV.sel=-1; TV._t10=0; tvCard(null);
+  tvEot(TV.band); TV.band.forEach(u=>{ if(u.k==='ap') return; });
   const alive=TV.bots.filter(b=>b.hp>0); const opp=tvRand(alive); TV.opp=opp; opp.tier=Math.min(4,1+Math.floor(TV.round/3));
-  const cl=u=>({...u, id:Math.random().toString(36).slice(2)});
-  const A=TV.band.map(cl), B=tvBotBand(TV.round,opp.tier); TV.fight={A,B};
+  const A=TV.band.map(tvCl), B=tvBotBand(TV.round,opp.tier); TV.fight={A,B};
   try{ ambStop(); ambPlay(121); }catch(e){}
-  tvPaint(tvT('vs',{n:opp.n})); try{ sfx('dice'); }catch(e){} await tvWait(1300); if(!TV) return; tvPaint();
-  const start=(S,O)=>{ const nm=S.filter(u=>u.f==='master').length; S.slice().forEach((u,i)=>{ if(u.f==='guard'){ [S[i-1],S[i+1]].forEach(x=>{ if(x){ x.h+=2; tvUpd(x); tvFx(x,'+2♥','buff'); } }); } if(u.f==='master' && nm>1){ u.a+=nm-1; u.h+=nm-1; tvUpd(u); tvFx(u,'+'+(nm-1),'buff'); } if(u.ab==='trick' && O.length){ const x=tvRand(O); x.a=Math.max(0,x.a-1); tvUpd(x); tvFx(x,'−1⚔'); } }); };
-  start(A,B); start(B,A); await tvWait(900);
+  tvPaint(tvT('vs',{n:opp.n}),1); try{ sfx('dice'); }catch(e){} await tvWait(1400); if(!TV) return; tvPaint();
+  const sides=[A,B];
+  // start of combat
+  for(const [S,O] of [[A,B],[B,A]]){ const nm=S.filter(u=>u.f==='master').length;
+    S.slice().forEach((u,i)=>{ if(u.f==='guard'){ [S[i-1],S[i+1]].forEach(x=>{ if(x){ x.h+=1; tvUpd(x); tvFx(x,'+1♥','buff'); } }); }
+      if(u.f==='master'&&nm>1){ u.a+=nm-1; u.h+=nm-1; tvUpd(u); tvFx(u,'+'+(nm-1),'buff'); }
+      if(u.k==='trick'&&O.length) for(let k=0;k<u.g;k++){ const x=tvRand(O); x.a=Math.max(0,x.a-2); tvUpd(x); tvFx(x,'−2⚔'); }
+      if(u.k==='khan') S.forEach(x=>{ if(x!==u&&x.f==='guard'){ x.h+=2*u.g; tvUpd(x); tvFx(x,'+'+2*u.g+'♥','buff'); } });
+      if(u.k==='pasha'&&S[0]&&!S[0].kw.includes('wind')){ S[0].kw.push('wind'); tvFx(S[0],'⚡','buff'); } }); }
+  await tvWait(1000);
   let turn=A.length>B.length?0:B.length>A.length?1:Math.random()<.5?0:1; const ptr=[0,0]; let guard=0;
-  const pick=O=>{ const tn=O.filter(u=>u.ab==='taunt'); return tvRand(tn.length?tn:O); };
+  const pick=O=>{ const tn=O.filter(u=>u.kw.includes('taunt')); return tvRand(tn.length?tn:O); };
   const hitTo=(u,dmg)=>{ if(dmg<=0) return 0; if(u.sh){ u.sh=false; return 'block'; } u.h-=dmg; return dmg; };
-  while(A.length && B.length && guard++<200 && TV){ const S=turn?B:A, O=turn?A:B; if(ptr[turn]>=S.length) ptr[turn]=0; const att=S[ptr[turn]]; const times=att.ab==='wind'?2:1;
+  const settle=async(S0)=>{ let died=false; sides.forEach(side=>side.forEach(u=>{ if(u.h<=0){ died=true; const e=tvEl(u); if(e) e.classList.add('dead'); } })); if(!died) return; await tvWait(450);
+    for(const side of sides){ const other=side===A?B:A; for(let j=side.length-1;j>=0;j--){ const u=side[j]; if(u.h>0) continue; side.splice(j,1); if(side===S0 && j<ptr[S0===A?0:1]) ptr[S0===A?0:1]--;
+      if(u.k==='bro') for(let k=0;k<u.g;k++) if(side.length<7) side.splice(j,0,tvMk(tvDef('ap')));
+      if(u.k==='yard'){ const r=side.filter(x=>x.h>0); if(r.length){ const x=r[r.length-1]; x.a+=2*u.g; } }
+      if(u.k==='king') side.forEach(x=>{ if(x.f==='yard'){ x.a+=2*u.g; x.h+=2*u.g; } });
+      if(u.f==='yard'){ const ys=side.filter(x=>x.f==='yard'&&x.h>0); if(ys.length) tvRand(ys).a+=1; }
+      side.forEach(x=>{ if(x.h<=0) return; if(x.k==='vlad'){ x.a+=x.g; x.h+=x.g; } if(x.k==='bench'){ x.ac++; if(x.ac%3===0){ x.a+=3*x.g; x.h+=3*x.g; } } }); } }
+    tvPaint(); await tvWait(260); };
+  while(A.length && B.length && guard++<200 && TV){ const S=turn?B:A, O=turn?A:B; if(ptr[turn]>=S.length) ptr[turn]=0; const att=S[ptr[turn]]; let times=att.kw.includes('wind')?2:1;
     for(let k=0;k<times && O.length && S.includes(att) && att.h>0;k++){ const def=pick(O); const ea=tvEl(att), ed=tvEl(def);
       if(ea&&ed){ const ra=ea.getBoundingClientRect(), rd=ed.getBoundingClientRect(); ea.classList.add('lunge'); ea.style.transform='translate('+((rd.left-ra.left)*.82)+'px,'+((rd.top-ra.top)*.72)+'px) scale(1.08)'; }
       await tvWait(480); if(!TV) return;
       const six=att.f==='sharp' && Math.random()<1/6; const r1=hitTo(def,att.a*(six?2:1)), r2=hitTo(att,def.a);
       try{ sfx(six?'win':'move'); }catch(e){} tvUpd(def); tvUpd(att);
       tvFx(def, r1==='block'?'◈':r1?'−'+r1+(six?' 🎲':''):'', 'slash'); tvFx(att, r2==='block'?'◈':r2?'−'+r2:'');
-      await tvWait(520); if(!TV) return; if(ea) ea.style.transform=''; await tvWait(320);
-      let died=false; [A,B].forEach(side=>{ for(let j=side.length-1;j>=0;j--){ const u=side[j]; if(u.h<=0){ died=true; const e=tvEl(u); if(e) e.classList.add('dead'); } } });
-      if(died){ await tvWait(450); [A,B].forEach(side=>{ for(let j=side.length-1;j>=0;j--){ const u=side[j]; if(u.h<=0){ side.splice(j,1); if(u.ab==='rattle') side.splice(j,0,tvMk(TV_U[0])); if(u.f==='yard'){ const ys=side.filter(x=>x.f==='yard'&&x.h>0); if(ys.length) tvRand(ys).a+=2; } if(side===S && j<ptr[turn]) ptr[turn]--; } } }); tvPaint(); await tvWait(250); }
-      if(!TV) return; }
+      if(def.k==='bear' && def.h>0 && typeof r1==='number' && r1>0){ def.a+=def.g; tvUpd(def); tvFx(def,'+'+def.g+'⚔','buff'); }
+      if(att.k==='bear' && att.h>0 && typeof r2==='number' && r2>0){ att.a+=att.g; tvUpd(att); }
+      if(att.k==='cheat' && att.h>0 && k===times-1 && Math.random()<1/3 && times<4){ times++; tvFx(att,'🎲','buff'); }
+      await tvWait(520); if(!TV) return; if(ea){ ea.style.transform=''; ea.classList.remove('lunge'); } await tvWait(320);
+      await settle(S); if(!TV) return; }
     if(S.includes(att)) ptr[turn]++; turn=1-turn; await tvWait(220); }
   if(!TV) return;
   let msg; const tierSum=L=>L.reduce((s,u)=>s+u.t,0); const cap=TV.round<=3?5:TV.round<=7?10:15;
@@ -15638,14 +15716,15 @@ async function tvFight(){ if(!TV||TV.phase!=='hire') return; TV.phase='fight'; T
   else msg=tvT('draw');
   const rest=TV.bots.filter(b=>b.hp>0 && b!==opp); for(let i=rest.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [rest[i],rest[j]]=[rest[j],rest[i]]; }
   for(let i=0;i+1<rest.length;i+=2){ const l=Math.random()<.5?rest[i]:rest[i+1]; l.hp-=Math.min(cap,2+Math.floor(Math.random()*(2+TV.round))); }
-  tvPaint(msg); await tvWait(2200); if(!TV) return;
+  TV.bots.forEach(b=>{ b.tier=Math.min(4,1+Math.floor((TV.round+(b.n.length%2))/3)); });
+  tvPaint(msg,1); await tvWait(2300); if(!TV) return;
   const left=TV.bots.filter(b=>b.hp>0).length;
   if(TV.hp<=0 || left===0){ TV.end={place: TV.hp<=0 ? left+1 : 1}; TV.fight=null; try{ ambStop(); ambPlay(120); }catch(e){} tvPaint(); return; }
-  TV.round++; TV.gold=Math.min(10,2+TV.round); TV.upCost=Math.max(0,TV.upCost-1); TV.band.forEach(u=>{ if(u.ab==='grow') u.a++; });
+  TV.round++; TV.gold=Math.min(10,2+TV.round); TV.upCost=Math.max(0,TV.upCost-1);
   TV.phase='hire'; TV.fight=null; TV.opp=null; if(!TV.frozen) tvRoll(); TV.frozen=false; TV.until=Date.now()+tvHireTime()*1000; try{ ambStop(); ambPlay(120); }catch(e){} tvPaint(); }
 function tvEnd(){ const pg=$('tavPg'); const e=sH('div','zend'); const b=sH('div'); const p=TV.end.place; b.append(sH('h2',null,p===1?tvT('endW'):tvT('endP',{n:p})), sH('p',null,tvT('endD',{r:TV.round})));
-  const row=sH('div','row'); const a=sH('button','zp go',tvT('again')); a.type='button'; a.onclick=openTavern; const h=sH('button','zp',tvT('home')); h.type='button'; h.onclick=closeTavern; row.append(a,h); b.appendChild(row); e.appendChild(b); pg.appendChild(e); }
-setInterval(()=>{ try{ tvTick(); }catch(e){} },500);
+  const row=sH('div','row'); const a=sH('button','go',tvT('again')); a.onclick=openTavern; const h=sH('button',null,tvT('home')); h.onclick=closeTavern; row.append(a,h); b.appendChild(row); e.appendChild(b); pg.appendChild(e); }
+
 
 // a fifth card in the main menu
 (function(){ const L={uk:['Таверна','Наймай героїв · бета'],en:['Tavern','Hire heroes · beta'],ru:['Таверна','Нанимай героев · бета']};
