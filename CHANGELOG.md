@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.141.3
+- Відкат капсули радіо 0.141.2: повернуто старий плеєр з кнопкою ⇄ станцій.
+
 ## 0.141.2
 - Радіо: #radPill — капсула з платівкою (крутиться під час відтворення), ⏯ ⏭ гучність ×.
 
