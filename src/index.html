@@ -5133,6 +5133,49 @@ html body.dark #gMore svg,html body.dark #wheelBtn svg,html body.dark .rvol svg,
 html body.dark .pgit svg,html body.dark .pgit>span:first-child:not(:has(img)){color:var(--icD)}
 html body.dark button:disabled svg.i{color:inherit}
 @media (max-width:600px){ body.gm2.ingame #turnBanner.tb.wait{padding:8px 12px!important;max-width:44%!important} body.gm2.ingame #turnBanner.tb.wait .tbt{white-space:nowrap;font-size:12.5px!important;overflow:hidden;text-overflow:ellipsis} }
+
+/* 0.137.1: on computers the banner on the board is only the roll button; the turn and the clock live in the top bar */
+@media (min-width:700px){
+  html body.gm2.ingame:not(.tbin) #turnBanner.tb:not(.wait){background:transparent!important;border:0!important;box-shadow:none!important;padding:0!important;gap:0!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+  html body.gm2.ingame:not(.tbin) #turnBanner.tb:not(.wait) .tbt,html body.gm2.ingame:not(.tbin) #turnBanner.tb .tbc{display:none!important}
+  html body.gm2.ingame:not(.tbin) #turnBanner.tb:not(.wait) .cta{padding:14px 26px!important;font-size:16px!important;box-shadow:0 10px 30px rgba(0,0,0,.45),0 0 0 6px rgba(63,211,154,.14)!important}
+  body.gm2.ingame.awroll #board .dice{opacity:0!important;transition:opacity .2s}
+}
+#gm2Top .gm2turn{display:flex;align-items:center;gap:8px;margin-left:14px;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);font-size:13px;color:#c9c2b8;white-space:nowrap}
+#gm2Top .gm2turn i{width:8px;height:8px;border-radius:50%;background:#8a847c}
+#gm2Top .gm2turn b{font-weight:700}
+#gm2Top .gm2turn span{font-variant-numeric:tabular-nums;color:#e0896f;font-weight:700}
+#gm2Top .gm2turn span:empty{display:none}
+#gm2Top .gm2turn.me{background:rgba(224,137,111,.12);border-color:rgba(224,137,111,.4);color:#f3efe7}
+#gm2Top .gm2turn.me i{background:#e0896f;box-shadow:0 0 0 0 rgba(224,137,111,.6);animation:gmPing 1.6s ease-out infinite}
+#gm2Top .gm2turn.low span{color:#ff7a6b}
+@keyframes gmPing{70%{box-shadow:0 0 0 8px rgba(224,137,111,0)}100%{box-shadow:0 0 0 0 rgba(224,137,111,0)}}
+@media (max-width:699px){ #gm2Top .gm2turn{display:none} }
+body.calm #gm2Top .gm2turn i{animation:none}
+/* 0.137.1: player cards never push the score out — the name and details shrink instead */
+html body.gm2.ingame .pl{min-width:0}
+html body.gm2.ingame .pl>div:not(.pav):not(.gmpct):not(.sc):not(.bub){flex:1 1 auto;min-width:0}
+html body.gm2.ingame .pl .nm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+html body.gm2.ingame .pl .sub{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+html body.gm2.ingame .pl>.gmpct,html body.gm2.ingame .pl>.sc,html body.gm2.ingame .pl>.pav{flex:none}
+/* 0.137.1: the campaign page keeps its back button in view while the chapters scroll */
+#campPg .cp-top{position:sticky;top:0;z-index:6;margin:0 -16px 18px;padding:12px 16px;background:linear-gradient(180deg,rgba(11,11,16,.96),rgba(11,11,16,.82));backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+/* the news window's close button */
+#newsOv .modal{position:relative}
+#newsOv .ovx{position:absolute;top:12px;right:12px;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:var(--icD,#e0896f);cursor:pointer;z-index:2}
+#newsOv .ovx:hover{background:rgba(255,255,255,.12)}
+body:not(.dark) #newsOv .ovx{background:rgba(0,0,0,.05);border-color:rgba(0,0,0,.1);color:#1d1915}
+
+/* 0.137.1: the home hero's table photo fills the whole screen behind the page */
+#h1Full{position:fixed;inset:0;z-index:0;pointer-events:none;background:var(--stg);background-size:cover!important;background-position:center!important;filter:saturate(.95) brightness(.55);opacity:0;transition:opacity .35s}
+#h1Full::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(9,10,12,.35) 0%,rgba(9,10,12,.15) 30%,rgba(9,10,12,.55) 70%,#0b0c0f 100%)}
+body.h1full #h1Full{opacity:1}
+body.h1full #h1Pg{background:transparent!important}
+body.h1full #h1Pg>*:not(#h1Full){position:relative;z-index:1}
+html body.h1full #h1Pg .ui2stage.ui2stage.h1hero{background:transparent!important;border-color:transparent!important;box-shadow:none!important}
+html body.h1full .ui2stage>.ui2bg,html body.h1full .ui2stage>.ui2light{display:none!important}
+body.h1full .h1top{background:rgba(11,12,15,.45)!important;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.instcard .ix,.gscard .ix{min-width:36px;min-height:36px!important;display:grid;place-items:center}
 </style>
 </head>
 <body>
@@ -5636,10 +5679,12 @@ const viaServer = () => !!(SECURE && sb && gs && (mode==='online' || gs.server))
 // one call to the game function. A rejected sign-in (expired session) is refreshed and the call repeated once;
 // «busy» (two writes at once) and network hiccups are repeated once after a short pause. Returns {data} or {code, status}.
 const sleepMs=ms=>new Promise(r=>setTimeout(r,ms));
+let SRV_OFF=0, _srvOffN=0;   // 0.137.1: server clock minus this device's clock (a device clock that runs behind froze the turn timer)
+function srvOffSet(srvNow,t0,t1){ if(!srvNow || t1-t0>4000) return; const est=srvNow-(t0+t1)/2; SRV_OFF = _srvOffN ? Math.round(SRV_OFF*0.6+est*0.4) : Math.round(est); _srvOffN++; }
 async function fnCall(body){
   for(let i=0;i<2;i++){
     let status=0, code='';
-    try{ const {data,error}=await sb.functions.invoke('game',{body}); if(!error && data && !data.error) return {data};
+    try{ const t0=Date.now(); const {data,error}=await sb.functions.invoke('game',{body}); try{ if(data && data._now) srvOffSet(data._now,t0,Date.now()); }catch(e){} if(!error && data && !data.error) return {data};
       code=data&&data.error||''; if(error && error.context){ status=error.context.status||0; try{ const j=await error.context.json(); code=(j&&j.error)||code; }catch(e){} } else if(error) code=code||'net'; }
     catch(e){ code='net'; }
     if(i===0 && (status===401 || code==='auth')){ try{ await sb.auth.refreshSession(); }catch(e){} continue; }
@@ -8179,7 +8224,8 @@ function timedGame(){ return !!(gs && gs.phase==='play' && (mode==='online' || i
 let presIds=new Set();
 function oppOnline(id){ if(!lobby || !lobby._ready || !presIds.size) return true; return presIds.has(id); }
 const turnMsG=()=>{ const R=gRules(); return R && R.t===0 ? Infinity : R && R.t ? R.t*1000 : TURN_MS; };
-function timeLeft(){ return gs && gs.turnAt ? Math.max(0, Math.min(turnMsG(), turnMsG()-(Date.now()-gs.turnAt))) : turnMsG(); }
+function gNow(){ return Date.now()+(gs && (gs.secure || gs.server || mode==='online') ? SRV_OFF : 0); }
+function timeLeft(){ return gs && gs.turnAt ? Math.max(0, Math.min(turnMsG(), turnMsG()-(gNow()-gs.turnAt))) : turnMsG(); }
 function applyTimeout(slot){
   gs.strikes=gs.strikes||{p1:0,p2:0}; gs.strikes[slot]=(gs.strikes[slot]||0)+1;
   const c=colorOfSlot(slot);
@@ -8196,9 +8242,9 @@ function timerTick(){
   const sec=Math.ceil(left/1000), bt=$('turnBanner'), myT=mySlot()===turnSlot; if(bt){ const e0=bt.querySelector('.tbc'); if(e0 && !myT) e0.remove(); } if(bt && myT && !bt.classList.contains('hidden')){ let e=bt.querySelector('.tbc'); if(!e){ e=document.createElement('div'); e.className='tbc'; bt.appendChild(e); } e.textContent=sec+' '+t('secShort'); e.classList.toggle('low',left<10000); }
   if(left>0 || claimBusy) return;
   const me=mySlot();
-  if(mode==='online' && me && turnSlot!==me && Date.now()-gs.turnAt>turnMsG()+1500){ claimBusy=true; if(viaServer()) srv('timeout').finally(()=>claimBusy=false); else { applyTimeout(turnSlot); save(); route(); claimBusy=false; } }
+  if(mode==='online' && me && turnSlot!==me && gNow()-gs.turnAt>turnMsG()+1500){ claimBusy=true; if(viaServer()) srv('timeout').finally(()=>claimBusy=false); else { applyTimeout(turnSlot); save(); route(); claimBusy=false; } }
   else if(isGhost() && turnSlot===me && !gs.server){ applyTimeout(me); botToken++; botBusy=false; route(); }
-  else if(mode==='bot' && turnSlot===me && gRules() && gRules().t>0){ if(gs.server){ if(Date.now()-gs.turnAt>turnMsG()+1500){ claimBusy=true; srv('bot_step').finally(()=>{ claimBusy=false; route(); }); } } else { applyTimeout(me); botToken++; botBusy=false; route(); } }
+  else if(mode==='bot' && turnSlot===me && gRules() && gRules().t>0){ if(gs.server){ if(gNow()-gs.turnAt>turnMsG()+1500){ claimBusy=true; srv('bot_step').finally(()=>{ claimBusy=false; route(); }); } } else { applyTimeout(me); botToken++; botBusy=false; route(); } }
 }
 setInterval(timerTick, 250);
 
@@ -8549,7 +8595,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.137.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.137.1';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -8952,7 +8998,7 @@ function openProfile(){
   } else {
     paint();
     top.append(h('div','hsub', profile.guest ? t('guestAcc') : t('pcRegistered')));
-    const pill=h('button','tierpill'); pill.type='button'; pill.title=t('rkInfoT'); pill.onclick=()=>openRanksInfo(); pill.append(h('i'), document.createTextNode(t('tier_'+TIERS[ti].k)), starsEl(r), h('em','tpi','ⓘ')); top.append(pill);
+    const pill=h('button','tierpill'); pill.type='button'; pill.title=t('rkInfoT'); pill.onclick=()=>{ try{ show('profOv',false); }catch(e){} openRankPage('top'); }; pill.append(h('i'), document.createTextNode(t('tier_'+TIERS[ti].k)), starsEl(r), h('em','tpi','ⓘ')); top.append(pill);
     const rk=rankOf(r), nextAt = rk.ti===7 ? null : RTH[rk.step+1];
     const rt=h('div','rating'); rt.append(h('b',null,String(r)), h('span',null, nextAt==null ? t('topPos',{n:topPos(r,uid)}) : (rk.star===5 ? t('toNext',{n:nextAt-r,tier:t('tier_'+TIERS[rk.ti+1].k)}) : t('toStar',{n:nextAt-r}))));
     const bar=h('div','hbar seg'); for(let i=1;i<=LV;i++){ const sg=h('i'); const lo=RTH[Math.min(LEG-1,ti*LV+i-1)], hi=RTH[Math.min(LEG,ti*LV+i)]; sg.style.setProperty('--f', rk.ti===7 ? '100%' : Math.max(0,Math.min(100,(Math.max(r,RANK0)-lo)/(hi-lo)*100))+'%'); bar.append(sg); }
@@ -10595,9 +10641,8 @@ if(TG){ document.body.classList.add('tg');
   tgColors(); new MutationObserver(tgColors).observe(document.body,{attributes:true, attributeFilter:['class']});
   // Back: closes the top window, then the rating page / shop, then leaves the game
   const tgOpenOv=()=>[...document.querySelectorAll('.overlay:not(.hidden)')].filter(o=>o.offsetParent!==null || getComputedStyle(o).display!=='none').pop();
-  const tgCanBack=()=>!!((typeof guide!=='undefined' && guide) || tgOpenOv() || $('rankPg') || gs);
-  TG.BackButton.onClick(()=>{ try{ if(typeof guide!=='undefined' && guide){ gEnd(false); return; } const ov=tgOpenOv(); if(ov){ const x=ov.querySelector('.x, .close, [data-close], .mclose'); if(x) x.click(); else show(ov.id,false); }
-    else if($('rankPg')) closeRankPage(); else if(gs) askLeave(); }catch(e){} });
+  const tgCanBack=()=>!!uiTop();
+  TG.BackButton.onClick(()=>{ try{ uiBack(); }catch(e){} });
   setInterval(()=>{ try{ tgCanBack() ? TG.BackButton.show() : TG.BackButton.hide(); }catch(e){} }, 400);
   // vibration
   const _sfx=sfx; sfx=function(kind){ try{ const H=TG.HapticFeedback; if(H){ if(kind==='dice') H.impactOccurred('medium'); else if(kind==='move') H.impactOccurred('light'); else if(kind==='turn') H.selectionChanged(); else if(kind==='win') H.notificationOccurred('success'); } }catch(e){} return _sfx.apply(this,arguments); };
@@ -10810,6 +10855,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+{v:"0.137.1", d:"27.11.2026", uk:["На комп'ютері кнопка «Кинути кубики» більше не закриває кубики, а «Ваш хід» і таймер — у верхній панелі","Таймер ходу в онлайн-грі знову йде, навіть якщо годинник пристрою трохи відстає","Картки гравців більше не виштовхують рахунок за край","Кнопка «Назад» у Telegram і клавіша Esc тепер закривають будь-яку сторінку чи вікно","На головній фото твого столу тепер на весь екран","Плашка рангу в профілі відкриває рейтинг"], en:["On computers the Roll button no longer covers the dice; «Your move» and the clock moved to the top bar","The online turn clock runs again even when the device clock is a little behind","Player cards no longer push the score past the edge","Telegram's Back button and Esc now close any page or window","The home screen shows your table photo full screen","The rank badge in the profile opens the rating"], ru:["На компьютере кнопка «Бросить кубики» больше не закрывает кубики, а «Ваш ход» и таймер — в верхней панели","Таймер хода в онлайн-игре снова идёт, даже если часы устройства немного отстают","Карточки игроков больше не выталкивают счёт за край","Кнопка «Назад» в Telegram и клавиша Esc теперь закрывают любую страницу или окно","На главной фото твоего стола теперь на весь экран","Плашка ранга в профиле открывает рейтинг"]},
 {v:"0.137.0", d:"27.11.2026", uk:["Нові іконки: мідний контур із м'якою заливкою — у меню, шапці та на кнопках"], en:["New icons: a copper outline with a soft fill — in the menu, the header and on buttons"], ru:["Новые иконки: медный контур с мягкой заливкой — в меню, шапке и на кнопках"]},
 {v:"0.136.6", d:"27.11.2026", uk:["Під час пошуку суперника на фоні тепер твій стіл — той, що вибраний у магазині"], en:["While searching for an opponent, your own table backdrop from the shop is the background"], ru:["Во время поиска соперника на фоне теперь твой стол — тот, что выбран в магазине"]},
 {v:"0.136.5", d:"27.11.2026", uk:["Пошук суперника тепер на власному екрані: хвилі від таймера, шашки, що пливуть угору, і зубці дошки по краях — сторінки позаду більше не видно","Відкриття кейса стоїть рівно по центру, а виграна річ вистрибує на місці скрині, без порожнечі"], en:["Opponent search has its own screen now: pulses from the timer, drifting checkers and board points at the edges — the page behind is gone","Case opening sits dead centre, and the prize hops out where the chest was, with no empty gap"], ru:["Поиск соперника теперь на своём экране: волны от таймера, плывущие вверх шашки и зубцы доски по краям — страницы позади больше не видно","Открытие кейса стоит ровно по центру, а выигранная вещь выпрыгивает на месте сундука, без пустоты"]},
@@ -14079,6 +14125,54 @@ function oddsPaint(){ try{ if(!gs || !document.body.classList.contains('ingame')
   if(vo){ const wv=sH('span','pxw'); for(let i=0;i<5;i++) wv.appendChild(sH('i')); w.appendChild(wv); } else { const s=sH('span','pxt'); s.textContent=tx; w.appendChild(s); }
   return w; }; }
 
+
+// ================= 0.137.1: one «back» for the whole site =================
+// The Telegram back button and Escape close whatever is on top: Pasha's tour, a case, the game menu, the search,
+// a window, then a page (campaign, Part II, achievements, shop, events, learning, friends), then the game (asks first).
+const UI_PAGES=['admPg','achPg','arnPg','c2Pg','campPg','learnPg','evPg','shopPg','rankPg'];
+const UI_BACKSEL='.spback,.c2back,.cp-back,.pgback,.h1back,[aria-label="Назад"],[aria-label="Back"],[aria-label="Закрити"],[aria-label="Close"],[aria-label="Закрыть"],.x,.close,.mclose,[data-close],.ovx';
+const uiVis=e=>{ if(!e) return false; const r=e.getBoundingClientRect(); return r.width>0 && r.height>0 && getComputedStyle(e).visibility!=='hidden'; };
+const uiBtnIn=(el)=>{ const b=[...el.querySelectorAll(UI_BACKSEL)].find(uiVis); if(b) return b; return [...el.querySelectorAll('button')].find(x=>uiVis(x) && /^(Закрити|Close|Закрыть|Назад|Back|Скасувати|Cancel|Отмена)$/i.test((x.textContent||'').trim())); };
+function uiTop(){
+  if(typeof guide!=='undefined' && guide) return {fn:()=>gEnd(false)};
+  const cs=[...document.querySelectorAll('.csov')].pop(); if(cs){ const b=uiBtnIn(cs); return b ? {btn:b} : {busy:true}; }
+  const sh=$('pgOv2')||$('pgOv'); if(sh) return {fn:()=>sh.remove()};
+  const mm=document.querySelector('.mm119.on'); if(mm && typeof searching!=='undefined' && searching) return {fn:()=>{ const b=$('btnSearchCancel'); if(b) b.click(); }};
+  const ovs=[...document.querySelectorAll('.overlay:not(.hidden)')].filter(o=>getComputedStyle(o).display!=='none');
+  if(ovs.length){ const ov=ovs.sort((a,b)=>(+getComputedStyle(a).zIndex||0)-(+getComputedStyle(b).zIndex||0)).pop(); const b=uiBtnIn(ov); return b ? {btn:b} : {fn:()=>{ if(ov.id==='newsOv'||!ov.classList.contains('overlay')) ov.remove(); else show(ov.id,false); }}; }
+  for(const id of UI_PAGES){ const pg=$(id); if(!pg) continue; const b=uiBtnIn(pg);
+    const close={achPg:'closeAch',evPg:'closeEvents',learnPg:'closeLearn',campPg:'closeCampaign',rankPg:'closeRankPage',shopPg:'closeShopPg',c2Pg:'closeC2'}[id];
+    return {fn:()=>{ if(close && typeof window[close]==='function') window[close](); else if(b) b.click(); else pg.remove(); try{ mnMark(); }catch(e){} try{ route(); }catch(e){} }}; }
+  if(typeof gs!=='undefined' && gs) return {fn:()=>askLeave()};
+  return null; }
+function uiBack(){ const t=uiTop(); if(!t || t.busy) return false; if(t.btn) t.btn.click(); else t.fn(); return true; }
+window.addEventListener('keydown',e=>{ if(e.key!=='Escape') return; const a=document.activeElement; if(a && /INPUT|TEXTAREA|SELECT/.test(a.tagName) && a.value) return; if(uiBack()){ e.preventDefault(); e.stopImmediatePropagation(); } },true);   // one Escape = one step back
+// the news window gets its own close button
+(function(){ const o=openNews; openNews=async function(){ const r=await o.apply(this,arguments); const ov=$('newsOv'); const m=ov&&ov.querySelector('.modal'); if(m && !m.querySelector('.ovx')){ const x=document.createElement('button'); x.type='button'; x.className='ovx'; x.setAttribute('aria-label',t('close')||'Close'); x.innerHTML='<svg width="18" height="18" viewBox="0 0 256 256" aria-hidden="true"><path d="M64 64l128 128M192 64 64 192" stroke="currentColor" stroke-width="22" stroke-linecap="round"/></svg>'; x.onclick=()=>ov.remove(); m.prepend(x); } return r; }; })();
+
+// ================= 0.137.1: on computers the roll is just a button; «your move» and the clock sit in the top bar =================
+function gmTurnSync(){ const top=$('gm2Top'); const on=!!(top && gs && gs.phase!=='over' && document.body.classList.contains('ingame'));
+  let ch=top && top.querySelector('.gm2turn'); if(!on){ if(ch) ch.remove(); document.body.classList.remove('awroll'); return; }
+  const mine=(()=>{ try{ return canPlay(); }catch(e){ return false; } })();
+  const aw = mine && ((gs.phase==='play' && !gs.rolled) || (gs.phase==='opening' && !!openSlotToRoll()));
+  document.body.classList.toggle('awroll', !!(aw && gs.phase==='play'));
+  if(!ch){ ch=uxH('div','gm2turn'); ch.setAttribute('role','status'); ch.append(uxH('i'), uxH('b'), uxH('span')); top.appendChild(ch); }
+  const timed=(()=>{ try{ return timedGame(); }catch(e){ return false; } })();
+  const sec=timed ? Math.ceil(timeLeft()/1000) : null;
+  const txt = mine ? (mode==='local' ? t('bnColor',{c:colorName(gs.turn)}) : t('bnYour')) : (mode==='bot' && !asHuman() ? t('bnBot') : t('bnOpp'));
+  const b=ch.querySelector('b'), sp=ch.querySelector('span'); if(b.textContent!==txt) b.textContent=txt;
+  const st=(timed && mine) ? sec+' '+t('secShort') : ''; if(sp.textContent!==st) sp.textContent=st;
+  ch.classList.toggle('me', !!mine); ch.classList.toggle('low', !!(timed && mine && sec<=10)); }
+setInterval(gmTurnSync, 250);
+
+// ================= 0.137.1: the home hero photo, full screen =================
+function h1FullSync(){ try{ const pg=$('h1Pg'), st=document.querySelector('.ui2stage');
+  const other=[...document.querySelectorAll('[id$="Pg"]')].some(e=>e.id!=='h1Pg' && e.id!=='btnRulesPg' && e.getBoundingClientRect().width>0);
+  const on=!!(pg && st && !gs && document.body.classList.contains('home') && !other && getComputedStyle(pg).display!=='none');
+  let bg=$('h1Full'); if(on && !bg){ bg=document.createElement('div'); bg.id='h1Full'; bg.setAttribute('aria-hidden','true'); pg.prepend(bg); }
+  if(bg){ const v=st ? getComputedStyle(st).getPropertyValue('--stg') : ''; if(v && bg._v!==v){ bg._v=v; bg.style.setProperty('--stg',v); } }
+  document.body.classList.toggle('h1full', on && !!(bg && bg._v)); }catch(e){} }
+setInterval(h1FullSync, 400);
 </script>
 </body>
 </html>

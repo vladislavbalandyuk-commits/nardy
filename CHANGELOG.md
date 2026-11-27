@@ -3,6 +3,15 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.137.1 — 27.11.2026
+- Game (computers): the board banner is just the roll button; the old dice hide while waiting for the roll; «Your move» + turn clock live in a chip in #gm2Top (gmTurnSync).
+- Turn clock: the game function adds `_now` to every reply; the client keeps SRV_OFF (server minus device clock) and counts turn time with gNow(). A device clock behind the server froze the clock at 60 s.
+- Player cards: name/details shrink and clamp to 2 lines; the score and odds chip keep their size.
+- One back for the site (uiTop/uiBack): Telegram BackButton and Esc close Pasha's tour, case result, game menu, search, the top window, then pages (admin, achievements, arena, Part II, campaign, learning, events, shop, rating), then the game. News window got a close button; the campaign header is sticky.
+- Home: the chosen table photo fills the screen behind the page (#h1Full), the hero card is transparent.
+- Profile: the rank badge opens the rating page instead of the ranks info.
+- QA sweep (34 screens × phone/desktop) and an Esc walk-through of 20 screens: every one returns home.
+
 ## 0.137.0 — 27.11.2026
 - Icon style B «Duotone» (dark theme): the duotone layer of the Phosphor icons is stronger (.34) and icons are copper (#e0896f) in the nav and sidebar (inactive tabs; the green Play pill and the current tab keep their look), header icon buttons and pills (streak, gift unless lit/ready), the game bar, back buttons, ghost/secondary buttons. Disabled buttons keep their own colour.
 

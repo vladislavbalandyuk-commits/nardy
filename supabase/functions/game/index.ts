@@ -170,7 +170,8 @@ const api={BOTS,isBotId,botBestPath,act,newGame,legalMoves,applyMove,ratingChang
 
 const C = (globalThis as any).NardyCore;
 const cors = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type', 'Access-Control-Allow-Methods': 'POST, OPTIONS' };
-const json = (b: unknown, s = 200) => new Response(JSON.stringify(b), { status: s, headers: { ...cors, 'Content-Type': 'application/json' } });
+// 0.137.1: every object reply carries the server clock, so clients count turn time in server time
+const json = (b: unknown, s = 200) => new Response(JSON.stringify(b && typeof b === 'object' && !Array.isArray(b) ? { ...(b as Record<string, unknown>), _now: Date.now() } : b), { status: s, headers: { ...cors, 'Content-Type': 'application/json' } });
 const d6 = () => { const a = new Uint32Array(1); for (;;) { crypto.getRandomValues(a); if (a[0] < 4294967292) return 1 + (a[0] % 6); } };
 
 let iceCache: any = null, iceAt = 0;
