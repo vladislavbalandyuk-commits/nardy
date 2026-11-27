@@ -5826,6 +5826,9 @@ html body #hsHome .hsMode.hsMode.main .tag{background:rgba(14,13,16,.82)!importa
 @media (max-width:700px){#tourOv .tpl{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px}#tourOv .tpl>div{min-width:0}#tourOv .tr2bar{flex-wrap:wrap;padding:10px 12px;gap:10px}#tourOv .tr2bar h1{font-size:19px}#tourOv .tr2tabs{order:3;width:100%}#tourOv .tr2tabs button{padding:0 12px;font-size:13px}
 #tourOv .tr2w{padding:12px 12px 50px;gap:12px}#tourOv .tr2hero{padding:18px}#tourOv .tr2hero h2{font-size:26px}#tourOv .tr2cd{width:100%}#tourOv .tr2cd div{min-width:0;flex:1}#tourOv .tr2cd b{font-size:22px}#tourOv .tr2card{padding:16px}}
 @media (max-width:600px){#tourOv .trroad{grid-template-columns:repeat(3,70%);overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}#tourOv .trroad>h4{position:sticky;left:0}#tourOv .trst{scroll-snap-align:start}}
+
+/* breach: the guard's wall */
+body.brOn #board .pt.brWall{background-image:linear-gradient(180deg,rgba(224,137,111,.28),rgba(224,137,111,.06))!important;box-shadow:inset 0 0 0 2px rgba(224,137,111,.6);border-radius:8px}
 </style>
 </head>
 <body>
@@ -9246,7 +9249,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.141.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.141.1';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -11506,6 +11509,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+{v:'0.141.1',d:'27.11.2026',uk:['Частина II: замість бліцу — «Прорив крізь варту». Шашка за стіною суперника, знайди хід, що проведе її крізь стіну'],en:['Part II: instead of the blitz — «Break through the guard». A checker is behind the wall; find the move that takes it through']},
 {v:'0.141.0',d:'27.11.2026',uk:['Турнір: три етапи — три різні столи. Швейцарка за дерев’яним столом таверни, плей-оф у мармурі, фінал у бордо','У кожного етапу свій звук: вогонь і гомін таверни, напружений ритм, тепла музика фіналу — послухати можна прямо на сторінці турніру','Сторінка турніру в новому оформленні'],en:['Tournament: three stages, three tables. Swiss rounds at the tavern table, the play-off in marble, the final in burgundy','Each stage has its own sound — listen right on the tournament page','The tournament page has a new look']},
 {v:'0.140.5',d:'27.11.2026',uk:['Картка «Грати онлайн» більше не біліє при дотику'],en:['The «Play online» card no longer turns white when tapped']},
 {v:'0.140.4',d:'27.11.2026',uk:['Нова нижня панель на телефоні — капсула з круглою кнопкою «Грати»','Новий знак гри: кубики 6 і 5'],en:['A new bottom bar on phones — a capsule with a round Play button','A new game mark: dice 6 and 5']},
@@ -15329,6 +15333,40 @@ renderTour=function(){ const box=$('tourBox'); if(!box) return; let T=null; try{
   const hw=sH('section','tr2card'); hw.appendChild(sH('h3',null,trT2('how'))); const ul=sH('ul','tr2how'); ['h1','h2s','h3'].forEach((x,i)=>{ const li=sH('li'); li.append(sH('em',null,String(i+1)), sH('span',null,trT2(x))); ul.appendChild(li); }); hw.appendChild(ul); side.appendChild(hw);
   if(live) side.appendChild(live); w.appendChild(side); };
 try{ new MutationObserver(()=>{ try{ if($('tourOv').classList.contains('hidden') && AMB.n>=120 && AMB.n<=122 && !(gs&&gs.tour)){ ambStop(); ambSync(); } }catch(e){} }).observe($('tourOv'),{attributes:true,attributeFilter:['class']}); }catch(e){}
+
+/* 0.141.1 Part II: «Прорив крізь варту» instead of the blitz — your checker is behind the guard's wall; find the roll that takes it through */
+try{ C2TX.uk.c_blitz='Прорив крізь варту'; if(C2TX.en) C2TX.en.c_blitz='Break through the guard'; if(C2TX.ru) C2TX.ru.c_blitz='Прорыв сквозь стражу'; }catch(e){}
+const BR_TX={uk:{t:'Прорив крізь варту',task:'Шашка за стіною варти. Кидок {a} і {b} — проведи хоча б одну крізь стіну.',hint:'Стіна — це пункти суперника підряд. Стати на них не можна, але перестрибнути — можна, якщо кубик дістає за стіну.',ok:'Прорвався!',okD:'Варта й не помітила.',miss:'Стіна встояла',missD:'Жодна шашка не пройшла. Подивись, який кубик дістає далі за стіну.',miss2:'Почни з шашки, що стоїть найближче до стіни, і стрибай на всю довжину кубика.'},
+en:{t:'Break through the guard',task:'A checker is behind the guard\'s wall. Roll {a} and {b} — get at least one through.',hint:'The wall is a row of the opponent\'s points. You can\'t land on them, but you can jump over if a die reaches past.',ok:'Through!',okD:'The guard didn\'t even notice.',miss:'The wall held',missD:'No checker got through. See which die reaches past the wall.',miss2:'Start with the checker closest to the wall and jump the full length of a die.'},
+ru:{t:'Прорыв сквозь стражу',task:'Шашка за стеной стражи. Бросок {a} и {b} — проведи хотя бы одну сквозь стену.',hint:'Стена — пункты соперника подряд. Встать на них нельзя, но перепрыгнуть можно, если кубик достаёт за стену.',ok:'Прорвался!',okD:'Стража даже не заметила.',miss:'Стена устояла',missD:'Ни одна шашка не прошла. Посмотри, какой кубик достаёт дальше за стену.',miss2:'Начни с шашки, ближайшей к стене, и прыгай на всю длину кубика.'}};
+const brT=(k,v)=>{ let x=(BR_TX[lang]||BR_TX.en)[k]||BR_TX.en[k]||k; if(v) for(const q in v) x=x.replace('{'+q+'}',v[q]); return x; };
+function brWall(B){ let best=null; for(let i=1;i<23;i++){ if(B[i]<0){ let j=i; while(j+1<24 && B[j+1]<0) j++; if(j-i+1>=4){ const near=B.slice(Math.max(0,i-6),i).reduce((a,v)=>a+(v>0?v:0),0), behind=B.slice(0,i).reduce((a,v)=>a+(v>0?v:0),0); if(near>0 && (!best || j-i>best.b-best.a)) best={a:i,b:j,n:behind}; } i=j; } } return best; }
+const brBehind=(B,a)=>B.slice(0,a).reduce((x,v)=>x+(v>0?v:0),0);
+function c2BreachMake(seed){ const base=[...seed].reduce((h,ch)=>Math.imul(h^ch.charCodeAt(0),16777619)>>>0,2166136261); const R=Math.random, G=gs; gs=null;
+  try{ for(let tryN=0; tryN<160; tryN++){ const rng=seededRng(base+tryN*7919); Math.random=rng; const d6r=()=>1+Math.floor(rng()*6);
+      let st={board:freshBoard(), off:{w:0,b:0}, remaining:[], headMoved:0, headLimit:1, first:{w:true,b:true}}; const turns=10+Math.floor(rng()*26); let c='w', ok=true;
+      for(let k=0;k<turns;k++){ const a=d6r(), b=d6r(); st.remaining=a===b?[a,a,a,a]:[a,b]; st.headLimit=(st.first[c]&&a===b&&[3,4,6].includes(a))?2:1; st.first={...st.first,[c]:false}; st.headMoved=0; const path=botBestPath(st,c)||[]; for(const m of path) st=applyMove(st,c,m); if(st.off.w||st.off.b){ ok=false; break; } c=OPP(c); }
+      if(!ok) continue; if(c!=='w'){ const a=d6r(), b=d6r(); st.remaining=a===b?[a,a,a,a]:[a,b]; st.headLimit=1; st.headMoved=0; st.first={...st.first,b:false}; const path=botBestPath(st,'b')||[]; for(const m of path) st=applyMove(st,'b',m); } const W=brWall(st.board); if(!W) continue;
+      const D=[]; for(let a=1;a<=6;a++) for(let b=a;b<=6;b++) D.push([a,b]); for(let q=D.length-1;q>0;q--){ const r=Math.floor(rng()*(q+1)); [D[q],D[r]]=[D[r],D[q]]; }
+      for(const [a,b] of D){ const test={...st, remaining:a===b?[a,a,a,a]:[a,b], headMoved:0, headLimit:1, first:{w:false,b:false}}; const outs=pzOutcomes(test,'w'); if(outs.length<4) continue;
+        const good=outs.filter(o=>brBehind(o.k.split('|')[0].split(',').map(Number),W.a)<W.n); if(!good.length || good.length>outs.length*.45) continue;
+        return {day:seed, board:st.board, off:st.off, dice:[a,b], outs:outs.length, best:good[0], keys:outs.map(o=>o.k), vals:outs.map(o=>o.v), good:good.map(o=>o.k), wall:W}; } } }
+  finally{ Math.random=R; gs=G; } return null; }
+function c2Breach(n){ const att=(store.get('c2q',{})||{})[n]|0; const pz=c2BreachMake('c2br-'+n+'-'+att); if(!pz){ toast(t('pzNone')); return; }
+  closeC2(); stopSearch(true); leave(); window._campTbl=C2CH[n].bg; c2Fx('wind'); try{ window._applyTheme(); }catch(e){}
+  mode='tutor'; gameId='puzzle'; tut={i:0, done:false, pz:{k:'pz', dice:pz.dice, data:pz, res:null, camp:'c2', c2:n, miss:0, breach:1}}; pzLoad(); }
+{ const _ch=c2Chal; c2Chal=function(n){ try{ if(C2CH[n] && C2CH[n].ch==='blitz') return c2Breach(n); }catch(e){} return _ch.apply(this,arguments); }; }
+{ const _j=campPzJudge; campPzJudge=function(){ if(!tut || !tut.pz || !tut.pz.breach) return _j.apply(this,arguments);
+    const pz=tut.pz.data, k=gs.board.join()+'|'+gs.off.w, ok=pz.good.includes(k) || brBehind(gs.board,pz.wall.a)<pz.wall.n;
+    tut.pz.res={res: ok?'best':'miss'}; if(!ok){ tut.pz.miss++; if(tut.pz.miss>=2){ const s=store.get('c2q',{})||{}; s[tut.pz.c2]=(s[tut.pz.c2]|0)+1; store.set('c2q',s); } }
+    try{ sfx(ok?'win':'turn'); }catch(e){} renderCoach(); if(ok) c2StepDone(tut.pz.c2).then(d=>{ if(d && tut && tut.pz){ tut.pz.prize=d.got; renderCoach(); } }); }; }
+{ const _c=campPzCoach; campPzCoach=function(){ if(!tut || !tut.pz || !tut.pz.breach) return _c.apply(this,arguments);
+    const pz=tut.pz.data, r=tut.pz.res, back=$('coachBack'), next=$('coachNext'); $('coachStep').textContent=brT('t'); back.textContent=c2t('toMap'); back.disabled=false; next.disabled=false;
+    if(!r){ $('coachT').textContent=brT('task',{a:pz.dice[0],b:pz.dice[1]}); $('coachD').textContent=brT('hint'); next.textContent=t('pzReset'); next.disabled=!gs.rolled; return; }
+    if(r.res!=='miss'){ $('coachT').textContent=brT('ok'); $('coachD').textContent=brT('okD')+(tut.pz.prize?' '+t('pzPrize',{n:tut.pz.prize}):''); next.textContent=c2t('cont')+' →'; return; }
+    $('coachT').textContent=brT('miss'); $('coachD').textContent= tut.pz.miss>=2 ? brT('miss2') : brT('missD'); next.textContent=c2t('again'); }; }
+// the guard's wall glows on the board while the challenge is on
+setInterval(()=>{ try{ const on=!!(tut && tut.pz && tut.pz.breach && gs); document.body.classList.toggle('brOn',on); if(!on) return; const W=tut.pz.data.wall; document.querySelectorAll('#board .pt').forEach(e=>{ const i=+e.dataset.b; const w=!isNaN(i) && i>=W.a && i<=W.b && gs.board[i]<0; e.classList.toggle('brWall',w); }); }catch(e){} },500);
 </script>
 </body>
 </html>
