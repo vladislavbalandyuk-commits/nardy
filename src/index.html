@@ -5655,6 +5655,87 @@ html body:not(.pnums) .pt .num{display:none!important}
 #hsHome .hsRad .eq i:nth-child(2){animation-delay:.3s}#hsHome .hsRad .eq i:nth-child(3){animation-delay:.55s}
 @keyframes hsEq{0%{transform:scaleY(.3)}100%{transform:scaleY(1)}}
 #hsHome .hsRad .eq i{transform-origin:bottom}
+
+/* 0.140.3 close button in news: icon dead centre */
+html body #newsOv .ovx.ovx{display:grid!important;place-items:center!important;padding:0!important;line-height:0!important;text-indent:0!important}
+html body #newsOv .ovx>svg{margin:0!important;position:static!important;transform:none!important}
+
+/* 0.140.3 main menu «B · cards»: four photo cards, the online one bigger and in the middle; a fixed cosy-cabin background */
+html body #hsHome .hsBg{--stg:url("tb/fcabin.webp")!important}
+html body #hsHome.hsXmas .hsBg{--stg:url("tb/nysnow.webp")!important}
+html body #hsHome .hsCon.hsCon{width:auto;max-width:none;padding:0;border:0;border-radius:0;background:none;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none}
+html body #hsHome .hsCon>.hsCrest,html body #hsHome .hsCon>.hsTtl{display:none!important}
+html body #hsHome .hsCon::before,html body #hsHome .hsCon::after{display:none!important}
+html body #hsHome .hsStage.hsStage{place-items:center;padding:84px 24px 130px}
+html body #hsHome .hsModes.hsModes{flex-direction:row;align-items:center;justify-content:center;gap:18px}
+html body #hsHome .hsMode.hsMode{position:relative;flex:none;width:240px;min-height:0;height:400px;padding:20px;border-radius:24px;overflow:hidden;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:6px;text-align:left;background:#141215 var(--hsimg) center/cover no-repeat;border:1px solid rgba(255,255,255,.14);box-shadow:0 30px 70px rgba(0,0,0,.5);color:#f3efe7;transition:transform .2s ease,box-shadow .2s ease}
+html body #hsHome .hsMode.hsMode::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,9,11,.05) 15%,rgba(10,9,11,.55) 55%,rgba(10,9,11,.96) 88%);pointer-events:none}
+html body #hsHome .hsMode.hsMode>*{position:relative;z-index:1}
+html body #hsHome .hsMode.hsMode:hover{transform:translateY(-6px);box-shadow:0 40px 80px rgba(0,0,0,.6)}
+html body #hsHome .hsMode .ic{position:absolute!important;top:18px;left:18px;width:50px;height:50px;border-radius:14px;background:rgba(14,13,16,.72)!important;border:1px solid rgba(255,255,255,.12);display:grid;place-items:center;margin:0}
+html body #hsHome .hsMode .tx{display:flex!important;flex-direction:column;justify-content:flex-end;gap:4px;min-width:0;flex:none!important;margin:auto 0 0!important;width:100%}
+html body #hsHome .hsMode .tx b{font-family:'Unbounded',system-ui,sans-serif;font-size:22px;line-height:1.08;color:#f3efe7}
+html body #hsHome .hsMode .tx small{color:#c9c1b6;font-size:13px;line-height:1.35}
+html body #hsHome .hsMode .tag{position:absolute!important;top:18px;right:18px;margin:0;padding:5px 10px;border-radius:99px;background:rgba(14,13,16,.82)!important;color:#f0a58d!important;font-size:12px;font-weight:700;border:0}
+html body #hsHome .hsMode .tag:empty{display:none}
+html body #hsHome .hsMode.hs-adv{order:1;--hsimg:url("tb/fwindow.webp")}
+html body #hsHome .hsMode.hs-play{order:2;--hsimg:url("tb/fcity.webp");width:300px;height:460px;border:2px solid #e0896f;box-shadow:0 0 0 8px rgba(224,137,111,.12),0 34px 80px rgba(0,0,0,.6)}
+html body #hsHome .hsMode.hs-arn{order:3;--hsimg:url("tb/fleather.webp")}
+html body #hsHome .hsMode.hs-tour{order:4;--hsimg:url("tb/fhookah.webp")}
+html body #hsHome .hsMode.hs-play .tx b{font-size:28px}
+html body #hsHome .hsMode .hsGo{display:none}
+html body #hsHome .hsMode.hs-play .hsGo{display:grid;place-items:center;align-self:stretch;height:48px;margin-top:10px;border-radius:13px;background:#f3efe7;color:#1a1412;font-weight:800;font-size:15.5px}
+html body #hsHome .hsQuick.hsQuick{margin-top:22px;justify-content:center;display:flex!important;gap:10px;visibility:visible!important;opacity:1!important}
+html body #hsHome .hsQuick.hsQuick button{visibility:visible!important;opacity:1!important;display:flex!important;align-items:center;gap:7px;height:40px;padding:0 16px;border-radius:99px;background:rgba(14,13,16,.72)!important;border:1px solid rgba(255,255,255,.14)!important;color:#f3efe7!important;font-weight:650;font-size:14px}
+@media (max-width:1100px){html body #hsHome .hsMode.hsMode{width:200px;height:340px}html body #hsHome .hsMode.hs-play{width:250px;height:390px}}
+@media (max-width:760px){
+html body #hsHome .hsStage.hsStage{place-items:start stretch;padding:72px 0 112px}
+html body #hsHome .hsCon.hsCon{width:100vw;max-width:100vw;min-width:0;overflow:hidden}
+html body #hsHome .hsModes.hsModes{width:100%;max-width:100vw}
+html body #hsHome .hsModes.hsModes{justify-content:flex-start;align-items:center;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:14px 11vw 18px;gap:0;scroll-padding:0 11vw}
+html body #hsHome .hsModes::-webkit-scrollbar{display:none}
+html body #hsHome .hsMode.hsMode,html body #hsHome .hsMode.hs-play{width:80vw;max-width:360px;height:clamp(300px,calc(100dvh - 268px),620px);margin:0 -2vw;scroll-snap-align:center;scroll-snap-stop:always;transform:scale(var(--cf,1));opacity:var(--co,1);transition:transform .12s linear,opacity .12s linear;z-index:var(--cz,1)}
+html body #hsHome .hsMode.hsMode:hover{transform:scale(var(--cf,1))}
+html body #hsHome .hsMode.hs-play{border-width:2px}
+html body #hsHome .hsMode.hs-adv{order:1}html body #hsHome .hsMode.hs-play{order:2}html body #hsHome .hsMode.hs-arn{order:3}html body #hsHome .hsMode.hs-tour{order:4}
+html body #hsHome .hsMode .tx b,html body #hsHome .hsMode.hs-play .tx b{font-size:26px}
+html body #hsHome .hsQuick.hsQuick{margin-top:6px;padding:0 12px}
+}
+
+/* 0.140.3 phones: a bottom tab bar instead of the corner buttons */
+#hsHome .hsTab{display:none}
+@media (max-width:760px){
+html body #hsHome .hsCorner{display:none!important}
+#hsHome .hsTab{position:absolute;left:0;right:0;bottom:0;z-index:6;display:grid;grid-template-columns:repeat(5,1fr);align-items:end;padding:8px 6px calc(8px + env(safe-area-inset-bottom));background:rgba(14,13,16,.92);border-top:1px solid rgba(255,255,255,.08);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+#hsHome .hsTab button{position:relative;display:flex;flex-direction:column;align-items:center;gap:4px;padding:4px 0;border:0;background:none;color:#a8a29a;font:600 11px/1.1 inherit;box-shadow:none;cursor:pointer}
+#hsHome .hsTab button .hsi{width:24px;height:24px}
+#hsHome .hsTab button em{position:absolute;top:0;left:calc(50% + 8px);min-width:16px;height:16px;padding:0 4px;border-radius:9px;background:#e0896f;color:#1a1412;font:800 10px/16px system-ui;font-style:normal}
+#hsHome .hsTab button em:empty{display:none}
+#hsHome .hsTab .home{color:#f3efe7}
+#hsHome .hsTab .home i{width:54px;height:54px;margin-top:-26px;border-radius:50%;display:grid;place-items:center;background:#f3efe7;color:#1a1412;box-shadow:0 0 0 5px rgba(14,13,16,.95),0 10px 24px rgba(0,0,0,.5)}
+#hsHome .hsTab .home i .hsi{width:26px;height:26px}
+html body #hsHome .hsStage.hsStage{padding-bottom:104px;padding-top:66px}
+html body #hsHome .hsQuick.hsQuick{margin-top:2px!important;flex-wrap:nowrap!important;gap:8px!important}
+html body #hsHome .hsQuick.hsQuick button{padding:0 12px!important;font-size:13px!important;white-space:nowrap}
+}
+
+/* tab bar looks (mockup variants) */
+@media (max-width:760px){
+#hsHome.tv1 .hsTab{left:14px;right:14px;bottom:calc(12px + env(safe-area-inset-bottom));padding:6px;border-radius:26px;border:1px solid rgba(255,255,255,.1);grid-template-columns:repeat(4,1fr);align-items:center;box-shadow:0 18px 40px rgba(0,0,0,.5)}
+#hsHome.tv1 .hsTab .home{display:none}
+#hsHome.tv1 .hsTab button{flex-direction:row;justify-content:center;gap:6px;height:48px;border-radius:20px;font-size:0}
+#hsHome.tv1 .hsTab button:first-child{background:rgba(224,137,111,.16);color:#f3efe7;font-size:12.5px}
+#hsHome .hsTab.hsTab{grid-template-columns:repeat(4,1fr);padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:linear-gradient(180deg,rgba(14,13,16,0),rgba(14,13,16,.96) 40%);border-top:0;backdrop-filter:none;-webkit-backdrop-filter:none}
+#hsHome .hsTab.hsTab .home{display:none}
+#hsHome .hsTab.hsTab button i{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;background:rgba(255,255,255,.06);border:1px solid rgba(224,137,111,.35)}
+#hsHome .hsTab.hsTab button{color:#d6d0c7}
+#hsHome.tv3 .hsTab{left:auto;right:14px;bottom:calc(14px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:6px;padding:6px;border-radius:22px;border:1px solid rgba(255,255,255,.1);background:rgba(14,13,16,.85)}
+#hsHome.tv3 .hsTab .home{display:none}
+#hsHome.tv3 .hsTab button{width:52px;height:52px;border-radius:16px;justify-content:center;font-size:0;gap:0}
+#hsHome.tv3 .hsTab button:hover{background:rgba(255,255,255,.06)}
+#hsHome.tv3 .hsTab button em{left:auto;right:2px}
+#hsHome.tv3 .hsStage.hsStage{padding-bottom:20px}
+}
 </style>
 </head>
 <body>
@@ -9075,7 +9156,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.140.2';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.140.3';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -11335,6 +11416,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+{v:'0.140.3',d:'27.11.2026',uk:['Нове головне меню: чотири картки режимів з фото, «Грати онлайн» — по центру','На телефоні картки гортаються пальцем, а знизу — панель з магазином, завданнями, колекцією і друзями','Головне меню тепер завжди в затишному будиночку, на Новий рік — святковий фон'],en:['New main menu: four photo cards, «Play online» in the middle','On phones the cards swipe, with a bottom bar for the shop, tasks, collection and friends','The main menu now always sits in the cosy cabin, with a festive one for New Year']},
 {v:'0.140.2',d:'27.11.2026',uk:['Номери пунктів 1–24 на дошці сховані — увімкнути можна в налаштуваннях, у навчанні вони є завжди','Кнопка радіо в головному меню — вмикається одним дотиком','«Що нового» на телефоні: опис більше не лізе на картинку'],en:['Point numbers 1–24 are hidden — turn them on in settings; lessons always show them','A radio button on the main menu — one tap on or off','What\'s new on phones: the description no longer covers the picture']},
 {v:'0.140.1',d:'27.11.2026',uk:['Нова сторінка «Подарунки»: календар на 7 днів, завдання дня і тижня — відкривається кнопкою-подарунком','Нова Колекція: «Твій набір» з 8 слотами, образами і фільтрами Усі / Мої / Не мої / З кейсів','Подарунок і завдання прибрано з вітрини магазину'],en:['New Gifts page: a 7-day calendar, quests of the day and the week — opened with the gift button','New Collection: «Your set» with 8 slots, looks and filters All / Mine / Not mine / From cases','The gift and quests are gone from the shop showcase']},
 {v:'0.140.0',d:'27.11.2026',uk:['Новий магазин: Вітрина і Кейси в одному вікні, вкладки більше не стрибають','Набір тижня і кейси на першому екрані, «Сьогодні на вітрині», каталог з фільтрами','Картка речі: примірка на столі, зблизька, гра з ботом, звуки і список бажань','Колекція тепер окреме вікно — відкривається з головного меню','Тихий фоновий звук під час пошуку суперника','Після кидка кнопка «Кинути кубики» більше не лишається на дошці','Коли суперника знайдено, картка пошуку тримається до відкриття партії — без миготіння'],en:['New shop: Showcase and Cases in one window, tabs no longer jump','Set of the week and cases on the first screen, today\'s picks, catalog with filters','Item card: try on the table, close-up, play a bot, sounds and a wishlist','Collection is now its own window, opened from the main menu','A quiet background sound while searching for an opponent','The roll button no longer stays on the board after you roll','When an opponent is found, the search card stays until the game opens — no flicker']},
@@ -15064,6 +15146,31 @@ function hsRadPaint(){ const tp=document.querySelector('#hsHome .hsTop'); if(!tp
   try{ tp.querySelectorAll('.hsIb>em').forEach(e=>{ const z=!e.textContent.trim()||e.textContent.trim()==='0'; if(e.hidden!==z) e.hidden=z; }); }catch(e){}
   const on=typeof radOn!=='undefined' && !!radOn; b.classList.toggle('on',on); const lb=(L[lang]||L.en)+(on?' ✓':''); if(b.getAttribute('aria-label')!==lb){ b.setAttribute('aria-label',lb); b.title=L[lang]||L.en; } }
 setInterval(hsRadPaint,500); setTimeout(hsRadPaint,300);
+
+/* 0.140.3 main menu cards: the «Знайти гру» button on the online card, seasonal background */
+(function(){ const G={uk:'Знайти гру',en:'Find a game',ru:'Найти игру'};
+  function hsCardsFix(){ const el=$('hsHome'); if(!el) return; const m=el.querySelector('.hsMode.hs-play'); if(m && !m.querySelector('.hsGo')){ m.appendChild(uxH('span','hsGo',G[lang]||G.en)); }
+    else if(m){ const g=m.querySelector('.hsGo'); const tx=G[lang]||G.en; if(g.textContent!==tx) g.textContent=tx; }
+    const d=new Date(), mo=d.getMonth(), dd=d.getDate(); el.classList.toggle('hsXmas', (mo===11&&dd>=15)||(mo===0&&dd<=14));
+    if(window.innerWidth<=760 && !el._snap){ const md=el.querySelector('.hsModes'), pl=el.querySelector('.hsMode.hs-play'); if(md&&pl&&md.scrollWidth>md.clientWidth){ el._snap=1; md.scrollLeft=0; } } }
+  setInterval(hsCardsFix,600); setTimeout(hsCardsFix,200); })();
+
+(function(){ function hsTabFix(){ const el=$('hsHome'); if(!el || el.querySelector('.hsTab')) return; const tb=uxH('nav','hsTab'); const cbs=[...el.querySelectorAll('.hsCorner .hsCb')];
+  const mk=(src,cls)=>{ const b=uxH('button',cls||''); b.type='button'; const ic=src.querySelector('i'); const i2=uxH('i'); i2.innerHTML=ic?ic.innerHTML:''; b.appendChild(i2); b.appendChild(document.createTextNode((src.textContent||'').trim())); b.onclick=()=>src.click(); b._src=src; return b; };
+  if(cbs.length<4) return; const pl=el.querySelector('.hsMode.hs-play'); const home=uxH('button','home'); home.type='button'; const hi=uxH('i'); hi.innerHTML=hsI('dice'); home.append(hi, document.createTextNode((pl&&pl.querySelector('.tx b')||{}).textContent?({uk:'Грати',en:'Play',ru:'Играть'}[lang]||'Play'):'Play')); home.onclick=()=>{ if(pl) pl.click(); };
+  tb.append(mk(cbs[0]),mk(cbs[1]),home,mk(cbs[2]),mk(cbs[3])); el.appendChild(tb);
+  setInterval(()=>{ tb.querySelectorAll('button').forEach(b=>{ if(!b._src) return; const a=b._src.querySelector('em'), c=b.querySelector('em'); if(c&&a&&c.textContent!==a.textContent) c.textContent=a.textContent; }); },800); }
+  setInterval(hsTabFix,700); setTimeout(hsTabFix,250); })();
+
+/* 0.140.3 phones: cover-flow cards — the centre card is full size, the neighbours peek out smaller; swipe, no arrows */
+(function(){ let bound=null;
+  function cf(md){ const r=md.getBoundingClientRect(), c=r.left+r.width/2; md.querySelectorAll('.hsMode').forEach(m=>{ const b=m.getBoundingClientRect(); const d=Math.min(1,Math.abs(b.left+b.width/2-c)/(b.width||1)); m.style.setProperty('--cf',(1-.14*d).toFixed(3)); m.style.setProperty('--co',(1-.45*d).toFixed(3)); m.style.setProperty('--cz',d<.5?3:1); }); }
+  function setup(){ const el=$('hsHome'); const md=el&&el.querySelector('.hsModes'); if(!md) return; const mob=window.innerWidth<=760;
+    if(!mob){ md.querySelectorAll('.hsMode').forEach(m=>{ m.style.removeProperty('--cf'); m.style.removeProperty('--co'); m.style.removeProperty('--cz'); }); return; }
+    if(bound!==md){ bound=md; let q=0; md.addEventListener('scroll',()=>{ if(q) return; q=requestAnimationFrame(()=>{ q=0; cf(md); }); },{passive:true});
+      const pl=md.querySelector('.hs-play'); if(pl){ md.scrollLeft=pl.offsetLeft+pl.offsetWidth/2-md.clientWidth/2; } }
+    cf(md); }
+  setInterval(setup,700); setTimeout(setup,250); window.addEventListener('resize',()=>{ bound=null; setup(); }); })();
 </script>
 </body>
 </html>
