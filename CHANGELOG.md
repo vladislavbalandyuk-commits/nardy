@@ -3,6 +3,10 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.139.1 — 27.11.2026
+- New menu: pages are full width again (--sbw forced to 0 under body.hs) and the home layer shows only while home is open (body.hsOn) — the shop showed the menu's corner buttons on its left.
+- Campaign steps (Part I and II) and the ending card use drawn icons (play, target, crown, fork, puzzle, swords, check) instead of ✦ ♚ ⑂ and emoji; the Part II chapter prize thumbnail is scaled to fit (dice side by side); the «Dawn» win effect has an SVG icon (fxIc/FX_SVG) everywhere effect icons are drawn.
+
 ## 0.139.0 — 27.11.2026
 - Home in the Hearthstone manner (#hsHome, shown while home is open and no other page is): a console with the four modes (Play online → the old Play button; Adventures → new #hsAdvPg with both books; Arena → openArena; Tournament → openTour with a countdown tag), quick games (bot / friend / two players → the old buttons), corner buttons (Shop, Tasks → events page, Collection → shop «mine», Friends), and the account bar (coins, notifications, daily gift, settings, profile; exit only in Telegram). The old home stays underneath, hidden; the side/bottom menu is hidden.
 - Pages that relied on the side menu (events, learning, rating, shop) get a back button in their top bar when they have none; the site-wide back knows the Adventures page.

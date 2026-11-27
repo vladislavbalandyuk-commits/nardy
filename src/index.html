@@ -5210,7 +5210,8 @@ body.calm .cpd.cur::after{animation:none}
 
 /* ================= 0.139: home menu in the Hearthstone manner — one console with the four modes, buttons in the corners ================= */
 #hsHome{position:fixed;inset:0;z-index:9;display:none;color:#f3efe7}
-body.hs #hsHome{display:block}
+body.hs.hsOn #hsHome{display:block}
+html body.hs.hs.hs.hs{--sbw:0px!important}
 html body.hs #mNav#mNav,html body.hs #h1Pg .h1top.h1top,html body.hs #h1Pg .h1side,html body.hs #h1Pg .h1sb{display:none!important}
 body.hs #h1Pg .h1wrap{visibility:hidden!important}
 body.hs #h1Full{opacity:1!important}
@@ -5304,6 +5305,15 @@ body:not(.hs) .hsBack{display:none}
 #hsAdvPg .chip{flex:none;white-space:nowrap;font:700 12px 'Onest',sans-serif;padding:6px 11px;border-radius:999px;background:rgba(255,255,255,.1);color:#e8e2d8}
 #hsAdvPg .new{position:absolute!important;top:22px;right:22px;background:rgba(224,137,111,.22);color:#f3b9a6}
 @media (max-width:760px){ #hsAdvPg{padding:calc(12px + env(safe-area-inset-top)) 14px 20px} #hsAdvPg h2{font-size:22px} #hsAdvPg .books{grid-template-columns:1fr;gap:14px;align-items:start} #hsAdvPg .book{height:auto;min-height:300px;padding:20px} #hsAdvPg .book h3{font-size:26px} #hsAdvPg .row .go{height:52px;font-size:15px} }
+
+/* 0.139.1: campaign step icons and the Part II prize thumbnail */
+.cp-step .ic svg{width:18px;height:18px}
+.c2end .big svg,.cp-sheet .big svg{width:64px;height:64px;color:#e0896f}
+.cp-step .ic{display:grid;place-items:center}
+.c2prize .th{position:relative}
+.c2prize .th>.shth{position:absolute;left:50%;top:50%;width:110px!important;height:110px!important;max-width:none!important;max-height:none!important;transform:translate(-50%,-50%) scale(.46);transform-origin:50% 50%}
+.c2prize .th .shdc{display:flex!important;flex-direction:row!important;align-items:center;justify-content:center;gap:8px;width:100%!important;height:100%!important}
+.c2prize .th .shdc .die{width:44px!important;height:44px!important;flex:none}
 </style>
 </head>
 <body>
@@ -8723,7 +8733,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.139.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.139.1';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -9233,7 +9243,7 @@ function showItemEl(id){ const [c,k]=id.split(':'); const w=uxH('div','shw-it');
   if(c==='badge'){ if(k==='tester'){ w.append(uxH('span','tstbadge','🧪'), uxH('span',null,t('tstRole'))); return w; } const a=uxH('span','av'); avatarInto(a,'vladM','?'); w.append(a, uxH('span',null,t('shwBadge'))); return w; }
   if(c==='pt'||c==='av'){ const a=uxH('span','av'); avatarInto(a,k,'?'); w.append(a, shwCap(c==='pt'?t('cpPortrait'):t('av_'+k), t('avKind'))); return w; }
   if(c==='card'){ const cd=CARDS.find(x=>x.k===k); const im=uxH('div','cp-card'); if(cd&&cd.img) im.style.backgroundImage='url("'+CARD_U(cd.img,360)+'")'; w.append(im, shwCap(t('card_'+k), t('cardT'))); return w; }
-  if(c==='fx'){ const f=uxH('div','fxth',FX_ICON[k]); f.style.setProperty('--fxc',FX_TINT[k]); w.append(f, shwCap(t('fx_'+k),'')); return w; }
+  if(c==='fx'){ const f=fxIc(uxH('div','fxth'),k); f.style.setProperty('--fxc',FX_TINT[k]); w.append(f, shwCap(t('fx_'+k),'')); return w; }
   if(c==='board' && $('board')){ try{ const pv=livePv(k, prefs.ck||'classic', prefs.dice||'classic'); pv.classList.add('shwlive'); shwFit(pv); w.classList.add('k-board'); w.append(pv, shwCap(shName(c,k), kindName(c)||'')); return w; }catch(e){} }
   try{ const th=shThumb(c,k); if(c==='table'){ th.style.background=TABLE_SW[k]||''; } w.classList.add('k-'+c); w.append(th, shwCap(shName(c,k), kindName(c)||'')); }catch(e){ w.append(uxH('span',null,id)); } return w; }
 function showOptions(){ const A=profile.ach||{}; const L=(A.owned||[]).filter(id=>/^(board|ck|dice|table|card|fx|pt):/.test(id)); if((A.camp|0)>=9) L.unshift('badge:camp'); if(A.tester) L.unshift('badge:tester'); return [...new Set(L)]; }
@@ -9864,7 +9874,7 @@ function fxNeonSign(){ const w=document.createElement('div'); w.className='neonf
 
 // 0.101: every effect previews the same way — in a small stage over your own board
 function openFxStage(k){ document.getElementById('fxOv')?.remove(); const ov=sH('div','fxov'); ov.id='fxOv'; const m=sH('div','fxbox'); ov.appendChild(m);
-  const hd=sH('div','fxhd'); const ic=sH('div','fxth',FX_ICON[k]); ic.style.setProperty('--fxc',FX_TINT[k]); const tt=sH('div'); tt.append(sH('b',null,t('fx_'+k)), sH('small',null,t(FX_SLOT[k]==='roll'?'fxRoll':'fxWin'))); const x=sH('button','fxx','✕'); x.type='button'; x.setAttribute('aria-label',t('close')||'✕'); hd.append(ic,tt,x); m.appendChild(hd);
+  const hd=sH('div','fxhd'); const ic=fxIc(sH('div','fxth'),k); ic.style.setProperty('--fxc',FX_TINT[k]); const tt=sH('div'); tt.append(sH('b',null,t('fx_'+k)), sH('small',null,t(FX_SLOT[k]==='roll'?'fxRoll':'fxWin'))); const x=sH('button','fxx','✕'); x.type='button'; x.setAttribute('aria-label',t('close')||'✕'); hd.append(ic,tt,x); m.appendChild(hd);
   const st=sH('div','fxstage'); m.appendChild(st);
   const bt=sH('div','fxbt'); const again=sH('button','s2sec',t('fxAgain')); again.type='button'; bt.appendChild(again); m.appendChild(bt);
   const play=()=>{ st.querySelectorAll(':scope>:not(.fxsc)').forEach(n=>n.remove()); window._fxHost=st; const r=st.getBoundingClientRect(), cx=r.width/2, cy=r.height*.55;
@@ -9881,7 +9891,7 @@ setTimeout(()=>{ try{ const m={smoke:['smoke_07'],sparkle:['star_06','flare_01']
 function shFx(cont){ const hd=sH('div','shhead'); hd.append(sH('h2',null,t('fxT')), sH('p',null,t('fxD'))); cont.appendChild(hd);
   [['roll','fxRoll'],['win','fxWin']].forEach(([slot,lab])=>{ const sec=sH('div','avgrp'); sec.appendChild(sH('h3',null,t(lab))); const g=sH('div','s2grid'); const key=slot==='roll'?'rollfx':'winfx', cur=store.get(key,'');
     FXK.filter(k=>FX_SLOT[k]===slot).forEach(k=>{ const o=owns('fx',k), on=cur===k&&o; const b=sH('button','s2card'+(o?' own':' lock')+(on?' on':'')+(shHi==='fx:'+k?' hi':'')); b.type='button'; b.style.setProperty('--rc',SH_RC.x);
-      const th=sH('div','shth'+(slot==='roll'?' s2fxpv':'')); const ic=sH('div','fxth',FX_ICON[k]); ic.style.setProperty('--fxc',FX_TINT[k]); th.appendChild(ic); const pl=sH('span','fxplay','▶'); pl.title=t('fxPlay'); pl.onclick=e=>{ e.stopPropagation(); openFxStage(k); }; th.appendChild(pl); b.appendChild(th); const nm=sH('div','nm'); nm.append(sH('i'), sH('b',null,t('fx_'+k))); b.appendChild(nm);
+      const th=sH('div','shth'+(slot==='roll'?' s2fxpv':'')); const ic=fxIc(sH('div','fxth'),k); ic.style.setProperty('--fxc',FX_TINT[k]); th.appendChild(ic); const pl=sH('span','fxplay','▶'); pl.title=t('fxPlay'); pl.onclick=e=>{ e.stopPropagation(); openFxStage(k); }; th.appendChild(pl); b.appendChild(th); const nm=sH('div','nm'); nm.append(sH('i'), sH('b',null,t('fx_'+k))); b.appendChild(nm);
       b.appendChild(sH('small','kind',t(lab))); const ft=sH('div','ft'); ft.appendChild(sH('span','s2tg '+(on?'on':o?'':'muted'), on?'✓ '+t('s2Worn'):o?t('s2Wear'):caseOnly('fx',k)?t('caseTag'):t('campTag'))); b.appendChild(ft);
       b.onclick=()=>{ if(!o){ openFxStage(k); toast(t(caseOnly('fx',k)?'caseOnlyT':'campOnly')); return; } store.set(key, on?'':k); shHi=''; shRender(); if(!on) openFxStage(k); }; b.dataset.fx=k; g.appendChild(b); });
     sec.appendChild(g); cont.appendChild(sec); }); }
@@ -9922,7 +9932,7 @@ function campThumb(id){ const [c,k]=id.split(':'); const w=sH('div','cp-it');
   if(c==='av'){ const a=sH('span','av'); avatarInto(a, k==='?'?'mask':k, '?'); w.append(a, sH('span',null, k==='?'?t('cpSecret'):t('av_'+k))); }
   else if(c==='pt'){ const a=sH('span','av'); avatarInto(a,k,'?'); w.append(a, sH('span',null,t('cpPortrait'))); }
   else if(c==='card'){ const cd=CARDS.find(x=>x.k===k); const im=sH('div','cp-card'); if(cd) im.style.background=cd.sw; w.append(im, sH('span',null,t('cpCard'))); }
-  else if(c==='fx'){ const f=sH('div','fxth',FX_ICON[k]); f.style.setProperty('--fxc',FX_TINT[k]); w.append(f, sH('span',null,t('fx_'+k))); }
+  else if(c==='fx'){ const f=fxIc(sH('div','fxth'),k); f.style.setProperty('--fxc',FX_TINT[k]); w.append(f, sH('span',null,t('fx_'+k))); }
   else w.append(shThumb(c,k), sH('span',null,shName(c,k))); return w; }
 function prizeChips(n){ return ['🪙 '+CAMP[n].coins].concat(campItems(n).map(id=>{ const [c,k]=id.split(':'); return c==='av' ? '🎭 '+t('cpSecret') : c==='pt'?'🖼️ '+t('cpPortrait') : c==='card'?'🏞️ '+t('cpCard') : c==='fx' ? FX_ICON[k]+' '+t('fx_'+k) : shName(c,k); })); }
 
@@ -10021,7 +10031,7 @@ function campPanel(box,n){ box.querySelectorAll(':scope>*:not(.cp-x)').forEach(e
   const opp=uxH('div','cp-opp'); const a=uxH('span','av'); avatarInto(a,campAv(n),'?'); const d=uxH('div'); d.append(uxH('b',null, st==='lock'&&n>campDone()+2?'???':campName(n)), uxH('small',null, campLine(n,'S'))); opp.append(a,d); box.appendChild(opp);
   if(st==='lock'){ box.appendChild(uxH('p','cp-line n',t('cpLockD',{n:n-1}))); }
   else { const steps=uxH('div','cp-steps');
-    for(const s of [1,2,3]){ const ss=campStepSt(n,s); const r=uxH('div','cp-step '+ss); const ic=uxH('span','ic', ss==='done'?'✓':['','🧩','⚔️','♚'][s]);
+    for(const s of [1,2,3]){ const ss=campStepSt(n,s); const r=uxH('div','cp-step '+ss); const ic=uxH('span','ic'); ic.innerHTML=c2StepIc(ss==='done'?'check':['','puzzle','swords','crown'][s]);
       const mid=uxH('div'); const tt=uxH('b',null,t('cpS'+s)); if(s<3 && st!=='done') tt.appendChild(uxH('span','rw','🪙 '+CP_STEP_COINS[s])); mid.append(tt, uxH('small',null, s===1 ? t('cpS1D') : s===2 ? t('cpM'+n) : t('cpVs',{n:campName(n)})));
       r.append(ic,mid);
       if(ss!=='lock'){ const g=uxH('button', ss==='cur'?'cta':'ghost', ss==='cur' ? (s===1?t('cpSolve'):t('cpPlay')) : t('cpAgain')); g.type='button'; g.onclick=()=>campDo(n,s); r.appendChild(g); }
@@ -10983,6 +10993,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+{v:"0.139.1", d:"27.11.2026", uk:["Виправили: магазин і інші сторінки більше не з'їжджають вправо під новим меню","«Шлях нардиста II»: нові іконки етапів глави, приз глави видно повністю, ефект «Світанок над Дністром» отримав власну іконку"], en:["Fixed: the shop and other pages no longer shift right under the new menu","«Nardist's Path II»: new chapter step icons, the chapter prize shows in full, «Dawn over the Dniester» got its own icon"], ru:["Исправили: магазин и другие страницы больше не съезжают вправо под новым меню","«Путь нардиста II»: новые иконки этапов главы, приз главы виден полностью, эффект «Рассвет над Днестром» получил свою иконку"]},
 {v:"0.139.0", d:"27.11.2026", uk:["Нове головне меню: чотири режими в центрі — онлайн, пригоди, арена й турнір; магазин, завдання, колекція й друзі — у кутах","Новий екран «Пригоди»: обидві книги історії поруч, з прогресом і кнопкою до наступної глави","Бічне й нижнє меню прибрані — на кожній сторінці є кнопка «назад»"], en:["New main menu: four modes in the centre — online, adventures, arena and tournament; shop, tasks, collection and friends in the corners","New «Adventures» screen: both story books side by side, with progress and a button to the next chapter","The side and bottom menus are gone — every page has a back button"], ru:["Новое главное меню: четыре режима в центре — онлайн, приключения, арена и турнир; магазин, задания, коллекция и друзья — в углах","Новый экран «Приключения»: обе книги истории рядом, с прогрессом и кнопкой к следующей главе","Боковое и нижнее меню убраны — на каждой странице есть кнопка «назад»"]},
 {v:"0.138.0", d:"27.11.2026", uk:["Сайт став помітно швидшим: магазин малює лише те, що на екрані, а дошка в грі більше не перемальовується на кожному кадрі","Кампанія і пошук суперника менше навантажують комп'ютер і телефон"], en:["The site is noticeably faster: the shop draws only what is on screen, and the board no longer redraws on every frame","The campaign and the opponent search are lighter on computers and phones"], ru:["Сайт стал заметно быстрее: магазин рисует только то, что на экране, а доска в игре больше не перерисовывается на каждом кадре","Кампания и поиск соперника меньше нагружают компьютер и телефон"]},
 {v:"0.137.2", d:"27.11.2026", uk:["Відлік до турніру на плитці «Турнірна зала» тепер вміщається"], en:["The countdown on the «Tournament hall» tile fits now"], ru:["Отсчёт до турнира на плитке «Турнирный зал» теперь помещается"]},
@@ -11778,7 +11789,7 @@ const casesOn=()=> true;
 const CASE_ODDS={c:55,r:30,e:12,l:3}, CASE_REFUND={c:60,r:120,e:300,l:700};
 const caseRar=id=>{ if(CASE_R[id]) return CASE_R[id]; const [c,k]=bSplit(id); return shopRar(c,k)||'c'; };
 // a thing's picture for cases: effects get their icon tile
-function csThumb(id){ if(id.startsWith('ph:')){ const w=sH('div','shth phth one'); const x=id.slice(3); const b=sH('span','phb'+(x.startsWith('vo:')?' vo':'')); b.textContent=phLabel(x); w.appendChild(b); return w; } const [c,k]=bSplit(id); if(c==='av'){ const w=sH('div','shth csav'); const a=sH('span','av'); avatarInto(a,k,'?'); w.appendChild(a); return w; } if(c==='fx'){ const w=sH('div','shth csfx'); const f=sH('div','fxth',FX_ICON[k]); f.style.setProperty('--fxc',FX_TINT[k]); w.appendChild(f); return w; } return shThumb(c,k); }
+function csThumb(id){ if(id.startsWith('ph:')){ const w=sH('div','shth phth one'); const x=id.slice(3); const b=sH('span','phb'+(x.startsWith('vo:')?' vo':'')); b.textContent=phLabel(x); w.appendChild(b); return w; } const [c,k]=bSplit(id); if(c==='av'){ const w=sH('div','shth csav'); const a=sH('span','av'); avatarInto(a,k,'?'); w.appendChild(a); return w; } if(c==='fx'){ const w=sH('div','shth csfx'); const f=fxIc(sH('div','fxth'),k); f.style.setProperty('--fxc',FX_TINT[k]); w.appendChild(f); return w; } return shThumb(c,k); }
 const csName=id=>{ if(id.startsWith('atm:')) return t('atm_'+id.slice(4)); if(id.startsWith('ph:')) return phLabel(id.slice(3)); const [c,k]=bSplit(id); return c==='fx' ? t('fx_'+k) : c==='av' ? t('av_'+k) : shName(c,k); };
 const csKind=id=>{ if(id.startsWith('atm:')) return t('atmKind'); if(id.startsWith('ph:')) return id.startsWith('ph:vo:')?t('phVoice1'):t('phText1'); const [c]=bSplit(id); return c==='fx' ? t('fxWinK') : c==='av' ? t('avKind') : kindName(c); };
 const csOwn=id=>{ if(id.startsWith('atm:')) return myOwned().includes(id); if(id.startsWith('ph:')) return phOwn(id.slice(3)); const [c,k]=bSplit(id); return c==='av' ? myOwned().includes(id) : owns(c,k); };
@@ -14078,7 +14089,7 @@ async function c2After2(n,won){ let d=null; if(won){ d=await c2Op('win',n,{gid:g
   document.body.appendChild(ov); }
 // the ending's card: its name, the title it gave, and whether the secret epilogue has opened
 function c2EndCard(e){ const ov=uxH('div','cp-ov c2end'); const m=uxH('div','cp-sheet c2q c2endm c2fincard'); ov.appendChild(m); ov.onclick=ev=>{ if(ev.target===ov) ov.remove(); };
-  const k=e?C2_TTL[e]:'c2all'; m.append(uxH('div','big',e?'✦':'⚄'), uxH('div','cp-place',e?c2t('eN',{e:c2t('e'+e)}):c2t('secret')), uxH('h2',null,e?c2t('e'+e):c2t('secret')), uxH('p','c2qd', e?c2t('eGot',{t:t('a2_'+k)}):c2t('xGot')));
+  const k=e?C2_TTL[e]:'c2all'; m.append((()=>{ const d=uxH('div','big'); d.innerHTML=c2StepIc(e?'crown':'dice'); return d; })(), uxH('div','cp-place',e?c2t('eN',{e:c2t('e'+e)}):c2t('secret')), uxH('h2',null,e?c2t('e'+e):c2t('secret')), uxH('p','c2qd', e?c2t('eGot',{t:t('a2_'+k)}):c2t('xGot')));
   if(e && c2AllE() && !c2St().x) m.appendChild(uxH('p','c2says',c2t('eAll')));
   try{ sfx('win'); }catch(e){} c2Fx('ok'); const b=uxH('button','cta',c2t('toMap')); b.type='button'; b.onclick=()=>{ ov.remove(); if(!$('c2Pg')) openC2(); else c2Paint(); }; m.appendChild(b); document.body.appendChild(ov); }
 
@@ -14126,7 +14137,7 @@ function c2Panel(box,n){ box.innerHTML=''; const C=C2CH[n], st=c2Step(n), S=c2St
   if(st===0){ box.appendChild(uxH('p','cp-line n',t('cpLockD',{n:n-1}))); return; }
   const opp=uxH('div','cp-opp'); const a=uxH('span','av'); avatarInto(a,C2W[C.boss].av,c2t('n_'+C.boss)); const d=uxH('div'); d.append(uxH('b',null,c2t('n_'+C.boss)), uxH('small',null,c2Tw(n))); opp.append(a,d); box.appendChild(opp);
   const steps=uxH('div','cp-steps'); const ks=n===9?[1,3,4]:[1,2,3,4];
-  ks.forEach(k=>{ const ss= st===5||k<st ? 'done' : k===st ? 'cur' : 'lock'; const r=uxH('div','cp-step '+ss); const ic=uxH('span','ic', ss==='done'?'✓':String(k===2?'✦':k===3?'♚':k===4?'⑂':'▶'));
+  ks.forEach(k=>{ const ss= st===5||k<st ? 'done' : k===st ? 'cur' : 'lock'; const r=uxH('div','cp-step '+ss); const ic=uxH('span','ic'); ic.innerHTML=c2StepIc(ss==='done'?'check':k===2?'target':k===3?'crown':k===4?'fork':'play');
     const mid=uxH('div'); mid.append(uxH('b',null,c2t('st'+k)), uxH('small',null, k===2&&C.ch?c2t('c_'+C.ch):k===3?c2t('n_'+C.boss):k===1?c2t('l'+n):'')); r.append(ic,mid); steps.appendChild(r); });
   box.appendChild(steps);
   if(st<5){ const go=uxH('button','cta c2go',(st===1?c2t('play'):c2t('cont'))+' →'); go.type='button'; go.onclick=()=>{ document.querySelectorAll('.c2sh').forEach(o=>o.remove()); c2Go(n); }; box.appendChild(go); }
@@ -14356,7 +14367,7 @@ function hsPaint(el){ try{
 }catch(e){} }
 let _hsOn=null;
 function hsSync(){ try{ const pg=$('h1Pg'); const on=!!(pg && typeof gs!=='undefined' && !gs && !(typeof searching!=='undefined' && searching) && document.body.classList.contains('home') && !hsOther() && getComputedStyle(pg).display!=='none' && !(typeof guide!=='undefined' && guide));
-  if(on){ const el=hsBuild(); hsPaint(el); }
+  if(on){ const el=hsBuild(); hsPaint(el); } document.body.classList.toggle('hsOn', on);
   if(on!==_hsOn){ _hsOn=on; document.body.classList.toggle('hs', on || (!!$('hsHome') && hsOther() && !gs)); }
   else if(!on){ document.body.classList.toggle('hs', !!$('hsHome') && hsOther() && !(typeof gs!=='undefined' && gs)); }
   hsBackFix(); }catch(e){} }
@@ -14376,6 +14387,14 @@ function hsAdvOpen(){ let pg=$('hsAdvPg'); if(pg) pg.remove(); pg=uxH('div'); pg
                book('tb/fhookah.webp',hsT('b2'),hsT('b2t'),hsT('b2p'),0,0,()=>{ hsAdvClose(); openC2(); },true));
   pg.appendChild(books); document.body.appendChild(pg); try{ mnMark(); }catch(e){} }
 function hsAdvClose(){ const pg=$('hsAdvPg'); if(pg) pg.remove(); }
+
+// 0.139.1: step icons in both campaigns are drawn icons, not text symbols or emoji
+const C2_FORK='<path d="M80,40a24,24,0,1,0,24,24A24,24,0,0,0,80,40Zm96,0a24,24,0,1,0,24,24A24,24,0,0,0,176,40ZM128,168a24,24,0,1,0,24,24A24,24,0,0,0,128,168Z" opacity="0.2"/><path d="M200,64a24,24,0,1,0-32,22.62V96a16,16,0,0,1-16,16H104A16,16,0,0,1,88,96V86.62a24,24,0,1,0-16,0V96a32,32,0,0,0,32,32h16v41.38a24,24,0,1,0,16,0V128h16a32,32,0,0,0,32-32V86.62A24,24,0,0,0,200,64ZM80,56a8,8,0,1,1-8,8A8,8,0,0,1,80,56Zm48,144a8,8,0,1,1,8-8A8,8,0,0,1,128,200ZM176,72a8,8,0,1,1,8-8A8,8,0,0,1,176,72Z"/>';
+function c2StepIc(n){ if(n==='fork') return '<svg class="li ph" viewBox="0 0 256 256" aria-hidden="true"><g fill="currentColor" stroke="none">'+C2_FORK+'</g></svg>'; return lico(n); }
+
+// 0.139.1: effect icons that have a drawn version use it instead of an emoji (Part II «Dawn over the Dniester» first)
+const FX_SVG={dawn:'<svg viewBox="0 0 64 64" width="70%" height="70%" aria-hidden="true"><defs><linearGradient id="fxdw" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffb38a"/><stop offset="1" stop-color="#ff6f7d"/></linearGradient></defs><circle cx="32" cy="36" r="14" fill="url(#fxdw)"/><g stroke="#ffd2b8" stroke-width="3" stroke-linecap="round"><path d="M32 10v6M14 18l4 4M50 18l-4 4M8 34h6M50 34h6"/></g><rect x="4" y="36" width="56" height="24" fill="#2b2f45"/><g stroke="#ff9f8f" stroke-width="2.6" stroke-linecap="round" opacity=".9"><path d="M14 42h36M20 48h24M26 54h12"/></g></svg>'};
+function fxIc(el,k){ if(FX_SVG[k]) el.innerHTML=FX_SVG[k]; else el.textContent=FX_ICON[k]||''; return el; }
 </script>
 </body>
 </html>
