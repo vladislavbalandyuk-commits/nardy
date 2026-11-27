@@ -3,6 +3,13 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.138.0 — 27.11.2026
+Speed pass (measured with Chrome traces, desktop 1440×900):
+- Shop: `content-visibility:auto` on sections and cards — main-thread render work 2376 → 206 ms per 5 s (layerize was re-run for ~7.5k nodes every frame).
+- Game: the board's `filter: drop-shadow` became a box-shadow — compositor time 1878 → 1046 ms per 2.5 s; dice and the last-move ring are on their own layers (ring animates transform/opacity) — board re-raster during play 2.8 s → ~0.25 s per 5 s; the «your move» ping animates transform/opacity.
+- Campaign: chapter glow animates opacity on a pseudo-element; SVG star twinkle off; Part II candle without blur — raster 324 → 57, layerize 119 → 21 ms per 4 s.
+- Search: the drifting photo is on its own layer; the home photo too.
+
 ## 0.137.2 — 27.11.2026
 - Home hall tiles: the tile is a size container and the big number scales with it (clamp 16–30px, 9cqi), so long countdowns no longer run past the edge.
 

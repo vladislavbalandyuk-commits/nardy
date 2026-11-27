@@ -5147,11 +5147,13 @@ html body.dark button:disabled svg.i{color:inherit}
 #gm2Top .gm2turn span{font-variant-numeric:tabular-nums;color:#e0896f;font-weight:700}
 #gm2Top .gm2turn span:empty{display:none}
 #gm2Top .gm2turn.me{background:rgba(224,137,111,.12);border-color:rgba(224,137,111,.4);color:#f3efe7}
-#gm2Top .gm2turn.me i{background:#e0896f;box-shadow:0 0 0 0 rgba(224,137,111,.6);animation:gmPing 1.6s ease-out infinite}
+#gm2Top .gm2turn.me i{background:#e0896f;position:relative}
+#gm2Top .gm2turn.me i::after{content:"";position:absolute;inset:0;border-radius:50%;background:rgba(224,137,111,.6);animation:gmPing2 1.6s ease-out infinite;will-change:transform,opacity}
+@keyframes gmPing2{0%{transform:scale(1);opacity:.7}70%,100%{transform:scale(3);opacity:0}}
 #gm2Top .gm2turn.low span{color:#ff7a6b}
 @keyframes gmPing{70%{box-shadow:0 0 0 8px rgba(224,137,111,0)}100%{box-shadow:0 0 0 0 rgba(224,137,111,0)}}
 @media (max-width:699px){ #gm2Top .gm2turn{display:none} }
-body.calm #gm2Top .gm2turn i{animation:none}
+body.calm #gm2Top .gm2turn i,body.calm #gm2Top .gm2turn i::after{animation:none}
 /* 0.137.1: player cards never push the score out — the name and details shrink instead */
 html body.gm2.ingame .pl{min-width:0}
 html body.gm2.ingame .pl>div:not(.pav):not(.gmpct):not(.sc):not(.bub){flex:1 1 auto;min-width:0}
@@ -5179,6 +5181,32 @@ body.h1full .h1top{background:rgba(11,12,15,.45)!important;backdrop-filter:blur(
 /* 0.137.2: the hall tiles size their big number to the tile, so «23 год 14 хв» always fits */
 .ui2hall{container-type:inline-size}
 html body .ui2hall .ui2hn strong{font-size:clamp(16px,10.5cqi,30px)!important;max-width:100%}
+
+/* 0.138: speed — off-screen parts of long pages are not drawn at all until they scroll into view */
+#shopPg .s2>:not(.s2hero):not(.s2tabs):not(.s2nav){content-visibility:auto;contain-intrinsic-size:auto 320px}
+#shopPg .u2row>.s2card,#shopPg .s2pkg>.s2card,#shopPg .s2setg>*{content-visibility:auto;contain-intrinsic-size:auto 232px}
+
+/* 0.138: speed — things that move on the board get their own layer, so the board itself is not redrawn every frame */
+#board .dice,#board .die{will-change:transform;transform:translateZ(0)}
+.pt.lastTo .stack .ck.tip::after{animation:lastP2 1.6s ease-out 2!important;box-shadow:0 0 0 2px rgba(224,137,111,.85)!important;will-change:transform,opacity}
+@keyframes lastP2{from{transform:scale(1);opacity:1}to{transform:scale(1.35);opacity:0}}
+/* campaign map: only a few stars twinkle */
+.tw0,.tw1{animation:none!important}   /* SVG stars cannot be moved to their own layer: twinkling redrew the whole map */
+/* search: the drifting photo is drawn once and only moved */
+.mm119.hasph .mmphoto{will-change:transform}
+
+/* 0.138: speed — the board's shadow is a plain shadow, not a filter (the filter re-drew the whole board on every frame) */
+html body[data-table]:not([data-table=auto]) #stage .bw{filter:none!important}
+html body[data-table]:not([data-table=auto]) #stage .bw #board{box-shadow:0 30px 60px -6px rgba(0,0,0,.6),0 6px 14px rgba(0,0,0,.4)}
+
+/* campaign: the current-chapter glow pulses on its own layer (opacity), not by redrawing a shadow */
+.cpd.cur{animation:none!important;position:absolute}
+.cpd.cur::after{content:"";position:absolute;inset:-10px;border-radius:50%;box-shadow:0 0 0 10px rgba(148,215,190,.1),0 0 44px 10px rgba(148,215,190,.55);opacity:0;animation:cpGlow3 2.2s ease-in-out infinite;will-change:opacity;pointer-events:none}
+@keyframes cpGlow3{50%{opacity:1}}
+body.calm .cpd.cur::after{animation:none}
+.cp-duo .av{will-change:transform}
+.c2cand .fl i{filter:none!important;will-change:transform}
+#h1Full{will-change:transform}
 </style>
 </head>
 <body>
@@ -8598,7 +8626,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.137.2';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.138.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -10858,6 +10886,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+{v:"0.138.0", d:"27.11.2026", uk:["Сайт став помітно швидшим: магазин малює лише те, що на екрані, а дошка в грі більше не перемальовується на кожному кадрі","Кампанія і пошук суперника менше навантажують комп'ютер і телефон"], en:["The site is noticeably faster: the shop draws only what is on screen, and the board no longer redraws on every frame","The campaign and the opponent search are lighter on computers and phones"], ru:["Сайт стал заметно быстрее: магазин рисует только то, что на экране, а доска в игре больше не перерисовывается на каждом кадре","Кампания и поиск соперника меньше нагружают компьютер и телефон"]},
 {v:"0.137.2", d:"27.11.2026", uk:["Відлік до турніру на плитці «Турнірна зала» тепер вміщається"], en:["The countdown on the «Tournament hall» tile fits now"], ru:["Отсчёт до турнира на плитке «Турнирный зал» теперь помещается"]},
 {v:"0.137.1", d:"27.11.2026", uk:["На комп'ютері кнопка «Кинути кубики» більше не закриває кубики, а «Ваш хід» і таймер — у верхній панелі","Таймер ходу в онлайн-грі знову йде, навіть якщо годинник пристрою трохи відстає","Картки гравців більше не виштовхують рахунок за край","Кнопка «Назад» у Telegram і клавіша Esc тепер закривають будь-яку сторінку чи вікно","На головній фото твого столу тепер на весь екран","Плашка рангу в профілі відкриває рейтинг"], en:["On computers the Roll button no longer covers the dice; «Your move» and the clock moved to the top bar","The online turn clock runs again even when the device clock is a little behind","Player cards no longer push the score past the edge","Telegram's Back button and Esc now close any page or window","The home screen shows your table photo full screen","The rank badge in the profile opens the rating"], ru:["На компьютере кнопка «Бросить кубики» больше не закрывает кубики, а «Ваш ход» и таймер — в верхней панели","Таймер хода в онлайн-игре снова идёт, даже если часы устройства немного отстают","Карточки игроков больше не выталкивают счёт за край","Кнопка «Назад» в Telegram и клавиша Esc теперь закрывают любую страницу или окно","На главной фото твоего стола теперь на весь экран","Плашка ранга в профиле открывает рейтинг"]},
 {v:"0.137.0", d:"27.11.2026", uk:["Нові іконки: мідний контур із м'якою заливкою — у меню, шапці та на кнопках"], en:["New icons: a copper outline with a soft fill — in the menu, the header and on buttons"], ru:["Новые иконки: медный контур с мягкой заливкой — в меню, шапке и на кнопках"]},
