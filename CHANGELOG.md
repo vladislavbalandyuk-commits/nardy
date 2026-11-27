@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.137.0 — 27.11.2026
+- Icon style B «Duotone» (dark theme): the duotone layer of the Phosphor icons is stronger (.34) and icons are copper (#e0896f) in the nav and sidebar (inactive tabs; the green Play pill and the current tab keep their look), header icon buttons and pills (streak, gift unless lit/ready), the game bar, back buttons, ghost/secondary buttons. Disabled buttons keep their own colour.
+
 ## 0.136.6 — 27.11.2026
 - Search screen: the chosen table (prefs.table, full-size TABLE_SW image) as a dimmed, slowly drifting backdrop with a vignette; the plain scene stays for «auto». Player cards get a frosted panel over the photo.
 
