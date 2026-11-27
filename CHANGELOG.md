@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.137.2 — 27.11.2026
+- Home hall tiles: the tile is a size container and the big number scales with it (clamp 16–30px, 9cqi), so long countdowns no longer run past the edge.
+
 ## 0.137.1 — 27.11.2026
 - Game (computers): the board banner is just the roll button; the old dice hide while waiting for the roll; «Your move» + turn clock live in a chip in #gm2Top (gmTurnSync).
 - Turn clock: the game function adds `_now` to every reply; the client keeps SRV_OFF (server minus device clock) and counts turn time with gNow(). A device clock behind the server froze the clock at 60 s.

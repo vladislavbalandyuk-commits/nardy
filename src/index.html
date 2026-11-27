@@ -5176,6 +5176,9 @@ html body.h1full #h1Pg .ui2stage.ui2stage.h1hero{background:transparent!importan
 html body.h1full .ui2stage>.ui2bg,html body.h1full .ui2stage>.ui2light{display:none!important}
 body.h1full .h1top{background:rgba(11,12,15,.45)!important;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
 .instcard .ix,.gscard .ix{min-width:36px;min-height:36px!important;display:grid;place-items:center}
+/* 0.137.2: the hall tiles size their big number to the tile, so «23 год 14 хв» always fits */
+.ui2hall{container-type:inline-size}
+html body .ui2hall .ui2hn strong{font-size:clamp(16px,10.5cqi,30px)!important;max-width:100%}
 </style>
 </head>
 <body>
@@ -8595,7 +8598,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.137.1';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.137.2';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -10855,6 +10858,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+{v:"0.137.2", d:"27.11.2026", uk:["Відлік до турніру на плитці «Турнірна зала» тепер вміщається"], en:["The countdown on the «Tournament hall» tile fits now"], ru:["Отсчёт до турнира на плитке «Турнирный зал» теперь помещается"]},
 {v:"0.137.1", d:"27.11.2026", uk:["На комп'ютері кнопка «Кинути кубики» більше не закриває кубики, а «Ваш хід» і таймер — у верхній панелі","Таймер ходу в онлайн-грі знову йде, навіть якщо годинник пристрою трохи відстає","Картки гравців більше не виштовхують рахунок за край","Кнопка «Назад» у Telegram і клавіша Esc тепер закривають будь-яку сторінку чи вікно","На головній фото твого столу тепер на весь екран","Плашка рангу в профілі відкриває рейтинг"], en:["On computers the Roll button no longer covers the dice; «Your move» and the clock moved to the top bar","The online turn clock runs again even when the device clock is a little behind","Player cards no longer push the score past the edge","Telegram's Back button and Esc now close any page or window","The home screen shows your table photo full screen","The rank badge in the profile opens the rating"], ru:["На компьютере кнопка «Бросить кубики» больше не закрывает кубики, а «Ваш ход» и таймер — в верхней панели","Таймер хода в онлайн-игре снова идёт, даже если часы устройства немного отстают","Карточки игроков больше не выталкивают счёт за край","Кнопка «Назад» в Telegram и клавиша Esc теперь закрывают любую страницу или окно","На главной фото твоего стола теперь на весь экран","Плашка ранга в профиле открывает рейтинг"]},
 {v:"0.137.0", d:"27.11.2026", uk:["Нові іконки: мідний контур із м'якою заливкою — у меню, шапці та на кнопках"], en:["New icons: a copper outline with a soft fill — in the menu, the header and on buttons"], ru:["Новые иконки: медный контур с мягкой заливкой — в меню, шапке и на кнопках"]},
 {v:"0.136.6", d:"27.11.2026", uk:["Під час пошуку суперника на фоні тепер твій стіл — той, що вибраний у магазині"], en:["While searching for an opponent, your own table backdrop from the shop is the background"], ru:["Во время поиска соперника на фоне теперь твой стол — тот, что выбран в магазине"]},
