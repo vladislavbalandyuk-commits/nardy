@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.136.4 — 27.11.2026
+- Phones: the roll button sits inside the player card (#plBot); redrawing the card (plCard → innerHTML='') destroyed it, so the game could not be continued. plCard now keeps #turnBanner, and renderBanner recreates it if it is ever missing.
+
 ## 0.136.3 — 25.11.2026
 - Light buttons (h1play, s2main and the like): the cream glow under them is now a dark drop shadow.
 

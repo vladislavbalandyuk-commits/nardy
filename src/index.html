@@ -7940,6 +7940,7 @@ function avOf(s){ if(!gs) return ''; if(mode==='bot'){ if(s==='p1') return selfA
 function plCard(el, s){
   const col = gs.phase==='opening' ? null : colorOfSlot(s);
   const turn = gs.phase==='play' && col===gs.turn || (gs.phase==='opening' && openSlotToRoll()===s && mode==='local');
+  const keepTb=el.querySelector('#turnBanner'); if(keepTb) keepTb.remove();   // 0.136.4: the roll button lives here on phones — redrawing the card must not destroy it
   el.className='pl'+(turn?' turn':''); el.innerHTML='';
   const chip=document.createElement('div'); chip.className='pav';
   const face=document.createElement('span'); face.className='av'; avatarInto(face, avOf(s), slotName(s)); chip.appendChild(framed(face, ratingOf(s), 38, frOfSlot(s)));
@@ -7955,7 +7956,7 @@ function plCard(el, s){
   else { const v=gs.open[s]; sub.textContent = v ? t('rolledN',{n:v}) : t('undecided'); }
   box.append(nm,sub);
   const sc=document.createElement('div'); sc.className='sc'; { const ts=tourScoreOf(s); sc.textContent= ts!=null ? ts : gs.score[s]; if(ts!=null) sc.title=t('tourMatchScoreT'); }
-  el.append(chip,box,sc);
+  el.append(chip,box,sc); if(keepTb) el.appendChild(keepTb);
 }
 
 
@@ -8010,7 +8011,8 @@ function renderHistory(){
 // ---- turn banner in the middle of the board ----
 let lastBannerKey='';
 function renderBanner(){
-  const el=$('turnBanner'); if(!el) return;
+  let el=$('turnBanner');
+  if(!el){ const home=document.querySelector('#board .bar'); if(!home) return; el=document.createElement('div'); el.id='turnBanner'; el.className='tb hidden'; home.after(el); lastBannerKey=''; }
   const ub=$('btnUndoB');
   if(ub){ const full = gs && gs.dice && gs.dice.length ? (gs.dice[0]===gs.dice[1]?4:2) : 0;
     const on = !!(gs && canPlay() && gs.rolled && gs.snap && gs.remaining.length<full && gs.remaining.length>0);
@@ -8485,7 +8487,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.136.3';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.136.4';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -10746,6 +10748,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+{v:"0.136.4", d:"27.11.2026", uk:["Виправили: на телефоні інколи зникала кнопка «Кинути кубики», і гра зупинялась"], en:["Fixed: on phones the “Roll” button could vanish and the game got stuck"], ru:["Исправили: на телефоне иногда пропадала кнопка «Бросить кубики», и игра останавливалась"]},
 {v:"0.136.3", d:"25.11.2026", uk:["Світлі кнопки («Грати онлайн», «Відкрити», «Забрати») більше не мають білої тіні під собою"], en:["Light buttons (“Play online”, “Open”, “Claim”) no longer have a white glow under them"], ru:["У светлых кнопок («Играть онлайн», «Открыть», «Забрать») больше нет белой тени снизу"]},
 {v:"0.136.2", d:"25.11.2026", uk:["Стрічка під скринею при відкритті кейса тепер на всю ширину: більші плитки, речі видно повністю"], en:["The reel under the chest when opening a case now spans the screen: bigger tiles, items shown in full"], ru:["Лента под сундуком при открытии кейса теперь во всю ширину: плитки больше, вещи видно целиком"]},
 {v:"0.136.1", d:"25.11.2026", uk:["Логотип у бічній панелі стоїть рівно над іконками, кнопка «Назад» у грі — по центру","Підказки Паші з гри більше не залишаються на екрані, коли виходите з партії"], en:["The logo in the side panel sits straight above the icons, and the Back button in the game is centred","Pasha’s in-game tips no longer stay on screen after you leave the game"], ru:["Логотип в боковой панели стоит ровно над иконками, кнопка «Назад» в игре — по центру","Подсказки Паши из игры больше не остаются на экране после выхода из партии"]},
