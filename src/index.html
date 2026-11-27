@@ -5207,6 +5207,103 @@ body.calm .cpd.cur::after{animation:none}
 .cp-duo .av{will-change:transform}
 .c2cand .fl i{filter:none!important;will-change:transform}
 #h1Full{will-change:transform}
+
+/* ================= 0.139: home menu in the Hearthstone manner — one console with the four modes, buttons in the corners ================= */
+#hsHome{position:fixed;inset:0;z-index:9;display:none;color:#f3efe7}
+body.hs #hsHome{display:block}
+html body.hs #mNav#mNav,html body.hs #h1Pg .h1top.h1top,html body.hs #h1Pg .h1side,html body.hs #h1Pg .h1sb{display:none!important}
+body.hs #h1Pg .h1wrap{visibility:hidden!important}
+body.hs #h1Full{opacity:1!important}
+#hsHome .hsTop{position:absolute;z-index:3;left:0;right:0;top:0;height:68px;display:flex;align-items:center;gap:10px;padding:0 22px calc(0px);padding-top:env(safe-area-inset-top)}
+#hsHome .hsLogo{display:flex;align-items:center;gap:10px;font:800 17px 'Unbounded',system-ui,sans-serif;letter-spacing:-.02em;white-space:nowrap}
+#hsHome .hsLogo svg{width:30px;height:30px}
+#hsHome .hsSp{flex:1}
+#hsHome .hsPill,#hsHome .hsIb,#hsHome .hsMe{height:40px;border-radius:999px;background:rgba(10,11,14,.6);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;gap:8px;color:#f3efe7;font:700 14px 'Onest',system-ui,sans-serif;cursor:pointer;padding:0 14px;position:relative}
+#hsHome .hsIb{width:40px;padding:0;justify-content:center;border-radius:12px;color:#e0896f}
+#hsHome .hsIb svg{width:20px;height:20px}
+#hsHome .hsIb em{position:absolute;top:-5px;right:-5px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:#e0896f;color:#14110e;font:800 10.5px 'Onest',sans-serif;font-style:normal;display:grid;place-items:center;border:2px solid #0b0c0f}
+#hsHome .hsIb em:empty{display:none}
+#hsHome .hsCoin{width:16px;height:16px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff3b0,#f0c23a 45%,#b8860b);flex:none}
+#hsHome .hsMe{padding:3px 14px 3px 3px}
+#hsHome .hsMe .av{width:32px;height:32px;border-radius:50%;overflow:hidden;border:2px solid #e0896f;flex:none;display:grid;place-items:center;background:#2a201c}
+#hsHome .hsMe .av>*{width:100%;height:100%}
+#hsHome .hsStage{position:absolute;inset:0;display:grid;place-items:center;padding:84px 16px 120px;overflow:auto}
+#hsHome .hsCon{position:relative;width:min(520px,100%);padding:32px 30px 24px;border-radius:34px;background:linear-gradient(180deg,rgba(22,20,19,.84),rgba(12,12,14,.92));border:1px solid rgba(224,137,111,.45);box-shadow:0 40px 80px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.06),inset 0 0 0 6px rgba(0,0,0,.25),inset 0 0 0 7px rgba(224,137,111,.18)}
+#hsHome .hsCrest{position:absolute;left:50%;top:-22px;transform:translateX(-50%);width:120px;height:44px;border-radius:22px;background:linear-gradient(180deg,#1b1816,#0f0f11);border:1px solid rgba(224,137,111,.45);display:grid;place-items:center}
+#hsHome .hsTtl{text-align:center;margin:8px 0 20px}
+#hsHome .hsTtl h1{font:800 30px/1.05 'Unbounded',system-ui,sans-serif;letter-spacing:-.03em;margin:0}
+#hsHome .hsTtl p{margin:8px 0 0;color:#a8a29a;font-size:13.5px;display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap}
+#hsHome .hsTtl p em{font-style:normal;color:#7fe3bb;font-weight:700;display:flex;align-items:center;gap:6px}
+#hsHome .hsTtl p em::before{content:"";width:7px;height:7px;border-radius:50%;background:#34d399;box-shadow:0 0 0 3px rgba(52,211,153,.22)}
+#hsHome .hsModes{display:flex;flex-direction:column;gap:12px}
+#hsHome .hsMode{position:relative;display:flex;align-items:center;gap:16px;width:100%;min-height:84px;padding:12px 20px 12px 16px;border-radius:20px;background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.1);color:#f3efe7;text-align:left;cursor:pointer;overflow:hidden;font:inherit;transition:transform .15s,border-color .15s,background .15s}
+#hsHome .hsMode:hover{transform:translateY(-2px);border-color:rgba(224,137,111,.55);background:linear-gradient(180deg,rgba(255,255,255,.1),rgba(255,255,255,.04))}
+#hsHome .hsMode:active{transform:translateY(0) scale(.99)}
+#hsHome .hsMode .ic{width:54px;height:54px;border-radius:16px;display:grid;place-items:center;background:rgba(224,137,111,.12);border:1px solid rgba(224,137,111,.35);color:#e0896f;flex:none}
+#hsHome .hsMode .ic svg{width:28px;height:28px}
+#hsHome .hsMode .tx{flex:1;min-width:0;display:flex;flex-direction:column}
+#hsHome .hsMode b{font:800 19px 'Unbounded',system-ui,sans-serif;letter-spacing:-.02em}
+#hsHome .hsMode small{margin-top:5px;font-size:13px;color:#a8a29a;line-height:1.3}
+#hsHome .hsMode .tag{font:700 11.5px 'Onest',sans-serif;padding:5px 10px;border-radius:999px;background:rgba(255,255,255,.07);color:#d8d2c8;white-space:nowrap;flex:none}
+#hsHome .hsMode .tag:empty{display:none}
+#hsHome .hsMode .tag.hot{background:rgba(224,137,111,.16);color:#f3b9a6}
+#hsHome .hsMode.main{min-height:96px;background:linear-gradient(180deg,#f6f1e8,#e9e1d3);border-color:#fff;color:#14110e;box-shadow:0 14px 30px rgba(0,0,0,.45),0 0 0 6px rgba(243,239,231,.08)}
+#hsHome .hsMode.main:hover{background:linear-gradient(180deg,#fffaf2,#efe7da)}
+#hsHome .hsMode.main .ic{background:#14110e;border-color:#14110e;color:#f3efe7}
+#hsHome .hsMode.main small{color:#5d554b}
+#hsHome .hsMode.main b{font-size:22px}
+#hsHome .hsMode.main .tag{background:#14110e;color:#7fe3bb}
+#hsHome .hsQuick{display:flex;justify-content:center;gap:8px;margin-top:18px;flex-wrap:wrap}
+#hsHome .hsQuick button{font:600 12.5px 'Onest',sans-serif;color:#cfc8bd;padding:8px 13px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.03);display:flex;align-items:center;gap:6px;cursor:pointer;min-height:0}
+#hsHome .hsQuick button:hover{border-color:rgba(224,137,111,.55);color:#f3efe7}
+#hsHome .hsQuick svg{width:15px;height:15px;color:#e0896f}
+#hsHome .hsCorner{position:absolute;z-index:3;bottom:calc(22px + env(safe-area-inset-bottom));display:flex;gap:14px}
+#hsHome .hsCorner.l{left:26px} #hsHome .hsCorner.r{right:26px}
+#hsHome .hsCb{display:flex;flex-direction:column;align-items:center;gap:7px;font:700 12.5px 'Onest',sans-serif;color:#e8e2d8;text-shadow:0 1px 6px rgba(0,0,0,.8);background:none;border:0;cursor:pointer;padding:0;min-height:0}
+#hsHome .hsCb i{width:72px;height:72px;border-radius:22px;display:grid;place-items:center;background:linear-gradient(180deg,rgba(26,23,21,.9),rgba(14,14,16,.92));border:1px solid rgba(224,137,111,.45);color:#e0896f;box-shadow:0 14px 30px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.06);position:relative;transition:transform .15s}
+#hsHome .hsCb:hover i{transform:translateY(-3px)}
+#hsHome .hsCb i svg{width:32px;height:32px}
+#hsHome .hsCb i em{position:absolute;top:-6px;right:-6px;min-width:22px;height:22px;padding:0 6px;border-radius:11px;background:#e0896f;color:#14110e;font:800 11.5px 'Onest',sans-serif;font-style:normal;display:grid;place-items:center;border:2px solid #0b0c0f}
+#hsHome .hsCb i em:empty{display:none}
+@media (max-width:640px){
+ #hsHome .hsTop{height:58px;padding:0 10px;gap:6px} #hsHome .hsLogo span,#hsHome .hsMe span{display:none} #hsHome .hsMe{padding:3px} #hsHome .hsPill{padding:0 11px;font-size:13px;height:38px} #hsHome .hsIb{width:38px;height:38px}
+ #hsHome .hsStage{place-items:start center;padding:80px 12px 112px}
+ #hsHome .hsCon{padding:28px 14px 16px;border-radius:28px}
+ #hsHome .hsTtl h1{font-size:23px} #hsHome .hsTtl{margin:4px 0 14px}
+ #hsHome .hsMode{min-height:70px;padding:10px 12px;gap:12px;border-radius:18px} #hsHome .hsMode.main{min-height:80px} #hsHome .hsMode b{font-size:16px} #hsHome .hsMode.main b{font-size:18px} #hsHome .hsMode small{font-size:12px} #hsHome .hsMode .ic{width:46px;height:46px;border-radius:14px} #hsHome .hsMode .ic svg{width:24px;height:24px} #hsHome .hsMode .tag{display:none}
+ #hsHome .hsCorner{bottom:calc(12px + env(safe-area-inset-bottom));gap:6px} #hsHome .hsCorner.l{left:10px} #hsHome .hsCorner.r{right:10px} #hsHome .hsCb i{width:56px;height:56px;border-radius:18px} #hsHome .hsCb i svg{width:26px;height:26px} #hsHome .hsCb{font-size:11px}
+}
+@media (max-height:740px) and (min-width:641px){ #hsHome .hsMode{min-height:72px} #hsHome .hsMode.main{min-height:82px} #hsHome .hsStage{padding-top:76px} }
+body:not(.dark) #hsHome{color:#f3efe7}
+/* pages opened from the new home get a back button in their top bar when they have none */
+body.hs .hsBack{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:rgba(14,14,16,.7);border:1px solid rgba(224,137,111,.45);color:#e0896f;cursor:pointer;flex:none;margin-right:6px;padding:0;min-height:0}
+body.hs .hsBack svg{width:20px;height:20px}
+body:not(.hs) .hsBack{display:none}
+/* Adventures: two books */
+#hsAdvPg{position:fixed;inset:0;z-index:11;background:#0b0c0f;isolation:isolate;display:flex;flex-direction:column;padding:calc(16px + env(safe-area-inset-top)) 32px 28px;gap:18px;overflow:auto;color:#f3efe7}
+#hsAdvPg .bg{position:fixed;inset:-20px;z-index:-1;background:var(--stg,#0b0c0f);background-size:cover!important;background-position:center!important;filter:brightness(.4) saturate(.95) blur(2px)}
+#hsAdvPg .bg::after{content:"";position:absolute;inset:0;background:radial-gradient(60% 55% at 50% 48%,rgba(8,9,11,0),rgba(8,9,11,.9))}
+#hsAdvPg .hd{display:flex;align-items:center;gap:16px}
+#hsAdvPg .hd .hsBack{display:grid!important;width:48px;height:48px;border-radius:15px}
+#hsAdvPg h2{font:800 30px 'Unbounded',system-ui,sans-serif;letter-spacing:-.03em;margin:0}
+#hsAdvPg .hd p{margin:4px 0 0;color:#a8a29a;font-size:14px}
+#hsAdvPg .books{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:center;max-width:1100px;margin:0 auto;width:100%}
+#hsAdvPg .book{position:relative;height:min(560px,70vh);min-height:380px;border-radius:28px;overflow:hidden;border:1px solid rgba(224,137,111,.45);box-shadow:0 30px 60px rgba(0,0,0,.55);display:flex;flex-direction:column;justify-content:flex-end;padding:28px;text-align:left;color:#f3efe7;cursor:pointer;background:#111;font:inherit;transition:transform .2s}
+#hsAdvPg .book:hover{transform:translateY(-4px)}
+#hsAdvPg .book .ph{position:absolute;inset:0;background:var(--img) center/cover;filter:brightness(.55);transition:transform .6s}
+#hsAdvPg .book:hover .ph{transform:scale(1.04)}
+#hsAdvPg .book .ph::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,9,11,0) 30%,rgba(8,9,11,.95))}
+#hsAdvPg .book>*:not(.ph){position:relative}
+#hsAdvPg .book small{font:700 12.5px 'Onest',sans-serif;color:#f3b9a6}
+#hsAdvPg .book h3{font:800 34px/1.05 'Unbounded',system-ui,sans-serif;letter-spacing:-.03em;margin:8px 0 10px}
+#hsAdvPg .book p{color:#cfc8bd;font-size:14.5px;line-height:1.45;max-width:440px;margin:0}
+#hsAdvPg .prog{display:flex;gap:6px;margin:18px 0}
+#hsAdvPg .prog i{flex:1;height:6px;border-radius:3px;background:rgba(255,255,255,.14)} #hsAdvPg .prog i.on{background:#e0896f}
+#hsAdvPg .row{display:flex;align-items:center;gap:12px}
+#hsAdvPg .row .go{flex:1;height:58px;border-radius:18px;background:linear-gradient(180deg,#f6f1e8,#e9e1d3);color:#14110e;font:800 16px 'Unbounded',system-ui,sans-serif;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 26px rgba(0,0,0,.45)}
+#hsAdvPg .chip{flex:none;white-space:nowrap;font:700 12px 'Onest',sans-serif;padding:6px 11px;border-radius:999px;background:rgba(255,255,255,.1);color:#e8e2d8}
+#hsAdvPg .new{position:absolute!important;top:22px;right:22px;background:rgba(224,137,111,.22);color:#f3b9a6}
+@media (max-width:760px){ #hsAdvPg{padding:calc(12px + env(safe-area-inset-top)) 14px 20px} #hsAdvPg h2{font-size:22px} #hsAdvPg .books{grid-template-columns:1fr;gap:14px;align-items:start} #hsAdvPg .book{height:auto;min-height:300px;padding:20px} #hsAdvPg .book h3{font-size:26px} #hsAdvPg .row .go{height:52px;font-size:15px} }
 </style>
 </head>
 <body>
@@ -8626,7 +8723,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.138.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.139.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -10886,6 +10983,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+{v:"0.139.0", d:"27.11.2026", uk:["Нове головне меню: чотири режими в центрі — онлайн, пригоди, арена й турнір; магазин, завдання, колекція й друзі — у кутах","Новий екран «Пригоди»: обидві книги історії поруч, з прогресом і кнопкою до наступної глави","Бічне й нижнє меню прибрані — на кожній сторінці є кнопка «назад»"], en:["New main menu: four modes in the centre — online, adventures, arena and tournament; shop, tasks, collection and friends in the corners","New «Adventures» screen: both story books side by side, with progress and a button to the next chapter","The side and bottom menus are gone — every page has a back button"], ru:["Новое главное меню: четыре режима в центре — онлайн, приключения, арена и турнир; магазин, задания, коллекция и друзья — в углах","Новый экран «Приключения»: обе книги истории рядом, с прогрессом и кнопкой к следующей главе","Боковое и нижнее меню убраны — на каждой странице есть кнопка «назад»"]},
 {v:"0.138.0", d:"27.11.2026", uk:["Сайт став помітно швидшим: магазин малює лише те, що на екрані, а дошка в грі більше не перемальовується на кожному кадрі","Кампанія і пошук суперника менше навантажують комп'ютер і телефон"], en:["The site is noticeably faster: the shop draws only what is on screen, and the board no longer redraws on every frame","The campaign and the opponent search are lighter on computers and phones"], ru:["Сайт стал заметно быстрее: магазин рисует только то, что на экране, а доска в игре больше не перерисовывается на каждом кадре","Кампания и поиск соперника меньше нагружают компьютер и телефон"]},
 {v:"0.137.2", d:"27.11.2026", uk:["Відлік до турніру на плитці «Турнірна зала» тепер вміщається"], en:["The countdown on the «Tournament hall» tile fits now"], ru:["Отсчёт до турнира на плитке «Турнирный зал» теперь помещается"]},
 {v:"0.137.1", d:"27.11.2026", uk:["На комп'ютері кнопка «Кинути кубики» більше не закриває кубики, а «Ваш хід» і таймер — у верхній панелі","Таймер ходу в онлайн-грі знову йде, навіть якщо годинник пристрою трохи відстає","Картки гравців більше не виштовхують рахунок за край","Кнопка «Назад» у Telegram і клавіша Esc тепер закривають будь-яку сторінку чи вікно","На головній фото твого столу тепер на весь екран","Плашка рангу в профілі відкриває рейтинг"], en:["On computers the Roll button no longer covers the dice; «Your move» and the clock moved to the top bar","The online turn clock runs again even when the device clock is a little behind","Player cards no longer push the score past the edge","Telegram's Back button and Esc now close any page or window","The home screen shows your table photo full screen","The rank badge in the profile opens the rating"], ru:["На компьютере кнопка «Бросить кубики» больше не закрывает кубики, а «Ваш ход» и таймер — в верхней панели","Таймер хода в онлайн-игре снова идёт, даже если часы устройства немного отстают","Карточки игроков больше не выталкивают счёт за край","Кнопка «Назад» в Telegram и клавиша Esc теперь закрывают любую страницу или окно","На главной фото твоего стола теперь на весь экран","Плашка ранга в профиле открывает рейтинг"]},
@@ -14162,7 +14260,7 @@ function oddsPaint(){ try{ if(!gs || !document.body.classList.contains('ingame')
 // ================= 0.137.1: one «back» for the whole site =================
 // The Telegram back button and Escape close whatever is on top: Pasha's tour, a case, the game menu, the search,
 // a window, then a page (campaign, Part II, achievements, shop, events, learning, friends), then the game (asks first).
-const UI_PAGES=['admPg','achPg','arnPg','c2Pg','campPg','learnPg','evPg','shopPg','rankPg'];
+const UI_PAGES=['admPg','achPg','arnPg','c2Pg','campPg','hsAdvPg','learnPg','evPg','shopPg','rankPg'];
 const UI_BACKSEL='.spback,.c2back,.cp-back,.pgback,.h1back,[aria-label="Назад"],[aria-label="Back"],[aria-label="Закрити"],[aria-label="Close"],[aria-label="Закрыть"],.x,.close,.mclose,[data-close],.ovx';
 const uiVis=e=>{ if(!e) return false; const r=e.getBoundingClientRect(); return r.width>0 && r.height>0 && getComputedStyle(e).visibility!=='hidden'; };
 const uiBtnIn=(el)=>{ const b=[...el.querySelectorAll(UI_BACKSEL)].find(uiVis); if(b) return b; return [...el.querySelectorAll('button')].find(x=>uiVis(x) && /^(Закрити|Close|Закрыть|Назад|Back|Скасувати|Cancel|Отмена)$/i.test((x.textContent||'').trim())); };
@@ -14174,7 +14272,7 @@ function uiTop(){
   const ovs=[...document.querySelectorAll('.overlay:not(.hidden)')].filter(o=>getComputedStyle(o).display!=='none');
   if(ovs.length){ const ov=ovs.sort((a,b)=>(+getComputedStyle(a).zIndex||0)-(+getComputedStyle(b).zIndex||0)).pop(); const b=uiBtnIn(ov); return b ? {btn:b} : {fn:()=>{ if(ov.id==='newsOv'||!ov.classList.contains('overlay')) ov.remove(); else show(ov.id,false); }}; }
   for(const id of UI_PAGES){ const pg=$(id); if(!pg) continue; const b=uiBtnIn(pg);
-    const close={achPg:'closeAch',evPg:'closeEvents',learnPg:'closeLearn',campPg:'closeCampaign',rankPg:'closeRankPage',shopPg:'closeShopPg',c2Pg:'closeC2'}[id];
+    const close={hsAdvPg:'hsAdvClose',achPg:'closeAch',evPg:'closeEvents',learnPg:'closeLearn',campPg:'closeCampaign',rankPg:'closeRankPage',shopPg:'closeShopPg',c2Pg:'closeC2'}[id];
     return {fn:()=>{ if(close && typeof window[close]==='function') window[close](); else if(b) b.click(); else pg.remove(); try{ mnMark(); }catch(e){} try{ route(); }catch(e){} }}; }
   if(typeof gs!=='undefined' && gs) return {fn:()=>askLeave()};
   return null; }
@@ -14206,6 +14304,78 @@ function h1FullSync(){ try{ const pg=$('h1Pg'), st=document.querySelector('.ui2s
   if(bg){ const v=st ? getComputedStyle(st).getPropertyValue('--stg') : ''; if(v && bg._v!==v){ bg._v=v; bg.style.setProperty('--stg',v); } }
   document.body.classList.toggle('h1full', on && !!(bg && bg._v)); }catch(e){} }
 setInterval(h1FullSync, 400);
+
+// ================= 0.139: home menu in the Hearthstone manner =================
+// One console in the middle with the four modes (online, adventures, arena, tournament), quick games under it,
+// big buttons in the corners (shop, tasks, collection, friends) and the account bar top-right. Everything calls
+// the same functions as before; the old home stays underneath, hidden, so nothing else has to change.
+const HS_TX={uk:{t:'Довгі нарди',on:'онлайн',sub:'суперник твого рівня за кілька секунд',play:'Грати онлайн',playS:'Суперник твого рівня за кілька секунд',adv:'Пригоди',advS:'Шлях нардиста I і II · історія з боями',arn:'Арена',arnS:'Боси підряд · 3 життя · нагорода за кожного',tour:'Турнір',tourS:'Кубок вихідного дня · 25 000 монет',live:'іде зараз',inT:'через {x}',bot:'З ботом',fr:'З другом',loc:'Удвох',shop:'Магазин',tasks:'Завдання',col:'Колекція',frs:'Друзі',back:'Назад',advT:'Пригоди',advP:'Дві книги історії. Кожна глава — бій, діалоги й нагорода',b1:'Книга I',b1t:'Шлях нардиста',b1p:'Від лавки у дворі до майстра міста. Головоломки, суперники з характером і перший турнір.',b2:'Книга II',b2t:'Спадок Майстра',b2p:'Могилів-Подільський, кальянна Druzi і карта України. Чотири кінцівки й анімований аватар за повне проходження.',go:'Грати',nw:'Нове',exit:'Вийти'},
+ en:{t:'Long Nardy',on:'online',sub:'an opponent of your level in seconds',play:'Play online',playS:'An opponent of your level in seconds',adv:'Adventures',advS:'Nardist’s Path I and II · story with battles',arn:'Arena',arnS:'Bosses in a row · 3 lives · a prize for each',tour:'Tournament',tourS:'Weekend Cup · 25 000 coins',live:'live now',inT:'in {x}',bot:'Vs bot',fr:'With a friend',loc:'Two players',shop:'Shop',tasks:'Tasks',col:'Collection',frs:'Friends',back:'Back',advT:'Adventures',advP:'Two story books. Every chapter is a battle, dialogue and a prize',b1:'Book I',b1t:'Nardist’s Path',b1p:'From the yard bench to the master of the city. Puzzles, opponents with character and a first tournament.',b2:'Book II',b2t:'The Master’s Legacy',b2p:'Mohyliv-Podilskyi, the Druzi hookah bar and a map of Ukraine. Four endings and an animated avatar for finishing it.',go:'Play',nw:'New',exit:'Exit'},
+ ru:{t:'Длинные нарды',on:'онлайн',sub:'соперник твоего уровня за несколько секунд',play:'Играть онлайн',playS:'Соперник твоего уровня за несколько секунд',adv:'Приключения',advS:'Путь нардиста I и II · история с боями',arn:'Арена',arnS:'Боссы подряд · 3 жизни · награда за каждого',tour:'Турнир',tourS:'Кубок выходного дня · 25 000 монет',live:'идёт сейчас',inT:'через {x}',bot:'С ботом',fr:'С другом',loc:'Вдвоём',shop:'Магазин',tasks:'Задания',col:'Коллекция',frs:'Друзья',back:'Назад',advT:'Приключения',advP:'Две книги истории. Каждая глава — бой, диалоги и награда',b1:'Книга I',b1t:'Путь нардиста',b1p:'От лавочки во дворе до мастера города. Головоломки, соперники с характером и первый турнир.',b2:'Книга II',b2t:'Наследие Мастера',b2p:'Могилёв-Подольский, кальянная Druzi и карта Украины. Четыре концовки и анимированный аватар за полное прохождение.',go:'Играть',nw:'Новое',exit:'Выйти'}};
+const hsT=(k,v)=>{ const d=HS_TX[lang]||HS_TX.uk; let s=d[k]||HS_TX.uk[k]||k; if(v) for(const x in v) s=s.replace('{'+x+'}',v[x]); return s; };
+const hsUse=id=>'<svg class="i" aria-hidden="true"><use href="#'+id+'"/></svg>';
+const HS_DIE='<svg viewBox="0 0 58 26" width="58" height="26" aria-hidden="true"><rect width="26" height="26" rx="6" fill="#f3efe7"/><g fill="#14110e"><circle cx="7" cy="7" r="2.4"/><circle cx="19" cy="7" r="2.4"/><circle cx="13" cy="13" r="2.4"/><circle cx="7" cy="19" r="2.4"/><circle cx="19" cy="19" r="2.4"/></g><rect x="32" width="26" height="26" rx="6" fill="#f3efe7"/><g fill="#14110e"><circle cx="39" cy="7" r="2.4"/><circle cx="51" cy="19" r="2.4"/></g></svg>';
+const HS_LOGO='<svg viewBox="0 0 30 30" aria-hidden="true"><rect width="30" height="30" rx="9" fill="#f3efe7"/><g fill="#14110e"><circle cx="9.5" cy="9.5" r="2.6"/><circle cx="20.5" cy="20.5" r="2.6"/><circle cx="15" cy="15" r="2.6"/></g></svg>';
+function hsClick(sel){ const e=typeof sel==='string'?document.querySelector(sel):sel; if(e){ e.click(); return true; } return false; }
+function hsBuild(){ let el=$('hsHome'); if(el) return el; el=uxH('div'); el.id='hsHome';
+  const top=uxH('div','hsTop'); const logo=uxH('div','hsLogo'); logo.innerHTML=HS_LOGO+'<span>Nardy Masters</span>'; top.append(logo, uxH('div','hsSp'));
+  const coins=uxH('button','hsPill hsCoins'); coins.type='button'; coins.innerHTML='<span class="hsCoin"></span><b></b>'; coins.onclick=()=>{ if(!hsClick('#coinPill')) openShopPg('show'); };
+  const bell=uxH('button','hsIb hsBell'); bell.type='button'; bell.setAttribute('aria-label','Сповіщення'); { const ob=$('btnBell'); const sv=ob&&ob.querySelector('svg'); bell.innerHTML=(sv?sv.outerHTML:lico('alert'))+'<em></em>'; } bell.onclick=e=>{ e.stopPropagation(); hsClick('#btnBell'); };
+  const gift=uxH('button','hsIb hsGift'); gift.type='button'; gift.setAttribute('aria-label','Подарунок'); gift.innerHTML=hsUse('i-gift')+'<em></em>'; gift.onclick=()=>{ hsClick('.h1acts .ui2gift')||hsClick('.ui2gift'); };
+  const gear=uxH('button','hsIb'); gear.type='button'; gear.setAttribute('aria-label',t('settings')||'Settings'); gear.innerHTML=hsUse('i-gear'); gear.onclick=()=>hsClick('#btnSet');
+  const me=uxH('button','hsMe'); me.type='button'; me.innerHTML='<span class="av"></span><span class="nm"></span>'; me.onclick=()=>hsClick('#btnMe');
+  top.append(coins, bell, gift, gear, me);
+  if(typeof TG!=='undefined' && TG){ const ex=uxH('button','hsIb'); ex.type='button'; ex.setAttribute('aria-label',hsT('exit')); ex.innerHTML=hsUse('i-exit'); ex.onclick=()=>{ try{ TG.close(); }catch(e){} }; top.appendChild(ex); }
+  const st=uxH('div','hsStage'), con=uxH('div','hsCon'); const crest=uxH('div','hsCrest'); crest.innerHTML=HS_DIE; con.appendChild(crest);
+  const ttl=uxH('div','hsTtl'); ttl.append(uxH('h1',null,hsT('t')), uxH('p')); con.appendChild(ttl);
+  const modes=uxH('div','hsModes');
+  const mk=(k,icon,b,sm,fn,main)=>{ const m=uxH('button','hsMode hs-'+k+(main?' main':'')); m.type='button'; const ic=uxH('span','ic'); ic.innerHTML=icon; const tx=uxH('span','tx'); tx.append(uxH('b',null,b), uxH('small',null,sm)); m.append(ic, tx, uxH('span','tag')); m.onclick=fn; modes.appendChild(m); return m; };
+  mk('play',hsUse('i-dice2'),hsT('play'),hsT('playS'),()=>{ if(!hsClick('#h1Pg .h38play')) hsClick('#btnFind'); },true);
+  mk('adv',hsUse('i-book'),hsT('adv'),hsT('advS'),hsAdvOpen);
+  mk('arn',lico('swords'),hsT('arn'),hsT('arnS'),()=>openArena());
+  mk('tour',hsUse('i-trophy'),hsT('tour'),hsT('tourS'),()=>openTour());
+  con.appendChild(modes);
+  const q=uxH('div','hsQuick'); [['bot','bot'],['fr','fr'],['loc','loc']].forEach(([k,c])=>{ const b=uxH('button'); b.type='button'; b.innerHTML=(typeof H38I!=='undefined'&&H38I[k]||'')+'<span>'+hsT(k)+'</span>'; b.onclick=()=>hsClick('#h1Pg .h38m-'+c); q.appendChild(b); }); con.appendChild(q);
+  st.appendChild(con);
+  const cb=(icon,label,fn,cls)=>{ const b=uxH('button','hsCb'+(cls?' '+cls:'')); b.type='button'; b.innerHTML='<i>'+icon+'<em></em></i>'; b.appendChild(document.createTextNode(label)); b.onclick=fn; return b; };
+  const L=uxH('div','hsCorner l'); L.append(cb(hsUse('i-bag'),hsT('shop'),()=>openShopPg('show')), cb(lico('calendar'),hsT('tasks'),()=>mnGo('ev'),'hsTasks'));
+  const R=uxH('div','hsCorner r'); R.append(cb(lico('gem'),hsT('col'),()=>openShopPg('me')), cb(hsUse('i-users'),hsT('frs'),()=>mnGo('fr'),'hsFr'));
+  el.append(top, st, L, R); document.body.appendChild(el); return el; }
+function hsOther(){ return [...document.querySelectorAll('[id$="Pg"]')].some(e=>e.id!=='h1Pg' && e.id!=='btnRulesPg' && e.getBoundingClientRect().width>0); }
+function hsPaint(el){ try{
+  const c=$('coinPill'); el.querySelector('.hsCoins b').textContent=c ? (c.textContent||'').replace(/[^\d\s ]/g,'').trim() : '';
+  const bn=$('btnBell'); const bc=bn && bn.querySelector('.cnt,.badge,em,i:not(.i)'); el.querySelector('.hsBell em').textContent=bc ? (bc.textContent||'').trim() : (bn&&bn.dataset.n)||'';
+  const g=document.querySelector('.h1acts .ui2gift'); el.querySelector('.hsGift').style.display=g?'':'none'; el.querySelector('.hsGift em').textContent=g && g.classList.contains('ready') ? '1' : '';
+  const mb=$('btnMe'); const av=el.querySelector('.hsMe .av'), nm=el.querySelector('.hsMe .nm'); if(mb){ const im=mb.querySelector('img,svg,.av,.pav'); const key=im?im.outerHTML.length+':'+(im.getAttribute('src')||''):''; if(av._k!==key){ av._k=key; av.innerHTML=''; if(im) av.appendChild(im.cloneNode(true)); } const tx=(me && me.name) || (mb.textContent||'').trim(); if(nm.textContent!==tx) nm.textContent=tx; }
+  const on=(document.querySelector('#h1Pg .avstack em')||{}).textContent||''; const n=(on.match(/\d+/)||[''])[0];
+  const p=el.querySelector('.hsTtl p'); const want=(n?'<em>'+n+' '+hsT('on')+'</em>':'')+'<span>'+hsT('sub')+'</span>'; if(p._h!==want){ p._h=want; p.innerHTML=want; }
+  el.querySelector('.hs-play .tag').textContent=n?'● '+n:'';
+  let tg='', hot=false; try{ const E=evNow(); if(E){ const now=Date.now(); if(now<E.gAt){ tg=hsT('inT',{x:rpDur(E.gAt-now)}); } else { tg=hsT('live'); hot=true; } } }catch(e){}
+  const tt=el.querySelector('.hs-tour .tag'); tt.textContent=tg; tt.classList.add('hot');
+  try{ const d=campDone(), v=campVis(); el.querySelector('.hs-adv .tag').textContent=d+' / '+v; }catch(e){}
+}catch(e){} }
+let _hsOn=null;
+function hsSync(){ try{ const pg=$('h1Pg'); const on=!!(pg && typeof gs!=='undefined' && !gs && !(typeof searching!=='undefined' && searching) && document.body.classList.contains('home') && !hsOther() && getComputedStyle(pg).display!=='none' && !(typeof guide!=='undefined' && guide));
+  if(on){ const el=hsBuild(); hsPaint(el); }
+  if(on!==_hsOn){ _hsOn=on; document.body.classList.toggle('hs', on || (!!$('hsHome') && hsOther() && !gs)); }
+  else if(!on){ document.body.classList.toggle('hs', !!$('hsHome') && hsOther() && !(typeof gs!=='undefined' && gs)); }
+  hsBackFix(); }catch(e){} }
+setInterval(hsSync, 300); setTimeout(hsSync, 50);
+// pages that used to rely on the left menu get a back button in their top bar
+function hsBackFix(){ if(!document.body.classList.contains('hs')) return; const top=document.querySelector('#h1Pg .h1top'); 
+  ['evPg','learnPg','rankPg','shopPg'].forEach(id=>{ const pg=$(id); if(!pg) return; const bar=pg.querySelector('.h1top, .s2top, .rptop, .evtop, .lnTop, header') || pg.firstElementChild; if(!bar || bar.querySelector('.hsBack')) return;
+    const vis=[...pg.querySelectorAll('.spback,.cp-back,.c2back,[aria-label="Закрити"],[aria-label="Назад"],[aria-label="Close"],[aria-label="Back"]')].some(b=>{ const r=b.getBoundingClientRect(); return r.width>0 && r.top<120; }); if(vis) return;
+    const b=uxH('button','hsBack'); b.type='button'; b.setAttribute('aria-label',hsT('back')); b.innerHTML=lico('back'); b.onclick=()=>{ try{ uiBack(); }catch(e){} }; bar.prepend(b); }); }
+// Adventures: two books
+function hsAdvOpen(){ let pg=$('hsAdvPg'); if(pg) pg.remove(); pg=uxH('div'); pg.id='hsAdvPg'; const bg=uxH('div','bg'); const st=document.querySelector('.ui2stage'); const v=st?getComputedStyle(st).getPropertyValue('--stg'):''; if(v) bg.style.setProperty('--stg',v); pg.appendChild(bg);
+  const hd=uxH('div','hd'); const bk=uxH('button','hsBack'); bk.type='button'; bk.setAttribute('aria-label',hsT('back')); bk.innerHTML=lico('back'); bk.onclick=hsAdvClose; const tx=uxH('div'); tx.append(uxH('h2',null,hsT('advT')), uxH('p',null,hsT('advP'))); hd.append(bk,tx); pg.appendChild(hd);
+  const books=uxH('div','books');
+  const book=(img,sm,h,p,done,total,fn,isNew)=>{ const b=uxH('button','book'); b.type='button'; const ph=uxH('span','ph'); ph.style.setProperty('--img','url("'+img+'")'); b.append(ph, uxH('small',null,sm), uxH('h3',null,h), uxH('p',null,p)); if(total){ const pr=uxH('span','prog'); for(let i=0;i<total;i++) pr.appendChild(uxH('i',i<done?'on':'')); b.appendChild(pr); } else b.appendChild(uxH('span','prog')); const row=uxH('span','row'); row.append(uxH('span','go',hsT('go')+' →')); if(total) row.appendChild(uxH('span','chip',done+' / '+total)); b.appendChild(row); if(isNew) b.appendChild(uxH('span','chip new',hsT('nw'))); b.onclick=fn; return b; };
+  let d1=0,v1=8; try{ d1=campDone(); v1=campVis(); }catch(e){}
+  books.append(book('tb/teahouse.webp',hsT('b1'),hsT('b1t'),hsT('b1p'),d1,v1,()=>{ hsAdvClose(); openCampaign(); }),
+               book('tb/fhookah.webp',hsT('b2'),hsT('b2t'),hsT('b2p'),0,0,()=>{ hsAdvClose(); openC2(); },true));
+  pg.appendChild(books); document.body.appendChild(pg); try{ mnMark(); }catch(e){} }
+function hsAdvClose(){ const pg=$('hsAdvPg'); if(pg) pg.remove(); }
 </script>
 </body>
 </html>

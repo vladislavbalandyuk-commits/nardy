@@ -3,6 +3,10 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.139.0 — 27.11.2026
+- Home in the Hearthstone manner (#hsHome, shown while home is open and no other page is): a console with the four modes (Play online → the old Play button; Adventures → new #hsAdvPg with both books; Arena → openArena; Tournament → openTour with a countdown tag), quick games (bot / friend / two players → the old buttons), corner buttons (Shop, Tasks → events page, Collection → shop «mine», Friends), and the account bar (coins, notifications, daily gift, settings, profile; exit only in Telegram). The old home stays underneath, hidden; the side/bottom menu is hidden.
+- Pages that relied on the side menu (events, learning, rating, shop) get a back button in their top bar when they have none; the site-wide back knows the Adventures page.
+
 ## 0.138.0 — 27.11.2026
 Speed pass (measured with Chrome traces, desktop 1440×900):
 - Shop: `content-visibility:auto` on sections and cards — main-thread render work 2376 → 206 ms per 5 s (layerize was re-run for ~7.5k nodes every frame).
