@@ -5357,6 +5357,57 @@ body.calm #c2Pg .c2snd.on::after{animation:none}
 #hsHome .hsMe .av>*{width:100%!important;height:100%!important;border-radius:50%}
 #hsHome .hsMe .av img,#hsHome .hsMe .av svg{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block}
 @media (max-width:640px){ #hsHome .hsCb i .hsi{width:28px;height:28px} #hsHome .hsMode .ic .hsi{width:26px;height:26px} }
+
+/* 0.139.6: «What's new» as stories */
+#newsOv.nw3{display:grid;place-items:center;padding:24px}
+#newsOv .nw3m{position:relative;width:min(1240px,96vw)!important;max-width:none!important;height:min(820px,92vh);max-height:none!important;display:flex;flex-direction:column;padding:0!important;overflow:hidden;border-radius:28px!important;background:linear-gradient(180deg,#191614,#0f1013)!important;border:1px solid rgba(224,137,111,.4)!important;color:#f3efe7}
+#newsOv .nw3hd{display:flex;align-items:center;padding:20px 24px 14px}
+#newsOv .nw3hd h2{margin:0;flex:1;font:800 28px 'Unbounded',system-ui,sans-serif;letter-spacing:-.03em}
+#newsOv .nw3hd .ovx{position:static!important}
+#newsOv .nw3b{flex:1;min-height:0;display:grid;grid-template-columns:1fr 330px;gap:18px;padding:0 22px 22px}
+#newsOv .nw3st{position:relative;border-radius:24px;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:30px;min-height:0;isolation:isolate}
+#newsOv .nw3ph{position:absolute;inset:0;z-index:-2;background:#111 center/cover;transform:scale(1.06);transition:transform 8s linear}
+#newsOv .nw3st.in .nw3ph{transform:scale(1)}
+#newsOv .nw3st::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(8,9,11,.15) 25%,rgba(8,9,11,.96))}
+#newsOv .nw3shot{position:absolute;right:34px;top:56px;width:40%;aspect-ratio:16/10;border-radius:18px;border:1px solid rgba(255,255,255,.22);background:#111 center/cover;box-shadow:0 30px 60px rgba(0,0,0,.6);transform:rotate(2.5deg);opacity:.95;z-index:-1}
+#newsOv .nw3bars{position:absolute;top:18px;left:22px;right:22px;display:flex;gap:6px}
+#newsOv .nw3bars i{flex:1;height:4px;border-radius:2px;background:rgba(255,255,255,.22);overflow:hidden;position:relative}
+#newsOv .nw3bars i.done{background:#f3efe7}
+#newsOv .nw3bars i.on::after{content:"";position:absolute;inset:0;background:#f3efe7;transform-origin:left;animation:nw3bar 8s linear forwards}
+#newsOv .nw3st.hold .nw3bars i.on::after{animation-play-state:paused}
+@keyframes nw3bar{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+#newsOv .nw3tap{position:absolute;inset:40px 0 130px;display:flex;z-index:0}
+#newsOv .nw3tap i{flex:1;cursor:pointer} #newsOv .nw3tap i.l{flex:.4}
+#newsOv .nw3v{position:relative;align-self:flex-start;font:700 12px 'Onest',sans-serif;padding:5px 11px;border-radius:999px;background:rgba(224,137,111,.22);color:#f3b9a6}
+#newsOv .nw3st h3{position:relative;margin:12px 0 10px;font:800 clamp(28px,3.4vw,44px)/1.02 'Unbounded',system-ui,sans-serif;letter-spacing:-.03em;max-width:640px}
+#newsOv .nw3p{position:relative;max-width:640px}
+#newsOv .nw3p ul{margin:0;padding-left:18px;display:grid;gap:6px;color:#e8e2d8;font-size:15px;line-height:1.45}
+#newsOv .nw3btns{position:relative;display:flex;gap:10px;margin-top:18px}
+#newsOv .nw3try{height:50px;padding:0 22px;border-radius:15px;border:0;background:linear-gradient(180deg,#f6f1e8,#e9e1d3);color:#14110e;font:800 14.5px 'Unbounded',system-ui,sans-serif;cursor:pointer}
+#newsOv .nw3nx{height:50px;padding:0 20px;border-radius:15px;border:1px solid rgba(255,255,255,.2);background:rgba(10,11,14,.5);color:#f3efe7;font:700 14px 'Onest',sans-serif;cursor:pointer}
+#newsOv .nw3st.in h3,#newsOv .nw3st.in .nw3p,#newsOv .nw3st.in .nw3v{animation:nw3in .45s ease both}
+@keyframes nw3in{from{opacity:0;transform:translateY(10px)}}
+#newsOv .nw3side{min-height:0;overflow:auto;display:flex;flex-direction:column;gap:8px;padding-right:2px}
+#newsOv .nw3side h4{margin:2px 0 4px;font:800 15px 'Unbounded',system-ui,sans-serif}
+#newsOv .nw3it{flex:none;display:flex;align-items:center;gap:12px;padding:8px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid transparent;color:#f3efe7;text-align:left;cursor:pointer;min-height:0;font:inherit}
+#newsOv .nw3it.on{border-color:rgba(224,137,111,.55);background:rgba(224,137,111,.1)}
+#newsOv .nw3it .th{width:54px;height:54px;border-radius:12px;background:#111 center/cover;flex:none}
+#newsOv .nw3it b{display:block;font:700 13.5px 'Onest',sans-serif} #newsOv .nw3it small{font:600 11.5px 'Onest',sans-serif;color:#8f887f}
+#newsOv .nw3fx{margin-top:6px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06)}
+#newsOv .nw3fxh{width:100%;display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:12px 14px;background:none;border:0;color:#f3efe7;cursor:pointer;text-align:left;min-height:0}
+#newsOv .nw3fxh b{font:800 14px 'Unbounded',system-ui,sans-serif} #newsOv .nw3fxh small{font:600 12px 'Onest',sans-serif;color:#a8a29a}
+#newsOv .nw3fxl{display:none;padding:0 14px 12px} #newsOv .nw3fx.open .nw3fxl{display:block}
+#newsOv .nw3fr{padding:8px 0;border-top:1px solid rgba(255,255,255,.06)} #newsOv .nw3fr b{font:700 12.5px 'Onest',sans-serif;color:#f3b9a6} #newsOv .nw3fr ul{margin:4px 0 0;padding-left:16px;font-size:12.5px;color:#cfc8bd;display:grid;gap:3px}
+#newsOv .nw3all{margin-top:6px;height:44px;border-radius:13px;border:1px solid rgba(224,137,111,.45);background:none;color:#f3b9a6;font:700 13.5px 'Onest',sans-serif;cursor:pointer}
+#newsOv .nw3list{flex:1;min-height:0;overflow:auto;padding:0 22px 22px;display:flex;flex-direction:column;gap:14px}
+#newsOv .nw3list .nw3nx{align-self:flex-start}
+#newsOv .nw3grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px;align-items:start}
+#newsOv .nw3grid .nw2c{padding:16px 18px;border-radius:18px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.07)}
+#newsOv .nw3grid .nw2v{display:flex;gap:10px;align-items:baseline;margin-bottom:8px} #newsOv .nw3grid .nw2v b{font:800 15px 'Unbounded',sans-serif} #newsOv .nw3grid .nw2v small{color:#8f887f;font-size:12px}
+#newsOv .nw3grid ul{margin:0;padding-left:18px;display:grid;gap:5px;color:#d8d2c8;font-size:13.5px;line-height:1.45}
+@media (max-width:760px){ #newsOv.nw3{padding:0} #newsOv .nw3m{width:100vw!important;height:100%;border-radius:0!important;border:0!important} #newsOv .nw3hd{padding:calc(14px + env(safe-area-inset-top)) 16px 10px} #newsOv .nw3hd h2{font-size:22px}
+  #newsOv .nw3b{display:flex;flex-direction:column;overflow:auto;padding:0 12px 18px} #newsOv .nw3st{flex:none;min-height:440px} #newsOv .nw3fx,#newsOv .nw3all,#newsOv .nw3side h4{flex:none} #newsOv .nw3st{padding:20px} #newsOv .nw3shot{width:56%;right:16px;top:44px} #newsOv .nw3p ul{font-size:14px} #newsOv .nw3side{overflow:visible} }
+body.calm #newsOv .nw3bars i.on::after,body.calm #newsOv .nw3ph{animation:none;transition:none}
 </style>
 </head>
 <body>
@@ -8777,7 +8828,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.139.5';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.139.6';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -11037,6 +11088,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+{v:"0.139.6", d:"27.11.2026", uk:["«Що нового» тепер історіями: кожне велике оновлення — повна картка з фото й кнопкою «Спробувати», дрібні виправлення згорнуті, а всі оновлення — за кнопкою"], en:["«What's new» is now stories: every bigger update is a full card with a photo and a «Try it» button, small fixes are folded, and all updates sit behind a button"], ru:["«Что нового» теперь историями: каждое большое обновление — полная карточка с фото и кнопкой «Попробовать», мелкие исправления свёрнуты, а все обновления — за кнопкой"]},
 {v:"0.139.5", d:"27.11.2026", uk:["Нові іконки в головному меню — суцільні, двоколірні, намальовані для гри","Аватар у верхній панелі більше не обрізається, поруч видно нік"], en:["New icons in the main menu — solid, two-tone, drawn for the game","The avatar in the top bar is no longer cropped, with your nickname next to it"], ru:["Новые иконки в главном меню — сплошные, двухцветные, нарисованные для игры","Аватар в верхней панели больше не обрезается, рядом виден ник"]},
 {v:"0.139.4", d:"27.11.2026", uk:["«Шлях нардиста II»: на карті тепер грає своя атмосфера — нічна дорога, вітер, далекий потяг і тиха мелодія. Динамік у куті вимикає звук"], en:["«Nardist's Path II»: the map now has its own soundscape — a night road, wind, a distant train and a quiet melody. The speaker in the corner turns it off"], ru:["«Путь нардиста II»: на карте теперь звучит своя атмосфера — ночная дорога, ветер, далёкий поезд и тихая мелодия. Динамик в углу выключает звук"]},
 {v:"0.139.3", d:"27.11.2026", uk:["«Що нового» тепер широке вікно: останнє оновлення великою карткою, попередні — картками у дві колонки","Пошук суперника і «Скасувати» більше не показують на мить старий дизайн","«Пригоди»: прибрали позначку «Нове» і лічильник глав на книгах","Поки сайт завантажується, видно заставку Nardy Masters — старий інтерфейс більше не з'являється на секунду-дві"], en:["While the site loads you see the Nardy Masters start screen — the old interface no longer appears for a second or two"], ru:["Пока сайт загружается, видна заставка Nardy Masters — старый интерфейс больше не появляется на секунду-две"]},
@@ -11301,14 +11353,54 @@ let NEWS=[
  {v:'0.14.1', d:'6.11.2026', uk:['Навчання «Вечір у Druzi» з Владом і Пашею','Монети за кожну гру; +200 за навчання'], en:['Tutorial “An evening at Druzi” with Vlad and Pasha','Coins for every game; +200 for the tutorial']},
  {v:'0.13.1', d:'6.11.2026', uk:['Калібрування: перші 10 рейтингових ігор визначають ранг'], en:['Calibration: your first 10 rated games set your rank']}
 ];
-async function openNews(){ await newsAll(); let ov=$('newsOv'); if(ov) ov.remove(); ov=document.createElement('div'); ov.id='newsOv'; ov.className='overlay nw2'; ov.onclick=e=>{ if(e.target===ov) ov.remove(); };
-  // 0.139.3: a wide window — the latest update as a big card, the earlier ones as cards in two columns
-  const m=uxH('div','modal nw2m'); const hd=uxH('div','nw2hd'); const tt=uxH('div'); tt.append(uxH('h2',null,t('newsT')), uxH('p',null,(lang==='uk'?'Усе, що змінилось у грі, від нових до старших оновлень':lang==='ru'?'Всё, что изменилось в игре, от новых обновлений к старым':'Everything that changed in the game, newest first')));
-  const x=uxH('button','ovx'); x.type='button'; x.setAttribute('aria-label',t('close')||'Close'); x.innerHTML=lico('x'); x.onclick=()=>ov.remove(); hd.append(tt,x); m.appendChild(hd);
-  const body=uxH('div','nw2b'); const list=uxH('div','nw2cols');
-  const txt=n=>(lang==='uk'?n.uk:lang==='ru'?(n.ru||n.en):n.en)||[];
-  NEWS.forEach((n,i)=>{ const c=uxH('article','nw2c'+(i===0?' top':'')); const h=uxH('div','nw2v'); h.append(uxH('b',null,'v'+n.v), uxH('small',null,n.d)); if(i===0) h.appendChild(uxH('em',null,lang==='uk'?'Нове':lang==='ru'?'Новое':'New')); c.appendChild(h); const ul=uxH('ul'); txt(n).forEach(s=>ul.appendChild(uxH('li',null,s))); c.appendChild(ul); (i===0?body:list).appendChild(c); });
-  body.appendChild(list); m.appendChild(body); ov.appendChild(m); document.body.appendChild(ov); }
+async function openNews(){ await newsAll(); return nwStories(); }
+// ================= 0.139.6: «What's new» as stories — every bigger update is a full card with a photo and a «Try it» button =================
+const NW_META={'0.139.0':{img:'tb/fcabin.webp',t:{uk:'Нове головне меню',en:'A new main menu',ru:'Новое главное меню'},go:'home'},
+ '0.138.0':{img:'tb/fmarble.webp',t:{uk:'Сайт став швидшим',en:'The site got faster',ru:'Сайт стал быстрее'}},
+ '0.137.0':{img:'tb/fleather.webp',t:{uk:'Нові іконки',en:'New icons',ru:'Новые иконки'}},
+ '0.136.0':{img:'tb/fhookah.webp',t:{uk:'Новий ігровий стіл',en:'A new game table',ru:'Новый игровой стол'},go:'bot'},
+ '0.135.0':{img:'tb/fwood.webp',t:{uk:'Мідна підсвітка ходів',en:'Copper move highlights',ru:'Медная подсветка ходов'},go:'bot'},
+ '0.134.0':{img:'tb/fcarpet.webp',t:{uk:'Кейси відкриваються по-новому',en:'Cases open in a new way',ru:'Кейсы открываются по-новому'},go:'cases'},
+ '0.133.0':{img:'tb/fcity.webp',t:{uk:'Карта України',en:'The map of Ukraine',ru:'Карта Украины'},go:'c2'},
+ '0.132.0':{img:'tb/teahouse.webp',t:{uk:'«Шлях нардиста II» повністю',en:'«Nardist’s Path II» in full',ru:'«Путь нардиста II» полностью'},go:'c2'},
+ '0.131.0':{img:'tb/ftrain.webp',t:{uk:'«Шлях нардиста II»',en:'«Nardist’s Path II»',ru:'«Путь нардиста II»'},go:'c2'},
+ '0.130.0':{img:'tb/fwindow.webp',t:{uk:'Кейси — тепер скрині',en:'Cases are chests now',ru:'Кейсы — теперь сундуки'},go:'cases'}};
+const NW_IMG=['tb/fcabin.webp','tb/fhookah.webp','tb/fmarble.webp','tb/teahouse.webp','tb/fcity.webp','tb/fwood.webp','tb/ffelt.webp','tb/fwindow.webp'];
+const nwTx=(k)=>({uk:{t:'Що нового',try:'Спробувати',next:'Далі',prev:'Назад',more:'Інші історії',fixes:'Дрібні виправлення',fixN:'{n} виправлень — розгорнути',all:'Усі оновлення',back:'До історій'},en:{t:'What’s new',try:'Try it',next:'Next',prev:'Back',more:'More stories',fixes:'Small fixes',fixN:'{n} fixes — expand',all:'All updates',back:'Back to stories'},ru:{t:'Что нового',try:'Попробовать',next:'Далее',prev:'Назад',more:'Другие истории',fixes:'Мелкие исправления',fixN:'{n} исправлений — развернуть',all:'Все обновления',back:'К историям'}}[lang]||{})[k]||k;
+function nwGo(g,ov){ ov.remove(); try{ if(g==='bot') startBot({}); else if(g==='cases'){ openShopPg('show'); setTimeout(()=>{ try{ shTab='case'; shRender(true); }catch(e){} },80); } else if(g==='c2') openC2(); else if(g==='shop') openShopPg('show'); }catch(e){} }
+function nwStories(){ let ov=$('newsOv'); if(ov) ov.remove(); ov=uxH('div','overlay nw3'); ov.id='newsOv'; ov.onclick=e=>{ if(e.target===ov) ov.remove(); };
+  const L=lang==='uk'?'uk':lang==='ru'?'ru':'en'; const txt=n=>(L==='uk'?n.uk:L==='ru'?(n.ru||n.en):n.en)||[];
+  const big=NEWS.filter(n=>/\.0$/.test(n.v)).slice(0,8), small=NEWS.filter(n=>!/\.0$/.test(n.v)).slice(0,30);
+  const m=uxH('div','modal nw3m'); const hd=uxH('div','nw3hd'); hd.appendChild(uxH('h2',null,nwTx('t'))); const x=uxH('button','ovx'); x.type='button'; x.setAttribute('aria-label',t('close')||'Close'); x.innerHTML=lico('x'); x.onclick=()=>ov.remove(); hd.appendChild(x); m.appendChild(hd);
+  const body=uxH('div','nw3b'); const st=uxH('div','nw3st'); const side=uxH('div','nw3side'); body.append(st,side); m.appendChild(body);
+  const bars=uxH('div','nw3bars'); big.forEach(()=>bars.appendChild(uxH('i',null))); 
+  const ph=uxH('div','nw3ph'); const shot=uxH('div','nw3shot'); const meta=uxH('span','nw3v'); const h3=uxH('h3'); const p=uxH('div','nw3p'); const btns=uxH('div','nw3btns');
+  const tryB=uxH('button','nw3try',nwTx('try')+' →'); tryB.type='button'; const nxB=uxH('button','nw3nx',nwTx('next')); nxB.type='button'; btns.append(tryB,nxB);
+  const tap=uxH('div','nw3tap'); const tl=uxH('i','l'), tr=uxH('i','r'); tap.append(tl,tr);
+  st.append(ph, shot, bars, tap, meta, h3, p, btns);
+  let cur=0, timer=null; const DUR=8000;
+  const show=i=>{ cur=(i+big.length)%big.length; const n=big[cur], M=NW_META[n.v]||{}; const img=M.img||NW_IMG[cur%NW_IMG.length];
+    ph.style.backgroundImage='url("'+img+'")'; shot.style.backgroundImage='url("'+(NW_IMG[(cur+3)%NW_IMG.length])+'")';
+    meta.textContent='v'+n.v+' · '+n.d; const items=txt(n); h3.textContent=(M.t&&M.t[L])||String(items[0]||'').split(/[:—]/)[0];
+    p.innerHTML=''; const ul=uxH('ul'); items.slice(0,4).forEach(s=>ul.appendChild(uxH('li',null,s))); p.appendChild(ul);
+    tryB.style.display=M.go?'':'none'; tryB.onclick=()=>nwGo(M.go,ov);
+    [...bars.children].forEach((b,k)=>{ b.className=k<cur?'done':k===cur?'on':''; });
+    [...side.querySelectorAll('.nw3it')].forEach((e,k)=>e.classList.toggle('on',k===cur));
+    st.classList.remove('in'); void st.offsetWidth; st.classList.add('in');
+    clearTimeout(timer); if(!noMotion()) timer=setTimeout(()=>{ if(document.body.contains(ov)) show(cur+1); }, DUR); };
+  nxB.onclick=()=>show(cur+1); tr.onclick=()=>show(cur+1); tl.onclick=()=>show(cur-1);
+  st.onmouseenter=()=>{ clearTimeout(timer); st.classList.add('hold'); }; st.onmouseleave=()=>{ st.classList.remove('hold'); clearTimeout(timer); if(!noMotion()) timer=setTimeout(()=>show(cur+1), DUR/2); };
+  side.appendChild(uxH('h4',null,nwTx('more')));
+  big.forEach((n,k)=>{ const M=NW_META[n.v]||{}; const it=uxH('button','nw3it'); it.type='button'; const th=uxH('span','th'); th.style.backgroundImage='url("'+(M.img||NW_IMG[k%NW_IMG.length])+'")'; const tx=uxH('span','tx'); tx.append(uxH('b',null,(M.t&&M.t[L])||String(txt(n)[0]||'').split(/[:—]/)[0]), uxH('small',null,'v'+n.v)); it.append(th,tx); it.onclick=()=>show(k); side.appendChild(it); });
+  const fx=uxH('div','nw3fx'); const fh=uxH('button','nw3fxh'); fh.type='button'; fh.append(uxH('b',null,nwTx('fixes')), uxH('small',null,nwTx('fixN').replace('{n}',small.reduce((a,n)=>a+txt(n).length,0)))); const fl=uxH('div','nw3fxl');
+  small.forEach(n=>{ const r=uxH('div','nw3fr'); r.appendChild(uxH('b',null,'v'+n.v)); const ul=uxH('ul'); txt(n).forEach(s=>ul.appendChild(uxH('li',null,s))); r.appendChild(ul); fl.appendChild(r); });
+  fh.onclick=()=>fx.classList.toggle('open'); fx.append(fh,fl); side.appendChild(fx);
+  const all=uxH('button','nw3all',nwTx('all')); all.type='button'; all.onclick=()=>{ clearTimeout(timer); nwAll(ov); }; side.appendChild(all);
+  ov.appendChild(m); document.body.appendChild(ov); show(0); }
+function nwAll(ov){ const m=ov.querySelector('.nw3m'); const b=m.querySelector('.nw3b'); b.style.display='none'; let a=m.querySelector('.nw3list'); if(a){ a.style.display=''; return; }
+  a=uxH('div','nw3list'); const bk=uxH('button','nw3nx',nwTx('back')); bk.type='button'; bk.onclick=()=>{ a.style.display='none'; b.style.display=''; }; a.appendChild(bk);
+  const L=lang==='uk'?'uk':lang==='ru'?'ru':'en'; const txt=n=>(L==='uk'?n.uk:L==='ru'?(n.ru||n.en):n.en)||[];
+  const g=uxH('div','nw3grid'); NEWS.forEach(n=>{ const c=uxH('article','nw2c'); const h=uxH('div','nw2v'); h.append(uxH('b',null,'v'+n.v), uxH('small',null,n.d)); c.appendChild(h); const ul=uxH('ul'); txt(n).forEach(s=>ul.appendChild(uxH('li',null,s))); c.appendChild(ul); g.appendChild(c); }); a.appendChild(g); m.appendChild(a); }
 $('appVer').onclick=openNews; $('btnFootNew').onclick=openNews; $('btnFootTut').onclick=()=>{ startTutor(); };
 document.addEventListener('keydown',e=>{ if(e.key==='Escape' && $('newsOv')) $('newsOv').remove(); });
 // ---- share window: a game link or the invite link, with a QR code ----

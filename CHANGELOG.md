@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.139.6 — 27.11.2026
+- «What's new» as stories (variant B): the last eight x.y.0 releases are full cards (photo, title from NW_META or the first line, up to four lines, «Try it» to the feature when there is one), 8 s auto-advance with progress bars (paused on hover, off in calm mode), tap left/right to move; a side list of stories, small fixes folded, «All updates» shows every version as cards.
+
 ## 0.139.5 — 27.11.2026
 - Home menu icons: a site-drawn set (HSI: shop, tasks, collection, friends, bell, gift, gear, exit, dice, book, swords, trophy, bot, link, phone) — filled, copper gradient (#hsg) with cream details.
 - Top bar avatar: drawn with avatarInto(selfAv()) at 32 px with its frame (was a clone of another button, cropped); the nickname comes from the profile.
