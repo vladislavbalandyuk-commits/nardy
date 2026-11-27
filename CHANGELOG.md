@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.139.2 — 27.11.2026
+- The old home, side menu and bottom bar are hidden by CSS from the first frame (no longer waiting for the 300 ms check); the new home layer shows by default on the home screen and is re-checked on every route() and on page open/close — the old interface flashed on load and after leaving a game.
+
 ## 0.139.1 — 27.11.2026
 - New menu: pages are full width again (--sbw forced to 0 under body.hs) and the home layer shows only while home is open (body.hsOn) — the shop showed the menu's corner buttons on its left.
 - Campaign steps (Part I and II) and the ending card use drawn icons (play, target, crown, fork, puzzle, swords, check) instead of ✦ ♚ ⑂ and emoji; the Part II chapter prize thumbnail is scaled to fit (dice side by side); the «Dawn» win effect has an SVG icon (fxIc/FX_SVG) everywhere effect icons are drawn.
