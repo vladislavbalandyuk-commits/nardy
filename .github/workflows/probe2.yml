@@ -1,0 +1,19 @@
+name: probe2
+# One-off diagnostics: a scratch account plays a server-held bot game (opening roll, roll) and prints each response.
+on: workflow_dispatch
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          K=sb_publishable_RN7RCyueFTrdIUyOllJKWA_wxMp2Bpz; U=https://zndzvicklrkxkrpmkybg.supabase.co
+          R=$(curl -sS -X POST "$U/auth/v1/signup" -H "apikey: $K" -H 'Content-Type: application/json' -d "{\"email\":\"uprobe$RANDOM$RANDOM@nardy.invalid\",\"password\":\"pr0be-$RANDOM-x\"}")
+          TOK=$(echo "$R" | jq -r '.access_token // empty'); echo "token ${#TOK}"
+          G=bp$RANDOM$RANDOM
+          call(){ curl -sS -w ' HTTP%{http_code}' -X POST "$U/functions/v1/game" -H "apikey: $K" -H "Authorization: Bearer $TOK" -H 'Content-Type: application/json' -d "$1" > o.txt; echo "== $2: $(tail -c 12 o.txt)"; sed 's/ HTTP[0-9]*$//' o.txt | jq -c '{error, ph:.state.phase, turn:.state.turn, white:(.state.white==.state.p1), open:.state.open, dice:.state.dice, rolled:.state.rolled, seq:.state.seq}' 2>/dev/null || head -c 600 o.txt; echo; }
+          call "{\"action\":\"create\",\"gameId\":\"$G\",\"args\":{\"bot\":\"marta\",\"name\":\"M\",\"av\":\"pt1\"}}" create
+          for i in 1 2 3 4 5 6; do
+            call "{\"action\":\"open_roll\",\"gameId\":\"$G\",\"args\":{}}" open_roll
+            call "{\"action\":\"bot_step\",\"gameId\":\"$G\",\"args\":{}}" bot_step
+            call "{\"action\":\"roll\",\"gameId\":\"$G\",\"args\":{}}" roll
+          done
