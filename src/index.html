@@ -5231,6 +5231,7 @@ body.hs #h1Full{opacity:1!important}
 #hsHome .hsIb em:empty{display:none}
 #hsHome .hsCoin{width:16px;height:16px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff3b0,#f0c23a 45%,#b8860b);flex:none}
 #hsHome .hsMe{padding:3px 14px 3px 3px}
+#hsHome .hsMe .nm:empty{display:none} #hsHome .hsMe:has(.nm:empty){padding:3px}
 #hsHome .hsMe .av{width:32px;height:32px;border-radius:50%;overflow:hidden;border:2px solid #e0896f;flex:none;display:grid;place-items:center;background:#2a201c}
 #hsHome .hsMe .av>*{width:100%;height:100%}
 #hsHome .hsStage{position:absolute;inset:0;display:grid;place-items:center;padding:84px 16px 120px;overflow:auto}
@@ -5346,6 +5347,16 @@ body:not(.dark) #newsOv .nw2m{background:#fbf8f2!important} body:not(.dark) #new
 #c2Pg .c2snd.on::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:1px solid rgba(224,137,111,.5);animation:c2sndP 2.4s ease-out infinite;pointer-events:none;will-change:transform,opacity}
 @keyframes c2sndP{0%{transform:scale(1);opacity:.8}100%{transform:scale(1.35);opacity:0}}
 body.calm #c2Pg .c2snd.on::after{animation:none}
+
+/* 0.139.5: new icons and the avatar in the top bar */
+#hsHome .hsi{width:100%;height:100%;display:block}
+#hsHome .hsCb i .hsi{width:36px;height:36px} #hsHome .hsMode .ic .hsi{width:30px;height:30px} #hsHome .hsIb .hsi{width:22px;height:22px} #hsHome .hsQuick .hsi{width:16px;height:16px}
+#hsHome .hsMode.main .ic{background:#14110e}
+#hsHome .hsMe .av{width:32px;height:32px;border:0;overflow:visible;background:none;position:relative}
+#hsHome .hsMe .av:not([data-fr]){box-shadow:0 0 0 2px #e0896f;border-radius:50%;overflow:hidden}
+#hsHome .hsMe .av>*{width:100%!important;height:100%!important;border-radius:50%}
+#hsHome .hsMe .av img,#hsHome .hsMe .av svg{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block}
+@media (max-width:640px){ #hsHome .hsCb i .hsi{width:28px;height:28px} #hsHome .hsMode .ic .hsi{width:26px;height:26px} }
 </style>
 </head>
 <body>
@@ -8766,7 +8777,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.139.4';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.139.5';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -11026,6 +11037,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+{v:"0.139.5", d:"27.11.2026", uk:["Нові іконки в головному меню — суцільні, двоколірні, намальовані для гри","Аватар у верхній панелі більше не обрізається, поруч видно нік"], en:["New icons in the main menu — solid, two-tone, drawn for the game","The avatar in the top bar is no longer cropped, with your nickname next to it"], ru:["Новые иконки в главном меню — сплошные, двухцветные, нарисованные для игры","Аватар в верхней панели больше не обрезается, рядом виден ник"]},
 {v:"0.139.4", d:"27.11.2026", uk:["«Шлях нардиста II»: на карті тепер грає своя атмосфера — нічна дорога, вітер, далекий потяг і тиха мелодія. Динамік у куті вимикає звук"], en:["«Nardist's Path II»: the map now has its own soundscape — a night road, wind, a distant train and a quiet melody. The speaker in the corner turns it off"], ru:["«Путь нардиста II»: на карте теперь звучит своя атмосфера — ночная дорога, ветер, далёкий поезд и тихая мелодия. Динамик в углу выключает звук"]},
 {v:"0.139.3", d:"27.11.2026", uk:["«Що нового» тепер широке вікно: останнє оновлення великою карткою, попередні — картками у дві колонки","Пошук суперника і «Скасувати» більше не показують на мить старий дизайн","«Пригоди»: прибрали позначку «Нове» і лічильник глав на книгах","Поки сайт завантажується, видно заставку Nardy Masters — старий інтерфейс більше не з'являється на секунду-дві"], en:["While the site loads you see the Nardy Masters start screen — the old interface no longer appears for a second or two"], ru:["Пока сайт загружается, видна заставка Nardy Masters — старый интерфейс больше не появляется на секунду-две"]},
 {v:"0.139.2", d:"27.11.2026", uk:["Старий інтерфейс більше не проглядає на мить під час завантаження і після гри — одразу нове меню"], en:["The old interface no longer flashes on load or after a game — the new menu shows right away"], ru:["Старый интерфейс больше не мелькает при загрузке и после игры — сразу новое меню"]},
@@ -14368,29 +14380,50 @@ const hsUse=id=>'<svg class="i" aria-hidden="true"><use href="#'+id+'"/></svg>';
 const HS_DIE='<svg viewBox="0 0 58 26" width="58" height="26" aria-hidden="true"><rect width="26" height="26" rx="6" fill="#f3efe7"/><g fill="#14110e"><circle cx="7" cy="7" r="2.4"/><circle cx="19" cy="7" r="2.4"/><circle cx="13" cy="13" r="2.4"/><circle cx="7" cy="19" r="2.4"/><circle cx="19" cy="19" r="2.4"/></g><rect x="32" width="26" height="26" rx="6" fill="#f3efe7"/><g fill="#14110e"><circle cx="39" cy="7" r="2.4"/><circle cx="51" cy="19" r="2.4"/></g></svg>';
 const HS_LOGO='<svg viewBox="0 0 30 30" aria-hidden="true"><rect width="30" height="30" rx="9" fill="#f3efe7"/><g fill="#14110e"><circle cx="9.5" cy="9.5" r="2.6"/><circle cx="20.5" cy="20.5" r="2.6"/><circle cx="15" cy="15" r="2.6"/></g></svg>';
 function hsClick(sel){ const e=typeof sel==='string'?document.querySelector(sel):sel; if(e){ e.click(); return true; } return false; }
-function hsBuild(){ let el=$('hsHome'); if(el) return el; el=uxH('div'); el.id='hsHome';
+
+// 0.139.5: the home menu's own icons — filled, two-tone (copper gradient + cream), drawn for the site
+const HSI={
+shop:'<path d="M5.2 8.5h13.6c.7 0 1.2.6 1.1 1.3l-1.3 9.4A2.3 2.3 0 0 1 16.4 21H7.6a2.3 2.3 0 0 1-2.2-1.8L4.1 9.8c-.1-.7.4-1.3 1.1-1.3Z" fill="url(#hsg)"/><path d="M8.5 9V7a3.5 3.5 0 0 1 7 0v2" fill="none" stroke="#f3efe7" stroke-width="1.8" stroke-linecap="round"/><circle cx="9" cy="12.3" r="1" fill="#2a1a14"/><circle cx="15" cy="12.3" r="1" fill="#2a1a14"/>',
+tasks:'<rect x="4.5" y="4" width="15" height="17" rx="3.2" fill="url(#hsg)"/><rect x="8.5" y="2.6" width="7" height="3.6" rx="1.4" fill="#f3efe7"/><path d="m8 11.4 1.6 1.6 3-3M8 16.4l1.6 1.6 3-3" fill="none" stroke="#2a1a14" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.4 12h2M14.4 17h2" stroke="#2a1a14" stroke-width="1.7" stroke-linecap="round"/>',
+col:'<path d="M3.5 10.5h17v7.7a2.3 2.3 0 0 1-2.3 2.3H5.8a2.3 2.3 0 0 1-2.3-2.3Z" fill="url(#hsg)"/><path d="M3.5 10.5V9a5 5 0 0 1 5-5h7a5 5 0 0 1 5 5v1.5Z" fill="#f3efe7"/><rect x="10" y="9" width="4" height="5" rx="1.2" fill="#2a1a14"/><path d="M3.5 13.2h17" stroke="#2a1a14" stroke-width="1.2" opacity=".35"/>',
+friends:'<circle cx="15.8" cy="8.2" r="3.2" fill="#f3efe7" opacity=".9"/><path d="M11.6 19.2c.5-3.4 2.3-5.3 4.2-5.3 2.4 0 4.4 2.1 4.6 5.3Z" fill="#f3efe7" opacity=".9"/><circle cx="9" cy="8.6" r="3.8" fill="url(#hsg)"/><path d="M2.8 20.2c.4-3.9 3-6.2 6.2-6.2s5.8 2.3 6.2 6.2Z" fill="url(#hsg)"/>',
+bell:'<path d="M12 3.2a6 6 0 0 1 6 6v3.3l1.6 2.6c.4.7-.1 1.6-.9 1.6H5.3c-.8 0-1.3-.9-.9-1.6L6 12.5V9.2a6 6 0 0 1 6-6Z" fill="url(#hsg)"/><path d="M9.6 18.6a2.5 2.5 0 0 0 4.8 0Z" fill="#f3efe7"/>',
+gift:'<rect x="3.6" y="9" width="16.8" height="4.4" rx="1.4" fill="#f3efe7"/><path d="M5 13.4h14v5.4a2.2 2.2 0 0 1-2.2 2.2H7.2A2.2 2.2 0 0 1 5 18.8Z" fill="url(#hsg)"/><rect x="10.8" y="9" width="2.4" height="12" fill="#2a1a14" opacity=".55"/><path d="M12 9c-1.2-2.6-3.6-4.4-5-3.2-1.1 1 .2 3.2 5 3.2Zm0 0c1.2-2.6 3.6-4.4 5-3.2 1.1 1-.2 3.2-5 3.2Z" fill="url(#hsg)"/>',
+gear:'<path d="M10.4 2.8h3.2l.5 2.4c.7.3 1.3.6 1.9 1.1l2.3-.8 1.6 2.8-1.8 1.6c.1.7.1 1.5 0 2.2l1.8 1.6-1.6 2.8-2.3-.8c-.6.5-1.2.8-1.9 1.1l-.5 2.4h-3.2l-.5-2.4c-.7-.3-1.3-.6-1.9-1.1l-2.3.8-1.6-2.8 1.8-1.6a7 7 0 0 1 0-2.2L4.1 8.3l1.6-2.8 2.3.8c.6-.5 1.2-.8 1.9-1.1Z" fill="url(#hsg)"/><circle cx="12" cy="12" r="3" fill="#f3efe7"/>',
+dice:'<rect x="3.5" y="3.5" width="17" height="17" rx="4.5" fill="url(#hsg)"/><circle cx="8.2" cy="8.2" r="1.6" fill="#f3efe7"/><circle cx="12" cy="12" r="1.6" fill="#f3efe7"/><circle cx="15.8" cy="15.8" r="1.6" fill="#f3efe7"/>',
+book:'<path d="M12 6.4C10 4.9 7 4.4 3.5 4.8v13.6c3.5-.4 6.5.1 8.5 1.6Z" fill="url(#hsg)"/><path d="M12 6.4c2-1.5 5-2 8.5-1.6v13.6c-3.5-.4-6.5.1-8.5 1.6Z" fill="#f3efe7"/><path d="M14.4 9.2c1.3-.4 2.7-.5 4-.4M14.4 12.2c1.3-.4 2.7-.5 4-.4" stroke="#2a1a14" stroke-width="1.3" stroke-linecap="round" opacity=".55"/>',
+swords:'<path d="m14.5 3.5 6 0 0 6-8.6 8.6-6-6Z" fill="url(#hsg)"/><path d="m7.8 13.8 2.4 2.4M4.6 15.4l4 4M3.2 20.8l2.6-2.6" stroke="#f3efe7" stroke-width="2" stroke-linecap="round"/><path d="m17.8 6.2-7.4 7.4" stroke="#f3efe7" stroke-width="1.3" stroke-linecap="round" opacity=".7"/>',
+trophy:'<path d="M7 3.5h10v5.6a5 5 0 0 1-10 0Z" fill="url(#hsg)"/><path d="M7 5.5H4.2v1.6A3.4 3.4 0 0 0 7.4 10.5M17 5.5h2.8v1.6a3.4 3.4 0 0 1-3.2 3.4" fill="none" stroke="#f3efe7" stroke-width="1.7" stroke-linecap="round"/><path d="M10.6 14h2.8l.5 3.4h-3.8Z" fill="url(#hsg)"/><rect x="7.6" y="17.4" width="8.8" height="3.1" rx="1.2" fill="#f3efe7"/>',
+bot:'<rect x="4" y="7" width="16" height="12.5" rx="4" fill="url(#hsg)"/><circle cx="9.3" cy="13" r="1.6" fill="#f3efe7"/><circle cx="14.7" cy="13" r="1.6" fill="#f3efe7"/><path d="M12 7V4.2" stroke="#f3efe7" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="3.6" r="1.3" fill="#f3efe7"/>',
+link:'<path d="M10.2 13.8a3.6 3.6 0 0 0 5.1 0l3.4-3.4a3.6 3.6 0 0 0-5.1-5.1l-1 1" fill="none" stroke="url(#hsg)" stroke-width="2.4" stroke-linecap="round"/><path d="M13.8 10.2a3.6 3.6 0 0 0-5.1 0l-3.4 3.4a3.6 3.6 0 0 0 5.1 5.1l1-1" fill="none" stroke="#f3efe7" stroke-width="2.4" stroke-linecap="round"/>',
+phone:'<rect x="6" y="2.8" width="12" height="18.4" rx="3.2" fill="url(#hsg)"/><rect x="8" y="5.4" width="8" height="11.6" rx="1.2" fill="#2a1a14" opacity=".35"/><rect x="10" y="18" width="4" height="1.3" rx=".65" fill="#f3efe7"/>',
+exit:'<path d="M10.5 3.5H6.3A2.3 2.3 0 0 0 4 5.8v12.4a2.3 2.3 0 0 0 2.3 2.3h4.2" fill="none" stroke="#f3efe7" stroke-width="2" stroke-linecap="round"/><path d="M14 7.5 18.5 12 14 16.5M9.5 12h9" fill="none" stroke="url(#hsg)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>'
+};
+const hsI=k=>'<svg class="hsi" viewBox="0 0 24 24" aria-hidden="true">'+(HSI[k]||'')+'</svg>';
+function hsDefs(){ if($('hsDefs')) return; const d=document.createElementNS('http://www.w3.org/2000/svg','svg'); d.id='hsDefs'; d.setAttribute('width','0'); d.setAttribute('height','0'); d.style.position='absolute'; d.innerHTML='<defs><linearGradient id="hsg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6b39c"/><stop offset="1" stop-color="#d0694f"/></linearGradient></defs>'; document.body.appendChild(d); }
+function hsBuild(){ let el=$('hsHome'); if(el) return el; hsDefs(); el=uxH('div'); el.id='hsHome';
   const top=uxH('div','hsTop'); const logo=uxH('div','hsLogo'); logo.innerHTML=HS_LOGO+'<span>Nardy Masters</span>'; top.append(logo, uxH('div','hsSp'));
   const coins=uxH('button','hsPill hsCoins'); coins.type='button'; coins.innerHTML='<span class="hsCoin"></span><b></b>'; coins.onclick=()=>{ if(!hsClick('#coinPill')) openShopPg('show'); };
-  const bell=uxH('button','hsIb hsBell'); bell.type='button'; bell.setAttribute('aria-label','Сповіщення'); { const ob=$('btnBell'); const sv=ob&&ob.querySelector('svg'); bell.innerHTML=(sv?sv.outerHTML:lico('alert'))+'<em></em>'; } bell.onclick=e=>{ e.stopPropagation(); hsClick('#btnBell'); };
-  const gift=uxH('button','hsIb hsGift'); gift.type='button'; gift.setAttribute('aria-label','Подарунок'); gift.innerHTML=hsUse('i-gift')+'<em></em>'; gift.onclick=()=>{ hsClick('.h1acts .ui2gift')||hsClick('.ui2gift'); };
-  const gear=uxH('button','hsIb'); gear.type='button'; gear.setAttribute('aria-label',t('settings')||'Settings'); gear.innerHTML=hsUse('i-gear'); gear.onclick=()=>hsClick('#btnSet');
+  const bell=uxH('button','hsIb hsBell'); bell.type='button'; bell.setAttribute('aria-label','Сповіщення'); { const ob=$('btnBell'); const sv=ob&&ob.querySelector('svg'); bell.innerHTML=hsI('bell')+'<em></em>'; } bell.onclick=e=>{ e.stopPropagation(); hsClick('#btnBell'); };
+  const gift=uxH('button','hsIb hsGift'); gift.type='button'; gift.setAttribute('aria-label','Подарунок'); gift.innerHTML=hsI('gift')+'<em></em>'; gift.onclick=()=>{ hsClick('.h1acts .ui2gift')||hsClick('.ui2gift'); };
+  const gear=uxH('button','hsIb'); gear.type='button'; gear.setAttribute('aria-label',t('settings')||'Settings'); gear.innerHTML=hsI('gear'); gear.onclick=()=>hsClick('#btnSet');
   const me=uxH('button','hsMe'); me.type='button'; me.innerHTML='<span class="av"></span><span class="nm"></span>'; me.onclick=()=>hsClick('#btnMe');
   top.append(coins, bell, gift, gear, me);
-  if(typeof TG!=='undefined' && TG){ const ex=uxH('button','hsIb'); ex.type='button'; ex.setAttribute('aria-label',hsT('exit')); ex.innerHTML=hsUse('i-exit'); ex.onclick=()=>{ try{ TG.close(); }catch(e){} }; top.appendChild(ex); }
+  if(typeof TG!=='undefined' && TG){ const ex=uxH('button','hsIb'); ex.type='button'; ex.setAttribute('aria-label',hsT('exit')); ex.innerHTML=hsI('exit'); ex.onclick=()=>{ try{ TG.close(); }catch(e){} }; top.appendChild(ex); }
   const st=uxH('div','hsStage'), con=uxH('div','hsCon'); const crest=uxH('div','hsCrest'); crest.innerHTML=HS_DIE; con.appendChild(crest);
   const ttl=uxH('div','hsTtl'); ttl.append(uxH('h1',null,hsT('t')), uxH('p')); con.appendChild(ttl);
   const modes=uxH('div','hsModes');
   const mk=(k,icon,b,sm,fn,main)=>{ const m=uxH('button','hsMode hs-'+k+(main?' main':'')); m.type='button'; const ic=uxH('span','ic'); ic.innerHTML=icon; const tx=uxH('span','tx'); tx.append(uxH('b',null,b), uxH('small',null,sm)); m.append(ic, tx, uxH('span','tag')); m.onclick=fn; modes.appendChild(m); return m; };
-  mk('play',hsUse('i-dice2'),hsT('play'),hsT('playS'),()=>{ if(!hsClick('#h1Pg .h38play')) hsClick('#btnFind'); },true);
-  mk('adv',hsUse('i-book'),hsT('adv'),hsT('advS'),hsAdvOpen);
-  mk('arn',lico('swords'),hsT('arn'),hsT('arnS'),()=>openArena());
-  mk('tour',hsUse('i-trophy'),hsT('tour'),hsT('tourS'),()=>openTour());
+  mk('play',hsI('dice'),hsT('play'),hsT('playS'),()=>{ if(!hsClick('#h1Pg .h38play')) hsClick('#btnFind'); },true);
+  mk('adv',hsI('book'),hsT('adv'),hsT('advS'),hsAdvOpen);
+  mk('arn',hsI('swords'),hsT('arn'),hsT('arnS'),()=>openArena());
+  mk('tour',hsI('trophy'),hsT('tour'),hsT('tourS'),()=>openTour());
   con.appendChild(modes);
-  const q=uxH('div','hsQuick'); [['bot','bot'],['fr','fr'],['loc','loc']].forEach(([k,c])=>{ const b=uxH('button'); b.type='button'; b.innerHTML=(typeof H38I!=='undefined'&&H38I[k]||'')+'<span>'+hsT(k)+'</span>'; b.onclick=()=>hsClick('#h1Pg .h38m-'+c); q.appendChild(b); }); con.appendChild(q);
+  const q=uxH('div','hsQuick'); [['bot','bot'],['fr','fr'],['loc','loc']].forEach(([k,c])=>{ const b=uxH('button'); b.type='button'; b.innerHTML=hsI({bot:'bot',fr:'link',loc:'phone'}[k])+'<span>'+hsT(k)+'</span>'; b.onclick=()=>hsClick('#h1Pg .h38m-'+c); q.appendChild(b); }); con.appendChild(q);
   st.appendChild(con);
   const cb=(icon,label,fn,cls)=>{ const b=uxH('button','hsCb'+(cls?' '+cls:'')); b.type='button'; b.innerHTML='<i>'+icon+'<em></em></i>'; b.appendChild(document.createTextNode(label)); b.onclick=fn; return b; };
-  const L=uxH('div','hsCorner l'); L.append(cb(hsUse('i-bag'),hsT('shop'),()=>openShopPg('show')), cb(lico('calendar'),hsT('tasks'),()=>mnGo('ev'),'hsTasks'));
-  const R=uxH('div','hsCorner r'); R.append(cb(lico('gem'),hsT('col'),()=>openShopPg('me')), cb(hsUse('i-users'),hsT('frs'),()=>mnGo('fr'),'hsFr'));
+  const L=uxH('div','hsCorner l'); L.append(cb(hsI('shop'),hsT('shop'),()=>openShopPg('show')), cb(hsI('tasks'),hsT('tasks'),()=>mnGo('ev'),'hsTasks'));
+  const R=uxH('div','hsCorner r'); R.append(cb(hsI('col'),hsT('col'),()=>openShopPg('me')), cb(hsI('friends'),hsT('frs'),()=>mnGo('fr'),'hsFr'));
   el.append(uxH('div','hsBg'), top, st, L, R); document.body.appendChild(el); return el; }
 function hsOther(){ return [...document.querySelectorAll('[id$="Pg"]')].some(e=>e.id!=='h1Pg' && e.id!=='btnRulesPg' && e.getBoundingClientRect().width>0); }
 function hsPaint(el){ try{
@@ -14398,7 +14431,7 @@ function hsPaint(el){ try{
   const c=$('coinPill'); el.querySelector('.hsCoins b').textContent=c ? (c.textContent||'').replace(/[^\d\s ]/g,'').trim() : '';
   const bn=$('btnBell'); const bc=bn && bn.querySelector('.cnt,.badge,em,i:not(.i)'); el.querySelector('.hsBell em').textContent=bc ? (bc.textContent||'').trim() : (bn&&bn.dataset.n)||'';
   const g=document.querySelector('.h1acts .ui2gift'); el.querySelector('.hsGift').style.display=g?'':'none'; el.querySelector('.hsGift em').textContent=g && g.classList.contains('ready') ? '1' : '';
-  const mb=$('btnMe'); const av=el.querySelector('.hsMe .av'), nm=el.querySelector('.hsMe .nm'); if(mb){ const im=mb.querySelector('img,svg,.av,.pav'); const key=im?im.outerHTML.length+':'+(im.getAttribute('src')||''):''; if(av._k!==key){ av._k=key; av.innerHTML=''; if(im) av.appendChild(im.cloneNode(true)); } const tx=(me && me.name) || (mb.textContent||'').trim(); if(nm.textContent!==tx) nm.textContent=tx; }
+  const mb=$('btnMe'); const av=el.querySelector('.hsMe .av'), nm=el.querySelector('.hsMe .nm'); if(mb){ let key=''; try{ key=selfAv()+'|'+(profile.name||''); }catch(e){} if(av._k!==key){ av._k=key; av.innerHTML=''; delete av.dataset.fr; try{ avatarInto(av, selfAv(), profile.name||'?'); }catch(e){} } let tx=''; try{ tx=(profile && profile.name) || ''; }catch(e){} if(!tx) tx=(mb.textContent||'').trim(); if(nm.textContent!==tx) nm.textContent=tx; }
   const on=(document.querySelector('#h1Pg .avstack em')||{}).textContent||''; const n=(on.match(/\d+/)||[''])[0];
   const p=el.querySelector('.hsTtl p'); const want=(n?'<em>'+n+' '+hsT('on')+'</em>':'')+'<span>'+hsT('sub')+'</span>'; if(p._h!==want){ p._h=want; p.innerHTML=want; }
   el.querySelector('.hs-play .tag').textContent=n?'● '+n:'';

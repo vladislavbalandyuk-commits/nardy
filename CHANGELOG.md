@@ -3,6 +3,10 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.139.5 — 27.11.2026
+- Home menu icons: a site-drawn set (HSI: shop, tasks, collection, friends, bell, gift, gear, exit, dice, book, swords, trophy, bot, link, phone) — filled, copper gradient (#hsg) with cream details.
+- Top bar avatar: drawn with avatarInto(selfAv()) at 32 px with its frame (was a clone of another button, cropped); the nickname comes from the profile.
+
 ## 0.139.4 — 27.11.2026
 - Part II map soundscape (ambient slot 101): wind, a quiet night and a distant train (CC0 recordings already in snd/) plus a slow synthesized chord pad (Am–F–C–G, 8 s per chord, low-passed, quiet bell notes). Starts when the Part II page opens, stops when it closes or a game starts; follows the «Campaign sounds» switch; a speaker button on the map toggles it.
 
