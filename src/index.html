@@ -5107,6 +5107,15 @@ body.calm .mmck,body.calm .mmpulse{animation:none;opacity:0}
 @media (max-width:600px){ .u3rays{width:380px;height:380px;margin:-190px 0 0 -190px;top:105px} }
 body.calm .u3rays{animation:none}
 .u3obox .u3res>.shrar{position:static!important;align-self:center!important;margin:0 0 10px!important;transform:none!important}
+
+/* 0.136.6: the search screen shows the player's chosen table backdrop, dimmed, under the scene */
+.mmphoto,.mmvig{position:absolute;inset:-30px;display:none}
+.mm119.hasph .mmphoto{display:block;background-position:center!important;filter:blur(4px) brightness(.42) saturate(.95);transform:scale(1.04);animation:mmKen 30s ease-in-out infinite alternate}
+.mm119.hasph .mmvig{display:block;inset:0;background:radial-gradient(70% 60% at 50% 45%,rgba(7,8,10,.15),rgba(7,8,10,.82) 100%)}
+@keyframes mmKen{to{transform:scale(1.12) translate(-1.5%,-1%)}}
+.mm119.hasph .mmpts{opacity:.05}
+.mm119.hasph .mmcard{background:rgba(10,12,15,.62);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+body.calm .mmphoto{animation:none}
 </style>
 </head>
 <body>
@@ -8523,7 +8532,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.136.5';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.136.6';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -10784,6 +10793,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+{v:"0.136.6", d:"27.11.2026", uk:["Під час пошуку суперника на фоні тепер твій стіл — той, що вибраний у магазині"], en:["While searching for an opponent, your own table backdrop from the shop is the background"], ru:["Во время поиска соперника на фоне теперь твой стол — тот, что выбран в магазине"]},
 {v:"0.136.5", d:"27.11.2026", uk:["Пошук суперника тепер на власному екрані: хвилі від таймера, шашки, що пливуть угору, і зубці дошки по краях — сторінки позаду більше не видно","Відкриття кейса стоїть рівно по центру, а виграна річ вистрибує на місці скрині, без порожнечі"], en:["Opponent search has its own screen now: pulses from the timer, drifting checkers and board points at the edges — the page behind is gone","Case opening sits dead centre, and the prize hops out where the chest was, with no empty gap"], ru:["Поиск соперника теперь на своём экране: волны от таймера, плывущие вверх шашки и зубцы доски по краям — страницы позади больше не видно","Открытие кейса стоит ровно по центру, а выигранная вещь выпрыгивает на месте сундука, без пустоты"]},
 {v:"0.136.4", d:"27.11.2026", uk:["Виправили: на телефоні інколи зникала кнопка «Кинути кубики», і гра зупинялась"], en:["Fixed: on phones the “Roll” button could vanish and the game got stuck"], ru:["Исправили: на телефоне иногда пропадала кнопка «Бросить кубики», и игра останавливалась"]},
 {v:"0.136.3", d:"25.11.2026", uk:["Світлі кнопки («Грати онлайн», «Відкрити», «Забрати») більше не мають білої тіні під собою"], en:["Light buttons (“Play online”, “Open”, “Claim”) no longer have a white glow under them"], ru:["У светлых кнопок («Играть онлайн», «Открыть», «Забрать») больше нет белой тени снизу"]},
@@ -12256,7 +12266,7 @@ setTimeout(function rcBotBoot(){ if(!db || !uid || !sb){ if((rcBotBoot.n=(rcBotB
 const MM={el:null, on:false, found:false, spin:null, i:0, list:[], tip:0, tipAt:0};
 function mmBuild(){ if(MM.el) return MM.el; const H=(t0,c,x)=>uxH(t0,c,x);
   const el=H('div','mm119'); el.id='mm119'; el.setAttribute('role','dialog'); el.setAttribute('aria-live','polite');
-  const bg=H('div','mmbg'); bg.setAttribute('aria-hidden','true'); bg.append(H('i','mmpts top'), H('i','mmpts bot'));
+  const bg=H('div','mmbg'); bg.setAttribute('aria-hidden','true'); bg.append(H('i','mmphoto'), H('i','mmvig'), H('i','mmpts top'), H('i','mmpts bot'));
   for(let i=0;i<3;i++){ const r=H('i','mmpulse'); r.style.animationDelay=(i*1.3)+'s'; bg.appendChild(r); }
   for(let i=0;i<9;i++){ const c=H('i','mmck '+(i%2?'dk':'lt')); const sz=26+Math.round(Math.random()*30); c.style.cssText='left:'+(4+Math.random()*92).toFixed(1)+'%;width:'+sz+'px;height:'+sz+'px;animation-duration:'+(16+Math.random()*14).toFixed(1)+'s;animation-delay:-'+(Math.random()*20).toFixed(1)+'s'; bg.appendChild(c); }
   el.appendChild(bg);
@@ -12278,6 +12288,8 @@ function mmTier(r){ try{ return t('tier_'+TIERS[tierIdx(r)].k)+' · '+r; }catch(
 function mmShow(on){ const el=mmBuild(); if(on===MM.on) return; MM.on=on; el.classList.toggle('on', on); document.body.classList.toggle('mm119on', on);
   clearInterval(MM.spin); MM.spin=null;
   if(on){ MM.found=false; el.classList.remove('found');
+    // 0.136.6: the player's own table backdrop (the one picked in the shop) is the scene behind the search
+    try{ const k=prefs.table, sw=(k && k!=='auto' && TABLE_SW[k]) ? String(TABLE_SW[k]).replace('_s.webp','.webp') : ''; const ph=el.querySelector('.mmphoto'); ph.style.background=sw||''; if(/url\(/.test(sw)) ph.style.backgroundSize='cover'; el.classList.toggle('hasph', !!sw); }catch(e){}
     const r=profile.rating||1000; mmCard(el.querySelector('.mmcard.mmme'), avPub(), profile.name||'', mmTier(r), r);
     MM.list=(typeof nearOnline==='function'?nearOnline(mmR(),10):[]).map(x=>x.g); MM.i=0; MM.tip=Math.floor(Math.random()*4);
     const op=el.querySelector('.mmcard.mmop'); op.classList.add('mmspin');
