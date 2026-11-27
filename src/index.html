@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style id="bootcss">html{background:#0b0c0f}#boot{position:fixed;inset:0;z-index:2147483000;display:grid;place-items:center;background:radial-gradient(60% 50% at 50% 45%,#1a1614 0%,#0b0c0f 70%);transition:opacity .35s ease,visibility 0s linear .35s;animation:bootOut .35s ease 12s forwards}#boot div{display:flex;flex-direction:column;align-items:center;gap:18px}#boot svg{width:74px;height:34px;animation:bootP 1.4s ease-in-out infinite}#boot b{font:800 15px system-ui,sans-serif;letter-spacing:-.01em;color:#f3efe7;opacity:.85}#boot i{display:block;width:120px;height:3px;border-radius:2px;background:rgba(255,255,255,.08);overflow:hidden;position:relative}#boot i::after{content:"";position:absolute;inset:0;width:40%;border-radius:2px;background:#e0896f;animation:bootL 1.1s ease-in-out infinite}body.booted #boot{opacity:0;visibility:hidden;pointer-events:none}@keyframes bootP{50%{transform:scale(1.06)}}@keyframes bootL{0%{transform:translateX(-100%)}100%{transform:translateX(250%)}}@keyframes bootOut{to{opacity:0;visibility:hidden}}@media (prefers-reduced-motion:reduce){#boot svg,#boot i::after{animation:none}}</style>
 <title>Nardy Masters — long backgammon</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icon-180.png">
@@ -5209,8 +5210,11 @@ body.calm .cpd.cur::after{animation:none}
 #h1Full{will-change:transform}
 
 /* ================= 0.139: home menu in the Hearthstone manner — one console with the four modes, buttons in the corners ================= */
-#hsHome{position:fixed;inset:0;z-index:9;display:none;color:#f3efe7}
+#hsHome{position:fixed;inset:0;z-index:9;display:none;color:#f3efe7;background:#0b0c0f}
+#hsHome .hsBg{position:absolute;inset:-20px;background:var(--stg,none);background-size:cover!important;background-position:center!important;filter:saturate(.95) brightness(.55)}
+#hsHome .hsBg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(9,10,12,.35) 0%,rgba(9,10,12,.15) 30%,rgba(9,10,12,.55) 70%,#0b0c0f 100%)}
 body.hs.hsOn #hsHome,body.home:not(.ingame):not(.hsOff) #hsHome{display:block}
+.mm119{z-index:2600}
 html body.hs.hs.hs.hs,html body.h1on.h1on.h1on.h1on{--sbw:0px!important}
 /* 0.139.2: the old home and its menus are hidden from the first frame (no flash on load or after a game) */
 html body #mNav#mNav,html body #h1Pg .h1top.h1top,html body #h1Pg .h1side,html body #h1Pg .h1sb{display:none!important}
@@ -5315,9 +5319,29 @@ body:not(.hs) .hsBack{display:none}
 .c2prize .th>.shth{position:absolute;left:50%;top:50%;width:110px!important;height:110px!important;max-width:none!important;max-height:none!important;transform:translate(-50%,-50%) scale(.46);transform-origin:50% 50%}
 .c2prize .th .shdc{display:flex!important;flex-direction:row!important;align-items:center;justify-content:center;gap:8px;width:100%!important;height:100%!important}
 .c2prize .th .shdc .die{width:44px!important;height:44px!important;flex:none}
+
+/* 0.139.3: «What's new» — a wide window with cards */
+#newsOv.nw2{display:grid;place-items:center;padding:24px}
+#newsOv .nw2m{position:relative;width:min(1120px,96vw)!important;max-width:none!important;height:min(860px,92vh);max-height:none!important;display:flex;flex-direction:column;padding:0!important;overflow:hidden;border-radius:26px!important;background:linear-gradient(180deg,#17150f00,#0f1013),#111216!important;border:1px solid rgba(224,137,111,.35)!important}
+#newsOv .nw2hd{display:flex;align-items:flex-start;gap:16px;padding:26px 28px 18px;border-bottom:1px solid rgba(255,255,255,.06)}
+#newsOv .nw2hd>div{flex:1} #newsOv .nw2hd h2{margin:0;font:800 30px 'Unbounded',system-ui,sans-serif;letter-spacing:-.03em} #newsOv .nw2hd p{margin:6px 0 0;color:#a8a29a;font-size:14px}
+#newsOv .nw2hd .ovx{position:static!important;flex:none}
+#newsOv .nw2b{flex:1;overflow:auto;padding:22px 28px 28px;display:flex;flex-direction:column;gap:16px}
+#newsOv .nw2cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;align-items:start}
+#newsOv .nw2c{margin:0;padding:16px 18px;border-radius:18px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.07)}
+#newsOv .nw2c.top{margin:0;padding:22px 24px;background:linear-gradient(135deg,rgba(224,137,111,.16),rgba(224,137,111,.04));border-color:rgba(224,137,111,.45)}
+#newsOv .nw2v{display:flex;align-items:baseline;gap:10px;margin-bottom:8px}
+#newsOv .nw2v b{font:800 16px 'Unbounded',system-ui,sans-serif;color:#f3efe7} #newsOv .nw2c.top .nw2v b{font-size:22px}
+#newsOv .nw2v small{color:#8f887f;font-size:12.5px}
+#newsOv .nw2v em{margin-left:auto;font-style:normal;font:700 11.5px 'Onest',sans-serif;padding:4px 10px;border-radius:999px;background:#e0896f;color:#14110e}
+#newsOv .nw2c ul{margin:0;padding-left:18px;display:grid;gap:6px;color:#d8d2c8;font-size:14px;line-height:1.45}
+#newsOv .nw2c.top ul{font-size:15.5px;gap:8px;color:#f3efe7}
+@media (max-width:640px){ #newsOv.nw2{padding:0} #newsOv .nw2m{width:100vw!important;height:100%;border-radius:0!important;border:0!important} #newsOv .nw2hd{padding:calc(16px + env(safe-area-inset-top)) 16px 14px} #newsOv .nw2hd h2{font-size:24px} #newsOv .nw2b{padding:14px 14px 24px} #newsOv .nw2c.top{padding:16px 18px} }
+body:not(.dark) #newsOv .nw2m{background:#fbf8f2!important} body:not(.dark) #newsOv .nw2hd h2,body:not(.dark) #newsOv .nw2v b,body:not(.dark) #newsOv .nw2c ul,body:not(.dark) #newsOv .nw2c.top ul{color:#1d1915}
 </style>
 </head>
 <body>
+<div id="boot" aria-hidden="true"><div><svg viewBox="0 0 58 26"><rect width="26" height="26" rx="6" fill="#f3efe7"/><g fill="#14110e"><circle cx="7" cy="7" r="2.4"/><circle cx="19" cy="7" r="2.4"/><circle cx="13" cy="13" r="2.4"/><circle cx="7" cy="19" r="2.4"/><circle cx="19" cy="19" r="2.4"/></g><rect x="32" width="26" height="26" rx="6" fill="#f3efe7"/><g fill="#14110e"><circle cx="39" cy="7" r="2.4"/><circle cx="51" cy="19" r="2.4"/></g></svg><b>Nardy Masters</b><i></i></div></div>
 <svg width="0" height="0" style="position:absolute">
   <symbol id="i-link" viewBox="0 0 256 256"><g fill="currentColor" stroke="none"><path d="M218.34,119.6,183.6,154.34a46.58,46.58,0,0,1-44.31,12.26c-.31.34-.62.67-.95,1L103.6,202.34A46.63,46.63,0,1,1,37.66,136.4L72.4,101.66A46.6,46.6,0,0,1,116.71,89.4c.31-.34.62-.67,1-1L152.4,53.66a46.63,46.63,0,0,1,65.94,65.94Z" opacity="0.2"/><path d="M240,88.23a54.43,54.43,0,0,1-16,37L189.25,160a54.27,54.27,0,0,1-38.63,16h-.05A54.63,54.63,0,0,1,96,119.84a8,8,0,0,1,16,.45A38.62,38.62,0,0,0,150.58,160h0a38.39,38.39,0,0,0,27.31-11.31l34.75-34.75a38.63,38.63,0,0,0-54.63-54.63l-11,11A8,8,0,0,1,135.7,59l11-11A54.65,54.65,0,0,1,224,48,54.86,54.86,0,0,1,240,88.23ZM109,185.66l-11,11A38.41,38.41,0,0,1,70.6,208h0a38.63,38.63,0,0,1-27.29-65.94L78,107.31A38.63,38.63,0,0,1,144,135.71a8,8,0,0,0,7.78,8.22H152a8,8,0,0,0,8-7.78A54.86,54.86,0,0,0,144,96a54.65,54.65,0,0,0-77.27,0L32,130.75A54.62,54.62,0,0,0,70.56,224h0a54.28,54.28,0,0,0,38.64-16l11-11A8,8,0,0,0,109,185.66Z"/></g></symbol>
   <symbol id="i-undo" viewBox="0 0 256 256"><g fill="currentColor" stroke="none"><path d="M216,128a88,88,0,1,1-88-88A88,88,0,0,1,216,128Z" opacity="0.2"/><path d="M224,128a96,96,0,0,1-94.71,96H128A95.38,95.38,0,0,1,62.1,197.8a8,8,0,0,1,11-11.63A80,80,0,1,0,71.43,71.39a3.07,3.07,0,0,1-.26.25L44.59,96H72a8,8,0,0,1,0,16H24a8,8,0,0,1-8-8V56a8,8,0,0,1,16,0V85.8L60.25,60A96,96,0,0,1,224,128Z"/></g></symbol>
@@ -8734,7 +8758,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.139.2';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.139.3';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -10994,6 +11018,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+{v:"0.139.3", d:"27.11.2026", uk:["«Що нового» тепер широке вікно: останнє оновлення великою карткою, попередні — картками у дві колонки","Пошук суперника і «Скасувати» більше не показують на мить старий дизайн","«Пригоди»: прибрали позначку «Нове» і лічильник глав на книгах","Поки сайт завантажується, видно заставку Nardy Masters — старий інтерфейс більше не з'являється на секунду-дві"], en:["While the site loads you see the Nardy Masters start screen — the old interface no longer appears for a second or two"], ru:["Пока сайт загружается, видна заставка Nardy Masters — старый интерфейс больше не появляется на секунду-две"]},
 {v:"0.139.2", d:"27.11.2026", uk:["Старий інтерфейс більше не проглядає на мить під час завантаження і після гри — одразу нове меню"], en:["The old interface no longer flashes on load or after a game — the new menu shows right away"], ru:["Старый интерфейс больше не мелькает при загрузке и после игры — сразу новое меню"]},
 {v:"0.139.1", d:"27.11.2026", uk:["Виправили: магазин і інші сторінки більше не з'їжджають вправо під новим меню","«Шлях нардиста II»: нові іконки етапів глави, приз глави видно повністю, ефект «Світанок над Дністром» отримав власну іконку"], en:["Fixed: the shop and other pages no longer shift right under the new menu","«Nardist's Path II»: new chapter step icons, the chapter prize shows in full, «Dawn over the Dniester» got its own icon"], ru:["Исправили: магазин и другие страницы больше не съезжают вправо под новым меню","«Путь нардиста II»: новые иконки этапов главы, приз главы виден полностью, эффект «Рассвет над Днестром» получил свою иконку"]},
 {v:"0.139.0", d:"27.11.2026", uk:["Нове головне меню: чотири режими в центрі — онлайн, пригоди, арена й турнір; магазин, завдання, колекція й друзі — у кутах","Новий екран «Пригоди»: обидві книги історії поруч, з прогресом і кнопкою до наступної глави","Бічне й нижнє меню прибрані — на кожній сторінці є кнопка «назад»"], en:["New main menu: four modes in the centre — online, adventures, arena and tournament; shop, tasks, collection and friends in the corners","New «Adventures» screen: both story books side by side, with progress and a button to the next chapter","The side and bottom menus are gone — every page has a back button"], ru:["Новое главное меню: четыре режима в центре — онлайн, приключения, арена и турнир; магазин, задания, коллекция и друзья — в углах","Новый экран «Приключения»: обе книги истории рядом, с прогрессом и кнопкой к следующей главе","Боковое и нижнее меню убраны — на каждой странице есть кнопка «назад»"]},
@@ -11255,10 +11280,14 @@ let NEWS=[
  {v:'0.14.1', d:'6.11.2026', uk:['Навчання «Вечір у Druzi» з Владом і Пашею','Монети за кожну гру; +200 за навчання'], en:['Tutorial “An evening at Druzi” with Vlad and Pasha','Coins for every game; +200 for the tutorial']},
  {v:'0.13.1', d:'6.11.2026', uk:['Калібрування: перші 10 рейтингових ігор визначають ранг'], en:['Calibration: your first 10 rated games set your rank']}
 ];
-async function openNews(){ await newsAll(); let ov=$('newsOv'); if(ov) ov.remove(); ov=document.createElement('div'); ov.id='newsOv'; ov.className='overlay'; ov.onclick=e=>{ if(e.target===ov) ov.remove(); };
-  const m=document.createElement('div'); m.className='modal'; const h=document.createElement('h2'); h.textContent=t('newsT'); m.appendChild(h);
-  NEWS.forEach(n=>{ const hh=document.createElement('h3'); hh.textContent='v'+n.v; const sm=document.createElement('small'); sm.textContent=n.d; hh.appendChild(sm); const ul=document.createElement('ul'); (lang==='uk'?n.uk:lang==='ru'?(n.ru||n.en):n.en).forEach(x=>{ const li=document.createElement('li'); li.textContent=x; ul.appendChild(li); }); m.append(hh,ul); });
-  const r=document.createElement('div'); r.className='r'; const c=document.createElement('button'); c.textContent=t('close'); c.onclick=()=>ov.remove(); r.appendChild(c); r.style.marginTop='20px'; m.appendChild(r); ov.appendChild(m); document.body.appendChild(ov); }
+async function openNews(){ await newsAll(); let ov=$('newsOv'); if(ov) ov.remove(); ov=document.createElement('div'); ov.id='newsOv'; ov.className='overlay nw2'; ov.onclick=e=>{ if(e.target===ov) ov.remove(); };
+  // 0.139.3: a wide window — the latest update as a big card, the earlier ones as cards in two columns
+  const m=uxH('div','modal nw2m'); const hd=uxH('div','nw2hd'); const tt=uxH('div'); tt.append(uxH('h2',null,t('newsT')), uxH('p',null,(lang==='uk'?'Усе, що змінилось у грі, від нових до старших оновлень':lang==='ru'?'Всё, что изменилось в игре, от новых обновлений к старым':'Everything that changed in the game, newest first')));
+  const x=uxH('button','ovx'); x.type='button'; x.setAttribute('aria-label',t('close')||'Close'); x.innerHTML=lico('x'); x.onclick=()=>ov.remove(); hd.append(tt,x); m.appendChild(hd);
+  const body=uxH('div','nw2b'); const list=uxH('div','nw2cols');
+  const txt=n=>(lang==='uk'?n.uk:lang==='ru'?(n.ru||n.en):n.en)||[];
+  NEWS.forEach((n,i)=>{ const c=uxH('article','nw2c'+(i===0?' top':'')); const h=uxH('div','nw2v'); h.append(uxH('b',null,'v'+n.v), uxH('small',null,n.d)); if(i===0) h.appendChild(uxH('em',null,lang==='uk'?'Нове':lang==='ru'?'Новое':'New')); c.appendChild(h); const ul=uxH('ul'); txt(n).forEach(s=>ul.appendChild(uxH('li',null,s))); c.appendChild(ul); (i===0?body:list).appendChild(c); });
+  body.appendChild(list); m.appendChild(body); ov.appendChild(m); document.body.appendChild(ov); }
 $('appVer').onclick=openNews; $('btnFootNew').onclick=openNews; $('btnFootTut').onclick=()=>{ startTutor(); };
 document.addEventListener('keydown',e=>{ if(e.key==='Escape' && $('newsOv')) $('newsOv').remove(); });
 // ---- share window: a game link or the invite link, with a QR code ----
@@ -14353,9 +14382,10 @@ function hsBuild(){ let el=$('hsHome'); if(el) return el; el=uxH('div'); el.id='
   const cb=(icon,label,fn,cls)=>{ const b=uxH('button','hsCb'+(cls?' '+cls:'')); b.type='button'; b.innerHTML='<i>'+icon+'<em></em></i>'; b.appendChild(document.createTextNode(label)); b.onclick=fn; return b; };
   const L=uxH('div','hsCorner l'); L.append(cb(hsUse('i-bag'),hsT('shop'),()=>openShopPg('show')), cb(lico('calendar'),hsT('tasks'),()=>mnGo('ev'),'hsTasks'));
   const R=uxH('div','hsCorner r'); R.append(cb(lico('gem'),hsT('col'),()=>openShopPg('me')), cb(hsUse('i-users'),hsT('frs'),()=>mnGo('fr'),'hsFr'));
-  el.append(top, st, L, R); document.body.appendChild(el); return el; }
+  el.append(uxH('div','hsBg'), top, st, L, R); document.body.appendChild(el); return el; }
 function hsOther(){ return [...document.querySelectorAll('[id$="Pg"]')].some(e=>e.id!=='h1Pg' && e.id!=='btnRulesPg' && e.getBoundingClientRect().width>0); }
 function hsPaint(el){ try{
+  { const stg=document.querySelector('.ui2stage'); const v=stg?getComputedStyle(stg).getPropertyValue('--stg'):''; const bg=el.querySelector('.hsBg'); if(v && bg._v!==v){ bg._v=v; bg.style.setProperty('--stg',v); } }
   const c=$('coinPill'); el.querySelector('.hsCoins b').textContent=c ? (c.textContent||'').replace(/[^\d\s ]/g,'').trim() : '';
   const bn=$('btnBell'); const bc=bn && bn.querySelector('.cnt,.badge,em,i:not(.i)'); el.querySelector('.hsBell em').textContent=bc ? (bc.textContent||'').trim() : (bn&&bn.dataset.n)||'';
   const g=document.querySelector('.h1acts .ui2gift'); el.querySelector('.hsGift').style.display=g?'':'none'; el.querySelector('.hsGift em').textContent=g && g.classList.contains('ready') ? '1' : '';
@@ -14368,12 +14398,15 @@ function hsPaint(el){ try{
   try{ const d=campDone(), v=campVis(); el.querySelector('.hs-adv .tag').textContent=d+' / '+v; }catch(e){}
 }catch(e){} }
 let _hsOn=null;
-function hsSync(){ try{ const pg=$('h1Pg'); const on=!!(pg && typeof gs!=='undefined' && !gs && !(typeof searching!=='undefined' && searching) && document.body.classList.contains('home') && !hsOther() && getComputedStyle(pg).display!=='none' && !(typeof guide!=='undefined' && guide));
+function hsSync(){ try{ const pg=$('h1Pg'); const srch=typeof searching!=='undefined' && searching; const on=!!(pg && typeof gs!=='undefined' && !gs && (srch || document.body.classList.contains('home')) && !hsOther() && !(typeof guide!=='undefined' && guide));
+  if(srch){ const mm=document.querySelector('.mm119'); if(!mm || !mm.classList.contains('on')){ try{ mmShow(true); }catch(e){} } }
   if(on){ const el=hsBuild(); hsPaint(el); } document.body.classList.toggle('hsOn', on); document.body.classList.toggle('hsOff', !on);
   if(on!==_hsOn){ _hsOn=on; document.body.classList.toggle('hs', on || (!!$('hsHome') && hsOther() && !gs)); }
   else if(!on){ document.body.classList.toggle('hs', !!$('hsHome') && hsOther() && !(typeof gs!=='undefined' && gs)); }
   hsBackFix(); }catch(e){} }
 setInterval(hsSync, 300); hsSync();
+// 0.139.3: the start screen hides the page until the new home (or a game from a link) is drawn — the old markup never shows
+requestAnimationFrame(()=>requestAnimationFrame(()=>{ try{ hsSync(); }catch(e){} document.body.classList.add('booted'); setTimeout(()=>{ const b=$('boot'); if(b) b.remove(); },600); }));
 // re-check right after every screen change, so leaving a game or a page lands straight on the new home
 (function(){ const r0=route; route=function(){ const x=r0.apply(this,arguments); try{ hsSync(); }catch(e){} return x; }; })();
 new MutationObserver(()=>{ clearTimeout(window._hsMo); window._hsMo=setTimeout(hsSync,0); }).observe(document.body,{childList:true});
@@ -14386,7 +14419,7 @@ function hsBackFix(){ if(!document.body.classList.contains('hs')) return; const 
 function hsAdvOpen(){ let pg=$('hsAdvPg'); if(pg) pg.remove(); pg=uxH('div'); pg.id='hsAdvPg'; const bg=uxH('div','bg'); const st=document.querySelector('.ui2stage'); const v=st?getComputedStyle(st).getPropertyValue('--stg'):''; if(v) bg.style.setProperty('--stg',v); pg.appendChild(bg);
   const hd=uxH('div','hd'); const bk=uxH('button','hsBack'); bk.type='button'; bk.setAttribute('aria-label',hsT('back')); bk.innerHTML=lico('back'); bk.onclick=hsAdvClose; const tx=uxH('div'); tx.append(uxH('h2',null,hsT('advT')), uxH('p',null,hsT('advP'))); hd.append(bk,tx); pg.appendChild(hd);
   const books=uxH('div','books');
-  const book=(img,sm,h,p,done,total,fn,isNew)=>{ const b=uxH('button','book'); b.type='button'; const ph=uxH('span','ph'); ph.style.setProperty('--img','url("'+img+'")'); b.append(ph, uxH('small',null,sm), uxH('h3',null,h), uxH('p',null,p)); if(total){ const pr=uxH('span','prog'); for(let i=0;i<total;i++) pr.appendChild(uxH('i',i<done?'on':'')); b.appendChild(pr); } else b.appendChild(uxH('span','prog')); const row=uxH('span','row'); row.append(uxH('span','go',hsT('go')+' →')); if(total) row.appendChild(uxH('span','chip',done+' / '+total)); b.appendChild(row); if(isNew) b.appendChild(uxH('span','chip new',hsT('nw'))); b.onclick=fn; return b; };
+  const book=(img,sm,h,p,done,total,fn,isNew)=>{ const b=uxH('button','book'); b.type='button'; const ph=uxH('span','ph'); ph.style.setProperty('--img','url("'+img+'")'); b.append(ph, uxH('small',null,sm), uxH('h3',null,h), uxH('p',null,p)); if(total){ const pr=uxH('span','prog'); for(let i=0;i<total;i++) pr.appendChild(uxH('i',i<done?'on':'')); b.appendChild(pr); } else b.appendChild(uxH('span','prog')); const row=uxH('span','row'); row.append(uxH('span','go',hsT('go')+' →')); b.appendChild(row); b.onclick=fn; return b; };
   let d1=0,v1=8; try{ d1=campDone(); v1=campVis(); }catch(e){}
   books.append(book('tb/teahouse.webp',hsT('b1'),hsT('b1t'),hsT('b1p'),d1,v1,()=>{ hsAdvClose(); openCampaign(); }),
                book('tb/fhookah.webp',hsT('b2'),hsT('b2t'),hsT('b2p'),0,0,()=>{ hsAdvClose(); openC2(); },true));

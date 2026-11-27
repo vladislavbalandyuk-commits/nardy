@@ -3,6 +3,12 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.139.3 — 27.11.2026
+- Search: the new home layer stays (with its own photo background) while searching and is shown right on cancel; the search screen is opened at once — the legacy screen showed for a moment.
+- «What's new»: a wide window (up to 1120 px) — the latest update as a big copper card, earlier ones as cards in a grid; full screen on phones.
+- Adventures: the «New» chip and the chapter counter are gone from the books.
+- Start screen (#boot, inline CSS in the head): covers the page until app.js has drawn the new home, then fades out (body.booted) and is removed; a 12 s CSS fallback hides it if the script fails. The static markup of the old interface was visible for 1–2 s while the 1.2 MB script loaded.
+
 ## 0.139.2 — 27.11.2026
 - The old home, side menu and bottom bar are hidden by CSS from the first frame (no longer waiting for the 300 ms check); the new home layer shows by default on the home screen and is re-checked on every route() and on page open/close — the old interface flashed on load and after leaving a game.
 
