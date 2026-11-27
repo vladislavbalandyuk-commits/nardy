@@ -5833,6 +5833,99 @@ body.brOn #board .pt.brWall{background-image:linear-gradient(180deg,rgba(224,137
 
 
 
+
+/* 0.142.0 «Таверна» — auto-battler on a round burgundy table */
+#tavPg{position:fixed;inset:0;z-index:40;overflow:hidden;color:#f3efe7;background:#0b0a0c;user-select:none;-webkit-user-select:none}
+#tavPg .zroom{position:absolute;inset:0;background:url("tb/fcabin.webp") center/cover;filter:brightness(.22) blur(3px)}
+#tavPg .ztable{position:absolute;left:50%;top:66px;bottom:150px;width:min(1200px,94vw);transform:translateX(-50%);border-radius:48px;background:url("tb/fwood.webp") center/cover;box-shadow:0 0 0 10px #2a1810,0 0 0 13px rgba(224,137,111,.35),0 60px 120px rgba(0,0,0,.8)}
+#tavPg .ztable::before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(60% 55% at 50% 50%,rgba(255,196,150,.16),transparent 70%),linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,.1) 40%,rgba(0,0,0,.35))}
+#tavPg .zfelt{position:absolute;left:9%;right:9%;top:16%;bottom:16%;border-radius:999px;background:radial-gradient(70% 70% at 50% 50%,#7a1f2b,#4a1219 80%);box-shadow:inset 0 0 0 3px rgba(224,137,111,.55),inset 0 0 0 9px #2a1014,inset 0 10px 40px rgba(0,0,0,.6),0 10px 30px rgba(0,0,0,.5)}
+#tavPg .zfelt::after{content:"";position:absolute;left:8%;right:8%;top:50%;height:2px;background:linear-gradient(90deg,transparent,rgba(240,201,184,.5),transparent)}
+#tavPg .zrow{position:absolute;left:0;right:0;display:flex;justify-content:center;gap:12px;z-index:2}
+#tavPg .zop{top:21%}#tavPg .zme{bottom:21%}
+#tavPg .zu{position:relative;width:92px;height:120px;border-radius:50% 50% 16px 16px/36% 36% 16px 16px;background:linear-gradient(180deg,#2c2226,#151215);border:2px solid var(--rc);box-shadow:0 14px 24px rgba(0,0,0,.6);display:flex;flex-direction:column;align-items:center;padding-top:8px;gap:3px;cursor:pointer;transition:transform .18s,opacity .25s,box-shadow .2s;flex:none}
+#tavPg .zu .av{width:62px;height:62px;border-radius:50%;box-shadow:0 0 0 2px var(--rc)}
+#tavPg .zu b{font-size:11px;text-align:center;line-height:1.1;padding:0 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+#tavPg .zu .za,#tavPg .zu .zh{position:absolute;bottom:-9px;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font:800 13px 'Unbounded',system-ui,sans-serif;border:2px solid #120f11}
+#tavPg .zu .za{left:-6px;background:#e0896f;color:#1a1412}#tavPg .zu .zh{right:-6px;background:#f3efe7;color:#7a1f2b}
+#tavPg .zu .zt{position:absolute;top:-9px;left:50%;transform:translateX(-50%);padding:1px 7px;border-radius:99px;background:#120f11;border:1px solid var(--rc);font-size:10px;font-weight:800}
+#tavPg .zu .zab{position:absolute;top:28px;right:-8px;width:22px;height:22px;border-radius:50%;background:#120f11;border:1px solid rgba(255,255,255,.2);display:grid;place-items:center;font-size:11px}
+#tavPg .zu.sh{box-shadow:0 0 0 3px rgba(240,201,184,.85),0 0 18px rgba(240,201,184,.6),0 14px 24px rgba(0,0,0,.6)}
+#tavPg .zu.tn{border-style:double;border-width:5px}
+#tavPg .zu.sel{transform:translateY(-10px);box-shadow:0 0 0 3px #e0896f,0 20px 30px rgba(0,0,0,.6)}
+#tavPg .zu.hit{transform:translateY(var(--dy,-30px)) scale(1.06);z-index:5}
+#tavPg .zu.hurt{animation:zHurt .35s}
+@keyframes zHurt{30%{transform:translateX(-6px)}60%{transform:translateX(6px)}}
+#tavPg .zu.dead{opacity:0;transform:scale(.6)}
+#tavPg .zu .dmg{position:absolute;top:30%;left:50%;transform:translateX(-50%);font:900 22px 'Unbounded',system-ui,sans-serif;color:#ff8a7a;text-shadow:0 2px 8px #000;animation:zDmg .7s forwards;pointer-events:none}
+@keyframes zDmg{to{transform:translate(-50%,-30px);opacity:0}}
+#tavPg .zslot{width:92px;height:120px;border-radius:50% 50% 16px 16px/36% 36% 16px 16px;border:2px dashed rgba(240,201,184,.18);flex:none}
+#tavPg .zhero{position:absolute;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:4px;z-index:2}
+#tavPg .zhero .av{width:84px;height:84px;border-radius:50%;box-shadow:0 0 0 4px #e0896f,0 0 0 9px #2a1810,0 16px 30px rgba(0,0,0,.6)}
+#tavPg .zhero em{font-style:normal;margin-top:-18px;padding:3px 10px;border-radius:99px;background:#7a1f2b;border:2px solid #f3efe7;font:800 13px 'Unbounded',system-ui,sans-serif;z-index:1}
+#tavPg .zhero b{font-size:13px;text-shadow:0 2px 6px #000}
+#tavPg .zht{top:2%}#tavPg .zhb{bottom:2%;flex-direction:column-reverse}#tavPg .zhb em{margin:0 0 -18px}
+#tavPg .zmid{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:3;text-align:center;font:800 15px 'Unbounded',system-ui,sans-serif;color:#f0c9b8;text-shadow:0 2px 10px #000;pointer-events:none;max-width:70%}
+#tavPg .zlb{position:absolute;left:14px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:6px;z-index:6}
+#tavPg .zlb div{display:flex;align-items:center;gap:6px;padding:3px 9px 3px 3px;border-radius:99px;background:rgba(18,16,19,.88);border:1px solid rgba(255,255,255,.08);font-size:11.5px;font-weight:700}
+#tavPg .zlb div.me{border-color:#e0896f}#tavPg .zlb div.vs{border-color:#f0c9b8;background:rgba(122,31,43,.6)}#tavPg .zlb div.out{opacity:.3}
+#tavPg .zlb .av{width:28px;height:28px;border-radius:50%}
+#tavPg .zbar{position:absolute;left:14px;right:14px;top:12px;display:flex;align-items:center;gap:8px;z-index:8}
+#tavPg .zbar h1{margin:0 auto 0 6px;font-family:'Unbounded',system-ui,sans-serif;font-size:20px;white-space:nowrap}
+#tavPg .zp{display:flex;align-items:center;gap:7px;height:40px;padding:0 13px;border-radius:12px;background:rgba(18,16,19,.9);border:1px solid rgba(255,255,255,.12);color:#f3efe7;font:700 14px/1 inherit;white-space:nowrap;cursor:pointer;box-shadow:none}
+#tavPg button.zp:disabled{opacity:.45;cursor:default}
+#tavPg .zp.go{background:#f3efe7;color:#1a1412}
+#tavPg .zp.ic{width:40px;padding:0;justify-content:center}
+#tavPg .zshop{position:absolute;left:50%;bottom:0;transform:translateX(-50%);display:flex;align-items:flex-end;gap:12px;padding:20px 22px 16px;border-radius:26px 26px 0 0;background:linear-gradient(180deg,#3a241a,#24160f);border:2px solid #5a3826;border-bottom:0;box-shadow:0 -20px 50px rgba(0,0,0,.6);z-index:7;transition:transform .3s}
+#tavPg .zshop.hid{transform:translate(-50%,110%)}
+#tavPg .zshop h4{position:absolute;top:-34px;left:22px;margin:0;padding:6px 14px;border-radius:12px 12px 0 0;background:#3a241a;font:800 12.5px 'Unbounded',system-ui,sans-serif;border:2px solid #5a3826;border-bottom:0;white-space:nowrap}
+#tavPg .zshop .zw{position:relative}
+#tavPg .zshop .pr{position:absolute;top:-14px;left:50%;transform:translateX(-50%);padding:2px 8px;border-radius:99px;background:#120f11;font-size:11px;font-weight:800;display:flex;gap:4px;align-items:center;z-index:2}
+#tavPg .zshop .zu.no{opacity:.45}
+#tavPg .zsell{position:absolute;left:50%;bottom:calc(20% + 128px);transform:translateX(-50%);display:flex;gap:8px;z-index:9}
+#tavPg .ztip{position:absolute;left:50%;bottom:calc(20% + 170px);transform:translateX(-50%);max-width:300px;padding:10px 14px;border-radius:14px;background:rgba(18,16,19,.95);border:1px solid rgba(224,137,111,.5);font-size:13px;line-height:1.4;z-index:9;text-align:center}
+#tavPg .ztip b{display:block;font-family:'Unbounded',system-ui,sans-serif;font-size:14px;margin-bottom:2px}
+#tavPg .zend{position:absolute;inset:0;z-index:20;display:grid;place-items:center;background:rgba(8,7,9,.72)}
+#tavPg .zend>div{width:min(420px,92vw);padding:28px;border-radius:26px;background:#151216;border:1px solid rgba(224,137,111,.45);text-align:center;display:flex;flex-direction:column;gap:12px;align-items:center}
+#tavPg .zend h2{margin:0;font-family:'Unbounded',system-ui,sans-serif;font-size:30px}
+#tavPg .zend p{margin:0;color:#b9b2a8}
+#tavPg .zend .row{display:flex;gap:10px;width:100%}#tavPg .zend .zp{flex:1;justify-content:center;height:50px}
+@media (max-width:760px){
+#tavPg .ztable{width:100vw;top:96px;bottom:136px;border-radius:0;box-shadow:none}
+#tavPg .zfelt{left:2%;right:2%;top:15%;bottom:15%;border-radius:48px}
+#tavPg .zrow{gap:3px;padding:0 3px}#tavPg .zop{top:19%}#tavPg .zme{bottom:19%}
+#tavPg .zu,#tavPg .zslot{width:min(13.2vw,62px);height:min(18vw,82px);padding-top:5px}
+#tavPg .zu .av{width:min(9vw,40px);height:min(9vw,40px)}
+#tavPg .zu b{font-size:8.5px}
+#tavPg .zu .zt{font-size:8.5px;padding:0 4px;top:-8px}
+#tavPg .zu .za,#tavPg .zu .zh{width:20px;height:20px;font-size:10px;bottom:-7px}
+#tavPg .zu .zab{width:17px;height:17px;font-size:9px;top:16px;right:-6px}
+#tavPg .zhero .av{width:50px;height:50px;box-shadow:0 0 0 3px #e0896f,0 0 0 6px #2a1810}
+#tavPg .zhero em{font-size:11px;margin-top:-14px}#tavPg .zhb em{margin:0 0 -14px}#tavPg .zhero b{font-size:11px}
+#tavPg .zlb{left:6px;right:6px;top:54px;transform:none;flex-direction:row;overflow-x:auto;scrollbar-width:none;gap:4px}
+#tavPg .zlb div{flex:none;padding:2px 7px 2px 2px;font-size:10.5px}#tavPg .zlb .av{width:22px;height:22px}
+#tavPg .zbar{left:6px;right:6px;top:8px;gap:5px}#tavPg .zbar h1{display:none}
+#tavPg .zbar .zp{padding:0 10px;font-size:12.5px;height:38px}#tavPg .zbar .zp.go{margin-left:auto}
+#tavPg .zbar .lg{display:none}
+#tavPg .zshop{gap:3px;padding:18px 4px calc(8px + env(safe-area-inset-bottom));width:100vw;justify-content:center;border-radius:20px 20px 0 0}
+#tavPg .zshop .zu{width:min(15vw,66px);height:min(20vw,88px)}
+#tavPg .zsell{bottom:calc(136px + 19% + 90px)}#tavPg .ztip{bottom:calc(136px + 19% + 130px)}
+#tavPg .zmid{font-size:12px;max-width:86%}
+}
+
+html body #hsHome .hsMode.hs-tav{order:5;--hsimg:url("tb/fwood.webp")}
+@media (min-width:761px){html body #hsHome .hsModes.hsModes{gap:14px}html body #hsHome .hsMode.hsMode{width:212px;height:380px}html body #hsHome .hsMode.hs-play{width:268px;height:440px}}
+@media (min-width:761px) and (max-width:1180px){html body #hsHome .hsMode.hsMode{width:170px;height:320px}html body #hsHome .hsMode.hs-play{width:220px;height:380px}html body #hsHome .hsMode .tx b{font-size:18px!important}}
+
+#tavPg .zu .zfa{position:absolute;top:28px;left:-8px;width:22px;height:22px;border-radius:50%;background:#120f11;border:1px solid rgba(255,255,255,.2);display:grid;place-items:center;font-size:11px}
+#tavPg .ztip .zf{color:#f0c9b8;margin-bottom:4px}
+#tavPg .zfc{position:absolute;left:50%;top:calc(50% + 14px);transform:translateX(-50%);display:flex;gap:6px;z-index:3;flex-wrap:wrap;justify-content:center;max-width:80%}
+#tavPg .zfc span{padding:4px 10px;border-radius:99px;background:rgba(18,16,19,.75);border:1px solid rgba(240,201,184,.25);font-size:12px;font-weight:700}
+@media (max-width:760px){#tavPg .zu .zfa{width:17px;height:17px;font-size:9px;top:16px;left:-6px}#tavPg .zfc span{font-size:10.5px;padding:3px 7px}}
+
+#tavPg .ztable .zsell{bottom:calc(21% + 132px)}#tavPg .ztable .ztip{bottom:calc(21% + 186px)}
+@media (max-width:760px){#tavPg .ztable .zsell{bottom:calc(19% + 94px)}#tavPg .ztable .ztip{bottom:calc(19% + 146px);max-width:86vw}}
+#tavPg .zshop:not(:has(.zw)){min-width:220px;min-height:60px}
 </style>
 </head>
 <body>
@@ -9253,7 +9346,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.141.3';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.142.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -11513,6 +11606,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+{v:'0.142.0',d:'28.11.2026',uk:['Новий режим «Таверна» (бета): наймай героїв за круглим столом — вони б’ються самі. Вісім гравців, 30 сердець, хто встоїть останнім — господар таверни','П’ять фракцій зі своїми механіками: Двір, Кальянна, Варта, Шулери, Майстри','Героїв можна переставляти — порядок важливий: б’ються зліва направо','Три однакові герої зливаються в золотого з подвійною силою'],en:['New mode «Tavern» (beta): hire heroes at the round table and they fight on their own. Eight players, 30 hearts, last one standing runs the tavern','Three of the same hero merge into a golden one with double stats']},
 {v:'0.141.3',d:'27.11.2026',uk:['Повернули попередній вигляд радіо з кнопкою перемикання станцій'],en:['The previous radio look is back, with the station switch button']},
 {v:'0.141.2',d:'27.11.2026',uk:['Радіо — мінімалістична капсула з платівкою, що крутиться, поки грає музика'],en:['The radio is a minimal capsule with a record that spins while music plays']},
 {v:'0.141.1',d:'27.11.2026',uk:['Частина II: замість бліцу — «Прорив крізь варту». Шашка за стіною суперника, знайди хід, що проведе її крізь стіну'],en:['Part II: instead of the blitz — «Break through the guard». A checker is behind the wall; find the move that takes it through']},
@@ -15374,6 +15468,118 @@ function c2Breach(n){ const att=(store.get('c2q',{})||{})[n]|0; const pz=c2Breac
 // the guard's wall glows on the board while the challenge is on
 setInterval(()=>{ try{ const on=!!(tut && tut.pz && tut.pz.breach && gs); document.body.classList.toggle('brOn',on); if(!on) return; const W=tut.pz.data.wall; document.querySelectorAll('#board .pt').forEach(e=>{ const i=+e.dataset.b; const w=!isNaN(i) && i>=W.a && i<=W.b && gs.board[i]<0; e.classList.toggle('brWall',w); }); }catch(e){} },500);
 
+
+/* 0.142.0 «Таверна» (beta): hire heroes between rounds, they fight by themselves; 8 players, 30 hearts, last one standing wins */
+const TV_TX={uk:{t:'Таверна',beta:'бета',sub:'Наймай героїв · вони б’ються самі',hire:'Таверна ★{n} · найм',gold:'{n} золота',re:'Оновити',up:'Підвищити ★ · {n}',go:'До бою',sell:'Продати +1',close:'Закрити',vs:'Бій з {n}',win:'Перемога в раунді',lose:'Поразка: −{n} ♥',draw:'Нічия',you:'Ти',round:'Раунд {n}',full:'Немає місця за столом',poor:'Не вистачає золота',endW:'Ти — господар таверни!',endP:'{n} місце',endD:'Протримався {r} раундів.',again:'Ще раз',home:'У меню',hint:'Торкнись героя в шухляді, щоб найняти. Торкнись свого — щоб продати.'},
+en:{t:'Tavern',beta:'beta',sub:'Hire heroes · they fight on their own',hire:'Tavern ★{n} · hire',gold:'{n} gold',re:'Refresh',up:'Upgrade ★ · {n}',go:'To battle',sell:'Sell +1',close:'Close',vs:'Fight vs {n}',win:'Round won',lose:'Lost: −{n} ♥',draw:'Draw',you:'You',round:'Round {n}',full:'No room at the table',poor:'Not enough gold',endW:'You run the tavern!',endP:'Place {n}',endD:'You lasted {r} rounds.',again:'Again',home:'Menu',hint:'Tap a hero in the drawer to hire. Tap yours to sell.'},
+ru:{t:'Таверна',beta:'бета',sub:'Нанимай героев · они дерутся сами',hire:'Таверна ★{n} · наём',gold:'{n} золота',re:'Обновить',up:'Повысить ★ · {n}',go:'В бой',sell:'Продать +1',close:'Закрыть',vs:'Бой с {n}',win:'Победа в раунде',lose:'Поражение: −{n} ♥',draw:'Ничья',you:'Ты',round:'Раунд {n}',full:'Нет места за столом',poor:'Не хватает золота',endW:'Ты — хозяин таверны!',endP:'{n} место',endD:'Продержался {r} раундов.',again:'Ещё раз',home:'В меню',hint:'Нажми на героя в ящике, чтобы нанять. Нажми на своего — чтобы продать.'}};
+const tvT=(k,v)=>{ let x=(TV_TX[lang]||TV_TX.en)[k]||TV_TX.en[k]||k; if(v) for(const q in v) x=x.replace('{'+q+'}',v[q]); return x; };
+// heroes: k, name uk, name en, tier, attack, health, ability, faction
+// factions: yard (Двір) — when one dies, another yard friend gets +2⚔; hook (Кальянна) — hiring one gives +1♥ to all Кальянна;
+// guard (Варта) — start of combat: +2♥ to neighbours; sharp (Шулери) — each hit rolls a die, a 6 hits double; master (Майстри) — start of combat: +1/+1 for every other master
+const TV_U=[['ap','Учень','Apprentice',1,1,1,'','yard'],
+ ['yard','Дворовий','Yard kid',1,2,1,'','yard'],['guard','Вартовий','Guard',1,1,3,'taunt','guard'],['tea','Чайник','Tea boy',1,1,2,'','hook'],['dice1','Кубик','Dicey',1,2,2,'','sharp'],
+ ['bro','Двоюрідний','Cousin',2,3,2,'rattle','yard'],['dj','Діджей','DJ',2,2,3,'','hook'],['wall','Стіна','Wall',2,1,5,'taunt','guard'],['cheat2','Хитрун','Trickster',2,2,3,'trick','sharp'],
+ ['bench','Лавочник','Bench boss',3,4,3,'wind','yard'],['hook','Кальянник','Hookah man',3,3,4,'grow','hook'],['bear','Ведмідь','Bear',3,3,6,'taunt','guard'],['cheat','Шулер','Card sharp',3,4,3,'trick','sharp'],['liza','Бабця Ліда','Granny Lida',3,3,4,'shield','master'],
+ ['king','Король двору','Yard king',4,6,5,'rattle','yard'],['somm','Сомельє','Sommelier',4,4,6,'shield','hook'],['khan','Хан','Khan',4,5,7,'taunt','guard'],['ace','Туз','Ace',4,6,4,'wind','sharp'],['pasha','Паша','Pasha',4,5,5,'shield','master'],['vlad','Влад','Vlad',4,6,5,'wind','master']];
+const TV_AB={grow:'↑',wind:'⚡',trick:'🎲',rattle:'☠',shield:'◈',taunt:'⛨'};
+const TV_ABD={uk:{grow:'Кінець ходу: +1 ⚔',wind:'Б’є двічі',trick:'На початку бою: випадковий ворог −1 ⚔',rattle:'Смерть: лишає Учня 1/1',shield:'Перший удар не проходить',taunt:'Вороги б’ють його першим'},
+ en:{grow:'End of turn: +1 ⚔',wind:'Attacks twice',trick:'Start of combat: a random enemy −1 ⚔',rattle:'Death: leaves a 1/1 Apprentice',shield:'Blocks the first hit',taunt:'Enemies hit him first'}};
+const TV_F={yard:{ic:'🏘',uk:'Двір',en:'Yard',d:{uk:'Коли дворовий гине — інший дворовий +2 ⚔',en:'When a yard hero dies, another gets +2 ⚔'}},
+ hook:{ic:'💨',uk:'Кальянна',en:'Hookah',d:{uk:'Наймаєш кальянного — усі кальянні +1 ♥',en:'Hire one — all Hookah heroes +1 ♥'}},
+ guard:{ic:'🛡',uk:'Варта',en:'Guard',d:{uk:'На початку бою: +2 ♥ сусідам',en:'Start of combat: +2 ♥ to neighbours'}},
+ sharp:{ic:'🎲',uk:'Шулери',en:'Sharps',d:{uk:'Кожен удар — кидок кубика: на 6 б’є вдвічі',en:'Each hit rolls a die: a 6 hits double'}},
+ master:{ic:'♛',uk:'Майстри',en:'Masters',d:{uk:'На початку бою: +1/+1 за кожного іншого майстра',en:'Start of combat: +1/+1 for each other master'}}};
+const tvFN=f=>{ const F=TV_F[f]; return F ? F.ic+' '+(lang==='en'?F.en:F.uk) : ''; };
+const TV_RC={1:'#9aa3ad',2:'#7fcf9c',3:'#6fa8ff',4:'#c08bff'};
+const TV_NAMES=['Олег','Марина','Остап','Ірина','Тарас','Софія','Денис'];
+let TV=null;
+const tvAvK=i=>{ const K=Object.keys(AVATARS); return K[(i*5+31)%K.length]; };
+const tvMk=(d,i)=>({id:Math.random().toString(36).slice(2), k:d[0], n:lang==='uk'||lang==='ru'?d[1]:d[2], t:d[3], a:d[4], h:d[5], ab:d[6], f:d[7], av:tvAvK(TV_U.indexOf(d)), sh:d[6]==='shield'});
+const tvPool=t=>TV_U.filter(d=>d[3]<=t);
+const tvRand=a=>a[Math.floor(Math.random()*a.length)];
+function tvRoll(){ const n=Math.min(6,2+TV.tier); TV.shop=Array.from({length:n},()=>tvMk(tvRand(tvPool(TV.tier)))); }
+function tvBotBand(r,t){ const n=Math.min(7,1+Math.floor(r*0.75)); const band=[]; for(let i=0;i<n;i++){ const u=tvMk(tvRand(tvPool(Math.max(1,Math.min(4,t-(i%2)))))); const g=Math.floor((r-1)/4); u.a+=g; u.h+=g; band.push(u); } return band; }
+function openTavern(){ try{ closeShopPg&&$('shopPg')&&closeShopPg(); }catch(e){}
+  TV={round:1, gold:3, tier:1, upCost:5, hp:30, band:[], shop:[], phase:'hire', sel:-1, bots:TV_NAMES.map((n,i)=>({n, hp:30, av:tvAvK(40+i*3), tier:1}))}; tvRoll();
+  let pg=$('tavPg'); if(!pg){ pg=sH('div'); pg.id='tavPg'; document.body.appendChild(pg); } tvPaint(); try{ hsSync(); }catch(e){} try{ ambPlay(120); }catch(e){} }
+function closeTavern(){ const pg=$('tavPg'); if(pg) pg.remove(); TV=null; try{ ambStop(); ambSync(); }catch(e){} try{ hsSync(); }catch(e){} try{ route(); }catch(e){} }
+try{ UI_PAGES.unshift('tavPg'); }catch(e){}
+function tvUnit(u,cls){ const d=sH('div','zu'+(cls?' '+cls:'')+(u.sh?' sh':'')+(u.ab==='taunt'?' tn':'')); d.style.setProperty('--rc',TV_RC[u.t]); d.dataset.id=u.id; d.appendChild(sH('span','zt','★'+u.t)); const a=sH('span','av'); try{ avatarInto(a,u.av,u.n); }catch(e){} d.append(a, sH('b',null,u.n)); if(u.f) d.appendChild(sH('span','zfa',TV_F[u.f].ic)); if(u.ab) d.appendChild(sH('span','zab',TV_AB[u.ab])); d.append(sH('span','za',String(u.a)), sH('span','zh',String(u.h))); return d; }
+function tvTip(u){ const old=$('tavPg').querySelector('.ztip'); if(old) old.remove(); if(!u) return; const tp=sH('div','ztip'); tp.appendChild(sH('b',null,u.n)); if(u.f){ const F=TV_F[u.f]; tp.appendChild(sH('div','zf',tvFN(u.f)+' — '+(F.d[lang==='en'?'en':'uk']))); } if(u.ab) tp.appendChild(sH('div',null,(TV_ABD[lang==='en'?'en':'uk'])[u.ab])); ($('tavPg').querySelector('.ztable')||$('tavPg')).appendChild(tp); }
+function tvPaint(msg){ const pg=$('tavPg'); if(!pg||!TV) return; pg.innerHTML='';
+  pg.appendChild(sH('div','zroom'));
+  const tb=sH('div','ztable'); tb.appendChild(sH('div','zfelt')); pg.appendChild(tb);
+  const opp=TV.opp; const ht=sH('div','zhero zht'); const ha=sH('span','av'); try{ avatarInto(ha, opp?opp.av:tvAvK(60), opp?opp.n:'?'); }catch(e){} ht.append(ha, sH('em',null,String(opp?opp.hp:'·')), sH('b',null,opp?opp.n:tvT('round',{n:TV.round}))); tb.appendChild(ht);
+  const ro=sH('div','zrow zop'); (TV.fight?TV.fight.B:[]).forEach(u=>ro.appendChild(tvUnit(u))); tb.appendChild(ro);
+  const rm=sH('div','zrow zme'); const band=TV.fight?TV.fight.A:TV.band;
+  band.forEach((u,i)=>{ const d=tvUnit(u, TV.sel===i&&!TV.fight?'sel':''); if(!TV.fight) d.onclick=()=>{ TV.sel=TV.sel===i?-1:i; tvPaint(); }; rm.appendChild(d); });
+  if(!TV.fight) for(let i=band.length;i<7;i++) rm.appendChild(sH('div','zslot')); tb.appendChild(rm);
+  const hb=sH('div','zhero zhb'); const hm=sH('span','av'); try{ avatarInto(hm, selfAv()||profile.av, profile.name||'?'); }catch(e){} hb.append(hm, sH('em',null,String(TV.hp)), sH('b',null,tvT('you'))); tb.appendChild(hb);
+  if(msg) tb.appendChild(sH('div','zmid',msg)); else if(TV.round===1 && TV.phase==='hire' && !TV.band.length) tb.appendChild(sH('div','zmid',tvT('hint')));
+  // leaderboard
+  const lb=sH('div','zlb'); const all=[{n:tvT('you'),hp:TV.hp,av:selfAv()||profile.av,me:1}].concat(TV.bots).sort((a,b)=>b.hp-a.hp);
+  all.forEach(p=>{ const r=sH('div',(p.me?'me':'')+(opp&&p===opp?' vs':'')+(p.hp<=0?' out':'')); const a=sH('span','av'); try{ avatarInto(a,p.av,p.n); }catch(e){} r.append(a, document.createTextNode(Math.max(0,p.hp)+'♥')); r.title=p.n; lb.appendChild(r); }); pg.appendChild(lb);
+  // bar
+  const bar=sH('div','zbar'); const bk=sH('button','zp ic'); bk.type='button'; bk.innerHTML=lico('back'); bk.setAttribute('aria-label',t('close')); bk.onclick=closeTavern;
+  const h1=sH('h1',null,tvT('t')); bar.append(bk,h1);
+  if(TV.phase==='hire'){ const g=sH('span','zp'); g.innerHTML='<i class="coin"></i><b>'+TV.gold+'</b><span class="lg">'+tvT('gold',{n:''})+'</span>';
+    const re=sH('button','zp'); re.innerHTML='⟳ <span class="lg">'+tvT('re')+' · </span>1'; re.type='button'; re.disabled=TV.gold<1; re.onclick=()=>{ if(TV.gold<1) return; TV.gold--; tvRoll(); try{ sfx('dice'); }catch(e){} tvPaint(); };
+    const up=sH('button','zp'); up.innerHTML='★<span class="lg"> '+tvT('up',{n:''}).replace(/[★·\s]+$/,'')+' ·</span> '+TV.upCost; up.type='button'; up.disabled=TV.tier>=4||TV.gold<TV.upCost; if(TV.tier>=4) up.textContent='★4'; up.onclick=()=>{ if(TV.tier>=4||TV.gold<TV.upCost) return; TV.gold-=TV.upCost; TV.tier++; TV.upCost=[0,5,7,8,99][TV.tier]+1; tvRoll(); tvPaint(); };
+    const go=sH('button','zp go',tvT('go')+' →'); go.type='button'; go.onclick=tvFight; bar.append(g,re,up,go); }
+  else bar.appendChild(sH('span','zp',tvT('round',{n:TV.round})));
+  pg.appendChild(bar);
+  if(TV.phase==='hire' && TV.band.length && TV.sel<0){ const fc=sH('div','zfc'); const cnt={}; TV.band.forEach(u=>{ if(u.f) cnt[u.f]=(cnt[u.f]||0)+1; }); Object.keys(cnt).forEach(f=>{ const c=sH('span',null,tvFN(f)+' ×'+cnt[f]); c.title=TV_F[f].d[lang==='en'?'en':'uk']; fc.appendChild(c); }); tb.appendChild(fc); }
+  // shop drawer
+  const sh=sH('div','zshop'+(TV.phase==='hire'?'':' hid')); sh.appendChild(sH('h4',null,tvT('hire',{n:TV.tier})));
+  TV.shop.forEach((u,i)=>{ const w=sH('div','zw'); const d=tvUnit(u, TV.gold<3?'no':''); d.onclick=()=>tvBuy(i); d.onmouseenter=()=>tvTip(u); d.onmouseleave=()=>tvTip(null); const pr=sH('span','pr'); pr.innerHTML='<i class="coin"></i>3'; w.append(pr,d); sh.appendChild(w); }); pg.appendChild(sh);
+  if(TV.phase==='hire' && TV.sel>=0 && TV.band[TV.sel]){ const u=TV.band[TV.sel]; tvTip(u); const sl=sH('div','zsell'); const mv=d=>{ const j=TV.sel+d; if(j<0||j>=TV.band.length) return; const t0=TV.band[TV.sel]; TV.band[TV.sel]=TV.band[j]; TV.band[j]=t0; TV.sel=j; tvPaint(); }; const L1=sH('button','zp','←'); L1.type='button'; L1.disabled=TV.sel===0; L1.onclick=()=>mv(-1); const R1=sH('button','zp','→'); R1.type='button'; R1.disabled=TV.sel===TV.band.length-1; R1.onclick=()=>mv(1); sl.appendChild(L1); const b=sH('button','zp',tvT('sell')); b.type='button'; b.onclick=()=>{ TV.band.splice(TV.sel,1); TV.gold=Math.min(10,TV.gold+1); TV.sel=-1; tvPaint(); }; const c=sH('button','zp',tvT('close')); c.type='button'; c.onclick=()=>{ TV.sel=-1; tvPaint(); }; sl.append(b,R1,c); tb.appendChild(sl); }
+  if(TV.end) tvEnd(); }
+function tvBuy(i){ if(TV.phase!=='hire') return; if(TV.gold<3){ toast(tvT('poor')); return; } if(TV.band.length>=7){ toast(tvT('full')); return; }
+  const u=TV.shop.splice(i,1)[0]; TV.gold-=3; TV.band.push(u); if(u.f==='hook') TV.band.forEach(x=>{ if(x.f==='hook') x.h++; });
+  // three of a kind make a golden one with double stats
+  const same=TV.band.filter(x=>x.k===u.k && !x.gold); if(same.length>=3){ const g={...same[0], id:Math.random().toString(36).slice(2), a:same.reduce((s,x)=>s+x.a,0)-same[0].a, h:same.reduce((s,x)=>s+x.h,0)-same[0].h, gold:1, n:same[0].n+' ✦'}; let at=TV.band.indexOf(same[0]); TV.band=TV.band.filter(x=>!same.slice(0,3).includes(x)); TV.band.splice(Math.min(at,TV.band.length),0,g); }
+  try{ sfx('move'); }catch(e){} tvPaint(); }
+const tvWait=ms=>new Promise(r=>setTimeout(r,ms));
+async function tvFight(){ if(!TV||TV.phase!=='hire') return; TV.phase='fight'; TV.sel=-1;
+  const alive=TV.bots.filter(b=>b.hp>0); const opp=tvRand(alive); TV.opp=opp; opp.tier=Math.min(4,1+Math.floor((TV.round+1)/3));
+  const cl=u=>({...u, id:Math.random().toString(36).slice(2)});
+  const A=TV.band.map(cl), B=tvBotBand(TV.round,opp.tier); TV.fight={A,B};
+  tvPaint(tvT('vs',{n:opp.n})); await tvWait(900);
+  // start of combat
+  const start=(S,O)=>{ const nm=S.filter(u=>u.f==='master').length; S.slice().forEach((u,i)=>{ if(u.f==='guard'){ [S[i-1],S[i+1]].forEach(x=>{ if(x) x.h+=2; }); } if(u.f==='master' && nm>1){ u.a+=nm-1; u.h+=nm-1; } if(u.ab==='trick' && O.length){ const x=tvRand(O); x.a=Math.max(0,x.a-1); } }); };
+  start(A,B); start(B,A); tvPaint(); await tvWait(500);
+  let turn=A.length>B.length?0:B.length>A.length?1:Math.random()<.5?0:1; const ptr=[0,0]; let guard=0;
+  const pick=O=>{ const tn=O.filter(u=>u.ab==='taunt'); return tvRand(tn.length?tn:O); };
+  const hitTo=(u,dmg)=>{ if(dmg<=0) return; if(u.sh){ u.sh=false; return 'block'; } u.h-=dmg; return dmg; };
+  while(A.length && B.length && guard++<200 && TV){ const S=turn?B:A, O=turn?A:B; if(ptr[turn]>=S.length) ptr[turn]=0; const att=S[ptr[turn]]; const times=att.ab==='wind'?2:1;
+    for(let k=0;k<times && O.length && S.includes(att);k++){ const def=pick(O);
+      const ea=document.querySelector('#tavPg [data-id="'+att.id+'"]'), ed=document.querySelector('#tavPg [data-id="'+def.id+'"]');
+      if(ea&&ed){ const ra=ea.getBoundingClientRect(), rd=ed.getBoundingClientRect(); ea.style.setProperty('--dy',(rd.top-ra.top)*.55+'px'); ea.style.transform='translate('+((rd.left-ra.left)*.55)+'px,'+((rd.top-ra.top)*.55)+'px) scale(1.06)'; ea.style.zIndex=5; }
+      await tvWait(260); const six=att.f==='sharp' && Math.random()<1/6; const r1=hitTo(def,att.a*(six?2:1)), r2=hitTo(att,def.a); try{ sfx('move'); }catch(e){}
+      tvPaint(); [[def,r1],[att,r2]].forEach(([u,r])=>{ const e=document.querySelector('#tavPg [data-id="'+u.id+'"]'); if(e&&r){ e.classList.add('hurt'); const m=sH('span','dmg',r==='block'?'◈':'−'+r); e.appendChild(m); } });
+      await tvWait(420);
+      [A,B].forEach(side=>{ for(let j=side.length-1;j>=0;j--){ const u=side[j]; if(u.h<=0){ side.splice(j,1); if(u.ab==='rattle') side.splice(j,0,tvMk(TV_U[0])); if(u.f==='yard'){ const ys=side.filter(x=>x.f==='yard'&&x.h>0); if(ys.length) tvRand(ys).a+=2; } if(side===S && j<ptr[turn]) ptr[turn]--; } } });
+      tvPaint(); await tvWait(200); }
+    if(S.includes(att)) ptr[turn]++; turn=1-turn; }
+  if(!TV) return;
+  let msg; const tierSum=L=>L.reduce((s,u)=>s+u.t,0);
+  if(A.length && !B.length){ const d=TV.tier+tierSum(A); opp.hp-=d; msg=tvT('win')+' · '+opp.n+' −'+d+'♥'; try{ sfx('win'); }catch(e){} }
+  else if(B.length && !A.length){ const d=opp.tier+tierSum(B); TV.hp-=d; msg=tvT('lose',{n:d}); }
+  else msg=tvT('draw');
+  // the other bots fight among themselves
+  const rest=TV.bots.filter(b=>b.hp>0 && b!==opp); for(let i=rest.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [rest[i],rest[j]]=[rest[j],rest[i]]; }
+  for(let i=0;i+1<rest.length;i+=2){ const l=Math.random()<.5?rest[i]:rest[i+1]; l.hp-=2+Math.floor(Math.random()*(2+TV.round)); }
+  tvPaint(msg); await tvWait(1700); if(!TV) return;
+  const left=TV.bots.filter(b=>b.hp>0).length;
+  if(TV.hp<=0 || left===0){ TV.end={place: TV.hp<=0 ? left+1 : 1}; TV.fight=null; tvPaint(); return; }
+  TV.round++; TV.gold=Math.min(10,2+TV.round); TV.upCost=Math.max(0,TV.upCost-1); TV.band.forEach(u=>{ if(u.ab==='grow') u.a++; });
+  TV.phase='hire'; TV.fight=null; TV.opp=null; tvRoll(); tvPaint(); }
+function tvEnd(){ const pg=$('tavPg'); const e=sH('div','zend'); const b=sH('div'); const p=TV.end.place; b.append(sH('h2',null,p===1?tvT('endW'):tvT('endP',{n:p})), sH('p',null,tvT('endD',{r:TV.round})));
+  const row=sH('div','row'); const a=sH('button','zp go',tvT('again')); a.type='button'; a.onclick=openTavern; const h=sH('button','zp',tvT('home')); h.type='button'; h.onclick=closeTavern; row.append(a,h); b.appendChild(row); e.appendChild(b); pg.appendChild(e); }
+// a fifth card in the main menu
+(function(){ const L={uk:['Таверна','Наймай героїв · бета'],en:['Tavern','Hire heroes · beta'],ru:['Таверна','Нанимай героев · бета']};
+  setInterval(()=>{ const md=document.querySelector('#hsHome .hsModes'); if(!md || md.querySelector('.hs-tav')) return; const m=uxH('button','hsMode hs-tav'); m.type='button'; const ic=uxH('span','ic'); ic.innerHTML=hsI('swords'); const tx=uxH('span','tx'); const l=L[lang]||L.en; tx.append(uxH('b',null,l[0]), uxH('small',null,l[1])); const tg=uxH('span','tag',tvT('beta')); m.append(ic,tx,tg); m.onclick=openTavern; md.appendChild(m); },700); })();
 </script>
 </body>
 </html>
