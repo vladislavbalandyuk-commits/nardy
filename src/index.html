@@ -6662,6 +6662,24 @@ html body #tavPg .zu.fx-hit .av{animation:zHitFlash .35s}
 html body #tavPg .zu.leg6 .av{box-shadow:0 0 0 3px #ffb38a,0 0 0 6px #1a1214,0 0 0 9px #ff9d5c,0 0 26px rgba(255,157,92,.7)!important;animation:leg6 2.4s ease-in-out infinite}
 @keyframes leg6{50%{box-shadow:0 0 0 3px #ffd2b0,0 0 0 6px #1a1214,0 0 0 9px #ffb38a,0 0 38px rgba(255,157,92,.95)}}
 html body #tavPg .zrow.zme.hot{outline:0!important;box-shadow:none!important;background:none!important}
+/* 0.158.0 UI polish */
+html body #tavPg.vv .zu{box-shadow:none!important;outline:0!important}
+html body #tavPg.vv .zu.fx-cry .av,html body #tavPg.vv .zu.fx-buff .av{filter:drop-shadow(0 0 14px rgba(255,213,154,.8))}
+@media (max-height:540px),(max-width:600px){html body #tavPg .ztable:has(.zhand .zc) .zs1hint{display:none!important}}
+html body #tavPg .zready{position:absolute;left:50%;bottom:calc(100% + 10px);transform:translateX(-50%);height:34px;padding:0 16px;border-radius:99px;border:0;background:#9fe0b6;color:#12301e;font:800 12px Unbounded,system-ui,sans-serif;cursor:pointer;white-space:nowrap;box-shadow:0 6px 16px rgba(0,0,0,.5)}
+html body #tavPg .zrail{position:absolute}
+html body #tavPg .zev{position:absolute;inset:0;z-index:85;display:grid;place-items:center;background:rgba(6,4,3,.78)}
+html body #tavPg .zev .zgb{width:min(620px,94vw);padding:20px;border-radius:22px;background:#17100e;border:1px solid rgba(255,255,255,.14);text-align:center}
+html body #tavPg .zev h2{margin:0 0 4px;font:800 19px Unbounded,system-ui,sans-serif}
+html body #tavPg .zev p{margin:0 0 14px;font-size:13px;opacity:.75}
+html body #tavPg .zevr{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+html body #tavPg .zevc{display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 12px;border-radius:18px;border:1px solid rgba(255,255,255,.16);background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.02));color:#f3efe7;cursor:pointer;transition:transform .15s,border-color .15s}
+html body #tavPg .zevc:hover{transform:translateY(-3px);border-color:#9fe0b6}
+html body #tavPg .zevc i{font-style:normal;font-size:34px}
+html body #tavPg .zevc b{font:800 14px Unbounded,system-ui,sans-serif}
+html body #tavPg .zevc small{font-size:12px;opacity:.8}
+@media (max-height:540px){html body #tavPg .zev .zgb{padding:12px}html body #tavPg .zevc{padding:8px}html body #tavPg .zevc i{font-size:24px}}
+@media (max-height:540px),(max-width:600px){html body #tavPg .zready{height:28px;padding:0 10px;font-size:10px}}
 </style>
 </head>
 <body>
@@ -10082,7 +10100,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.157.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.158.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -12342,6 +12360,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+{v:'0.158.0',d:'28.11.2026',uk:['Таверна: «Події в корчмі» — кожен 3-й хід обираєш одну з двох подій: золото, застілля, ремонт корчми, мандрівний чаклун, подарунок, лікар, тренування, коваль','Кнопка «Готово ▶» над таймером — почати бій, не чекаючи','Прибрано темний прямокутник, що з’являвся на герої при кличі; на телефоні підказка не перекриває карти в руці'],en:['Tavern: «Tavern events» — every 3rd turn pick one of two bonuses','A «Ready ▶» button to start the fight without waiting','Removed a dark box that flashed on heroes; phone hints no longer cover your hand']},
 {v:'0.157.0',d:'28.11.2026',uk:['Таверна: нагороди в 2,5 раза більші — до 300 монет за 1 місце (до 1500 на день), завдання дня +250, медаль фракції +500','Чаклуни — юніти під заклинання: Учень чарівника, Травниця (заклинання дешевші на 1), Писар (кожне 2-ге заклинання — ще одне в подарунок), Алхімік, Чарівниця (заклинання спрацьовують двічі)','Нові заклинання: Весілля, Ярмарок, Дзеркало, Бійка в корчмі, Кальянний дим','Суперники тепер теж грають героями: кожен обирає свого, зліва видно портрет героя, і вони використовують його силу'],en:['Tavern: rewards ×2.5 — up to 300 coins for 1st place (1500 a day), daily quest +250, faction medal +500','Spell-casters: Apprentice mage, Herbalist (spells cost 1 less), Scribe (every 2nd spell gives one more), Alchemist, Sorceress (spells work twice)','New spells: Wedding, Fair, Mirror, Tavern brawl, Hookah smoke']},
 {v:'0.156.0',d:'28.11.2026',uk:['Таверна: героя з вітрини можна тягнути одразу на стіл — він купиться і стане на те місце, куди відпустиш','Нейтральні герої ◇ — є в кожній грі й пасують до будь-якого столу: П’яничка, Вантажник, Кравчиня, Листоноша, Батюшка, Олігарх','Нові герої: Кишеньковий злодій (поцупити з вітрини), Дзеркальник (копія героя), Тамада (+1/+1 столу після виграного раунду), Сваха (міняє героя на сильнішого)','Легенди ★6: Гетьман, Відьма з Лисої гори, Кобзар, Характерник — їх немає на вітрині, лише «Розкопки» за трійку героя ★5','Заклинання кидаєш прямо на героя — воно спрацьовує на ньому; або торкнись заклинання, потім героя','Твій герой на ПК тепер зліва внизу, не під картами'],en:['Tavern: drag a hero from the shelf straight onto a table spot','Neutral heroes ◇ in every game: Tipsy, Porter, Tailor, Postman, Priest, Tycoon','New heroes: Pickpocket, Mirror maker, Toastmaster, Matchmaker']},
 {v:'0.155.0',d:'28.11.2026',uk:['Таверна: технічний патч — у бою вдвічі менше перерахунків стилів (вимикаються зайві правила меню, поки відкрита Таверна), менше фонових перевірок, звук ривка слухає лише стіл'],en:['Tavern performance patch: about half the style work during fights, fewer background checks']},
@@ -17223,6 +17242,28 @@ window.addEventListener('resize',()=>{ try{ if(TV && $('tavPg')){ clearTimeout(w
  const _hs=tvHireStart; tvHireStart=function(){ try{ TV.bots.forEach(b=>{ b.won=b.last&&b.lastWin; }); }catch(e){} return _hs.apply(this,arguments); };
  // names: «Олег · Тамада»
  const _p=tvPaint; tvPaint=function(){ const r=_p.apply(this,arguments); try{ document.querySelectorAll('#tavPg .zlb .zpl').forEach(z=>{ const a=z.querySelector('.av'); const nm=a&&a.dataset.nm; const b=TV&&TV.bots.find(x=>x.n===nm); if(b&&b.hn){ z.title=b.n+' · '+b.hn; const sm=z.querySelector('small'); if(sm&&!sm.dataset.h){ sm.dataset.h=1; sm.textContent=b.n+' · '+b.hn; } } }); }catch(e){} return r; };
+})();
+
+
+/* 0.158.0 Таверна: «Готово» (пропустити таймер) і «Події корчми» кожен 3-й хід */
+(function(){
+ const RX={uk:{ready:'Готово ▶',evT:'Подія в корчмі',evP:'Обери одне — до кінця гри цього не буде знову'},en:{ready:'Ready ▶',evT:'A tavern event',evP:'Pick one'}};
+ const tx=k=>RX[lang==='en'?'en':'uk'][k];
+ const EV=[['gold','💰','Щедрий гість','+3 золота зараз','+3 gold now',B=>{ TV.gold=Math.min(10+(TV.gb||0)+3,TV.gold+3); }],
+  ['feast','🍖','Застілля','Усім на столі +1/+1','Whole table +1/+1',B=>B.forEach(x=>{x.a++;x.h++;})],
+  ['tier','⭐','Ремонт корчми','Підвищення таверни дешевше на 3','Tavern upgrade 3 cheaper',B=>{ TV.upCost=Math.max(0,TV.upCost-3); }],
+  ['spells','📜','Мандрівний чаклун','2 випадкові заклинання в руку','2 random spells to your hand',B=>{ for(let k=0;k<2&&TV.hand.length<10;k++) TV.hand.push(tvMkS(tvRand(TV_S.filter(x=>x[0]!=='coin'&&x[4]<=TV.tier)))); }],
+  ['gold2','🎁','Подарунок','Герой твого рівня таверни в руку','A hero of your tier to your hand',B=>{ if(TV.hand.length<10){ const L=TV_U.filter(d=>d[3]===TV.tier&&d[0]!=='ap'&&(!TV.fac||TV.fac.includes(d[6])||d[6]==='neutral')); if(L.length) TV.hand.push(tvMk(tvRand(L))); } }],
+  ['heal','❤️','Лікар','+5 до твого здоров’я','+5 to your health',B=>{ TV.hp+=5; }],
+  ['big','💪','Тренування','Найсильнішому на столі +3/+3','Your strongest hero +3/+3',B=>{ const x=B.slice().sort((a,c)=>c.a+c.h-a.a-a.h)[0]; if(x){ x.a+=3; x.h+=3; } }],
+  ['shield','🛡','Коваль','Двом лівим героям — Щит','A Shield to your two leftmost',B=>B.slice(0,2).forEach(x=>{ x.sh=true; })]];
+ const _hs=tvHireStart; tvHireStart=function(){ const r=_hs.apply(this,arguments); try{ if(TV&&TV.round>=3&&TV.round%3===0&&TV._ev!==TV.round&&!TV.end){ TV._ev=TV.round; setTimeout(evShow,600); } }catch(e){} return r; };
+ function evShow(){ const pg=$('tavPg'); if(!pg||!TV||TV.phase!=='hire') return; TV.used=TV.used||[]; const L=EV.filter(e=>!TV.used.includes(e[0])).sort(()=>Math.random()-.5).slice(0,2); if(L.length<2) return;
+  const o=sH('div','zev'); const b=sH('div','zgb'); b.append(sH('h2',null,'🎲 '+tx('evT')),sH('p',null,tx('evP'))); const row=sH('div','zevr');
+  L.forEach(e=>{ const c=sH('button','zevc'); c.type='button'; c.append(sH('i',null,e[1]),sH('b',null,tvL(e[2],e[2])),sH('small',null,tvL(e[3],e[4]))); c.onclick=()=>{ try{ TV.until+=Date.now()-o._t0; }catch(_){} TV.used.push(e[0]); e[5](TV.band); o.remove(); try{ tvSnd('triple'); }catch(_){} tvPaint(); }; row.appendChild(c); });
+  b.appendChild(row); o.appendChild(b); o._t0=Date.now(); pg.appendChild(o); try{ tvSnd('cry'); }catch(_){} }
+ // Ready button over the timer
+ const _p=tvPaint; tvPaint=function(){ const r=_p.apply(this,arguments); try{ if(TV&&TV.phase==='hire'&&!TV.searching){ const rail=document.querySelector('#tavPg .zrail'); if(rail&&!rail.querySelector('.zready')){ const b=sH('button','zready',tx('ready')); b.type='button'; b.onclick=e=>{ e.stopPropagation(); if(TV&&TV.phase==='hire'&&!document.querySelector('#tavPg .zev')){ TV.until=Date.now(); try{ tvSnd('eot'); }catch(_){} } }; rail.appendChild(b); } } }catch(e){} return r; };
 })();
 
 </script>
