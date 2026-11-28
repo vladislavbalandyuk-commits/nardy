@@ -6489,6 +6489,15 @@ html body #tavPg .zs1bar{top:auto!important;bottom:78px!important;right:30px!imp
 @media (max-height:540px),(max-width:600px){html body #tavPg .zs1bar{bottom:52px!important;right:8px!important}
 html body #tavPg .zs1hint{animation:zIn .25s ease-out,zs1Out .5s 5s forwards}}
 @keyframes zs1Out{to{opacity:0;visibility:hidden}}
+html body #tavPg{overflow:clip!important}
+html body #tavPg .ztable{overflow:clip}
+/* stats: one plaque under the portrait — blue attack half + red health half */
+html body #tavPg.vv .zu .za,html body #tavPg.vv .zu .zh{clip-path:none!important;width:30px!important;height:24px!important;bottom:-12px!important;border:2px solid #120a06!important;font-size:13px!important;line-height:1!important;filter:drop-shadow(0 3px 4px rgba(0,0,0,.6))}
+html body #tavPg.vv .zu .za{left:50%!important;right:auto!important;transform:translateX(-100%)!important;border-radius:12px 3px 3px 12px!important;background:linear-gradient(180deg,#9cc0e0,#4a6f96)!important;border-right-width:1px!important}
+html body #tavPg.vv .zu .zh{left:50%!important;right:auto!important;transform:none!important;border-radius:3px 12px 12px 3px!important;background:linear-gradient(180deg,#e2525f,#9a2232)!important;border-left-width:1px!important}
+html body #tavPg.vv .zu .zh.low{background:linear-gradient(180deg,#ff7a85,#c0182c)!important}
+@media (max-height:540px),(max-width:600px){html body #tavPg.vv .zu .za,html body #tavPg.vv .zu .zh{width:22px!important;height:18px!important;font-size:10px!important;bottom:-9px!important}}
+html body #tavPg .ztable:has(.zs1hint) .zmid:not(.big){display:none}
 </style>
 </head>
 <body>
@@ -9909,7 +9918,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.148.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.148.1';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -12169,6 +12178,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+{v:'0.148.1',d:'28.11.2026',uk:['Таверна: стіл більше не «пливе» вбік при виборі героя; атака й здоров’я — одна табличка під портретом'],en:['Tavern: the table no longer drifts when you pick a hero; attack and health form one plaque under the portrait']},
 {v:'0.148.0',d:'28.11.2026',uk:['Таверна, етап «Зручність»: номер черговості атаки на кожному герої, кнопка «Наступний суперник» з його останнім столом, журнал раундів з обома столами, підказки «що робити далі» (вимикаються хрестиком)'],en:['Tavern convenience: attack order numbers, a «Next opponent» button with their last board, a round log with both boards, «what next» hints (close with ×)']},
 {v:'0.147.0',d:'28.11.2026',uk:['Таверна: нова фракція «Базар» ⚖ — п’ять торговців з новими портретами: Перекупка, Міняйло, Коробейник, Ювелір і Баронеса базару. Ростуть, коли продаєш героїв і береже золото','Балансний патч за симуляцією сотень ігор: Кальянна слабша; Варта (+1/+1 сусідам), Двір (+1/+1 при смерті), Шулери (подвійний удар на 5–6) сильніші'],en:['Tavern: a new faction, the Bazaar ⚖ — five traders with new portraits who grow when you sell heroes and save gold','Balance patch from hundreds of simulated games: Hookah weaker; Guard, Yard and Sharps stronger']},
 {v:'0.146.3',d:'28.11.2026',uk:['Таверна: місця, куди ставити героя, тепер великі овали — легко попасти і на ПК, і на телефоні'],en:['Tavern: the spots to place a hero are now big ovals, easy to hit']},
@@ -16640,6 +16650,11 @@ window.addEventListener('resize',()=>{ try{ if(TV && $('tavPg')){ clearTimeout(w
    r.append(hd,rows); box.appendChild(r); });
   const c=sH('button','go',tx('close')); c.type='button'; c.onclick=()=>o.remove(); box.appendChild(c); o.appendChild(box); o.onclick=e=>{ if(e.target===o) o.remove(); }; pg.appendChild(o); }
 })();
+
+
+/* 0.148.1: the Tavern page never scrolls away (focus/scrollIntoView used to shift it) */
+(function(){ document.addEventListener('scroll',e=>{ const t=e.target; if(t&&t.nodeType===1&&(t.id==='tavPg'||t.closest&&t.closest('#tavPg'))&&(t.scrollTop||t.scrollLeft)&&!t.classList.contains('zgb')&&!t.classList.contains('zs1log')){ t.scrollTop=0; t.scrollLeft=0; } },true);
+ setInterval(()=>{ const pg=document.getElementById('tavPg'); if(pg&&(pg.scrollTop||pg.scrollLeft)){ pg.scrollTop=0; pg.scrollLeft=0; } if(pg&&(document.scrollingElement.scrollTop||document.scrollingElement.scrollLeft)) window.scrollTo(0,0); },400); })();
 
 </script>
 </body>
