@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.144.2
+- Таверна: горизонтальна розкладка для телефона (landscape, висота ≤540), прохання повернути телефон у вертикальному положенні (fullscreen + orientation.lock, Telegram requestFullscreen), можна грати вертикально.
+
 ## 0.144.1
 - Таверна: рівень ★5 (вітрина 6), 5 героїв рівня 5; SVG-іконки — медальйони (кнопки, сила) і самоцвіти (значки).
 

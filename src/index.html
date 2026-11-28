@@ -5957,7 +5957,7 @@ body.brOn #board .pt.brWall{background-image:linear-gradient(180deg,rgba(224,137
 #tavPg .zend .row{display:flex;gap:10px;width:100%}
 #tavPg .zend button{flex:1;height:50px;border-radius:14px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:#f3efe7;font:800 15px inherit;cursor:pointer}
 #tavPg .zend button.go{background:#f3efe7;color:#1a1412;border:0}
-@media (max-width:900px){
+@media (max-width:900px) and (orientation:portrait),(max-width:600px){
 #tavPg .ztable{left:0;right:0;top:58px;bottom:150px;border-radius:0;box-shadow:none}
 #tavPg .zfelt{left:2%;right:2%;top:18%;bottom:14%;border-radius:44px}
 #tavPg .zrow{gap:3px;padding:0 3px}#tavPg .zop{top:23%}#tavPg .zme{bottom:20%}
@@ -6091,7 +6091,7 @@ body.brOn #board .pt.brWall{background-image:linear-gradient(180deg,rgba(224,137
 #tavPg .zgi .zu.demo .za,#tavPg .zgi .zu.demo .zh{width:20px;height:20px;font-size:10px;bottom:-7px}
 #tavPg .zgi b{font-size:12.5px;margin-top:4px}#tavPg .zgi small{font-size:11px;color:#a8a29a;line-height:1.3}
 #tavPg .zgf{font-size:12.5px;color:#d6d0c7}
-@media (max-width:900px){
+@media (max-width:900px) and (orientation:portrait),(max-width:600px){
 #tavPg .zinfo{left:8px;right:8px;bottom:8px;width:auto;flex-direction:column;background:rgba(14,12,15,.97);padding:10px;border-radius:20px;border:1px solid rgba(224,137,111,.4);box-shadow:0 -20px 40px rgba(0,0,0,.6)}
 #tavPg .zinfo .zcard.in{display:grid;grid-template-columns:64px minmax(0,1fr) auto;grid-template-areas:"a h s" "a t s" "a p s";column-gap:10px;row-gap:2px;align-items:center;text-align:left;padding:8px;border:0;box-shadow:none;background:none}
 #tavPg .zinfo .zcard.in .av{grid-area:a;width:64px;height:64px}#tavPg .zinfo .zcard.in h3{grid-area:h;font-size:15px;margin:0}#tavPg .zinfo .zcard.in .tags{grid-area:t;justify-content:flex-start}#tavPg .zinfo .zcard.in p{grid-column:2;font-size:12px}#tavPg .zinfo .zcard.in .st{grid-area:s;flex-direction:column;margin:0}#tavPg .zinfo .zcard.in .st span{width:32px;height:32px;font-size:13px}
@@ -6117,7 +6117,48 @@ body.brOn #board .pt.brWall{background-image:linear-gradient(180deg,rgba(224,137
 #tavPg .zpow.pas svg.tvmed{opacity:.75}
 #tavPg .zu .zkw i,#tavPg .zu .zfa{width:22px!important;height:22px!important;background:none!important;border:0!important;border-radius:0!important;filter:drop-shadow(0 2px 3px rgba(0,0,0,.6))}
 #tavPg .zu .zkw i svg,#tavPg .zu .zfa svg{width:100%;height:100%;display:block}
-@media (max-width:900px){#tavPg .zme-hero{left:10px!important;transform:none!important}#tavPg .zk{width:44px;height:44px}#tavPg .zpow{width:46px;height:46px}#tavPg .zu .zkw i,#tavPg .zu .zfa{width:16px!important;height:16px!important}}
+@media (max-width:900px) and (orientation:portrait),(max-width:600px){#tavPg .zme-hero{left:10px!important;transform:none!important}#tavPg .zk{width:44px;height:44px}#tavPg .zpow{width:46px;height:46px}#tavPg .zu .zkw i,#tavPg .zu .zfa{width:16px!important;height:16px!important}}
+
+/* 0.144.2 tavern on a phone held sideways — the Battlegrounds way */
+@media (orientation:landscape) and (max-height:540px){
+#tavPg .ztable{left:96px;right:8px;top:6px;bottom:48px;border-radius:26px;box-shadow:0 0 0 5px #24150e,0 0 0 7px rgba(224,137,111,.3)}
+#tavPg .zfelt{left:5%;right:5%;top:20%;bottom:13%}
+#tavPg .zop{top:22%}#tavPg .zme{bottom:16%;padding-left:90px}
+#tavPg .zrow{gap:6px}
+#tavPg .zu,#tavPg .zslot{width:min(8.6vw,66px);height:min(11.2vw,86px);padding-top:4px}
+#tavPg .zu .av{width:min(6vw,46px);height:min(6vw,46px)}
+#tavPg .zu b{font-size:8.5px}#tavPg .zu .zt{font-size:8.5px;top:-8px;padding:0 4px}
+#tavPg .zu .za,#tavPg .zu .zh{width:20px;height:20px;font-size:10px;bottom:-7px}
+#tavPg .zu .zkw{top:14px;right:-7px}#tavPg .zu .zfa{top:14px;left:-7px}
+#tavPg .zu .zkw i,#tavPg .zu .zfa{width:16px!important;height:16px!important}
+#tavPg .zop .pr{width:20px;height:20px;font-size:10px;top:-10px}
+#tavPg .zkeep{top:1%;gap:8px}#tavPg .zhp .av{width:48px;height:48px;box-shadow:0 0 0 3px #e0896f,0 0 0 6px #2a1810}#tavPg .zhp em{min-width:22px;height:22px;font-size:10px;right:-8px;bottom:-6px}#tavPg .zhp .stars{font-size:8px;bottom:-9px;padding:0 5px}
+#tavPg .zk{width:40px;height:40px}#tavPg .zk small{min-width:18px;height:18px;font-size:10px;line-height:18px}
+#tavPg .zme-hero{left:7%;bottom:2%;transform:none}#tavPg .zme-hero .zhp .av{width:46px;height:46px}#tavPg .zpow{width:40px;height:40px}
+#tavPg .zlb{left:6px;top:54px;bottom:8px;width:84px;gap:3px}
+#tavPg .zlb .zpl{padding:2px;gap:4px;border-radius:10px}#tavPg .zlb .zpl .av{width:24px;height:24px;border-radius:7px}#tavPg .zlb .zpl small{font-size:8.5px}#tavPg .zlb .zpl em{font-size:8.5px;top:1px;right:4px}#tavPg .zlb .zpl .hb{height:4px}#tavPg .zlb .zpl .tr{display:none}
+#tavPg .zback{left:6px;top:6px;width:36px;height:36px}#tavPg .zround{display:none}#tavPg .zhelp{left:48px;right:auto;top:6px;width:36px;height:36px}
+#tavPg .zrail{right:-6px}#tavPg .ztimer{height:34px;min-width:76px;font-size:12px;padding:0 8px}#tavPg .zgo{height:36px;padding:0 12px;font-size:12px}
+#tavPg .zgold{right:12px;bottom:-40px}#tavPg .zgold b{font-size:12px}#tavPg .zgold .pips i{width:11px;height:11px}
+#tavPg .zhand{left:96px;right:8px;bottom:-58px;height:120px}
+#tavPg .zc{width:84px;height:116px;margin:0 -8px;padding:5px 5px 8px}#tavPg .zc .av{width:42px;height:42px}#tavPg .zc b{font-size:9px}#tavPg .zc .fx{font-size:7.5px}#tavPg .zc .fc{display:none}
+#tavPg .zc:hover,#tavPg .zc.sel{transform:translateY(-96px) scale(1.15)}
+#tavPg .zinfo{right:8px;bottom:52px;width:230px;gap:6px}#tavPg .zinfo .zcard.in{padding:8px;gap:3px}#tavPg .zinfo .zcard.in .av{width:54px;height:54px}#tavPg .zinfo .zcard.in h3{font-size:14px}#tavPg .zinfo .zcard.in p{font-size:11px}#tavPg .zinfo .zcard.in .st span{width:28px;height:28px;font-size:12px}#tavPg .zact button{height:36px;font-size:12px}
+#tavPg .zcard.hov{width:200px;padding:10px}#tavPg .zcard.hov .av{width:70px;height:70px}
+#tavPg .zmid{font-size:12px}#tavPg .zfc span{font-size:10px;padding:2px 7px}
+#tavPg .zcandle{display:none}#tavPg .zspd{right:8px;top:8px;bottom:auto}
+#tavPg .zpick h2{font-size:20px}#tavPg .zph{width:180px;padding:10px}#tavPg .zph .av{width:64px;height:64px}#tavPg .zph .pw{font-size:11px}
+#tavPg .zgb{padding:14px}#tavPg .zgg{grid-template-columns:repeat(5,minmax(0,1fr))}
+}
+/* ask to turn the phone */
+#tavPg .zrot{position:absolute;inset:0;z-index:70;display:none;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:30px;text-align:center;background:radial-gradient(60% 50% at 50% 40%,#3a1219,#0b0a0c)}
+#tavPg .zrot h2{margin:0;font-family:'Unbounded',system-ui,sans-serif;font-size:22px}#tavPg .zrot p{margin:0;color:#b9b2a8;font-size:14px;line-height:1.45}
+#tavPg .zrot .ph{width:70px;height:120px;border-radius:14px;border:3px solid #f3efe7;position:relative;animation:zRot 2.4s ease-in-out infinite}
+#tavPg .zrot .ph::after{content:"";position:absolute;left:50%;bottom:6px;width:16px;height:3px;margin-left:-8px;border-radius:2px;background:#f3efe7}
+@keyframes zRot{0%,20%{transform:rotate(0)}50%,80%{transform:rotate(-90deg)}100%{transform:rotate(0)}}
+#tavPg .zrot button{height:48px;padding:0 22px;border-radius:14px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#f3efe7;font:750 15px/1 inherit;cursor:pointer}
+#tavPg .zrot button.go{background:#f3efe7;color:#1a1412;border:0}
+@media (orientation:portrait) and (max-width:600px){html body:not(.tvVert) #tavPg .zrot{display:flex}}
 html body #hsHome .hsMode.hs-tav{order:5;--hsimg:url("tb/tavern.webp")}
 @media (min-width:761px){html body #hsHome .hsModes.hsModes{gap:14px}html body #hsHome .hsMode.hsMode{width:212px;height:380px}html body #hsHome .hsMode.hs-play{width:268px;height:440px}}
 @media (min-width:761px) and (max-width:1180px){html body #hsHome .hsMode.hsMode{width:170px;height:320px}html body #hsHome .hsMode.hs-play{width:220px;height:380px}html body #hsHome .hsMode .tx b{font-size:18px!important}}
@@ -9542,7 +9583,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.144.1';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.144.2';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -11802,6 +11843,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+{v:'0.144.2',d:'28.11.2026',uk:['Таверна на телефоні грається горизонтально, як Hearthstone: компактне лобі, рука знизу, панель героя збоку'],en:['On phones the Tavern is played sideways, like Hearthstone']},
 {v:'0.144.1',d:'28.11.2026',uk:['Таверна: 5-й рівень і п’ять нових героїв — Голова двору, Власник кальянної, Капітан варти, Круп’є, Гросмейстер','Нові іконки: бордові медальйони на кнопках корчмаря й силі героя, кольорові самоцвіти-значки ефектів і фракцій на героях'],en:['Tavern: tier 5 and five new heroes','New icons: burgundy medallions on the buttons and hero power, coloured gems for effects and factions on heroes']},
 {v:'0.144.0',d:'28.11.2026',uk:['Таверна 3.0: на старті обираєш героя з власною силою (Влад, Паша, бабця Ліда, Шулер, Сомельє, Хан)','Перетягуй карти: з вітрини — купити, з руки — на стіл у потрібне місце, по столу — переставити, на вітрину — продати','На телефоні торкання відкриває панель з описом і кнопками — вона не зникає','Заклинання на вітрині, три однакові → золотий герой і «Відкриття» на вибір','У ботів свій стіл, що росте; видно наступного суперника, торкнись гравця — побачиш його стіл','Кожен ефект має свою анімацію і звук, навчання з підсвіткою і довідник «?»','Нові герої: Отруйник (отрута) і Тінь (друге дихання), швидкість бою ×2'],en:['Tavern 3.0: pick a hero with a power at the start','Drag cards: shelf → buy, hand → table at a spot, table → reorder, onto the shelf → sell','On phones a tap opens a panel with info and buttons that stays','Spells on the shelf, triples → golden hero and a Discover','Bots keep growing boards; see your next opponent, tap a player to see their board','Every effect has its own animation and sound, a guided tutorial and a «?» guide','New heroes: Poisoner (venom) and Shadow (reborn), combat speed ×2']},
 {v:'0.143.0',d:'28.11.2026',uk:['Таверна 2.0: як у Battlegrounds — вітрина зверху з корчмарем і кнопками, твій стіл знизу, куплені герої йдуть у руку','У кожного героя своя механіка: клич, смерть, початок бою, кінець ходу, помста, провокатор, щит, подвійний удар','Ліворуч — лобі з серцями й рівнями таверни, праворуч — таймер і «До бою», внизу — золото','Наведи на героя — велика картка з описом поруч, без накладань'],en:['Tavern 2.0: Battlegrounds layout — the shelf with the innkeeper on top, your band below, bought heroes go to your hand','Every hero has its own effect: battlecry, death, start of combat, end of turn, avenge, taunt, shield, double strike','Lobby with hearts on the left, timer and «To battle» on the right, gold at the bottom','Hover a hero for a big card beside it, no overlaps']},
@@ -16002,6 +16044,14 @@ function tvGuide(fromTut){ const pg=$('tavPg'); if(!pg) return; const o=sH('div'
   const c=sH('button','go',fromTut?tvT('tutDone'):tvT('close')); c.onclick=()=>o.remove(); box.appendChild(c); o.appendChild(box); pg.appendChild(o);
   setTimeout(()=>g.querySelectorAll('.zgi').forEach((it,i)=>setTimeout(()=>it.querySelector('.demo')&&tvFxEl(it.querySelector('.demo'),['cry','death','start','eot','avenge','shield','buff','buff','venom','reborn'][i]),i*260)),300); }
 
+
+/* 0.144.2 Tavern: on phones ask to hold the phone sideways; try to lock landscape */
+function tvRotBox(){ const pg=$('tavPg'); if(!pg || pg.querySelector('.zrot')) return; const L={uk:['Поверни телефон','Таверна грається горизонтально — як Hearthstone. Так більше місця для героїв і руки.','Повернути','Грати вертикально'],en:['Turn your phone','The Tavern is played sideways, like Hearthstone — more room for heroes and your hand.','Rotate','Play upright']}; const x=L[lang==='en'?'en':'uk'];
+  const o=sH('div','zrot'); o.append(sH('div','ph'), sH('h2',null,x[0]), sH('p',null,x[1])); const a=sH('button','go',x[2]); a.type='button'; a.onclick=async()=>{ try{ const tg=window.Telegram&&Telegram.WebApp; if(tg&&tg.requestFullscreen) tg.requestFullscreen(); else if(document.documentElement.requestFullscreen) await document.documentElement.requestFullscreen(); }catch(e){} try{ await screen.orientation.lock('landscape'); }catch(e){ toast(x[1]); } };
+  const b=sH('button',null,x[3]); b.type='button'; b.onclick=()=>{ document.body.classList.add('tvVert'); }; o.append(a,b); pg.appendChild(o); }
+{ const _tp=tvPaint; tvPaint=function(){ const r=_tp.apply(this,arguments); try{ tvRotBox(); }catch(e){} return r; }; }
+{ const _ct=closeTavern; closeTavern=function(){ try{ if(screen.orientation&&screen.orientation.unlock) screen.orientation.unlock(); }catch(e){} try{ if(document.fullscreenElement) document.exitFullscreen(); }catch(e){} document.body.classList.remove('tvVert'); return _ct.apply(this,arguments); }; }
+window.addEventListener('resize',()=>{ try{ if(TV && $('tavPg')){ clearTimeout(window._tvRs); window._tvRs=setTimeout(()=>tvPaint(),200); } }catch(e){} });
 // a fifth card in the main menu
 (function(){ const L={uk:['Таверна','Наймай героїв · бета'],en:['Tavern','Hire heroes · beta'],ru:['Таверна','Нанимай героев · бета']};
   setInterval(()=>{ const md=document.querySelector('#hsHome .hsModes'); if(!md || md.querySelector('.hs-tav')) return; const m=uxH('button','hsMode hs-tav'); m.type='button'; const ic=uxH('span','ic'); ic.innerHTML=hsI('swords'); const tx=uxH('span','tx'); const l=L[lang]||L.en; tx.append(uxH('b',null,l[0]), uxH('small',null,l[1])); const tg=uxH('span','tag',tvT('beta')); m.append(ic,tx,tg); m.onclick=openTavern; md.appendChild(m); },700); })();
