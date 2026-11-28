@@ -9583,7 +9583,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.144.2';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.144.3';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -11843,6 +11843,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+{v:'0.144.3',d:'28.11.2026',uk:['Таверна: у кожного героя свій портрет із магазину — Влад, Паша, Сомельє, Діджей, Кальянник, бабця Ліда, вартовий у кашкеті, шулер з картою та інші'],en:['Tavern: every hero has its own portrait from the shop']},
 {v:'0.144.2',d:'28.11.2026',uk:['Таверна на телефоні грається горизонтально, як Hearthstone: компактне лобі, рука знизу, панель героя збоку'],en:['On phones the Tavern is played sideways, like Hearthstone']},
 {v:'0.144.1',d:'28.11.2026',uk:['Таверна: 5-й рівень і п’ять нових героїв — Голова двору, Власник кальянної, Капітан варти, Круп’є, Гросмейстер','Нові іконки: бордові медальйони на кнопках корчмаря й силі героя, кольорові самоцвіти-значки ефектів і фракцій на героях'],en:['Tavern: tier 5 and five new heroes','New icons: burgundy medallions on the buttons and hero power, coloured gems for effects and factions on heroes']},
 {v:'0.144.0',d:'28.11.2026',uk:['Таверна 3.0: на старті обираєш героя з власною силою (Влад, Паша, бабця Ліда, Шулер, Сомельє, Хан)','Перетягуй карти: з вітрини — купити, з руки — на стіл у потрібне місце, по столу — переставити, на вітрину — продати','На телефоні торкання відкриває панель з описом і кнопками — вона не зникає','Заклинання на вітрині, три однакові → золотий герой і «Відкриття» на вибір','У ботів свій стіл, що росте; видно наступного суперника, торкнись гравця — побачиш його стіл','Кожен ефект має свою анімацію і звук, навчання з підсвіткою і довідник «?»','Нові герої: Отруйник (отрута) і Тінь (друге дихання), швидкість бою ×2'],en:['Tavern 3.0: pick a hero with a power at the start','Drag cards: shelf → buy, hand → table at a spot, table → reorder, onto the shelf → sell','On phones a tap opens a panel with info and buttons that stays','Spells on the shelf, triples → golden hero and a Discover','Bots keep growing boards; see your next opponent, tap a player to see their board','Every effect has its own animation and sound, a guided tutorial and a «?» guide','New heroes: Poisoner (venom) and Shadow (reborn), combat speed ×2']},
@@ -15788,10 +15789,13 @@ const TV_TRK={cry:'cry',death:'death',start:'start',eot:'eot',avenge:'avenge',fd
 let tvIcN=0;
 function tvMed(k){ const i=++tvIcN; const fill=['up','pow','shield','wind'].includes(k); return '<svg class="tvmed" viewBox="0 0 48 48" aria-hidden="true"><defs><radialGradient id="tm'+i+'" cx=".4" cy=".3" r=".8"><stop offset="0" stop-color="#b0434f"/><stop offset=".7" stop-color="#6e1a25"/><stop offset="1" stop-color="#3f0e15"/></radialGradient><linearGradient id="tr'+i+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6dccd"/><stop offset=".5" stop-color="#c76a52"/><stop offset="1" stop-color="#7a3a2c"/></linearGradient></defs><circle cx="24" cy="24" r="23" fill="url(#tr'+i+')"/><circle cx="24" cy="24" r="19.5" fill="url(#tm'+i+')"/><ellipse cx="24" cy="15" rx="12" ry="5" fill="#fff" opacity=".12"/><g transform="translate(12 12)" fill="'+(fill?'#f3efe7':'none')+'" fill-opacity=".25" stroke="#f3efe7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="'+TV_G[k]+'"/></g></svg>'; }
 function tvGem(k){ const c=TV_GC[k]||'#e0896f'; return '<svg class="tvgem" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 2 43 13v22L24 46 5 35V13Z" fill="#120f11" stroke="'+c+'" stroke-width="3"/><path d="M24 7 39 15.5v17L24 41 9 32.5v-17Z" fill="'+c+'" opacity=".35"/><path d="M24 7 39 15.5 24 24 9 15.5Z" fill="#fff" opacity=".12"/><g transform="translate(11 11) scale(1.08)" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="'+TV_G[k]+'"/></g></svg>'; }
+const TV_AV={ap:'pt50',yard:'pt51',guard:'pt59',tea:'pt43',dice1:'pt41',bro:'pt53',dj:'dj',wall:'pt48',trick:'pt38',viper:'pt55',bench:'pt58',hook:'hookah',bear:'pt54',cheat:'pt49',liza:'pt56',ghost:'pt61',king:'pt52',somm:'somm',khan:'pt37',ace:'pt44',pasha:'pasha',vlad:'vlad',mayor:'pt45',owner:'pt40',captain:'pt60',dealer:'vladM',grand:'pt57'};
+const tvAvU=k=>TV_AV[k]&&AVATARS[TV_AV[k]]?TV_AV[k]:tvAvK(TV_U.findIndex(d=>d[0]===k));
+const TV_BOTAV=['n4','m2','n7','m6','n10','m9','n3'];
 let TV=null;
 const tvAvK=i=>{ const K=Object.keys(AVATARS); return K[(i*5+31)%K.length]; };
 const tvDef=k=>TV_U.find(d=>d[0]===k);
-const tvMk=d=>({id:Math.random().toString(36).slice(2), k:d[0], n:tvL(d[1],d[2]), t:d[3], a:d[4], h:d[5], f:d[6], kw:d[7].slice(), tr:d[8], av:tvAvK(TV_U.indexOf(d)), sh:d[7].includes('shield'), rb:d[7].includes('reborn'), g:1, ac:0});
+const tvMk=d=>({id:Math.random().toString(36).slice(2), k:d[0], n:tvL(d[1],d[2]), t:d[3], a:d[4], h:d[5], f:d[6], kw:d[7].slice(), tr:d[8], av:tvAvU(d[0]), sh:d[7].includes('shield'), rb:d[7].includes('reborn'), g:1, ac:0});
 const tvMkS=d=>({id:Math.random().toString(36).slice(2), sp:1, k:d[0], n:tvL(d[1],d[2]), c:d[3], t:Math.max(1,Math.min(5,d[4]===9?1:d[4])), txt:tvL(d[5],d[6]), kw:[], a:0, h:0});
 const tvText=u=>{ if(u.sp) return u.txt; const d=tvDef(u.k); if(!d||!d[9]) return ''; const lab=TV_TRG[d[8]]?tvT(TV_TRG[d[8]])+': ':''; return lab+tvL(d[9],d[10])+(u.g>1?' ×2':''); };
 const tvPool=t=>TV_U.filter(d=>d[3]<=t && d[0]!=='ap');
@@ -15815,10 +15819,10 @@ function tvSnd(kind){ if(typeof sfxMute!=='undefined' && sfxMute) return; try{ i
 // ---- open / close
 function openTavern(){ try{ $('shopPg')&&closeShopPg(); }catch(e){}
   TV={round:1, gold:3, tier:1, upCost:6, frozen:false, hp:30, band:[], hand:[], shop:[], phase:'hero', pick:null, speed:1, powerUsed:false, boughtThis:false,
-    bots:TV_NAMES.map((n,i)=>({n, hp:30, av:tvAvK(40+i*3), tier:1, band:[], last:null}))};
+    bots:TV_NAMES.map((n,i)=>({n, hp:30, av:AVATARS[TV_BOTAV[i]]?TV_BOTAV[i]:tvAvK(40+i*3), tier:1, band:[], last:null}))};
   const hs=TV_H.slice(); for(let i=hs.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [hs[i],hs[j]]=[hs[j],hs[i]]; } TV.heroOpts=hs.slice(0,3);
   let pg=$('tavPg'); if(!pg){ pg=sH('div'); pg.id='tavPg'; document.body.appendChild(pg); tvDrag(pg); } tvPaint(); try{ hsSync(); }catch(e){} try{ ambPlay(120); }catch(e){} }
-function tvStart(h){ TV.hero={k:h[0], n:tvL(h[1],h[2]), p:tvL(h[3],h[4]), cost:h[5], av:tvAvK(TV_U.findIndex(d=>d[0]===h[0]))}; TV.phase='hire'; tvRoll(); tvHireStart(); tvPaint(); tvSnd('up');
+function tvStart(h){ TV.hero={k:h[0], n:tvL(h[1],h[2]), p:tvL(h[3],h[4]), cost:h[5], av:tvAvU(h[0])}; TV.phase='hire'; tvRoll(); tvHireStart(); tvPaint(); tvSnd('up');
   if(!store.get('tv_tut',false)) setTimeout(()=>tvTut(0),400); }
 function closeTavern(){ const pg=$('tavPg'); if(pg) pg.remove(); TV=null; try{ ambStop(); ambSync(); }catch(e){} try{ hsSync(); }catch(e){} try{ route(); }catch(e){} }
 try{ UI_PAGES.unshift('tavPg'); }catch(e){}
@@ -15847,7 +15851,7 @@ function tvPaint(msg,big){ const pg=$('tavPg'); if(!pg||!TV) return; pg.querySel
   const hire=TV.phase==='hire', opp=TV.opp;
   const kp=sH('div','zkeep');
   if(hire){ const up=sH('button','zk'); up.type='button'; up.dataset.tut='4'; up.title=tvT('up',{n:TV.upCost}); up.innerHTML=tvMed('up')+(TV.tier<5?'<small>'+TV.upCost+'</small>':''); up.disabled=TV.tier>=5||TV.gold<TV.upCost; up.onclick=tvUp;
-    const st=sH('span','stars','★'.repeat(TV.tier)+'☆'.repeat(5-TV.tier)); const kh=tvHero(tvAvK(77),tvT('keeper'),null,st);
+    const st=sH('span','stars','★'.repeat(TV.tier)+'☆'.repeat(5-TV.tier)); const kh=tvHero(AVATARS.pt42?'pt42':tvAvK(77),tvT('keeper'),null,st);
     const reFree=TV.hero&&TV.hero.k==='vlad'&&!TV.powerUsed; const re=sH('button','zk'); re.type='button'; re.title=tvT('re'); re.innerHTML=tvMed('re')+'<small>'+(reFree?0:1)+'</small>'; re.disabled=!reFree&&TV.gold<1; re.onclick=tvReroll;
     const fr=sH('button','zk'+(TV.frozen?' on':'')); fr.type='button'; fr.title=TV.frozen?tvT('unfreeze'):tvT('freeze'); fr.innerHTML=tvMed('fr'); fr.onclick=()=>{ TV.frozen=!TV.frozen; tvSnd('freeze'); tvPaint(); };
     kp.append(up,kh,re,fr); }
@@ -15897,7 +15901,7 @@ function tvTick(){ if(!TV || TV.phase!=='hire') return; const left=Math.max(0,Ma
 setInterval(()=>{ try{ tvTick(); }catch(e){} },500);
 // ---- hero pick and discover
 function tvHeroPick(pg){ const o=sH('div','zpick'); o.append(sH('h2',null,tvT('pickHero')), sH('p',null,tvT('pickD'))); const row=sH('div','zpr');
-  TV.heroOpts.forEach(h=>{ const b=sH('button','zph'); b.type='button'; const a=sH('span','av'); try{ avatarInto(a,tvAvK(TV_U.findIndex(d=>d[0]===h[0])),h[1]); }catch(e){} b.append(a, sH('b',null,tvL(h[1],h[2])), sH('span','pw',(h[5]!=null?'('+h[5]+') ':'')+tvL(h[3],h[4]))); b.onclick=()=>tvStart(h); row.appendChild(b); });
+  TV.heroOpts.forEach(h=>{ const b=sH('button','zph'); b.type='button'; const a=sH('span','av'); try{ avatarInto(a,tvAvU(h[0]),h[1]); }catch(e){} b.append(a, sH('b',null,tvL(h[1],h[2])), sH('span','pw',(h[5]!=null?'('+h[5]+') ':'')+tvL(h[3],h[4]))); b.onclick=()=>tvStart(h); row.appendChild(b); });
   o.appendChild(row); pg.appendChild(o); }
 function tvDiscover(tier){ const pg=$('tavPg'); const L=Array.from({length:3},()=>tvMk(tvRand(TV_U.filter(d=>d[3]===tier)))); const o=sH('div','zpick zdisc'); o.appendChild(sH('h2',null,tvT('discover'))); const row=sH('div','zpr');
   L.forEach(u=>{ const c=tvCardEl(u); c.classList.add('in','pk'); c.onclick=()=>{ o.remove(); if(TV.hand.length<10) TV.hand.push(u); tvSnd('triple'); tvPaint(); setTimeout(()=>tvFxEl(document.querySelector('#tavPg .zhand [data-id="'+u.id+'"]'),'cry'),60); }; row.appendChild(c); }); o.appendChild(row); pg.appendChild(o); }

@@ -3,6 +3,9 @@
 Versions: **patch** (0.13.1) — small fixes; **minor** (0.14.0) — new features; **1.0** — the big redesign.
 The beta at `/beta` is not versioned until its features reach the main site.
 
+## 0.144.3
+- Таверна: портрети героїв з аватарів магазину (TV_AV), корчмар pt42, боти — серія n/m.
+
 ## 0.144.2
 - Таверна: горизонтальна розкладка для телефона (landscape, висота ≤540), прохання повернути телефон у вертикальному положенні (fullscreen + orientation.lock, Telegram requestFullscreen), можна грати вертикально.
 
