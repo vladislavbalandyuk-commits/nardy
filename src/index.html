@@ -6327,7 +6327,7 @@ html body #tavPg.r3 .zpl.nx .av{box-shadow:0 0 0 2px #120a06,0 0 0 4px #e0896f,0
 /* clearer empty slots on busy fields */
 html body #tavPg.tt .zslot{border:2px dashed rgba(255,236,220,.55)!important;background:radial-gradient(circle,rgba(255,236,220,.16),rgba(20,8,10,.45) 75%)!important;box-shadow:0 0 0 4px rgba(20,8,10,.35),inset 0 0 18px rgba(0,0,0,.4)!important;position:relative}
 html body #tavPg.tt .zslot::after{content:"+";position:absolute;inset:0;display:grid;place-items:center;font:300 34px Unbounded,sans-serif;color:rgba(255,236,220,.5)}
-html body #tavPg.tt.dragging .zslot,html body #tavPg.tt .zslot.hot{border-color:#9fe0b6!important;background:radial-gradient(circle,rgba(159,224,182,.35),rgba(20,8,10,.4) 75%)!important;animation:slotP 1s ease-in-out infinite}
+html body #tavPg.tt.tvdrg .zslot,html body #tavPg.tt .zslot.hot{border-color:#9fe0b6!important;background:radial-gradient(circle,rgba(159,224,182,.35),rgba(20,8,10,.4) 75%)!important;animation:slotP 1s ease-in-out infinite}
 @keyframes slotP{50%{box-shadow:0 0 0 4px rgba(20,8,10,.35),0 0 24px rgba(159,224,182,.7)}}
 /* fight: the counter slides away, both lines meet on one carpet */
 html body #tavPg.tt .ztable::after{transition:transform .7s cubic-bezier(.5,0,.2,1),opacity .5s}
@@ -6530,6 +6530,16 @@ html body #tavPg .zluck{left:auto!important;right:calc(100% + 14px)!important}
 html body #tavPg .zfort{position:absolute;right:calc(100% + 14px);bottom:14px;max-width:220px;padding:7px 12px;border-radius:12px;background:rgba(30,16,40,.92);border:1px solid #c9b6ff;color:#f3efe7;font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;box-shadow:0 0 16px rgba(201,182,255,.35);pointer-events:none}
 html body #tavPg .zfort.used{opacity:.45;box-shadow:none}
 @media (max-height:540px),(max-width:600px){html body #tavPg .zfort{right:auto;left:calc(100% + 40px);bottom:4px;font-size:9.5px;padding:4px 8px;max-width:150px}}
+/* 0.150.1 perf + timer between the counter and the carpet */
+html.tavOn body>.app,html.tavOn #h1Pg{visibility:hidden!important;content-visibility:hidden}
+html.tavOn body::after,html.tavOn body::before{display:none!important}
+html body #tavPg.vv .zu .za,html body #tavPg.vv .zu .zh{filter:none!important;box-shadow:0 3px 5px rgba(0,0,0,.55)}
+html body #tavPg .zs1hint,html body #tavPg .zlb .zpl,html body #tavPg .overlay{backdrop-filter:none!important}
+html body #tavPg .zrow.zme .zins,html body #tavPg .zrow.zme .zslot.zput,html body #tavPg.tt.tvdrg .zslot{animation:none!important}
+html body #tavPg .zrow.zme .zins,html body #tavPg .zrow.zme .zslot.zput{box-shadow:0 0 14px rgba(159,224,182,.45)!important}
+html body #tavPg .zu{will-change:auto}
+html body #tavPg .zrail{top:calc(40% + 30px)!important;bottom:auto!important;transform:translateY(-50%)!important;right:26px!important}
+@media (max-height:540px),(max-width:600px){html body #tavPg .zrail{top:calc(47% + 10px)!important;right:10px!important}}
 </style>
 </head>
 <body>
@@ -9950,7 +9960,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.150.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.150.1';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -12210,6 +12220,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+{v:'0.150.1',d:'28.11.2026',uk:['Таверна: перетягування карток знову працює — стіл більше не відлітає вбік','Оптимізація: портрети не перемальовуються з нуля, меню під столом не малюється, менше важких тіней і постійних анімацій','Таймер тепер між прилавком і килимом'],en:['Tavern: dragging cards works again — the table no longer flies away','Performance: cached portraits, the menu below is not drawn, lighter effects','The timer sits between the counter and the carpet']},
 {v:'0.150.0',d:'28.11.2026',uk:['Таверна: новий герой Гравець — його сила «Удача корчми» (1 золото): кидаєш два кубики, і від них залежить, що отримаєш: 2–4 золото, 5–7 +1/+1 герою, 8–9 безкоштовне оновлення, 10–11 заклинання, дубль — відкриття героя, а шеш-беш 6+5 — усьому столу +1/+1. Кожна шістка підсилює шулера','Новий герой Ворожка — щоходу нова сила героя: золото, підсилення, заклинання, Провокатор зі Щитом, відкриття, оновлення','Ставиш героя — плюсик на кожному вільному місці стола; підказки більше не блимають'],en:['Tavern: a new hero, the Gambler — his power rolls two dice and the result decides the reward; 6+5 buffs the whole table','A new hero, the Fortune teller — a different hero power every turn']},
 {v:'0.149.0',d:'28.11.2026',uk:['Таверна: тепер 8 фракцій — нові «Музики» 🎻 і «Кухня» 🍲, по 5 героїв з новими портретами','Кожна гра — 5 випадкових фракцій, 3 зачинені; видно на пошуку й виборі героя','Нові герої: Буфетник (2 золота — випадкове заклинання) і Скарбник (кожен 3-й хід +1 золото назавжди)','Нові заклинання: Скарбничка (+1 золото щоходу), Вербування (відкриття героя), Кухоль, Книга рецептів','Хід коротший: 34–65 секунд','Балансний патч за симуляцією'],en:['Tavern: 8 factions now — new Band 🎻 and Kitchen 🍲, five heroes each with new portraits','Each game uses 5 random factions, 3 are locked','New heroes: Barman (random spell) and Treasurer (+1 gold for good every 3rd turn)','New spells: Piggy bank, Recruit, A mug, Recipe book','Shorter turns: 34–65 s','Balance patch']},
 {v:'0.148.2',d:'28.11.2026',uk:['Таверна: ще один захист від «стрибання» екрана — сторінка під столом не прокручується, вимкнено масштабування жестом і Ctrl+коліщатко під час гри'],en:['Tavern: the screen no longer jumps — the table lives outside the page, pinch and Ctrl+wheel zoom are off while playing']},
@@ -16453,7 +16464,7 @@ window.addEventListener('resize',()=>{ try{ if(TV && $('tavPg')){ clearTimeout(w
   g.querySelectorAll('.zkeep .stars').forEach(st=>{ if(!st.querySelector('i')) st.innerHTML=[...st.textContent].map(c=>'<i'+(c==='★'?' class="on"':'')+'>★</i>').join(''); });
   g.querySelectorAll('.zlb .zpl').forEach(z=>{ const i=z.querySelector('.hb i'); const w=i?parseFloat(i.style.width):100; z.style.setProperty('--hp',isNaN(w)?1:Math.max(0,Math.min(1,w/100))); }); }
  const _p=tvPaint; tvPaint=function(){ const r=_p.apply(this,arguments); try{ tvDeco(); }catch(e){} return r; };
- let mo=null; const watch=()=>{ const g=pg(); if(!g||mo) return; mo=new MutationObserver(()=>{ g.classList.toggle('drag',!!g.querySelector('.zu.dragging,.zhc.dragging,.dragging')); if(typeof TV!=='undefined'&&TV) g.classList.toggle('fight',TV.phase==='fight'); }); mo.observe(g,{subtree:true,attributes:true,attributeFilter:['class']}); };
+ let mo=null; const watch=()=>{ const g=pg(); if(!g||mo) return; mo=new MutationObserver(()=>{ g.classList.toggle('tvdrg',!!g.querySelector('.dragging')); if(typeof TV!=='undefined'&&TV) g.classList.toggle('fight',TV.phase==='fight'); }); mo.observe(g,{subtree:true,attributes:true,attributeFilter:['class']}); };
  setInterval(()=>{ const g=pg(); if(g){ watch(); if(!g.classList.contains('tt')) tvDeco(); } },700);
 })();
 
@@ -16822,6 +16833,16 @@ window.addEventListener('resize',()=>{ try{ if(TV && $('tavPg')){ clearTimeout(w
  // show the Fortune teller's current power by her button
  const _fp=tvPaint; tvPaint=function(){ const r=_fp.apply(this,arguments); try{ if(TV&&TV.phase==='hire'&&TV.hero&&TV.hero.k==='fort'&&TV.fp){ const mh=document.querySelector('#tavPg .zme-hero'); if(mh&&!mh.querySelector('.zfort')) mh.appendChild(sH('span','zfort'+(TV.powerUsed?' used':''),'🔮 '+tvL(TV.fp[2],TV.fp[3]))); }
   if(TV&&TV.hero&&TV.hero.k==='dicer'){ const pw=document.querySelector('#tavPg .zpow'); if(pw) pw.style.display='none'; } }catch(e){} return r; };
+})();
+
+
+/* 0.150.1 оптимізація: аватари клонуються з кешу замість розбору SVG щоразу; фонове меню не малюється під Таверною */
+(function(){ const C=new Map(); const _ai=avatarInto;
+ avatarInto=function(el,key,name){ try{ if(!document.getElementById('tavPg')||!el) return _ai.apply(this,arguments);
+   let fr=''; let k=key; if(k&&String(k).includes('~')){ const m=String(k).split('~'); k=m[0]; fr=(FRM_K.includes(m[1])?m[1]:''); } if(fr) el.dataset.fr=fr; else delete el.dataset.fr;
+   if(k&&/^pt\d/.test(k)&&!AVATARS[String(k).split('@')[0]]&&window.__ptLoad) window.__ptLoad();
+   const html=avatarSVG(k,name); let t=C.get(html); if(!t){ t=document.createElement('template'); t.innerHTML=html; if(C.size>500) C.clear(); C.set(html,t); }
+   el.replaceChildren(t.content.cloneNode(true)); el.classList.add('img'); el.dataset.av=k||''; el.dataset.nm=name||''; }catch(e){ return _ai.apply(this,arguments); } };
 })();
 
 </script>
