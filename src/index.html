@@ -6105,6 +6105,19 @@ body.brOn #board .pt.brWall{background-image:linear-gradient(180deg,rgba(224,137
 #tavPg .zcandle{display:none}
 }
 
+
+/* 0.144.1 tavern icons: medallions on buttons, gems on heroes; tier 5 */
+#tavPg .zk{background:none!important;border:0!important;box-shadow:none!important;width:60px;height:60px;border-radius:50%!important;filter:drop-shadow(0 8px 14px rgba(0,0,0,.55))}
+#tavPg .zk svg.tvmed{width:100%;height:100%;display:block}
+#tavPg .zk.on svg.tvmed{filter:hue-rotate(170deg) saturate(.8) brightness(1.1);}
+#tavPg .zk.on{filter:drop-shadow(0 0 14px rgba(111,168,255,.7))}
+#tavPg .zk small{top:-6px;left:auto;right:-4px;transform:none}
+#tavPg .zpow{background:none!important;border:0!important;width:62px;height:62px;padding:0;filter:drop-shadow(0 0 14px rgba(224,137,111,.5))}
+#tavPg .zpow svg.tvmed{width:100%;height:100%;display:block}
+#tavPg .zpow.pas svg.tvmed{opacity:.75}
+#tavPg .zu .zkw i,#tavPg .zu .zfa{width:22px!important;height:22px!important;background:none!important;border:0!important;border-radius:0!important;filter:drop-shadow(0 2px 3px rgba(0,0,0,.6))}
+#tavPg .zu .zkw i svg,#tavPg .zu .zfa svg{width:100%;height:100%;display:block}
+@media (max-width:900px){#tavPg .zme-hero{left:10px!important;transform:none!important}#tavPg .zk{width:44px;height:44px}#tavPg .zpow{width:46px;height:46px}#tavPg .zu .zkw i,#tavPg .zu .zfa{width:16px!important;height:16px!important}}
 html body #hsHome .hsMode.hs-tav{order:5;--hsimg:url("tb/tavern.webp")}
 @media (min-width:761px){html body #hsHome .hsModes.hsModes{gap:14px}html body #hsHome .hsMode.hsMode{width:212px;height:380px}html body #hsHome .hsMode.hs-play{width:268px;height:440px}}
 @media (min-width:761px) and (max-width:1180px){html body #hsHome .hsMode.hsMode{width:170px;height:320px}html body #hsHome .hsMode.hs-play{width:220px;height:380px}html body #hsHome .hsMode .tx b{font-size:18px!important}}
@@ -9529,7 +9542,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.144.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.144.1';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -11789,6 +11802,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+{v:'0.144.1',d:'28.11.2026',uk:['Таверна: 5-й рівень і п’ять нових героїв — Голова двору, Власник кальянної, Капітан варти, Круп’є, Гросмейстер','Нові іконки: бордові медальйони на кнопках корчмаря й силі героя, кольорові самоцвіти-значки ефектів і фракцій на героях'],en:['Tavern: tier 5 and five new heroes','New icons: burgundy medallions on the buttons and hero power, coloured gems for effects and factions on heroes']},
 {v:'0.144.0',d:'28.11.2026',uk:['Таверна 3.0: на старті обираєш героя з власною силою (Влад, Паша, бабця Ліда, Шулер, Сомельє, Хан)','Перетягуй карти: з вітрини — купити, з руки — на стіл у потрібне місце, по столу — переставити, на вітрину — продати','На телефоні торкання відкриває панель з описом і кнопками — вона не зникає','Заклинання на вітрині, три однакові → золотий герой і «Відкриття» на вибір','У ботів свій стіл, що росте; видно наступного суперника, торкнись гравця — побачиш його стіл','Кожен ефект має свою анімацію і звук, навчання з підсвіткою і довідник «?»','Нові герої: Отруйник (отрута) і Тінь (друге дихання), швидкість бою ×2'],en:['Tavern 3.0: pick a hero with a power at the start','Drag cards: shelf → buy, hand → table at a spot, table → reorder, onto the shelf → sell','On phones a tap opens a panel with info and buttons that stays','Spells on the shelf, triples → golden hero and a Discover','Bots keep growing boards; see your next opponent, tap a player to see their board','Every effect has its own animation and sound, a guided tutorial and a «?» guide','New heroes: Poisoner (venom) and Shadow (reborn), combat speed ×2']},
 {v:'0.143.0',d:'28.11.2026',uk:['Таверна 2.0: як у Battlegrounds — вітрина зверху з корчмарем і кнопками, твій стіл знизу, куплені герої йдуть у руку','У кожного героя своя механіка: клич, смерть, початок бою, кінець ходу, помста, провокатор, щит, подвійний удар','Ліворуч — лобі з серцями й рівнями таверни, праворуч — таймер і «До бою», внизу — золото','Наведи на героя — велика картка з описом поруч, без накладань'],en:['Tavern 2.0: Battlegrounds layout — the shelf with the innkeeper on top, your band below, bought heroes go to your hand','Every hero has its own effect: battlecry, death, start of combat, end of turn, avenge, taunt, shield, double strike','Lobby with hearts on the left, timer and «To battle» on the right, gold at the bottom','Hover a hero for a big card beside it, no overlaps']},
 {v:'0.142.1',d:'28.11.2026',uk:['Таверна: повільніші удари з ефектом меча й летючими цифрами','Таймер найму, як у Battlegrounds — час росте з кожним раундом, «До бою» можна натиснути раніше','Нова шухляда з корчмарем: оновити, заморозити вітрину, підвищити таверну','Велика картка героя замість підказок, що налазили одна на одну','Своя музика для найму й для бою, золотий герой дає нагороду, баланс ботів і ліміт шкоди в перших раундах'],en:['Tavern: slower strikes with a sword effect and floating numbers','A hire timer like Battlegrounds — more time each round, press «To battle» to go early','A new counter with the innkeeper: refresh, freeze, upgrade','A big hero card instead of overlapping tips','Separate music for hiring and fighting, golden heroes give a reward, bot balance and a damage cap early on']},
@@ -15699,7 +15713,12 @@ const TV_U=[
  ['khan','Хан','Khan',4,5,7,'guard',['taunt'],'start','Інша варта +2 ♥','Other guards +2 ♥'],
  ['ace','Туз','Ace',4,6,4,'sharp',['wind'],'','',''],
  ['pasha','Паша','Pasha',4,5,5,'master',['shield'],'start','Найлівіший друг б’є двічі','Leftmost friend strikes twice'],
- ['vlad','Влад','Vlad',4,6,5,'master',[],'fdie','Гине друг — +1/+1','A friend dies — +1/+1']];
+ ['vlad','Влад','Vlad',4,6,5,'master',[],'fdie','Гине друг — +1/+1','A friend dies — +1/+1'],
+ ['mayor','Голова двору','Yard boss',5,7,7,'yard',[],'death','Лишає двох Учнів 2/2','Leaves two 2/2 Apprentices'],
+ ['owner','Власник кальянної','Lounge owner',5,6,8,'hook',['shield'],'eot','Усі кальянні +2/+1','All Hookah heroes +2/+1'],
+ ['captain','Капітан варти','Guard captain',5,6,9,'guard',['taunt'],'start','Уся варта +2/+2','All guards +2/+2'],
+ ['dealer','Круп’є','Croupier',5,8,5,'sharp',['venom'],'','',''],
+ ['grand','Гросмейстер','Grandmaster',5,7,7,'master',[],'start','Найсильніший друг б’є двічі','Strongest friend strikes twice']];
 const TV_TRG={cry:'cry',death:'death',start:'start',eot:'eot',avenge:'avenge'};
 // spells: k, uk, en, cost, min tier, text uk, text en
 const TV_S=[['coin','Монетка','Coin',0,9,'+1 золото цього ходу','+1 gold this turn'],
@@ -15717,21 +15736,31 @@ const TV_H=[['vlad','Влад','Vlad','Здача: оновлення вітри
  ['khan','Хан','Khan','Застава: найлівіший герой отримує Провокатор і +2 ♥','Outpost: your leftmost hero gets Taunt and +2 ♥',2]];
 const TV_RC={1:'#9aa3ad',2:'#7fcf9c',3:'#6fa8ff',4:'#c08bff',5:'#e0896f'};
 const TV_NAMES=['Олег','Марина','Остап','Ірина','Тарас','Софія','Денис'];
+
+const TV_G={up:'M12 4l2.4 5 5.4.7-4 3.7 1 5.4L12 16.3 7.2 18.8l1-5.4-4-3.7 5.4-.7Z',re:'M19 8a7.5 7.5 0 1 0 .6 6M19 3.5V8h-4.5',fr:'M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9M9.5 4.5 12 7l2.5-2.5M9.5 19.5 12 17l2.5 2.5',pow:'M12 3l1.8 6.2L20 11l-6.2 1.8L12 19l-1.8-6.2L4 11l6.2-1.8Z',
+ taunt:'M12 3 5 6v5c0 4.5 3 8 7 10 4-2 7-5.5 7-10V6Z M12 8v6M9 11h6',shield:'M12 3 5 6v5c0 4.5 3 8 7 10 4-2 7-5.5 7-10V6Z',wind:'M13 3 6 13h5l-1 8 7-10h-5Z',venom:'M12 3c-3 5-6 8-6 11a6 6 0 0 0 12 0c0-3-3-6-6-11Z M9.5 14.5a2.5 2.5 0 0 0 2.5 2.5',reborn:'M5 12a7 7 0 1 0 2-5M5 4v4h4 M12 9v4l2.5 1.5',
+ cry:'M4 10v4h3l6 4V6L7 10Z M16.5 9a4 4 0 0 1 0 6M19 6.5a7.5 7.5 0 0 1 0 11',death:'M12 3a7 7 0 0 0-7 7c0 2.5 1.3 4.2 3 5.3V19h8v-3.7c1.7-1.1 3-2.8 3-5.3a7 7 0 0 0-7-7Z M9.5 10.5h.01M14.5 10.5h.01',start:'M6 21V4M6 4h10l-2 4 2 4H6',eot:'M12 21a9 9 0 1 1 0-18 9 9 0 0 1 0 18Z M12 7v5l3 2',avenge:'M7 11V6.5a1.5 1.5 0 0 1 3 0V10M10 9.5V5a1.5 1.5 0 0 1 3 0v4.5M13 9.5V6a1.5 1.5 0 0 1 3 0v6c0 4-2.5 7-6 7-2.5 0-4.5-2-5.5-4L3 11.5a1.5 1.5 0 0 1 2.5-1.5L7 12',
+ yard:'M4 20V10l8-6 8 6v10M9.5 20v-5h5v5',hook:'M12 21v-6M8 21h8M9 15h6l-1-5h-4ZM12 10V7M12 7c0-2 2-2 2-4M10 4c0 1.5-1.5 1.5-1.5 3',guard:'M12 3 5 6v5c0 4.5 3 8 7 10 4-2 7-5.5 7-10V6Z',sharp:'M4.5 4.5h15v15h-15Z M8.5 8.5h.01M15.5 15.5h.01M12 12h.01M15.5 8.5h.01M8.5 15.5h.01',master:'M4 18h16M5 18 4 8l4.5 3L12 5l3.5 6L20 8l-1 10'};
+const TV_GC={taunt:'#d9c9a8',shield:'#f0c9b8',wind:'#ffd27a',venom:'#9be37a',reborn:'#bcd4ff',cry:'#ffb38a',death:'#cfc6bb',start:'#f0a58d',eot:'#a9c8ff',avenge:'#ff8a7a',yard:'#e0b48a',hook:'#c9b6ff',guard:'#9fc7e8',sharp:'#9be3c0',master:'#ffd27a'};
+const TV_TRK={cry:'cry',death:'death',start:'start',eot:'eot',avenge:'avenge',fdie:'avenge',survive:'avenge',atk:'start',play:'cry'};
+let tvIcN=0;
+function tvMed(k){ const i=++tvIcN; const fill=['up','pow','shield','wind'].includes(k); return '<svg class="tvmed" viewBox="0 0 48 48" aria-hidden="true"><defs><radialGradient id="tm'+i+'" cx=".4" cy=".3" r=".8"><stop offset="0" stop-color="#b0434f"/><stop offset=".7" stop-color="#6e1a25"/><stop offset="1" stop-color="#3f0e15"/></radialGradient><linearGradient id="tr'+i+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6dccd"/><stop offset=".5" stop-color="#c76a52"/><stop offset="1" stop-color="#7a3a2c"/></linearGradient></defs><circle cx="24" cy="24" r="23" fill="url(#tr'+i+')"/><circle cx="24" cy="24" r="19.5" fill="url(#tm'+i+')"/><ellipse cx="24" cy="15" rx="12" ry="5" fill="#fff" opacity=".12"/><g transform="translate(12 12)" fill="'+(fill?'#f3efe7':'none')+'" fill-opacity=".25" stroke="#f3efe7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="'+TV_G[k]+'"/></g></svg>'; }
+function tvGem(k){ const c=TV_GC[k]||'#e0896f'; return '<svg class="tvgem" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 2 43 13v22L24 46 5 35V13Z" fill="#120f11" stroke="'+c+'" stroke-width="3"/><path d="M24 7 39 15.5v17L24 41 9 32.5v-17Z" fill="'+c+'" opacity=".35"/><path d="M24 7 39 15.5 24 24 9 15.5Z" fill="#fff" opacity=".12"/><g transform="translate(11 11) scale(1.08)" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="'+TV_G[k]+'"/></g></svg>'; }
 let TV=null;
 const tvAvK=i=>{ const K=Object.keys(AVATARS); return K[(i*5+31)%K.length]; };
 const tvDef=k=>TV_U.find(d=>d[0]===k);
 const tvMk=d=>({id:Math.random().toString(36).slice(2), k:d[0], n:tvL(d[1],d[2]), t:d[3], a:d[4], h:d[5], f:d[6], kw:d[7].slice(), tr:d[8], av:tvAvK(TV_U.indexOf(d)), sh:d[7].includes('shield'), rb:d[7].includes('reborn'), g:1, ac:0});
-const tvMkS=d=>({id:Math.random().toString(36).slice(2), sp:1, k:d[0], n:tvL(d[1],d[2]), c:d[3], t:Math.max(1,Math.min(4,d[4]===9?1:d[4])), txt:tvL(d[5],d[6]), kw:[], a:0, h:0});
+const tvMkS=d=>({id:Math.random().toString(36).slice(2), sp:1, k:d[0], n:tvL(d[1],d[2]), c:d[3], t:Math.max(1,Math.min(5,d[4]===9?1:d[4])), txt:tvL(d[5],d[6]), kw:[], a:0, h:0});
 const tvText=u=>{ if(u.sp) return u.txt; const d=tvDef(u.k); if(!d||!d[9]) return ''; const lab=TV_TRG[d[8]]?tvT(TV_TRG[d[8]])+': ':''; return lab+tvL(d[9],d[10])+(u.g>1?' ×2':''); };
 const tvPool=t=>TV_U.filter(d=>d[3]<=t && d[0]!=='ap');
 const tvRand=a=>a[Math.floor(Math.random()*a.length)];
 const tvCl=u=>({...u, id:Math.random().toString(36).slice(2), kw:u.kw.slice()});
 const tvCost=u=>u.free?0:u.sp?u.c:(TV.hero&&TV.hero.k==='pasha'&&!TV.boughtThis?2:3);
-function tvRoll(){ const n=[0,3,4,4,5][TV.tier]||5; TV.shop=Array.from({length:n},()=>tvMk(tvRand(tvPool(TV.tier))));
-  if(TV.hero && TV.hero.k==='somm' && TV.round%3===0 && TV.tier<4) TV.shop[0]=tvMk(tvRand(TV_U.filter(d=>d[3]===TV.tier+1)));
+function tvRoll(){ const n=[0,3,4,4,5,6][TV.tier]||6; TV.shop=Array.from({length:n},()=>tvMk(tvRand(tvPool(TV.tier))));
+  if(TV.hero && TV.hero.k==='somm' && TV.round%3===0 && TV.tier<5) TV.shop[0]=tvMk(tvRand(TV_U.filter(d=>d[3]===TV.tier+1)));
   const sp=TV_S.filter(s=>s[4]<=TV.tier); if(Math.random()<.45) TV.shop.push(tvMkS(tvRand(sp))); }
 // ---- bots keep their own band that grows every round
-function tvBotTurn(b,r){ const gold=Math.min(10,2+r); b.tier=Math.min(4,1+Math.floor((r+(b.n.length%3))/3)); let buys=Math.max(1,Math.floor(gold/4));
+function tvBotTurn(b,r){ const gold=Math.min(10,2+r); b.tier=Math.min(5,1+Math.floor((r+(b.n.length%3))/3)); let buys=Math.max(1,Math.floor(gold/4));
   for(let i=0;i<buys;i++){ const u=tvMk(tvRand(tvPool(b.tier))); if(b.band.length<7) b.band.push(u); else { let wi=0; b.band.forEach((x,j)=>{ if(x.a+x.h<b.band[wi].a+b.band[wi].h) wi=j; }); if(u.a+u.h>b.band[wi].a+b.band[wi].h) b.band[wi]=u; } }
   if(r>=4) b.band.forEach(x=>{ if(Math.random()<.2){ x.a++; x.h++; } }); }
 const tvPow=L=>L.reduce((s,u)=>s+u.a*1.1+u.h+(u.sh?u.a:0)+(u.kw.includes('taunt')?1:0),0);
@@ -15756,7 +15785,7 @@ function tvHireStart(){ TV.until=Date.now()+tvHireTime()*1000; TV._t10=0; TV.pow
 // ---- view helpers
 const tvTouch=()=>matchMedia('(hover:none)').matches||window.innerWidth<=900;
 function tvUnit(u,cls){ const d=sH('div','zu'+(cls?' '+cls:'')+(u.sh?' sh':'')+(u.kw.includes('taunt')?' tn':'')+(u.g>1?' gd':'')+(u.sp?' sp':'')); d.style.setProperty('--rc',TV_RC[u.t]); d.dataset.id=u.id; d.appendChild(sH('span','zt',u.sp?'✧':'★'+u.t)); const a=sH('span','av'); if(u.sp) a.textContent={coin:'🪙',toast:'🍺',shot:'🥃',shieldS:'🛡',feast:'🍖',luck:'🎲'}[u.k]||'✧'; else try{ avatarInto(a,u.av,u.n); }catch(e){} d.append(a, sH('b',null,u.n+(u.g>1?' ✦':'')));
-  if(!u.sp){ if(u.f && u.k!=='ap') d.appendChild(sH('span','zfa',TV_F[u.f].ic)); const kw=sH('span','zkw'); u.kw.filter(k=>k!=='shield').forEach(k=>kw.appendChild(sH('i',null,TV_KW[k]))); if(u.tr) kw.appendChild(sH('i',null,'✦')); if(kw.childNodes.length) d.appendChild(kw);
+  if(!u.sp){ if(u.f && u.k!=='ap'){ const fa=sH('span','zfa'); fa.innerHTML=tvGem(u.f); d.appendChild(fa); } const kw=sH('span','zkw'); u.kw.filter(k=>k!=='shield').forEach(k=>{ const i=sH('i'); i.innerHTML=tvGem(k); kw.appendChild(i); }); if(u.tr&&TV_TRK[u.tr]){ const i=sH('i'); i.innerHTML=tvGem(TV_TRK[u.tr]); kw.appendChild(i); } if(kw.childNodes.length) d.appendChild(kw);
     d.append(sH('span','za',String(Math.max(0,u.a))), sH('span','zh'+(u.h<=2?' low':''),String(Math.max(0,u.h)))); }
   if(!tvTouch()){ d.addEventListener('mouseenter',()=>{ if(!TV||TV.drag) return; tvCard(u,d); }); d.addEventListener('mouseleave',()=>tvCard(null)); }
   return d; }
@@ -15775,10 +15804,10 @@ function tvPaint(msg,big){ const pg=$('tavPg'); if(!pg||!TV) return; pg.querySel
   const tb=sH('div','ztable'); tb.appendChild(sH('div','zfelt')); tb.appendChild(sH('i','zcandle l')); tb.appendChild(sH('i','zcandle r')); pg.appendChild(tb);
   const hire=TV.phase==='hire', opp=TV.opp;
   const kp=sH('div','zkeep');
-  if(hire){ const up=sH('button','zk'); up.type='button'; up.dataset.tut='4'; up.title=tvT('up',{n:TV.upCost}); up.innerHTML='★'+(TV.tier<4?'<small>'+TV.upCost+'</small>':''); up.disabled=TV.tier>=4||TV.gold<TV.upCost; up.onclick=tvUp;
-    const st=sH('span','stars','★'.repeat(TV.tier)+'☆'.repeat(4-TV.tier)); const kh=tvHero(tvAvK(77),tvT('keeper'),null,st);
-    const reFree=TV.hero&&TV.hero.k==='vlad'&&!TV.powerUsed; const re=sH('button','zk'); re.type='button'; re.title=tvT('re'); re.innerHTML='⟳<small>'+(reFree?0:1)+'</small>'; re.disabled=!reFree&&TV.gold<1; re.onclick=tvReroll;
-    const fr=sH('button','zk'+(TV.frozen?' on':'')); fr.type='button'; fr.title=TV.frozen?tvT('unfreeze'):tvT('freeze'); fr.textContent='❄'; fr.onclick=()=>{ TV.frozen=!TV.frozen; tvSnd('freeze'); tvPaint(); };
+  if(hire){ const up=sH('button','zk'); up.type='button'; up.dataset.tut='4'; up.title=tvT('up',{n:TV.upCost}); up.innerHTML=tvMed('up')+(TV.tier<5?'<small>'+TV.upCost+'</small>':''); up.disabled=TV.tier>=5||TV.gold<TV.upCost; up.onclick=tvUp;
+    const st=sH('span','stars','★'.repeat(TV.tier)+'☆'.repeat(5-TV.tier)); const kh=tvHero(tvAvK(77),tvT('keeper'),null,st);
+    const reFree=TV.hero&&TV.hero.k==='vlad'&&!TV.powerUsed; const re=sH('button','zk'); re.type='button'; re.title=tvT('re'); re.innerHTML=tvMed('re')+'<small>'+(reFree?0:1)+'</small>'; re.disabled=!reFree&&TV.gold<1; re.onclick=tvReroll;
+    const fr=sH('button','zk'+(TV.frozen?' on':'')); fr.type='button'; fr.title=TV.frozen?tvT('unfreeze'):tvT('freeze'); fr.innerHTML=tvMed('fr'); fr.onclick=()=>{ TV.frozen=!TV.frozen; tvSnd('freeze'); tvPaint(); };
     kp.append(up,kh,re,fr); }
   else kp.appendChild(tvHero(opp?opp.av:tvAvK(60), opp?opp.n:'?', opp?opp.hp:null));
   tb.appendChild(kp);
@@ -15791,7 +15820,7 @@ function tvPaint(msg,big){ const pg=$('tavPg'); if(!pg||!TV) return; pg.querySel
   if(hire) for(let i=band.length;i<7;i++) rm.appendChild(sH('div','zslot'+(TV.hand.length?' drop':''))); tb.appendChild(rm);
   // my hero + power
   const mh=sH('div','zme-hero'); mh.appendChild(tvHero(TV.hero.av, TV.hero.n, TV.hp));
-  if(hire){ const pw=sH('button','zpow'+(TV.hero.cost==null?' pas':'')+(TV.powerUsed&&TV.hero.cost!=null?' used':'')); pw.type='button'; pw.dataset.tut='5'; pw.innerHTML=(TV.hero.cost!=null?'<small>'+TV.hero.cost+'</small>':'')+'<span>✦</span>'; pw.title=TV.hero.p; pw.onclick=()=>tvPower(); mh.appendChild(pw); }
+  if(hire){ const pw=sH('button','zpow'+(TV.hero.cost==null?' pas':'')+(TV.powerUsed&&TV.hero.cost!=null?' used':'')); pw.type='button'; pw.dataset.tut='5'; pw.innerHTML=(TV.hero.cost!=null?'<small>'+TV.hero.cost+'</small>':'')+tvMed('pow'); pw.title=TV.hero.p; pw.onclick=()=>tvPower(); mh.appendChild(pw); }
   tb.appendChild(mh);
   if(msg) tb.appendChild(sH('div','zmid'+(big?' big':''),msg));
   else if(hire && TV.round===1 && !TV.band.length && !TV.pick) tb.appendChild(sH('div','zmid',TV.hand.length?tvT('tut2'):tvT('tut1')));
@@ -15835,11 +15864,11 @@ function tvBuy(i){ if(TV.phase!=='hire') return; const u=TV.shop[i]; if(!u) retu
   TV.shop.splice(i,1); TV.gold-=cost; if(!u.sp&&!u.free) TV.boughtThis=true; delete u.free; TV.hand.push(u); TV.pick=null; tvSnd('buy'); tvTriple(u); tvPaint(); }
 function tvSell(i){ const u=TV.band[i]; if(!u) return; TV.band.splice(i,1); TV.gold=Math.min(10,TV.gold+1); TV.pick=null; tvSnd('sell'); tvPaint(); }
 function tvMove(i,j){ if(j<0||j>=TV.band.length) return; const u=TV.band.splice(i,1)[0]; TV.band.splice(j,0,u); if(TV.pick&&TV.pick.src==='band') TV.pick.i=j; tvSnd('roll'); tvPaint(); }
-function tvUp(){ if(TV.tier>=4||TV.gold<TV.upCost) return; TV.gold-=TV.upCost; TV.tier++; TV.upCost=[0,0,7,8,99][TV.tier]; tvSnd('up'); tvRoll(); TV.pick=null; tvPaint(tvT('tier',{n:TV.tier}),1); const k=document.querySelector('#tavPg .zkeep .zhp'); if(k){ k.classList.add('fx-up'); } }
+function tvUp(){ if(TV.tier>=5||TV.gold<TV.upCost) return; TV.gold-=TV.upCost; TV.tier++; TV.upCost=[0,0,7,8,9,99][TV.tier]; tvSnd('up'); tvRoll(); TV.pick=null; tvPaint(tvT('tier',{n:TV.tier}),1); const k=document.querySelector('#tavPg .zkeep .zhp'); if(k){ k.classList.add('fx-up'); } }
 function tvReroll(){ const free=TV.hero&&TV.hero.k==='vlad'&&!TV.powerUsed; if(!free&&TV.gold<1) return; if(free) TV.powerUsed=true; else TV.gold--; TV.frozen=false; TV.pick=null; tvRoll(); tvSnd('dice'); tvPaint(); document.querySelectorAll('#tavPg .zop .zu').forEach((e,i)=>{ e.style.animationDelay=(i*50)+'ms'; e.classList.add('fx-deal'); }); }
 function tvTriple(u){ if(u.sp) return; const all=TV.band.concat(TV.hand).filter(x=>x.k===u.k && x.g===1 && !x.sp); if(all.length<3) return; const three=all.slice(0,3); const d=tvDef(u.k);
   const g={...tvMk(d), a:Math.max(d[4]*2,...three.map(x=>x.a)), h:Math.max(d[5]*2,...three.map(x=>x.h)), g:2}; g.a=Math.max(g.a,three.reduce((s,x)=>s+x.a,0)-d[4]); g.h=Math.max(g.h,three.reduce((s,x)=>s+x.h,0)-d[5]);
-  TV.band=TV.band.filter(x=>!three.includes(x)); TV.hand=TV.hand.filter(x=>!three.includes(x)); TV.hand.push(g); const dc=tvMkS(['disc',tvL('Відкриття','Discover'),'Discover',0,1,tvL('Обери героя рівнем вище','Pick a hero one tier higher'),'Pick a hero one tier higher']); dc.disc=Math.min(4,TV.tier+1); dc.t=dc.disc; TV.hand.push(dc); toast('✦ '+g.n); tvSnd('triple'); }
+  TV.band=TV.band.filter(x=>!three.includes(x)); TV.hand=TV.hand.filter(x=>!three.includes(x)); TV.hand.push(g); const dc=tvMkS(['disc',tvL('Відкриття','Discover'),'Discover',0,1,tvL('Обери героя рівнем вище','Pick a hero one tier higher'),'Pick a hero one tier higher']); dc.disc=Math.min(5,TV.tier+1); dc.t=dc.disc; TV.hand.push(dc); toast('✦ '+g.n); tvSnd('triple'); }
 function tvPlay(i,at){ if(TV.phase!=='hire') return; const u=TV.hand[i]; if(!u) return;
   if(u.sp){ if(u.disc){ TV.hand.splice(i,1); TV.pick=null; tvPaint(); tvDiscover(u.disc); return; } if(TV.gold<0) return; TV.hand.splice(i,1); TV.pick=null; tvCast(u); return; }
   if(TV.band.length>=7){ toast(tvT('full')); return; } TV.hand.splice(i,1); const pos=at==null?TV.band.length:Math.max(0,Math.min(TV.band.length,at)); TV.band.splice(pos,0,u); const B=TV.band, gm=u.g; TV.pick=null;
@@ -15895,6 +15924,7 @@ function tvFxList(L,gap){ L.forEach((f,i)=>setTimeout(()=>{ if(!TV) return; tvUp
 function tvEot(B){ const fx=[]; const hooks=()=>B.filter(x=>x.f==='hook'); B.forEach(u=>{ const g=u.g;
   if(u.k==='tea'){ const h=hooks(); for(let k=0;k<g&&h.length;k++){ const x=tvRand(h); x.h++; fx.push([x,'buff','+1♥']); } fx.push([u,'eot']); }
   if(u.k==='hook'){ hooks().forEach(x=>{ x.a+=g; fx.push([x,'buff','+'+g+'⚔']); }); fx.push([u,'eot']); }
+  if(u.k==='owner'){ hooks().forEach(x=>{ x.a+=2*g; x.h+=g; fx.push([x,'buff','+'+2*g+'/+'+g]); }); fx.push([u,'eot']); }
   if(u.k==='somm'){ hooks().forEach(x=>{ if(x!==u){ x.a+=g; x.h+=g; fx.push([x,'buff','+'+g+'/+'+g]); } }); fx.push([u,'eot']); } }); return fx; }
 // ---- combat
 async function tvFight(){ if(!TV||TV.phase!=='hire') return; const eot=tvEot(TV.band); if(eot.length){ TV.phase='eot'; tvPaint(); tvFxList(eot,110); await tvWait(eot.length*110+700); if(!TV) return; }
@@ -15910,6 +15940,8 @@ async function tvFight(){ if(!TV||TV.phase!=='hire') return; const eot=tvEot(TV.
       if(u.f==='master'&&nm>1){ u.a+=nm-1; u.h+=nm-1; fx.push([u,'buff','+'+(nm-1)+'/+'+(nm-1)]); }
       if(u.k==='trick'&&O.length){ fx.push([u,'start']); for(let k=0;k<u.g;k++){ const x=tvRand(O); x.a=Math.max(0,x.a-2); fx.push([x,'venom','−2⚔']); } }
       if(u.k==='khan'){ fx.push([u,'start']); S.forEach(x=>{ if(x!==u&&x.f==='guard'){ x.h+=2*u.g; fx.push([x,'buff','+'+2*u.g+'♥']); } }); }
+      if(u.k==='captain'){ fx.push([u,'start']); S.forEach(x=>{ if(x.f==='guard'){ x.a+=2*u.g; x.h+=2*u.g; fx.push([x,'buff','+'+2*u.g+'/+'+2*u.g]); } }); }
+      if(u.k==='grand'){ const o=S.filter(x=>x!==u&&!x.kw.includes('wind')).sort((p,q)=>q.a-p.a)[0]; if(o){ o.kw.push('wind'); fx.push([u,'start']); fx.push([o,'buff','⚡']); } }
       if(u.k==='pasha'&&S[0]&&!S[0].kw.includes('wind')){ S[0].kw.push('wind'); fx.push([u,'start']); fx.push([S[0],'buff','⚡']); } });
     tvFxList(fx,120); await tvWait(fx.length*120+300); if(!TV) return; }
   await tvWait(500);
@@ -15920,6 +15952,7 @@ async function tvFight(){ if(!TV||TV.phase!=='hire') return; const eot=tvEot(TV.
     const fx=[];
     for(const side of sides){ for(let j=side.length-1;j>=0;j--){ const u=side[j]; if(u.h>0) continue; side.splice(j,1); if(side===S0 && j<ptr[S0===A?0:1]) ptr[S0===A?0:1]--;
       if(u.rb){ const r={...tvCl(u), h:1, rb:false, sh:false, kw:u.kw.filter(k=>k!=='reborn')}; side.splice(j,0,r); fx.push([r,'reborn']); }
+      if(u.k==='mayor') for(let k=0;k<2*u.g;k++) if(side.length<7){ const ap={...tvMk(tvDef('ap')),a:2,h:2}; side.splice(j,0,ap); fx.push([ap,'death','☠→2/2']); }
       if(u.k==='bro') for(let k=0;k<u.g;k++) if(side.length<7){ const ap=tvMk(tvDef('ap')); side.splice(j,0,ap); fx.push([ap,'death','☠→1/1']); }
       if(u.k==='yard'){ const r=side.filter(x=>x.h>0); if(r.length){ const x=r[r.length-1]; x.a+=2*u.g; fx.push([x,'buff','+'+2*u.g+'⚔']); } }
       if(u.k==='king') side.forEach(x=>{ if(x.f==='yard'){ x.a+=2*u.g; x.h+=2*u.g; fx.push([x,'buff','+'+2*u.g+'/+'+2*u.g]); } });
