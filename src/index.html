@@ -6348,6 +6348,72 @@ html body #tavPg.tt .zkeep .zhp .stars i.on{color:#f0a58a;text-shadow:0 0 6px rg
 html body #tavPg.vv .zu .za{background:linear-gradient(180deg,#b9d3ea,#5b81a8 55%,#2f4a68)!important;color:#fff!important}
 
 html body .hsMode.hs-tour.tclosed{filter:grayscale(.6) brightness(.8)}@media(min-width:601px){html body .hsMode.hs-tour.tclosed{position:relative}}html body .hsMode.hs-tour .tcl{position:absolute!important;left:50%!important;top:42%!important;right:auto!important;bottom:auto!important;margin:0!important;transform:translate(-50%,-50%)!important;z-index:5;padding:9px 16px;border-radius:99px;background:rgba(18,16,19,.88);border:1px solid rgba(255,255,255,.25);color:#f3efe7;font:800 13px Unbounded,system-ui,sans-serif;white-space:nowrap;pointer-events:none}html body .hsMode.hs-tour.tclosed .tag{background:#2a2226!important;color:#f3efe7!important;font-size:0!important;animation:none!important}html body .hsMode.hs-tour.tclosed .tag::after{content:attr(data-cl);font-size:11px;font-weight:800}
+/* 0.146.0 Таверна */
+/* bigger opponents */
+@media (min-width:901px) and (min-height:541px){
+html body #tavPg.r1 .zlb{top:84px!important;bottom:24px!important;height:auto!important;justify-content:center!important;gap:14px!important;left:22px!important}
+html body #tavPg.r1 .zpl,html body #tavPg.r1 .zpl .av{width:min(64px,calc((100vh - 230px)/8 - 14px))!important;height:min(64px,calc((100vh - 230px)/8 - 14px))!important}
+html body #tavPg.r1 .zpl::before{-webkit-mask:radial-gradient(closest-side,transparent calc(100% - 5px),#000 calc(100% - 4px))!important;mask:radial-gradient(closest-side,transparent calc(100% - 5px),#000 calc(100% - 4px))!important;inset:-7px!important}
+html body #tavPg.r1 .zpl em{font-size:11px!important;right:-12px!important}
+html body #tavPg.r1 .zpl .tr{width:22px;height:22px;font-size:11px}
+html body #tavPg.r1 .zpl>div{display:block!important;position:absolute;left:calc(100% + 14px);top:50%;transform:translateY(-50%);width:auto;pointer-events:none;opacity:0;transition:opacity .2s}
+html body #tavPg.r1 .zpl:hover>div{opacity:1}
+html body #tavPg.r1 .zpl>div small{display:block;padding:3px 8px;border-radius:8px;background:rgba(18,12,10,.92);font-size:11px;white-space:nowrap}
+html body #tavPg.r1 .zpl>div .hb{display:none}
+}
+@media (max-height:540px),(max-width:600px){
+html body #tavPg.r1 .zlb{grid-template-columns:40px 40px!important;gap:10px 12px!important}
+html body #tavPg.r1 .zpl,html body #tavPg.r1 .zpl .av{width:40px!important;height:40px!important}
+html body #tavPg.r1 .zpl::before{-webkit-mask:radial-gradient(closest-side,transparent calc(100% - 4px),#000 calc(100% - 3px))!important;mask:radial-gradient(closest-side,transparent calc(100% - 4px),#000 calc(100% - 3px))!important;inset:-4px!important}
+}
+html body #tavPg .zpl.fx-hurt .av{animation:zpHurt .6s}
+@keyframes zpHurt{20%{transform:translateX(-4px);filter:brightness(1.6) saturate(.4) sepia(1) hue-rotate(-40deg)}40%{transform:translateX(4px)}60%{transform:translateX(-2px)}}
+/* no «To battle» button — the timer decides */
+html body #tavPg .zrail .zgo{display:none!important}
+html body #tavPg .zrail .ztimer{font-size:22px!important;min-width:110px;text-align:center;padding:10px 16px!important;border-radius:14px!important}
+html body #tavPg .zrail .ztimer.hurry{color:#fff!important;background:#b0303f!important;border-color:#ff8a8a!important;animation:ztHurry 1s ease-in-out infinite}
+@keyframes ztHurry{50%{transform:scale(1.08);box-shadow:0 0 22px rgba(255,90,90,.7)}}
+/* hero hurt */
+html body #tavPg .zme-hero .zhp.fx-hurt{animation:zpHurt .7s}
+html body #tavPg .zhdmg{position:absolute;left:50%;top:-10px;transform:translateX(-50%);font:900 30px Unbounded,system-ui,sans-serif;color:#ff6b6b;text-shadow:0 2px 8px #000;animation:zDmg 1.4s ease-out forwards;pointer-events:none;z-index:9}
+/* pool count */
+html body #tavPg .zinfo .zpoolc{display:block;margin-top:6px;font-size:11px;opacity:.75}
+/* coins at the end */
+html body #tavPg .zend .zcoins{display:flex;align-items:center;justify-content:center;gap:8px;margin:6px 0 14px;font:800 18px Unbounded,system-ui,sans-serif}
+html body #tavPg .zend .zcoins .coin{width:22px;height:22px}
+html body #tavPg .zend .zcoins.pop{animation:zcPop .6s cubic-bezier(.2,.9,.3,1.5)}
+@keyframes zcPop{0%{transform:scale(.6);opacity:0}100%{transform:none;opacity:1}}
+/* search screen */
+html body #tavPg .zsearch{position:absolute;inset:0;z-index:80;display:grid;place-items:center;background:radial-gradient(70% 70% at 50% 40%,#3c1610,#080504);transition:opacity .45s}
+html body #tavPg .zsearch.out{opacity:0}
+html body #tavPg .zsbox{display:flex;flex-direction:column;align-items:center;gap:14px;padding:20px;text-align:center}
+html body #tavPg .zsdice{display:flex;gap:10px}
+html body #tavPg .zsdice i{width:46px;height:46px;border-radius:11px;display:grid;place-items:center;background:#f3efe7;color:#7a1f2b;font:900 22px Unbounded,system-ui,sans-serif;font-style:normal;box-shadow:0 8px 18px rgba(0,0,0,.6);animation:zsRoll 1.4s ease-in-out infinite}
+html body #tavPg .zsdice i+i{animation-delay:.2s}
+@keyframes zsRoll{0%,100%{transform:rotate(0) translateY(0)}30%{transform:rotate(-14deg) translateY(-10px)}60%{transform:rotate(10deg) translateY(0)}}
+html body #tavPg .zsearch.done .zsdice i{animation:none;transform:none}
+html body #tavPg .zsbox h2{margin:4px 0 0;font:800 20px Unbounded,system-ui,sans-serif}
+html body #tavPg .zsgrid{display:grid;grid-template-columns:repeat(4,86px);gap:14px 16px;margin-top:6px}
+html body #tavPg .zseat{display:flex;flex-direction:column;align-items:center;gap:6px}
+html body #tavPg .zseat .av{width:64px;height:64px;border-radius:50%;overflow:hidden;display:block;background:rgba(255,255,255,.06);border:2px dashed rgba(240,201,184,.3);position:relative}
+html body #tavPg .zseat:not(.on) .av::after{content:"";position:absolute;inset:0;border-radius:50%;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.12) 50%,transparent 70%);background-size:200% 100%;animation:zsShim 1.2s linear infinite}
+@keyframes zsShim{to{background-position:-200% 0}}
+html body #tavPg .zseat.on .av{border:0;box-shadow:0 0 0 3px #8a5a3a,0 8px 16px rgba(0,0,0,.6);animation:zcPop .45s cubic-bezier(.2,.9,.3,1.5)}
+html body #tavPg .zseat:first-child .av{box-shadow:0 0 0 3px #9fe0b6,0 8px 16px rgba(0,0,0,.6)}
+html body #tavPg .zseat small{font-size:11px;font-weight:700;min-height:14px;color:#f0dccf}
+html body #tavPg .zscnt{margin:0;font:800 13px Unbounded,system-ui,sans-serif;opacity:.7}
+html body #tavPg .zscan{margin-top:4px;padding:10px 22px;border-radius:12px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:#f3efe7;font-weight:700;cursor:pointer}
+html body #tavPg .zsearch.done .zscan{visibility:hidden}
+@media (max-height:540px){html body #tavPg .zsgrid{grid-template-columns:repeat(8,64px);gap:8px}html body #tavPg .zseat .av{width:48px;height:48px}html body #tavPg .zsbox{gap:8px}html body #tavPg .zsdice i{width:36px;height:36px;font-size:17px}}
+@media (max-width:600px) and (orientation:portrait){html body #tavPg .zsgrid{grid-template-columns:repeat(4,68px);gap:10px}html body #tavPg .zseat .av{width:54px;height:54px}}
+
+html body #tavPg .zrow.zme .zins{flex:none;width:44px;height:44px;margin:0 -6px;align-self:center;border-radius:50%;border:2px dashed #9fe0b6;background:rgba(20,40,28,.75);color:#9fe0b6;display:grid;place-items:center;font:300 26px Unbounded,system-ui,sans-serif;cursor:pointer;z-index:5;box-shadow:0 0 16px rgba(159,224,182,.45);animation:slotP 1.2s ease-in-out infinite;transition:transform .15s}
+html body #tavPg .zrow.zme .zins:hover{transform:scale(1.15);background:#9fe0b6;color:#12301e}
+html body #tavPg .zrow.zme .zins.hey{animation:zinsHey .5s 2}
+@keyframes zinsHey{50%{transform:scale(1.3)}}
+@media (max-height:540px),(max-width:600px){html body #tavPg .zrow.zme .zins{width:30px;height:30px;font-size:18px;margin:0 -4px}}
+html body #tavPg.placing .zc.sel{transform:translateY(-34px) scale(1.02)!important}
+html body #tavPg .zcard .st .a,html body #tavPg .zc .za{background:linear-gradient(180deg,#b9d3ea,#5b81a8 55%,#2f4a68)!important;color:#fff!important}
 </style>
 </head>
 <body>
@@ -9768,7 +9834,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.145.1';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.146.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -12028,6 +12094,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+{v:'0.146.0',d:'28.11.2026',uk:['Таверна: перед грою — пошук гравців за столом','Сам обираєш, куди поставити героя: «+» між героями на столі','Бій починається, коли спливає таймер, як у Hearthstone — без кнопки','Спільний пул: кожного героя обмежена кількість копій на всіх 8 гравців','Монети за гру: від 0 до 120 залежно від місця (до 600 на день)','Більші суперники зліва; герой вилітає з вітрини в руку; удар по серцях видно','Баланс: Шулер, Сомельє і Хан сильніші; Стіна, Туз, Круп’є, Капітан слабші; Тінь, Лавочник, Чайник міцніші; Чарка дорожча, Удача шулера дешевша; боти пізніше грають сильніше'],en:['Tavern: a player search before the game','The fight starts when the timer runs out — no button','Shared pool: each hero has limited copies for all 8 players','Coins for playing: 0–120 by place (up to 600 a day)','Bigger opponents; bought heroes fly to your hand; heart damage is visible','Balance patch for heroes, units, spells and bots']},
 {v:'0.145.1',d:'28.11.2026',uk:['Турнір цього тижня зачинено — переробляємо','Таверна: стіл-килим, герої в овальних портретах, атака тепер у синьому щиті (не плутається зі здоров’ям), бій іде на одному килимі, вільні місця підсвічуються, зірки таверни — окрема табличка'],en:['The tournament is closed this week — we are rebuilding it','Tavern: carpet table, oval hero portraits, attack in a blue shield, battles on one carpet, highlighted free slots, a tier plaque']},
 {v:'0.145.0',d:'28.11.2026',uk:['Таверна: новий стіл на весь екран — дерев’яний прилавок корчмаря зверху, бордове сукно для твоїх героїв знизу, різьблена рамка по краю'],en:['Tavern: a new full-screen table — the innkeeper\'s wooden counter on top, burgundy felt for your heroes below']},
 {v:'0.144.3',d:'28.11.2026',uk:['Таверна: у кожного героя свій портрет із магазину — Влад, Паша, Сомельє, Діджей, Кальянник, бабця Ліда, вартовий у кашкеті, шулер з картою та інші'],en:['Tavern: every hero has its own portrait from the shop']},
@@ -16249,11 +16316,11 @@ window.addEventListener('resize',()=>{ try{ if(TV && $('tavPg')){ clearTimeout(w
 
 /* 0.145.1 Таверна: килим, бій на одному килимі, підсвітка місць, табличка зірок */
 (function(){ const pg=()=>document.getElementById('tavPg');
- function tvDeco(){ const g=pg(); if(!g) return; g.classList.add('vv','tt','t1','r1'); g.classList.toggle('fight',!!(window.TV&&TV.phase==='fight'));
+ function tvDeco(){ const g=pg(); if(!g) return; g.classList.add('vv','tt','t1','r1'); g.classList.toggle('fight',!!(typeof TV!=='undefined'&&TV&&TV.phase==='fight'));
   g.querySelectorAll('.zkeep .stars').forEach(st=>{ if(!st.querySelector('i')) st.innerHTML=[...st.textContent].map(c=>'<i'+(c==='★'?' class="on"':'')+'>★</i>').join(''); });
   g.querySelectorAll('.zlb .zpl').forEach(z=>{ const i=z.querySelector('.hb i'); const w=i?parseFloat(i.style.width):100; z.style.setProperty('--hp',isNaN(w)?1:Math.max(0,Math.min(1,w/100))); }); }
  const _p=tvPaint; tvPaint=function(){ const r=_p.apply(this,arguments); try{ tvDeco(); }catch(e){} return r; };
- let mo=null; const watch=()=>{ const g=pg(); if(!g||mo) return; mo=new MutationObserver(()=>{ g.classList.toggle('drag',!!g.querySelector('.zu.dragging,.zhc.dragging,.dragging')); if(window.TV) g.classList.toggle('fight',TV.phase==='fight'); }); mo.observe(g,{subtree:true,attributes:true,attributeFilter:['class']}); };
+ let mo=null; const watch=()=>{ const g=pg(); if(!g||mo) return; mo=new MutationObserver(()=>{ g.classList.toggle('drag',!!g.querySelector('.zu.dragging,.zhc.dragging,.dragging')); if(typeof TV!=='undefined'&&TV) g.classList.toggle('fight',TV.phase==='fight'); }); mo.observe(g,{subtree:true,attributes:true,attributeFilter:['class']}); };
  setInterval(()=>{ const g=pg(); if(g){ watch(); if(!g.classList.contains('tt')) tvDeco(); } },700);
 })();
 
@@ -16269,6 +16336,113 @@ window.addEventListener('resize',()=>{ try{ if(TV && $('tavPg')){ clearTimeout(w
  const mark=()=>{ document.querySelectorAll('.hs-tour').forEach(c=>{ c.classList.add('tclosed'); if(!c.querySelector('.tcl')){ const b=document.createElement('span'); b.className='tcl'; c.appendChild(b); } c.querySelector('.tcl').textContent=(L()==='en'?'🔒 Closed':'🔒 Зачинено'); const tg=c.querySelector('.tag'); if(tg){ tg.setAttribute('data-cl',L()==='en'?'Closed':'Зачинено'); tg.classList.remove('hot'); } }); const tp=document.getElementById('tourOv'); if(tp&&!tp.classList.contains('hidden')){ try{ show('tourOv',false); }catch(e){} } };
  setInterval(mark,600); mark();
  document.addEventListener('click',e=>{ const c=e.target.closest&&e.target.closest('.hs-tour'); if(c){ e.preventDefault(); e.stopImmediatePropagation(); try{ toast(msg()); }catch(_){} } },true);
+})();
+
+
+/* 0.146.0 Таверна: пошук гравців, спільний пул, бій за таймером, монети за місце, баланс, анімації */
+(function(){
+ const L=()=>lang==='en'?'en':'uk';
+ const X={uk:{srch:'Шукаємо гравців у таверні…',found:'Усі за столом!',cancel:'Скасувати',pool:'У пулі ще: {n}',coins:'+{n} монет',cap:'Ліміт монет за Таверну на сьогодні вичерпано',noc:'Монет за цю гру немає',you:'Ти',
+   tut6:'Коли таймер добіжить до нуля — починається бій. Встигни купити й розставити героїв. Бій іде без тебе.'},
+  en:{srch:'Finding players in the tavern…',found:'Everyone is seated!',cancel:'Cancel',pool:'Left in the pool: {n}',coins:'+{n} coins',cap:'Today\'s Tavern coin limit is reached',noc:'No coins for this game',you:'You',
+   tut6:'When the timer hits zero the fight starts. Buy and arrange your heroes in time. The fight plays by itself.'}};
+ const tx=(k,v)=>{ let s=X[L()][k]; if(v) for(const q in v) s=s.replace('{'+q+'}',v[q]); return s; };
+ try{ TV_TX.uk.tut6=X.uk.tut6; TV_TX.en.tut6=X.en.tut6; }catch(e){}
+
+ // ---- balance patch
+ const st=(k,a,h)=>{ const d=TV_U.find(x=>x[0]===k); if(d){ d[4]=a; d[5]=h; } };
+ st('tea',1,3); st('wall',1,4); st('ghost',3,3); st('bench',4,4); st('ace',5,4); st('dealer',7,5); st('captain',5,8);
+ const sp=k=>TV_S.find(x=>x[0]===k); if(sp('shot')) sp('shot')[3]=2; if(sp('luck')) sp('luck')[3]=1;
+ const hh=k=>TV_H.find(x=>x[0]===k);
+ if(hh('cheat')){ const h=hh('cheat'); h[3]='Підкинутий кубик: кинь — 1–2: +1, 3–4: +2, 5–6: +3 золота'; h[4]='Loaded die: roll — 1–2: +1, 3–4: +2, 5–6: +3 gold'; h[5]=1; }
+ if(hh('somm')){ const h=hh('somm'); h[3]='Дегустація: кожен 2-й хід на вітрині герой на рівень вище'; h[4]='Tasting: every 2nd turn the shelf has a hero one tier higher'; }
+ if(hh('khan')){ const h=hh('khan'); h[3]='Застава: найлівіший герой отримує Провокатор і +3 ♥'; h[4]='Outpost: your leftmost hero gets Taunt and +3 ♥'; h[5]=1; }
+
+ // ---- shared pool: every hero has a limited number of copies for all 8 players
+ const TV_PN=[0,16,15,13,11,9];
+ function tvPoolInit(){ TV.pool={}; TV_U.forEach(d=>{ if(d[0]!=='ap') TV.pool[d[0]]=TV_PN[d[3]]||9; }); }
+ function tvTake(f){ const all=TV_U.filter(d=>d[0]!=='ap'&&f(d)); if(!TV.pool) return tvRand(all); const P=all.filter(d=>TV.pool[d[0]]>0); const tot=P.reduce((s,d)=>s+TV.pool[d[0]],0); if(!tot) return tvRand(all);
+  let r=Math.random()*tot; for(const d of P){ r-=TV.pool[d[0]]; if(r<0){ TV.pool[d[0]]--; return d; } } const d=P[P.length-1]; TV.pool[d[0]]--; return d; }
+ function tvBack(u){ if(!u||u.sp||!TV||!TV.pool||TV.pool[u.k]==null) return; TV.pool[u.k]+=(u.g>1?3:1); }
+ window.tvPoolLeft=k=>TV&&TV.pool?TV.pool[k]:null;
+ tvRoll=function(){ if(TV.pool) (TV.shop||[]).forEach(tvBack); const n=[0,3,4,4,5,6][TV.tier]||6; TV.shop=Array.from({length:n},()=>tvMk(tvTake(d=>d[3]<=TV.tier)));
+  if(TV.hero && TV.hero.k==='somm' && TV.round%2===0 && TV.tier<5){ tvBack(TV.shop[0]); TV.shop[0]=tvMk(tvTake(d=>d[3]===TV.tier+1)); }
+  const S=TV_S.filter(s=>s[4]<=TV.tier); if(Math.random()<.35) TV.shop.push(tvMkS(tvRand(S))); TV._deal=1; };
+ const _sell=tvSell; tvSell=function(i){ const u=TV&&TV.band[i]; _sell(i); if(u&&TV&&!TV.band.includes(u)) tvBack(u); };
+ tvDiscover=function(tier){ const pg=$('tavPg'); const Ls=Array.from({length:3},()=>tvMk(tvTake(d=>d[3]===tier))); const o=sH('div','zpick zdisc'); o.appendChild(sH('h2',null,tvT('discover'))); const row=sH('div','zpr');
+  Ls.forEach(u=>{ const c=tvCardEl(u); c.classList.add('in','pk'); c.onclick=()=>{ o.remove(); Ls.forEach(x=>{ if(x!==u) tvBack(x); }); if(TV.hand.length<10) TV.hand.push(u); else tvBack(u); tvSnd('triple'); tvPaint(); setTimeout(()=>tvFxEl(document.querySelector('#tavPg .zhand [data-id="'+u.id+'"]'),'cry'),60); }; row.appendChild(c); }); o.appendChild(row); pg.appendChild(o); };
+ // bots draw from the same pool, buy a bit more late, and give back what they drop
+ tvBotTurn=function(b,r){ const gold=Math.min(10,2+r); b.tier=Math.min(5,1+Math.floor((r+(b.n.length%3))/3)); const buys=r>=6?Math.floor(gold/3):Math.max(1,Math.floor(gold/4));
+  for(let i=0;i<buys;i++){ const u=tvMk(tvTake(d=>d[3]<=b.tier)); if(b.band.length<7) b.band.push(u); else { let wi=0; b.band.forEach((x,j)=>{ if(x.a+x.h<b.band[wi].a+b.band[wi].h) wi=j; }); if(u.a+u.h>b.band[wi].a+b.band[wi].h){ tvBack(b.band[wi]); b.band[wi]=u; } else tvBack(u); } }
+  if(r>=4) b.band.forEach(x=>{ if(Math.random()<.25){ x.a++; x.h++; } }); };
+ const _hs=tvHireStart; tvHireStart=function(){ try{ TV.bots.forEach(b=>{ if(b.hp<=0&&!b.ret){ b.band.forEach(tvBack); b.ret=1; } }); }catch(e){} return _hs.apply(this,arguments); };
+
+ // ---- hero powers that changed
+ const _pow=tvPower; tvPower=function(){ const h=TV&&TV.hero; if(h&&TV.phase==='hire'&&!TV.powerUsed&&(h.k==='cheat'||h.k==='khan')){ if(TV.gold<h.cost){ toast(tvT('poor')); return; }
+   if(h.k==='cheat'){ const r=1+Math.floor(Math.random()*6), g=r<=2?1:r<=4?2:3; TV.gold=Math.min(10,TV.gold-h.cost+g); TV.powerUsed=true; toast('🎲 '+r+' → +'+g); tvSnd('dice'); setTimeout(()=>tvSnd('gold'),180); tvPaint(); return; }
+   if(h.k==='khan'){ const x=TV.band[0]; if(!x){ toast(h.p); return; } if(!x.kw.includes('taunt')) x.kw.push('taunt'); x.h+=3; TV.gold-=h.cost; TV.powerUsed=true; tvSnd('cry'); tvPaint(); tvFxList([[x,'shield','⛨+3']],90); return; } }
+  return _pow.apply(this,arguments); };
+
+ // ---- search screen before the game, like the online search in nardy
+ const _open=openTavern;
+ openTavern=function(){ _open.apply(this,arguments); if(!TV) return; tvPoolInit(); if(window.__tvNoSearch) return;
+  const pg=$('tavPg'); const o=sH('div','zsearch'); const box=sH('div','zsbox'); const dice=sH('div','zsdice'); dice.innerHTML='<i>6</i><i>5</i>';
+  const ttl=sH('h2',null,tx('srch')); const grid=sH('div','zsgrid'); const seats=[];
+  const me=(()=>{ try{ return profile&&profile.av; }catch(e){ return null; } })();
+  for(let i=0;i<8;i++){ const s=sH('div','zseat'); const a=sH('span','av'); const n=sH('small',null,''); s.append(a,n); grid.appendChild(s); seats.push(s); }
+  const fill=(i,av,name)=>{ const s=seats[i]; const a=s.querySelector('.av'); try{ avatarInto(a,av,name); }catch(e){} s.querySelector('small').textContent=name; s.classList.add('on'); };
+  fill(0, me||'pt56', tx('you'));
+  const cnt=sH('p','zscnt','1 / 8'); const cancel=sH('button','zscan',tx('cancel')); cancel.type='button'; cancel.onclick=()=>{ clearTimeout(o._t); closeTavern(); };
+  box.append(dice,ttl,grid,cnt,cancel); o.appendChild(box); pg.appendChild(o); TV.searching=true;
+  try{ ambStop(); ambPlay(102); }catch(e){}
+  let k=1; const step=()=>{ if(!TV||!o.isConnected) return; if(k<8){ const b=TV.bots[k-1]; fill(k,b.av,b.n); tvSnd('buy'); cnt.textContent=(k+1)+' / 8'; k++; o._t=setTimeout(step,380+Math.random()*700); return; }
+    ttl.textContent=tx('found'); o.classList.add('done'); tvSnd('up'); o._t=setTimeout(()=>{ o.classList.add('out'); setTimeout(()=>o.remove(),450); TV.searching=false; try{ ambStop(); ambPlay(120); }catch(e){} tvSrvStart(); },900); };
+  o._t=setTimeout(step,700+Math.random()*500); };
+ const _start=tvStart; tvStart=function(){ const o=document.querySelector('#tavPg .zsearch'); if(o){ clearTimeout(o._t); o.remove(); TV.searching=false; } return _start.apply(this,arguments); };
+ // keep the search overlay through repaints (hero pick repaints the page)
+ const _paint=tvPaint; tvPaint=function(){ const pg=$('tavPg'); const o=pg&&pg.querySelector('.zsearch'); const r=_paint.apply(this,arguments); if(o&&pg&&!o.isConnected) pg.appendChild(o);
+  try{ tvAfterPaint(pg); }catch(e){} return r; };
+
+ // ---- coins for playing: 0..120 by place
+ const TAV_PAY=[0,120,90,70,50,30,20,10,0];
+ function tvSrvStart(){ try{ if(coinsOnline()) sb.functions.invoke('game',{body:{action:'tav',args:{op:'start'}}}); }catch(e){} TV.startAt=Date.now(); }
+ async function tvPay(place,rounds){ let n=TAV_PAY[place]|0, capped=false;
+  try{ if(coinsOnline()){ const {data}=await sb.functions.invoke('game',{body:{action:'tav',args:{op:'end',place,rounds}}}); if(data&&data.ok){ n=data.got|0; capped=data.left<=0&&n<(TAV_PAY[place]|0); try{ profile.ach.coins=data.coins; }catch(e){} } else n=0; }
+   else { const day=new Date(Date.now()+2*3600e3).toISOString().slice(0,10); const td=store.get('tavDay',null); const T=td&&td.d===day?td:{d:day,n:0}; const m=Math.max(0,Math.min(n,600-T.n)); capped=m<n; n=m; T.n+=n; store.set('tavDay',T); if(n) store.set('coins',coinsNow()+n); } }catch(e){ n=0; }
+  try{ coinsPaint(); if(n) coinFly(n); }catch(e){} return {n,capped}; }
+ const _end=tvEnd; tvEnd=function(){ _end.apply(this,arguments); const pg=$('tavPg'); const box=pg&&pg.querySelector('.zend>div'); if(!box||!TV||!TV.end) return;
+  const line=sH('div','zcoins'); line.innerHTML='<i class="coin"></i><b>…</b>'; const h=box.querySelector('p'); (h||box.firstChild).after(line);
+  if(TV.end.paid==null){ TV.end.paid=-1; tvPay(TV.end.place,TV.round).then(r=>{ if(!TV||!TV.end) return; TV.end.paid=r.n; TV.end.capped=r.capped; const b=line.querySelector('b'); if(b) tvCount(b,r.n); if(r.n>0){ tvSnd('gold'); setTimeout(()=>tvSnd('gold'),160); line.classList.add('pop'); } if(!r.n) b.textContent=r.capped?tx('cap'):tx('noc'); }); }
+  else { const b=line.querySelector('b'); b.textContent=TV.end.paid>0?tx('coins',{n:TV.end.paid}):(TV.end.capped?tx('cap'):tx('noc')); } };
+ function tvCount(b,n){ if(!n){ return; } const t0=performance.now(); const f=t=>{ const k=Math.min(1,(t-t0)/900); b.textContent=tx('coins',{n:Math.round(n*k)}); if(k<1) requestAnimationFrame(f); }; requestAnimationFrame(f); }
+
+ // ---- small animations after each paint: dealing the shelf, losing hearts, pool count on the info panel
+ function tvAfterPaint(pg){ if(!pg||!TV) return;
+  if(TV._deal&&TV.phase==='hire'){ TV._deal=0; pg.querySelectorAll('.zop .zu').forEach((e,i)=>{ e.style.animationDelay=(i*60)+'ms'; e.classList.add('fx-deal'); }); }
+  if(TV._hp!=null&&TV.hp<TV._hp){ const d=TV._hp-TV.hp; const h=pg.querySelector('.zme-hero .zhp'); if(h){ h.classList.remove('fx-hurt'); void h.offsetWidth; h.classList.add('fx-hurt'); const f=sH('span','zhdmg','−'+d); h.appendChild(f); setTimeout(()=>f.remove(),1500); } }
+  TV._hp=TV.hp;
+  pg.querySelectorAll('.zlb .zpl').forEach(z=>{ const nm=(z.querySelector('.av')||{}).dataset; const p=z.classList.contains('me')?{hp:TV.hp}:TV.bots.find(b=>nm&&b.n===nm.nm); if(!p) return; if(z._hp!=null&&p.hp<z._hp){ z.classList.remove('fx-hurt'); void z.offsetWidth; z.classList.add('fx-hurt'); } z._hp=p.hp; });
+  const inf=pg.querySelector('.zinfo'); const u=typeof tvItem==='function'?tvItem():null; if(inf&&u&&!u.sp&&TV.pool&&TV.pool[u.k]!=null&&!inf.querySelector('.zpoolc')){ (inf.querySelector('.zcard')||inf).appendChild(sH('small','zpoolc',tx('pool',{n:TV.pool[u.k]}))); } }
+
+ // ---- buying: the hero flies from the shelf into the hand
+ const _buy=tvBuy; tvBuy=function(i){ const pg=$('tavPg'); const el=pg&&pg.querySelectorAll('.zop .zu')[i]; const r=el&&el.getBoundingClientRect(); const n0=TV?TV.hand.length:0; _buy.apply(this,arguments);
+  if(!r||!TV||TV.hand.length<=n0) return; const g=el.cloneNode(true); g.classList.add('zfly'); g.style.cssText='position:fixed;left:'+r.left+'px;top:'+r.top+'px;width:'+r.width+'px;height:'+r.height+'px;margin:0;z-index:60;pointer-events:none';
+  document.body.appendChild(g); const hd=pg.querySelector('.zhand'); const hr=hd?hd.getBoundingClientRect():{left:innerWidth/2,top:innerHeight-60,width:0};
+  requestAnimationFrame(()=>{ g.style.transition='transform .5s cubic-bezier(.4,.1,.2,1),opacity .5s'; g.style.transform='translate('+(hr.left+hr.width/2-r.left-r.width/2)+'px,'+(hr.top+20-r.top)+'px) scale(.55) rotate(-6deg)'; g.style.opacity='.2'; }); setTimeout(()=>g.remove(),560); };
+})();
+
+
+/* 0.146.0 Таверна: обираєш, куди поставити героя — «+» між героями */
+(function(){ const W={uk:'Обери місце «+» на столі',en:'Pick a «+» spot on the table'};
+ const _ap=tvPaint; tvPaint=function(){ const r=_ap.apply(this,arguments); try{ tvPlaceUI(); }catch(e){} return r; };
+ function tvPlaceUI(){ const pg=$('tavPg'); if(!pg||!TV||TV.phase!=='hire') return; pg.classList.remove('placing'); pg.querySelectorAll('.zins').forEach(e=>e.remove());
+  const p=TV.pick; if(!p||p.src!=='hand') return; const u=TV.hand[p.i]; if(!u||u.sp||TV.band.length>=7) return;
+  const row=pg.querySelector('.zrow.zme'); if(!row) return; pg.classList.add('placing');
+  const cards=[...row.children].filter(e=>!e.classList.contains('zslot'));
+  const mk=k=>{ const b=sH('button','zins'); b.type='button'; b.innerHTML='<span>+</span>'; b.title=String(k+1); b.onclick=e=>{ e.stopPropagation(); const i=TV.pick&&TV.pick.i; if(i==null) return; tvPlay(i,k); }; return b; };
+  for(let k=0;k<=cards.length;k++){ const b=mk(k); if(k<cards.length) row.insertBefore(b,cards[k]); else if(cards.length) cards[cards.length-1].after(b); else row.insertBefore(b,row.firstChild); }
+  row.querySelectorAll('.zslot').forEach(z=>{ z.style.display='none'; });
+  const inf=pg.querySelector('.zinfo'); if(inf){ [...inf.querySelectorAll('button')].forEach(b=>{ if(b.textContent.trim()===tvT('play')){ b.textContent=W[lang==='en'?'en':'uk']; b.onclick=()=>{ pg.querySelectorAll('.zins').forEach(x=>{ x.classList.remove('hey'); void x.offsetWidth; x.classList.add('hey'); }); }; } }); } }
 })();
 
 </script>

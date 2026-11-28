@@ -893,6 +893,18 @@ const handle = async (req: Request): Promise<Response> => {
       const hall = (await lgFile(db, 'arena/hall.json')) || [];
       return json({ ok: true, run: A.arn || null, best: A.arnBest | 0, beat: A.arnBeat || {}, free: A.arnFree !== wk, cost: ARN_COST, lives: ARN_LIVES, coins: A.coins ?? COIN_START, ends: lgEnd(wk), hall: hall.slice(-30).reverse(),
         bosses: ARN.map((B) => ({ k: B.k, coins: B.coins, item: B.item || '', t: B.t || 0, blk: (B.blk || []).length, dbl: B.dbl || '', first: B.first ? 1 : 0, rr: B.rr ? 1 : 0, wind: B.wind ? 1 : 0, fog: B.fog ? 1 : 0, mir: B.mir ? 1 : 0, strict: B.strict ? 1 : 0 })) }); }
+    if (action === 'tav') { const { data: p } = await db.from('profiles').select('ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
+      // Tavern (beta, vs bots): coins by place, 0..120, capped per day
+      const A = { ...(p.ach || {}) }; const op = String(args?.op || ''); const day = new Date(Date.now() + 2 * 3600e3).toISOString().slice(0, 10);
+      const TAV_PAY = [0, 120, 90, 70, 50, 30, 20, 10, 0], TAV_CAP = 600;
+      if (op === 'start') { A.tav = { at: Date.now(), st: 'on' }; await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true }); }
+      if (op === 'end') { const T = A.tav; if (!T || T.st !== 'on') return json({ error: 'no_run' }, 400);
+        const place = Math.max(1, Math.min(8, Number(args?.place) | 0 || 8)), rounds = Math.max(1, Math.min(60, Number(args?.rounds) | 0)), dur = Date.now() - T.at;
+        let n = TAV_PAY[place] | 0; if (dur < Math.max(90e3, rounds * 18e3)) n = 0; if (place <= 3 && rounds < 6) n = 0;
+        const td = A.tavDay && A.tavDay.d === day ? A.tavDay : { d: day, n: 0 }; n = Math.max(0, Math.min(n, TAV_CAP - td.n)); td.n += n; A.tavDay = td;
+        A.coins = (A.coins ?? COIN_START) + n; A.tav = { ...T, st: 'done', place }; await db.from('profiles').update({ ach: A }).eq('id', user.id);
+        return json({ ok: true, coins: A.coins, got: n, left: TAV_CAP - td.n }); }
+      return json({ error: 'op' }, 400); }
     if (action === 'club') { const { data: p } = await db.from('profiles').select('id,name,av,rating,ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
       const A = { ...(p.ach || {}) }; const op = String(args?.op || 'mine'); const saveA = async () => { await db.from('profiles').update({ ach: A }).eq('id', user.id); };
       const list = async () => { const I = (await lgFile(db, 'club/index.json')) || {}; const wk = lgWeek(); return Object.entries(I).map(([id, c]: any) => ({ id, name: c.name, tag: c.tag, n: c.n | 0, wp: c.wk === wk ? c.wp | 0 : 0 })).sort((a: any, b: any) => b.wp - a.wp || b.n - a.n).slice(0, 40); };
