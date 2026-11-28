@@ -6159,6 +6159,57 @@ body.brOn #board .pt.brWall{background-image:linear-gradient(180deg,rgba(224,137
 #tavPg .zrot button{height:48px;padding:0 22px;border-radius:14px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#f3efe7;font:750 15px/1 inherit;cursor:pointer}
 #tavPg .zrot button.go{background:#f3efe7;color:#1a1412;border:0}
 @media (orientation:portrait) and (max-width:600px){html body:not(.tvVert) #tavPg .zrot{display:flex}}
+
+/* 0.145.0 Tavern table «Сцена» full-screen: a wooden counter for the shelf on top, burgundy felt for your band, carved rim along the screen edge */
+#tavPg .zroom{background:#0b0807!important;filter:none!important}
+#tavPg .ztable{left:0!important;right:0!important;top:0!important;bottom:0!important;border-radius:0!important;background:#160f0d!important;box-shadow:inset 0 0 0 8px #5a3622,inset 0 0 0 10px #c98a5a,inset 0 0 0 16px #3a2216,inset 0 0 80px rgba(0,0,0,.7)!important}
+#tavPg .ztable::before{display:none!important}
+#tavPg .ztable::after{content:"";position:absolute;left:16px;right:16px;top:16px;height:calc(42% - 16px);background:linear-gradient(180deg,#6b4429 0%,#563520 55%,#3a2214 100%);box-shadow:inset 0 -14px 22px rgba(0,0,0,.55),inset 0 2px 0 rgba(255,255,255,.12),0 6px 0 #2a170d;z-index:0;border-radius:10px 10px 0 0}
+#tavPg .ztable::after{background-image:repeating-linear-gradient(90deg,rgba(0,0,0,.08) 0 2px,transparent 2px 160px),linear-gradient(180deg,#6b4429 0%,#563520 55%,#3a2214 100%)}
+#tavPg .zfelt{left:16px!important;right:16px!important;top:42%!important;bottom:16px!important;border-radius:0 0 10px 10px!important;background:radial-gradient(70% 90% at 50% 25%,#86232f,#3e0f16 85%)!important;box-shadow:inset 0 18px 30px rgba(0,0,0,.55),inset 0 0 0 2px rgba(240,201,184,.18)!important}
+#tavPg .zfelt::after{display:none!important}
+#tavPg .zcandle{display:none!important}
+#tavPg .zop{top:calc(16px + 16%)!important}
+#tavPg .zme{bottom:calc(16px + 16%)!important}
+#tavPg .zkeep{top:22px!important}
+#tavPg .zlb{left:26px;top:auto;bottom:auto;top:calc(42% + 20px);height:calc(58% - 50px);justify-content:flex-start;overflow-y:auto;scrollbar-width:none;z-index:6}
+#tavPg .zback{left:26px;top:26px}#tavPg .zhelp{right:26px;top:26px}#tavPg .zround{left:76px;top:30px}
+#tavPg .zrail{right:16px!important}
+#tavPg .zgold{right:30px!important;bottom:26px!important}
+#tavPg .zme-hero{left:auto!important;right:28%!important;bottom:26px!important;transform:none!important}
+#tavPg .zhand{left:160px!important;right:160px!important;bottom:-60px!important}
+#tavPg .zinfo{right:30px;bottom:80px}
+#tavPg .zspd{right:26px;bottom:26px;top:auto}
+#tavPg .zfc{top:calc(42% + 18px)!important;transform:translateX(-50%)!important}
+#tavPg .zmid{top:calc(42% + 26%)!important}
+@media (orientation:landscape) and (max-height:540px){
+#tavPg .ztable{box-shadow:inset 0 0 0 4px #5a3622,inset 0 0 0 5px #c98a5a,inset 0 0 0 8px #3a2216!important}
+#tavPg .ztable::after{left:8px;right:8px;top:8px;height:calc(47% - 8px)}
+#tavPg .zfelt{left:8px!important;right:8px!important;bottom:8px!important;top:47%!important}
+#tavPg .zop{top:calc(8px + 18%)!important}#tavPg .zme{bottom:calc(8px + 22%)!important;padding-left:0!important}
+#tavPg .zkeep{top:8px!important}
+#tavPg .zlb{left:12px;top:calc(42% + 10px);height:calc(58% - 22px);width:84px}
+#tavPg .zback{left:12px;top:12px}#tavPg .zhelp{left:56px;right:auto;top:12px}
+#tavPg .zgold{right:14px!important;bottom:12px!important}
+#tavPg .zme-hero{right:auto!important;left:104px!important;bottom:10px!important}
+#tavPg .zhand{left:200px!important;right:120px!important;bottom:-66px!important}
+#tavPg .zrail{top:42%!important;transform:translateY(-50%)!important}
+#tavPg .zinfo{right:10px;bottom:10px}
+#tavPg .zfc{display:none}
+}
+@media (max-width:900px) and (orientation:portrait),(max-width:600px){
+#tavPg .ztable{box-shadow:inset 0 0 0 4px #5a3622,inset 0 0 0 5px #c98a5a,inset 0 0 0 8px #3a2216!important}
+#tavPg .ztable::after{left:8px;right:8px;top:58px;height:calc(40% - 58px)}
+#tavPg .zfelt{left:8px!important;right:8px!important;top:40%!important;bottom:8px!important}
+#tavPg .zop{top:calc(58px + 15%)!important}#tavPg .zme{bottom:calc(8px + 30%)!important}
+#tavPg .zkeep{top:62px!important}
+#tavPg .zlb{left:52px;right:48px;top:8px;height:44px;width:auto}
+#tavPg .zback{left:8px;top:8px}#tavPg .zhelp{right:8px;top:8px}
+#tavPg .zme-hero{left:12px!important;right:auto!important;bottom:12px!important}
+#tavPg .zhand{left:0!important;right:0!important;bottom:-40px!important}
+#tavPg .zgold{right:12px!important;bottom:150px!important}
+#tavPg .zrail{top:40%!important;transform:translateY(-50%)!important}
+}
 html body #hsHome .hsMode.hs-tav{order:5;--hsimg:url("tb/tavern.webp")}
 @media (min-width:761px){html body #hsHome .hsModes.hsModes{gap:14px}html body #hsHome .hsMode.hsMode{width:212px;height:380px}html body #hsHome .hsMode.hs-play{width:268px;height:440px}}
 @media (min-width:761px) and (max-width:1180px){html body #hsHome .hsMode.hsMode{width:170px;height:320px}html body #hsHome .hsMode.hs-play{width:220px;height:380px}html body #hsHome .hsMode .tx b{font-size:18px!important}}
@@ -9583,7 +9634,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.144.3';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.145.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -11843,6 +11894,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+{v:'0.145.0',d:'28.11.2026',uk:['Таверна: новий стіл на весь екран — дерев’яний прилавок корчмаря зверху, бордове сукно для твоїх героїв знизу, різьблена рамка по краю'],en:['Tavern: a new full-screen table — the innkeeper\'s wooden counter on top, burgundy felt for your heroes below']},
 {v:'0.144.3',d:'28.11.2026',uk:['Таверна: у кожного героя свій портрет із магазину — Влад, Паша, Сомельє, Діджей, Кальянник, бабця Ліда, вартовий у кашкеті, шулер з картою та інші'],en:['Tavern: every hero has its own portrait from the shop']},
 {v:'0.144.2',d:'28.11.2026',uk:['Таверна на телефоні грається горизонтально, як Hearthstone: компактне лобі, рука знизу, панель героя збоку'],en:['On phones the Tavern is played sideways, like Hearthstone']},
 {v:'0.144.1',d:'28.11.2026',uk:['Таверна: 5-й рівень і п’ять нових героїв — Голова двору, Власник кальянної, Капітан варти, Круп’є, Гросмейстер','Нові іконки: бордові медальйони на кнопках корчмаря й силі героя, кольорові самоцвіти-значки ефектів і фракцій на героях'],en:['Tavern: tier 5 and five new heroes','New icons: burgundy medallions on the buttons and hero power, coloured gems for effects and factions on heroes']},
