@@ -6446,6 +6446,12 @@ html body #tavPg.vv .zu .av{background:#1a1214}
 html body #tavPg.vv .zu .av>*{width:100%!important;height:100%!important;display:block}
 html body #tavPg .zu.back{transition-timing-function:cubic-bezier(.2,.8,.3,1)!important}
 html body #tavPg .zu.lunge{transition-property:transform!important;will-change:transform}
+html body #tavPg .zrow.zme .zins{width:58px!important;height:118px!important;border-radius:30px!important;margin:0 -2px!important;font-size:34px!important}
+html body #tavPg .zrow.zme .zslot.zput{cursor:pointer;border-color:#9fe0b6!important;background:radial-gradient(circle,rgba(159,224,182,.3),rgba(20,40,28,.55) 75%)!important;animation:slotP 1.2s ease-in-out infinite;transform:none!important}
+html body #tavPg .zrow.zme .zslot.zput::after{color:#9fe0b6!important;font-size:44px!important}
+html body #tavPg .zrow.zme .zslot.zput:hover,html body #tavPg .zrow.zme .zins:hover{background:rgba(159,224,182,.45)!important}
+@media (max-height:540px),(max-width:600px){html body #tavPg .zrow.zme .zins{width:38px!important;height:72px!important;border-radius:20px!important;font-size:24px!important;margin:0 -1px!important}}
+@media (max-height:540px),(max-width:600px){html body #tavPg.placing .zc.sel{transform:translateY(-8px)!important}html body #tavPg.placing .zinfo .zcard{display:none!important}}
 </style>
 </head>
 <body>
@@ -9866,7 +9872,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.146.2';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.146.3';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -12126,6 +12132,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+{v:'0.146.3',d:'28.11.2026',uk:['Таверна: місця, куди ставити героя, тепер великі овали — легко попасти і на ПК, і на телефоні'],en:['Tavern: the spots to place a hero are now big ovals, easy to hit']},
 {v:'0.146.2',d:'28.11.2026',uk:['Таверна: портрет заповнює весь овал, картка в руці більше не стрибає при наведенні, удари в бою швидші й без зависань'],en:['Tavern: portraits fill the whole oval, hand cards no longer jitter on hover, snappier attacks']},
 {v:'0.146.1',d:'28.11.2026',uk:['Таверна: після бою ті, хто вижив, летять бити героя суперника, а потім великий банер «Перемога», «Поразка» чи «Нічия» з конфеті','Атака й здоров’я тепер стоять рівно під портретом героя, поруч'],en:['Tavern: after a fight the survivors strike the enemy hero, then a big Victory / Defeat / Draw banner','Attack and health now sit side by side under each portrait']},
 {v:'0.146.0',d:'28.11.2026',uk:['Таверна: перед грою — пошук гравців за столом','Сам обираєш, куди поставити героя: «+» між героями на столі','Бій починається, коли спливає таймер, як у Hearthstone — без кнопки','Спільний пул: кожного героя обмежена кількість копій на всіх 8 гравців','Монети за гру: від 0 до 120 залежно від місця (до 600 на день)','Більші суперники зліва; герой вилітає з вітрини в руку; удар по серцях видно','Баланс: Шулер, Сомельє і Хан сильніші; Стіна, Туз, Круп’є, Капітан слабші; Тінь, Лавочник, Чайник міцніші; Чарка дорожча, Удача шулера дешевша; боти пізніше грають сильніше'],en:['Tavern: a player search before the game','The fight starts when the timer runs out — no button','Shared pool: each hero has limited copies for all 8 players','Coins for playing: 0–120 by place (up to 600 a day)','Bigger opponents; bought heroes fly to your hand; heart damage is visible','Balance patch for heroes, units, spells and bots']},
@@ -16474,8 +16481,8 @@ window.addEventListener('resize',()=>{ try{ if(TV && $('tavPg')){ clearTimeout(w
   const row=pg.querySelector('.zrow.zme'); if(!row) return; pg.classList.add('placing');
   const cards=[...row.children].filter(e=>!e.classList.contains('zslot'));
   const mk=k=>{ const b=sH('button','zins'); b.type='button'; b.innerHTML='<span>+</span>'; b.title=String(k+1); b.onclick=e=>{ e.stopPropagation(); const i=TV.pick&&TV.pick.i; if(i==null) return; tvPlay(i,k); }; return b; };
-  for(let k=0;k<=cards.length;k++){ const b=mk(k); if(k<cards.length) row.insertBefore(b,cards[k]); else if(cards.length) cards[cards.length-1].after(b); else row.insertBefore(b,row.firstChild); }
-  row.querySelectorAll('.zslot').forEach(z=>{ z.style.display='none'; });
+  for(let k=0;k<cards.length;k++){ row.insertBefore(mk(k),cards[k]); }
+  row.querySelectorAll('.zslot').forEach((z,j)=>{ if(j>0){ z.style.display='none'; return; } z.classList.add('zput'); z.onclick=e=>{ e.stopPropagation(); const i=TV.pick&&TV.pick.i; if(i!=null) tvPlay(i); }; });
   const inf=pg.querySelector('.zinfo'); if(inf){ [...inf.querySelectorAll('button')].forEach(b=>{ if(b.textContent.trim()===tvT('play')){ b.textContent=W[lang==='en'?'en':'uk']; b.onclick=()=>{ pg.querySelectorAll('.zins').forEach(x=>{ x.classList.remove('hey'); void x.offsetWidth; x.classList.add('hey'); }); }; } }); } }
 })();
 
