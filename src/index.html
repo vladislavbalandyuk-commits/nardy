@@ -5982,6 +5982,129 @@ body.brOn #board .pt.brWall{background-image:linear-gradient(180deg,rgba(224,137
 }
 
 
+
+/* 0.144.0 «Таверна» v3 */
+#tavPg{touch-action:none}
+#tavPg .zcandle{position:absolute;top:44%;width:16px;height:46px;border-radius:4px;background:linear-gradient(180deg,#f3ead9,#d8c8a8);box-shadow:0 0 40px 18px rgba(255,190,120,.22);z-index:1}
+#tavPg .zcandle::before{content:"";position:absolute;left:50%;top:-16px;width:10px;height:16px;margin-left:-5px;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;background:radial-gradient(circle at 50% 70%,#fff6d0,#ffb347 60%,transparent 70%);animation:zFl 1.2s ease-in-out infinite alternate}
+@keyframes zFl{to{transform:scale(.85,1.12) translateY(-2px)}}
+#tavPg .zcandle.l{left:2.5%}#tavPg .zcandle.r{right:2.5%}
+#tavPg .zu.sp{border-radius:16px;border-style:dashed;background:linear-gradient(180deg,#2a2030,#151215)}
+#tavPg .zu.sp .av,#tavPg .zc.sp .av{display:grid;place-items:center;font-size:30px;background:#1d1720}
+#tavPg .zc.sp{background:linear-gradient(180deg,#2a2030,#141114);border-style:dashed}
+#tavPg .zop .zw,#tavPg .zme .zu,#tavPg .zc{touch-action:none}
+#tavPg .zop.hot,#tavPg .zme.hot{border-radius:30px;box-shadow:0 0 0 3px rgba(224,137,111,.55),0 0 40px rgba(224,137,111,.25);background:rgba(224,137,111,.06)}
+#tavPg .zop.hot{box-shadow:0 0 0 3px rgba(255,138,122,.6),0 0 40px rgba(255,138,122,.25)}
+#tavPg .zghost{position:fixed!important;z-index:60;pointer-events:none;margin:0!important;transform:rotate(-4deg) scale(1.08)!important;opacity:.95;box-shadow:0 30px 50px rgba(0,0,0,.7)!important;transition:none!important}
+#tavPg .zghost.sellme{filter:grayscale(.6) brightness(.8)}
+#tavPg .dragging{opacity:.25}
+#tavPg .zu.sel{transform:translateY(-10px)}
+/* info panel */
+#tavPg .zinfo{position:absolute;right:34px;bottom:130px;z-index:20;display:flex;flex-direction:column;gap:10px;align-items:stretch;width:260px;animation:zIn .16s ease-out}
+#tavPg .zcard.in{position:static;width:auto;animation:none}
+#tavPg .zact{display:flex;gap:6px}
+#tavPg .zact button{flex:1;white-space:nowrap;height:46px;border-radius:14px;border:1px solid rgba(255,255,255,.16);background:rgba(18,16,19,.95);color:#f3efe7;font:750 14px/1 inherit;cursor:pointer;padding:0 10px}
+#tavPg .zact button.go{flex:3;background:#f3efe7;color:#1a1412;border:0}
+#tavPg .zact button.x{flex:none;width:46px}
+#tavPg .zact button:disabled{opacity:.4}
+/* hero power */
+#tavPg .zme-hero{display:flex;align-items:flex-end;gap:10px}
+#tavPg .zpow{position:relative;width:58px;height:58px;border-radius:50%;border:3px solid #e0896f;background:radial-gradient(circle at 40% 30%,#5a2a2e,#1d1416);color:#f0c9b8;font-size:24px;display:grid;place-items:center;cursor:pointer;box-shadow:0 0 18px rgba(224,137,111,.45),0 10px 20px rgba(0,0,0,.6);padding:0;animation:zPow 2.4s ease-in-out infinite}
+@keyframes zPow{50%{box-shadow:0 0 30px rgba(224,137,111,.75),0 10px 20px rgba(0,0,0,.6)}}
+#tavPg .zpow small{position:absolute;top:-8px;left:50%;transform:translateX(-50%);min-width:22px;height:22px;border-radius:11px;background:radial-gradient(circle at 35% 30%,#fff3b0,#f0c23a 45%,#b8860b);color:#1a1412;font:800 11px/22px system-ui}
+#tavPg .zpow.used{filter:grayscale(1) brightness(.6);animation:none}
+#tavPg .zpow.pas{border-style:dashed;animation:none}
+#tavPg .zpow.fx-pow{animation:zPowGo .6s}
+@keyframes zPowGo{40%{transform:scale(1.3) rotate(20deg);box-shadow:0 0 50px #f0c9b8}}
+#tavPg .zspd,#tavPg .zhelp{position:absolute;z-index:9;width:40px;height:40px;border-radius:12px;border:1px solid rgba(255,255,255,.14);background:rgba(18,16,19,.9);color:#f3efe7;font:800 13px/1 inherit;cursor:pointer;padding:0}
+#tavPg .zspd{right:16px;bottom:16px}
+#tavPg .zhelp{right:12px;top:12px;font-size:17px}
+#tavPg .zlb .zpl{cursor:pointer}
+#tavPg .zlb .zpl.nx{border-color:#6fa8ff;box-shadow:0 0 0 2px rgba(111,168,255,.25)}
+#tavPg .zpeek{position:fixed;z-index:40;padding:10px 12px;border-radius:14px;background:rgba(18,16,19,.97);border:1px solid rgba(224,137,111,.45);display:flex;flex-direction:column;gap:6px;max-width:calc(100vw - 16px);animation:zIn .15s}
+#tavPg .zpeek .r{display:flex;gap:6px;flex-wrap:wrap}
+#tavPg .zpeek .m{display:flex;flex-direction:column;align-items:center;gap:2px}
+#tavPg .zpeek .m .av{width:34px;height:34px;border-radius:50%}
+#tavPg .zpeek .m i{font-style:normal;font-size:10.5px;font-weight:800;color:#f0a58d}
+#tavPg .zpeek small{color:#a8a29a;font-size:11.5px}
+/* hero pick / discover */
+#tavPg .zpick{position:absolute;inset:0;z-index:30;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:20px;background:radial-gradient(60% 60% at 50% 40%,rgba(122,31,43,.35),rgba(8,7,9,.85));text-align:center}
+#tavPg .zpick h2{margin:0;font-family:'Unbounded',system-ui,sans-serif;font-size:32px}
+#tavPg .zpick>p{margin:0;color:#b9b2a8}
+#tavPg .zpr{display:flex;gap:18px;flex-wrap:wrap;justify-content:center;margin-top:10px}
+#tavPg .zph{width:220px;padding:20px 16px;border-radius:24px;border:2px solid rgba(224,137,111,.5);background:linear-gradient(160deg,#2a1d20,#141114);color:#f3efe7;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;font:inherit;transition:transform .2s,box-shadow .2s;animation:zIn .3s backwards}
+#tavPg .zph:nth-child(2){animation-delay:.08s}#tavPg .zph:nth-child(3){animation-delay:.16s}
+#tavPg .zph:hover{transform:translateY(-8px);box-shadow:0 0 0 3px #e0896f,0 30px 50px rgba(0,0,0,.6)}
+#tavPg .zph .av{width:120px;height:120px;border-radius:50% 50% 30px 30px;box-shadow:0 0 0 4px #e0896f}
+#tavPg .zph b{font-family:'Unbounded',system-ui,sans-serif;font-size:19px}
+#tavPg .zph .pw{font-size:13px;line-height:1.4;color:#d6d0c7}
+#tavPg .zdisc .zcard.pk{cursor:pointer;pointer-events:auto;width:220px}
+#tavPg .zdisc .zcard.pk:hover{box-shadow:0 0 0 3px #e0896f,0 30px 60px rgba(0,0,0,.7)}
+/* effects */
+#tavPg .zfxi{position:absolute;left:50%;top:22%;transform:translateX(-50%);z-index:9;pointer-events:none;font:900 18px 'Unbounded',system-ui,sans-serif;white-space:nowrap;text-shadow:0 2px 8px #000;animation:zFxI 1.1s ease-out forwards}
+@keyframes zFxI{0%{opacity:0;transform:translate(-50%,8px) scale(.5)}25%{opacity:1;transform:translate(-50%,-6px) scale(1.3)}100%{opacity:0;transform:translate(-50%,-46px) scale(1)}}
+#tavPg .zfx-hit{color:#ff8a7a;font-size:26px}#tavPg .zfx-buff{color:#9fe0b6}#tavPg .zfx-cry{color:#ffd59a}#tavPg .zfx-death{color:#cfc6bb}#tavPg .zfx-shield{color:#f0c9b8}#tavPg .zfx-venom{color:#9be37a}#tavPg .zfx-reborn{color:#bcd4ff}#tavPg .zfx-start{color:#f0a58d}#tavPg .zfx-eot{color:#bcd4ff}#tavPg .zfx-avenge{color:#ff8a7a}
+#tavPg .fx-cry{animation:zCry .7s}
+@keyframes zCry{30%{transform:scale(1.15);box-shadow:0 0 0 6px rgba(255,213,154,.6),0 0 40px rgba(255,213,154,.6)}}
+#tavPg .fx-buff{animation:zBuff .7s}
+@keyframes zBuff{30%{box-shadow:0 0 0 4px #9fe0b6,0 0 30px rgba(159,224,182,.7);transform:translateY(-4px)}}
+#tavPg .fx-shield{animation:zShd .7s}
+@keyframes zShd{0%{box-shadow:0 0 0 0 rgba(240,201,184,.9)}50%{box-shadow:0 0 0 14px rgba(240,201,184,0),0 0 30px rgba(240,201,184,.8)}}
+#tavPg .fx-venom{animation:zVen .8s}
+@keyframes zVen{30%{filter:hue-rotate(80deg) saturate(2);box-shadow:0 0 30px rgba(155,227,122,.8)}}
+#tavPg .fx-reborn{animation:zReb 1s}
+@keyframes zReb{0%{opacity:0;transform:translateY(20px) scale(.6);filter:brightness(3)}60%{opacity:1;filter:brightness(1.6)}100%{transform:none}}
+#tavPg .fx-start{animation:zSt .7s}
+@keyframes zSt{30%{transform:translateY(-12px);box-shadow:0 0 0 4px #f0a58d,0 0 30px rgba(240,165,141,.7)}}
+#tavPg .fx-eot{animation:zEot .7s}
+@keyframes zEot{30%{transform:rotate(-6deg);box-shadow:0 0 0 4px #bcd4ff}60%{transform:rotate(6deg)}}
+#tavPg .fx-avenge{animation:zAv .7s}
+@keyframes zAv{30%{transform:scale(1.18);box-shadow:0 0 0 5px #ff8a7a,0 0 40px rgba(255,138,122,.7)}}
+#tavPg .fx-death{filter:grayscale(1)}
+#tavPg .fx-slash::after{content:"";position:absolute;inset:-10px;z-index:7;pointer-events:none;background:linear-gradient(135deg,transparent 45%,#fff 48%,#f0c9b8 50%,transparent 53%),linear-gradient(45deg,transparent 45%,#fff 48%,#f0c9b8 50%,transparent 53%);animation:zSlx .45s ease-out forwards}
+@keyframes zSlx{0%{opacity:0;transform:scale(.4)}30%{opacity:1}100%{opacity:0;transform:scale(1.2)}}
+#tavPg .fx-hit{animation:zHurt .4s}
+#tavPg .fx-land{animation:zLand .45s cubic-bezier(.3,1.4,.5,1)}
+@keyframes zLand{0%{transform:translateY(-60px) scale(1.2);opacity:.4}100%{transform:none;opacity:1}}
+#tavPg .fx-deal{animation:zDeal .4s backwards}
+@keyframes zDeal{from{opacity:0;transform:translateY(-40px) rotate(-10deg)}}
+#tavPg .fx-quake{animation:zQk .3s}
+@keyframes zQk{25%{transform:translate(4px,-3px)}50%{transform:translate(-4px,3px)}75%{transform:translate(2px,2px)}}
+#tavPg .zhp.fx-up .av{animation:zCry .8s}
+/* tutorial + guide */
+#tavPg .ztut{position:absolute;inset:0;z-index:35;background:rgba(6,5,7,.55)}
+#tavPg .tutOn{position:relative;z-index:36!important;box-shadow:0 0 0 4px #e0896f,0 0 0 9999px rgba(6,5,7,.0)!important;border-radius:20px;animation:zTut 1.2s ease-in-out infinite}
+@keyframes zTut{50%{box-shadow:0 0 0 8px rgba(224,137,111,.5)}}
+#tavPg .zbub{position:fixed;z-index:37;padding:16px;border-radius:18px;background:#151216;border:1px solid #e0896f;box-shadow:0 20px 50px rgba(0,0,0,.6);display:flex;flex-direction:column;gap:8px}
+#tavPg .zbub small{color:#8d867d;font-size:12px}#tavPg .zbub p{margin:0;font-size:14.5px;line-height:1.45}
+#tavPg .zbub .r,#tavPg .zgb{display:flex;gap:8px}
+#tavPg .zbub button,#tavPg .zgb>button{flex:1;height:42px;border-radius:12px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.05);color:#f3efe7;font:750 14px/1 inherit;cursor:pointer}
+#tavPg .zbub button.go,#tavPg .zgb>button.go{background:#f3efe7;color:#1a1412;border:0}
+#tavPg .zguide{position:absolute;inset:0;z-index:38;display:grid;place-items:center;background:rgba(6,5,7,.72);padding:16px}
+#tavPg .zgb{flex-direction:column;width:min(760px,100%);max-height:100%;overflow:auto;padding:22px;border-radius:24px;background:#151216;border:1px solid rgba(224,137,111,.45)}
+#tavPg .zgb h2{margin:0;font-family:'Unbounded',system-ui,sans-serif;font-size:24px}
+#tavPg .zgb>p{margin:0;color:#b9b2a8;font-size:13.5px}
+#tavPg .zgg{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:6px 0}
+#tavPg .zgi{display:flex;flex-direction:column;align-items:center;gap:6px;padding:16px 6px 10px;border-radius:16px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);color:#f3efe7;cursor:pointer;font:inherit;text-align:center}
+#tavPg .zgi .zu.demo{width:62px;height:78px;padding-top:5px;cursor:pointer}
+#tavPg .zgi .zu.demo .av{width:42px;height:42px;display:grid;place-items:center;font-size:22px;background:#1d1720;color:#f0c9b8;font-family:system-ui,sans-serif}
+#tavPg .zgi .zu.demo .za,#tavPg .zgi .zu.demo .zh{width:20px;height:20px;font-size:10px;bottom:-7px}
+#tavPg .zgi b{font-size:12.5px;margin-top:4px}#tavPg .zgi small{font-size:11px;color:#a8a29a;line-height:1.3}
+#tavPg .zgf{font-size:12.5px;color:#d6d0c7}
+@media (max-width:900px){
+#tavPg .zinfo{left:8px;right:8px;bottom:8px;width:auto;flex-direction:column;background:rgba(14,12,15,.97);padding:10px;border-radius:20px;border:1px solid rgba(224,137,111,.4);box-shadow:0 -20px 40px rgba(0,0,0,.6)}
+#tavPg .zinfo .zcard.in{display:grid;grid-template-columns:64px minmax(0,1fr) auto;grid-template-areas:"a h s" "a t s" "a p s";column-gap:10px;row-gap:2px;align-items:center;text-align:left;padding:8px;border:0;box-shadow:none;background:none}
+#tavPg .zinfo .zcard.in .av{grid-area:a;width:64px;height:64px}#tavPg .zinfo .zcard.in h3{grid-area:h;font-size:15px;margin:0}#tavPg .zinfo .zcard.in .tags{grid-area:t;justify-content:flex-start}#tavPg .zinfo .zcard.in p{grid-column:2;font-size:12px}#tavPg .zinfo .zcard.in .st{grid-area:s;flex-direction:column;margin:0}#tavPg .zinfo .zcard.in .st span{width:32px;height:32px;font-size:13px}
+#tavPg .zpow{width:42px;height:42px;font-size:17px;border-width:2px}
+#tavPg .zhelp{right:6px;top:10px;width:36px;height:36px}
+#tavPg .zlb{right:48px}
+#tavPg .zspd{right:8px;bottom:auto;top:62px}
+#tavPg .zpick h2{font-size:22px}#tavPg .zpr{gap:8px}#tavPg .zph{width:31%;min-width:0;padding:12px 6px;border-radius:18px}#tavPg .zph .av{width:64px;height:64px}#tavPg .zph b{font-size:13px}#tavPg .zph .pw{font-size:10.5px}
+#tavPg .zdisc .zpr{flex-direction:column;align-items:center}#tavPg .zdisc .zcard.pk{width:min(300px,90vw);padding:10px}#tavPg .zdisc .zcard.pk .av{width:60px;height:60px}
+#tavPg .zgg{grid-template-columns:repeat(2,minmax(0,1fr))}
+#tavPg .zcandle{display:none}
+}
+
 html body #hsHome .hsMode.hs-tav{order:5;--hsimg:url("tb/tavern.webp")}
 @media (min-width:761px){html body #hsHome .hsModes.hsModes{gap:14px}html body #hsHome .hsMode.hsMode{width:212px;height:380px}html body #hsHome .hsMode.hs-play{width:268px;height:440px}}
 @media (min-width:761px) and (max-width:1180px){html body #hsHome .hsMode.hsMode{width:170px;height:320px}html body #hsHome .hsMode.hs-play{width:220px;height:380px}html body #hsHome .hsMode .tx b{font-size:18px!important}}
@@ -9406,7 +9529,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.143.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.144.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -11666,6 +11789,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+{v:'0.144.0',d:'28.11.2026',uk:['Таверна 3.0: на старті обираєш героя з власною силою (Влад, Паша, бабця Ліда, Шулер, Сомельє, Хан)','Перетягуй карти: з вітрини — купити, з руки — на стіл у потрібне місце, по столу — переставити, на вітрину — продати','На телефоні торкання відкриває панель з описом і кнопками — вона не зникає','Заклинання на вітрині, три однакові → золотий герой і «Відкриття» на вибір','У ботів свій стіл, що росте; видно наступного суперника, торкнись гравця — побачиш його стіл','Кожен ефект має свою анімацію і звук, навчання з підсвіткою і довідник «?»','Нові герої: Отруйник (отрута) і Тінь (друге дихання), швидкість бою ×2'],en:['Tavern 3.0: pick a hero with a power at the start','Drag cards: shelf → buy, hand → table at a spot, table → reorder, onto the shelf → sell','On phones a tap opens a panel with info and buttons that stays','Spells on the shelf, triples → golden hero and a Discover','Bots keep growing boards; see your next opponent, tap a player to see their board','Every effect has its own animation and sound, a guided tutorial and a «?» guide','New heroes: Poisoner (venom) and Shadow (reborn), combat speed ×2']},
 {v:'0.143.0',d:'28.11.2026',uk:['Таверна 2.0: як у Battlegrounds — вітрина зверху з корчмарем і кнопками, твій стіл знизу, куплені герої йдуть у руку','У кожного героя своя механіка: клич, смерть, початок бою, кінець ходу, помста, провокатор, щит, подвійний удар','Ліворуч — лобі з серцями й рівнями таверни, праворуч — таймер і «До бою», внизу — золото','Наведи на героя — велика картка з описом поруч, без накладань'],en:['Tavern 2.0: Battlegrounds layout — the shelf with the innkeeper on top, your band below, bought heroes go to your hand','Every hero has its own effect: battlecry, death, start of combat, end of turn, avenge, taunt, shield, double strike','Lobby with hearts on the left, timer and «To battle» on the right, gold at the bottom','Hover a hero for a big card beside it, no overlaps']},
 {v:'0.142.1',d:'28.11.2026',uk:['Таверна: повільніші удари з ефектом меча й летючими цифрами','Таймер найму, як у Battlegrounds — час росте з кожним раундом, «До бою» можна натиснути раніше','Нова шухляда з корчмарем: оновити, заморозити вітрину, підвищити таверну','Велика картка героя замість підказок, що налазили одна на одну','Своя музика для найму й для бою, золотий герой дає нагороду, баланс ботів і ліміт шкоди в перших раундах'],en:['Tavern: slower strikes with a sword effect and floating numbers','A hire timer like Battlegrounds — more time each round, press «To battle» to go early','A new counter with the innkeeper: refresh, freeze, upgrade','A big hero card instead of overlapping tips','Separate music for hiring and fighting, golden heroes give a reward, bot balance and a damage cap early on']},
 {v:'0.142.0',d:'28.11.2026',uk:['Новий режим «Таверна» (бета): наймай героїв за круглим столом — вони б’ються самі. Вісім гравців, 30 сердець, хто встоїть останнім — господар таверни','П’ять фракцій зі своїми механіками: Двір, Кальянна, Варта, Шулери, Майстри','Героїв можна переставляти — порядок важливий: б’ються зліва направо','Три однакові герої зливаються в золотого з подвійною силою'],en:['New mode «Tavern» (beta): hire heroes at the round table and they fight on their own. Eight players, 30 hearts, last one standing runs the tavern','Three of the same hero merge into a golden one with double stats']},
@@ -15531,21 +15655,27 @@ function c2Breach(n){ const att=(store.get('c2q',{})||{})[n]|0; const pz=c2Breac
 setInterval(()=>{ try{ const on=!!(tut && tut.pz && tut.pz.breach && gs); document.body.classList.toggle('brOn',on); if(!on) return; const W=tut.pz.data.wall; document.querySelectorAll('#board .pt').forEach(e=>{ const i=+e.dataset.b; const w=!isNaN(i) && i>=W.a && i<=W.b && gs.board[i]<0; e.classList.toggle('brWall',w); }); }catch(e){} },500);
 
 
-/* 0.143.0 «Таверна» v2 (beta): Battlegrounds-style. Buy heroes from the shelf into your hand, put them on the table, they fight by themselves.
-   Every hero has its own effect; five factions add their own small passive. 8 players, 30 hearts, last one standing runs the tavern. */
-const TV_TX={uk:{t:'Таверна',beta:'бета',round:'Раунд {n}',vs:'Бій з {n}',win:'Перемога в раунді',lose:'Поразка: −{n} ♥',draw:'Нічия',you:'Ти',full:'Немає місця',poor:'Не вистачає золота',hand:'Рука повна',endW:'Ти — господар таверни!',endP:'{n} місце',endD:'Протримався {r} раундів.',again:'Ще раз',home:'У меню',go:'До бою',sell:'Продати +1',keeper:'Корчмар',re:'Оновити вітрину',freeze:'Заморозити вітрину',up:'Підвищити таверну',triple:'Золотий герой! Нагорода — у руці',gift:'🎁',hint:'Купи героя з вітрини — він піде в руку. Торкнись карти в руці, щоб поставити на стіл.',hint2:'Торкнись карти в руці, щоб поставити героя на стіл',tier:'Таверна ★{n}',kw_taunt:'Провокатор: вороги б’ють його першим',kw_shield:'Щит: перший удар не проходить',kw_wind:'Двічі б’є: атакує двічі за хід',
-  cry:'Клич',death:'Смерть',start:'Початок бою',eot:'Кінець ходу',avenge:'Помста'},
-en:{t:'Tavern',beta:'beta',round:'Round {n}',vs:'Fight vs {n}',win:'Round won',lose:'Lost: −{n} ♥',draw:'Draw',you:'You',full:'No room',poor:'Not enough gold',hand:'Hand is full',endW:'You run the tavern!',endP:'Place {n}',endD:'You lasted {r} rounds.',again:'Again',home:'Menu',go:'To battle',sell:'Sell +1',keeper:'Innkeeper',re:'Refresh the shelf',freeze:'Freeze the shelf',up:'Upgrade the tavern',triple:'Golden hero! A reward is in your hand',gift:'🎁',hint:'Buy a hero from the shelf — it goes to your hand. Tap a card in hand to put it on the table.',hint2:'Tap a card in hand to put the hero on the table',tier:'Tavern ★{n}',kw_taunt:'Taunt: enemies hit him first',kw_shield:'Shield: the first hit is blocked',kw_wind:'Double strike: attacks twice',
-  cry:'Battlecry',death:'Death',start:'Start of combat',eot:'End of turn',avenge:'Avenge'}};
+/* 0.144.0 «Таверна» v3 (beta): Battlegrounds-style auto-battler.
+   Start: pick a hero with a hero power. Hire from the shelf (heroes and spells) into your hand, play them on the table, they fight by themselves.
+   Drag & drop or tap → info panel with actions. Bots keep their own growing bands. Triples → discover. Every effect has its own animation and sound. */
+const TV_TX={uk:{t:'Таверна',beta:'бета',round:'Раунд {n}',vs:'Бій з {n}',win:'Перемога в раунді',lose:'Поразка: −{n} ♥',draw:'Нічия',you:'Ти',full:'Стіл повний — 7 героїв',poor:'Не вистачає золота',hand:'Рука повна',endW:'Ти — господар таверни!',endP:'{n} місце',endD:'Протримався {r} раундів.',again:'Ще раз',home:'У меню',go:'До бою',sell:'Продати · +1',buy:'Купити · {n}',play:'На стіл',cast:'Зіграти',keeper:'Корчмар',re:'Оновити вітрину · 1',freeze:'Заморозити вітрину',unfreeze:'Розморозити',up:'Підвищити таверну · {n}',tier:'Таверна ★{n}',next:'наступний',last:'Останній стіл',noLast:'Ще не бився',pickHero:'Обери героя',pickD:'У кожного своя сила на всю гру',discover:'Відкриття: обери одного',power:'Сила героя',used:'вже цього ходу',speed:'Швидкість',help:'Довідник',close:'Закрити',spell:'Заклинання',
+  kw_taunt:'Провокатор — вороги б’ють його першим',kw_shield:'Щит — перший удар не проходить',kw_wind:'Двічі б’є — атакує двічі',kw_venom:'Отрута — вбиває будь-кого, кого поранить',kw_reborn:'Друге дихання — повертається з 1 ♥',
+  cry:'Клич',death:'Смерть',start:'Початок бою',eot:'Кінець ходу',avenge:'Помста',
+  tut1:'Це вітрина корчмаря. Перетягни героя вниз або торкнись його й натисни «Купити». Герой коштує 3 золота.',tut2:'Куплені герої йдуть у руку. Перетягни карту на стіл або торкнись і натисни «На стіл».',tut3:'Порядок на столі важливий: герої б’ють зліва направо. Перетягуй їх, щоб переставити. Тягни на вітрину — продаси за 1.',tut4:'Кнопки корчмаря: ★ підвищує таверну (сильніші герої), ⟳ оновлює вітрину, ❄ заморожує її до наступного ходу.',tut5:'Це твоя сила героя — раз за хід. Натисни, коли вигідно.',tut6:'Коли готовий — «До бою». Або таймер закінчиться сам. Бій іде без тебе.',tut7:'Ліворуч усі 8 гравців. Програв бій — втрачаєш серця. Хто лишиться останнім — переміг. Торкнись гравця, щоб побачити його стіл.',tut8:'Ось усі ефекти і як вони виглядають у бою. Відкрити довідник можна кнопкою «?».',tutNext:'Далі',tutSkip:'Пропустити',tutDone:'Грати!'},
+en:{t:'Tavern',beta:'beta',round:'Round {n}',vs:'Fight vs {n}',win:'Round won',lose:'Lost: −{n} ♥',draw:'Draw',you:'You',full:'Table is full — 7 heroes',poor:'Not enough gold',hand:'Hand is full',endW:'You run the tavern!',endP:'Place {n}',endD:'You lasted {r} rounds.',again:'Again',home:'Menu',go:'To battle',sell:'Sell · +1',buy:'Buy · {n}',play:'Play',cast:'Cast',keeper:'Innkeeper',re:'Refresh · 1',freeze:'Freeze the shelf',unfreeze:'Unfreeze',up:'Upgrade tavern · {n}',tier:'Tavern ★{n}',next:'next',last:'Last board',noLast:'No fights yet',pickHero:'Pick your hero',pickD:'Each has a power for the whole game',discover:'Discover: pick one',power:'Hero power',used:'used this turn',speed:'Speed',help:'Guide',close:'Close',spell:'Spell',
+  kw_taunt:'Taunt — enemies hit him first',kw_shield:'Shield — blocks the first hit',kw_wind:'Double strike — attacks twice',kw_venom:'Venom — kills anything it damages',kw_reborn:'Reborn — comes back with 1 ♥',
+  cry:'Battlecry',death:'Death',start:'Start of combat',eot:'End of turn',avenge:'Avenge',
+  tut1:'This is the innkeeper\'s shelf. Drag a hero down, or tap it and press «Buy». A hero costs 3 gold.',tut2:'Bought heroes go to your hand. Drag a card to the table, or tap it and press «Play».',tut3:'Order matters: heroes strike left to right. Drag to reorder. Drag onto the shelf to sell for 1.',tut4:'Innkeeper buttons: ★ upgrades the tavern, ⟳ refreshes the shelf, ❄ freezes it for next turn.',tut5:'This is your hero power — once per turn.',tut6:'When ready — «To battle». Or the timer runs out. The fight plays by itself.',tut7:'All 8 players are on the left. Lose a fight — lose hearts. Last one standing wins. Tap a player to see their board.',tut8:'Here are all the effects and how they look in a fight. Open the guide any time with «?».',tutNext:'Next',tutSkip:'Skip',tutDone:'Play!'}};
 TV_TX.ru=TV_TX.uk;
 const tvT=(k,v)=>{ let x=(TV_TX[lang]||TV_TX.en)[k]||TV_TX.en[k]||k; if(v) for(const q in v) x=x.replace('{'+q+'}',v[q]); return x; };
+const tvL=(uk,en)=>lang==='en'?en:uk;
 const TV_F={yard:{ic:'🏘',uk:'Двір',en:'Yard',d:{uk:'Коли дворовий гине — інший дворовий +1 ⚔',en:'When a yard hero dies, another gets +1 ⚔'}},
  hook:{ic:'💨',uk:'Кальянна',en:'Hookah',d:{uk:'Ставиш кальянного — інші кальянні +1 ♥',en:'Play one — other Hookah heroes +1 ♥'}},
  guard:{ic:'🛡',uk:'Варта',en:'Guard',d:{uk:'Початок бою: +1 ♥ сусідам',en:'Start of combat: +1 ♥ to neighbours'}},
  sharp:{ic:'🎲',uk:'Шулери',en:'Sharps',d:{uk:'Кожен удар — кидок: на 6 б’є вдвічі',en:'Each hit rolls a die: a 6 hits double'}},
  master:{ic:'♛',uk:'Майстри',en:'Masters',d:{uk:'Початок бою: +1/+1 за кожного іншого майстра',en:'Start of combat: +1/+1 per other master'}}};
-const tvFN=f=>{ const F=TV_F[f]; return F ? F.ic+' '+(lang==='en'?F.en:F.uk) : ''; };
-const TV_KW={taunt:'⛨',shield:'◈',wind:'⚡'};
+const tvFN=f=>{ const F=TV_F[f]; return F ? F.ic+' '+tvL(F.uk,F.en) : ''; };
+const TV_KW={taunt:'⛨',shield:'◈',wind:'⚡',venom:'☣',reborn:'↺'};
 // k, uk, en, tier, atk, hp, faction, keywords, trigger, text uk, text en
 const TV_U=[
  ['ap','Учень','Apprentice',1,1,1,'yard',[],'','',''],
@@ -15557,174 +15687,287 @@ const TV_U=[
  ['dj','Діджей','DJ',2,2,3,'hook',[],'play','Ставиш кальянного — він +1/+1','Play a Hookah hero — it gets +1/+1'],
  ['wall','Стіна','Wall',2,1,5,'guard',['taunt','shield'],'','',''],
  ['trick','Хитрун','Trickster',2,2,3,'sharp',[],'start','Випадковий ворог −2 ⚔','A random enemy −2 ⚔'],
+ ['viper','Отруйник','Poisoner',2,1,2,'hook',['venom'],'','',''],
  ['bench','Лавочник','Bench boss',3,4,3,'yard',[],'avenge','(3): +3/+3','(3): +3/+3'],
  ['hook','Кальянник','Hookah man',3,3,4,'hook',[],'eot','Усі кальянні +1 ⚔','All Hookah heroes +1 ⚔'],
  ['bear','Ведмідь','Bear',3,3,6,'guard',['taunt'],'survive','Пережив удар — +1 ⚔','Survives a hit — +1 ⚔'],
- ['cheat','Шулер','Card sharp',3,4,3,'sharp',[],'atk','Кидок після удару: на 5–6 б’є ще раз','Rolls after a hit: on 5–6 strikes again'],
+ ['cheat','Шулер','Card sharp',3,4,3,'sharp',[],'atk','Після удару кидок: на 5–6 б’є ще раз','After a hit rolls: on 5–6 strikes again'],
  ['liza','Бабця Ліда','Granny Lida',3,3,4,'master',[],'cry','Дає Щит другові','Gives a friend a Shield'],
+ ['ghost','Тінь','Shadow',3,3,2,'sharp',['reborn'],'','',''],
  ['king','Король двору','Yard king',4,6,5,'yard',[],'death','Усі дворові +2/+2','All yard heroes +2/+2'],
  ['somm','Сомельє','Sommelier',4,4,6,'hook',[],'eot','Інші кальянні +1/+1','Other Hookah heroes +1/+1'],
  ['khan','Хан','Khan',4,5,7,'guard',['taunt'],'start','Інша варта +2 ♥','Other guards +2 ♥'],
  ['ace','Туз','Ace',4,6,4,'sharp',['wind'],'','',''],
  ['pasha','Паша','Pasha',4,5,5,'master',['shield'],'start','Найлівіший друг б’є двічі','Leftmost friend strikes twice'],
  ['vlad','Влад','Vlad',4,6,5,'master',[],'fdie','Гине друг — +1/+1','A friend dies — +1/+1']];
-const TV_TRG={cry:'cry',death:'death',start:'start',eot:'eot',avenge:'avenge',play:'',survive:'',atk:'',fdie:''};
-const TV_RC={1:'#9aa3ad',2:'#7fcf9c',3:'#6fa8ff',4:'#c08bff'};
+const TV_TRG={cry:'cry',death:'death',start:'start',eot:'eot',avenge:'avenge'};
+// spells: k, uk, en, cost, min tier, text uk, text en
+const TV_S=[['coin','Монетка','Coin',0,9,'+1 золото цього ходу','+1 gold this turn'],
+ ['toast','Тост','Toast',1,1,'Усім на столі +1 ♥','Your whole table +1 ♥'],
+ ['shot','Чарка','A shot',2,1,'Випадковому герою +2/+2','A random hero +2/+2'],
+ ['shieldS','Щит корчми','Inn shield',2,2,'Найлівішому герою Щит','Leftmost hero gets a Shield'],
+ ['feast','Бенкет','Feast',3,3,'Усім на столі +1/+1','Your whole table +1/+1'],
+ ['luck','Удача шулера','Sharp\'s luck',1,2,'Кинь кубик: стільки золота, скільки / 2','Roll a die: gold equal to half']];
+// player heroes: k, uk, en, power uk, power en, cost (null = passive)
+const TV_H=[['vlad','Влад','Vlad','Здача: оновлення вітрини безкоштовне (раз за хід)','Change: a free refresh (once per turn)',0],
+ ['pasha','Паша','Pasha','Знайомства: перший герой за хід коштує 2','Connections: the first hero each turn costs 2',null],
+ ['liza','Бабця Ліда','Granny Lida','Пиріжки: випадковому герою на столі +1/+2','Pies: a random hero on your table +1/+2',1],
+ ['cheat','Шулер','Card sharp','Підкинутий кубик: кинь — на 4–6 отримай +2 золота','Loaded die: roll — on 4–6 get +2 gold',1],
+ ['somm','Сомельє','Sommelier','Дегустація: кожен 3-й хід на вітрині герой на рівень вище','Tasting: every 3rd turn the shelf has a hero one tier higher',null],
+ ['khan','Хан','Khan','Застава: найлівіший герой отримує Провокатор і +2 ♥','Outpost: your leftmost hero gets Taunt and +2 ♥',2]];
+const TV_RC={1:'#9aa3ad',2:'#7fcf9c',3:'#6fa8ff',4:'#c08bff',5:'#e0896f'};
 const TV_NAMES=['Олег','Марина','Остап','Ірина','Тарас','Софія','Денис'];
 let TV=null;
 const tvAvK=i=>{ const K=Object.keys(AVATARS); return K[(i*5+31)%K.length]; };
 const tvDef=k=>TV_U.find(d=>d[0]===k);
-const tvMk=d=>({id:Math.random().toString(36).slice(2), k:d[0], n:lang==='en'?d[2]:d[1], t:d[3], a:d[4], h:d[5], f:d[6], kw:d[7].slice(), tr:d[8], av:tvAvK(TV_U.indexOf(d)), sh:d[7].includes('shield'), g:1, ac:0});
-const tvText=u=>{ const d=tvDef(u.k); if(!d||!d[9]) return ''; const lab=TV_TRG[d[8]]?tvT(TV_TRG[d[8]])+': ':''; return lab+(lang==='en'?d[10]:d[9])+(u.g>1?' ×2':''); };
+const tvMk=d=>({id:Math.random().toString(36).slice(2), k:d[0], n:tvL(d[1],d[2]), t:d[3], a:d[4], h:d[5], f:d[6], kw:d[7].slice(), tr:d[8], av:tvAvK(TV_U.indexOf(d)), sh:d[7].includes('shield'), rb:d[7].includes('reborn'), g:1, ac:0});
+const tvMkS=d=>({id:Math.random().toString(36).slice(2), sp:1, k:d[0], n:tvL(d[1],d[2]), c:d[3], t:Math.max(1,Math.min(4,d[4]===9?1:d[4])), txt:tvL(d[5],d[6]), kw:[], a:0, h:0});
+const tvText=u=>{ if(u.sp) return u.txt; const d=tvDef(u.k); if(!d||!d[9]) return ''; const lab=TV_TRG[d[8]]?tvT(TV_TRG[d[8]])+': ':''; return lab+tvL(d[9],d[10])+(u.g>1?' ×2':''); };
 const tvPool=t=>TV_U.filter(d=>d[3]<=t && d[0]!=='ap');
 const tvRand=a=>a[Math.floor(Math.random()*a.length)];
 const tvCl=u=>({...u, id:Math.random().toString(36).slice(2), kw:u.kw.slice()});
-function tvRoll(){ const n=[0,3,4,4,5][TV.tier]||5; TV.shop=Array.from({length:n},()=>tvMk(tvRand(tvPool(TV.tier)))); }
-function tvBotBand(r,t){ const n=Math.min(7,Math.max(1,Math.round(r*0.85))); const band=[]; for(let i=0;i<n;i++){ const u=tvMk(tvRand(tvPool(Math.max(1,Math.min(4,t-(i%2)))))); const g=Math.floor((r-1)/4); u.a+=g; u.h+=g; band.push(u); } return band; }
-function tvHireTime(){ return Math.min(80, 40+TV.round*5); }
+const tvCost=u=>u.free?0:u.sp?u.c:(TV.hero&&TV.hero.k==='pasha'&&!TV.boughtThis?2:3);
+function tvRoll(){ const n=[0,3,4,4,5][TV.tier]||5; TV.shop=Array.from({length:n},()=>tvMk(tvRand(tvPool(TV.tier))));
+  if(TV.hero && TV.hero.k==='somm' && TV.round%3===0 && TV.tier<4) TV.shop[0]=tvMk(tvRand(TV_U.filter(d=>d[3]===TV.tier+1)));
+  const sp=TV_S.filter(s=>s[4]<=TV.tier); if(Math.random()<.45) TV.shop.push(tvMkS(tvRand(sp))); }
+// ---- bots keep their own band that grows every round
+function tvBotTurn(b,r){ const gold=Math.min(10,2+r); b.tier=Math.min(4,1+Math.floor((r+(b.n.length%3))/3)); let buys=Math.max(1,Math.floor(gold/4));
+  for(let i=0;i<buys;i++){ const u=tvMk(tvRand(tvPool(b.tier))); if(b.band.length<7) b.band.push(u); else { let wi=0; b.band.forEach((x,j)=>{ if(x.a+x.h<b.band[wi].a+b.band[wi].h) wi=j; }); if(u.a+u.h>b.band[wi].a+b.band[wi].h) b.band[wi]=u; } }
+  if(r>=4) b.band.forEach(x=>{ if(Math.random()<.2){ x.a++; x.h++; } }); }
+const tvPow=L=>L.reduce((s,u)=>s+u.a*1.1+u.h+(u.sh?u.a:0)+(u.kw.includes('taunt')?1:0),0);
+// ---- sound: a small synth, one voice per effect
+function tvSnd(kind){ if(typeof sfxMute!=='undefined' && sfxMute) return; try{ if(!prefs.sound) return; }catch(e){}
+  try{ const C=tvSnd.c||(tvSnd.c=new (window.AudioContext||window.webkitAudioContext)()); if(C.state==='suspended') C.resume(); const t0=C.currentTime;
+    const P={buy:[[660,880],.12,'triangle',.18],sell:[[520,330],.15,'triangle',.16],play:[[330,495,660],.18,'sine',.2],hit:[[140,70],.16,'sawtooth',.18],cry:[[523,659,784],.22,'triangle',.18],death:[[220,110],.35,'sine',.22],shield:[[1400,1800],.12,'square',.08],venom:[[300,180],.3,'sawtooth',.1],reborn:[[392,523,784],.35,'sine',.18],start:[[262,392],.3,'triangle',.18],eot:[[880,1175],.15,'sine',.12],avenge:[[196,147],.3,'sawtooth',.14],buff:[[700,940],.1,'sine',.12],gold:[[1047,1319],.12,'triangle',.14],up:[[392,523,659,784],.4,'triangle',.18],freeze:[[1568,1319,1047],.25,'sine',.1],roll:[[200,400],.18,'square',.06],triple:[[523,659,784,1047],.5,'triangle',.2],tick:[[1000],.05,'square',.05],dice:[[300,600],.12,'square',.06]}[kind]; if(!P) return;
+    const [fr,dur,type,vol]=P; const g=C.createGain(); g.gain.setValueAtTime(0,t0); g.gain.linearRampToValueAtTime(vol,t0+.01); g.gain.exponentialRampToValueAtTime(.0005,t0+dur*fr.length*.6+dur); g.connect(C.destination);
+    fr.forEach((f,i)=>{ const o=C.createOscillator(); o.type=type; const ts=t0+i*dur*.55; o.frequency.setValueAtTime(f,ts); if(kind==='hit'||kind==='death'||kind==='sell'||kind==='venom'||kind==='avenge') o.frequency.exponentialRampToValueAtTime(Math.max(30,f*.5),ts+dur); o.connect(g); o.start(ts); o.stop(ts+dur+.05); }); }catch(e){} }
+// ---- open / close
 function openTavern(){ try{ $('shopPg')&&closeShopPg(); }catch(e){}
-  TV={round:1, gold:3, tier:1, upCost:6, frozen:false, hp:30, band:[], hand:[], shop:[], phase:'hire', sel:-1, bots:TV_NAMES.map((n,i)=>({n, hp:30, av:tvAvK(40+i*3), tier:1}))}; tvRoll(); TV.until=Date.now()+tvHireTime()*1000;
-  let pg=$('tavPg'); if(!pg){ pg=sH('div'); pg.id='tavPg'; document.body.appendChild(pg); } tvPaint(); try{ hsSync(); }catch(e){} try{ ambPlay(120); }catch(e){} }
+  TV={round:1, gold:3, tier:1, upCost:6, frozen:false, hp:30, band:[], hand:[], shop:[], phase:'hero', pick:null, speed:1, powerUsed:false, boughtThis:false,
+    bots:TV_NAMES.map((n,i)=>({n, hp:30, av:tvAvK(40+i*3), tier:1, band:[], last:null}))};
+  const hs=TV_H.slice(); for(let i=hs.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [hs[i],hs[j]]=[hs[j],hs[i]]; } TV.heroOpts=hs.slice(0,3);
+  let pg=$('tavPg'); if(!pg){ pg=sH('div'); pg.id='tavPg'; document.body.appendChild(pg); tvDrag(pg); } tvPaint(); try{ hsSync(); }catch(e){} try{ ambPlay(120); }catch(e){} }
+function tvStart(h){ TV.hero={k:h[0], n:tvL(h[1],h[2]), p:tvL(h[3],h[4]), cost:h[5], av:tvAvK(TV_U.findIndex(d=>d[0]===h[0]))}; TV.phase='hire'; tvRoll(); tvHireStart(); tvPaint(); tvSnd('up');
+  if(!store.get('tv_tut',false)) setTimeout(()=>tvTut(0),400); }
 function closeTavern(){ const pg=$('tavPg'); if(pg) pg.remove(); TV=null; try{ ambStop(); ambSync(); }catch(e){} try{ hsSync(); }catch(e){} try{ route(); }catch(e){} }
 try{ UI_PAGES.unshift('tavPg'); }catch(e){}
-// ---- view
-function tvUnit(u,cls){ const d=sH('div','zu'+(cls?' '+cls:'')+(u.sh?' sh':'')+(u.kw.includes('taunt')?' tn':'')+(u.g>1?' gd':'')); d.style.setProperty('--rc',TV_RC[u.t]); d.dataset.id=u.id; d.appendChild(sH('span','zt','★'+u.t)); const a=sH('span','av'); try{ avatarInto(a,u.av,u.n); }catch(e){} d.append(a, sH('b',null,u.n+(u.g>1?' ✦':'')));
-  if(u.f && u.k!=='ap') d.appendChild(sH('span','zfa',TV_F[u.f].ic)); const kw=sH('span','zkw'); u.kw.filter(k=>k!=='shield').forEach(k=>kw.appendChild(sH('i',null,TV_KW[k]))); if(u.tr) kw.appendChild(sH('i',null,'✦')); if(kw.childNodes.length) d.appendChild(kw);
-  const hh=sH('span','zh'+(u.h<=2?' low':''),String(Math.max(0,u.h))); d.append(sH('span','za',String(Math.max(0,u.a))), hh);
-  d.onmouseenter=()=>tvCard(u,d); d.onmouseleave=()=>tvCard(null); return d; }
-function tvCard(u,el){ const pg=$('tavPg'); if(!pg) return; const old=pg.querySelector('.zcard'); if(old) old.remove(); if(!u||!el) return;
-  const c=sH('div','zcard'); c.style.setProperty('--rc',TV_RC[u.t]); const a=sH('span','av'); try{ avatarInto(a,u.av,u.n); }catch(e){}
-  const tg=sH('div','tags'); tg.append(sH('span',null,'★'+u.t)); if(u.f&&u.k!=='ap') tg.append(sH('span',null,tvFN(u.f))); c.append(a, sH('h3',null,u.n+(u.g>1?' ✦':'')), tg);
-  const tx=tvText(u); if(tx) c.appendChild(sH('p',null,tx)); u.kw.forEach(k=>c.appendChild(sH('p',null,TV_KW[k]+' '+tvT('kw_'+k)))); if(u.f&&u.k!=='ap') c.appendChild(sH('p','f',TV_F[u.f].d[lang==='en'?'en':'uk']));
-  const st=sH('div','st'); st.append(sH('span','a',String(u.a)), sH('span','h',String(u.h))); c.appendChild(st); pg.appendChild(c);
+function tvHireTime(){ return Math.min(80, 40+TV.round*5); }
+function tvHireStart(){ TV.until=Date.now()+tvHireTime()*1000; TV._t10=0; TV.powerUsed=false; TV.boughtThis=false; const al=TV.bots.filter(b=>b.hp>0); TV.next=al.length?tvRand(al.filter(b=>b!==TV.prevOpp).length?al.filter(b=>b!==TV.prevOpp):al):null; }
+// ---- view helpers
+const tvTouch=()=>matchMedia('(hover:none)').matches||window.innerWidth<=900;
+function tvUnit(u,cls){ const d=sH('div','zu'+(cls?' '+cls:'')+(u.sh?' sh':'')+(u.kw.includes('taunt')?' tn':'')+(u.g>1?' gd':'')+(u.sp?' sp':'')); d.style.setProperty('--rc',TV_RC[u.t]); d.dataset.id=u.id; d.appendChild(sH('span','zt',u.sp?'✧':'★'+u.t)); const a=sH('span','av'); if(u.sp) a.textContent={coin:'🪙',toast:'🍺',shot:'🥃',shieldS:'🛡',feast:'🍖',luck:'🎲'}[u.k]||'✧'; else try{ avatarInto(a,u.av,u.n); }catch(e){} d.append(a, sH('b',null,u.n+(u.g>1?' ✦':'')));
+  if(!u.sp){ if(u.f && u.k!=='ap') d.appendChild(sH('span','zfa',TV_F[u.f].ic)); const kw=sH('span','zkw'); u.kw.filter(k=>k!=='shield').forEach(k=>kw.appendChild(sH('i',null,TV_KW[k]))); if(u.tr) kw.appendChild(sH('i',null,'✦')); if(kw.childNodes.length) d.appendChild(kw);
+    d.append(sH('span','za',String(Math.max(0,u.a))), sH('span','zh'+(u.h<=2?' low':''),String(Math.max(0,u.h)))); }
+  if(!tvTouch()){ d.addEventListener('mouseenter',()=>{ if(!TV||TV.drag) return; tvCard(u,d); }); d.addEventListener('mouseleave',()=>tvCard(null)); }
+  return d; }
+function tvCardEl(u){ const c=sH('div','zcard'); c.style.setProperty('--rc',TV_RC[u.t]); const a=sH('span','av'); if(u.sp) a.textContent={coin:'🪙',toast:'🍺',shot:'🥃',shieldS:'🛡',feast:'🍖',luck:'🎲'}[u.k]||'✧'; else try{ avatarInto(a,u.av,u.n); }catch(e){}
+  const tg=sH('div','tags'); tg.append(sH('span',null,u.sp?tvT('spell'):'★'+u.t)); if(u.f&&u.k!=='ap') tg.append(sH('span',null,tvFN(u.f))); c.append(a, sH('h3',null,u.n+(u.g>1?' ✦':'')), tg);
+  const tx=tvText(u); if(tx) c.appendChild(sH('p',null,tx)); (u.kw||[]).forEach(k=>c.appendChild(sH('p',null,TV_KW[k]+' '+tvT('kw_'+k)))); if(u.f&&u.k!=='ap') c.appendChild(sH('p','f',TV_F[u.f].d[lang==='en'?'en':'uk']));
+  if(!u.sp){ const st=sH('div','st'); st.append(sH('span','a',String(u.a)), sH('span','h',String(u.h))); c.appendChild(st); } return c; }
+function tvCard(u,el){ const pg=$('tavPg'); if(!pg) return; const old=pg.querySelector('.zcard.hov'); if(old) old.remove(); if(!u||!el) return; const c=tvCardEl(u); c.classList.add('hov'); pg.appendChild(c);
   const r=el.getBoundingClientRect(), W=c.offsetWidth, H=c.offsetHeight; let x=r.right+14; if(x+W>innerWidth-8) x=r.left-W-14; if(x<8) x=Math.max(8,(innerWidth-W)/2); let y=r.top+r.height/2-H/2; y=Math.max(8,Math.min(innerHeight-H-8,y)); c.style.left=x+'px'; c.style.top=y+'px'; }
-function tvHandCard(u,i,n){ const c=sH('div','zc'+(TV.hsel===i?' sel':'')); c.style.setProperty('--rc',TV_RC[u.t]); const mid=(n-1)/2; c.style.setProperty('--rot',((i-mid)*4)+'deg'); c.style.setProperty('--ty',(Math.abs(i-mid)*6)+'px');
-  c.appendChild(sH('span','zt','★'+u.t)); const a=sH('span','av'); try{ avatarInto(a,u.av,u.n); }catch(e){} c.append(a, sH('b',null,u.n+(u.g>1?' ✦':'')));
-  if(u.f&&u.k!=='ap') c.appendChild(sH('span','fc',tvFN(u.f))); const kws=u.kw.map(k=>TV_KW[k]).join(' '); c.appendChild(sH('span','fx',(kws?kws+' ':'')+tvText(u)));
-  c.append(sH('span','za',String(u.a)), sH('span','zh',String(u.h))); c.onclick=()=>tvPlay(i); c.onmouseenter=()=>tvCard(u,c); c.onmouseleave=()=>tvCard(null); return c; }
 function tvHero(av,name,hp,extra){ const w=sH('div','zhp'); const a=sH('span','av'); try{ avatarInto(a,av,name); }catch(e){} w.appendChild(a); if(hp!=null) w.appendChild(sH('em',null,String(Math.max(0,hp)))); if(extra) w.appendChild(extra); return w; }
-function tvPaint(msg,big){ const pg=$('tavPg'); if(!pg||!TV) return; const old=pg.querySelector('.zcard'); pg.innerHTML='';
-  pg.appendChild(sH('div','zroom')); const tb=sH('div','ztable'); tb.appendChild(sH('div','zfelt')); pg.appendChild(tb);
+function tvItem(){ const p=TV.pick; if(!p) return null; const L=p.src==='shop'?TV.shop:p.src==='hand'?TV.hand:TV.band; return L[p.i]||null; }
+// ---- paint
+function tvPaint(msg,big){ const pg=$('tavPg'); if(!pg||!TV) return; pg.querySelectorAll(':scope>:not(.zdragl)').forEach(e=>e.remove());
+  pg.appendChild(sH('div','zroom'));
+  if(TV.phase==='hero'){ tvHeroPick(pg); return; }
+  const tb=sH('div','ztable'); tb.appendChild(sH('div','zfelt')); tb.appendChild(sH('i','zcandle l')); tb.appendChild(sH('i','zcandle r')); pg.appendChild(tb);
   const hire=TV.phase==='hire', opp=TV.opp;
-  // top: keeper with buttons, or the opponent
   const kp=sH('div','zkeep');
-  if(hire){ const up=sH('button','zk'); up.type='button'; up.title=tvT('up'); up.innerHTML='★'+(TV.tier<4?'<small>'+TV.upCost+'</small>':''); up.disabled=TV.tier>=4||TV.gold<TV.upCost; up.onclick=()=>{ if(TV.tier>=4||TV.gold<TV.upCost) return; TV.gold-=TV.upCost; TV.tier++; TV.upCost=[0,0,7,8,99][TV.tier]; try{ sfx('win'); }catch(e){} tvRoll(); tvPaint(tvT('tier',{n:TV.tier}),1); };
-    const st=sH('span','stars','★'.repeat(TV.tier)+'☆'.repeat(4-TV.tier)); const kh=tvHero(tvAvK(77),tvT('keeper'),null,st); kh.title=tvT('keeper');
-    const re=sH('button','zk'); re.type='button'; re.title=tvT('re'); re.innerHTML='⟳<small>1</small>'; re.disabled=TV.gold<1; re.onclick=()=>{ if(TV.gold<1) return; TV.gold--; TV.frozen=false; tvRoll(); try{ sfx('dice'); }catch(e){} tvPaint(); };
-    const fr=sH('button','zk'+(TV.frozen?' on':'')); fr.type='button'; fr.title=tvT('freeze'); fr.textContent='❄'; fr.onclick=()=>{ TV.frozen=!TV.frozen; tvPaint(); };
+  if(hire){ const up=sH('button','zk'); up.type='button'; up.dataset.tut='4'; up.title=tvT('up',{n:TV.upCost}); up.innerHTML='★'+(TV.tier<4?'<small>'+TV.upCost+'</small>':''); up.disabled=TV.tier>=4||TV.gold<TV.upCost; up.onclick=tvUp;
+    const st=sH('span','stars','★'.repeat(TV.tier)+'☆'.repeat(4-TV.tier)); const kh=tvHero(tvAvK(77),tvT('keeper'),null,st);
+    const reFree=TV.hero&&TV.hero.k==='vlad'&&!TV.powerUsed; const re=sH('button','zk'); re.type='button'; re.title=tvT('re'); re.innerHTML='⟳<small>'+(reFree?0:1)+'</small>'; re.disabled=!reFree&&TV.gold<1; re.onclick=tvReroll;
+    const fr=sH('button','zk'+(TV.frozen?' on':'')); fr.type='button'; fr.title=TV.frozen?tvT('unfreeze'):tvT('freeze'); fr.textContent='❄'; fr.onclick=()=>{ TV.frozen=!TV.frozen; tvSnd('freeze'); tvPaint(); };
     kp.append(up,kh,re,fr); }
   else kp.appendChild(tvHero(opp?opp.av:tvAvK(60), opp?opp.n:'?', opp?opp.hp:null));
   tb.appendChild(kp);
-  // top row: the shelf, or the enemy band
-  const ro=sH('div','zrow zop'+(hire&&TV.frozen?' fz':''));
-  if(hire) TV.shop.forEach((u,i)=>{ const w=sH('div','zw'); const d=tvUnit(u, TV.gold<(u.free?0:3)?'no':''); d.onclick=()=>tvBuy(i); const pr=sH('span','pr'+(u.free?' fr':''),u.free?tvT('gift'):'3'); w.append(pr,d); ro.appendChild(w); });
+  const ro=sH('div','zrow zop'+(hire&&TV.frozen?' fz':'')); ro.dataset.zone='shop'; ro.dataset.tut='1';
+  if(hire) TV.shop.forEach((u,i)=>{ const w=sH('div','zw'); const d=tvUnit(u, (TV.gold<tvCost(u)?'no':'')+(TV.pick&&TV.pick.src==='shop'&&TV.pick.i===i?' sel':'')); d.dataset.src='shop'; d.dataset.i=i; const pr=sH('span','pr'+(u.free?' fr':''),u.free?'🎁':String(tvCost(u))); w.append(pr,d); ro.appendChild(w); });
   else (TV.fight?TV.fight.B:[]).forEach(u=>ro.appendChild(tvUnit(u)));
   tb.appendChild(ro);
-  // your band
-  const rm=sH('div','zrow zme'); const band=TV.fight?TV.fight.A:TV.band;
-  band.forEach((u,i)=>{ const d=tvUnit(u, TV.sel===i&&hire?'sel':''); if(hire) d.onclick=()=>{ TV.sel=TV.sel===i?-1:i; tvPaint(); }; rm.appendChild(d); });
+  const rm=sH('div','zrow zme'); rm.dataset.zone='band'; rm.dataset.tut='3'; const band=TV.fight?TV.fight.A:TV.band;
+  band.forEach((u,i)=>{ const d=tvUnit(u, hire&&TV.pick&&TV.pick.src==='band'&&TV.pick.i===i?'sel':''); if(hire){ d.dataset.src='band'; d.dataset.i=i; } rm.appendChild(d); });
   if(hire) for(let i=band.length;i<7;i++) rm.appendChild(sH('div','zslot'+(TV.hand.length?' drop':''))); tb.appendChild(rm);
-  const mh=sH('div','zme-hero'); mh.appendChild(tvHero(selfAv()||profile.av, tvT('you'), TV.hp)); tb.appendChild(mh);
+  // my hero + power
+  const mh=sH('div','zme-hero'); mh.appendChild(tvHero(TV.hero.av, TV.hero.n, TV.hp));
+  if(hire){ const pw=sH('button','zpow'+(TV.hero.cost==null?' pas':'')+(TV.powerUsed&&TV.hero.cost!=null?' used':'')); pw.type='button'; pw.dataset.tut='5'; pw.innerHTML=(TV.hero.cost!=null?'<small>'+TV.hero.cost+'</small>':'')+'<span>✦</span>'; pw.title=TV.hero.p; pw.onclick=()=>tvPower(); mh.appendChild(pw); }
+  tb.appendChild(mh);
   if(msg) tb.appendChild(sH('div','zmid'+(big?' big':''),msg));
-  else if(hire && TV.round===1 && !TV.band.length) tb.appendChild(sH('div','zmid',TV.hand.length?tvT('hint2'):tvT('hint')));
-  else if(hire && TV.band.length && TV.sel<0){ const fc=sH('div','zfc'); const cnt={}; TV.band.forEach(u=>{ if(u.f&&u.k!=='ap') cnt[u.f]=(cnt[u.f]||0)+1; }); Object.keys(cnt).forEach(f=>{ const c=sH('span',null,tvFN(f)+' ×'+cnt[f]); c.title=TV_F[f].d[lang==='en'?'en':'uk']; fc.appendChild(c); }); tb.appendChild(fc); }
-  // right rail
-  if(hire){ const rl=sH('div','zrail'); const tm=sH('div','ztimer'); tm.id='tvTimer'; const go=sH('button','zgo',tvT('go')+' →'); go.type='button'; go.onclick=tvFight; rl.append(tm,go); tb.appendChild(rl);
+  else if(hire && TV.round===1 && !TV.band.length && !TV.pick) tb.appendChild(sH('div','zmid',TV.hand.length?tvT('tut2'):tvT('tut1')));
+  else if(hire && TV.band.length && !TV.pick){ const fc=sH('div','zfc'); const cnt={}; TV.band.forEach(u=>{ if(u.f&&u.k!=='ap') cnt[u.f]=(cnt[u.f]||0)+1; }); Object.keys(cnt).forEach(f=>{ const c=sH('span',null,tvFN(f)+' ×'+cnt[f]); c.title=TV_F[f].d[lang==='en'?'en':'uk']; fc.appendChild(c); }); tb.appendChild(fc); }
+  if(hire){ const rl=sH('div','zrail'); rl.dataset.tut='6'; const tm=sH('div','ztimer'); tm.id='tvTimer'; const go=sH('button','zgo',tvT('go')+' →'); go.type='button'; go.onclick=tvFight; rl.append(tm,go); tb.appendChild(rl);
     const gd=sH('div','zgold'); const pips=sH('span','pips'); for(let i=0;i<10;i++) pips.appendChild(sH('i',i<TV.gold?'on':'')); gd.append(sH('b',null,String(TV.gold)), pips); tb.appendChild(gd); }
+  else { const sp=sH('button','zspd',(TV.speed>1?'×2':'×1')); sp.type='button'; sp.title=tvT('speed'); sp.onclick=()=>{ TV.speed=TV.speed>1?1:2.2; sp.textContent=TV.speed>1?'×2':'×1'; }; tb.appendChild(sp); }
   // lobby
-  const lb=sH('div','zlb'); const all=[{n:tvT('you'),hp:TV.hp,av:selfAv()||profile.av,me:1,tier:TV.tier}].concat(TV.bots).sort((a,b)=>b.hp-a.hp);
-  all.forEach(p=>{ const r=sH('div','zpl'+(p.me?' me':'')+(opp&&p===opp?' vs':'')+(p.hp<=0?' out':'')); const a=sH('span','av'); try{ avatarInto(a,p.av,p.n); }catch(e){} const inf=sH('div'); const hb=sH('span','hb'); const fi=sH('i'); fi.style.width=Math.max(0,p.hp/30*100)+'%'; hb.appendChild(fi); inf.append(sH('small',null,p.n), hb); r.append(sH('span','tr',String(p.tier||1)), a, inf, sH('em',null,Math.max(0,p.hp)+'♥')); lb.appendChild(r); }); pg.appendChild(lb);
-  // hand
-  if(hire){ const hd=sH('div','zhand'); TV.hand.forEach((u,i)=>hd.appendChild(tvHandCard(u,i,TV.hand.length))); pg.appendChild(hd); }
-  const bk=sH('button','zback'); bk.type='button'; bk.innerHTML=lico('back'); bk.setAttribute('aria-label',t('close')); bk.onclick=closeTavern; pg.appendChild(bk); pg.appendChild(sH('span','zround',tvT('round',{n:TV.round})));
-  if(hire && TV.sel>=0 && TV.band[TV.sel]){ const sl=sH('div','zsell'); const mv=d=>{ const j=TV.sel+d; if(j<0||j>=TV.band.length) return; const t0=TV.band[TV.sel]; TV.band[TV.sel]=TV.band[j]; TV.band[j]=t0; TV.sel=j; tvPaint(); };
-    const L1=sH('button',null,'←'); L1.disabled=TV.sel===0; L1.onclick=()=>mv(-1); const R1=sH('button',null,'→'); R1.disabled=TV.sel===TV.band.length-1; R1.onclick=()=>mv(1);
-    const b=sH('button',null,tvT('sell')); b.onclick=()=>{ TV.band.splice(TV.sel,1); TV.gold=Math.min(10,TV.gold+1); TV.sel=-1; try{ sfx('move'); }catch(e){} tvPaint(); }; const c=sH('button',null,'✕'); c.onclick=()=>{ TV.sel=-1; tvPaint(); };
-    sl.append(L1,b,R1,c); tb.appendChild(sl); }
+  const lb=sH('div','zlb'); lb.dataset.tut='7'; const all=[{n:tvT('you'),hp:TV.hp,av:TV.hero.av,me:1,tier:TV.tier,band:TV.band}].concat(TV.bots).sort((a,b)=>b.hp-a.hp);
+  all.forEach(p=>{ const r=sH('div','zpl'+(p.me?' me':'')+(opp&&p===opp?' vs':'')+(hire&&p===TV.next?' nx':'')+(p.hp<=0?' out':'')); const a=sH('span','av'); try{ avatarInto(a,p.av,p.n); }catch(e){} const inf=sH('div'); const hb=sH('span','hb'); const fi=sH('i'); fi.style.width=Math.max(0,p.hp/30*100)+'%'; hb.appendChild(fi); inf.append(sH('small',null,p.n+(hire&&p===TV.next?' · '+tvT('next'):'')), hb); r.append(sH('span','tr',String(p.tier||1)), a, inf, sH('em',null,Math.max(0,p.hp)+'♥')); if(!p.me) r.onclick=()=>tvPeek(p,r); lb.appendChild(r); }); pg.appendChild(lb);
+  if(hire){ const hd=sH('div','zhand'); hd.dataset.zone='hand'; hd.dataset.tut='2'; TV.hand.forEach((u,i)=>{ const c=tvHandCard(u,i,TV.hand.length); hd.appendChild(c); }); pg.appendChild(hd); }
+  const bk=sH('button','zback'); bk.type='button'; bk.innerHTML=lico('back'); bk.setAttribute('aria-label',t('close')); bk.onclick=closeTavern; pg.appendChild(bk);
+  const hp=sH('button','zhelp','?'); hp.type='button'; hp.title=tvT('help'); hp.onclick=()=>tvGuide(); pg.appendChild(hp);
+  pg.appendChild(sH('span','zround',tvT('round',{n:TV.round})+' · ★'+TV.tier));
+  if(hire && TV.pick) tvInfo(pg);
   if(hire) tvTick();
   if(TV.end) tvEnd(); }
+function tvHandCard(u,i,n){ const c=sH('div','zc'+(TV.pick&&TV.pick.src==='hand'&&TV.pick.i===i?' sel':'')+(u.sp?' sp':'')); c.dataset.src='hand'; c.dataset.i=i; c.dataset.id=u.id; c.style.setProperty('--rc',TV_RC[u.t]); const mid=(n-1)/2; c.style.setProperty('--rot',((i-mid)*4)+'deg'); c.style.setProperty('--ty',(Math.abs(i-mid)*6)+'px');
+  c.appendChild(sH('span','zt',u.sp?'✧':'★'+u.t)); const a=sH('span','av'); if(u.sp) a.textContent={coin:'🪙',toast:'🍺',shot:'🥃',shieldS:'🛡',feast:'🍖',luck:'🎲'}[u.k]||'✧'; else try{ avatarInto(a,u.av,u.n); }catch(e){} c.append(a, sH('b',null,u.n+(u.g>1?' ✦':'')));
+  if(u.f&&u.k!=='ap') c.appendChild(sH('span','fc',tvFN(u.f))); const kws=(u.kw||[]).map(k=>TV_KW[k]).join(' '); c.appendChild(sH('span','fx',(kws?kws+' ':'')+tvText(u)));
+  if(!u.sp) c.append(sH('span','za',String(u.a)), sH('span','zh',String(u.h)));
+  if(!tvTouch()){ c.addEventListener('mouseenter',()=>{ if(!TV||TV.drag) return; tvCard(u,c); }); c.addEventListener('mouseleave',()=>tvCard(null)); } return c; }
+// ---- the info panel: stays open until closed, with the right actions (fixes «info flies away» on phones)
+function tvInfo(pg){ const u=tvItem(); if(!u){ TV.pick=null; return; } const p=TV.pick; const box=sH('div','zinfo'); const c=tvCardEl(u); c.classList.add('in'); box.appendChild(c);
+  const row=sH('div','zact'); const btn=(tx,cls,fn,dis)=>{ const b=sH('button',cls||'',tx); b.type='button'; b.onclick=fn; b.disabled=!!dis; row.appendChild(b); return b; };
+  if(p.src==='shop') btn(tvT('buy',{n:tvCost(u)}),'go',()=>tvBuy(p.i),TV.gold<tvCost(u));
+  if(p.src==='hand') btn(u.sp?tvT('cast'):tvT('play'),'go',()=>tvPlay(p.i),!u.sp&&TV.band.length>=7);
+  if(p.src==='band'){ btn('←','',()=>tvMove(p.i,p.i-1),p.i===0); btn(tvT('sell'),'',()=>tvSell(p.i)); btn('→','',()=>tvMove(p.i,p.i+1),p.i===TV.band.length-1); }
+  btn('✕','x',()=>{ TV.pick=null; tvPaint(); }); box.appendChild(row); pg.appendChild(box); }
 function tvTick(){ if(!TV || TV.phase!=='hire') return; const left=Math.max(0,Math.ceil((TV.until-Date.now())/1000)); const el=$('tvTimer'); if(el){ el.textContent=left+(lang==='en'?' s':' сек'); el.classList.toggle('hurry',left<=10); }
-  if(left===10 && !TV._t10){ TV._t10=1; try{ sfx('turn'); }catch(e){} } if(left<=0) tvFight(); }
+  if(left<=10 && left>0 && TV._tl!==left){ TV._tl=left; tvSnd('tick'); } if(left<=0 && !TV.tut) tvFight(); }
 setInterval(()=>{ try{ tvTick(); }catch(e){} },500);
-// ---- hire
-function tvBuy(i){ if(TV.phase!=='hire') return; const u0=TV.shop[i]; if(!u0) return; const cost=u0.free?0:3; if(TV.gold<cost){ toast(tvT('poor')); return; } if(TV.hand.length>=10){ toast(tvT('hand')); return; }
-  const u=TV.shop.splice(i,1)[0]; TV.gold-=cost; delete u.free; TV.hand.push(u); try{ sfx('move'); }catch(e){} tvTriple(u); tvPaint(); }
-function tvTriple(u){ const all=TV.band.concat(TV.hand).filter(x=>x.k===u.k && x.g===1); if(all.length<3) return; const three=all.slice(0,3);
-  const g={...tvMk(tvDef(u.k)), a:Math.max(...three.map(x=>x.a))*2-tvDef(u.k)[4], h:Math.max(...three.map(x=>x.h))*2-tvDef(u.k)[5], g:2}; g.a=Math.max(g.a,tvDef(u.k)[4]*2); g.h=Math.max(g.h,tvDef(u.k)[5]*2);
-  TV.band=TV.band.filter(x=>!three.includes(x)); TV.hand=TV.hand.filter(x=>!three.includes(x)); TV.hand.push(g);
-  const rw=tvMk(tvRand(TV_U.filter(d=>d[3]===Math.min(4,TV.tier+1)))); rw.free=1; TV.shop.unshift(rw); toast(tvT('triple')); try{ sfx('win'); }catch(e){} }
-function tvPlay(i){ if(TV.phase!=='hire') return; if(TV.band.length>=7){ toast(tvT('full')); return; } const u=TV.hand.splice(i,1)[0]; if(!u) return; TV.band.push(u); const B=TV.band, gm=u.g;
-  const glow=[];
-  if(u.f==='hook') B.forEach(x=>{ if(x!==u&&x.f==='hook'){ x.h++; glow.push(x); } });
-  B.forEach(x=>{ if(x!==u && x.k==='dj' && u.f==='hook'){ u.a+=x.g; u.h+=x.g; glow.push(u); } });
-  if(u.k==='guard'){ const j=B.indexOf(u); [B[j-1],B[j+1]].forEach(x=>{ if(x){ x.h+=gm; glow.push(x); } }); }
-  if(u.k==='dice1'){ const r=1+Math.floor(Math.random()*6); if(r>=4){ u.a+=2*gm; glow.push(u); } toast('🎲 '+r); }
-  if(u.k==='liza'){ const o=B.filter(x=>x!==u&&!x.sh); for(let k=0;k<gm&&o.length;k++){ const x=o.splice(Math.floor(Math.random()*o.length),1)[0]; x.sh=true; glow.push(x); } }
-  try{ sfx('move'); }catch(e){} tvPaint(); glow.forEach(x=>{ const e=tvEl(x); if(e) e.classList.add('glow'); }); }
-function tvEot(B){ const hooks=()=>B.filter(x=>x.f==='hook'); B.forEach(u=>{ const g=u.g;
-  if(u.k==='tea'){ const h=hooks(); for(let k=0;k<g&&h.length;k++) tvRand(h).h++; }
-  if(u.k==='hook') hooks().forEach(x=>x.a+=g);
-  if(u.k==='somm') hooks().forEach(x=>{ if(x!==u){ x.a+=g; x.h+=g; } }); }); }
+// ---- hero pick and discover
+function tvHeroPick(pg){ const o=sH('div','zpick'); o.append(sH('h2',null,tvT('pickHero')), sH('p',null,tvT('pickD'))); const row=sH('div','zpr');
+  TV.heroOpts.forEach(h=>{ const b=sH('button','zph'); b.type='button'; const a=sH('span','av'); try{ avatarInto(a,tvAvK(TV_U.findIndex(d=>d[0]===h[0])),h[1]); }catch(e){} b.append(a, sH('b',null,tvL(h[1],h[2])), sH('span','pw',(h[5]!=null?'('+h[5]+') ':'')+tvL(h[3],h[4]))); b.onclick=()=>tvStart(h); row.appendChild(b); });
+  o.appendChild(row); pg.appendChild(o); }
+function tvDiscover(tier){ const pg=$('tavPg'); const L=Array.from({length:3},()=>tvMk(tvRand(TV_U.filter(d=>d[3]===tier)))); const o=sH('div','zpick zdisc'); o.appendChild(sH('h2',null,tvT('discover'))); const row=sH('div','zpr');
+  L.forEach(u=>{ const c=tvCardEl(u); c.classList.add('in','pk'); c.onclick=()=>{ o.remove(); if(TV.hand.length<10) TV.hand.push(u); tvSnd('triple'); tvPaint(); setTimeout(()=>tvFxEl(document.querySelector('#tavPg .zhand [data-id="'+u.id+'"]'),'cry'),60); }; row.appendChild(c); }); o.appendChild(row); pg.appendChild(o); }
+// ---- actions
+function tvBuy(i){ if(TV.phase!=='hire') return; const u=TV.shop[i]; if(!u) return; const cost=tvCost(u); if(TV.gold<cost){ toast(tvT('poor')); return; } if(TV.hand.length>=10){ toast(tvT('hand')); return; }
+  TV.shop.splice(i,1); TV.gold-=cost; if(!u.sp&&!u.free) TV.boughtThis=true; delete u.free; TV.hand.push(u); TV.pick=null; tvSnd('buy'); tvTriple(u); tvPaint(); }
+function tvSell(i){ const u=TV.band[i]; if(!u) return; TV.band.splice(i,1); TV.gold=Math.min(10,TV.gold+1); TV.pick=null; tvSnd('sell'); tvPaint(); }
+function tvMove(i,j){ if(j<0||j>=TV.band.length) return; const u=TV.band.splice(i,1)[0]; TV.band.splice(j,0,u); if(TV.pick&&TV.pick.src==='band') TV.pick.i=j; tvSnd('roll'); tvPaint(); }
+function tvUp(){ if(TV.tier>=4||TV.gold<TV.upCost) return; TV.gold-=TV.upCost; TV.tier++; TV.upCost=[0,0,7,8,99][TV.tier]; tvSnd('up'); tvRoll(); TV.pick=null; tvPaint(tvT('tier',{n:TV.tier}),1); const k=document.querySelector('#tavPg .zkeep .zhp'); if(k){ k.classList.add('fx-up'); } }
+function tvReroll(){ const free=TV.hero&&TV.hero.k==='vlad'&&!TV.powerUsed; if(!free&&TV.gold<1) return; if(free) TV.powerUsed=true; else TV.gold--; TV.frozen=false; TV.pick=null; tvRoll(); tvSnd('dice'); tvPaint(); document.querySelectorAll('#tavPg .zop .zu').forEach((e,i)=>{ e.style.animationDelay=(i*50)+'ms'; e.classList.add('fx-deal'); }); }
+function tvTriple(u){ if(u.sp) return; const all=TV.band.concat(TV.hand).filter(x=>x.k===u.k && x.g===1 && !x.sp); if(all.length<3) return; const three=all.slice(0,3); const d=tvDef(u.k);
+  const g={...tvMk(d), a:Math.max(d[4]*2,...three.map(x=>x.a)), h:Math.max(d[5]*2,...three.map(x=>x.h)), g:2}; g.a=Math.max(g.a,three.reduce((s,x)=>s+x.a,0)-d[4]); g.h=Math.max(g.h,three.reduce((s,x)=>s+x.h,0)-d[5]);
+  TV.band=TV.band.filter(x=>!three.includes(x)); TV.hand=TV.hand.filter(x=>!three.includes(x)); TV.hand.push(g); const dc=tvMkS(['disc',tvL('Відкриття','Discover'),'Discover',0,1,tvL('Обери героя рівнем вище','Pick a hero one tier higher'),'Pick a hero one tier higher']); dc.disc=Math.min(4,TV.tier+1); dc.t=dc.disc; TV.hand.push(dc); toast('✦ '+g.n); tvSnd('triple'); }
+function tvPlay(i,at){ if(TV.phase!=='hire') return; const u=TV.hand[i]; if(!u) return;
+  if(u.sp){ if(u.disc){ TV.hand.splice(i,1); TV.pick=null; tvPaint(); tvDiscover(u.disc); return; } if(TV.gold<0) return; TV.hand.splice(i,1); TV.pick=null; tvCast(u); return; }
+  if(TV.band.length>=7){ toast(tvT('full')); return; } TV.hand.splice(i,1); const pos=at==null?TV.band.length:Math.max(0,Math.min(TV.band.length,at)); TV.band.splice(pos,0,u); const B=TV.band, gm=u.g; TV.pick=null;
+  const fx=[];
+  if(u.f==='hook') B.forEach(x=>{ if(x!==u&&x.f==='hook'){ x.h++; fx.push([x,'buff','+1♥']); } });
+  B.forEach(x=>{ if(x!==u && x.k==='dj' && u.f==='hook'){ u.a+=x.g; u.h+=x.g; fx.push([u,'buff','+'+x.g+'/+'+x.g]); fx.push([x,'cry']); } });
+  if(u.k==='guard'){ const j=B.indexOf(u); [B[j-1],B[j+1]].forEach(x=>{ if(x){ x.h+=gm; fx.push([x,'buff','+'+gm+'♥']); } }); fx.push([u,'cry']); }
+  if(u.k==='dice1'){ const r=1+Math.floor(Math.random()*6); if(r>=4){ u.a+=2*gm; fx.push([u,'buff','🎲'+r+' +'+2*gm+'⚔']); } else fx.push([u,'cry','🎲'+r]); }
+  if(u.k==='liza'){ const o=B.filter(x=>x!==u&&!x.sh); for(let k=0;k<gm&&o.length;k++){ const x=o.splice(Math.floor(Math.random()*o.length),1)[0]; x.sh=true; fx.push([x,'shield','◈']); } fx.push([u,'cry']); }
+  tvSnd(fx.some(f=>f[1]==='cry')?'cry':'play'); tvPaint(); const e=tvEl(u); if(e) e.classList.add('fx-land'); tvFxList(fx,150); }
+function tvCast(s){ const B=TV.band, fx=[];
+  if(s.k==='coin'){ TV.gold=Math.min(10,TV.gold+1); tvSnd('gold'); }
+  if(s.k==='toast'){ B.forEach(x=>{ x.h++; fx.push([x,'buff','+1♥']); }); }
+  if(s.k==='shot' && B.length){ const x=tvRand(B); x.a+=2; x.h+=2; fx.push([x,'buff','+2/+2']); }
+  if(s.k==='shieldS' && B.length){ B[0].sh=true; fx.push([B[0],'shield','◈']); }
+  if(s.k==='feast'){ B.forEach(x=>{ x.a++; x.h++; fx.push([x,'buff','+1/+1']); }); }
+  if(s.k==='luck'){ const r=1+Math.floor(Math.random()*6); TV.gold=Math.min(10,TV.gold+Math.floor(r/2)); toast('🎲 '+r+' → +'+Math.floor(r/2)); tvSnd('gold'); }
+  if(fx.length) tvSnd('buff'); tvPaint(); tvFxList(fx,90); }
+function tvPower(){ const h=TV.hero; if(!h||TV.phase!=='hire') return; if(h.cost==null){ toast(h.p); return; } if(TV.powerUsed){ toast(tvT('used')); return; } if(TV.gold<h.cost){ toast(tvT('poor')); return; }
+  if(h.k==='vlad'){ tvReroll(); return; }
+  const fx=[]; if(h.k==='liza'){ if(!TV.band.length){ toast(h.p); return; } const x=tvRand(TV.band); x.a++; x.h+=2; fx.push([x,'buff','+1/+2']); }
+  if(h.k==='cheat'){ const r=1+Math.floor(Math.random()*6); if(r>=4) TV.gold=Math.min(10,TV.gold+2); toast('🎲 '+r+(r>=4?' → +2':'')); tvSnd('dice'); }
+  if(h.k==='khan'){ const x=TV.band[0]; if(!x){ toast(h.p); return; } if(!x.kw.includes('taunt')) x.kw.push('taunt'); x.h+=2; fx.push([x,'shield','⛨+2']); }
+  TV.gold-=h.cost; TV.powerUsed=true; tvSnd('cry'); tvPaint(); const pw=document.querySelector('#tavPg .zpow'); if(pw) pw.classList.add('fx-pow'); tvFxList(fx,90); }
+function tvPeek(p,row){ const old=document.querySelector('#tavPg .zpeek'); if(old){ const same=old._p===p; old.remove(); if(same) return; } const box=sH('div','zpeek'); box._p=p; box.appendChild(sH('b',null,p.n+' · ★'+(p.tier||1))); const r=sH('div','r');
+  const L=p.last||[]; if(!L.length) r.appendChild(sH('small',null,tvT('noLast'))); else L.forEach(u=>{ const m=sH('span','m'); const a=sH('span','av'); try{ avatarInto(a,u.av,u.n); }catch(e){} m.append(a, sH('i',null,u.a+'/'+u.h)); m.title=u.n; r.appendChild(m); });
+  box.append(sH('small',null,tvT('last')), r); const rr=row.getBoundingClientRect(); box.style.top=Math.min(innerHeight-120,rr.top)+'px'; box.style.left=(rr.right+10)+'px'; if(innerWidth<=900){ box.style.left='8px'; box.style.top=(rr.bottom+8)+'px'; } $('tavPg').appendChild(box); setTimeout(()=>box.remove(),5000); }
+// ---- drag & drop (mouse and touch); a short tap selects and opens the info panel
+function tvDrag(pg){ let st=null;
+  const zoneAt=(x,y)=>{ const els=document.elementsFromPoint(x,y); for(const e of els){ if(e.dataset&&e.dataset.zone) return e.dataset.zone; if(e.classList&&e.classList.contains('ztable')) return 'table'; } return null; };
+  const bandIdx=x=>{ const us=[...pg.querySelectorAll('.zme .zu:not(.ghost)')]; let i=0; for(const e of us){ const r=e.getBoundingClientRect(); if(x>r.left+r.width/2) i++; } return i; };
+  pg.addEventListener('pointerdown',e=>{ if(!TV||TV.phase!=='hire'||TV.tut) return; const el=e.target.closest('[data-src]'); if(!el) return; st={el,src:el.dataset.src,i:+el.dataset.i,x:e.clientX,y:e.clientY,drag:false,pid:e.pointerId}; });
+  pg.addEventListener('pointermove',e=>{ if(!st||e.pointerId!==st.pid) return; const dx=e.clientX-st.x, dy=e.clientY-st.y;
+    if(!st.drag && Math.hypot(dx,dy)>8){ st.drag=true; TV.drag=1; tvCard(null); const r=st.el.getBoundingClientRect(); const g=st.el.cloneNode(true); g.classList.add('zghost'); g.classList.remove('sel'); g.style.width=r.width+'px'; g.style.height=r.height+'px'; g.style.left=r.left+'px'; g.style.top=r.top+'px'; st.ox=e.clientX-r.left; st.oy=e.clientY-r.top; st.g=g; pg.appendChild(g); st.el.classList.add('dragging'); try{ pg.setPointerCapture(e.pointerId); }catch(_){} tvSnd('roll'); }
+    if(st.drag){ e.preventDefault(); st.g.style.left=(e.clientX-st.ox)+'px'; st.g.style.top=(e.clientY-st.oy)+'px'; const z=zoneAt(e.clientX,e.clientY); pg.querySelectorAll('.hot').forEach(x=>x.classList.remove('hot')); const ok=(st.src==='shop'&&z&&z!=='shop')||(st.src==='hand'&&(z==='band'||z==='table'))||(st.src==='band'&&(z==='shop'||z==='band'||z==='table')); if(ok){ const t=z==='shop'?pg.querySelector('.zop'):z==='hand'?pg.querySelector('.zhand'):pg.querySelector('.zme'); if(t) t.classList.add('hot'); st.g.classList.toggle('sellme',st.src==='band'&&z==='shop'); } } });
+  const end=e=>{ if(!st||e.pointerId!==st.pid) return; const s=st; st=null; TV&&(TV.drag=0); pg.querySelectorAll('.hot').forEach(x=>x.classList.remove('hot'));
+    if(!s.drag){ if(!TV) return; const cur=TV.pick; TV.pick=(cur&&cur.src===s.src&&cur.i===s.i)?null:{src:s.src,i:s.i}; tvCard(null); tvSnd('tick'); tvPaint(); return; }
+    s.g.remove(); s.el.classList.remove('dragging'); const z=zoneAt(e.clientX,e.clientY);
+    if(s.src==='shop' && z && z!=='shop') return tvBuy(s.i);
+    if(s.src==='hand' && (z==='band'||z==='table')) return tvPlay(s.i,bandIdx(e.clientX));
+    if(s.src==='band' && z==='shop') return tvSell(s.i);
+    if(s.src==='band' && (z==='band'||z==='table')){ const j=bandIdx(e.clientX); return tvMove(s.i, Math.min(TV.band.length-1, j>s.i?j-1:j)); }
+    tvPaint(); };
+  pg.addEventListener('pointerup',end); pg.addEventListener('pointercancel',e=>{ if(st&&st.g) st.g.remove(); if(st&&st.el) st.el.classList.remove('dragging'); st=null; if(TV) TV.drag=0; }); }
+// ---- effects: each has its own animation and sound
+const tvWait=ms=>new Promise(r=>setTimeout(r,ms/((TV&&TV.speed)||1)));
+const tvEl=u=>document.querySelector('#tavPg .ztable [data-id="'+u.id+'"]');
+function tvUpd(u){ const e=tvEl(u); if(!e) return; const a=e.querySelector('.za'), h=e.querySelector('.zh'); if(!a||!h) return; a.textContent=Math.max(0,u.a); h.textContent=Math.max(0,u.h); h.classList.toggle('low',u.h<=2); e.classList.toggle('sh',!!u.sh); }
+function tvFxEl(e,kind,txt){ if(!e) return; e.classList.remove('fx-'+kind); void e.offsetWidth; e.classList.add('fx-'+kind); const icon={cry:'📣',death:'☠',shield:'◈',venom:'☣',reborn:'↺',start:'⚑',eot:'⟲',avenge:'✊',buff:'',hit:''}[kind];
+  const b=sH('span','zfxi zfx-'+kind,txt||icon||''); if(b.textContent) e.appendChild(b); setTimeout(()=>{ b.remove(); e.classList.remove('fx-'+kind); },1200); }
+function tvFx(u,kind,txt){ tvFxEl(tvEl(u),kind,txt); tvSnd(kind==='hit'?'hit':kind); }
+function tvFxList(L,gap){ L.forEach((f,i)=>setTimeout(()=>{ if(!TV) return; tvUpd(f[0]); tvFx(f[0],f[1],f[2]); },i*gap)); }
+function tvEot(B){ const fx=[]; const hooks=()=>B.filter(x=>x.f==='hook'); B.forEach(u=>{ const g=u.g;
+  if(u.k==='tea'){ const h=hooks(); for(let k=0;k<g&&h.length;k++){ const x=tvRand(h); x.h++; fx.push([x,'buff','+1♥']); } fx.push([u,'eot']); }
+  if(u.k==='hook'){ hooks().forEach(x=>{ x.a+=g; fx.push([x,'buff','+'+g+'⚔']); }); fx.push([u,'eot']); }
+  if(u.k==='somm'){ hooks().forEach(x=>{ if(x!==u){ x.a+=g; x.h+=g; fx.push([x,'buff','+'+g+'/+'+g]); } }); fx.push([u,'eot']); } }); return fx; }
 // ---- combat
-const tvWait=ms=>new Promise(r=>setTimeout(r,ms));
-const tvEl=u=>document.querySelector('#tavPg [data-id="'+u.id+'"]');
-function tvUpd(u){ const e=tvEl(u); if(!e) return; e.querySelector('.za').textContent=Math.max(0,u.a); const h=e.querySelector('.zh'); h.textContent=Math.max(0,u.h); h.classList.toggle('low',u.h<=2); e.classList.toggle('sh',!!u.sh); }
-function tvFx(u,txt,kind){ const e=tvEl(u); if(!e) return; if(kind==='slash'){ const sl=sH('span','zslash'); e.appendChild(sl); setTimeout(()=>sl.remove(),700); e.classList.remove('hurt'); void e.offsetWidth; e.classList.add('hurt'); } if(kind==='buff'){ e.classList.remove('glow'); void e.offsetWidth; e.classList.add('glow'); } if(txt){ const m=sH('span','dmg'+(kind==='buff'?' up':''),txt); e.appendChild(m); setTimeout(()=>m.remove(),1100); } }
-async function tvFight(){ if(!TV||TV.phase!=='hire') return; TV.phase='fight'; TV.sel=-1; TV._t10=0; tvCard(null);
-  tvEot(TV.band); TV.band.forEach(u=>{ if(u.k==='ap') return; });
-  const alive=TV.bots.filter(b=>b.hp>0); const opp=tvRand(alive); TV.opp=opp; opp.tier=Math.min(4,1+Math.floor(TV.round/3));
-  const A=TV.band.map(tvCl), B=tvBotBand(TV.round,opp.tier); TV.fight={A,B};
+async function tvFight(){ if(!TV||TV.phase!=='hire') return; const eot=tvEot(TV.band); if(eot.length){ TV.phase='eot'; tvPaint(); tvFxList(eot,110); await tvWait(eot.length*110+700); if(!TV) return; }
+  TV.phase='fight'; TV.pick=null; tvCard(null);
+  TV.bots.forEach(b=>{ if(b.hp>0) tvBotTurn(b,TV.round); });
+  const opp=TV.next&&TV.next.hp>0?TV.next:tvRand(TV.bots.filter(b=>b.hp>0)); TV.opp=opp; TV.prevOpp=opp;
+  const A=TV.band.map(tvCl), B=opp.band.map(tvCl); TV.fight={A,B}; opp.last=opp.band.map(tvCl);
   try{ ambStop(); ambPlay(121); }catch(e){}
-  tvPaint(tvT('vs',{n:opp.n}),1); try{ sfx('dice'); }catch(e){} await tvWait(1400); if(!TV) return; tvPaint();
+  tvPaint(tvT('vs',{n:opp.n}),1); tvSnd('start'); await tvWait(1400); if(!TV) return; tvPaint();
   const sides=[A,B];
-  // start of combat
-  for(const [S,O] of [[A,B],[B,A]]){ const nm=S.filter(u=>u.f==='master').length;
-    S.slice().forEach((u,i)=>{ if(u.f==='guard'){ [S[i-1],S[i+1]].forEach(x=>{ if(x){ x.h+=1; tvUpd(x); tvFx(x,'+1♥','buff'); } }); }
-      if(u.f==='master'&&nm>1){ u.a+=nm-1; u.h+=nm-1; tvUpd(u); tvFx(u,'+'+(nm-1),'buff'); }
-      if(u.k==='trick'&&O.length) for(let k=0;k<u.g;k++){ const x=tvRand(O); x.a=Math.max(0,x.a-2); tvUpd(x); tvFx(x,'−2⚔'); }
-      if(u.k==='khan') S.forEach(x=>{ if(x!==u&&x.f==='guard'){ x.h+=2*u.g; tvUpd(x); tvFx(x,'+'+2*u.g+'♥','buff'); } });
-      if(u.k==='pasha'&&S[0]&&!S[0].kw.includes('wind')){ S[0].kw.push('wind'); tvFx(S[0],'⚡','buff'); } }); }
-  await tvWait(1000);
+  for(const [S,O] of [[A,B],[B,A]]){ const nm=S.filter(u=>u.f==='master').length; const fx=[];
+    S.slice().forEach((u,i)=>{ if(u.f==='guard'){ [S[i-1],S[i+1]].forEach(x=>{ if(x){ x.h+=1; fx.push([x,'buff','+1♥']); } }); }
+      if(u.f==='master'&&nm>1){ u.a+=nm-1; u.h+=nm-1; fx.push([u,'buff','+'+(nm-1)+'/+'+(nm-1)]); }
+      if(u.k==='trick'&&O.length){ fx.push([u,'start']); for(let k=0;k<u.g;k++){ const x=tvRand(O); x.a=Math.max(0,x.a-2); fx.push([x,'venom','−2⚔']); } }
+      if(u.k==='khan'){ fx.push([u,'start']); S.forEach(x=>{ if(x!==u&&x.f==='guard'){ x.h+=2*u.g; fx.push([x,'buff','+'+2*u.g+'♥']); } }); }
+      if(u.k==='pasha'&&S[0]&&!S[0].kw.includes('wind')){ S[0].kw.push('wind'); fx.push([u,'start']); fx.push([S[0],'buff','⚡']); } });
+    tvFxList(fx,120); await tvWait(fx.length*120+300); if(!TV) return; }
+  await tvWait(500);
   let turn=A.length>B.length?0:B.length>A.length?1:Math.random()<.5?0:1; const ptr=[0,0]; let guard=0;
   const pick=O=>{ const tn=O.filter(u=>u.kw.includes('taunt')); return tvRand(tn.length?tn:O); };
-  const hitTo=(u,dmg)=>{ if(dmg<=0) return 0; if(u.sh){ u.sh=false; return 'block'; } u.h-=dmg; return dmg; };
-  const settle=async(S0)=>{ let died=false; sides.forEach(side=>side.forEach(u=>{ if(u.h<=0){ died=true; const e=tvEl(u); if(e) e.classList.add('dead'); } })); if(!died) return; await tvWait(450);
-    for(const side of sides){ const other=side===A?B:A; for(let j=side.length-1;j>=0;j--){ const u=side[j]; if(u.h>0) continue; side.splice(j,1); if(side===S0 && j<ptr[S0===A?0:1]) ptr[S0===A?0:1]--;
-      if(u.k==='bro') for(let k=0;k<u.g;k++) if(side.length<7) side.splice(j,0,tvMk(tvDef('ap')));
-      if(u.k==='yard'){ const r=side.filter(x=>x.h>0); if(r.length){ const x=r[r.length-1]; x.a+=2*u.g; } }
-      if(u.k==='king') side.forEach(x=>{ if(x.f==='yard'){ x.a+=2*u.g; x.h+=2*u.g; } });
-      if(u.f==='yard'){ const ys=side.filter(x=>x.f==='yard'&&x.h>0); if(ys.length) tvRand(ys).a+=1; }
-      side.forEach(x=>{ if(x.h<=0) return; if(x.k==='vlad'){ x.a+=x.g; x.h+=x.g; } if(x.k==='bench'){ x.ac++; if(x.ac%3===0){ x.a+=3*x.g; x.h+=3*x.g; } } }); } }
-    tvPaint(); await tvWait(260); };
+  const hitTo=(u,dmg,ven)=>{ if(dmg<=0) return 0; if(u.sh){ u.sh=false; return 'block'; } u.h-=dmg; if(ven&&u.h>0){ u.h=0; return 'venom'; } return dmg; };
+  const settle=async(S0)=>{ const dead=[]; sides.forEach(side=>side.forEach(u=>{ if(u.h<=0) dead.push(u); })); if(!dead.length) return; dead.forEach(u=>{ tvFx(u,'death'); const e=tvEl(u); if(e) e.classList.add('dead'); }); await tvWait(650); if(!TV) return;
+    const fx=[];
+    for(const side of sides){ for(let j=side.length-1;j>=0;j--){ const u=side[j]; if(u.h>0) continue; side.splice(j,1); if(side===S0 && j<ptr[S0===A?0:1]) ptr[S0===A?0:1]--;
+      if(u.rb){ const r={...tvCl(u), h:1, rb:false, sh:false, kw:u.kw.filter(k=>k!=='reborn')}; side.splice(j,0,r); fx.push([r,'reborn']); }
+      if(u.k==='bro') for(let k=0;k<u.g;k++) if(side.length<7){ const ap=tvMk(tvDef('ap')); side.splice(j,0,ap); fx.push([ap,'death','☠→1/1']); }
+      if(u.k==='yard'){ const r=side.filter(x=>x.h>0); if(r.length){ const x=r[r.length-1]; x.a+=2*u.g; fx.push([x,'buff','+'+2*u.g+'⚔']); } }
+      if(u.k==='king') side.forEach(x=>{ if(x.f==='yard'){ x.a+=2*u.g; x.h+=2*u.g; fx.push([x,'buff','+'+2*u.g+'/+'+2*u.g]); } });
+      if(u.f==='yard'){ const ys=side.filter(x=>x.f==='yard'&&x.h>0); if(ys.length){ const x=tvRand(ys); x.a+=1; fx.push([x,'buff','+1⚔']); } }
+      side.forEach(x=>{ if(x.h<=0) return; if(x.k==='vlad'){ x.a+=x.g; x.h+=x.g; fx.push([x,'avenge','+'+x.g+'/+'+x.g]); } if(x.k==='bench'){ x.ac++; if(x.ac%3===0){ x.a+=3*x.g; x.h+=3*x.g; fx.push([x,'avenge','+'+3*x.g+'/+'+3*x.g]); } } }); } }
+    tvPaint(); tvFxList(fx,140); await tvWait(fx.length*140+300); };
   while(A.length && B.length && guard++<200 && TV){ const S=turn?B:A, O=turn?A:B; if(ptr[turn]>=S.length) ptr[turn]=0; const att=S[ptr[turn]]; let times=att.kw.includes('wind')?2:1;
+    if(att.a<=0){ ptr[turn]++; turn=1-turn; if(A.every(u=>u.a<=0)&&B.every(u=>u.a<=0)) break; continue; }
     for(let k=0;k<times && O.length && S.includes(att) && att.h>0;k++){ const def=pick(O); const ea=tvEl(att), ed=tvEl(def);
-      if(ea&&ed){ const ra=ea.getBoundingClientRect(), rd=ed.getBoundingClientRect(); ea.classList.add('lunge'); ea.style.transform='translate('+((rd.left-ra.left)*.82)+'px,'+((rd.top-ra.top)*.72)+'px) scale(1.08)'; }
+      if(ea&&ed){ const ra=ea.getBoundingClientRect(), rd=ed.getBoundingClientRect(); ea.classList.add('lunge'); ea.style.transitionDuration=(480/TV.speed)+'ms'; ea.style.transform='translate('+((rd.left-ra.left)*.82)+'px,'+((rd.top-ra.top)*.72)+'px) scale(1.08)'; }
       await tvWait(480); if(!TV) return;
-      const six=att.f==='sharp' && Math.random()<1/6; const r1=hitTo(def,att.a*(six?2:1)), r2=hitTo(att,def.a);
-      try{ sfx(six?'win':'move'); }catch(e){} tvUpd(def); tvUpd(att);
-      tvFx(def, r1==='block'?'◈':r1?'−'+r1+(six?' 🎲':''):'', 'slash'); tvFx(att, r2==='block'?'◈':r2?'−'+r2:'');
-      if(def.k==='bear' && def.h>0 && typeof r1==='number' && r1>0){ def.a+=def.g; tvUpd(def); tvFx(def,'+'+def.g+'⚔','buff'); }
+      const six=att.f==='sharp' && Math.random()<1/6; const ven=att.kw.includes('venom'); const dv=def.kw.includes('venom'); const r1=hitTo(def,att.a*(six?2:1),ven), r2=hitTo(att,def.a,dv);
+      tvSnd('hit'); tvUpd(def); tvUpd(att); const shake=document.querySelector('#tavPg .ztable'); if(shake&&att.a>=6){ shake.classList.remove('fx-quake'); void shake.offsetWidth; shake.classList.add('fx-quake'); }
+      const show=(u,r)=>{ if(r==='block') tvFx(u,'shield','◈'); else if(r==='venom') tvFx(u,'venom','☣'); else if(r) tvFxEl(tvEl(u),'hit','−'+r); };
+      tvFxEl(ed,'slash'); show(def,r1); if(six) tvFxEl(ea,'cry','🎲6!'); show(att,r2);
+      if(def.k==='bear' && def.h>0 && typeof r1==='number' && r1>0){ def.a+=def.g; tvUpd(def); setTimeout(()=>tvFx(def,'buff','+'+def.g+'⚔'),300); }
       if(att.k==='bear' && att.h>0 && typeof r2==='number' && r2>0){ att.a+=att.g; tvUpd(att); }
-      if(att.k==='cheat' && att.h>0 && k===times-1 && Math.random()<1/3 && times<4){ times++; tvFx(att,'🎲','buff'); }
+      if(att.k==='cheat' && att.h>0 && k===times-1 && times<3 && Math.random()<1/3){ times++; setTimeout(()=>tvFx(att,'cry','🎲'),200); }
       await tvWait(520); if(!TV) return; if(ea){ ea.style.transform=''; ea.classList.remove('lunge'); } await tvWait(320);
       await settle(S); if(!TV) return; }
     if(S.includes(att)) ptr[turn]++; turn=1-turn; await tvWait(220); }
   if(!TV) return;
   let msg; const tierSum=L=>L.reduce((s,u)=>s+u.t,0); const cap=TV.round<=3?5:TV.round<=7?10:15;
-  if(A.length && !B.length){ const d=Math.min(cap,TV.tier+tierSum(A)); opp.hp-=d; msg=tvT('win')+' · '+opp.n+' −'+d+'♥'; try{ sfx('win'); }catch(e){} }
-  else if(B.length && !A.length){ const d=Math.min(cap,opp.tier+tierSum(B)); TV.hp-=d; msg=tvT('lose',{n:d}); try{ sfx('turn'); }catch(e){} }
+  if(A.length && !B.length){ const d=Math.min(cap,opp.tier+tierSum(A)); opp.hp-=d; msg=tvT('win')+' · '+opp.n+' −'+d+'♥'; try{ sfx('win'); }catch(e){} }
+  else if(B.length && !A.length){ const d=Math.min(cap,opp.tier+tierSum(B)); TV.hp-=d; msg=tvT('lose',{n:d}); tvSnd('death'); }
   else msg=tvT('draw');
   const rest=TV.bots.filter(b=>b.hp>0 && b!==opp); for(let i=rest.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [rest[i],rest[j]]=[rest[j],rest[i]]; }
-  for(let i=0;i+1<rest.length;i+=2){ const l=Math.random()<.5?rest[i]:rest[i+1]; l.hp-=Math.min(cap,2+Math.floor(Math.random()*(2+TV.round))); }
-  TV.bots.forEach(b=>{ b.tier=Math.min(4,1+Math.floor((TV.round+(b.n.length%2))/3)); });
+  for(let i=0;i+1<rest.length;i+=2){ const x=rest[i], y=rest[i+1]; const px=tvPow(x.band)*(.75+Math.random()*.5), py=tvPow(y.band)*(.75+Math.random()*.5); const [w,l]=px>=py?[x,y]:[y,x]; l.hp-=Math.min(cap,w.tier+Math.ceil(w.band.length/2)); x.last=x.band.map(tvCl); y.last=y.band.map(tvCl); }
   tvPaint(msg,1); await tvWait(2300); if(!TV) return;
   const left=TV.bots.filter(b=>b.hp>0).length;
   if(TV.hp<=0 || left===0){ TV.end={place: TV.hp<=0 ? left+1 : 1}; TV.fight=null; try{ ambStop(); ambPlay(120); }catch(e){} tvPaint(); return; }
   TV.round++; TV.gold=Math.min(10,2+TV.round); TV.upCost=Math.max(0,TV.upCost-1);
-  TV.phase='hire'; TV.fight=null; TV.opp=null; if(!TV.frozen) tvRoll(); TV.frozen=false; TV.until=Date.now()+tvHireTime()*1000; try{ ambStop(); ambPlay(120); }catch(e){} tvPaint(); }
+  TV.phase='hire'; TV.fight=null; TV.opp=null; if(!TV.frozen) tvRoll(); TV.frozen=false; tvHireStart(); try{ ambStop(); ambPlay(120); }catch(e){} tvPaint(); }
 function tvEnd(){ const pg=$('tavPg'); const e=sH('div','zend'); const b=sH('div'); const p=TV.end.place; b.append(sH('h2',null,p===1?tvT('endW'):tvT('endP',{n:p})), sH('p',null,tvT('endD',{r:TV.round})));
-  const row=sH('div','row'); const a=sH('button','go',tvT('again')); a.onclick=openTavern; const h=sH('button',null,tvT('home')); h.onclick=closeTavern; row.append(a,h); b.appendChild(row); e.appendChild(b); pg.appendChild(e); }
-
+  const row=sH('div','row'); const a=sH('button','go',tvT('again')); a.onclick=openTavern; const h=sH('button',null,tvT('home')); h.onclick=closeTavern; row.append(a,h); b.appendChild(row); e.appendChild(b); pg.appendChild(e); if(p<=4) tvSnd('triple'); }
+// ---- tutorial: spotlight steps on the real screen; the last step is the effects guide
+function tvTut(i){ const pg=$('tavPg'); if(!pg||!TV) return; pg.querySelectorAll('.ztut').forEach(e=>e.remove()); pg.querySelectorAll('.tutOn').forEach(e=>e.classList.remove('tutOn'));
+  if(i>=7){ TV.tut=0; store.set('tv_tut',true); TV.until=Date.now()+tvHireTime()*1000; tvGuide(true); return; } TV.tut=1;
+  const tgt=pg.querySelector('[data-tut="'+(i+1)+'"]'); if(tgt) tgt.classList.add('tutOn');
+  const o=sH('div','ztut'); const b=sH('div','zbub'); b.append(sH('small',null,(i+1)+' / 8'), sH('p',null,tvT('tut'+(i+1))));
+  const row=sH('div','r'); const sk=sH('button',null,tvT('tutSkip')); sk.onclick=()=>{ pg.querySelectorAll('.tutOn').forEach(e=>e.classList.remove('tutOn')); o.remove(); TV.tut=0; store.set('tv_tut',true); TV.until=Date.now()+tvHireTime()*1000; }; const nx=sH('button','go',tvT('tutNext')+' →'); nx.onclick=()=>tvTut(i+1); row.append(sk,nx); b.appendChild(row); o.appendChild(b); pg.appendChild(o);
+  if(tgt){ const r=tgt.getBoundingClientRect(); const bw=Math.min(340,innerWidth-24); let x=r.left+r.width/2-bw/2; x=Math.max(12,Math.min(innerWidth-bw-12,x)); let y=r.bottom+14; if(y+170>innerHeight) y=Math.max(12,r.top-184); b.style.left=x+'px'; b.style.top=y+'px'; b.style.width=bw+'px'; } tvSnd('tick'); }
+function tvGuide(fromTut){ const pg=$('tavPg'); if(!pg) return; const o=sH('div','zguide'); const box=sH('div','zgb'); box.append(sH('h2',null,tvT('help')), sH('p',null,tvT('tut8')));
+  const L=[['cry','📣',tvT('cry'),tvL('Спрацьовує, коли ставиш героя на стіл','Triggers when you play the hero')],['death','☠',tvT('death'),tvL('Спрацьовує, коли герой гине','Triggers when the hero dies')],['start','⚑',tvT('start'),tvL('Перед першим ударом','Before the first strike')],['eot','⟲',tvT('eot'),tvL('Коли натискаєш «До бою»','When you press «To battle»')],['avenge','✊',tvT('avenge'),tvL('Після смерті друзів','After friends die')],['shield','◈',tvL('Щит','Shield'),tvT('kw_shield')],['taunt','⛨',tvL('Провокатор','Taunt'),tvT('kw_taunt')],['wind','⚡',tvL('Двічі б’є','Double strike'),tvT('kw_wind')],['venom','☣',tvL('Отрута','Venom'),tvT('kw_venom')],['reborn','↺',tvL('Друге дихання','Reborn'),tvT('kw_reborn')]];
+  const g=sH('div','zgg'); L.forEach(([k,ic,n,d])=>{ const it=sH('button','zgi'); it.type='button'; const dm=sH('div','zu demo'); dm.style.setProperty('--rc','#e0896f'); dm.appendChild(sH('span','av',ic)); dm.append(sH('span','za','3'), sH('span','zh','3')); it.append(dm, sH('b',null,n), sH('small',null,d)); it.onclick=()=>{ tvFxEl(dm,k==='taunt'||k==='wind'?'buff':k, k==='taunt'?'⛨':k==='wind'?'⚡':undefined); tvSnd(k==='taunt'||k==='wind'?'buff':k); }; g.appendChild(it); });
+  box.appendChild(g); Object.keys(TV_F).forEach(f=>box.appendChild(sH('p','zgf',tvFN(f)+' — '+TV_F[f].d[lang==='en'?'en':'uk'])));
+  const c=sH('button','go',fromTut?tvT('tutDone'):tvT('close')); c.onclick=()=>o.remove(); box.appendChild(c); o.appendChild(box); pg.appendChild(o);
+  setTimeout(()=>g.querySelectorAll('.zgi').forEach((it,i)=>setTimeout(()=>it.querySelector('.demo')&&tvFxEl(it.querySelector('.demo'),['cry','death','start','eot','avenge','shield','buff','buff','venom','reborn'][i]),i*260)),300); }
 
 // a fifth card in the main menu
 (function(){ const L={uk:['Таверна','Наймай героїв · бета'],en:['Tavern','Hire heroes · beta'],ru:['Таверна','Нанимай героев · бета']};
