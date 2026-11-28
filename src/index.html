@@ -10064,7 +10064,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.154.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.154.1';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -12324,6 +12324,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+{v:'0.154.1',d:'28.11.2026',uk:['Таверна: виправлено «Смерть» у героїв, що лишають Учнів (Двоюрідний, Голова двору), — нові Учні тепер видно, вони з’являються з анімацією і б’ють у правильній черзі; так само для Тіні з «Другим диханням»'],en:['Tavern: fixed deathrattles that summon Apprentices (Cousin, Yard boss) — the summons are visible, animate in and attack in the right order; same for Reborn']},
 {v:'0.154.0',d:'28.11.2026',uk:['Таверна: «Мої успіхи» — щоденне завдання (+100 монет), медалі 8 фракцій за перше місце (+200 за кожну нову) і історія останніх ігор. Кнопка на виборі героя і в кінці гри'],en:['Tavern: «My progress» — a daily quest (+100 coins), medals for 1st place with each of 8 factions (+200 each) and your recent games']},
 {v:'0.153.0',d:'28.11.2026',uk:['Таверна: новий стіл — розкрита дошка нард з махагону з пунктами й перегородкою','Колір рамки героя тепер показує фракцію, а значки ознак — маленькі кружечки зверху'],en:['Tavern: a new table — an open mahogany backgammon board','The hero frame colour now shows the faction; trait icons are small circles on top']},
 {v:'0.152.0',d:'28.11.2026',uk:['Таверна: справжні звуки для кожної дії — удар кулаком, свист ривка, дзвін щита, скло, що розбивається, монети при купівлі, дзвоник кличу, стук героя об стіл','Ефекти: при смерті портрет розлітається на уламки, удар — спалах і іскри, герой у ривку лишає слід'],en:['Tavern: real sounds for every action — punches, swooshes, shield clangs, breaking glass, coins, a battlecry bell, a thud on the table','Effects: portraits shatter on death, hits flash with sparks, lunges leave a trail']},
@@ -16501,9 +16502,9 @@ async function tvFight(){ if(!TV||TV.phase!=='hire') return; const eot=tvEot(TV.
   const settle=async(S0)=>{ const dead=[]; sides.forEach(side=>side.forEach(u=>{ if(u.h<=0) dead.push(u); })); if(!dead.length) return; dead.forEach(u=>{ tvFx(u,'death'); const e=tvEl(u); if(e) e.classList.add('dead'); }); await tvWait(650); if(!TV) return;
     const fx=[];
     for(const side of sides){ for(let j=side.length-1;j>=0;j--){ const u=side[j]; if(u.h>0) continue; side.splice(j,1); if(side===S0 && j<ptr[S0===A?0:1]) ptr[S0===A?0:1]--;
-      if(u.rb){ const r={...tvCl(u), h:1, rb:false, sh:false, kw:u.kw.filter(k=>k!=='reborn')}; side.splice(j,0,r); fx.push([r,'reborn']); }
-      if(u.k==='mayor') for(let k=0;k<2*u.g;k++) if(side.length<7){ const ap={...tvMk(tvDef('ap')),a:2,h:2}; side.splice(j,0,ap); fx.push([ap,'death','☠→2/2']); }
-      if(u.k==='bro') for(let k=0;k<u.g;k++) if(side.length<7){ const ap=tvMk(tvDef('ap')); side.splice(j,0,ap); fx.push([ap,'death','☠→1/1']); }
+      if(u.rb){ const r={...tvCl(u), h:1, rb:false, sh:false, kw:u.kw.filter(k=>k!=='reborn')}; side.splice(j,0,r); if(side===S0 && j<ptr[S0===A?0:1]) ptr[S0===A?0:1]++; fx.push([r,'reborn']); }
+      if(u.k==='mayor') for(let k=0;k<2*u.g;k++) if(side.length<7){ const ap={...tvMk(tvDef('ap')),a:2,h:2}; side.splice(j,0,ap); if(side===S0 && j<ptr[S0===A?0:1]) ptr[S0===A?0:1]++; fx.push([ap,'summon','2/2']); }
+      if(u.k==='bro') for(let k=0;k<u.g;k++) if(side.length<7){ const ap=tvMk(tvDef('ap')); side.splice(j,0,ap); if(side===S0 && j<ptr[S0===A?0:1]) ptr[S0===A?0:1]++; fx.push([ap,'summon','1/1']); }
       if(u.k==='yard'){ const r=side.filter(x=>x.h>0); if(r.length){ const x=r[r.length-1]; x.a+=2*u.g; fx.push([x,'buff','+'+2*u.g+'⚔']); } }
       if(u.k==='king') side.forEach(x=>{ if(x.f==='yard'){ x.a+=2*u.g; x.h+=2*u.g; fx.push([x,'buff','+'+2*u.g+'/+'+2*u.g]); } });
       if(u.f==='cook'){ const al=side.filter(x=>x.h>0); if(al.length){ const x=tvRand(al); x.a+=1; x.h+=1; fx.push([x,'buff','+1/+1']); } }
@@ -17016,9 +17017,10 @@ window.addEventListener('resize',()=>{ try{ if(TV && $('tavPg')){ clearTimeout(w
  new MutationObserver(ms=>{ for(const m of ms){ const t=m.target; if(t.classList&&t.classList.contains('lunge')&&!(m.oldValue||'').includes('lunge')) tvPlayS('swing'); } }).observe(document.documentElement,{subtree:true,attributes:true,attributeFilter:['class'],attributeOldValue:true});
  // effects
  const _fx=tvFxEl; tvFxEl=function(e,kind,txt){ const r=_fx.apply(this,arguments); try{ if(!e||!e.isConnected) return r;
-   if(kind==='death') shatter(e);
+   if(kind==='death'&&!txt) shatter(e); if(kind==='summon') summon(e);
    if(kind==='hit'||kind==='slash') burst(e);
   }catch(_){} return r; };
+ function summon(e){ e.animate([{transform:'translateY(-40px) scale(.4)',opacity:0},{transform:'translateY(6px) scale(1.08)',opacity:1,offset:.7},{transform:'none',opacity:1}],{duration:520,easing:'cubic-bezier(.2,.8,.3,1)'}); try{ tvPlayS('play'); }catch(_){} const o=document.createElement('i'); o.className='zfx2 k-ring'; o.innerHTML='<b></b><b></b>'; e.appendChild(o); setTimeout(()=>o.remove(),800); }
  function shatter(e){ const av=e.querySelector('.av'); if(!av) return; const r=av.getBoundingClientRect(); if(!r.width) return; const html=av.innerHTML; const P=[[0,0,50,0,30,45],[50,0,100,0,100,40,62,50],[0,45,30,45,45,100,0,100],[30,45,62,50,70,100,45,100],[62,50,100,40,100,100,70,100]];
   P.forEach((pts,i)=>{ const d=document.createElement('div'); d.className='zshard'; let poly=''; for(let k=0;k<pts.length;k+=2) poly+=(k?',':'')+pts[k]+'% '+pts[k+1]+'%'; d.style.cssText='position:fixed;left:'+r.left+'px;top:'+r.top+'px;width:'+r.width+'px;height:'+r.height+'px;clip-path:polygon('+poly+');border-radius:50%;overflow:hidden;z-index:65;pointer-events:none;filter:grayscale(.7) brightness(.8)';
    d.innerHTML=html; const sv=d.querySelector('svg'); if(sv){ sv.style.width='100%'; sv.style.height='100%'; }
