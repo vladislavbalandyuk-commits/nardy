@@ -39,3 +39,6 @@ Live streams are played straight from each station's own server (nothing is copi
 
 ## Flags (0.98.0)
 `img/flags/*.svg` — flag-icons by Panayiotis Lipiridis, MIT License.
+
+## Таверна (0.152.0)
+- `sfx/tav/*.mp3` — Kenney (kenney.nl) «Impact Sounds», «RPG Audio», «Digital Audio», CC0 1.0 (взято з GitHub-портів Boyquotes/kenney-*-for-godot).
