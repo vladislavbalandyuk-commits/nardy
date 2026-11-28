@@ -6497,7 +6497,7 @@ html body #tavPg.vv .zu .za{left:50%!important;right:auto!important;transform:tr
 html body #tavPg.vv .zu .zh{left:50%!important;right:auto!important;transform:none!important;border-radius:3px 12px 12px 3px!important;background:linear-gradient(180deg,#e2525f,#9a2232)!important;border-left-width:1px!important}
 html body #tavPg.vv .zu .zh.low{background:linear-gradient(180deg,#ff7a85,#c0182c)!important}
 @media (max-height:540px),(max-width:600px){html body #tavPg.vv .zu .za,html body #tavPg.vv .zu .zh{width:22px!important;height:18px!important;font-size:10px!important;bottom:-9px!important}}
-html body #tavPg .ztable:has(.zs1hint) .zmid:not(.big){display:none}
+html body #tavPg .ztable.hint .zmid:not(.big){display:none}
 html.tavOn,html.tavOn body{overflow:hidden!important;overscroll-behavior:none}
 html body #tavPg .tfW{display:flex;flex-direction:column;gap:8px;margin:6px 0 2px;align-items:center}
 html body #tavPg .tfR{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px}
@@ -10078,7 +10078,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.154.2';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.155.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -12338,6 +12338,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+{v:'0.155.0',d:'28.11.2026',uk:['Таверна: технічний патч — у бою вдвічі менше перерахунків стилів (вимикаються зайві правила меню, поки відкрита Таверна), менше фонових перевірок, звук ривка слухає лише стіл'],en:['Tavern performance patch: about half the style work during fights, fewer background checks']},
 {v:'0.154.2',d:'28.11.2026',uk:['Таверна: значки ознак більше не налазять на ціну й номер — стоять стовпчиком справа від портрета','Кожен удар видно: велика цифра над героєм, спалах портрета, а герой у ривку більше не «відскакує» назад до удару'],en:['Tavern: trait icons no longer overlap the price or order number','Every hit is visible: a big number, a portrait flash, and lunges no longer snap back early']},
 {v:'0.154.1',d:'28.11.2026',uk:['Таверна: виправлено «Смерть» у героїв, що лишають Учнів (Двоюрідний, Голова двору), — нові Учні тепер видно, вони з’являються з анімацією і б’ють у правильній черзі; так само для Тіні з «Другим диханням»'],en:['Tavern: fixed deathrattles that summon Apprentices (Cousin, Yard boss) — the summons are visible, animate in and attack in the right order; same for Reborn']},
 {v:'0.154.0',d:'28.11.2026',uk:['Таверна: «Мої успіхи» — щоденне завдання (+100 монет), медалі 8 фракцій за перше місце (+200 за кожну нову) і історія останніх ігор. Кнопка на виборі героя і в кінці гри'],en:['Tavern: «My progress» — a daily quest (+100 coins), medals for 1st place with each of 8 factions (+200 each) and your recent games']},
@@ -16845,7 +16846,7 @@ window.addEventListener('resize',()=>{ try{ if(TV && $('tavPg')){ clearTimeout(w
  window.addEventListener('scroll',()=>{ if(on()&&(scrollX||scrollY)) window.scrollTo(0,0); },{passive:true});
  const fix=()=>{ const pg=document.getElementById('tavPg'); if(!pg) { document.documentElement.classList.remove('tavOn'); return; } document.documentElement.classList.add('tavOn');
   const r=pg.getBoundingClientRect(); if(Math.abs(r.left)>1||Math.abs(r.top)>1){ try{ console.warn('[tav] drift',r.left,r.top,scrollX,scrollY,getComputedStyle(document.body).transform); }catch(e){} window.scrollTo(0,0); document.body.scrollTop=0; document.documentElement.scrollTop=0; } };
- setInterval(fix,250); })();
+ setInterval(()=>{ if(!document.hidden) fix(); },500); })();
 
 /* 0.149.0 Таверна: 8 фракцій (нові «Музики» й «Кухня»), 5 активних за гру, нові заклинання й герої, коротший хід */
 (function(){
@@ -17029,7 +17030,7 @@ window.addEventListener('resize',()=>{ try{ if(TV && $('tavPg')){ clearTimeout(w
   const s=c.createBufferSource(); s.buffer=B[n]; s.playbackRate.value=.94+Math.random()*.12; const g=c.createGain(); g.gain.value=(v==null?(VOL[n]||.7):v); s.connect(g); g.connect(c.destination); s.start(); return true; };
  const _snd=tvSnd; tvSnd=function(kind){ load(); const L=MAP[kind]; if(L){ if(kind==='death'){ if(tvPlayS('death')){ setTimeout(()=>tvPlayS('shatter',.45),90); return; } } else if(tvPlayS(L[Math.floor(Math.random()*L.length)])) return; } return _snd.apply(this,arguments); };
  // play the swing when a hero lunges
- new MutationObserver(ms=>{ for(const m of ms){ const t=m.target; if(t.classList&&t.classList.contains('lunge')&&!(m.oldValue||'').includes('lunge')) tvPlayS('swing'); } }).observe(document.documentElement,{subtree:true,attributes:true,attributeFilter:['class'],attributeOldValue:true});
+ const swObs=new MutationObserver(ms=>{ for(const m of ms){ const t=m.target; if(t.classList&&t.classList.contains('lunge')&&!(m.oldValue||'').includes('lunge')) tvPlayS('swing'); } }); let swOn=null; setInterval(()=>{ const pg=document.getElementById('tavPg'); if(pg!==swOn){ swObs.disconnect(); swOn=pg; if(pg) swObs.observe(pg,{subtree:true,attributes:true,attributeFilter:['class'],attributeOldValue:true}); } },500);
  // effects
  const _fx=tvFxEl; tvFxEl=function(e,kind,txt){ const r=_fx.apply(this,arguments); try{ if(!e||!e.isConnected) return r;
    if(kind==='death'&&!txt) shatter(e); if(kind==='summon') summon(e);
@@ -17089,6 +17090,17 @@ window.addEventListener('resize',()=>{ try{ if(TV && $('tavPg')){ clearTimeout(w
   srv({op:'meta'}).then(d=>{ if(d&&d.ok){ if(d.q===day()&&!q.claimed){ q.claimed=true; q.done=true; store.set('tavQ',q); cb.textContent=tx('done')+' ✓'; cb.disabled=true; } if(Array.isArray(d.fac)){ store.set('tavFac',[...new Set(got.concat(d.fac))]); d.fac.forEach(f=>{ const i=FACS.indexOf(f); if(i>=0) fr.children[i].classList.add('on'); }); } } }); };
  // button on the hero pick screen
  const _fp=tvPaint; tvPaint=function(){ const r=_fp.apply(this,arguments); try{ if(TV&&TV.phase==='hero'){ const pk=document.querySelector('#tavPg .zpick'); if(pk&&!pk.querySelector('.zmetab')){ const q=qToday(); const b=sH('button','zmetab','📜 '+tx('btn')+(q.done&&!q.claimed?' •':'')); b.type='button'; b.onclick=()=>tvMeta(); pk.appendChild(b); } } }catch(e){} return r; };
+})();
+
+
+/* 0.155.0 технічний патч: поки відкрита Таверна, вимикаються важкі :has()-правила меню й гри (менше перерахунку стилів у бою) */
+(function(){ let saved=null;
+ function off(){ if(saved) return; saved=[]; for(const sh of document.styleSheets){ let R; try{ R=sh.cssRules; }catch(e){ continue; }
+   const walk=(owner,list)=>{ for(let i=list.length-1;i>=0;i--){ const r=list[i]; if(r.cssRules&&!r.selectorText){ walk(r,r.cssRules); continue; } if(r.selectorText&&r.selectorText.includes(':has(')&&!r.selectorText.includes('tavPg')){ saved.push({owner,i,text:r.cssText}); owner.deleteRule(i); } } };
+   walk(sh,R); } }
+ function on(){ if(!saved) return; for(let k=saved.length-1;k>=0;k--){ const x=saved[k]; try{ x.owner.insertRule(x.text,Math.min(x.i,x.owner.cssRules.length)); }catch(e){} } saved=null; }
+ setInterval(()=>{ const pg=document.getElementById('tavPg'); if(pg) off(); else on(); },400);
+ const _p=tvPaint; tvPaint=function(){ const r=_p.apply(this,arguments); try{ const tb=document.querySelector('#tavPg .ztable'); if(tb) tb.classList.toggle('hint',!!tb.querySelector('.zs1hint')); }catch(e){} return r; };
 })();
 
 </script>
