@@ -6452,6 +6452,43 @@ html body #tavPg .zrow.zme .zslot.zput::after{color:#9fe0b6!important;font-size:
 html body #tavPg .zrow.zme .zslot.zput:hover,html body #tavPg .zrow.zme .zins:hover{background:rgba(159,224,182,.45)!important}
 @media (max-height:540px),(max-width:600px){html body #tavPg .zrow.zme .zins{width:38px!important;height:72px!important;border-radius:20px!important;font-size:24px!important;margin:0 -1px!important}}
 @media (max-height:540px),(max-width:600px){html body #tavPg.placing .zc.sel{transform:translateY(-8px)!important}html body #tavPg.placing .zinfo .zcard{display:none!important}}
+/* stage 1: attack order, next opponent, log, hints */
+html body #tavPg .zrow.zme .zu .zord{position:absolute;left:4px;top:-2px;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:#f3efe7;color:#1a1412;font:900 11px Unbounded,system-ui,sans-serif;z-index:4;box-shadow:0 2px 6px rgba(0,0,0,.6)}
+html body #tavPg.fight .zord{display:none}
+html body #tavPg .zs1bar{position:absolute;right:30px;top:calc(40% + 40px);display:flex;flex-direction:column;align-items:flex-end;gap:8px;z-index:6}
+html body #tavPg .zs1b{display:flex;align-items:center;gap:8px;height:36px;padding:0 14px 0 6px;border-radius:99px;border:1px solid rgba(255,255,255,.16);background:rgba(18,12,10,.88);color:#f3efe7;font-weight:700;font-size:12.5px;cursor:pointer}
+html body #tavPg .zs1b:not(.nx){padding:0 14px}
+html body #tavPg .zs1b .av{width:26px;height:26px;border-radius:50%;overflow:hidden;display:block}
+html body #tavPg .zs1b.nx{border-color:#e0896f;box-shadow:0 0 14px rgba(224,137,111,.35)}
+html body #tavPg .zs1hint{position:absolute;left:50%;top:calc(40% + 40px);transform:translateX(-50%);display:flex;align-items:center;gap:10px;max-width:min(620px,70%);padding:8px 8px 8px 14px;border-radius:14px;background:rgba(18,12,10,.9);border:1px solid rgba(159,224,182,.45);color:#f3efe7;font-size:13px;font-weight:600;z-index:6;animation:zIn .25s ease-out}
+html body #tavPg .zs1hint button{width:26px;height:26px;border-radius:50%;border:0;background:rgba(255,255,255,.1);color:#f3efe7;cursor:pointer;flex:none}
+html body #tavPg .zsyn~.zs1hint,html body #tavPg .zs1hint{margin-top:30px}
+html body #tavPg .zs1log{position:absolute;inset:0;z-index:75;display:grid;place-items:center;background:rgba(6,4,3,.75)}
+html body #tavPg .zs1log .zgb{width:min(640px,92vw);max-height:84vh;overflow:auto;padding:18px;border-radius:20px;background:#17100e;border:1px solid rgba(255,255,255,.14)}
+html body #tavPg .zs1log h2{margin:0 0 12px;font:800 18px Unbounded,system-ui,sans-serif}
+html body #tavPg .zlr{padding:10px;border-radius:14px;background:rgba(255,255,255,.04);margin-bottom:8px;border-left:4px solid #8a8580}
+html body #tavPg .zlr.w{border-left-color:#9fe0b6}html body #tavPg .zlr.l{border-left-color:#b0303f}
+html body #tavPg .zlh{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:700}
+html body #tavPg .zlh .av{width:28px;height:28px;border-radius:50%;overflow:hidden;display:block}
+html body #tavPg .zlh em{margin-left:auto;font-style:normal;opacity:.8}
+html body #tavPg .zlb2{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+html body #tavPg .zlrow{display:flex;gap:6px;flex-wrap:wrap}
+html body #tavPg .zlrow.op{opacity:.8}
+html body #tavPg .zlrow .m{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10px}
+html body #tavPg .zlrow .m .av{width:30px;height:30px;border-radius:50%;overflow:hidden;display:block}
+html body #tavPg .zlrow .m i{font-style:normal;font-weight:800}
+html body #tavPg .zs1log .go{margin-top:10px;width:100%;height:42px;border-radius:12px;border:0;background:#f3efe7;color:#1a1412;font-weight:800;cursor:pointer}
+@media (max-height:540px),(max-width:600px){
+html body #tavPg .zrow.zme .zu .zord{width:15px;height:15px;font-size:8px;left:2px}
+html body #tavPg .zs1bar{right:8px;top:auto;bottom:62px;flex-direction:row}
+html body #tavPg .zs1b{height:28px;font-size:10.5px;padding:0 10px 0 4px}html body #tavPg .zs1b .av{width:20px;height:20px}
+html body #tavPg .zs1b.nx span:last-child{max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+html body #tavPg .zs1hint{top:calc(47% + 8px);font-size:10.5px;padding:4px 4px 4px 10px;max-width:60%}
+html body #tavPg .zs1hint button{width:20px;height:20px}}
+html body #tavPg .zs1bar{top:auto!important;bottom:78px!important;right:30px!important}
+@media (max-height:540px),(max-width:600px){html body #tavPg .zs1bar{bottom:52px!important;right:8px!important}
+html body #tavPg .zs1hint{animation:zIn .25s ease-out,zs1Out .5s 5s forwards}}
+@keyframes zs1Out{to{opacity:0;visibility:hidden}}
 </style>
 </head>
 <body>
@@ -9872,7 +9909,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.147.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.148.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -12132,6 +12169,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+{v:'0.148.0',d:'28.11.2026',uk:['Таверна, етап «Зручність»: номер черговості атаки на кожному герої, кнопка «Наступний суперник» з його останнім столом, журнал раундів з обома столами, підказки «що робити далі» (вимикаються хрестиком)'],en:['Tavern convenience: attack order numbers, a «Next opponent» button with their last board, a round log with both boards, «what next» hints (close with ×)']},
 {v:'0.147.0',d:'28.11.2026',uk:['Таверна: нова фракція «Базар» ⚖ — п’ять торговців з новими портретами: Перекупка, Міняйло, Коробейник, Ювелір і Баронеса базару. Ростуть, коли продаєш героїв і береже золото','Балансний патч за симуляцією сотень ігор: Кальянна слабша; Варта (+1/+1 сусідам), Двір (+1/+1 при смерті), Шулери (подвійний удар на 5–6) сильніші'],en:['Tavern: a new faction, the Bazaar ⚖ — five traders with new portraits who grow when you sell heroes and save gold','Balance patch from hundreds of simulated games: Hookah weaker; Guard, Yard and Sharps stronger']},
 {v:'0.146.3',d:'28.11.2026',uk:['Таверна: місця, куди ставити героя, тепер великі овали — легко попасти і на ПК, і на телефоні'],en:['Tavern: the spots to place a hero are now big ovals, easy to hit']},
 {v:'0.146.2',d:'28.11.2026',uk:['Таверна: портрет заповнює весь овал, картка в руці більше не стрибає при наведенні, удари в бою швидші й без зависань'],en:['Tavern: portraits fill the whole oval, hand cards no longer jitter on hover, snappier attacks']},
@@ -16562,6 +16600,45 @@ window.addEventListener('resize',()=>{ try{ if(TV && $('tavPg')){ clearTimeout(w
  TV_F.guard.d={uk:'Початок бою: +1/+1 сусідам',en:'Start of combat: +1/+1 to neighbours'};
  TV_F.yard.d={uk:'Коли дворовий гине — інший дворовий +1/+1',en:'When a yard hero dies, another gets +1/+1'};
  TV_F.sharp.d={uk:'Кожен удар — кидок: на 5–6 б’є вдвічі',en:'Each hit rolls a die: on 5–6 it hits double'};
+})();
+
+/* 0.148.0 Таверна, етап 1 «Зручність»: черговість атаки, наступний суперник, журнал раундів, підказки */
+(function(){ const S={uk:{next:'Наступний: {n}',log:'Журнал',logT:'Журнал раундів',none:'Ще не було боїв',w:'Перемога',l:'Поразка',d:'Нічия',vs:'проти {n}',dmg:'{d} ♥',close:'Закрити',
+   h_buy:'Купи героя: перетягни його вниз або торкнись і натисни «Купити»',h_hand:'Постав героїв з руки на стіл — тисни на карту, потім на «+»',h_up:'Вистачає золота підвищити таверну ★ — там сильніші герої',h_trip:'Ще одна копія {n} — і буде золотий герой',h_order:'Перші б’ють ліві: став міцних і з Провокатором ліворуч',h_sell:'Стіл повний: продай слабшого, перетягнувши його на вітрину',h_froz:'Подобається вітрина? Заморозь ❄ — залишиться на наступний хід',h_off:'Підказки'},
+  en:{next:'Next: {n}',log:'Log',logT:'Round log',none:'No fights yet',w:'Win',l:'Loss',d:'Draw',vs:'vs {n}',dmg:'{d} ♥',close:'Close',
+   h_buy:'Buy a hero: drag it down, or tap it and press «Buy»',h_hand:'Play heroes from your hand — tap a card, then a «+»',h_up:'You can afford a tavern upgrade ★ — stronger heroes there',h_trip:'One more {n} and it turns golden',h_order:'Left heroes strike first: put tough and Taunt ones on the left',h_sell:'Table is full: sell the weakest by dragging it onto the shelf',h_froz:'Like this shelf? Freeze ❄ to keep it for next turn',h_off:'Hints'}};
+ const tx=(k,v)=>{ let s=S[lang==='en'?'en':'uk'][k]; if(v) for(const q in v) s=s.replace('{'+q+'}',v[q]); return s; };
+ // round log: filled when a result is shown
+ const _rp=tvPaint; tvPaint=function(msg,big){ const r=_rp.apply(this,arguments); try{ s1Paint(msg,big); }catch(e){} return r; };
+ function s1Paint(msg,big){ const pg=$('tavPg'); if(!pg||!TV) return;
+  if(TV.phase==='fight'&&TV._resDone&&!TV._logged){ TV._logged=1; const A=TV.fight?TV.fight.A:[], B=TV.fight?TV.fight.B:[]; const k=A.length&&!B.length?'w':B.length&&!A.length?'l':'d'; const m=String(msg||'').match(/−\s?(\d+)/);
+   (TV.log=TV.log||[]).unshift({r:TV.round,n:TV.opp?TV.opp.n:'?',av:TV.opp?TV.opp.av:null,k,d:m?+m[1]:0,opp:(TV.opp&&TV.opp.last||[]).map(u=>({av:u.av,n:u.n,a:u.a,h:u.h})),me:TV.band.map(u=>({av:u.av,n:u.n,a:u.a,h:u.h}))}); }
+  if(TV.phase!=='hire'){ return; } TV._logged=0;
+  const tb=pg.querySelector('.ztable'); if(!tb) return;
+  // attack order numbers on my table
+  pg.querySelectorAll('.zrow.zme .zu').forEach((e,i)=>{ if(!e.querySelector('.zord')){ const o=sH('span','zord',String(i+1)); e.appendChild(o); } });
+  // top bar: next opponent + log
+  const bar=sH('div','zs1bar');
+  if(TV.next){ const b=sH('button','zs1b nx'); b.type='button'; const a=sH('span','av'); try{ avatarInto(a,TV.next.av,TV.next.n); }catch(e){} b.append(a,sH('span',null,tx('next',{n:TV.next.n}))); b.onclick=e=>{ e.stopPropagation(); tvPeek(TV.next,b); }; bar.appendChild(b); }
+  const lg=sH('button','zs1b',tx('log')+(TV.log&&TV.log.length?' · '+TV.log.length:'')); lg.type='button'; lg.onclick=e=>{ e.stopPropagation(); s1Log(); }; bar.appendChild(lg);
+  tb.appendChild(bar);
+  // one hint at a time
+  if(store.get('tv_hints',true)){ const h=s1Hint(); if(h){ const d=sH('div','zs1hint'); d.append(sH('span',null,'💡 '+h)); const x=sH('button',null,'×'); x.type='button'; x.title=tx('h_off'); x.onclick=e=>{ e.stopPropagation(); store.set('tv_hints',false); d.remove(); }; d.appendChild(x); tb.appendChild(d); } } }
+ function s1Hint(){ if(TV.tut||TV.searching) return null; const B=TV.band, shopU=TV.shop.filter(u=>!u.sp);
+  if(TV.hand.some(u=>!u.sp)&&B.length<7) return tx('h_hand');
+  const all=B.concat(TV.hand); const cnt={}; all.forEach(u=>{ if(!u.sp&&u.g===1) cnt[u.k]=(cnt[u.k]||0)+1; }); const tri=shopU.find(u=>cnt[u.k]===2&&TV.gold>=tvCost(u)); if(tri) return tx('h_trip',{n:tri.n});
+  if(B.length>=7&&TV.gold>=3) return tx('h_sell');
+  if(TV.round<=4&&!B.length&&shopU.length&&TV.gold>=3) return tx('h_buy');
+  if(TV.tier<5&&TV.gold>=TV.upCost&&TV.round>=3&&TV.round<=8) return tx('h_up');
+  if(TV.round===2&&B.length>=2) return tx('h_order');
+  if(TV.round<=5&&TV.gold<3&&shopU.length>=2&&!TV.frozen) return tx('h_froz');
+  return null; }
+ function s1Log(){ const pg=$('tavPg'); const old=pg.querySelector('.zs1log'); if(old){ old.remove(); return; } const o=sH('div','zs1log'); const box=sH('div','zgb'); box.appendChild(sH('h2',null,tx('logT')));
+  const L=TV.log||[]; if(!L.length) box.appendChild(sH('p',null,tx('none')));
+  L.forEach(e=>{ const r=sH('div','zlr '+e.k); const hd=sH('div','zlh'); const a=sH('span','av'); try{ avatarInto(a,e.av,e.n); }catch(_){} hd.append(sH('b',null,'R'+e.r),a,sH('span',null,tx(e.k)+' '+tx('vs',{n:e.n})),sH('em',null,e.k==='d'?'—':(e.k==='w'?'−':'−')+tx('dmg',{d:e.d})+(e.k==='w'?' '+e.n:'')));
+   const rows=sH('div','zlb2'); [e.me,e.opp].forEach((L2,ix)=>{ const rw=sH('div','zlrow'+(ix?' op':'')); L2.forEach(u=>{ const m=sH('span','m'); const aa=sH('span','av'); try{ avatarInto(aa,u.av,u.n); }catch(_){} m.append(aa,sH('i',null,u.a+'/'+u.h)); m.title=u.n; rw.appendChild(m); }); rows.appendChild(rw); });
+   r.append(hd,rows); box.appendChild(r); });
+  const c=sH('button','go',tx('close')); c.type='button'; c.onclick=()=>o.remove(); box.appendChild(c); o.appendChild(box); o.onclick=e=>{ if(e.target===o) o.remove(); }; pg.appendChild(o); }
 })();
 
 </script>
