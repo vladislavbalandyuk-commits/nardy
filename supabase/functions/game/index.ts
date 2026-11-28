@@ -904,6 +904,12 @@ const handle = async (req: Request): Promise<Response> => {
         const td = A.tavDay && A.tavDay.d === day ? A.tavDay : { d: day, n: 0 }; n = Math.max(0, Math.min(n, TAV_CAP - td.n)); td.n += n; A.tavDay = td;
         A.coins = (A.coins ?? COIN_START) + n; A.tav = { ...T, st: 'done', place }; await db.from('profiles').update({ ach: A }).eq('id', user.id);
         return json({ ok: true, coins: A.coins, got: n, left: TAV_CAP - td.n }); }
+      if (op === 'reward') { const kind = String(args?.kind || ''), key = String(args?.key || '').replace(/[^a-z]/g, '').slice(0, 12);
+        if (kind === 'quest') { if (A.tavQ === day) return json({ error: 'done' }, 400); A.tavQ = day; A.coins = (A.coins ?? COIN_START) + 100; }
+        else if (kind === 'fac') { const F = ['yard', 'hook', 'guard', 'sharp', 'master', 'trade', 'music', 'cook']; if (!F.includes(key)) return json({ error: 'key' }, 400); const got = A.tavFac || []; if (got.includes(key)) return json({ error: 'done' }, 400); A.tavFac = [...got, key]; A.coins = (A.coins ?? COIN_START) + 200; }
+        else return json({ error: 'kind' }, 400);
+        await db.from('profiles').update({ ach: A }).eq('id', user.id); return json({ ok: true, coins: A.coins, fac: A.tavFac || [], q: A.tavQ || '' }); }
+      if (op === 'meta') return json({ ok: true, fac: A.tavFac || [], q: A.tavQ || '' });
       return json({ error: 'op' }, 400); }
     if (action === 'club') { const { data: p } = await db.from('profiles').select('id,name,av,rating,ach').eq('id', user.id).maybeSingle(); if (!p) return json({ error: 'no_profile' }, 400);
       const A = { ...(p.ach || {}) }; const op = String(args?.op || 'mine'); const saveA = async () => { await db.from('profiles').update({ ach: A }).eq('id', user.id); };

@@ -6622,6 +6622,28 @@ html body #tavPg.vv .zu .zkw i{color:#e8d4b8}
 @media (max-height:540px),(max-width:600px){html body #tavPg.vv .zu .zkw i{width:13px!important;height:13px!important;border-width:1px!important}}
 html body #tavPg.vv .zu .zt{left:50%!important;transform:translateX(-50%)!important}
 @media (max-height:540px),(max-width:600px){html body #tavPg .zs1hint{top:auto!important;bottom:6px!important;margin:0!important;left:210px!important;right:auto!important;transform:none!important;max-width:calc(100% - 430px)!important;font-size:9.5px!important;z-index:8}}
+html body #tavPg .zmetab{margin-top:14px;height:40px;padding:0 18px;border-radius:12px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.07);color:#f3efe7;font-weight:800;cursor:pointer}
+html body #tavPg .zmeta{position:absolute;inset:0;z-index:90;display:grid;place-items:center;background:rgba(6,4,3,.78)}
+html body #tavPg .zmeta .zgb{width:min(560px,94vw);max-height:88vh;overflow:auto;padding:20px;border-radius:22px;background:#17100e;border:1px solid rgba(255,255,255,.14);display:flex;flex-direction:column;gap:10px}
+html body #tavPg .zmeta h2{margin:0;font:800 19px Unbounded,system-ui,sans-serif}
+html body #tavPg .zmeta h3{margin:8px 0 0;font:800 14px Unbounded,system-ui,sans-serif}
+html body #tavPg .zmd{margin:0;font-size:12px;opacity:.7}
+html body #tavPg .zmq{display:grid;grid-template-columns:1fr auto;grid-template-areas:"s b" "t b";gap:2px 12px;align-items:center;padding:12px 14px;border-radius:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12)}
+html body #tavPg .zmq small{grid-area:s;font-size:11px;opacity:.7}html body #tavPg .zmq b{grid-area:t;font-size:14px}
+html body #tavPg .zmq .go{grid-area:b;height:40px;padding:0 16px;border-radius:12px;border:0;background:#9fe0b6;color:#12301e;font-weight:800;cursor:pointer}
+html body #tavPg .zmq .go:disabled{background:rgba(255,255,255,.1);color:#cfc7bd;cursor:default}
+html body #tavPg .zmq.ok{border-color:#9fe0b6}
+html body #tavPg .zmf{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+html body #tavPg .zmfc{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;border-radius:14px;background:rgba(255,255,255,.04);font-size:11px;filter:grayscale(1);opacity:.4}
+html body #tavPg .zmfc.on{filter:none;opacity:1;background:rgba(255,255,255,.09);box-shadow:0 0 0 1px rgba(255,220,190,.35)}
+html body #tavPg .zmfc .tvgem{width:34px;height:34px}
+html body #tavPg .zmh{display:grid;grid-template-columns:38px 30px 1fr auto;gap:10px;align-items:center;padding:7px 10px;border-radius:12px;background:rgba(255,255,255,.04);font-size:12.5px}
+html body #tavPg .zmh em{font-style:normal;font:900 14px Unbounded,system-ui,sans-serif}
+html body #tavPg .zmh.p1 em{color:#9fe0b6}html body #tavPg .zmh.p5 em{color:#c9c3bb}
+html body #tavPg .zmh .av{width:30px;height:30px;border-radius:50%;overflow:hidden;display:block}
+html body #tavPg .zmh small{opacity:.6}
+html body #tavPg .zmclose{margin-top:6px;height:42px;border-radius:12px;border:0;background:#f3efe7;color:#1a1412;font-weight:800;cursor:pointer}
+@media (max-height:540px){html body #tavPg .zmf{grid-template-columns:repeat(8,1fr)}html body #tavPg .zmfc b{display:none}html body #tavPg .zmetab{margin-top:6px;height:32px}}
 </style>
 </head>
 <body>
@@ -10042,7 +10064,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.153.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.154.0';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -12302,6 +12324,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+{v:'0.154.0',d:'28.11.2026',uk:['Таверна: «Мої успіхи» — щоденне завдання (+100 монет), медалі 8 фракцій за перше місце (+200 за кожну нову) і історія останніх ігор. Кнопка на виборі героя і в кінці гри'],en:['Tavern: «My progress» — a daily quest (+100 coins), medals for 1st place with each of 8 factions (+200 each) and your recent games']},
 {v:'0.153.0',d:'28.11.2026',uk:['Таверна: новий стіл — розкрита дошка нард з махагону з пунктами й перегородкою','Колір рамки героя тепер показує фракцію, а значки ознак — маленькі кружечки зверху'],en:['Tavern: a new table — an open mahogany backgammon board','The hero frame colour now shows the faction; trait icons are small circles on top']},
 {v:'0.152.0',d:'28.11.2026',uk:['Таверна: справжні звуки для кожної дії — удар кулаком, свист ривка, дзвін щита, скло, що розбивається, монети при купівлі, дзвоник кличу, стук героя об стіл','Ефекти: при смерті портрет розлітається на уламки, удар — спалах і іскри, герой у ривку лишає слід'],en:['Tavern: real sounds for every action — punches, swooshes, shield clangs, breaking glass, coins, a battlecry bell, a thud on the table','Effects: portraits shatter on death, hits flash with sparks, lunges leave a trail']},
 {v:'0.151.0',d:'28.11.2026',uk:['Таверна: нові ефекти — розріз при ударі, зелені іскри при підсиленні, дим при смерті, хвиля кличу, а Щит тепер скляна бульбашка, що розлітається при ударі','Оптимізація: старт бою без підвисання (музика вмикається трохи пізніше), легший килим на телефоні'],en:['Tavern: new effects — a slash on hit, green sparks on buffs, smoke on death, a battlecry wave, and the Shield is now a glass bubble that shatters','Performance: smoother fight start, a lighter carpet on phones']},
@@ -17012,6 +17035,44 @@ window.addEventListener('resize',()=>{ try{ if(TV && $('tavPg')){ clearTimeout(w
 
 /* 0.153.0: faction colour on the frame */
 (function(){ const _u=tvUnit; tvUnit=function(u,cls){ const d=_u.apply(this,arguments); try{ if(u&&!u.sp&&u.f) d.dataset.f=u.f; }catch(e){} return d; }; })();
+
+/* 0.154.0 Таверна, етап 4 «Нагороди»: щоденне завдання, медалі фракцій, історія ігор */
+(function(){
+ const X={uk:{t:'Корчма: мої успіхи',q:'Завдання дня',claim:'Забрати +100',done:'Виконано',fac:'Медалі фракцій',facD:'Посядь 1 місце, коли на столі 4+ героїв фракції — +200 монет за першу медаль',hist:'Останні ігри',none:'Ще не грав',place:'{n} місце',r:'раундів: {n}',btn:'Мої успіхи',close:'Закрити',qok:'Завдання виконано! +100 монет',facok:'Нова медаль «{n}»! +200 монет',
+  q_wins:'Виграй 4 раунди за одну гру',q_top4:'Потрап у топ-4',q_gold:'Збери золотого героя',q_t5:'Закінчи гру з героєм ★5 на столі',q_fac:'Закінчи гру з 4 героями однієї фракції'},
+ en:{t:'Tavern: my progress',q:'Quest of the day',claim:'Claim +100',done:'Done',fac:'Faction medals',facD:'Take 1st place with 4+ heroes of a faction — +200 coins for each first medal',hist:'Recent games',none:'No games yet',place:'Place {n}',r:'{n} rounds',btn:'My progress',close:'Close',qok:'Quest done! +100 coins',facok:'New medal «{n}»! +200 coins',
+  q_wins:'Win 4 rounds in one game',q_top4:'Finish in the top 4',q_gold:'Make a golden hero',q_t5:'End a game with a ★5 hero on the table',q_fac:'End a game with 4 heroes of one faction'}};
+ const tx=(k,v)=>{ let s=X[lang==='en'?'en':'uk'][k]||k; if(v) for(const q in v) s=s.replace('{'+q+'}',v[q]); return s; };
+ const QK=['wins','top4','gold','t5','fac'];
+ const day=()=>new Date(Date.now()+2*3600e3).toISOString().slice(0,10);
+ const qToday=()=>{ const d=day(); let q=store.get('tavQ',null); if(!q||q.d!==d){ let h=0; for(const c of d) h=(h*31+c.charCodeAt(0))%9973; q={d,k:QK[h%QK.length],done:false,claimed:false}; store.set('tavQ',q); } return q; };
+ const FACS=['yard','hook','guard','sharp','master','trade','music','cook'];
+ const facName=f=>{ const F=TV_F[f]; return F?tvL(F.uk,F.en):f; };
+ async function srv(args){ try{ if(!coinsOnline()) return null; const {data}=await sb.functions.invoke('game',{body:{action:'tav',args}}); if(data&&data.coins!=null){ try{ profile.ach.coins=data.coins; }catch(e){} } return data; }catch(e){ return null; } }
+ function give(n){ if(!coinsOnline()){ store.set('coins',coinsNow()+n); } try{ coinsPaint(); coinFly(n); }catch(e){} }
+ // track golden heroes
+ const _tr=tvTriple; tvTriple=function(u){ const n0=TV?TV.hand.concat(TV.band).filter(x=>x.g>1).length:0; const r=_tr.apply(this,arguments); try{ if(TV&&TV.hand.concat(TV.band).filter(x=>x.g>1).length>n0) TV.madeGold=true; }catch(e){} return r; };
+ // end of game: history, quest, medal
+ const _end=tvEnd; tvEnd=function(){ const r=_end.apply(this,arguments); try{ if(TV&&TV.end&&!TV.end.meta){ TV.end.meta=1; finish(); } }catch(e){ console.warn(e); } return r; };
+ function finish(){ const place=TV.end.place, wins=(TV.log||[]).filter(e=>e.k==='w').length; const B=TV.band; const cnt={}; B.forEach(u=>{ if(u.f) cnt[u.f]=(cnt[u.f]||0)+1; });
+  const top=Object.entries(cnt).sort((a,b)=>b[1]-a[1])[0]; const main=top&&top[1]>=4?top[0]:null;
+  const H=store.get('tavHist',[]); H.unshift({at:Date.now(),place,rounds:TV.round,hero:TV.hero?TV.hero.k:'',main,wins}); store.set('tavHist',H.slice(0,20));
+  const q=qToday(); const ok={wins:wins>=4,top4:place<=4,gold:!!TV.madeGold,t5:B.some(u=>u.t===5),fac:!!main}[q.k]; if(ok&&!q.done){ q.done=true; store.set('tavQ',q); setTimeout(()=>toast('📜 '+tx('q')+': '+tx('done')),1800); }
+  if(place===1&&main){ const got=store.get('tavFac',[]); if(!got.includes(main)){ got.push(main); store.set('tavFac',got); srv({op:'reward',kind:'fac',key:main}).then(d=>{ if(!coinsOnline()) give(200); else if(d&&d.ok){ try{ coinsPaint(); coinFly(200); }catch(e){} } toast('🏅 '+tx('facok',{n:facName(main)})); }); } }
+  const box=document.querySelector('#tavPg .zend>div'); if(box&&!box.querySelector('.zmetab')){ const b=sH('button','zmetab','📜 '+tx('btn')); b.type='button'; b.onclick=()=>tvMeta(); const row=box.querySelector('.row'); (row||box).appendChild(b); } }
+ window.tvMeta=function(){ const host=$('tavPg')||document.body; const old=host.querySelector('.zmeta'); if(old){ old.remove(); return; } const q=qToday(); const got=store.get('tavFac',[]);
+  const o=sH('div','zmeta'); const box=sH('div','zgb'); box.appendChild(sH('h2',null,tx('t')));
+  const qs=sH('div','zmq'+(q.done?' ok':'')); qs.append(sH('small',null,tx('q')), sH('b',null,tx('q_'+q.k)));
+  const cb=sH('button','go',q.claimed?tx('done')+' ✓':q.done?tx('claim'):'…'); cb.type='button'; cb.disabled=!q.done||q.claimed; cb.onclick=async()=>{ cb.disabled=true; const d=await srv({op:'reward',kind:'quest'}); if(!coinsOnline()) give(100); else if(d&&d.ok){ try{ coinsPaint(); coinFly(100); }catch(e){} } q.claimed=true; store.set('tavQ',q); cb.textContent=tx('done')+' ✓'; toast('📜 '+tx('qok')); try{ tvSnd('triple'); }catch(e){} };
+  qs.appendChild(cb); box.appendChild(qs);
+  box.appendChild(sH('h3',null,tx('fac'))); box.appendChild(sH('p','zmd',tx('facD'))); const fr=sH('div','zmf'); FACS.forEach(f=>{ const c=sH('span','zmfc'+(got.includes(f)?' on':'')); c.innerHTML=tvGem(f); c.appendChild(sH('b',null,facName(f))); fr.appendChild(c); }); box.appendChild(fr);
+  box.appendChild(sH('h3',null,tx('hist'))); const H=store.get('tavHist',[]); if(!H.length) box.appendChild(sH('p','zmd',tx('none')));
+  H.slice(0,10).forEach(h=>{ const r=sH('div','zmh p'+Math.min(h.place,5)); const d=new Date(h.at); const hero=TV_H.find(x=>x[0]===h.hero); const a=sH('span','av'); try{ avatarInto(a,tvAvU(h.hero),''); }catch(e){} r.append(sH('em',null,'#'+h.place),a,sH('span',null,(hero?tvL(hero[1],hero[2]):'')+' · '+tx('r',{n:h.rounds})+(h.main?' · '+facName(h.main):'')),sH('small',null,d.toLocaleDateString(LOC(),{day:'numeric',month:'short'}))); box.appendChild(r); });
+  const c=sH('button','go zmclose',tx('close')); c.type='button'; c.onclick=()=>o.remove(); box.appendChild(c); o.appendChild(box); o.onclick=e=>{ if(e.target===o) o.remove(); }; host.appendChild(o);
+  srv({op:'meta'}).then(d=>{ if(d&&d.ok){ if(d.q===day()&&!q.claimed){ q.claimed=true; q.done=true; store.set('tavQ',q); cb.textContent=tx('done')+' ✓'; cb.disabled=true; } if(Array.isArray(d.fac)){ store.set('tavFac',[...new Set(got.concat(d.fac))]); d.fac.forEach(f=>{ const i=FACS.indexOf(f); if(i>=0) fr.children[i].classList.add('on'); }); } } }); };
+ // button on the hero pick screen
+ const _fp=tvPaint; tvPaint=function(){ const r=_fp.apply(this,arguments); try{ if(TV&&TV.phase==='hero'){ const pk=document.querySelector('#tavPg .zpick'); if(pk&&!pk.querySelector('.zmetab')){ const q=qToday(); const b=sH('button','zmetab','📜 '+tx('btn')+(q.done&&!q.claimed?' •':'')); b.type='button'; b.onclick=()=>tvMeta(); pk.appendChild(b); } } }catch(e){} return r; };
+})();
 
 </script>
 </body>
