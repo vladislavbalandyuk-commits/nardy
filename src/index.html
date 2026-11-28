@@ -6570,6 +6570,16 @@ html body #tavPg .zrail .ztimer{position:static!important;white-space:nowrap!imp
 @media (min-width:901px) and (min-height:541px){html body #tavPg .zrail .ztimer{font-size:20px!important;width:auto!important;padding:10px 14px!important}}
 @media (max-height:540px),(max-width:600px){html body #tavPg.r1 .zlb{left:12px!important;width:84px!important;grid-template-columns:38px 38px!important;gap:9px 8px!important}html body #tavPg.r1 .zpl,html body #tavPg.r1 .zpl .av{width:38px!important;height:38px!important}html body #tavPg .zsideL{width:96px}html body #tavPg .zrail .ztimer{font-size:14px!important}}
 html body #tavPg .zrail{align-items:center!important;justify-content:center!important;flex-direction:column!important;left:auto!important;padding:0!important}
+html body #tavPg .zrow.zme .zcell{display:flex;align-items:center;justify-content:center;flex:none}
+html body #tavPg .zrow.zme .zcell>.zslot{margin:0}
+@media (min-width:901px) and (min-height:541px){html body #tavPg .zinfo{right:184px!important;bottom:120px!important}}
+html body #tavPg .zinfo>div:not(.zcard){display:flex;flex-wrap:wrap;gap:6px}
+html body #tavPg .zinfo>div:not(.zcard)>button{flex:1 1 auto;min-width:0;white-space:nowrap}
+html body #tavPg .zinfo .zsellh{flex-basis:100%!important;order:9}
+@media (max-height:540px),(max-width:600px){html body #tavPg .zinfo{right:116px!important}}
+html body #tavPg.placing .zinfo .zcard{display:none!important}
+@media (min-width:901px) and (min-height:541px){html body #tavPg.placing .zinfo{bottom:auto!important;top:calc(40% + 80px)!important;right:184px!important;width:300px!important}}
+@media (max-height:540px),(max-width:600px){html body #tavPg.placing .zinfo{bottom:auto!important;top:calc(47% + 4px)!important;width:200px!important}}
 </style>
 </head>
 <body>
@@ -9990,7 +10000,7 @@ const BOARDS={
 };
 prefs.board = store.get('board2','classic'); if(!BOARDS[prefs.board]) prefs.board='classic';
 // rarity of each look: the default one is "base", the rest "common" or "rare" (labels only for now)
-const APP_VERSION='0.150.2';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
+const APP_VERSION='0.150.3';   // patch: small fixes · minor: new features · 1.0: the big redesign — history in CHANGELOG.md
 { const v=document.getElementById('appVer'); if(v) v.textContent='v'+APP_VERSION; }
 const RAR3={ board:{classic:'b', modern:'c', tri:'c'}, ck:{classic:'b', wood:'c', stone:'c', flat:'c'}, dice:{ivory:'b', onyx:'c', wood:'c'} };
 const rarOf=(cat,k)=> shopRar(cat,k)||'b';
@@ -12250,6 +12260,7 @@ $('profOv').addEventListener('click',e=>{ if(e.target.id==='profOv') show('profO
 $('btnCreate').onclick=openLobbySetup; $('btnLocal').onclick=startLocal;
 // ---- 0.14.3: footer and the "What's new" window ----
 let NEWS=[
+{v:'0.150.3',d:'28.11.2026',uk:['Таверна: на столі 7 сталих місць — герой стає саме туди, куди поставив чи перетягнув, і не з’їжджає ліворуч. Б’ються все одно зліва направо'],en:['Tavern: 7 fixed spots on the table — a hero stays exactly where you put it. Fights still go left to right']},
 {v:'0.150.2',d:'28.11.2026',uk:['Таверна: карту з руки можна продати — перетягни на вітрину або «Продати з руки»','Стіл поділено: зліва окрема панель із суперниками, справа — таймер, наступний суперник і журнал'],en:['Tavern: sell cards straight from your hand — drag onto the shelf or «Sell from hand»','The table has side panels: opponents on the left, the timer, next opponent and log on the right']},
 {v:'0.150.1',d:'28.11.2026',uk:['Таверна: перетягування карток знову працює — стіл більше не відлітає вбік','Оптимізація: портрети не перемальовуються з нуля, меню під столом не малюється, менше важких тіней і постійних анімацій','Таймер тепер між прилавком і килимом'],en:['Tavern: dragging cards works again — the table no longer flies away','Performance: cached portraits, the menu below is not drawn, lighter effects','The timer sits between the counter and the carpet']},
 {v:'0.150.0',d:'28.11.2026',uk:['Таверна: новий герой Гравець — його сила «Удача корчми» (1 золото): кидаєш два кубики, і від них залежить, що отримаєш: 2–4 золото, 5–7 +1/+1 герою, 8–9 безкоштовне оновлення, 10–11 заклинання, дубль — відкриття героя, а шеш-беш 6+5 — усьому столу +1/+1. Кожна шістка підсилює шулера','Новий герой Ворожка — щоходу нова сила героя: золото, підсилення, заклинання, Провокатор зі Щитом, відкриття, оновлення','Ставиш героя — плюсик на кожному вільному місці стола; підказки більше не блимають'],en:['Tavern: a new hero, the Gambler — his power rolls two dice and the result decides the reward; 6+5 buffs the whole table','A new hero, the Fortune teller — a different hero power every turn']},
@@ -16886,6 +16897,31 @@ window.addEventListener('resize',()=>{ try{ if(TV && $('tavPg')){ clearTimeout(w
  document.addEventListener('pointermove',e=>{ const g=document.querySelector('#tavPg .zghost.zc'); if(!g) return; const z=document.elementsFromPoint(e.clientX,e.clientY).find(x=>x.dataset&&x.dataset.zone==='shop'); const op=document.querySelector('#tavPg .zop'); if(op) op.classList.toggle('sellhot',!!z); g.classList.toggle('sellme',!!z); },true);
  const _p=tvPaint; tvPaint=function(){ const r=_p.apply(this,arguments); try{ const pg=$('tavPg'); const tb=pg&&pg.querySelector('.ztable'); if(tb&&!tb.querySelector('.zsideL')){ tb.prepend(sH('div','zsideR')); tb.prepend(sH('div','zsideL')); }
    if(TV&&TV.phase==='hire'&&TV.pick&&TV.pick.src==='hand'){ const inf=pg.querySelector('.zinfo'); if(inf&&!inf.querySelector('.zsellh')){ const b=sH('button','zsellh',SX[lang==='en'?'en':'uk']); b.type='button'; b.onclick=e=>{ e.stopPropagation(); tvSellHand(TV.pick.i); }; const row=inf.querySelector('button')?inf.querySelector('button').parentElement:inf; row.insertBefore(b,row.firstChild); } } }catch(e){} return r; };
+})();
+
+
+/* 0.150.3: 7 fixed spots on the table — a hero stays exactly where you put it */
+(function(){ const N=7;
+ const P=()=>TV.posById||(TV.posById={});
+ function norm(){ if(!TV) return; const B=TV.band, pm=P(); let prev=-1; B.forEach((u,i)=>{ const left=B.length-1-i, max=N-1-left; let k=pm[u.id]; if(k==null||k<=prev||k>max) k=Math.min(max,Math.max(prev+1,k==null?prev+1:Math.min(k,max))); if(k<=prev) k=prev+1; pm[u.id]=k; prev=k; });
+  const ids=new Set(B.map(u=>u.id)); Object.keys(pm).forEach(id=>{ if(!ids.has(id)) delete pm[id]; }); }
+ window.tvSlots=()=>{ norm(); const pm=P(); const cells=Array(N).fill(null); TV.band.forEach(u=>cells[pm[u.id]]=u); return cells; };
+ let dropX=null, dropT=0; document.addEventListener('pointerup',e=>{ dropX=e.clientX; dropT=Date.now(); },true);
+ const cellAt=x=>{ const cs=[...document.querySelectorAll('#tavPg .zrow.zme > .zcell')]; let best=-1,bd=1e9; cs.forEach((c,k)=>{ const r=c.getBoundingClientRect(); const d=Math.abs(r.left+r.width/2-x); if(d<bd){ bd=d; best=k; } }); return best; };
+ const firstFree=()=>{ const c=tvSlots(); return c.findIndex(x=>!x); };
+ const _play=tvPlay; tvPlay=function(i,at,slot){ if(!TV) return; const u=TV.hand[i]; if(!u||u.sp||TV.band.length>=N) return _play.apply(this,arguments);
+  const cells=tvSlots(); let k=slot; if(k==null&&Date.now()-dropT<400&&dropX!=null){ const c=cellAt(dropX); if(c>=0&&!cells[c]) k=c; }
+  if(k==null||cells[k]){ k=firstFree(); if(at!=null&&slot==null&&Date.now()-dropT<400){ /* dropped on a hero: next free to the right, else left */ const c=cellAt(dropX); let r=-1; for(let q=c;q<N;q++) if(!cells[q]){ r=q; break; } if(r<0) for(let q=c;q>=0;q--) if(!cells[q]){ r=q; break; } if(r>=0) k=r; } }
+  const idx=cells.slice(0,k).filter(Boolean).length; P()[u.id]=k; return _play.call(this,i,idx); };
+ const _move=tvMove; tvMove=function(i,j){ if(!TV) return; if(Date.now()-dropT<400&&dropX!=null){ const u=TV.band[i]; const cells=tvSlots(); const k=cellAt(dropX); if(u&&k>=0){ const pm=P(); const o=cells[k]; if(o&&o!==u){ pm[o.id]=pm[u.id]; } pm[u.id]=k; TV.band.sort((a,b)=>pm[a.id]-pm[b.id]); if(TV.pick&&TV.pick.src==='band') TV.pick.i=TV.band.indexOf(u); tvSnd('roll'); tvPaint(); return; } } return _move.apply(this,arguments); };
+ const _paint=tvPaint; tvPaint=function(){ const r=_paint.apply(this,arguments); try{ layout(); }catch(e){} return r; };
+ function layout(){ const pg=$('tavPg'); if(!pg||!TV||TV.phase!=='hire') return; const row=pg.querySelector('.zrow.zme'); if(!row) return; const cells=tvSlots();
+  row.querySelectorAll('.zins').forEach(e=>e.remove()); const us=[...row.querySelectorAll(':scope>.zu')]; const sl=[...row.querySelectorAll(':scope>.zslot')];
+  const frag=[]; let ui=0, si=0; for(let k=0;k<N;k++){ const w=document.createElement('div'); w.className='zcell'; w.dataset.k=k; if(cells[k]&&us[ui]){ w.appendChild(us[ui++]); } else { const z=sl[si++]||sH('div','zslot'); z.style.display=''; w.appendChild(z);
+     if(pg.classList.contains('placing')){ z.classList.add('zput'); z.onclick=ev=>{ ev.stopPropagation(); const i=TV.pick&&TV.pick.i; if(i!=null) tvPlay(i,null,k); }; } }
+   frag.push(w); }
+  row.replaceChildren(...frag);
+  row.querySelectorAll('.zu .zord').forEach(o=>o.remove()); row.querySelectorAll('.zcell>.zu').forEach((e,i)=>{ const o=sH('span','zord',String(i+1)); e.appendChild(o); }); }
 })();
 
 </script>
